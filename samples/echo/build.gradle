@@ -1,0 +1,19 @@
+apply plugin: 'kotlin'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile project(":telegram")
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'me.ivmg.echo.MainKt'
+    }
+
+
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
