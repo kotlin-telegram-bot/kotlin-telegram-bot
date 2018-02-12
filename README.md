@@ -14,7 +14,7 @@ fun main(args: Array<String>) {
 }
 ```
 
-Now lets poll telegram api and route all text updates:
+Now lets poll telegram API and route all text updates:
 
 ```kotlin
 fun main(args: Array<String>) {
@@ -38,7 +38,7 @@ fun main(args: Array<String>) {
     val bot = bot {
         token = "YOUR_API_KEY"
         command("start") { bot, update->
-            val result = bot.sendMessage(chatId = update.message!!.chat.id, text = "Hello there, traveler")
+            val result = bot.sendMessage(chatId = update.message!!.chat.id, text = "Hi there!")
             result.fold({
                 // do something here with the response
             },{
