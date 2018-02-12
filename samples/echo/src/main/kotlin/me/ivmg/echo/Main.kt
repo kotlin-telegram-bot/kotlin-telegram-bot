@@ -13,7 +13,8 @@ fun main(args: Array<String>) {
         dispatch {
 
             text { bot, update ->
-                bot.sendMessage(chatId = update.message!!.chat.id, text = update.message!!.text!!)
+                val text = update.message?.text ?: "Hello, World!"
+                bot.sendMessage(chatId = update.message!!.chat.id, text = text)
             }
         }
     }
