@@ -20,6 +20,17 @@ fun main(args: Array<String>) {
 
             command("start") { bot, update->
 
+                val result = bot.sendMessage(chatId = update.message!!.chat.id, text = "Bot started")
+
+                result.fold({
+                    // do something here with the response
+                },{
+                    // do something with the error (warn the user?)
+                })
+            }
+
+            command("hello") { bot, update->
+
                 val result = bot.sendMessage(chatId = update.message!!.chat.id, text = "Hello, world!")
 
                 result.fold({
