@@ -1,6 +1,7 @@
 # Kotlin Telegram Bot
+[![Release](https://jitpack.io/v/Seik/kotlin-telegram-bot.svg)](https://jitpack.io/#Seik/kotlin-telegram-bot)
 
-A wrapper for the telegram bot api written in kotlin.
+A wrapper for the Telegram Bot API written in Kotlin.
 
 ### How it looks like
 
