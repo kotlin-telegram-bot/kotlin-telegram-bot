@@ -38,13 +38,15 @@ Want to route commands?:
 fun main(args: Array<String>) {
     val bot = bot {
         token = "YOUR_API_KEY"
-        command("start") { bot, update->
-            val result = bot.sendMessage(chatId = update.message!!.chat.id, text = "Hi there!")
-            result.fold({
-                // do something here with the response
-            },{
-                // do something with the error (warn the user?)
-            })
+        dispatch {
+            command("start") { bot, update->
+                val result = bot.sendMessage(chatId = update.message!!.chat.id, text = "Hi there!")
+                result.fold({
+                    // do something here with the response
+                },{
+                    // do something with the error (warn the user?)
+                })
+            }
         }
     }
     bot.startPolling()
