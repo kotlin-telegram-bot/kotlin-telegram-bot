@@ -3,6 +3,7 @@ package me.ivmg.telegram.dispatcher
 import me.ivmg.telegram.Bot
 import me.ivmg.telegram.HandleError
 import me.ivmg.telegram.HandleUpdate
+import me.ivmg.telegram.dispatcher.handlers.CallbackQueryHandler
 import me.ivmg.telegram.dispatcher.handlers.CommandHandler
 import me.ivmg.telegram.dispatcher.handlers.Handler
 import me.ivmg.telegram.dispatcher.handlers.TextHandler
@@ -16,8 +17,20 @@ fun Dispatcher.command(command: String, body: HandleUpdate) {
     addHandler(CommandHandler(command, body))
 }
 
+fun Dispatcher.start(body: HandleUpdate) {
+    command("start", body)
+}
+
 fun Dispatcher.text(text: String? = null, body: HandleUpdate) {
     addHandler(TextHandler(text, body))
+}
+
+fun Dispatcher.callbackQuery(data: String? = null, body: HandleUpdate) {
+    addHandler(CallbackQueryHandler(callbackData = data, handler = body))
+}
+
+fun Dispatcher.callbackQuery(callbackQueryHandler: CallbackQueryHandler) {
+    addHandler(callbackQueryHandler)
 }
 
 fun Dispatcher.telegramError(body: HandleError) {
@@ -33,7 +46,7 @@ class Dispatcher {
     private val commandHandlers = mutableMapOf<String, ArrayList<Handler>>()
     private val errorHandlers = arrayListOf<HandleError>()
 
-    fun start() {
+    fun startCheckingUpdates() {
         checkQueueUpdates()
     }
 

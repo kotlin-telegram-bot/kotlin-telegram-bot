@@ -13,7 +13,7 @@ class Updater {
     val dispatcher = Dispatcher()
 
     fun startPolling() {
-        executor.execute { dispatcher.start() }
+        executor.execute { dispatcher.startCheckingUpdates() }
         executor.execute { updaterStartPolling() }
     }
 

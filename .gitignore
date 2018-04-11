@@ -24,8 +24,6 @@ telegram/local.properties
 # gradle/wrapper/gradle-wrapper.properties
 ### Java template
 # Compiled class file
-*.class
-
 # Log file
 *.log
 
@@ -88,3 +86,4 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
+/kotlin-telegram-bot.iml
