@@ -24,6 +24,7 @@ telegram/local.properties
 # gradle/wrapper/gradle-wrapper.properties
 ### Java template
 # Compiled class file
+*.class
 # Log file
 *.log
 
