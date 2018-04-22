@@ -3,8 +3,11 @@ package me.ivmg.dispatcher
 import me.ivmg.telegram.HandleUpdate
 import me.ivmg.telegram.bot
 import me.ivmg.telegram.dispatch
-import me.ivmg.telegram.dispatcher.*
+import me.ivmg.telegram.dispatcher.callbackQuery
+import me.ivmg.telegram.dispatcher.command
 import me.ivmg.telegram.dispatcher.handlers.CallbackQueryHandler
+import me.ivmg.telegram.dispatcher.telegramError
+import me.ivmg.telegram.dispatcher.text
 import me.ivmg.telegram.entities.InlineKeyboardButton
 import me.ivmg.telegram.entities.InlineKeyboardMarkup
 import me.ivmg.telegram.network.fold
@@ -19,24 +22,24 @@ fun main(args: Array<String>) {
         logLevel = HttpLoggingInterceptor.Level.BODY
 
         dispatch {
-            start { bot, update ->
+            command("start") { bot, update ->
 
                 val result = bot.sendMessage(chatId = update.message!!.chat.id, text = "Bot started")
 
                 result.fold({
                     // do something here with the response
-                },{
+                }, {
                     // do something with the error (warn the user?)
                 })
             }
 
-            command("hello") { bot, update->
+            command("hello") { bot, update ->
 
                 val result = bot.sendMessage(chatId = update.message!!.chat.id, text = "Hello, world!")
 
                 result.fold({
                     // do something here with the response
-                },{
+                }, {
                     // do something with the error (warn the user?)
                 })
             }
@@ -77,13 +80,16 @@ fun main(args: Array<String>) {
 
 fun createAlertCallbackQueryHandler(handler: HandleUpdate): CallbackQueryHandler {
     return CallbackQueryHandler(
-            callbackData = "showAlert",
-            callbackAnswerText = "HelloText",
-            callbackAnswerShowAlert = true,
-            handler = handler)
+        callbackData = "showAlert",
+        callbackAnswerText = "HelloText",
+        callbackAnswerShowAlert = true,
+        handler = handler
+    )
 }
 
 fun generateButtons(): List<List<InlineKeyboardButton>> {
-    return listOf(listOf(InlineKeyboardButton(text = "Test Inline Button", callbackData = "testButton")),
-            listOf(InlineKeyboardButton(text = "Show alert", callbackData = "showAlert")))
+    return listOf(
+        listOf(InlineKeyboardButton(text = "Test Inline Button", callbackData = "testButton")),
+        listOf(InlineKeyboardButton(text = "Show alert", callbackData = "showAlert"))
+    )
 }
