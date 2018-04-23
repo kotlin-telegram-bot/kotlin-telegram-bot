@@ -3,13 +3,9 @@ package me.ivmg.dispatcher
 import me.ivmg.telegram.HandleUpdate
 import me.ivmg.telegram.bot
 import me.ivmg.telegram.dispatch
-import me.ivmg.telegram.dispatcher.callbackQuery
-import me.ivmg.telegram.dispatcher.command
+import me.ivmg.telegram.dispatcher.*
 import me.ivmg.telegram.dispatcher.handlers.CallbackQueryHandler
-import me.ivmg.telegram.dispatcher.telegramError
-import me.ivmg.telegram.dispatcher.text
-import me.ivmg.telegram.entities.InlineKeyboardButton
-import me.ivmg.telegram.entities.InlineKeyboardMarkup
+import me.ivmg.telegram.entities.*
 import me.ivmg.telegram.network.fold
 import okhttp3.logging.HttpLoggingInterceptor
 
@@ -51,6 +47,13 @@ fun main(args: Array<String>) {
                 bot.sendMessage(chatId = chatId, text = "Hello, inline buttons!", replyMarkup = inlineKeyboardMarkup)
             }
 
+            command("userButtons") { bot, update ->
+                val chatId = update.message?.chat?.id ?: return@command
+
+                val keyboardMarkup = KeyboardReplyMarkup(keyboard = generateUsersButton(), resizeKeyboard = true)
+                bot.sendMessage(chatId = chatId, text = "Hello, users buttons!", replyMarkup = keyboardMarkup)
+            }
+
             callbackQuery("testButton") { bot, update ->
                 update.callbackQuery?.let {
                     val chatId = it.message?.chat?.id ?: return@callbackQuery
@@ -69,6 +72,16 @@ fun main(args: Array<String>) {
                 bot.sendMessage(chatId = update.message!!.chat.id, text = "Pong")
             }
 
+            location { bot, update, location ->
+                val chatId = update.message?.chat?.id ?: return@location
+                bot.sendMessage(chatId = chatId, text = "Your location is (${location.latitude}, ${location.longitude})", replyMarkup = ReplyKeyboardRemove())
+            }
+
+            contact { bot, update, contact ->
+                val chatId = update.message?.chat?.id ?: return@contact
+                bot.sendMessage(chatId = chatId, text = "Hello, ${contact.firstName} ${contact.lastName}", replyMarkup = ReplyKeyboardRemove())
+            }
+
             telegramError { bot, telegramError ->
                 println(telegramError.getErrorMessage())
             }
@@ -76,6 +89,13 @@ fun main(args: Array<String>) {
     }
 
     bot.startPolling()
+}
+
+fun generateUsersButton(): List<List<KeyboardButton>> {
+    return listOf(
+            listOf(KeyboardButton("Request location (not supported on desktop)", requestLocation = true)),
+            listOf(KeyboardButton("Request contact", requestContact = true))
+    )
 }
 
 fun createAlertCallbackQueryHandler(handler: HandleUpdate): CallbackQueryHandler {
