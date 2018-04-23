@@ -4,17 +4,23 @@ import me.ivmg.telegram.Bot
 import me.ivmg.telegram.HandleUpdate
 import me.ivmg.telegram.entities.Update
 
-class CallbackQueryHandler(private val callbackData: String? = null,
-                           callbackAnswerText: String? = null,
-                           callbackAnswerShowAlert: Boolean? = null,
-                           callbackAnswerUrl: String? = null,
-                           callbackAnswerCacheTime: Int? = null,
-                           handler: HandleUpdate) :
-        Handler(HandleUpdateWrapper(handler,
-                callbackAnswerText,
-                callbackAnswerShowAlert,
-                callbackAnswerUrl,
-                callbackAnswerCacheTime)) {
+class CallbackQueryHandler(
+    private val callbackData: String? = null,
+    callbackAnswerText: String? = null,
+    callbackAnswerShowAlert: Boolean? = null,
+    callbackAnswerUrl: String? = null,
+    callbackAnswerCacheTime: Int? = null,
+    handler: HandleUpdate
+) :
+    Handler(
+        HandleUpdateWrapper(
+            handler,
+            callbackAnswerText,
+            callbackAnswerShowAlert,
+            callbackAnswerUrl,
+            callbackAnswerCacheTime
+        )
+    ) {
 
     override val groupIdentifier: String = "CallbackQuery"
 
@@ -29,11 +35,13 @@ class CallbackQueryHandler(private val callbackData: String? = null,
         }
     }
 
-    private class HandleUpdateWrapper(private val handleUpdate: HandleUpdate,
-                                      private val text: String? = null,
-                                      private val showAlert: Boolean? = null,
-                                      private val url: String? = null,
-                                      private val cacheTime: Int? = null) : HandleUpdate {
+    private class HandleUpdateWrapper(
+        private val handleUpdate: HandleUpdate,
+        private val text: String? = null,
+        private val showAlert: Boolean? = null,
+        private val url: String? = null,
+        private val cacheTime: Int? = null
+    ) : HandleUpdate {
         override fun invoke(bot: Bot, updte: Update) {
             handleUpdate(bot, updte)
 
@@ -41,11 +49,12 @@ class CallbackQueryHandler(private val callbackData: String? = null,
             val callbackQueryId = callbackQuery.id
 
             bot.answerCallbackQuery(
-                    callbackQueryId = callbackQueryId,
-                    text = text,
-                    showAlert = showAlert,
-                    url = url,
-                    cacheTime = cacheTime)
+                callbackQueryId = callbackQueryId,
+                text = text,
+                showAlert = showAlert,
+                url = url,
+                cacheTime = cacheTime
+            )
         }
     }
 }

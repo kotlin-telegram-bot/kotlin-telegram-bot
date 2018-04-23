@@ -1,7 +1,7 @@
 apply plugin: 'kotlin'
 
 buildscript {
-    ext.kotlin_version = '1.2.21'
+    ext.kotlin_version = '1.2.31'
 
     repositories {
         mavenCentral()
@@ -13,7 +13,7 @@ buildscript {
 
 allprojects {
     group 'me.ivmg.kotlin-telegram-bot'
-    version '0.1.0'
+    version '0.2.0'
 
     repositories {
         mavenCentral()
