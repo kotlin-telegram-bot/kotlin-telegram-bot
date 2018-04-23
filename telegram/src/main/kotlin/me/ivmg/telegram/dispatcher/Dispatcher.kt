@@ -17,10 +17,6 @@ fun Dispatcher.command(command: String, body: HandleUpdate) {
     addHandler(CommandHandler(command, body))
 }
 
-fun Dispatcher.start(body: HandleUpdate) {
-    command("start", body)
-}
-
 fun Dispatcher.text(text: String? = null, body: HandleUpdate) {
     addHandler(TextHandler(text, body))
 }
