@@ -1,11 +1,15 @@
 package me.ivmg.telegram.dispatcher
 
 import me.ivmg.telegram.Bot
+import me.ivmg.telegram.ContactHandleUpdate
 import me.ivmg.telegram.HandleError
 import me.ivmg.telegram.HandleUpdate
+import me.ivmg.telegram.LocationHandleUpdate
 import me.ivmg.telegram.dispatcher.handlers.CallbackQueryHandler
 import me.ivmg.telegram.dispatcher.handlers.CommandHandler
+import me.ivmg.telegram.dispatcher.handlers.ContactHandler
 import me.ivmg.telegram.dispatcher.handlers.Handler
+import me.ivmg.telegram.dispatcher.handlers.LocationHandler
 import me.ivmg.telegram.dispatcher.handlers.TextHandler
 import me.ivmg.telegram.entities.Update
 import me.ivmg.telegram.errors.TelegramError
@@ -27,6 +31,14 @@ fun Dispatcher.callbackQuery(data: String? = null, body: HandleUpdate) {
 
 fun Dispatcher.callbackQuery(callbackQueryHandler: CallbackQueryHandler) {
     addHandler(callbackQueryHandler)
+}
+
+fun Dispatcher.contact(handleUpdate: ContactHandleUpdate) {
+    addHandler(ContactHandler(handleUpdate))
+}
+
+fun Dispatcher.location(handleUpdate: LocationHandleUpdate) {
+    addHandler(LocationHandler(handleUpdate))
 }
 
 fun Dispatcher.telegramError(body: HandleError) {
