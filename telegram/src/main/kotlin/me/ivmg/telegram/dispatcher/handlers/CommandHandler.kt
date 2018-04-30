@@ -7,7 +7,7 @@ class CommandHandler(private val command: String, handler: HandleUpdate) : Handl
     override val groupIdentifier: String = "CommandHandler"
 
     override fun checkUpdate(update: Update): Boolean {
-        return (update.message?.text != null && update.message.text.startsWith("/")
-            && update.message.text.drop(1).split(" ")[0].split("@")[0] == command)
+        return (update.message?.text != null && update.message.text.startsWith("/") &&
+            update.message.text.drop(1).split(" ")[0].split("@")[0] == command)
     }
 }
