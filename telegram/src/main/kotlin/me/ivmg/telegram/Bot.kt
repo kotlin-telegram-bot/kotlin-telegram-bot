@@ -11,9 +11,8 @@ import me.ivmg.telegram.network.ApiClient
 import me.ivmg.telegram.network.call
 import me.ivmg.telegram.types.DispatchableObject
 import okhttp3.logging.HttpLoggingInterceptor
-import java.util.*
+import java.util.Date
 import java.io.File as SystemFile
-
 
 fun bot(body: Bot.Builder.() -> Unit) = Bot.Builder().build(body)
 
@@ -105,7 +104,6 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
-
     fun forwardMessage(
         chatId: Long,
         fromChatId: Long,
@@ -117,7 +115,6 @@ class Bot private constructor(
         messageId,
         disableNotification
     ).call()
-
 
     fun sendPhoto(
         chatId: Long,
@@ -133,7 +130,6 @@ class Bot private constructor(
         replyToMessageId
     ).call()
 
-
     fun sendPhoto(
         chatId: Long,
         photo: String,
@@ -148,7 +144,6 @@ class Bot private constructor(
         replyToMessageId
     ).call()
 
-
     fun sendAudio(
         chatId: Long,
         photo: String,
@@ -162,7 +157,6 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId
     ).call()
-
 
     fun sendAudio(
         chatId: Long,
@@ -184,7 +178,6 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
-
     fun sendAudio(
         chatId: Long,
         audio: String,
@@ -204,7 +197,6 @@ class Bot private constructor(
         replyToMessageId,
         replyMarkup
     ).call()
-
 
     fun sendDocument(
         chatId: Long,
@@ -238,7 +230,6 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
-
     fun sendVideo(
         chatId: Long,
         video: SystemFile,
@@ -260,7 +251,6 @@ class Bot private constructor(
         replyToMessageId,
         replyMarkup
     ).call()
-
 
     fun sendVideo(
         chatId: Long,
@@ -284,7 +274,6 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
-
     fun sendVoice(
         chatId: Long,
         audio: SystemFile,
@@ -301,7 +290,6 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
-
     fun sendVoice(
         chatId: Long,
         audioId: String,
@@ -317,7 +305,6 @@ class Bot private constructor(
         replyToMessageId,
         replyMarkup
     ).call()
-
 
     fun sendVideoNote(
         chatId: Long,
@@ -336,7 +323,6 @@ class Bot private constructor(
         replyToMessageId,
         replyMarkup
     ).call()
-
 
     fun sendVideoNote(
         chatId: Long,
@@ -355,7 +341,6 @@ class Bot private constructor(
         replyToMessageId,
         replyMarkup
     ).call()
-
 
     fun sendMediaGroup(
         chatId: Long,
@@ -387,7 +372,6 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
-
     fun editMessageLiveLocation(
         chatId: Long? = null,
         messageId: Long? = null,
@@ -404,7 +388,6 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
-
     fun stopMessageLiveLocation(
         chatId: Long?,
         messageId: Long? = null,
@@ -416,7 +399,6 @@ class Bot private constructor(
         inlineMessageId,
         replyMarkup
     ).call()
-
 
     fun sendVenue(
         chatId: Long,
@@ -440,7 +422,6 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
-
     fun sendContact(
         chatId: Long,
         phoneNumber: String,
@@ -459,24 +440,18 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
-
     fun sendChatAction(chatId: Long, action: ChatAction) =
         apiClient.sendChatAction(chatId, action).call()
-
 
     fun getUserProfilePhotos(userId: Long, offset: Long? = null, limit: Int? = null) =
         apiClient.getUserProfilePhotos(userId, offset, limit).call()
 
-
     fun getFile(fileId: String) = apiClient.getFile(fileId).call()
-
 
     fun kickChatMember(chatId: Long, userId: Long, untilDate: Date) =
         apiClient.kickChatMember(chatId, userId, untilDate).call()
 
-
     fun unbanChatMember(chatId: Long, userId: Long) = apiClient.unbanChatMember(chatId, userId).call()
-
 
     fun restrictChatMember(
         chatId: Long,
@@ -495,7 +470,6 @@ class Bot private constructor(
         canSendOtherMessages,
         canAddWebPagePreviews
     ).call()
-
 
     fun promoteChatMember(
         chatId: Long,
@@ -523,7 +497,6 @@ class Bot private constructor(
 
     fun exportChatInviteLink(chatId: Long) = apiClient.exportChatInviteLink(chatId).call()
 
-
     fun setChatPhoto(
         chatId: Long,
         photo: SystemFile
@@ -536,41 +509,30 @@ class Bot private constructor(
 
     fun deleteChatPhoto(chatId: Long) = apiClient.deleteChatPhoto(chatId).call()
 
-
     fun setChatTitle(chatId: Long, title: String) = apiClient.setChatTitle(chatId, title).call()
-
 
     fun setChatDescription(chatId: Long, description: String) =
         apiClient.setChatDescription(chatId, description).call()
 
-
     fun pinChatMessage(chatId: Long, messageId: Long, disableNotification: Boolean? = null) =
         apiClient.pinChatMessage(chatId, messageId, disableNotification).call()
-
 
     fun unpinChatMessage(chatId: Long) = apiClient.unpinChatMessage(chatId).call()
 
     fun leaveChat(chatId: Long) = apiClient.leaveChat(chatId).call()
 
-
     fun getChat(chatId: Long) = apiClient.getChat(chatId).call()
-
 
     fun getChatAdministrators(chatId: Long) = apiClient.getChatAdministrators(chatId).call()
 
-
     fun getChatMembersCount(chatId: Long) = apiClient.getChatMembersCount(chatId).call()
 
-
     fun getChatMember(chatId: Long, userId: Long) = apiClient.getChatMember(chatId, userId).call()
-
 
     fun setChatStickerSet(chatId: Long, stickerSetName: String) =
         apiClient.setChatStickerSet(chatId, stickerSetName).call()
 
-
     fun deleteChatStickerSet(chatId: Long) = apiClient.deleteChatStickerSet(chatId).call()
-
 
     fun answerCallbackQuery(
         callbackQueryId: String,
@@ -585,7 +547,6 @@ class Bot private constructor(
         url,
         cacheTime
     ).call()
-
 
     /**
      * Updating messages
@@ -609,7 +570,6 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
-
     fun editMessageCaption(
         chatId: Long? = null,
         messageId: Long? = null,
@@ -624,7 +584,6 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
-
     fun editMessageReplyMarkup(
         chatId: Long? = null,
         messageId: Long? = null,
@@ -636,7 +595,6 @@ class Bot private constructor(
         inlineMessageId,
         replyMarkup
     ).call()
-
 
     fun deleteMessage(chatId: Long? = null, messageId: Long? = null) =
         apiClient.deleteMessage(chatId, messageId).call()

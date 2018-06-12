@@ -6,4 +6,5 @@ data class Response<T>(
     val result: T?,
     val ok: Boolean,
     @Name("error_code") val errorCode: Int?,
-    @Name("description") val errorDescription: String?)
+    @Name("description") val errorDescription: String?
+)

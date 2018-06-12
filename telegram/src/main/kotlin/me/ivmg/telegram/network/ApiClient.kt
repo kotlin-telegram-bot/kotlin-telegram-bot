@@ -1,6 +1,15 @@
 package me.ivmg.telegram.network
 
-import me.ivmg.telegram.entities.*
+import me.ivmg.telegram.entities.Chat
+import me.ivmg.telegram.entities.ChatAction
+import me.ivmg.telegram.entities.ChatMember
+import me.ivmg.telegram.entities.File
+import me.ivmg.telegram.entities.InputMedia
+import me.ivmg.telegram.entities.Message
+import me.ivmg.telegram.entities.ReplyMarkup
+import me.ivmg.telegram.entities.Update
+import me.ivmg.telegram.entities.User
+import me.ivmg.telegram.entities.UserProfilePhotos
 import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
@@ -9,10 +18,9 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.nio.file.Files
-import java.util.*
+import java.util.Date
 import java.util.concurrent.TimeUnit
 import java.io.File as SystemFile
-
 
 private val PLAIN_TEXT_MIME = MediaType.parse("text/plain")
 private val APPLICATION_JSON_MIME = MediaType.parse("application/json")

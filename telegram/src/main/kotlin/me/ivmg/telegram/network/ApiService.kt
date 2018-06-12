@@ -1,11 +1,26 @@
 package me.ivmg.telegram.network
 
-import me.ivmg.telegram.entities.*
+import me.ivmg.telegram.entities.Chat
+import me.ivmg.telegram.entities.ChatAction
+import me.ivmg.telegram.entities.ChatMember
+import me.ivmg.telegram.entities.File
+import me.ivmg.telegram.entities.InputFile
+import me.ivmg.telegram.entities.InputMedia
+import me.ivmg.telegram.entities.Message
+import me.ivmg.telegram.entities.ReplyMarkup
+import me.ivmg.telegram.entities.Update
+import me.ivmg.telegram.entities.User
+import me.ivmg.telegram.entities.UserProfilePhotos
 import okhttp3.RequestBody
 import retrofit2.Call
-import retrofit2.http.*
-import java.util.*
-import java.io.File as SystemFile
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
+import retrofit2.http.Multipart
+import retrofit2.http.POST
+import retrofit2.http.Part
+import retrofit2.http.Query
+import java.util.Date
 
 interface ApiService {
 
