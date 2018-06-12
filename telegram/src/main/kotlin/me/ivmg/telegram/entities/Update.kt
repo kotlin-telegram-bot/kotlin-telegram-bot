@@ -1,5 +1,7 @@
 package me.ivmg.telegram.entities
 
+import me.ivmg.telegram.entities.payment.PreCheckoutQuery
+import me.ivmg.telegram.entities.payment.ShippingQuery
 import me.ivmg.telegram.types.DispatchableObject
 import com.google.gson.annotations.SerializedName as Name
 
@@ -9,7 +11,9 @@ data class Update constructor(
     @Name("edited_message") val editedMessage: Message?,
     @Name("channel_post") val channelPost: Message?,
     @Name("edited_channel_post") val editedChannelPost: Message?,
-    @Name("callback_query") val callbackQuery: CallbackQuery?
+    @Name("callback_query") val callbackQuery: CallbackQuery?,
+    @Name("pre_checkout_query") val preCheckoutQuery: PreCheckoutQuery?,
+    @Name("shipping_query") val shippingQuery: ShippingQuery?
 ) : DispatchableObject
 
 /**

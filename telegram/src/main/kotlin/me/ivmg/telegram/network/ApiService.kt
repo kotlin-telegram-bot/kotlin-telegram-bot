@@ -1,5 +1,6 @@
 package me.ivmg.telegram.network
 
+import com.google.gson.Gson
 import me.ivmg.telegram.entities.Chat
 import me.ivmg.telegram.entities.ChatAction
 import me.ivmg.telegram.entities.ChatMember
@@ -11,6 +12,8 @@ import me.ivmg.telegram.entities.ReplyMarkup
 import me.ivmg.telegram.entities.Update
 import me.ivmg.telegram.entities.User
 import me.ivmg.telegram.entities.UserProfilePhotos
+import me.ivmg.telegram.entities.payment.LabeledPrice
+import me.ivmg.telegram.entities.payment.ShippingOption
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.Field
@@ -109,7 +112,7 @@ interface ApiService {
         @Field("title") title: String?,
         @Field("disable_notification") disableNotification: Boolean?,
         @Field("reply_to_message_id") replyToMessageId: Long?,
-        @Part("reply_markup") replyMarkup: ReplyMarkup? = null
+        @Field("reply_markup") replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
     @POST("sendDocument")
@@ -497,4 +500,63 @@ interface ApiService {
         @Field("reply_to_message_id") replyToMessageId: Long?,
         @Field("reply_markup") replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
+
+    /**
+     * Payment
+     */
+    @POST("sendInvoice")
+    @FormUrlEncoded
+    fun sendInvoice(
+        @Field("chat_id") chatId: Long,
+        @Field("title") title: String,
+        @Field("description") description: String,
+        @Field("payload") payload: String,
+        @Field("provider_token") providerToken: String,
+        @Field("start_parameter") startParameter: String,
+        @Field("currency") currency: String,
+        @Field("prices") prices: LabeledPriceList,
+        @Field("provider_data") providerData: String?,
+        @Field("photo_url") photoUrl: String?,
+        @Field("photo_size") photoSize: Int?,
+        @Field("photo_width") photoWidth: Int?,
+        @Field("photo_height") photoHeight: Int?,
+        @Field("need_name") needName: Boolean?,
+        @Field("need_phone_number") needPhoneNumber: Boolean?,
+        @Field("need_email") needEmail: Boolean?,
+        @Field("need_shipping_address") needShippingAddress: Boolean?,
+        @Field("send_phone_number_to_provider") sendPhoneNumberToProvider: Boolean?,
+        @Field("send_email_to_provider") sendEmailToProvider: Boolean?,
+        @Field("is_flexible") isFlexible: Boolean?,
+        @Field("disable_notification") disableNotification: Boolean?,
+        @Field("reply_to_message_id") replyToMessageId: Long?,
+        @Field("reply_markup") replyMarkup: ReplyMarkup? = null
+    ): Call<Response<Message>>
+
+    @POST("answerShippingQuery")
+    @FormUrlEncoded
+    fun answerShippingQuery(
+        @Field("shipping_query_id") shippingQueryId: String,
+        @Field("ok") ok: Boolean,
+        @Field("shipping_options") shippingOptions: List<ShippingOption>? = null,
+        @Field("error_message") errorMessage: String? = null
+    ): Call<Response<Boolean>>
+
+    @POST("answerPreCheckoutQuery")
+    @FormUrlEncoded
+    fun answerPreCheckoutQuery(
+        @Field("pre_checkout_query_id") preCheckoutQueryId: String,
+        @Field("ok") ok: Boolean,
+        @Field("error_message") errorMessage: String? = null
+    ): Call<Response<Boolean>>
+}
+
+class LabeledPriceList(private val labeledPrice: List<LabeledPrice>) {
+
+    private companion object {
+        val GSON = Gson()
+    }
+
+    override fun toString(): String {
+        return GSON.toJson(labeledPrice)
+    }
 }

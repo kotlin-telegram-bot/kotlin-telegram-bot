@@ -4,12 +4,15 @@ import me.ivmg.telegram.entities.Chat
 import me.ivmg.telegram.entities.ChatAction
 import me.ivmg.telegram.entities.ChatMember
 import me.ivmg.telegram.entities.File
+import me.ivmg.telegram.entities.InlineKeyboardMarkup
 import me.ivmg.telegram.entities.InputMedia
 import me.ivmg.telegram.entities.Message
 import me.ivmg.telegram.entities.ReplyMarkup
 import me.ivmg.telegram.entities.Update
 import me.ivmg.telegram.entities.User
 import me.ivmg.telegram.entities.UserProfilePhotos
+import me.ivmg.telegram.entities.payment.LabeledPrice
+import me.ivmg.telegram.entities.payment.ShippingOption
 import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
@@ -682,6 +685,73 @@ class ApiClient(
 
         return service.deleteMessage(chatId, messageId)
     }
+
+    /**
+     * Payment
+     */
+
+    fun sendInvoice(
+        chatId: Long,
+        title: String,
+        description: String,
+        payload: String,
+        providerToken: String,
+        startParameter: String,
+        currency: String,
+        prices: List<LabeledPrice>,
+        providerData: String? = null,
+        photoUrl: String? = null,
+        photoSize: Int? = null,
+        photoWidth: Int? = null,
+        photoHeight: Int? = null,
+        needName: Boolean? = null,
+        needPhoneNumber: Boolean? = null,
+        needEmail: Boolean? = null,
+        needShippingAddress: Boolean? = null,
+        sendPhoneNumberToProvider: Boolean? = null,
+        sendEmailToProvider: Boolean? = null,
+        isFlexible: Boolean? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        replyMarkup: InlineKeyboardMarkup? = null
+    ): Call<Response<Message>> {
+        return service.sendInvoice(chatId = chatId,
+            title = title,
+            description = description,
+            payload = payload,
+            providerToken = providerToken,
+            startParameter = startParameter,
+            currency = currency,
+            prices = LabeledPriceList(prices),
+            providerData = providerData,
+            photoHeight = photoHeight,
+            photoSize = photoSize,
+            photoUrl = photoUrl,
+            photoWidth = photoWidth,
+            needEmail = needEmail,
+            needName = needName,
+            needPhoneNumber = needPhoneNumber,
+            needShippingAddress = needShippingAddress,
+            sendPhoneNumberToProvider = sendPhoneNumberToProvider,
+            sendEmailToProvider = sendEmailToProvider,
+            isFlexible = isFlexible,
+            disableNotification = disableNotification,
+            replyMarkup = replyMarkup,
+            replyToMessageId = replyToMessageId)
+    }
+
+    fun answerShippingQuery(
+        shippingQueryId: String,
+        ok: Boolean,
+        shippingOptions: List<ShippingOption>? = null,
+        errorMessage: String? = null
+    ) = service.answerShippingQuery(shippingQueryId, ok, shippingOptions, errorMessage)
+
+    fun answerPreCheckoutQuery(
+        preCheckoutQueryId: String,
+        ok: Boolean,
+        errorMessage: String? = null
+    ) = service.answerPreCheckoutQuery(preCheckoutQueryId, ok, errorMessage)
 
     /***
      * Stickers

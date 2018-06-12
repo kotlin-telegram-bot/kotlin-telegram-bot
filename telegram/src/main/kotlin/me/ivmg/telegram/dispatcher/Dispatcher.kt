@@ -6,6 +6,7 @@ import me.ivmg.telegram.HandleError
 import me.ivmg.telegram.HandleUpdate
 import me.ivmg.telegram.LocationHandleUpdate
 import me.ivmg.telegram.dispatcher.handlers.CallbackQueryHandler
+import me.ivmg.telegram.dispatcher.handlers.CheckoutHandler
 import me.ivmg.telegram.dispatcher.handlers.CommandHandler
 import me.ivmg.telegram.dispatcher.handlers.ContactHandler
 import me.ivmg.telegram.dispatcher.handlers.Handler
@@ -43,6 +44,10 @@ fun Dispatcher.location(handleUpdate: LocationHandleUpdate) {
 
 fun Dispatcher.telegramError(body: HandleError) {
     addErrorHandler(body)
+}
+
+fun Dispatcher.preCheckoutQuery(body: HandleUpdate) {
+    addHandler(CheckoutHandler(body))
 }
 
 class Dispatcher {
