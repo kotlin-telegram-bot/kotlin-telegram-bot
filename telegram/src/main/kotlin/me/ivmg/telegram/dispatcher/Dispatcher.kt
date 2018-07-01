@@ -1,10 +1,6 @@
 package me.ivmg.telegram.dispatcher
 
-import me.ivmg.telegram.Bot
-import me.ivmg.telegram.ContactHandleUpdate
-import me.ivmg.telegram.HandleError
-import me.ivmg.telegram.HandleUpdate
-import me.ivmg.telegram.LocationHandleUpdate
+import me.ivmg.telegram.*
 import me.ivmg.telegram.dispatcher.handlers.CallbackQueryHandler
 import me.ivmg.telegram.dispatcher.handlers.CommandHandler
 import me.ivmg.telegram.dispatcher.handlers.ContactHandler
@@ -18,6 +14,10 @@ import java.util.concurrent.BlockingQueue
 import java.util.concurrent.LinkedBlockingQueue
 
 fun Dispatcher.command(command: String, body: HandleUpdate) {
+    addHandler(CommandHandler(command, body))
+}
+
+fun Dispatcher.command(command: String, body: CommandHandleUpdate) {
     addHandler(CommandHandler(command, body))
 }
 
