@@ -2,7 +2,7 @@ group 'me.ivmg.telegram'
 version '1.0'
 
 buildscript {
-    ext.kotlin_version = '1.2.21'
+    ext.kotlin_version = '1.2.50'
 
     ext.retrofit_version = '2.3.0'
     ext.logging_interceptor_version = '3.9.1'
@@ -10,9 +10,6 @@ buildscript {
     repositories {
         mavenCentral()
         jcenter()
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
@@ -25,7 +22,7 @@ repositories {
 
 dependencies {
     // Kotlin
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib"
 
     // Networking
     compile "com.squareup.retrofit2:retrofit:$retrofit_version"
@@ -35,7 +32,6 @@ dependencies {
 
     // Testing
     testCompile "junit:junit:4.12"
-    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     testCompile "org.mockito:mockito-core:2.15.0"
 }
 
