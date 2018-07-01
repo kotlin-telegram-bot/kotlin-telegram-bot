@@ -81,9 +81,9 @@ dependencies {
 - [x] basic methods
 - [x] long polling
 - [x] reply markup keyboard
+- [x] payment methods
 - [ ] webhook
 - [ ] sticker methods
-- [ ] payment methods
 
 ## Contributing
 Pull requests are welcomed. ✨
