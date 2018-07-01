@@ -1,6 +1,4 @@
 buildscript {
-    ext.klint_version = '3.3.0'
-
     repositories {
         mavenCentral()
     }
