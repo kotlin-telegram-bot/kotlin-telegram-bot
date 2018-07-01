@@ -1,6 +1,11 @@
 package me.ivmg.telegram.dispatcher
 
-import me.ivmg.telegram.*
+import me.ivmg.telegram.Bot
+import me.ivmg.telegram.ContactHandleUpdate
+import me.ivmg.telegram.HandleError
+import me.ivmg.telegram.HandleUpdate
+import me.ivmg.telegram.LocationHandleUpdate
+import me.ivmg.telegram.CommandHandleUpdate
 import me.ivmg.telegram.dispatcher.handlers.CallbackQueryHandler
 import me.ivmg.telegram.dispatcher.handlers.CommandHandler
 import me.ivmg.telegram.dispatcher.handlers.ContactHandler
