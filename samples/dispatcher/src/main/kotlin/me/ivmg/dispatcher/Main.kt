@@ -99,7 +99,7 @@ fun main(args: Array<String>) {
                 )
             }
 
-            telegramError { bot, telegramError ->
+            telegramError { _, telegramError ->
                 println(telegramError.getErrorMessage())
             }
         }

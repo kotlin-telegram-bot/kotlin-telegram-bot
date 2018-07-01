@@ -2,9 +2,13 @@ package me.ivmg.telegram
 
 import me.ivmg.telegram.dispatcher.Dispatcher
 import me.ivmg.telegram.entities.ChatAction
+import me.ivmg.telegram.entities.InlineKeyboardMarkup
 import me.ivmg.telegram.entities.InputMedia
+import me.ivmg.telegram.entities.ParseMode
 import me.ivmg.telegram.entities.ReplyMarkup
 import me.ivmg.telegram.entities.Update
+import me.ivmg.telegram.entities.payment.PaymentInvoiceInfo
+import me.ivmg.telegram.entities.payment.ShippingOption
 import me.ivmg.telegram.errors.RetrieveUpdatesError
 import me.ivmg.telegram.errors.TelegramError
 import me.ivmg.telegram.network.ApiClient
@@ -89,7 +93,7 @@ class Bot private constructor(
     fun sendMessage(
         chatId: Long,
         text: String,
-        parseMode: String? = null,
+        parseMode: ParseMode? = null,
         disableWebPagePreview: Boolean? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Int? = null,
@@ -97,7 +101,7 @@ class Bot private constructor(
     ) = apiClient.sendMessage(
         chatId,
         text,
-        parseMode,
+        parseMode?.modeName,
         disableWebPagePreview,
         disableNotification,
         replyToMessageId,
@@ -557,7 +561,7 @@ class Bot private constructor(
         messageId: Long? = null,
         inlineMessageId: String? = null,
         text: String,
-        parseMode: String? = null,
+        parseMode: ParseMode? = null,
         disableWebPagePreview: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.editMessageText(
@@ -565,7 +569,7 @@ class Bot private constructor(
         messageId,
         inlineMessageId,
         text,
-        parseMode,
+        parseMode?.modeName,
         disableWebPagePreview,
         replyMarkup
     ).call()
@@ -598,6 +602,74 @@ class Bot private constructor(
 
     fun deleteMessage(chatId: Long? = null, messageId: Long? = null) =
         apiClient.deleteMessage(chatId, messageId).call()
+
+    /**
+     * Payments
+     */
+
+    /**
+     * Use this method to send invoices.
+     *
+     * @param [chatId] Unique identifier for the target private chat.
+     * @param [disableNotification] Sends the message silently. Users will receive a notification with no sound.
+     * @param [replyToMessageId] If the message is a reply, ID of the original message.
+     * @param [replyMarkup] Additional interface options. An inlineKeyboard. If empty, one 'Pay total price' button will be shown. If not empty, the first button must be a Pay button.
+     * @see InlineKeyboardMarkup
+     * @see PaymentInvoiceInfo
+     */
+    fun sendInvoice(
+        chatId: Long,
+        paymentInvoiceInfo: PaymentInvoiceInfo,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        replyMarkup: InlineKeyboardMarkup? = null
+    ) = apiClient.sendInvoice(
+        chatId,
+        paymentInvoiceInfo.title,
+        paymentInvoiceInfo.description,
+        paymentInvoiceInfo.payload,
+        paymentInvoiceInfo.providerToken,
+        paymentInvoiceInfo.startParameter,
+        paymentInvoiceInfo.currency,
+        paymentInvoiceInfo.prices,
+        isFlexible = paymentInvoiceInfo.isFlexible,
+        providerData = paymentInvoiceInfo.providerData,
+        needShippingAddress = paymentInvoiceInfo.invoiceUserDetail?.needShippingAddress,
+        needPhoneNumber = paymentInvoiceInfo.invoiceUserDetail?.needPhoneNumber,
+        needName = paymentInvoiceInfo.invoiceUserDetail?.needName,
+        needEmail = paymentInvoiceInfo.invoiceUserDetail?.needEmail,
+        sendPhoneNumberToProvider = paymentInvoiceInfo.invoiceUserDetail?.sendPhoneNumberToProvider,
+        sendEmailToProvider = paymentInvoiceInfo.invoiceUserDetail?.sendEmailToProvider,
+        photoWidth = paymentInvoiceInfo.invoicePhoto?.photoWidth,
+        photoUrl = paymentInvoiceInfo.invoicePhoto?.photoUrl,
+        photoSize = paymentInvoiceInfo.invoicePhoto?.photoSize,
+        photoHeight = paymentInvoiceInfo.invoicePhoto?.photoHeight,
+        replyToMessageId = replyToMessageId,
+        disableNotification = disableNotification,
+        replyMarkup = replyMarkup
+    ).call()
+
+    fun answerShippingQuery(
+        shippingQueryId: String,
+        ok: Boolean,
+        shippingOptions: List<ShippingOption>? = null,
+        errorMessage: String? = null
+    ) = apiClient.answerShippingQuery(
+        shippingQueryId,
+        ok,
+        shippingOptions,
+        errorMessage
+    ).call()
+
+    fun answerPreCheckoutQuery(
+        preCheckoutQueryId: String,
+        ok: Boolean,
+        errorMessage: String? = null
+    ) = apiClient.answerPreCheckoutQuery(
+        preCheckoutQueryId,
+        ok,
+        errorMessage
+    ).call()
 
     /***
      * Stickers
