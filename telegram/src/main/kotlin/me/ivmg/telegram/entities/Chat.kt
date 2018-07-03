@@ -9,7 +9,7 @@ data class Chat(
     val username: String?,
     @Name("first_name") val firstName: String?,
     @Name("last_name") val lastName: String?,
-    @Name("all_members_are_administrator") val allMembersAreAdministrator: Boolean?,
+    @Name("all_members_are_administrators") val allMembersAreAdministrators: Boolean?,
     val photo: ChatPhoto?,
     val description: String?,
     @Name("invite_link") val inviteLink: String?,
