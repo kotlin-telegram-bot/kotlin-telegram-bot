@@ -7,6 +7,6 @@ data class User(
     @Name("is_bot") val isBot: Boolean,
     @Name("first_name") val firstName: String,
     @Name("last_name") val lastName: String?,
-    val username: String,
+    val username: String?,
     @Name("language_code") val languageCode: String?
 )
