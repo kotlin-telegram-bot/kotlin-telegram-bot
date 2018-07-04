@@ -36,10 +36,10 @@ private fun convertFile(file: SystemFile, mimeType: String? = null): RequestBody
 }
 
 class ApiClient(
-        token: String,
-        apiUrl: String,
-        private val botTimeout: Int = 30,
-        logLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.NONE
+    token: String,
+    apiUrl: String,
+    private val botTimeout: Int = 30,
+    logLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.NONE
 ) {
     private val service: ApiService
 
