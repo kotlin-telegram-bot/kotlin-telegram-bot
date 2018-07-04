@@ -36,9 +36,10 @@ private fun convertFile(file: SystemFile, mimeType: String? = null): RequestBody
 }
 
 class ApiClient(
-    token: String,
-    private val botTimeout: Int = 30,
-    logLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.NONE
+        token: String,
+        apiUrl: String,
+        private val botTimeout: Int = 30,
+        logLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.NONE
 ) {
     private val service: ApiService
 
@@ -55,7 +56,7 @@ class ApiClient(
             .build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.telegram.org/bot$token/")
+            .baseUrl("$apiUrl$token/")
             .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
