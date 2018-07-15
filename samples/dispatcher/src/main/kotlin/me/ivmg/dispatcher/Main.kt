@@ -49,6 +49,12 @@ fun main(args: Array<String>) {
                 })
             }
 
+            command("commandWithArgs") { bot, update, args ->
+                val joinedArgs = args.joinToString()
+                val response = if (!joinedArgs.isNullOrBlank()) joinedArgs else "There is no text apart from command!"
+                bot.sendMessage(chatId = update.message!!.chat.id, text = response)
+            }
+
             command("inlineButtons") { bot, update ->
                 val chatId = update.message?.chat?.id ?: return@command
 
