@@ -79,7 +79,6 @@ dependencies {
 
 ## TODO
 - webhook
-- sticker methods
 
 ## Contributing
 Pull requests are welcomed. ✨
