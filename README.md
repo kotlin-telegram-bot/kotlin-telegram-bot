@@ -78,12 +78,8 @@ dependencies {
 ```
 
 ## TODO
-- [x] basic methods
-- [x] long polling
-- [x] reply markup keyboard
-- [x] payment methods
-- [ ] webhook
-- [ ] sticker methods
+- webhook
+- sticker methods
 
 ## Contributing
 Pull requests are welcomed. ✨
