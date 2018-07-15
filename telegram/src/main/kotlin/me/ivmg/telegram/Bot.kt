@@ -28,10 +28,11 @@ fun Bot.Builder.dispatch(body: Dispatcher.() -> Unit): Dispatcher {
 class Bot private constructor(
     private val updater: Updater,
     token: String,
+    apiUrl: String,
     timeout: Int = 30,
     logLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.BODY
 ) {
-    private val apiClient: ApiClient = ApiClient(token, timeout, logLevel)
+    private val apiClient: ApiClient = ApiClient(token, apiUrl, timeout, logLevel)
 
     init {
         updater.bot = this
@@ -41,17 +42,18 @@ class Bot private constructor(
     class Builder {
         lateinit var token: String
         var timeout: Int = 30
+        var apiUrl: String = "https://api.telegram.org/bot"
         var logLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.BODY
 
         val updater = Updater()
 
         fun build(): Bot {
-            return Bot(updater, token, timeout, logLevel)
+            return Bot(updater, token, apiUrl, timeout, logLevel)
         }
 
         fun build(body: Bot.Builder.() -> Unit): Bot {
             body()
-            return Bot(updater, token, timeout, logLevel)
+            return Bot(updater, token, apiUrl, timeout, logLevel)
         }
     }
 
