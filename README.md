@@ -46,7 +46,7 @@ fun main(args: Array<String>) {
                 result.fold({
                     // do something here with the response
                 },{
-                    // do something with the error (warn the user?)
+                    // do something with the error 
                 })
             }
         }
