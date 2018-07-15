@@ -9,8 +9,8 @@ typealias HandleUpdate = (Bot, Update) -> Unit
 
 typealias HandleError = (Bot, TelegramError) -> Unit
 
+typealias CommandHandleUpdate = (Bot, Update, List<String>) -> Unit
+
 typealias ContactHandleUpdate = (Bot, Update, Contact) -> Unit
 
 typealias LocationHandleUpdate = (Bot, Update, Location) -> Unit
-
-typealias CommandHandleUpdate = (Bot, Update, List<String>) -> Unit
