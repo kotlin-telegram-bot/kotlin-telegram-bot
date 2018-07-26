@@ -36,6 +36,7 @@ fun main(args: Array<String>) {
                 bot.sendMessage(chatId = update.message!!.chat.id, text = "1 or 2")
             }
 
+            // important: use parenthesis because `and` doesn't take precedence over `or`
             text(filter = one or (two and three)) { bot, update ->
                 bot.sendMessage(chatId = update.message!!.chat.id, text = "1 or 2 and 3")
             }
