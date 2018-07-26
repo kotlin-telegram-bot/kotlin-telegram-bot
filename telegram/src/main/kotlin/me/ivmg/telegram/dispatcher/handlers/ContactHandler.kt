@@ -1,11 +1,12 @@
 package me.ivmg.telegram.dispatcher.handlers
 
+import me.ivmg.telegram.dispatcher.filters.Filter
 import me.ivmg.telegram.Bot
 import me.ivmg.telegram.ContactHandleUpdate
 import me.ivmg.telegram.HandleUpdate
 import me.ivmg.telegram.entities.Update
 
-class ContactHandler(handleUpdate: ContactHandleUpdate) : Handler(ContactHandleUpdateProxy(handleUpdate)) {
+class ContactHandler(filter: Filter? = null, handleUpdate: ContactHandleUpdate) : Handler(ContactHandleUpdateProxy(handleUpdate), filter) {
 
     override val groupIdentifier: String
         get() = "System"

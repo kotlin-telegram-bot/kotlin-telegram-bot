@@ -1,13 +1,14 @@
 package me.ivmg.telegram.dispatcher.handlers
 
+import me.ivmg.telegram.dispatcher.filters.Filter
 import me.ivmg.telegram.Bot
 import me.ivmg.telegram.CommandHandleUpdate
 import me.ivmg.telegram.HandleUpdate
 import me.ivmg.telegram.entities.Update
 
-class CommandHandler(private val command: String, handler: HandleUpdate) : Handler(handler) {
+class CommandHandler(private val command: String, filter: Filter? = null, handler: HandleUpdate) : Handler(handler, filter) {
 
-    constructor(command: String, handler: CommandHandleUpdate) : this(command, CommandHandleUpdateProxy(handler))
+    constructor(command: String, filter: Filter? = null, handler: CommandHandleUpdate) : this(command, filter, CommandHandleUpdateProxy(handler))
 
     override val groupIdentifier: String = "CommandHandler"
 

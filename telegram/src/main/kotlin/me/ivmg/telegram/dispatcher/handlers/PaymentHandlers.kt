@@ -1,9 +1,10 @@
 package me.ivmg.telegram.dispatcher.handlers
 
 import me.ivmg.telegram.HandleUpdate
+import me.ivmg.telegram.dispatcher.filters.Filter
 import me.ivmg.telegram.entities.Update
 
-class InvoiceHandler(handleUpdate: HandleUpdate) : Handler(handleUpdate) {
+class InvoiceHandler(filter: Filter? = null, handleUpdate: HandleUpdate) : Handler(handleUpdate, filter) {
     override val groupIdentifier: String
         get() = "payment"
 
@@ -12,7 +13,7 @@ class InvoiceHandler(handleUpdate: HandleUpdate) : Handler(handleUpdate) {
     }
 }
 
-class CheckoutHandler(handleUpdate: HandleUpdate) : Handler(handleUpdate) {
+class CheckoutHandler(filter: Filter? = null, handleUpdate: HandleUpdate) : Handler(handleUpdate, filter) {
     override val groupIdentifier: String
         get() = "payment"
 

@@ -1,6 +1,7 @@
 rootProject.name = 'kotlin-telegram-bot'
 
-include ':telegram', ':echo', ':dispatcher'
+include ':telegram', ':echo', ':dispatcher', ':filters'
 
 project(':echo').projectDir = new File(rootDir, 'samples/echo')
 project(':dispatcher').projectDir = new File(rootDir, 'samples/dispatcher')
+project(':filters').projectDir = new File(rootDir, 'samples/filters')

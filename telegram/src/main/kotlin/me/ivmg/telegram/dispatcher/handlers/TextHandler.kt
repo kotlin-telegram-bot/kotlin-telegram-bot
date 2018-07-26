@@ -1,9 +1,10 @@
 package me.ivmg.telegram.dispatcher.handlers
 
 import me.ivmg.telegram.HandleUpdate
+import me.ivmg.telegram.dispatcher.filters.Filter
 import me.ivmg.telegram.entities.Update
 
-class TextHandler(private val text: String? = null, handler: HandleUpdate) : Handler(handler) {
+class TextHandler(private val text: String? = null, filter: Filter? = null, handler: HandleUpdate) : Handler(handler, filter) {
     override val groupIdentifier: String = "CommandHandler"
 
     override fun checkUpdate(update: Update): Boolean {
