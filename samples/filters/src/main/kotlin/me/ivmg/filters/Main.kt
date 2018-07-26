@@ -16,8 +16,7 @@ fun main(args: Array<String>) {
 
     val bot = bot {
 
-//        token = "YOUR_API_KEY"
-        token = "194597063:AAED1S0qJN-yorSdXWKegIA9ToknAOtxa8Y"
+        token = "YOUR_API_KEY"
 
         dispatch {
 
