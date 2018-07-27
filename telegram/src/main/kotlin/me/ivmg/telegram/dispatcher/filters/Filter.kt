@@ -11,3 +11,7 @@ infix fun Filter.and(other: Filter): Filter = {
 infix fun Filter.or(other: Filter): Filter = {
     this(it) || other(it)
 }
+
+operator fun Filter.not(): Filter = {
+    !this(it)
+}

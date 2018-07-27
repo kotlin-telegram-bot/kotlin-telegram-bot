@@ -5,6 +5,7 @@ import me.ivmg.telegram.dispatch
 import me.ivmg.telegram.dispatcher.filter
 import me.ivmg.telegram.dispatcher.filters.Filter
 import me.ivmg.telegram.dispatcher.filters.and
+import me.ivmg.telegram.dispatcher.filters.not
 import me.ivmg.telegram.dispatcher.filters.or
 import me.ivmg.telegram.dispatcher.text
 
@@ -22,6 +23,10 @@ fun main(args: Array<String>) {
 
             text(filter = one) { bot, update ->
                 bot.sendMessage(chatId = update.message!!.chat.id, text = "1")
+            }
+
+            text(filter = !one) { bot, update ->
+                bot.sendMessage(chatId = update.message!!.chat.id, text = "not 1")
             }
 
             text(filter = two) { bot, update ->
