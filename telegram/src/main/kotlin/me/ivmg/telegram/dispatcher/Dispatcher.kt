@@ -33,8 +33,8 @@ fun Dispatcher.text(text: String? = null, filter: Filter? = null, body: HandleUp
     addHandler(TextHandler(text, combineWithCurrentFilter(filter), body))
 }
 
-fun Dispatcher.callbackQuery(data: String? = null, body: HandleUpdate) {
-    addHandler(CallbackQueryHandler(callbackData = data, handler = body))
+fun Dispatcher.callbackQuery(data: String? = null, filter: Filter? = null, body: HandleUpdate) {
+    addHandler(CallbackQueryHandler(callbackData = data, filter = combineWithCurrentFilter(filter), handler = body))
 }
 
 fun Dispatcher.callbackQuery(callbackQueryHandler: CallbackQueryHandler) {
