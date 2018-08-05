@@ -14,6 +14,7 @@ import me.ivmg.telegram.entities.User
 import me.ivmg.telegram.entities.UserProfilePhotos
 import me.ivmg.telegram.entities.payment.LabeledPrice
 import me.ivmg.telegram.entities.payment.ShippingOption
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.Field
@@ -71,7 +72,7 @@ interface ApiService {
     @Multipart
     fun sendPhoto(
         @Part("chat_id") chatId: RequestBody,
-        @Part("photo") photo: RequestBody,
+        @Part photo: MultipartBody.Part,
         @Part("caption") caption: RequestBody?,
         @Part("disable_notification") disableNotification: RequestBody?,
         @Part("reply_to_message_id") replyToMessageId: RequestBody?,
@@ -93,7 +94,7 @@ interface ApiService {
     @Multipart
     fun sendAudio(
         @Part("chat_id") chatId: RequestBody,
-        @Part("audio") audio: RequestBody,
+        @Part audio: MultipartBody.Part,
         @Part("duration") duration: RequestBody?,
         @Part("performer") performer: RequestBody?,
         @Part("title") title: RequestBody?,
@@ -119,7 +120,7 @@ interface ApiService {
     @Multipart
     fun sendDocument(
         @Part("chat_id") chatId: RequestBody,
-        @Part("document") document: RequestBody,
+        @Part document: MultipartBody.Part,
         @Part("caption") caption: RequestBody?,
         @Part("disable_notification") disableNotification: RequestBody?,
         @Part("reply_to_message_id") replyToMessageId: RequestBody?,
@@ -141,7 +142,7 @@ interface ApiService {
     @Multipart
     fun sendVideo(
         @Part("chat_id") chatId: RequestBody,
-        @Part("video") video: RequestBody,
+        @Part video: MultipartBody.Part,
         @Part("duration") duration: RequestBody?,
         @Part("width") width: RequestBody?,
         @Part("height") height: RequestBody?,
@@ -169,7 +170,7 @@ interface ApiService {
     @Multipart
     fun sendVoice(
         @Part("chat_id") chatId: RequestBody,
-        @Part("voice") voice: RequestBody,
+        @Part voice: MultipartBody.Part,
         @Part("duration") duration: RequestBody?,
         @Part("disable_notification") disableNotification: RequestBody?,
         @Part("reply_to_message_id") replyToMessageId: RequestBody?,
@@ -191,7 +192,7 @@ interface ApiService {
     @Multipart
     fun sendVideoNote(
         @Part("chat_id") chatId: RequestBody,
-        @Part("video_note") videoNote: RequestBody,
+        @Part videoNote: MultipartBody.Part,
         @Part("duration") duration: RequestBody?,
         @Part("length") length: RequestBody?,
         @Part("disable_notification") disableNotification: RequestBody?,
