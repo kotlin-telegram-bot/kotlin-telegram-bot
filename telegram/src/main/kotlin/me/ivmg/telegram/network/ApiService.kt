@@ -54,7 +54,7 @@ interface ApiService {
         @Field("parse_mode") parseMode: String?,
         @Field("disable_web_page_preview") disableWebPagePreview: Boolean?,
         @Field("disable_notification") disableNotification: Boolean?,
-        @Field("reply_to_message_id") replyToMessageId: Int?,
+        @Field("reply_to_message_id") replyToMessageId: Long?,
         @Field("reply_markup") replyMarkup: ReplyMarkup?
     ): Call<Response<Message>>
 

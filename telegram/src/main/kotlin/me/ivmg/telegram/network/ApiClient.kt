@@ -82,7 +82,7 @@ class ApiClient(
         parseMode: String?,
         disableWebPagePreview: Boolean?,
         disableNotification: Boolean?,
-        replyToMessageId: Int?,
+        replyToMessageId: Long?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 

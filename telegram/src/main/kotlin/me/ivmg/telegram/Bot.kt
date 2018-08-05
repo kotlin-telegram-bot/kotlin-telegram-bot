@@ -98,7 +98,7 @@ class Bot private constructor(
         parseMode: ParseMode? = null,
         disableWebPagePreview: Boolean? = null,
         disableNotification: Boolean? = null,
-        replyToMessageId: Int? = null,
+        replyToMessageId: Long? = null,
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendMessage(
         chatId,
