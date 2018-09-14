@@ -1,24 +1,17 @@
 buildscript {
-    ext.kotlin_version = '1.2.40'
-    ext.klint_version = '3.3.0'
-
     repositories {
         mavenCentral()
-    }
-
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.2.40"
-    id "org.jlleitschuh.gradle.ktlint" version "3.3.0"
+    id "org.jetbrains.kotlin.jvm" version "1.2.50"
+    id "org.jlleitschuh.gradle.ktlint" version "4.1.0"
 }
 
 allprojects {
     group 'me.ivmg.kotlin-telegram-bot'
-    version '0.2.0'
+    version '0.3.2'
 
     repositories {
         mavenCentral()
@@ -31,5 +24,5 @@ repositories {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib"
 }

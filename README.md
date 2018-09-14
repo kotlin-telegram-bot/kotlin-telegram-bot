@@ -46,7 +46,7 @@ fun main(args: Array<String>) {
                 result.fold({
                     // do something here with the response
                 },{
-                    // do something with the error (warn the user?)
+                    // do something with the error 
                 })
             }
         }
@@ -78,12 +78,7 @@ dependencies {
 ```
 
 ## TODO
-- [x] basic methods
-- [x] long polling
-- [x] reply markup keyboard
-- [ ] webhook
-- [ ] sticker methods
-- [ ] payment methods
+- webhook
 
 ## Contributing
 Pull requests are welcomed. ✨

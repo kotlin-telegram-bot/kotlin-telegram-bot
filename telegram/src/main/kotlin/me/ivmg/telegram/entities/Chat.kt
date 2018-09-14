@@ -9,11 +9,11 @@ data class Chat(
     val username: String?,
     @Name("first_name") val firstName: String?,
     @Name("last_name") val lastName: String?,
-    @Name("all_members_are_administrator") val allMembersAreAdministrator: Boolean?,
-    val photo: ChatPhoto,
+    @Name("all_members_are_administrators") val allMembersAreAdministrators: Boolean?,
+    val photo: ChatPhoto?,
     val description: String?,
     @Name("invite_link") val inviteLink: String?,
     @Name("pinned_message") val pinnedMessage: String?,
     @Name("sticker_set_name") val stickerSetName: String?,
-    @Name("can_sticker_set") val canStickerSet: Boolean?
+    @Name("can_set_sticker_set") val canSetStickerSet: Boolean?
 )

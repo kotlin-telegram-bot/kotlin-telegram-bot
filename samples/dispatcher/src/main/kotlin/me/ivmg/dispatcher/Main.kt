@@ -34,7 +34,7 @@ fun main(args: Array<String>) {
                 result.fold({
                     // do something here with the response
                 }, {
-                    // do something with the error (warn the user?)
+                    // do something with the error
                 })
             }
 
@@ -45,8 +45,14 @@ fun main(args: Array<String>) {
                 result.fold({
                     // do something here with the response
                 }, {
-                    // do something with the error (warn the user?)
+                    // do something with the error
                 })
+            }
+
+            command("commandWithArgs") { bot, update, args ->
+                val joinedArgs = args.joinToString()
+                val response = if (!joinedArgs.isNullOrBlank()) joinedArgs else "There is no text apart from command!"
+                bot.sendMessage(chatId = update.message!!.chat.id, text = response)
             }
 
             command("inlineButtons") { bot, update ->

@@ -14,6 +14,7 @@ import me.ivmg.telegram.entities.UserProfilePhotos
 import me.ivmg.telegram.entities.payment.LabeledPrice
 import me.ivmg.telegram.entities.payment.ShippingOption
 import okhttp3.MediaType
+import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.logging.HttpLoggingInterceptor
@@ -31,12 +32,14 @@ private val APPLICATION_JSON_MIME = MediaType.parse("application/json")
 private fun convertString(text: String) = RequestBody.create(PLAIN_TEXT_MIME, text)
 private fun convertJson(text: String) = RequestBody.create(APPLICATION_JSON_MIME, text)
 
-private fun convertFile(file: SystemFile, mimeType: String? = null): RequestBody {
-    return RequestBody.create(MediaType.parse(mimeType ?: Files.probeContentType(file.toPath())), file)
+private fun convertFile(name: String, file: SystemFile, mimeType: String? = null): MultipartBody.Part {
+    val requestBody = RequestBody.create(MediaType.parse(mimeType ?: Files.probeContentType(file.toPath())), file)
+    return MultipartBody.Part.createFormData(name, file.name, requestBody)
 }
 
 class ApiClient(
     token: String,
+    apiUrl: String,
     private val botTimeout: Int = 30,
     logLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.NONE
 ) {
@@ -55,7 +58,7 @@ class ApiClient(
             .build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.telegram.org/bot$token/")
+            .baseUrl("$apiUrl$token/")
             .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -81,7 +84,7 @@ class ApiClient(
         parseMode: String?,
         disableWebPagePreview: Boolean?,
         disableNotification: Boolean?,
-        replyToMessageId: Int?,
+        replyToMessageId: Long?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
@@ -111,7 +114,7 @@ class ApiClient(
 
         return service.sendPhoto(
             convertString(chatId.toString()),
-            convertFile(photo),
+            convertFile("photo", photo),
             if (caption != null) convertString(caption) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null
@@ -142,7 +145,7 @@ class ApiClient(
 
         return service.sendAudio(
             convertString(chatId.toString()),
-            convertFile(audio),
+            convertFile("audio", audio),
             if (duration != null) convertString(duration.toString()) else null,
             if (performer != null) convertString(performer) else null,
             if (title != null) convertString(title) else null,
@@ -186,7 +189,7 @@ class ApiClient(
 
         return service.sendDocument(
             convertString(chatId.toString()),
-            convertFile(document),
+            convertFile("document", document),
             if (caption != null) convertString(caption) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
@@ -227,7 +230,7 @@ class ApiClient(
 
         return service.sendVideo(
             convertString(chatId.toString()),
-            convertFile(video),
+            convertFile("video", video),
             if (duration != null) convertString(duration.toString()) else null,
             if (width != null) convertString(width.toString()) else null,
             if (height != null) convertString(height.toString()) else null,
@@ -274,7 +277,7 @@ class ApiClient(
 
         return service.sendVoice(
             convertString(chatId.toString()),
-            convertFile(audio),
+            convertFile("voice", audio),
             if (duration != null) convertString(duration.toString()) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
@@ -313,7 +316,7 @@ class ApiClient(
 
         return service.sendVideoNote(
             convertString(chatId.toString()),
-            convertFile(audio),
+            convertFile("video_note", audio),
             if (duration != null) convertString(duration.toString()) else null,
             if (length != null) convertString(length.toString()) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
