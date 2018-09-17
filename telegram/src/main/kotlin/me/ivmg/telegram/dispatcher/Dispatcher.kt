@@ -7,6 +7,7 @@ import me.ivmg.telegram.HandleUpdate
 import me.ivmg.telegram.LocationHandleUpdate
 import me.ivmg.telegram.CommandHandleUpdate
 import me.ivmg.telegram.dispatcher.handlers.CallbackQueryHandler
+import me.ivmg.telegram.dispatcher.handlers.ChannelTextHandler
 import me.ivmg.telegram.dispatcher.handlers.CheckoutHandler
 import me.ivmg.telegram.dispatcher.handlers.CommandHandler
 import me.ivmg.telegram.dispatcher.handlers.ContactHandler
@@ -53,6 +54,10 @@ fun Dispatcher.telegramError(body: HandleError) {
 
 fun Dispatcher.preCheckoutQuery(body: HandleUpdate) {
     addHandler(CheckoutHandler(body))
+}
+
+fun Dispatcher.channel(body: HandleUpdate) {
+    addHandler(ChannelTextHandler(body))
 }
 
 class Dispatcher {
