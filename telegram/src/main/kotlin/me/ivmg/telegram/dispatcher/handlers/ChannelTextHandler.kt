@@ -3,7 +3,7 @@ package me.ivmg.telegram.dispatcher.handlers
 import me.ivmg.telegram.HandleUpdate
 import me.ivmg.telegram.entities.Update
 
-class ChannelTextHandler(handleUpdate: HandleUpdate): Handler(handleUpdate) {
+class ChannelTextHandler(handleUpdate: HandleUpdate) : Handler(handleUpdate) {
     override val groupIdentifier: String
         get() = "channel"
 
