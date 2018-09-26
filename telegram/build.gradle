@@ -40,6 +40,8 @@ task sourcesJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.allSource
 }
 
+artifacts { archives sourcesJar }
+
 sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
 }
