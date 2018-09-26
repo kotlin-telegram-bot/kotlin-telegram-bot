@@ -35,6 +35,11 @@ dependencies {
     testCompile "org.mockito:mockito-core:2.15.0"
 }
 
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
 sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
 }
