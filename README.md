@@ -73,7 +73,7 @@ repositories {
 
 ```gradle
 dependencies {
-    compile 'io.github.seik.kotlin-telegram-bot:telegram:x.y.z'
+    implementation 'io.github.seik.kotlin-telegram-bot:telegram:x.y.z'
 }
 ```
 
