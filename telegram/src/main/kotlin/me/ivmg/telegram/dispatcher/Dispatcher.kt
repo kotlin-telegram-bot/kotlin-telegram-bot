@@ -7,7 +7,7 @@ import me.ivmg.telegram.HandleUpdate
 import me.ivmg.telegram.LocationHandleUpdate
 import me.ivmg.telegram.CommandHandleUpdate
 import me.ivmg.telegram.dispatcher.handlers.CallbackQueryHandler
-import me.ivmg.telegram.dispatcher.handlers.ChannelTextHandler
+import me.ivmg.telegram.dispatcher.handlers.ChannelHandler
 import me.ivmg.telegram.dispatcher.handlers.CheckoutHandler
 import me.ivmg.telegram.dispatcher.handlers.CommandHandler
 import me.ivmg.telegram.dispatcher.handlers.ContactHandler
@@ -57,7 +57,7 @@ fun Dispatcher.preCheckoutQuery(body: HandleUpdate) {
 }
 
 fun Dispatcher.channel(body: HandleUpdate) {
-    addHandler(ChannelTextHandler(body))
+    addHandler(ChannelHandler(body))
 }
 
 class Dispatcher {
