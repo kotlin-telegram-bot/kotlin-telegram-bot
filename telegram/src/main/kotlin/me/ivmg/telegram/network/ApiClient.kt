@@ -33,7 +33,9 @@ private fun convertString(text: String) = RequestBody.create(PLAIN_TEXT_MIME, te
 private fun convertJson(text: String) = RequestBody.create(APPLICATION_JSON_MIME, text)
 
 private fun convertFile(name: String, file: SystemFile, mimeType: String? = null): MultipartBody.Part {
-    val requestBody = RequestBody.create(MediaType.parse(mimeType ?: Files.probeContentType(file.toPath())), file)
+    val mediaType = (mimeType ?: Files.probeContentType(file.toPath()))?.let { MediaType.parse(it) }
+    val requestBody = RequestBody.create(mediaType, file)
+
     return MultipartBody.Part.createFormData(name, file.name, requestBody)
 }
 
