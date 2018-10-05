@@ -4,6 +4,7 @@ import me.ivmg.telegram.HandleUpdate
 import me.ivmg.telegram.bot
 import me.ivmg.telegram.dispatch
 import me.ivmg.telegram.dispatcher.callbackQuery
+import me.ivmg.telegram.dispatcher.channel
 import me.ivmg.telegram.dispatcher.command
 import me.ivmg.telegram.dispatcher.contact
 import me.ivmg.telegram.dispatcher.handlers.CallbackQueryHandler
@@ -103,6 +104,10 @@ fun main(args: Array<String>) {
                     text = "Hello, ${contact.firstName} ${contact.lastName}",
                     replyMarkup = ReplyKeyboardRemove()
                 )
+            }
+
+            channel { bot, update ->
+                // Handle channel update
             }
 
             telegramError { _, telegramError ->
