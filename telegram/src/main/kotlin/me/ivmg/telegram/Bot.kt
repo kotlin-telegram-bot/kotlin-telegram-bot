@@ -20,10 +20,7 @@ import java.io.File as SystemFile
 
 fun bot(body: Bot.Builder.() -> Unit) = Bot.Builder().build(body)
 
-fun Bot.Builder.dispatch(body: Dispatcher.() -> Unit): Dispatcher {
-    updater.dispatcher.body()
-    return updater.dispatcher
-}
+fun Bot.Builder.dispatch(body: Dispatcher.() -> Unit) = updater.dispatcher.apply(body)
 
 class Bot private constructor(
     private val updater: Updater,
