@@ -69,7 +69,7 @@ class Bot private constructor(
                 val updates = response.body()
                 if (updates?.result != null) return updates.result
             }
-            false -> {
+            false, null -> {
                 val errorMessage: String = when {
                     error?.message != null -> error.message!!
                     response.errorBody() != null -> response.errorBody().toString()
