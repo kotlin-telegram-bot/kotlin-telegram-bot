@@ -38,8 +38,8 @@ data class Message(
     @Name("group_chat_created") val groupChatCreated: Boolean?,
     @Name("supergroup_chat_created") val supergroupChatCreated: Boolean?,
     @Name("channel_chat_created") val channelChatCreated: Boolean?,
-    @Name("migrate_to_chat_id") val migrateToChatId: Boolean?,
-    @Name("migrate_from_chat_id") val migrateFromChatId: Boolean?,
+    @Name("migrate_to_chat_id") val migrateToChatId: Long?,
+    @Name("migrate_from_chat_id") val migrateFromChatId: Long?,
     val invoice: Invoice?,
     @Name("successful_payment") val successfulPayment: SuccessfulPayment?
 )
