@@ -72,7 +72,7 @@ class Bot private constructor(
             false, null -> {
                 val errorMessage: String = when {
                     error?.message != null -> error.message!!
-                    response?.errorBody() != null -> response?.errorBody().toString()!!
+                    response?.errorBody() != null -> response.errorBody().toString()
                     else -> "There was a problem retrieving updates from Telegram server"
                 }
 
