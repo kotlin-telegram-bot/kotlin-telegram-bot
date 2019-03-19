@@ -21,6 +21,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.net.Proxy
 import java.nio.file.Files
 import java.util.Date
 import java.util.concurrent.TimeUnit
@@ -43,7 +44,8 @@ class ApiClient(
     token: String,
     apiUrl: String,
     private val botTimeout: Int = 30,
-    logLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.NONE
+    logLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.NONE,
+    proxy: Proxy = Proxy.NO_PROXY
 ) {
     private val service: ApiService
 
@@ -57,6 +59,7 @@ class ApiClient(
             .writeTimeout(botTimeout + 10L, TimeUnit.SECONDS)
             .addInterceptor(logging)
             .retryOnConnectionFailure(true)
+            .proxy(proxy)
             .build()
 
         val retrofit = Retrofit.Builder()

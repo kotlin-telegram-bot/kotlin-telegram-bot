@@ -15,6 +15,7 @@ import me.ivmg.telegram.network.ApiClient
 import me.ivmg.telegram.network.call
 import me.ivmg.telegram.types.DispatchableObject
 import okhttp3.logging.HttpLoggingInterceptor
+import java.net.Proxy
 import java.util.Date
 import java.io.File as SystemFile
 
@@ -27,9 +28,10 @@ class Bot private constructor(
     token: String,
     apiUrl: String,
     timeout: Int = 30,
-    logLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.BODY
+    logLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.BODY,
+    proxy: Proxy
 ) {
-    private val apiClient: ApiClient = ApiClient(token, apiUrl, timeout, logLevel)
+    private val apiClient: ApiClient = ApiClient(token, apiUrl, timeout, logLevel, proxy)
 
     init {
         updater.bot = this
@@ -41,16 +43,17 @@ class Bot private constructor(
         var timeout: Int = 30
         var apiUrl: String = "https://api.telegram.org/bot"
         var logLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.BODY
+        var proxy: Proxy = Proxy.NO_PROXY
 
         val updater = Updater()
 
         fun build(): Bot {
-            return Bot(updater, token, apiUrl, timeout, logLevel)
+            return Bot(updater, token, apiUrl, timeout, logLevel, proxy)
         }
 
         fun build(body: Bot.Builder.() -> Unit): Bot {
             body()
-            return Bot(updater, token, apiUrl, timeout, logLevel)
+            return Bot(updater, token, apiUrl, timeout, logLevel, proxy)
         }
     }
 
