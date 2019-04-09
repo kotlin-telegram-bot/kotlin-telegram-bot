@@ -156,13 +156,15 @@ class Bot private constructor(
 
     fun sendAudio(
         chatId: Long,
-        photo: String,
+        audio: String,
         caption: String? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null
-    ) = apiClient.sendPhoto(
+    ) = apiClient.sendAudio(
         chatId,
-        photo,
+        audio,
+        null,
+        null,
         caption,
         disableNotification,
         replyToMessageId
