@@ -126,12 +126,14 @@ class Bot private constructor(
         chatId: Long,
         photo: SystemFile,
         caption: String? = null,
+        parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null
     ) = apiClient.sendPhoto(
         chatId,
         photo,
         caption,
+        parseMode?.modeName,
         disableNotification,
         replyToMessageId
     ).call()
@@ -140,12 +142,14 @@ class Bot private constructor(
         chatId: Long,
         photo: String,
         caption: String? = null,
+        parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null
     ) = apiClient.sendPhoto(
         chatId,
         photo,
         caption,
+        parseMode?.modeName,
         disableNotification,
         replyToMessageId
     ).call()
