@@ -122,7 +122,7 @@ class ApiClient(
             convertString(chatId.toString()),
             convertFile("photo", photo),
             if (caption != null) convertString(caption) else null,
-            parseMode,
+            if (parseMode != null) convertString(parseMode) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null
         )
