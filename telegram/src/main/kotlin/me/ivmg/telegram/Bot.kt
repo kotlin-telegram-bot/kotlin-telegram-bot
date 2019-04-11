@@ -79,10 +79,9 @@ class Bot private constructor(
                     else -> "There was a problem retrieving updates from Telegram server"
                 }
 
-                return arrayListOf(RetrieveUpdatesError(errorMessage) as TelegramError)
+                return listOf(RetrieveUpdatesError(errorMessage) as TelegramError)
             }
         }
-
         return emptyList()
     }
 
