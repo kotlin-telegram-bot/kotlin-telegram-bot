@@ -124,6 +124,7 @@ interface ApiService {
         @Part("chat_id") chatId: RequestBody,
         @Part document: MultipartBody.Part,
         @Part("caption") caption: RequestBody?,
+        @Part("parse_mode") parseMode: RequestBody?,
         @Part("disable_notification") disableNotification: RequestBody?,
         @Part("reply_to_message_id") replyToMessageId: RequestBody?,
         @Part("reply_markup") replyMarkup: RequestBody? = null
@@ -135,6 +136,7 @@ interface ApiService {
         @Field("chat_id") chatId: Long,
         @Field("document") fileId: String,
         @Field("caption") caption: String?,
+        @Field("parse_mode") parseMode: String?,
         @Field("disable_notification") disableNotification: Boolean?,
         @Field("reply_to_message_id") replyToMessageId: Long?,
         @Field("reply_markup") replyMarkup: ReplyMarkup? = null

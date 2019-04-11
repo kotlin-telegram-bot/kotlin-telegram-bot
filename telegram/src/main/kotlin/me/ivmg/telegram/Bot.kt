@@ -213,6 +213,7 @@ class Bot private constructor(
         chatId: Long,
         document: SystemFile,
         caption: String? = null,
+        parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         replyMarkup: ReplyMarkup? = null
@@ -220,6 +221,7 @@ class Bot private constructor(
         chatId,
         document,
         caption,
+        parseMode?.modeName,
         disableNotification,
         replyToMessageId,
         replyMarkup
@@ -229,6 +231,7 @@ class Bot private constructor(
         chatId: Long,
         fileId: String,
         caption: String? = null,
+        parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         replyMarkup: ReplyMarkup? = null
@@ -236,6 +239,7 @@ class Bot private constructor(
         chatId,
         fileId,
         caption,
+        parseMode?.modeName,
         disableNotification,
         replyToMessageId,
         replyMarkup
