@@ -79,10 +79,9 @@ class Bot private constructor(
                     else -> "There was a problem retrieving updates from Telegram server"
                 }
 
-                return arrayListOf(RetrieveUpdatesError(errorMessage) as TelegramError)
+                return listOf(RetrieveUpdatesError(errorMessage) as TelegramError)
             }
         }
-
         return emptyList()
     }
 
@@ -126,12 +125,14 @@ class Bot private constructor(
         chatId: Long,
         photo: SystemFile,
         caption: String? = null,
+        parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null
     ) = apiClient.sendPhoto(
         chatId,
         photo,
         caption,
+        parseMode?.modeName,
         disableNotification,
         replyToMessageId
     ).call()
@@ -140,25 +141,29 @@ class Bot private constructor(
         chatId: Long,
         photo: String,
         caption: String? = null,
+        parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null
     ) = apiClient.sendPhoto(
         chatId,
         photo,
         caption,
+        parseMode?.modeName,
         disableNotification,
         replyToMessageId
     ).call()
 
     fun sendAudio(
         chatId: Long,
-        photo: String,
+        audio: String,
         caption: String? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null
-    ) = apiClient.sendPhoto(
+    ) = apiClient.sendAudio(
         chatId,
-        photo,
+        audio,
+        null,
+        null,
         caption,
         disableNotification,
         replyToMessageId
@@ -208,6 +213,7 @@ class Bot private constructor(
         chatId: Long,
         document: SystemFile,
         caption: String? = null,
+        parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         replyMarkup: ReplyMarkup? = null
@@ -215,6 +221,7 @@ class Bot private constructor(
         chatId,
         document,
         caption,
+        parseMode?.modeName,
         disableNotification,
         replyToMessageId,
         replyMarkup
@@ -224,6 +231,7 @@ class Bot private constructor(
         chatId: Long,
         fileId: String,
         caption: String? = null,
+        parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         replyMarkup: ReplyMarkup? = null
@@ -231,6 +239,7 @@ class Bot private constructor(
         chatId,
         fileId,
         caption,
+        parseMode?.modeName,
         disableNotification,
         replyToMessageId,
         replyMarkup

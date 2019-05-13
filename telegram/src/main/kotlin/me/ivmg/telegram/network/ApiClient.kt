@@ -113,6 +113,7 @@ class ApiClient(
         chatId: Long,
         photo: SystemFile,
         caption: String? = null,
+        parseMode: String? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null
     ): Call<Response<Message>> {
@@ -121,6 +122,7 @@ class ApiClient(
             convertString(chatId.toString()),
             convertFile("photo", photo),
             if (caption != null) convertString(caption) else null,
+            if (parseMode != null) convertString(parseMode) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null
         )
@@ -130,11 +132,12 @@ class ApiClient(
         chatId: Long,
         photo: String,
         caption: String? = null,
+        parseMode: String? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null
     ): Call<Response<Message>> {
 
-        return service.sendPhoto(chatId, photo, caption, disableNotification, replyToMessageId)
+        return service.sendPhoto(chatId, photo, caption, parseMode, disableNotification, replyToMessageId)
     }
 
     fun sendAudio(
@@ -187,6 +190,7 @@ class ApiClient(
         chatId: Long,
         document: SystemFile,
         caption: String? = null,
+        parseMode: String? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         replyMarkup: ReplyMarkup? = null
@@ -196,6 +200,7 @@ class ApiClient(
             convertString(chatId.toString()),
             convertFile("document", document),
             if (caption != null) convertString(caption) else null,
+            if (parseMode != null) convertString(parseMode) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
@@ -206,6 +211,7 @@ class ApiClient(
         chatId: Long,
         fileId: String,
         caption: String? = null,
+        parseMode: String? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         replyMarkup: ReplyMarkup? = null
@@ -215,6 +221,7 @@ class ApiClient(
             chatId,
             fileId,
             caption,
+            parseMode,
             disableNotification,
             replyToMessageId,
             replyMarkup
