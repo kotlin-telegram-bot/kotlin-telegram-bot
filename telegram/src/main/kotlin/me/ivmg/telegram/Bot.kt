@@ -291,6 +291,22 @@ class Bot private constructor(
 
     fun sendVoice(
         chatId: Long,
+        audio: ByteArray,
+        duration: Int? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        replyMarkup: ReplyMarkup? = null
+    ) = apiClient.sendVoice(
+        chatId,
+        audio,
+        duration,
+        disableNotification,
+        replyToMessageId,
+        replyMarkup
+    ).call()
+
+    fun sendVoice(
+        chatId: Long,
         audio: SystemFile,
         duration: Int? = null,
         disableNotification: Boolean? = null,
