@@ -13,12 +13,18 @@ import me.ivmg.telegram.dispatcher.handlers.CommandHandler
 import me.ivmg.telegram.dispatcher.handlers.ContactHandler
 import me.ivmg.telegram.dispatcher.handlers.Handler
 import me.ivmg.telegram.dispatcher.handlers.LocationHandler
+import me.ivmg.telegram.dispatcher.handlers.MessageHandler
 import me.ivmg.telegram.dispatcher.handlers.TextHandler
 import me.ivmg.telegram.entities.Update
 import me.ivmg.telegram.errors.TelegramError
+import me.ivmg.telegram.extensions.filters.Filter
 import me.ivmg.telegram.types.DispatchableObject
 import java.util.concurrent.BlockingQueue
 import java.util.concurrent.LinkedBlockingQueue
+
+fun Dispatcher.message(filter: Filter, handleUpdate: HandleUpdate) {
+    addHandler(MessageHandler(handleUpdate, filter))
+}
 
 fun Dispatcher.command(command: String, body: HandleUpdate) {
     addHandler(CommandHandler(command, body))
