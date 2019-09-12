@@ -1,5 +1,10 @@
 package me.ivmg.telegram.network
 
+import java.io.File as SystemFile
+import java.net.Proxy
+import java.nio.file.Files
+import java.util.Date
+import java.util.concurrent.TimeUnit
 import me.ivmg.telegram.entities.Chat
 import me.ivmg.telegram.entities.ChatAction
 import me.ivmg.telegram.entities.ChatMember
@@ -21,11 +26,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.net.Proxy
-import java.nio.file.Files
-import java.util.Date
-import java.util.concurrent.TimeUnit
-import java.io.File as SystemFile
 
 private val PLAIN_TEXT_MIME = MediaType.parse("text/plain")
 private val APPLICATION_JSON_MIME = MediaType.parse("application/json")

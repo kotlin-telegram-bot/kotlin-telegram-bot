@@ -1,9 +1,9 @@
 package me.ivmg.telegram.entities
 
+import com.google.gson.annotations.SerializedName as Name
 import me.ivmg.telegram.entities.payment.PreCheckoutQuery
 import me.ivmg.telegram.entities.payment.ShippingQuery
 import me.ivmg.telegram.types.DispatchableObject
-import com.google.gson.annotations.SerializedName as Name
 
 data class Update constructor(
     @Name("update_id") val updateId: Long,

@@ -1,5 +1,8 @@
 package me.ivmg.telegram
 
+import java.io.File as SystemFile
+import java.net.Proxy
+import java.util.Date
 import me.ivmg.telegram.dispatcher.Dispatcher
 import me.ivmg.telegram.entities.ChatAction
 import me.ivmg.telegram.entities.InlineKeyboardMarkup
@@ -15,9 +18,6 @@ import me.ivmg.telegram.network.ApiClient
 import me.ivmg.telegram.network.call
 import me.ivmg.telegram.types.DispatchableObject
 import okhttp3.logging.HttpLoggingInterceptor
-import java.net.Proxy
-import java.util.Date
-import java.io.File as SystemFile
 
 fun bot(body: Bot.Builder.() -> Unit) = Bot.Builder().build(body)
 

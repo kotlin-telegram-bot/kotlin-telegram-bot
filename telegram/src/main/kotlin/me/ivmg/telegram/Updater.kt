@@ -1,9 +1,9 @@
 package me.ivmg.telegram
 
-import me.ivmg.telegram.dispatcher.Dispatcher
-import me.ivmg.telegram.entities.Update
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
+import me.ivmg.telegram.dispatcher.Dispatcher
+import me.ivmg.telegram.entities.Update
 
 class Updater {
     private val executor: Executor = Executors.newCachedThreadPool()

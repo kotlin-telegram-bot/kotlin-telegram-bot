@@ -20,7 +20,7 @@ interface Filter {
         override fun Message.predicate(): Boolean = !this@Filter.checkFor(this)
     }
 
-    class Custom(private val customPredicate: Message.() -> Boolean): Filter {
+    class Custom(private val customPredicate: Message.() -> Boolean) : Filter {
         override fun Message.predicate(): Boolean = customPredicate()
     }
 

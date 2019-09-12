@@ -1,6 +1,7 @@
 package me.ivmg.telegram.network
 
 import com.google.gson.Gson
+import java.util.Date
 import me.ivmg.telegram.entities.Chat
 import me.ivmg.telegram.entities.ChatAction
 import me.ivmg.telegram.entities.ChatMember
@@ -24,7 +25,6 @@ import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Query
-import java.util.Date
 
 interface ApiService {
 

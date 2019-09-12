@@ -1,8 +1,8 @@
 package me.ivmg.telegram.entities.payment
 
 import com.google.gson.annotations.SerializedName
-import me.ivmg.telegram.entities.User
 import java.math.BigInteger
+import me.ivmg.telegram.entities.User
 
 /**
  *
