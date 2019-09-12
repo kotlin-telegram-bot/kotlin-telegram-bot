@@ -77,9 +77,6 @@ dependencies {
 }
 ```
 
-## TODO
-- webhook
-
 ## Contributing
 Pull requests are welcomed. ✨
 
