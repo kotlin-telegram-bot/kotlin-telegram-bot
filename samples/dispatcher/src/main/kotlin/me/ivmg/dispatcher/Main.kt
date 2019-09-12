@@ -9,6 +9,7 @@ import me.ivmg.telegram.dispatcher.command
 import me.ivmg.telegram.dispatcher.contact
 import me.ivmg.telegram.dispatcher.handlers.CallbackQueryHandler
 import me.ivmg.telegram.dispatcher.location
+import me.ivmg.telegram.dispatcher.message
 import me.ivmg.telegram.dispatcher.telegramError
 import me.ivmg.telegram.dispatcher.text
 import me.ivmg.telegram.entities.InlineKeyboardButton
@@ -16,6 +17,7 @@ import me.ivmg.telegram.entities.InlineKeyboardMarkup
 import me.ivmg.telegram.entities.KeyboardButton
 import me.ivmg.telegram.entities.KeyboardReplyMarkup
 import me.ivmg.telegram.entities.ReplyKeyboardRemove
+import me.ivmg.telegram.extensions.filters.Filter
 import me.ivmg.telegram.network.fold
 import okhttp3.logging.HttpLoggingInterceptor
 
@@ -28,6 +30,14 @@ fun main(args: Array<String>) {
         logLevel = HttpLoggingInterceptor.Level.BODY
 
         dispatch {
+            message(Filter.Sticker) { bot, update ->
+                bot.sendMessage(update.message!!.chat.id, text = "You have received an awesome sticker \\o/")
+            }
+
+            message(Filter.Reply or Filter.Forward) { bot, update ->
+                bot.sendMessage(update.message!!.chat.id, text = "someone is replying or forwarding messages ...")
+            }
+
             command("start") { bot, update ->
 
                 val result = bot.sendMessage(chatId = update.message!!.chat.id, text = "Bot started")

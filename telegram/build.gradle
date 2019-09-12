@@ -5,6 +5,7 @@ buildscript {
     ext.kotlin_version = '1.2.50'
 
     ext.retrofit_version = '2.3.0'
+    ext.junit_version = "5.5.1"
     ext.logging_interceptor_version = '3.9.1'
 
     repositories {
@@ -31,8 +32,10 @@ dependencies {
     compile "com.squareup.okhttp3:logging-interceptor:$logging_interceptor_version"
 
     // Testing
-    testCompile "junit:junit:4.12"
-    testCompile "org.mockito:mockito-core:2.15.0"
+    testImplementation "org.junit.jupiter:junit-jupiter:$junit_version"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:$junit_version"
+    testImplementation "io.mockk:mockk:1.9.3.kotlin12"
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
