@@ -17,7 +17,7 @@ import me.ivmg.telegram.entities.InlineKeyboardMarkup
 import me.ivmg.telegram.entities.KeyboardButton
 import me.ivmg.telegram.entities.KeyboardReplyMarkup
 import me.ivmg.telegram.entities.ReplyKeyboardRemove
-import me.ivmg.telegram.extensions.filters.Filters
+import me.ivmg.telegram.extensions.filters.Filter
 import me.ivmg.telegram.network.fold
 import okhttp3.logging.HttpLoggingInterceptor
 
@@ -30,11 +30,11 @@ fun main(args: Array<String>) {
         logLevel = HttpLoggingInterceptor.Level.BODY
 
         dispatch {
-            message(Filters.Sticker) { bot, update ->
+            message(Filter.Sticker) { bot, update ->
                 bot.sendMessage(update.message!!.chat.id, text = "You have received an awesome sticker \\o/")
             }
 
-            message(Filters.Reply or Filters.Forward) { bot, update ->
+            message(Filter.Reply or Filter.Forward) { bot, update ->
                 bot.sendMessage(update.message!!.chat.id, text = "someone is replying or forwarding messages ...")
             }
 
