@@ -10,8 +10,9 @@ import me.ivmg.telegram.entities.InputMedia
 import me.ivmg.telegram.entities.ParseMode
 import me.ivmg.telegram.entities.ReplyMarkup
 import me.ivmg.telegram.entities.Update
-import me.ivmg.telegram.entities.payment.PaymentInvoiceInfo
-import me.ivmg.telegram.entities.payment.ShippingOption
+import me.ivmg.telegram.entities.payments.PaymentInvoiceInfo
+import me.ivmg.telegram.entities.payments.ShippingOption
+import me.ivmg.telegram.entities.stickers.MaskPosition
 import me.ivmg.telegram.errors.RetrieveUpdatesError
 import me.ivmg.telegram.errors.TelegramError
 import me.ivmg.telegram.network.ApiClient
@@ -466,7 +467,8 @@ class Bot private constructor(
     fun kickChatMember(chatId: Long, userId: Long, untilDate: Date) =
         apiClient.kickChatMember(chatId, userId, untilDate).call()
 
-    fun unbanChatMember(chatId: Long, userId: Long) = apiClient.unbanChatMember(chatId, userId).call()
+    fun unbanChatMember(chatId: Long, userId: Long) =
+        apiClient.unbanChatMember(chatId, userId).call()
 
     fun restrictChatMember(
         chatId: Long,
@@ -610,6 +612,116 @@ class Bot private constructor(
     fun deleteMessage(chatId: Long? = null, messageId: Long? = null) =
         apiClient.deleteMessage(chatId, messageId).call()
 
+    /***
+     * Stickers
+     */
+
+    fun sendSticker(
+        chatId: Long,
+        sticker: SystemFile,
+        disableNotification: Boolean?,
+        replyToMessageId: Int?,
+        replyMarkup: ReplyMarkup?
+    ) = apiClient.sendSticker(chatId, sticker, disableNotification, replyToMessageId, replyMarkup)
+
+    fun sendSticker(
+        chatId: Long,
+        sticker: String,
+        disableNotification: Boolean?,
+        replyToMessageId: Int?,
+        replyMarkup: ReplyMarkup?
+    ) = apiClient.sendSticker(chatId, sticker, disableNotification, replyToMessageId, replyMarkup)
+
+    fun getStickerSet(
+        name: String
+    ) = apiClient.getStickerSet(name)
+
+    fun uploadStickerFile(
+        userId: Long,
+        pngSticker: SystemFile
+    ) = apiClient.uploadStickerFile(
+        userId,
+        pngSticker
+    )
+
+    fun createNewStickerSet(
+        userId: Long,
+        name: String,
+        title: String,
+        pngSticker: SystemFile,
+        emojis: String,
+        containsMasks: Boolean?,
+        maskPosition: MaskPosition?
+    ) = apiClient.createNewStickerSet(
+        userId,
+        name,
+        title,
+        pngSticker,
+        emojis,
+        containsMasks,
+        maskPosition
+    )
+
+    fun createNewStickerSet(
+        userId: Long,
+        name: String,
+        title: String,
+        pngSticker: String,
+        emojis: String,
+        containsMasks: Boolean?,
+        maskPosition: MaskPosition?
+    ) = apiClient.createNewStickerSet(
+        userId,
+        name,
+        title,
+        pngSticker,
+        emojis,
+        containsMasks,
+        maskPosition
+    )
+
+    fun addStickerToSet(
+        userId: Long,
+        name: String,
+        pngSticker: SystemFile,
+        emojis: String,
+        maskPosition: MaskPosition?
+    ) = apiClient.addStickerToSet(
+        userId,
+        name,
+        pngSticker,
+        emojis,
+        maskPosition
+    )
+
+    fun addStickerToSet(
+        userId: Long,
+        name: String,
+        pngSticker: String,
+        emojis: String,
+        maskPosition: MaskPosition?
+    ) = apiClient.addStickerToSet(
+        userId,
+        name,
+        pngSticker,
+        emojis,
+        maskPosition
+    )
+
+    fun setStickerPositionInSet(
+        sticker: String,
+        position: Int
+    ) = apiClient.setStickerPositionInSet(
+        sticker,
+        position
+    )
+
+    fun deleteStickerFromSet(
+        sticker: String
+    ) = apiClient.deleteStickerFromSet(
+        sticker
+    )
+
     /**
      * Payments
      */
@@ -677,10 +789,4 @@ class Bot private constructor(
         ok,
         errorMessage
     ).call()
-
-    /***
-     * Stickers
-     */
-
-    // TODO sticker methods
 }

@@ -10,16 +10,16 @@ import me.ivmg.telegram.entities.Location
 import me.ivmg.telegram.entities.Message
 import me.ivmg.telegram.entities.MessageEntity
 import me.ivmg.telegram.entities.PhotoSize
-import me.ivmg.telegram.entities.Sticker
 import me.ivmg.telegram.entities.Update
 import me.ivmg.telegram.entities.User
 import me.ivmg.telegram.entities.Venue
 import me.ivmg.telegram.entities.Video
 import me.ivmg.telegram.entities.VideoNote
 import me.ivmg.telegram.entities.Voice
-import me.ivmg.telegram.entities.payment.PreCheckoutQuery
-import me.ivmg.telegram.entities.payment.ShippingQuery
-import me.ivmg.telegram.entities.payment.SuccessfulPayment
+import me.ivmg.telegram.entities.payments.PreCheckoutQuery
+import me.ivmg.telegram.entities.payments.ShippingQuery
+import me.ivmg.telegram.entities.payments.SuccessfulPayment
+import me.ivmg.telegram.entities.stickers.Sticker
 
 private const val ANY_UPDATE_ID = 3523523L
 

@@ -1,4 +1,4 @@
-package me.ivmg.telegram.entities.payment
+package me.ivmg.telegram.entities.payments
 
 data class ShippingOption(
     val id: String,

@@ -16,8 +16,10 @@ import me.ivmg.telegram.entities.ReplyMarkup
 import me.ivmg.telegram.entities.Update
 import me.ivmg.telegram.entities.User
 import me.ivmg.telegram.entities.UserProfilePhotos
-import me.ivmg.telegram.entities.payment.LabeledPrice
-import me.ivmg.telegram.entities.payment.ShippingOption
+import me.ivmg.telegram.entities.payments.LabeledPrice
+import me.ivmg.telegram.entities.payments.ShippingOption
+import me.ivmg.telegram.entities.stickers.MaskPosition
+import me.ivmg.telegram.entities.stickers.StickerSet
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
@@ -33,7 +35,11 @@ private val APPLICATION_JSON_MIME = MediaType.parse("application/json")
 private fun convertString(text: String) = RequestBody.create(PLAIN_TEXT_MIME, text)
 private fun convertJson(text: String) = RequestBody.create(APPLICATION_JSON_MIME, text)
 
-private fun convertFile(name: String, file: SystemFile, mimeType: String? = null): MultipartBody.Part {
+private fun convertFile(
+    name: String,
+    file: SystemFile,
+    mimeType: String? = null
+): MultipartBody.Part {
     val mediaType = (mimeType ?: Files.probeContentType(file.toPath()))?.let { MediaType.parse(it) }
     val requestBody = RequestBody.create(mediaType, file)
 
@@ -71,7 +77,11 @@ class ApiClient(
         service = retrofit.create(ApiService::class.java)
     }
 
-    fun getUpdates(offset: Long? = null, limit: Int? = null, timeout: Int? = botTimeout): Call<Response<List<Update>>> {
+    fun getUpdates(
+        offset: Long? = null,
+        limit: Int? = null,
+        timeout: Int? = botTimeout
+    ): Call<Response<List<Update>>> {
         return service.getUpdates(offset, limit, timeout)
     }
 
@@ -137,7 +147,14 @@ class ApiClient(
         replyToMessageId: Long? = null
     ): Call<Response<Message>> {
 
-        return service.sendPhoto(chatId, photo, caption, parseMode, disableNotification, replyToMessageId)
+        return service.sendPhoto(
+            chatId,
+            photo,
+            caption,
+            parseMode,
+            disableNotification,
+            replyToMessageId
+        )
     }
 
     fun sendAudio(
@@ -479,7 +496,11 @@ class ApiClient(
         return service.sendChatAction(chatId, action)
     }
 
-    fun getUserProfilePhotos(userId: Long, offset: Long?, limit: Int?): Call<Response<UserProfilePhotos>> {
+    fun getUserProfilePhotos(
+        userId: Long,
+        offset: Long?,
+        limit: Int?
+    ): Call<Response<UserProfilePhotos>> {
 
         return service.getUserProfilePhotos(userId, offset, limit)
     }
@@ -574,7 +595,11 @@ class ApiClient(
         return service.setChatDescription(chatId, description)
     }
 
-    fun pinChatMessage(chatId: Long, messageId: Long, disableNotification: Boolean?): Call<Response<Boolean>> {
+    fun pinChatMessage(
+        chatId: Long,
+        messageId: Long,
+        disableNotification: Boolean?
+    ): Call<Response<Boolean>> {
 
         return service.pinChatMessage(chatId, messageId, disableNotification)
     }
@@ -727,7 +752,8 @@ class ApiClient(
         replyToMessageId: Long? = null,
         replyMarkup: InlineKeyboardMarkup? = null
     ): Call<Response<Message>> {
-        return service.sendInvoice(chatId = chatId,
+        return service.sendInvoice(
+            chatId = chatId,
             title = title,
             description = description,
             payload = payload,
@@ -749,7 +775,8 @@ class ApiClient(
             isFlexible = isFlexible,
             disableNotification = disableNotification,
             replyMarkup = replyMarkup,
-            replyToMessageId = replyToMessageId)
+            replyToMessageId = replyToMessageId
+        )
     }
 
     fun answerShippingQuery(
@@ -769,5 +796,151 @@ class ApiClient(
      * Stickers
      */
 
-    // TODO sticker methods
+    fun sendSticker(
+        chatId: Long,
+        sticker: SystemFile,
+        disableNotification: Boolean?,
+        replyToMessageId: Int?,
+        replyMarkup: ReplyMarkup?
+    ): Call<Response<Message>> {
+
+        return service.sendSticker(
+            convertString(chatId.toString()),
+            convertFile("photo", sticker),
+            if (disableNotification != null) convertString(disableNotification.toString()) else null,
+            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
+            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
+        )
+    }
+
+    fun sendSticker(
+        chatId: Long,
+        sticker: String,
+        disableNotification: Boolean?,
+        replyToMessageId: Int?,
+        replyMarkup: ReplyMarkup?
+    ): Call<Response<Message>> {
+
+        return service.sendSticker(
+            chatId,
+            sticker,
+            disableNotification,
+            replyToMessageId,
+            replyMarkup
+        )
+    }
+
+    fun getStickerSet(
+        name: String
+    ): Call<Response<StickerSet>> {
+
+        return service.getStickerSet(name)
+    }
+
+    fun uploadStickerFile(
+        userId: Long,
+        pngSticker: SystemFile
+    ): Call<Response<File>> {
+
+        return service.uploadStickerFile(
+            convertString(userId.toString()),
+            convertFile("photo", pngSticker)
+        )
+    }
+
+    fun createNewStickerSet(
+        userId: Long,
+        name: String,
+        title: String,
+        pngSticker: SystemFile,
+        emojis: String,
+        containsMasks: Boolean?,
+        maskPosition: MaskPosition?
+    ): Call<Response<Boolean>> {
+
+        return service.createNewStickerSet(
+            convertString(userId.toString()),
+            convertString(name),
+            convertString(title),
+            convertFile("photo", pngSticker),
+            convertString(emojis),
+            if (containsMasks != null) convertString(containsMasks.toString()) else null,
+            if (maskPosition != null) convertJson(maskPosition.toString()) else null
+            )
+    }
+
+    fun createNewStickerSet(
+        userId: Long,
+        name: String,
+        title: String,
+        pngSticker: String,
+        emojis: String,
+        containsMasks: Boolean?,
+        maskPosition: MaskPosition?
+    ): Call<Response<Boolean>> {
+
+        return service.createNewStickerSet(
+            userId,
+            name,
+            title,
+            pngSticker,
+            emojis,
+            containsMasks,
+            maskPosition
+        )
+    }
+
+    fun addStickerToSet(
+        userId: Long,
+        name: String,
+        pngSticker: SystemFile,
+        emojis: String,
+        maskPosition: MaskPosition?
+    ): Call<Response<Boolean>> {
+
+        return service.addStickerToSet(
+            convertString(userId.toString()),
+            convertString(name),
+            convertFile("photo", pngSticker),
+            convertString(emojis),
+            if (maskPosition != null) convertJson(maskPosition.toString()) else null
+            )
+    }
+
+    fun addStickerToSet(
+        userId: Long,
+        name: String,
+        pngSticker: String,
+        emojis: String,
+        maskPosition: MaskPosition?
+    ): Call<Response<Boolean>> {
+
+        return service.addStickerToSet(
+            userId,
+            name,
+            pngSticker,
+            emojis,
+            maskPosition
+        )
+    }
+
+    fun setStickerPositionInSet(
+        sticker: String,
+        position: Int
+    ): Call<Response<Boolean>> {
+
+        return service.setStickerPositionInSet(
+            sticker,
+            position
+        )
+    }
+
+    fun deleteStickerFromSet(
+        sticker: String
+    ): Call<Response<Boolean>> {
+
+        return service.deleteStickerFromSet(
+            sticker
+        )
+    }
 }

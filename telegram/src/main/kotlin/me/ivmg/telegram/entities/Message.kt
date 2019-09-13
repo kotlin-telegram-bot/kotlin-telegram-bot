@@ -1,7 +1,8 @@
 package me.ivmg.telegram.entities
 
 import com.google.gson.annotations.SerializedName as Name
-import me.ivmg.telegram.entities.payment.SuccessfulPayment
+import me.ivmg.telegram.entities.payments.SuccessfulPayment
+import me.ivmg.telegram.entities.stickers.Sticker
 
 // TODO not all fields are added
 

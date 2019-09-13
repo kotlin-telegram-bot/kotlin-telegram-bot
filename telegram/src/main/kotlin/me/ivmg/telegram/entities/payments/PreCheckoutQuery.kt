@@ -1,4 +1,4 @@
-package me.ivmg.telegram.entities.payment
+package me.ivmg.telegram.entities.payments
 
 import com.google.gson.annotations.SerializedName
 import java.math.BigInteger

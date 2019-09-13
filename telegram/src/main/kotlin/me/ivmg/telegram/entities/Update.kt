@@ -1,8 +1,8 @@
 package me.ivmg.telegram.entities
 
 import com.google.gson.annotations.SerializedName as Name
-import me.ivmg.telegram.entities.payment.PreCheckoutQuery
-import me.ivmg.telegram.entities.payment.ShippingQuery
+import me.ivmg.telegram.entities.payments.PreCheckoutQuery
+import me.ivmg.telegram.entities.payments.ShippingQuery
 import me.ivmg.telegram.types.DispatchableObject
 
 data class Update constructor(

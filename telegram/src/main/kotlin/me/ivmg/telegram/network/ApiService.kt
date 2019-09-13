@@ -12,8 +12,10 @@ import me.ivmg.telegram.entities.ReplyMarkup
 import me.ivmg.telegram.entities.Update
 import me.ivmg.telegram.entities.User
 import me.ivmg.telegram.entities.UserProfilePhotos
-import me.ivmg.telegram.entities.payment.LabeledPrice
-import me.ivmg.telegram.entities.payment.ShippingOption
+import me.ivmg.telegram.entities.payments.LabeledPrice
+import me.ivmg.telegram.entities.payments.ShippingOption
+import me.ivmg.telegram.entities.stickers.MaskPosition
+import me.ivmg.telegram.entities.stickers.StickerSet
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -485,11 +487,12 @@ interface ApiService {
     /***
      * Stickers
      */
+
     @Multipart
     @POST("sendSticker")
     fun sendSticker(
         @Part("chat_id") chatId: RequestBody,
-        @Part("sticker") sticker: RequestBody,
+        @Part("sticker") sticker: MultipartBody.Part,
         @Part("disable_notification") disableNotification: RequestBody?,
         @Part("reply_to_message_id") replyToMessageId: RequestBody?,
         @Part("reply_markup") replyMarkup: RequestBody? = null
@@ -501,9 +504,78 @@ interface ApiService {
         @Field("chat_id") chatId: Long,
         @Field("sticker") fileId: String,
         @Field("disable_notification") disableNotification: Boolean?,
-        @Field("reply_to_message_id") replyToMessageId: Long?,
+        @Field("reply_to_message_id") replyToMessageId: Int?,
         @Field("reply_markup") replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
+
+    @GET("getStickerSet")
+    fun getStickerSet(
+        @Field("name") name: String
+    ): Call<Response<StickerSet>>
+
+    @Multipart
+    @POST("uploadStickerFile")
+    fun uploadStickerFile(
+        @Part("user_id") userId: RequestBody,
+        @Part("png_sticker") pngSticker: MultipartBody.Part
+    ): Call<Response<File>>
+
+    @Multipart
+    @POST("createNewStickerSet")
+    fun createNewStickerSet(
+        @Part("user_id") userId: RequestBody,
+        @Part("name") name: RequestBody,
+        @Part("title") title: RequestBody,
+        @Part("png_sticker") pngSticker: MultipartBody.Part,
+        @Part("emojis") emojis: RequestBody,
+        @Part("contains_masks") containsMasks: RequestBody?,
+        @Part("mask_position") maskPosition: RequestBody?
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("createNewStickerSet")
+    fun createNewStickerSet(
+        @Field("user_id") userId: Long,
+        @Field("name") name: String,
+        @Field("title") title: String,
+        @Field("png_sticker") fileId: String,
+        @Field("emojis") emojis: String,
+        @Field("contains_masks") containsMasks: Boolean?,
+        @Field("mask_position") maskPosition: MaskPosition?
+    ): Call<Response<Boolean>>
+
+    @Multipart
+    @POST("addStickerToSet")
+    fun addStickerToSet(
+        @Part("user_id") userId: RequestBody,
+        @Part("name") name: RequestBody,
+        @Part("png_sticker") pngSticker: MultipartBody.Part,
+        @Part("emojis") emojis: RequestBody,
+        @Part("mask_position") maskPosition: RequestBody?
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("addStickerToSet")
+    fun addStickerToSet(
+        @Field("user_id") userId: Long,
+        @Field("name") name: String,
+        @Field("png_sticker") fileId: String,
+        @Field("emojis") emojis: String,
+        @Field("mask_position") maskPosition: MaskPosition?
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("setStickerPositionInSet")
+    fun setStickerPositionInSet(
+        @Part("sticker") sticker: String,
+        @Part("position") position: Int
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("deleteStickerFromSet")
+    fun deleteStickerFromSet(
+        @Part("sticker") sticker: String
+    ): Call<Response<Boolean>>
 
     /**
      * Payment

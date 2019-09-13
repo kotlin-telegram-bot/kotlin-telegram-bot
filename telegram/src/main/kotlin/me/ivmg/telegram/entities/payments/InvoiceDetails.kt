@@ -1,4 +1,4 @@
-package me.ivmg.telegram.entities.payment
+package me.ivmg.telegram.entities.payments
 
 /**
  * @property [needName] Pass True, if you require the user's full name to complete the order.
