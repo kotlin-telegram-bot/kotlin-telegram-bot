@@ -1,9 +1,12 @@
-package me.ivmg.telegram.entities
+package me.ivmg.telegram.entities.inputmedia
 
-data class InputMediaVideo(
+import com.google.gson.annotations.SerializedName as Name
+
+data class InputMediaAudio(
     override val type: String,
     override val media: String,
     override val caption: String?,
+    @Name("parse_mode") val parseMode: String?,
     val width: Int?,
     val height: Int?,
     val duration: Int?

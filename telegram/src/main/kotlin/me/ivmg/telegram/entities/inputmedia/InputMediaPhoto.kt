@@ -1,4 +1,4 @@
-package me.ivmg.telegram.entities
+package me.ivmg.telegram.entities.inputmedia
 
 data class InputMediaPhoto(
     override val type: String,

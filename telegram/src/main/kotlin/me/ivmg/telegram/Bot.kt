@@ -6,10 +6,10 @@ import java.util.Date
 import me.ivmg.telegram.dispatcher.Dispatcher
 import me.ivmg.telegram.entities.ChatAction
 import me.ivmg.telegram.entities.InlineKeyboardMarkup
-import me.ivmg.telegram.entities.InputMedia
 import me.ivmg.telegram.entities.ParseMode
 import me.ivmg.telegram.entities.ReplyMarkup
 import me.ivmg.telegram.entities.Update
+import me.ivmg.telegram.entities.inputmedia.InputMedia
 import me.ivmg.telegram.entities.payments.PaymentInvoiceInfo
 import me.ivmg.telegram.entities.payments.ShippingOption
 import me.ivmg.telegram.entities.stickers.MaskPosition

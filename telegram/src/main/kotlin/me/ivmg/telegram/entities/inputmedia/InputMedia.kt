@@ -1,4 +1,4 @@
-package me.ivmg.telegram.entities
+package me.ivmg.telegram.entities.inputmedia
 
 abstract class InputMedia {
     abstract val type: String

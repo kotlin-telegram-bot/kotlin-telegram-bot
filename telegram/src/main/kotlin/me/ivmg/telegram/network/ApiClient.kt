@@ -10,12 +10,12 @@ import me.ivmg.telegram.entities.ChatAction
 import me.ivmg.telegram.entities.ChatMember
 import me.ivmg.telegram.entities.File
 import me.ivmg.telegram.entities.InlineKeyboardMarkup
-import me.ivmg.telegram.entities.InputMedia
 import me.ivmg.telegram.entities.Message
 import me.ivmg.telegram.entities.ReplyMarkup
 import me.ivmg.telegram.entities.Update
 import me.ivmg.telegram.entities.User
 import me.ivmg.telegram.entities.UserProfilePhotos
+import me.ivmg.telegram.entities.inputmedia.InputMedia
 import me.ivmg.telegram.entities.payments.LabeledPrice
 import me.ivmg.telegram.entities.payments.ShippingOption
 import me.ivmg.telegram.entities.stickers.MaskPosition
