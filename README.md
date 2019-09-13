@@ -78,7 +78,12 @@ dependencies {
 ```
 
 ## Contributing
-Pull requests are welcomed. ✨
+
+ 1. **Fork** and **clone** the repo
+ 2. Run `./gradlew ktlintFormat`
+ 3. Run `./gradlew check` to see if tests and ktlint pass.  
+ 4. **Commit** and **push** your changes
+ 5. Submit a **pull request** to get your changes reviewed
 
 ## Thanks
 - Big part of the architecture of this project is inspired by [python-telegram-bot](https://github.com/python-telegram-bot/python-telegram-bot), check it out!
