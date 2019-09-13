@@ -555,11 +555,8 @@ class ApiClient(
     fun setChatPhoto(
         chatId: Long,
         photo: SystemFile
-    ) {
-
-        // TODO
-        // val inputFile = InputFile(chatId = chatId, photo = photo)
-        // return service.setChatPhoto(chatId, )
+    ): Call<Response<Boolean>> {
+        return service.setChatPhoto(convertString(chatId.toString()), convertFile("photo", photo))
     }
 
     fun deleteChatPhoto(chatId: Long): Call<Response<Boolean>> {

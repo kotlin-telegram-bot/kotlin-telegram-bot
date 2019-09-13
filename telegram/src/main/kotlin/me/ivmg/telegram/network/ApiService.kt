@@ -6,7 +6,6 @@ import me.ivmg.telegram.entities.Chat
 import me.ivmg.telegram.entities.ChatAction
 import me.ivmg.telegram.entities.ChatMember
 import me.ivmg.telegram.entities.File
-import me.ivmg.telegram.entities.InputFile
 import me.ivmg.telegram.entities.InputMedia
 import me.ivmg.telegram.entities.Message
 import me.ivmg.telegram.entities.ReplyMarkup
@@ -47,8 +46,8 @@ interface ApiService {
     @GET("getMe")
     fun getMe(): Call<Response<User>>
 
-    @POST("sendMessage")
     @FormUrlEncoded
+    @POST("sendMessage")
     fun sendMessage(
         @Field("chat_id") chatId: Long,
         @Field("text") text: String,
@@ -59,8 +58,8 @@ interface ApiService {
         @Field("reply_markup") replyMarkup: ReplyMarkup?
     ): Call<Response<Message>>
 
-    @POST("forwardMessage")
     @FormUrlEncoded
+    @POST("forwardMessage")
     fun forwardMessage(
         @Field("chat_id") chatId: Long,
         @Field("from_chat_id") fromChatId: Long,
@@ -68,8 +67,8 @@ interface ApiService {
         @Field("message_id") messageId: Long
     ): Call<Response<Message>>
 
-    @POST("sendPhoto")
     @Multipart
+    @POST("sendPhoto")
     fun sendPhoto(
         @Part("chat_id") chatId: RequestBody,
         @Part photo: MultipartBody.Part,
@@ -80,8 +79,8 @@ interface ApiService {
         @Part("reply_markup") replyMarkup: RequestBody? = null
     ): Call<Response<Message>>
 
-    @POST("sendPhoto")
     @FormUrlEncoded
+    @POST("sendPhoto")
     fun sendPhoto(
         @Field("chat_id") chatId: Long,
         @Field("photo") fileId: String,
@@ -92,8 +91,8 @@ interface ApiService {
         @Field("reply_markup") replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
-    @POST("sendAudio")
     @Multipart
+    @POST("sendAudio")
     fun sendAudio(
         @Part("chat_id") chatId: RequestBody,
         @Part audio: MultipartBody.Part,
@@ -105,8 +104,8 @@ interface ApiService {
         @Part("reply_markup") replyMarkup: RequestBody? = null
     ): Call<Response<Message>>
 
-    @POST("sendAudio")
     @FormUrlEncoded
+    @POST("sendAudio")
     fun sendAudio(
         @Field("chat_id") chatId: Long,
         @Field("audio") fileId: String,
@@ -130,8 +129,8 @@ interface ApiService {
         @Part("reply_markup") replyMarkup: RequestBody? = null
     ): Call<Response<Message>>
 
-    @POST("sendDocument")
     @FormUrlEncoded
+    @POST("sendDocument")
     fun sendDocument(
         @Field("chat_id") chatId: Long,
         @Field("document") fileId: String,
@@ -142,8 +141,8 @@ interface ApiService {
         @Field("reply_markup") replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
-    @POST("sendVideo")
     @Multipart
+    @POST("sendVideo")
     fun sendVideo(
         @Part("chat_id") chatId: RequestBody,
         @Part video: MultipartBody.Part,
@@ -156,8 +155,8 @@ interface ApiService {
         @Part("reply_markup") replyMarkup: RequestBody? = null
     ): Call<Response<Message>>
 
-    @POST("sendVideo")
     @FormUrlEncoded
+    @POST("sendVideo")
     fun sendVideo(
         @Field("chat_id") chatId: Long,
         @Field("video") fileId: String,
@@ -170,8 +169,8 @@ interface ApiService {
         @Field("reply_markup") replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
-    @POST("sendVoice")
     @Multipart
+    @POST("sendVoice")
     fun sendVoice(
         @Part("chat_id") chatId: RequestBody,
         @Part voice: MultipartBody.Part,
@@ -181,8 +180,8 @@ interface ApiService {
         @Part("reply_markup") replyMarkup: RequestBody? = null
     ): Call<Response<Message>>
 
-    @POST("sendVoice")
     @FormUrlEncoded
+    @POST("sendVoice")
     fun sendVoice(
         @Field("chat_id") chatId: Long,
         @Field("voice") fileId: String,
@@ -204,8 +203,8 @@ interface ApiService {
         @Part("reply_markup") replyMarkup: RequestBody? = null
     ): Call<Response<Message>>
 
-    @POST("sendVideoNote")
     @FormUrlEncoded
+    @POST("sendVideoNote")
     fun sendVideoNote(
         @Field("chat_id") chatId: Long,
         @Field("video_note") fileId: String,
@@ -216,8 +215,8 @@ interface ApiService {
         @Field("reply_markup") replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
-    @POST("sendMediaGroup")
     @FormUrlEncoded
+    @POST("sendMediaGroup")
     fun sendMediaGroup(
         @Field("chat_id") chatId: Long,
         @Field("media") media: List<InputMedia>,
@@ -225,8 +224,8 @@ interface ApiService {
         @Field("reply_to_message_id") replyToMessageId: Long?
     ): Call<Response<Message>>
 
-    @POST("sendLocation")
     @FormUrlEncoded
+    @POST("sendLocation")
     fun sendLocation(
         @Field("chat_id") chatId: Long,
         @Field("latitude") latitude: Float,
@@ -237,8 +236,8 @@ interface ApiService {
         @Field("reply_markup") replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
-    @POST("editMessageLiveLocation")
     @FormUrlEncoded
+    @POST("editMessageLiveLocation")
     fun editMessageLiveLocation(
         @Field("chat_id") chatId: Long?,
         @Field("message_id") messageId: Long?,
@@ -248,8 +247,8 @@ interface ApiService {
         @Field("reply_markup") replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
-    @POST("stopMessageLiveLocation")
     @FormUrlEncoded
+    @POST("stopMessageLiveLocation")
     fun stopMessageLiveLocation(
         @Field("chat_id") chatId: Long?,
         @Field("message_id") messageId: Long?,
@@ -257,8 +256,8 @@ interface ApiService {
         @Field("reply_markup") replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
-    @POST("sendVenue")
     @FormUrlEncoded
+    @POST("sendVenue")
     fun sendVenue(
         @Field("chat_id") chatId: Long,
         @Field("latitude") latitude: Float,
@@ -283,8 +282,8 @@ interface ApiService {
         @Field("reply_markup") replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
-    @POST("sendChatAction")
     @FormUrlEncoded
+    @POST("sendChatAction")
     fun sendChatAction(
         @Field("chat_id") chatId: Long,
         @Field("action") action: ChatAction
@@ -302,23 +301,23 @@ interface ApiService {
         @Query("file_id") fileId: String
     ): Call<Response<File>>
 
-    @POST("kickChatMember")
     @FormUrlEncoded
+    @POST("kickChatMember")
     fun kickChatMember(
         @Field("chat_id") chatId: Long,
         @Field("user_id") userId: Long,
         @Field("until_date") untilDate: Date
     ): Call<Response<Boolean>>
 
-    @POST("unbanChatMember")
     @FormUrlEncoded
+    @POST("unbanChatMember")
     fun unbanChatMember(
         @Field("chat_id") chatId: Long,
         @Field("user_id") userId: Long
     ): Call<Response<Boolean>>
 
-    @POST("restrictChatMember")
     @FormUrlEncoded
+    @POST("restrictChatMember")
     fun restrictChatMember(
         @Field("chat_id") chatId: Long,
         @Field("user_id") userId: Long,
@@ -329,8 +328,8 @@ interface ApiService {
         @Field("can_add_web_page_previews") canAddWebPagePreviews: Boolean?
     ): Call<Response<Boolean>>
 
-    @POST("promoteChatMember")
     @FormUrlEncoded
+    @POST("promoteChatMember")
     fun promoteChatMember(
         @Field("chat_id") chatId: Long,
         @Field("user_id") userId: Long,
@@ -344,55 +343,55 @@ interface ApiService {
         @Field("can_promote_members") canPromoteMembers: Boolean?
     ): Call<Response<Boolean>>
 
-    @POST("exportChatInviteLink")
     @FormUrlEncoded
+    @POST("exportChatInviteLink")
     fun exportChatInviteLink(
         @Field("chat_id") chatId: Long
     ): Call<Response<String>>
 
+    @Multipart
     @POST("setChatPhoto")
-    @FormUrlEncoded
     fun setChatPhoto(
-        @Field("chat_id") chatId: Long,
-        @Field("photo") photo: InputFile
+        @Part("chat_id") chatId: RequestBody,
+        @Part("photo") photo: MultipartBody.Part
     ): Call<Response<Boolean>>
 
-    @POST("deleteChatPhoto")
     @FormUrlEncoded
+    @POST("deleteChatPhoto")
     fun deleteChatPhoto(
         @Field("chat_id") chatId: Long
     ): Call<Response<Boolean>>
 
-    @POST("setChatTitle")
     @FormUrlEncoded
+    @POST("setChatTitle")
     fun setChatTitle(
         @Field("chat_id") chatId: Long,
         @Field("title") title: String
     ): Call<Response<Boolean>>
 
-    @POST("setChatDescription")
     @FormUrlEncoded
+    @POST("setChatDescription")
     fun setChatDescription(
         @Field("chat_id") chatId: Long,
         @Field("description") description: String
     ): Call<Response<Boolean>>
 
-    @POST("pinChatMessage")
     @FormUrlEncoded
+    @POST("pinChatMessage")
     fun pinChatMessage(
         @Field("chat_id") chatId: Long,
         @Field("message_id") messageId: Long,
         @Field("disable_notification") disableNotification: Boolean?
     ): Call<Response<Boolean>>
 
-    @POST("unpinChatMessage")
     @FormUrlEncoded
+    @POST("unpinChatMessage")
     fun unpinChatMessage(
         @Field("chat_id") chatId: Long
     ): Call<Response<Boolean>>
 
-    @POST("leaveChat")
     @FormUrlEncoded
+    @POST("leaveChat")
     fun leaveChat(
         @Field("chat_id") chatId: Long
     ): Call<Response<Boolean>>
@@ -418,21 +417,21 @@ interface ApiService {
         @Query("user_id") userId: Long
     ): Call<Response<ChatMember>>
 
-    @POST("setChatStickerSet")
     @FormUrlEncoded
+    @POST("setChatStickerSet")
     fun setChatStickerSet(
         @Field("chat_id") chatId: Long,
         @Field("sticker_set_name") stickerSetName: String
     ): Call<Response<Boolean>>
 
-    @POST("deleteChatStickerSet")
     @FormUrlEncoded
+    @POST("deleteChatStickerSet")
     fun deleteChatStickerSet(
         @Field("chat_id") chatId: Long
     ): Call<Response<Boolean>>
 
-    @POST("answerCallbackQuery")
     @FormUrlEncoded
+    @POST("answerCallbackQuery")
     fun answerCallbackQuery(
         @Field("callback_query_id") callbackQueryId: String,
         @Field("text") text: String?,
@@ -445,8 +444,8 @@ interface ApiService {
      * Updating messages
      */
 
-    @POST("editMessageText")
     @FormUrlEncoded
+    @POST("editMessageText")
     fun editMessageText(
         @Field("chat_id") chatId: Long?,
         @Field("message_id") messageId: Long?,
@@ -457,8 +456,8 @@ interface ApiService {
         @Field("reply_markup") replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
-    @POST("editMessageCaption")
     @FormUrlEncoded
+    @POST("editMessageCaption")
     fun editMessageCaption(
         @Field("chat_id") chatId: Long?,
         @Field("message_id") messageId: Long?,
@@ -467,8 +466,8 @@ interface ApiService {
         @Field("reply_markup") replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
-    @POST("editMessageReplyMarkup")
     @FormUrlEncoded
+    @POST("editMessageReplyMarkup")
     fun editMessageReplyMarkup(
         @Field("chat_id") chatId: Long?,
         @Field("message_id") messageId: Long?,
@@ -476,8 +475,8 @@ interface ApiService {
         @Field("reply_markup") replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
-    @POST("deleteMessage")
     @FormUrlEncoded
+    @POST("deleteMessage")
     fun deleteMessage(
         @Field("chat_id") chatId: Long?,
         @Field("message_id") messageId: Long?
@@ -486,8 +485,8 @@ interface ApiService {
     /***
      * Stickers
      */
-    @POST("sendSticker")
     @Multipart
+    @POST("sendSticker")
     fun sendSticker(
         @Part("chat_id") chatId: RequestBody,
         @Part("sticker") sticker: RequestBody,
@@ -496,8 +495,8 @@ interface ApiService {
         @Part("reply_markup") replyMarkup: RequestBody? = null
     ): Call<Response<Message>>
 
-    @POST("sendSticker")
     @FormUrlEncoded
+    @POST("sendSticker")
     fun sendSticker(
         @Field("chat_id") chatId: Long,
         @Field("sticker") fileId: String,
@@ -509,8 +508,9 @@ interface ApiService {
     /**
      * Payment
      */
-    @POST("sendInvoice")
+
     @FormUrlEncoded
+    @POST("sendInvoice")
     fun sendInvoice(
         @Field("chat_id") chatId: Long,
         @Field("title") title: String,
@@ -537,8 +537,8 @@ interface ApiService {
         @Field("reply_markup") replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
-    @POST("answerShippingQuery")
     @FormUrlEncoded
+    @POST("answerShippingQuery")
     fun answerShippingQuery(
         @Field("shipping_query_id") shippingQueryId: String,
         @Field("ok") ok: Boolean,
@@ -546,8 +546,8 @@ interface ApiService {
         @Field("error_message") errorMessage: String? = null
     ): Call<Response<Boolean>>
 
-    @POST("answerPreCheckoutQuery")
     @FormUrlEncoded
+    @POST("answerPreCheckoutQuery")
     fun answerPreCheckoutQuery(
         @Field("pre_checkout_query_id") preCheckoutQueryId: String,
         @Field("ok") ok: Boolean,

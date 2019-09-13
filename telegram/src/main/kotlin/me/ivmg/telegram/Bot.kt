@@ -515,12 +515,8 @@ class Bot private constructor(
     fun setChatPhoto(
         chatId: Long,
         photo: SystemFile
-    ) {
-
-        // TODO
-        // val inputFile = InputFile(chatId = chatId, photo = photo)
-        // return service.setChatPhoto(chatId, )
-    }
+    ) =
+        apiClient.setChatPhoto(chatId, photo)
 
     fun deleteChatPhoto(chatId: Long) = apiClient.deleteChatPhoto(chatId).call()
 
