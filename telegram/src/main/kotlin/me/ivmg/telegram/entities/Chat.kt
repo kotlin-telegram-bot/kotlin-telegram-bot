@@ -6,15 +6,15 @@ import me.ivmg.telegram.entities.stickers.ChatPermissions
 data class Chat(
     val id: Long,
     val type: String,
-    val title: String?,
-    val username: String?,
-    @Name("first_name") val firstName: String?,
-    @Name("last_name") val lastName: String?,
-    val photo: ChatPhoto?,
-    val description: String?,
-    @Name("invite_link") val inviteLink: String?,
-    @Name("pinned_message") val pinnedMessage: String?,
-    val permissions: ChatPermissions?,
-    @Name("sticker_set_name") val stickerSetName: String?,
-    @Name("can_set_sticker_set") val canSetStickerSet: Boolean?
+    val title: String? = null,
+    val username: String? = null,
+    @Name("first_name") val firstName: String? = null,
+    @Name("last_name") val lastName: String? = null,
+    val photo: ChatPhoto? = null,
+    val description: String? = null,
+    @Name("invite_link") val inviteLink: String? = null,
+    @Name("pinned_message") val pinnedMessage: String? = null,
+    val permissions: ChatPermissions? = null,
+    @Name("sticker_set_name") val stickerSetName: String? = null,
+    @Name("can_set_sticker_set") val canSetStickerSet: Boolean? = null
 )

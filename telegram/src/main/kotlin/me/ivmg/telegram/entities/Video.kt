@@ -7,7 +7,7 @@ data class Video(
     val width: Int,
     val height: Int,
     val duration: Int,
-    val thumb: PhotoSize?,
-    @SerializedName("mime_type") val mimeType: String?,
-    @SerializedName("file_size") val fileSize: Int?
+    val thumb: PhotoSize? = null,
+    @SerializedName("mime_type") val mimeType: String? = null,
+    @SerializedName("file_size") val fileSize: Int? = null
 )

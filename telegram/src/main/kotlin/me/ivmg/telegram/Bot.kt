@@ -160,7 +160,8 @@ class Bot private constructor(
         audio: String,
         caption: String? = null,
         disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null
+        replyToMessageId: Long? = null,
+        replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendAudio(
         chatId,
         audio,
@@ -168,7 +169,8 @@ class Bot private constructor(
         null,
         caption,
         disableNotification,
-        replyToMessageId
+        replyToMessageId,
+        replyMarkup
     ).call()
 
     fun sendAudio(
@@ -294,9 +296,9 @@ class Bot private constructor(
     fun sendAnimation(
         chatId: Long,
         animation: SystemFile,
-        duration: Int?,
-        width: Int?,
-        height: Int?,
+        duration: Int? = null,
+        width: Int? = null,
+        height: Int? = null,
         caption: String? = null,
         parseMode: String? = null,
         disableNotification: Boolean? = null,
@@ -318,9 +320,9 @@ class Bot private constructor(
     fun sendAnimation(
         chatId: Long,
         fileId: String,
-        duration: Int?,
-        width: Int?,
-        height: Int?,
+        duration: Int? = null,
+        width: Int? = null,
+        height: Int? = null,
         caption: String? = null,
         parseMode: String? = null,
         disableNotification: Boolean? = null,
@@ -454,7 +456,7 @@ class Bot private constructor(
     ).call()
 
     fun stopMessageLiveLocation(
-        chatId: Long?,
+        chatId: Long? = null,
         messageId: Long? = null,
         inlineMessageId: String? = null,
         replyMarkup: ReplyMarkup? = null
@@ -526,7 +528,7 @@ class Bot private constructor(
         userId: Long,
         chatPermissions: ChatPermissions,
         untilDate: Date? = null
-        ) = apiClient.restrictChatMember(
+    ) = apiClient.restrictChatMember(
         chatId,
         userId,
         chatPermissions,
@@ -646,9 +648,9 @@ class Bot private constructor(
     ).call()
 
     fun editMessageMedia(
-        chatId: Long?,
-        messageId: Long?,
-        inlineMessageId: String?,
+        chatId: Long? = null,
+        messageId: Long? = null,
+        inlineMessageId: String? = null,
         media: InputMedia,
         replyMarkup: ReplyMarkup?
     ) = apiClient.editMessageMedia(
@@ -681,8 +683,8 @@ class Bot private constructor(
     fun sendSticker(
         chatId: Long,
         sticker: SystemFile,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
         replyMarkup: ReplyMarkup?
     ) = apiClient.sendSticker(
         chatId,
@@ -695,8 +697,8 @@ class Bot private constructor(
     fun sendSticker(
         chatId: Long,
         sticker: String,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
         replyMarkup: ReplyMarkup?
     ) = apiClient.sendSticker(
         chatId,
@@ -724,7 +726,7 @@ class Bot private constructor(
         title: String,
         pngSticker: SystemFile,
         emojis: String,
-        containsMasks: Boolean?,
+        containsMasks: Boolean? = null,
         maskPosition: MaskPosition?
     ) = apiClient.createNewStickerSet(
         userId,
@@ -742,7 +744,7 @@ class Bot private constructor(
         title: String,
         pngSticker: String,
         emojis: String,
-        containsMasks: Boolean?,
+        containsMasks: Boolean? = null,
         maskPosition: MaskPosition?
     ) = apiClient.createNewStickerSet(
         userId,

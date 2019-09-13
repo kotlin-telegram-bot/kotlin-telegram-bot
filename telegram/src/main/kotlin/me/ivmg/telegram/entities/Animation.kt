@@ -7,8 +7,8 @@ data class Animation(
     val width: Int,
     val height: Int,
     val duration: Int,
-    val thumb: PhotoSize?,
-    @Name("file_name") val fileName: String?,
-    @Name("mime_type") val mimeType: String?,
-    @Name("file_size") val fileSize: Long?
+    val thumb: PhotoSize? = null,
+    @Name("file_name") val fileName: String? = null,
+    @Name("mime_type") val mimeType: String? = null,
+    @Name("file_size") val fileSize: Long? = null
 )

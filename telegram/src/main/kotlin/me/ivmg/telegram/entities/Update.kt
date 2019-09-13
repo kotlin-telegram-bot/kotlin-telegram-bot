@@ -9,15 +9,15 @@ import me.ivmg.telegram.types.DispatchableObject
 data class Update constructor(
     @Name("update_id") val updateId: Long,
     val message: Message?,
-    @Name("edited_message") val editedMessage: Message?,
-    @Name("channel_post") val channelPost: Message?,
-    @Name("edited_channel_post") val editedChannelPost: Message?,
-    @Name("inline_query") val inlineQuery: InlineQuery?,
-    @Name("chosen_inline_result") val chosenInlineResult: ChosenInlineResult?,
-    @Name("callback_query") val callbackQuery: CallbackQuery?,
-    @Name("shipping_query") val shippingQuery: ShippingQuery?,
-    @Name("pre_checkout_query") val preCheckoutQuery: PreCheckoutQuery?,
-    @Name("poll") val poll: Poll?
+    @Name("edited_message") val editedMessage: Message? = null,
+    @Name("channel_post") val channelPost: Message? = null,
+    @Name("edited_channel_post") val editedChannelPost: Message? = null,
+    @Name("inline_query") val inlineQuery: InlineQuery? = null,
+    @Name("chosen_inline_result") val chosenInlineResult: ChosenInlineResult? = null,
+    @Name("callback_query") val callbackQuery: CallbackQuery? = null,
+    @Name("shipping_query") val shippingQuery: ShippingQuery? = null,
+    @Name("pre_checkout_query") val preCheckoutQuery: PreCheckoutQuery? = null,
+    @Name("poll") val poll: Poll? = null
 ) : DispatchableObject
 
 /**

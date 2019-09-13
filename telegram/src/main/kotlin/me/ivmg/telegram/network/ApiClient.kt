@@ -124,10 +124,10 @@ class ApiClient(
     fun sendPhoto(
         chatId: Long,
         photo: SystemFile,
-        caption: String? = null,
-        parseMode: String? = null,
-        disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null
+        caption: String?,
+        parseMode: String?,
+        disableNotification: Boolean?,
+        replyToMessageId: Long?
     ): Call<Response<Message>> {
 
         return service.sendPhoto(
@@ -143,10 +143,10 @@ class ApiClient(
     fun sendPhoto(
         chatId: Long,
         photo: String,
-        caption: String? = null,
-        parseMode: String? = null,
-        disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null
+        caption: String?,
+        parseMode: String?,
+        disableNotification: Boolean?,
+        replyToMessageId: Long?
     ): Call<Response<Message>> {
 
         return service.sendPhoto(
@@ -162,12 +162,12 @@ class ApiClient(
     fun sendAudio(
         chatId: Long,
         audio: SystemFile,
-        duration: Int? = null,
-        performer: String? = null,
-        title: String? = null,
-        disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null,
-        replyMarkup: ReplyMarkup? = null
+        duration: Int?,
+        performer: String?,
+        title: String?,
+        disableNotification: Boolean?,
+        replyToMessageId: Long?,
+        replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
         return service.sendAudio(
@@ -185,12 +185,12 @@ class ApiClient(
     fun sendAudio(
         chatId: Long,
         audio: String,
-        duration: Int? = null,
-        performer: String? = null,
-        title: String? = null,
-        disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null,
-        replyMarkup: ReplyMarkup? = null
+        duration: Int?,
+        performer: String?,
+        title: String?,
+        disableNotification: Boolean?,
+        replyToMessageId: Long?,
+        replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
         return service.sendAudio(
@@ -208,11 +208,11 @@ class ApiClient(
     fun sendDocument(
         chatId: Long,
         document: SystemFile,
-        caption: String? = null,
-        parseMode: String? = null,
-        disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null,
-        replyMarkup: ReplyMarkup? = null
+        caption: String?,
+        parseMode: String?,
+        disableNotification: Boolean?,
+        replyToMessageId: Long?,
+        replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
         return service.sendDocument(
@@ -229,11 +229,11 @@ class ApiClient(
     fun sendDocument(
         chatId: Long,
         fileId: String,
-        caption: String? = null,
-        parseMode: String? = null,
-        disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null,
-        replyMarkup: ReplyMarkup? = null
+        caption: String?,
+        parseMode: String?,
+        disableNotification: Boolean?,
+        replyToMessageId: Long?,
+        replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
         return service.sendDocument(
@@ -253,10 +253,10 @@ class ApiClient(
         duration: Int?,
         width: Int?,
         height: Int?,
-        caption: String? = null,
-        disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null,
-        replyMarkup: ReplyMarkup? = null
+        caption: String?,
+        disableNotification: Boolean?,
+        replyToMessageId: Long?,
+        replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
         return service.sendVideo(
@@ -278,10 +278,10 @@ class ApiClient(
         duration: Int?,
         width: Int?,
         height: Int?,
-        caption: String? = null,
-        disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null,
-        replyMarkup: ReplyMarkup? = null
+        caption: String?,
+        disableNotification: Boolean?,
+        replyToMessageId: Long?,
+        replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
         return service.sendVideo(
@@ -303,11 +303,11 @@ class ApiClient(
         duration: Int?,
         width: Int?,
         height: Int?,
-        caption: String? = null,
-        parseMode: String? = null,
-        disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null,
-        replyMarkup: ReplyMarkup? = null
+        caption: String?,
+        parseMode: String?,
+        disableNotification: Boolean?,
+        replyToMessageId: Long?,
+        replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
         return service.sendAnimation(
@@ -330,11 +330,11 @@ class ApiClient(
         duration: Int?,
         width: Int?,
         height: Int?,
-        caption: String? = null,
-        parseMode: String? = null,
-        disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null,
-        replyMarkup: ReplyMarkup? = null
+        caption: String?,
+        parseMode: String?,
+        disableNotification: Boolean?,
+        replyToMessageId: Long?,
+        replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
         return service.sendAnimation(
@@ -354,10 +354,10 @@ class ApiClient(
     fun sendVoice(
         chatId: Long,
         audio: SystemFile,
-        duration: Int? = null,
-        disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null,
-        replyMarkup: ReplyMarkup? = null
+        duration: Int?,
+        disableNotification: Boolean?,
+        replyToMessageId: Long?,
+        replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
         return service.sendVoice(
@@ -373,10 +373,10 @@ class ApiClient(
     fun sendVoice(
         chatId: Long,
         audioId: String,
-        duration: Int? = null,
-        disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null,
-        replyMarkup: ReplyMarkup? = null
+        duration: Int?,
+        disableNotification: Boolean?,
+        replyToMessageId: Long?,
+        replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
         return service.sendVoice(
@@ -392,11 +392,11 @@ class ApiClient(
     fun sendVideoNote(
         chatId: Long,
         audio: SystemFile,
-        duration: Int? = null,
-        length: Int? = null,
-        disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null,
-        replyMarkup: ReplyMarkup? = null
+        duration: Int?,
+        length: Int?,
+        disableNotification: Boolean?,
+        replyToMessageId: Long?,
+        replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
         return service.sendVideoNote(
@@ -413,11 +413,11 @@ class ApiClient(
     fun sendVideoNote(
         chatId: Long,
         videoNoteId: String,
-        duration: Int? = null,
-        length: Int? = null,
-        disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null,
-        replyMarkup: ReplyMarkup? = null
+        duration: Int?,
+        length: Int?,
+        disableNotification: Boolean?,
+        replyToMessageId: Long?,
+        replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
         return service.sendVideoNote(
@@ -842,21 +842,21 @@ class ApiClient(
         startParameter: String,
         currency: String,
         prices: List<LabeledPrice>,
-        providerData: String? = null,
-        photoUrl: String? = null,
-        photoSize: Int? = null,
-        photoWidth: Int? = null,
-        photoHeight: Int? = null,
-        needName: Boolean? = null,
-        needPhoneNumber: Boolean? = null,
-        needEmail: Boolean? = null,
-        needShippingAddress: Boolean? = null,
-        sendPhoneNumberToProvider: Boolean? = null,
-        sendEmailToProvider: Boolean? = null,
-        isFlexible: Boolean? = null,
-        disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null,
-        replyMarkup: InlineKeyboardMarkup? = null
+        providerData: String?,
+        photoUrl: String?,
+        photoSize: Int?,
+        photoWidth: Int?,
+        photoHeight: Int?,
+        needName: Boolean?,
+        needPhoneNumber: Boolean?,
+        needEmail: Boolean?,
+        needShippingAddress: Boolean?,
+        sendPhoneNumberToProvider: Boolean?,
+        sendEmailToProvider: Boolean?,
+        isFlexible: Boolean?,
+        disableNotification: Boolean?,
+        replyToMessageId: Long?,
+        replyMarkup: InlineKeyboardMarkup?
     ): Call<Response<Message>> {
         return service.sendInvoice(
             chatId = chatId,
@@ -888,14 +888,14 @@ class ApiClient(
     fun answerShippingQuery(
         shippingQueryId: String,
         ok: Boolean,
-        shippingOptions: List<ShippingOption>? = null,
-        errorMessage: String? = null
+        shippingOptions: List<ShippingOption>?,
+        errorMessage: String?
     ) = service.answerShippingQuery(shippingQueryId, ok, shippingOptions, errorMessage)
 
     fun answerPreCheckoutQuery(
         preCheckoutQueryId: String,
         ok: Boolean,
-        errorMessage: String? = null
+        errorMessage: String?
     ) = service.answerPreCheckoutQuery(preCheckoutQueryId, ok, errorMessage)
 
     /***

@@ -6,7 +6,7 @@ data class Game(
     val title: String,
     val description: String,
     val photo: List<PhotoSize>,
-    val text: String?,
-    @Name("text_entities") val textEntities: List<MessageEntity>?,
-    val animation: Animation?
+    val text: String? = null,
+    @Name("text_entities") val textEntities: List<MessageEntity>? = null,
+    val animation: Animation? = null
 )

@@ -8,9 +8,9 @@ data class Sticker(
     val width: Int,
     val height: Int,
     val is_animated: Boolean,
-    val thumb: PhotoSize?,
+    val thumb: PhotoSize? = null,
     val emoji: String?,
-    @Name("set_name")val setName: String?,
-    @Name("mask_position")val maskPosition: MaskPosition?,
-    @Name("file_size") val fileSize: Int?
+    @Name("set_name")val setName: String? = null,
+    @Name("mask_position")val maskPosition: MaskPosition? = null,
+    @Name("file_size") val fileSize: Int? = null
 )
