@@ -12,6 +12,7 @@ import me.ivmg.telegram.entities.Update
 import me.ivmg.telegram.entities.inputmedia.InputMedia
 import me.ivmg.telegram.entities.payments.PaymentInvoiceInfo
 import me.ivmg.telegram.entities.payments.ShippingOption
+import me.ivmg.telegram.entities.stickers.ChatPermissions
 import me.ivmg.telegram.entities.stickers.MaskPosition
 import me.ivmg.telegram.errors.RetrieveUpdatesError
 import me.ivmg.telegram.errors.TelegramError
@@ -290,6 +291,54 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
+    fun sendAnimation(
+        chatId: Long,
+        animation: SystemFile,
+        duration: Int?,
+        width: Int?,
+        height: Int?,
+        caption: String? = null,
+        parseMode: String? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        replyMarkup: ReplyMarkup? = null
+    ) = apiClient.sendAnimation(
+        chatId,
+        animation,
+        duration,
+        width,
+        height,
+        caption,
+        parseMode,
+        disableNotification,
+        replyToMessageId,
+        replyMarkup
+    ).call()
+
+    fun sendAnimation(
+        chatId: Long,
+        fileId: String,
+        duration: Int?,
+        width: Int?,
+        height: Int?,
+        caption: String? = null,
+        parseMode: String? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        replyMarkup: ReplyMarkup? = null
+    ) = apiClient.sendAnimation(
+        chatId,
+        fileId,
+        duration,
+        width,
+        height,
+        caption,
+        parseMode,
+        disableNotification,
+        replyToMessageId,
+        replyMarkup
+    ).call()
+
     fun sendVoice(
         chatId: Long,
         audio: SystemFile,
@@ -423,6 +472,7 @@ class Bot private constructor(
         title: String,
         address: String,
         foursquareId: String? = null,
+        foursquareType: String? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         replyMarkup: ReplyMarkup? = null
@@ -433,6 +483,7 @@ class Bot private constructor(
         title,
         address,
         foursquareId,
+        foursquareType,
         disableNotification,
         replyToMessageId,
         replyMarkup
@@ -512,13 +563,16 @@ class Bot private constructor(
         canPromoteMembers
     ).call()
 
+    fun setChatPermissions(chatId: Long, permissions: ChatPermissions) =
+        apiClient.setChatPermissions(chatId, permissions).call()
+
     fun exportChatInviteLink(chatId: Long) = apiClient.exportChatInviteLink(chatId).call()
 
     fun setChatPhoto(
         chatId: Long,
         photo: SystemFile
     ) =
-        apiClient.setChatPhoto(chatId, photo)
+        apiClient.setChatPhoto(chatId, photo).call()
 
     fun deleteChatPhoto(chatId: Long) = apiClient.deleteChatPhoto(chatId).call()
 
@@ -597,6 +651,20 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
+    fun editMessageMedia(
+        chatId: Long?,
+        messageId: Long?,
+        inlineMessageId: String?,
+        media: InputMedia,
+        replyMarkup: ReplyMarkup?
+    ) = apiClient.editMessageMedia(
+        chatId,
+        messageId,
+        inlineMessageId,
+        media,
+        replyMarkup
+    ).call()
+
     fun editMessageReplyMarkup(
         chatId: Long? = null,
         messageId: Long? = null,
@@ -620,21 +688,33 @@ class Bot private constructor(
         chatId: Long,
         sticker: SystemFile,
         disableNotification: Boolean?,
-        replyToMessageId: Int?,
+        replyToMessageId: Long?,
         replyMarkup: ReplyMarkup?
-    ) = apiClient.sendSticker(chatId, sticker, disableNotification, replyToMessageId, replyMarkup)
+    ) = apiClient.sendSticker(
+        chatId,
+        sticker,
+        disableNotification,
+        replyToMessageId,
+        replyMarkup
+    ).call()
 
     fun sendSticker(
         chatId: Long,
         sticker: String,
         disableNotification: Boolean?,
-        replyToMessageId: Int?,
+        replyToMessageId: Long?,
         replyMarkup: ReplyMarkup?
-    ) = apiClient.sendSticker(chatId, sticker, disableNotification, replyToMessageId, replyMarkup)
+    ) = apiClient.sendSticker(
+        chatId,
+        sticker,
+        disableNotification,
+        replyToMessageId,
+        replyMarkup
+    ).call()
 
     fun getStickerSet(
         name: String
-    ) = apiClient.getStickerSet(name)
+    ) = apiClient.getStickerSet(name).call()
 
     fun uploadStickerFile(
         userId: Long,
@@ -642,7 +722,7 @@ class Bot private constructor(
     ) = apiClient.uploadStickerFile(
         userId,
         pngSticker
-    )
+    ).call()
 
     fun createNewStickerSet(
         userId: Long,
@@ -660,7 +740,7 @@ class Bot private constructor(
         emojis,
         containsMasks,
         maskPosition
-    )
+    ).call()
 
     fun createNewStickerSet(
         userId: Long,
@@ -678,7 +758,7 @@ class Bot private constructor(
         emojis,
         containsMasks,
         maskPosition
-    )
+    ).call()
 
     fun addStickerToSet(
         userId: Long,
@@ -692,7 +772,7 @@ class Bot private constructor(
         pngSticker,
         emojis,
         maskPosition
-    )
+    ).call()
 
     fun addStickerToSet(
         userId: Long,
@@ -706,7 +786,7 @@ class Bot private constructor(
         pngSticker,
         emojis,
         maskPosition
-    )
+    ).call()
 
     fun setStickerPositionInSet(
         sticker: String,
@@ -714,13 +794,13 @@ class Bot private constructor(
     ) = apiClient.setStickerPositionInSet(
         sticker,
         position
-    )
+    ).call()
 
     fun deleteStickerFromSet(
         sticker: String
     ) = apiClient.deleteStickerFromSet(
         sticker
-    )
+    ).call()
 
     /**
      * Payments

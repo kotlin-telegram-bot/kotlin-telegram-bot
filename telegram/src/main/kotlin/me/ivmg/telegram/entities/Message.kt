@@ -4,8 +4,6 @@ import com.google.gson.annotations.SerializedName as Name
 import me.ivmg.telegram.entities.payments.SuccessfulPayment
 import me.ivmg.telegram.entities.stickers.Sticker
 
-// TODO not all fields are added
-
 data class Message(
     @Name("message_id") val messageId: Long,
     val from: User?,
@@ -13,6 +11,9 @@ data class Message(
     val chat: Chat,
     @Name("forward_from") val forwardFrom: User?,
     @Name("forward_from_chat") val forwardFromChat: Chat?,
+    @Name("forward_from_message_id") val forwardFromMessageId: Int?,
+    @Name("forward_signature") val forwardSignature: String?,
+    @Name("forward_sender_name") val forwardSenderName: String?,
     @Name("forward_date") val forwardDate: Int?,
     @Name("reply_to_message") val replyToMessage: Message?,
     @Name("edit_date") val editDate: Int?,
@@ -21,6 +22,7 @@ data class Message(
     @Name("caption_entities") val captionEntities: List<MessageEntity>?,
     val audio: Audio?,
     val document: Document?,
+    val animation: Animation?,
     val game: Game?,
     val photo: List<PhotoSize>?,
     val sticker: Sticker?,
@@ -42,5 +44,6 @@ data class Message(
     @Name("migrate_to_chat_id") val migrateToChatId: Long?,
     @Name("migrate_from_chat_id") val migrateFromChatId: Long?,
     val invoice: Invoice?,
-    @Name("successful_payment") val successfulPayment: SuccessfulPayment?
+    @Name("successful_payment") val successfulPayment: SuccessfulPayment?,
+    @Name("reply_markup") val replyMarkup: InlineKeyboardMarkup?
 )

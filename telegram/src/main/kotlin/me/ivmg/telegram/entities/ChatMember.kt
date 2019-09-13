@@ -14,6 +14,7 @@ data class ChatMember(
     @Name("can_invite_users") val canInviteUsers: Boolean?,
     @Name("can_restrict_members") val canRestrictMembers: Boolean?,
     @Name("can_pin_messages") val canPinMessages: Boolean?,
+    @Name("is_member") val isMember: Boolean?,
     @Name("can_promote_members") val canPromoteMembers: Boolean?,
     @Name("can_send_messages") val canSendMessages: Boolean?,
     @Name("can_send_media_messages") val canSendMediaMessages: Boolean?,

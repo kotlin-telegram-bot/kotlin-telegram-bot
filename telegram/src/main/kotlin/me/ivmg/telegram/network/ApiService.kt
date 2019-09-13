@@ -2,6 +2,7 @@ package me.ivmg.telegram.network
 
 import com.google.gson.Gson
 import java.util.Date
+import me.ivmg.telegram.Poll
 import me.ivmg.telegram.entities.Chat
 import me.ivmg.telegram.entities.ChatAction
 import me.ivmg.telegram.entities.ChatMember
@@ -14,6 +15,7 @@ import me.ivmg.telegram.entities.UserProfilePhotos
 import me.ivmg.telegram.entities.inputmedia.InputMedia
 import me.ivmg.telegram.entities.payments.LabeledPrice
 import me.ivmg.telegram.entities.payments.ShippingOption
+import me.ivmg.telegram.entities.stickers.ChatPermissions
 import me.ivmg.telegram.entities.stickers.MaskPosition
 import me.ivmg.telegram.entities.stickers.StickerSet
 import okhttp3.MultipartBody
@@ -172,6 +174,36 @@ interface ApiService {
     ): Call<Response<Message>>
 
     @Multipart
+    @POST("sendAnimation")
+    fun sendAnimation(
+        @Part("chat_id") chatId: RequestBody,
+        @Part animation: MultipartBody.Part,
+        @Part("duration") duration: RequestBody?,
+        @Part("width") width: RequestBody?,
+        @Part("height") height: RequestBody?,
+        @Part("caption") caption: RequestBody?,
+        @Part("parse_mode") parseMode: RequestBody?,
+        @Part("disable_notification") disableNotification: RequestBody?,
+        @Part("reply_to_message_id") replyToMessageId: RequestBody?,
+        @Part("reply_markup") replyMarkup: RequestBody? = null
+    ): Call<Response<Message>>
+
+    @FormUrlEncoded
+    @POST("sendAnimation")
+    fun sendAnimation(
+        @Field("chat_id") chatId: Long,
+        @Field("animation") fileId: String,
+        @Field("duration") duration: Int?,
+        @Field("width") width: Int?,
+        @Field("height") height: Int?,
+        @Field("caption") caption: String?,
+        @Field("parse_mode") parseMode: String?,
+        @Field("disable_notification") disableNotification: Boolean?,
+        @Field("reply_to_message_id") replyToMessageId: Long?,
+        @Field("reply_markup") replyMarkup: ReplyMarkup? = null
+    ): Call<Response<Message>>
+
+    @Multipart
     @POST("sendVoice")
     fun sendVoice(
         @Part("chat_id") chatId: RequestBody,
@@ -267,6 +299,7 @@ interface ApiService {
         @Field("title") title: String,
         @Field("address") address: String,
         @Field("foursquare_id") foursquareId: String?,
+        @Field("foursquare_type") foursquareType: String?,
         @Field("disable_notification") disableNotification: Boolean?,
         @Field("reply_to_message_id") replyToMessageId: Long?,
         @Field("reply_markup") replyMarkup: ReplyMarkup? = null
@@ -279,6 +312,17 @@ interface ApiService {
         @Field("phone_number") phoneNumber: String,
         @Field("first_name") firstName: String,
         @Field("last_name") lastName: String?,
+        @Field("disable_notification") disableNotification: Boolean?,
+        @Field("reply_to_message_id") replyToMessageId: Long?,
+        @Field("reply_markup") replyMarkup: ReplyMarkup? = null
+    ): Call<Response<Message>>
+
+    @FormUrlEncoded
+    @POST("sendPoll")
+    fun sendPoll(
+        @Field("chat_id") chatId: Long,
+        @Field("question") question: String,
+        @Field("options") options: List<String>,
         @Field("disable_notification") disableNotification: Boolean?,
         @Field("reply_to_message_id") replyToMessageId: Long?,
         @Field("reply_markup") replyMarkup: ReplyMarkup? = null
@@ -323,11 +367,8 @@ interface ApiService {
     fun restrictChatMember(
         @Field("chat_id") chatId: Long,
         @Field("user_id") userId: Long,
-        @Field("until_date") untilDate: Date?,
-        @Field("can_send_messages") canSendMessages: Boolean?,
-        @Field("can_send_media_messages") canSendMediaMessages: Boolean?,
-        @Field("can_send_other_messages") canSendOtherMessages: Boolean?,
-        @Field("can_add_web_page_previews") canAddWebPagePreviews: Boolean?
+        @Field("permissions") permissions: ChatPermissions,
+        @Field("until_date") untilDate: Date?
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
@@ -343,6 +384,13 @@ interface ApiService {
         @Field("can_restrict_members") canRestrictMembers: Boolean?,
         @Field("can_pin_messages") canPinMessages: Boolean?,
         @Field("can_promote_members") canPromoteMembers: Boolean?
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("setChatPermissions")
+    fun setChatPermissions(
+        @Field("chat_id") chatId: Long,
+        @Field("permissions") permissions: ChatPermissions
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
@@ -469,6 +517,16 @@ interface ApiService {
     ): Call<Response<Message>>
 
     @FormUrlEncoded
+    @POST("editMessageMedia")
+    fun editMessageMedia(
+        @Field("chat_id") chatId: Long?,
+        @Field("message_id") messageId: Long?,
+        @Field("inline_message_id") inlineMessageId: String?,
+        @Field("media") media: InputMedia,
+        @Field("reply_markup") replyMarkup: ReplyMarkup? = null
+    ): Call<Response<Message>>
+
+    @FormUrlEncoded
     @POST("editMessageReplyMarkup")
     fun editMessageReplyMarkup(
         @Field("chat_id") chatId: Long?,
@@ -476,6 +534,14 @@ interface ApiService {
         @Field("inline_message_id") inlineMessageId: String?,
         @Field("reply_markup") replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
+
+    @FormUrlEncoded
+    @POST("stopPoll")
+    fun stopPoll(
+        @Field("chat_id") chatId: Long?,
+        @Field("message_id") messageId: Long?,
+        @Field("reply_markup") replyMarkup: ReplyMarkup? = null
+    ): Call<Response<Poll>>
 
     @FormUrlEncoded
     @POST("deleteMessage")
@@ -504,7 +570,7 @@ interface ApiService {
         @Field("chat_id") chatId: Long,
         @Field("sticker") fileId: String,
         @Field("disable_notification") disableNotification: Boolean?,
-        @Field("reply_to_message_id") replyToMessageId: Int?,
+        @Field("reply_to_message_id") replyToMessageId: Long?,
         @Field("reply_markup") replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 

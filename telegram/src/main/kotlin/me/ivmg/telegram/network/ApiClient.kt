@@ -5,6 +5,7 @@ import java.net.Proxy
 import java.nio.file.Files
 import java.util.Date
 import java.util.concurrent.TimeUnit
+import me.ivmg.telegram.Poll
 import me.ivmg.telegram.entities.Chat
 import me.ivmg.telegram.entities.ChatAction
 import me.ivmg.telegram.entities.ChatMember
@@ -18,6 +19,7 @@ import me.ivmg.telegram.entities.UserProfilePhotos
 import me.ivmg.telegram.entities.inputmedia.InputMedia
 import me.ivmg.telegram.entities.payments.LabeledPrice
 import me.ivmg.telegram.entities.payments.ShippingOption
+import me.ivmg.telegram.entities.stickers.ChatPermissions
 import me.ivmg.telegram.entities.stickers.MaskPosition
 import me.ivmg.telegram.entities.stickers.StickerSet
 import okhttp3.MediaType
@@ -295,6 +297,60 @@ class ApiClient(
         )
     }
 
+    fun sendAnimation(
+        chatId: Long,
+        animation: SystemFile,
+        duration: Int?,
+        width: Int?,
+        height: Int?,
+        caption: String? = null,
+        parseMode: String? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        replyMarkup: ReplyMarkup? = null
+    ): Call<Response<Message>> {
+
+        return service.sendAnimation(
+            convertString(chatId.toString()),
+            convertFile("video", animation),
+            if (duration != null) convertString(duration.toString()) else null,
+            if (width != null) convertString(width.toString()) else null,
+            if (height != null) convertString(height.toString()) else null,
+            if (caption != null) convertString(caption) else null,
+            if (parseMode != null) convertString(parseMode) else null,
+            if (disableNotification != null) convertString(disableNotification.toString()) else null,
+            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
+            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
+        )
+    }
+
+    fun sendAnimation(
+        chatId: Long,
+        fileId: String,
+        duration: Int?,
+        width: Int?,
+        height: Int?,
+        caption: String? = null,
+        parseMode: String? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        replyMarkup: ReplyMarkup? = null
+    ): Call<Response<Message>> {
+
+        return service.sendAnimation(
+            chatId,
+            fileId,
+            duration,
+            width,
+            height,
+            caption,
+            parseMode,
+            disableNotification,
+            replyToMessageId,
+            replyMarkup
+        )
+    }
+
     fun sendVoice(
         chatId: Long,
         audio: SystemFile,
@@ -452,6 +508,7 @@ class ApiClient(
         title: String,
         address: String,
         foursquareId: String?,
+        foursquareType: String?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
         replyMarkup: ReplyMarkup?
@@ -464,6 +521,7 @@ class ApiClient(
             title,
             address,
             foursquareId,
+            foursquareType,
             disableNotification,
             replyToMessageId,
             replyMarkup
@@ -485,6 +543,25 @@ class ApiClient(
             phoneNumber,
             firstName,
             lastName,
+            disableNotification,
+            replyToMessageId,
+            replyMarkup
+        )
+    }
+
+    fun sendPoll(
+        chatId: Long,
+        question: String,
+        options: List<String>,
+        disableNotification: Boolean?,
+        replyToMessageId: Long?,
+        replyMarkup: ReplyMarkup?
+    ): Call<Response<Message>> {
+
+        return service.sendPoll(
+            chatId,
+            question,
+            options,
             disableNotification,
             replyToMessageId,
             replyMarkup
@@ -523,21 +600,15 @@ class ApiClient(
     fun restrictChatMember(
         chatId: Long,
         userId: Long,
-        untilDate: Date?,
-        canSendMessages: Boolean?,
-        canSendMediaMessages: Boolean?,
-        canSendOtherMessages: Boolean?,
-        canAddWebPagePreviews: Boolean?
+        chatPermissions: ChatPermissions,
+        untilDate: Date?
     ): Call<Response<Boolean>> {
 
         return service.restrictChatMember(
             chatId,
             userId,
-            untilDate,
-            canSendMessages,
-            canSendMediaMessages,
-            canSendOtherMessages,
-            canAddWebPagePreviews
+            chatPermissions,
+            untilDate
         )
     }
 
@@ -566,6 +637,11 @@ class ApiClient(
             canPinMessages,
             canPromoteMembers
         )
+    }
+
+    fun setChatPermissions(chatId: Long, permissions: ChatPermissions): Call<Response<Boolean>> {
+
+        return service.setChatPermissions(chatId, permissions)
     }
 
     fun exportChatInviteLink(chatId: Long): Call<Response<String>> {
@@ -703,6 +779,23 @@ class ApiClient(
         )
     }
 
+    fun editMessageMedia(
+        chatId: Long?,
+        messageId: Long?,
+        inlineMessageId: String?,
+        media: InputMedia,
+        replyMarkup: ReplyMarkup?
+    ): Call<Response<Message>> {
+
+        return service.editMessageMedia(
+            chatId,
+            messageId,
+            inlineMessageId,
+            media,
+            replyMarkup
+        )
+    }
+
     fun editMessageReplyMarkup(
         chatId: Long?,
         messageId: Long?,
@@ -714,6 +807,19 @@ class ApiClient(
             chatId,
             messageId,
             inlineMessageId,
+            replyMarkup
+        )
+    }
+
+    fun stopPoll(
+        chatId: Long?,
+        messageId: Long?,
+        replyMarkup: ReplyMarkup?
+    ): Call<Response<Poll>> {
+
+        return service.stopPoll(
+            chatId,
+            messageId,
             replyMarkup
         )
     }
@@ -800,7 +906,7 @@ class ApiClient(
         chatId: Long,
         sticker: SystemFile,
         disableNotification: Boolean?,
-        replyToMessageId: Int?,
+        replyToMessageId: Long?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
@@ -817,7 +923,7 @@ class ApiClient(
         chatId: Long,
         sticker: String,
         disableNotification: Boolean?,
-        replyToMessageId: Int?,
+        replyToMessageId: Long?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
@@ -866,7 +972,7 @@ class ApiClient(
             convertString(emojis),
             if (containsMasks != null) convertString(containsMasks.toString()) else null,
             if (maskPosition != null) convertJson(maskPosition.toString()) else null
-            )
+        )
     }
 
     fun createNewStickerSet(
@@ -904,7 +1010,7 @@ class ApiClient(
             convertFile("photo", pngSticker),
             convertString(emojis),
             if (maskPosition != null) convertJson(maskPosition.toString()) else null
-            )
+        )
     }
 
     fun addStickerToSet(
