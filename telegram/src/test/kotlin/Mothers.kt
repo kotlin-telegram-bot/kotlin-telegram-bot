@@ -146,7 +146,6 @@ fun anyChat(
     username = username,
     firstName = firstName,
     lastName = lastName,
-    allMembersAreAdministrators = allMembersAreAdministrators,
     photo = photo,
     description = description,
     inviteLink = inviteLink,
@@ -193,6 +192,7 @@ fun anySticker(
     fileId: String = ANY_FILE_ID,
     width: Int = ANY_WIDTH,
     height: Int = ANY_HEIGHT,
+    isAnimated: Boolean = false,
     thumb: PhotoSize? = null,
     emoji: String? = null,
     fileSize: Int? = null
@@ -200,6 +200,7 @@ fun anySticker(
     fileId = fileId,
     width = width,
     height = height,
+    isAnimated = isAnimated,
     thumb = thumb,
     emoji = emoji,
     fileSize = fileSize
