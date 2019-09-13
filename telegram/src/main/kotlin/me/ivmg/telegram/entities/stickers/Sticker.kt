@@ -7,7 +7,7 @@ data class Sticker(
     @Name("file_id") val fileId: String,
     val width: Int,
     val height: Int,
-    val is_animated: Boolean,
+    @Name("is_animated") val isAnimated: Boolean,
     val thumb: PhotoSize? = null,
     val emoji: String?,
     @Name("set_name")val setName: String? = null,
