@@ -524,19 +524,13 @@ class Bot private constructor(
     fun restrictChatMember(
         chatId: Long,
         userId: Long,
-        untilDate: Date? = null,
-        canSendMessages: Boolean? = null,
-        canSendMediaMessages: Boolean? = null,
-        canSendOtherMessages: Boolean? = null,
-        canAddWebPagePreviews: Boolean? = null
-    ) = apiClient.restrictChatMember(
+        chatPermissions: ChatPermissions,
+        untilDate: Date? = null
+        ) = apiClient.restrictChatMember(
         chatId,
         userId,
-        untilDate,
-        canSendMessages,
-        canSendMediaMessages,
-        canSendOtherMessages,
-        canAddWebPagePreviews
+        chatPermissions,
+        untilDate
     ).call()
 
     fun promoteChatMember(
