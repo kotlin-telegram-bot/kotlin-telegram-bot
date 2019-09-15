@@ -48,6 +48,13 @@ private fun convertFile(
     return MultipartBody.Part.createFormData(name, file.name, requestBody)
 }
 
+private fun convertBytes(name: String, bytes: ByteArray, mimeType: String? = null): MultipartBody.Part {
+    val mediaType = mimeType?.let { MediaType.parse(it) }
+    val requestBody = RequestBody.create(mediaType, bytes)
+
+    return MultipartBody.Part.createFormData(name, name, requestBody)
+}
+
 class ApiClient(
     token: String,
     apiUrl: String,
@@ -386,6 +393,25 @@ class ApiClient(
             disableNotification,
             replyToMessageId,
             replyMarkup
+        )
+    }
+
+    fun sendVoice(
+        chatId: Long,
+        audio: ByteArray,
+        duration: Int? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        replyMarkup: ReplyMarkup? = null
+    ): Call<Response<Message>> {
+
+        return service.sendVoice(
+            convertString(chatId.toString()),
+            convertBytes("voice", audio),
+            if (duration != null) convertString(duration.toString()) else null,
+            if (disableNotification != null) convertString(disableNotification.toString()) else null,
+            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
+            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
         )
     }
 
