@@ -58,7 +58,7 @@ fun main(args: Array<String>) {
 ## Examples
 Take a look at the [examples folder](https://github.com/seik/kotlin-telegram-bot/tree/master/samples).
 
-There is a simple echo bot and a more complex one with commands and reply markup keyboard.
+There is a simple echo bot and a more complex one with commands, filters, reply markup keyboard and more.
 
 ## Download
 + Add the JitPack repository to your root build.gradle file:
