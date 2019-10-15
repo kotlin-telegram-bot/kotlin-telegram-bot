@@ -61,6 +61,8 @@ class Bot private constructor(
 
     fun startPolling() = updater.startPolling()
 
+    fun stopPolling() = updater.stopPolling()
+
     fun getUpdates(offset: Long): List<DispatchableObject> {
         val call = if (offset > 0)
             apiClient.getUpdates(offset = offset)

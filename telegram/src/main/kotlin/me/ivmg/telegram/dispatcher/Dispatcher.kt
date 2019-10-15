@@ -74,13 +74,15 @@ class Dispatcher {
 
     private val commandHandlers = mutableMapOf<String, ArrayList<Handler>>()
     private val errorHandlers = arrayListOf<HandleError>()
+    private var stopped = false
 
     fun startCheckingUpdates() {
+        stopped = false
         checkQueueUpdates()
     }
 
     private fun checkQueueUpdates() {
-        while (!Thread.currentThread().isInterrupted) {
+        while (!Thread.currentThread().isInterrupted && !stopped) {
             val item = updatesQueue.take()
             if (item != null) {
                 if (item is Update) handleUpdate(item)
@@ -124,5 +126,9 @@ class Dispatcher {
         errorHandlers.forEach {
             it(bot, error)
         }
+    }
+
+    internal fun stopCheckingUpdates() {
+        stopped = true
     }
 }
