@@ -16,6 +16,7 @@ import me.ivmg.telegram.entities.InlineKeyboardButton
 import me.ivmg.telegram.entities.InlineKeyboardMarkup
 import me.ivmg.telegram.entities.KeyboardButton
 import me.ivmg.telegram.entities.KeyboardReplyMarkup
+import me.ivmg.telegram.entities.ParseMode.MARKDOWN
 import me.ivmg.telegram.entities.ReplyKeyboardRemove
 import me.ivmg.telegram.extensions.filters.Filter
 import me.ivmg.telegram.network.fold
@@ -64,6 +65,15 @@ fun main(args: Array<String>) {
                 val joinedArgs = args.joinToString()
                 val response = if (!joinedArgs.isNullOrBlank()) joinedArgs else "There is no text apart from command!"
                 bot.sendMessage(chatId = update.message!!.chat.id, text = response)
+            }
+
+            command("markdown") { bot, update ->
+                val markdownText = "_Cool message_: *Markdown* is `beatiful` :P"
+                bot.sendMessage(
+                    chatId = update.message!!.chat.id,
+                    text = markdownText,
+                    parseMode = MARKDOWN
+                )
             }
 
             command("inlineButtons") { bot, update ->
