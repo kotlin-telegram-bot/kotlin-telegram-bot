@@ -1,12 +1,19 @@
 package me.ivmg.telegram.dispatcher
 
-import java.util.concurrent.BlockingQueue
-import java.util.concurrent.LinkedBlockingQueue
 import me.ivmg.telegram.Bot
 import me.ivmg.telegram.CommandHandleUpdate
 import me.ivmg.telegram.ContactHandleUpdate
+import me.ivmg.telegram.HandleAnimationUpdate
+import me.ivmg.telegram.HandleAudioUpdate
+import me.ivmg.telegram.HandleDocumentUpdate
 import me.ivmg.telegram.HandleError
+import me.ivmg.telegram.HandleGameUpdate
+import me.ivmg.telegram.HandlePhotosUpdate
+import me.ivmg.telegram.HandleStickerUpdate
 import me.ivmg.telegram.HandleUpdate
+import me.ivmg.telegram.HandleVideoNoteUpdate
+import me.ivmg.telegram.HandleVideoUpdate
+import me.ivmg.telegram.HandleVoiceUpdate
 import me.ivmg.telegram.LocationHandleUpdate
 import me.ivmg.telegram.dispatcher.handlers.CallbackQueryHandler
 import me.ivmg.telegram.dispatcher.handlers.ChannelHandler
@@ -17,10 +24,21 @@ import me.ivmg.telegram.dispatcher.handlers.Handler
 import me.ivmg.telegram.dispatcher.handlers.LocationHandler
 import me.ivmg.telegram.dispatcher.handlers.MessageHandler
 import me.ivmg.telegram.dispatcher.handlers.TextHandler
+import me.ivmg.telegram.dispatcher.handlers.media.AnimationHandler
+import me.ivmg.telegram.dispatcher.handlers.media.AudioHandler
+import me.ivmg.telegram.dispatcher.handlers.media.DocumentHandler
+import me.ivmg.telegram.dispatcher.handlers.media.GameHandler
+import me.ivmg.telegram.dispatcher.handlers.media.PhotosHandler
+import me.ivmg.telegram.dispatcher.handlers.media.StickerHandler
+import me.ivmg.telegram.dispatcher.handlers.media.VideoHandler
+import me.ivmg.telegram.dispatcher.handlers.media.VideoNoteHandler
+import me.ivmg.telegram.dispatcher.handlers.media.VoiceHandler
 import me.ivmg.telegram.entities.Update
 import me.ivmg.telegram.errors.TelegramError
 import me.ivmg.telegram.extensions.filters.Filter
 import me.ivmg.telegram.types.DispatchableObject
+import java.util.concurrent.BlockingQueue
+import java.util.concurrent.LinkedBlockingQueue
 
 fun Dispatcher.message(filter: Filter, handleUpdate: HandleUpdate) {
     addHandler(MessageHandler(handleUpdate, filter))
@@ -64,6 +82,42 @@ fun Dispatcher.preCheckoutQuery(body: HandleUpdate) {
 
 fun Dispatcher.channel(body: HandleUpdate) {
     addHandler(ChannelHandler(body))
+}
+
+fun Dispatcher.audio(body: HandleAudioUpdate) {
+    addHandler(AudioHandler(body))
+}
+
+fun Dispatcher.document(body: HandleDocumentUpdate) {
+    addHandler(DocumentHandler(body))
+}
+
+fun Dispatcher.animation(body: HandleAnimationUpdate) {
+    addHandler(AnimationHandler(body))
+}
+
+fun Dispatcher.game(body: HandleGameUpdate) {
+    addHandler(GameHandler(body))
+}
+
+fun Dispatcher.photos(body: HandlePhotosUpdate) {
+    addHandler(PhotosHandler(body))
+}
+
+fun Dispatcher.sticker(body: HandleStickerUpdate) {
+    addHandler(StickerHandler(body))
+}
+
+fun Dispatcher.video(body: HandleVideoUpdate) {
+    addHandler(VideoHandler(body))
+}
+
+fun Dispatcher.voice(body: HandleVoiceUpdate) {
+    addHandler(VoiceHandler(body))
+}
+
+fun Dispatcher.videoNote(body: HandleVideoNoteUpdate) {
+    addHandler(VideoNoteHandler(body))
 }
 
 class Dispatcher {

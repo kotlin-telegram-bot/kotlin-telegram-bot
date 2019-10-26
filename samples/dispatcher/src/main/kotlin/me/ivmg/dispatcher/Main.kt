@@ -10,6 +10,8 @@ import me.ivmg.telegram.dispatcher.contact
 import me.ivmg.telegram.dispatcher.handlers.CallbackQueryHandler
 import me.ivmg.telegram.dispatcher.location
 import me.ivmg.telegram.dispatcher.message
+import me.ivmg.telegram.dispatcher.photos
+import me.ivmg.telegram.dispatcher.sticker
 import me.ivmg.telegram.dispatcher.telegramError
 import me.ivmg.telegram.dispatcher.text
 import me.ivmg.telegram.entities.InlineKeyboardButton
@@ -118,6 +120,14 @@ fun main(args: Array<String>) {
 
             channel { bot, update ->
                 // Handle channel update
+            }
+
+            photos { bot, update, _ ->
+                val chatId = update.message?.chat?.id ?: return@photos
+                bot.sendMessage(
+                    chatId = chatId,
+                    text = "Wowww, awesome photos!!! :P"
+                )
             }
 
             telegramError { _, telegramError ->
