@@ -1,5 +1,7 @@
 package me.ivmg.telegram.dispatcher
 
+import java.util.concurrent.BlockingQueue
+import java.util.concurrent.LinkedBlockingQueue
 import me.ivmg.telegram.Bot
 import me.ivmg.telegram.CommandHandleUpdate
 import me.ivmg.telegram.ContactHandleUpdate
@@ -37,8 +39,6 @@ import me.ivmg.telegram.entities.Update
 import me.ivmg.telegram.errors.TelegramError
 import me.ivmg.telegram.extensions.filters.Filter
 import me.ivmg.telegram.types.DispatchableObject
-import java.util.concurrent.BlockingQueue
-import java.util.concurrent.LinkedBlockingQueue
 
 fun Dispatcher.message(filter: Filter, handleUpdate: HandleUpdate) {
     addHandler(MessageHandler(handleUpdate, filter))

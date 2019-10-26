@@ -33,4 +33,3 @@ typealias HandleStickerUpdate = (Bot, Update, Sticker) -> Unit
 typealias HandleVideoUpdate = (Bot, Update, Video) -> Unit
 typealias HandleVoiceUpdate = (Bot, Update, Voice) -> Unit
 typealias HandleVideoNoteUpdate = (Bot, Update, VideoNote) -> Unit
-

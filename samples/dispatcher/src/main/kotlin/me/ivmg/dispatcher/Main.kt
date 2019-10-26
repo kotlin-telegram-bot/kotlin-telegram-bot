@@ -11,7 +11,6 @@ import me.ivmg.telegram.dispatcher.handlers.CallbackQueryHandler
 import me.ivmg.telegram.dispatcher.location
 import me.ivmg.telegram.dispatcher.message
 import me.ivmg.telegram.dispatcher.photos
-import me.ivmg.telegram.dispatcher.sticker
 import me.ivmg.telegram.dispatcher.telegramError
 import me.ivmg.telegram.dispatcher.text
 import me.ivmg.telegram.entities.InlineKeyboardButton
