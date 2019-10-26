@@ -1,5 +1,7 @@
 package me.ivmg.telegram.network
 
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import java.io.File as SystemFile
 import java.net.Proxy
 import java.nio.file.Files
@@ -16,12 +18,14 @@ import me.ivmg.telegram.entities.ReplyMarkup
 import me.ivmg.telegram.entities.Update
 import me.ivmg.telegram.entities.User
 import me.ivmg.telegram.entities.UserProfilePhotos
+import me.ivmg.telegram.entities.inlinequeryresults.InlineQueryResult
 import me.ivmg.telegram.entities.inputmedia.InputMedia
 import me.ivmg.telegram.entities.payments.LabeledPrice
 import me.ivmg.telegram.entities.payments.ShippingOption
 import me.ivmg.telegram.entities.stickers.ChatPermissions
 import me.ivmg.telegram.entities.stickers.MaskPosition
 import me.ivmg.telegram.entities.stickers.StickerSet
+import me.ivmg.telegram.network.adapter.InlineQueryResultAdapter
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
@@ -37,18 +41,18 @@ private val APPLICATION_JSON_MIME = MediaType.parse("application/json")
 private fun convertString(text: String) = RequestBody.create(PLAIN_TEXT_MIME, text)
 private fun convertJson(text: String) = RequestBody.create(APPLICATION_JSON_MIME, text)
 
-private fun convertFile(
-    name: String,
-    file: SystemFile,
-    mimeType: String? = null
-): MultipartBody.Part {
+private fun convertFile(name: String, file: SystemFile, mimeType: String? = null): MultipartBody.Part {
     val mediaType = (mimeType ?: Files.probeContentType(file.toPath()))?.let { MediaType.parse(it) }
     val requestBody = RequestBody.create(mediaType, file)
 
     return MultipartBody.Part.createFormData(name, file.name, requestBody)
 }
 
-private fun convertBytes(name: String, bytes: ByteArray, mimeType: String? = null): MultipartBody.Part {
+private fun convertBytes(
+    name: String,
+    bytes: ByteArray,
+    mimeType: String? = null
+): MultipartBody.Part {
     val mediaType = mimeType?.let { MediaType.parse(it) }
     val requestBody = RequestBody.create(mediaType, bytes)
 
@@ -1073,6 +1077,32 @@ class ApiClient(
 
         return service.deleteStickerFromSet(
             sticker
+        )
+    }
+
+    fun answerInlineQuery(
+        inlineQueryId: String,
+        inlineQueryResults: List<InlineQueryResult>,
+        cacheTime: Int?,
+        isPersonal: Boolean,
+        nextOffset: String?,
+        switchPmText: String?,
+        switchPmParameter: String?
+    ): Call<Response<Boolean>> {
+        val gson = GsonBuilder().apply {
+            registerTypeAdapter(InlineQueryResult::class.java, InlineQueryResultAdapter())
+        }.create()
+        val inlineQueryResultsType = object : TypeToken<List<InlineQueryResult>>() {}.type
+        val serializedInlineQueryResults = gson.toJson(inlineQueryResults, inlineQueryResultsType)
+
+        return service.answerInlineQuery(
+            inlineQueryId,
+            serializedInlineQueryResults,
+            cacheTime,
+            isPersonal,
+            nextOffset,
+            switchPmText,
+            switchPmParameter
         )
     }
 }

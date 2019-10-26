@@ -9,6 +9,7 @@ import me.ivmg.telegram.entities.InlineKeyboardMarkup
 import me.ivmg.telegram.entities.ParseMode
 import me.ivmg.telegram.entities.ReplyMarkup
 import me.ivmg.telegram.entities.Update
+import me.ivmg.telegram.entities.inlinequeryresults.InlineQueryResult
 import me.ivmg.telegram.entities.inputmedia.InputMedia
 import me.ivmg.telegram.entities.payments.PaymentInvoiceInfo
 import me.ivmg.telegram.entities.payments.ShippingOption
@@ -882,5 +883,41 @@ class Bot private constructor(
         preCheckoutQueryId,
         ok,
         errorMessage
+    ).call()
+
+    fun answerInlineQuery(
+        inlineQueryId: String,
+        vararg inlineQueryResults: InlineQueryResult,
+        cacheTime: Int? = null,
+        isPersonal: Boolean = false,
+        nextOffset: String? = null,
+        switchPmText: String? = null,
+        switchPmParameter: String? = null
+    ) = answerInlineQuery(
+        inlineQueryId,
+        inlineQueryResults.toList(),
+        cacheTime,
+        isPersonal,
+        nextOffset,
+        switchPmText,
+        switchPmParameter
+    )
+
+    fun answerInlineQuery(
+        inlineQueryId: String,
+        inlineQueryResults: List<InlineQueryResult>,
+        cacheTime: Int? = null,
+        isPersonal: Boolean = false,
+        nextOffset: String? = null,
+        switchPmText: String? = null,
+        switchPmParameter: String? = null
+    ) = apiClient.answerInlineQuery(
+        inlineQueryId,
+        inlineQueryResults,
+        cacheTime,
+        isPersonal,
+        nextOffset,
+        switchPmText,
+        switchPmParameter
     ).call()
 }

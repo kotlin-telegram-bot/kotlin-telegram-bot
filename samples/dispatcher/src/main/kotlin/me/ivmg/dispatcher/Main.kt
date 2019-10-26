@@ -8,6 +8,7 @@ import me.ivmg.telegram.dispatcher.channel
 import me.ivmg.telegram.dispatcher.command
 import me.ivmg.telegram.dispatcher.contact
 import me.ivmg.telegram.dispatcher.handlers.CallbackQueryHandler
+import me.ivmg.telegram.dispatcher.inlineQuery
 import me.ivmg.telegram.dispatcher.location
 import me.ivmg.telegram.dispatcher.message
 import me.ivmg.telegram.dispatcher.telegramError
@@ -17,6 +18,8 @@ import me.ivmg.telegram.entities.InlineKeyboardMarkup
 import me.ivmg.telegram.entities.KeyboardButton
 import me.ivmg.telegram.entities.KeyboardReplyMarkup
 import me.ivmg.telegram.entities.ReplyKeyboardRemove
+import me.ivmg.telegram.entities.inlinequeryresults.InlineQueryResult
+import me.ivmg.telegram.entities.inlinequeryresults.InputMessageContent
 import me.ivmg.telegram.extensions.filters.Filter
 import me.ivmg.telegram.network.fold
 import okhttp3.logging.HttpLoggingInterceptor
@@ -118,6 +121,22 @@ fun main(args: Array<String>) {
 
             channel { bot, update ->
                 // Handle channel update
+            }
+
+            inlineQuery { bot, inlineQuery ->
+                val queryText = inlineQuery.query
+
+                if (queryText.isBlank() or queryText.isEmpty()) return@inlineQuery
+
+                val inlineResults = (0 until 5).map {
+                    InlineQueryResult.Article(
+                        id = it.toString(),
+                        title = "$it. $queryText",
+                        inputMessageContent = InputMessageContent.Text("$it. $queryText"),
+                        description = "Add $it. before you word"
+                    )
+                }
+                bot.answerInlineQuery(inlineQuery.id, inlineResults)
             }
 
             telegramError { _, telegramError ->

@@ -691,6 +691,18 @@ interface ApiService {
         @Field("ok") ok: Boolean,
         @Field("error_message") errorMessage: String? = null
     ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("answerInlineQuery")
+    fun answerInlineQuery(
+        @Field("inline_query_id") inlineQueryId: String,
+        @Field("results") inlineQueryResults: String,
+        @Field("cache_time") cacheTime: Int?,
+        @Field("is_personal") isPersonal: Boolean,
+        @Field("next_offset") nextOffset: String?,
+        @Field("switch_pm_text") switchPmText: String?,
+        @Field("switch_pm_parameter") switchPmParameter: String?
+    ): Call<Response<Boolean>>
 }
 
 class LabeledPriceList(private val labeledPrice: List<LabeledPrice>) {
