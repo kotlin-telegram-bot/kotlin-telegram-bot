@@ -1,6 +1,7 @@
 package me.ivmg.telegram
 
 import me.ivmg.telegram.entities.Contact
+import me.ivmg.telegram.entities.InlineQuery
 import me.ivmg.telegram.entities.Location
 import me.ivmg.telegram.entities.Update
 import me.ivmg.telegram.errors.TelegramError
@@ -14,3 +15,5 @@ typealias CommandHandleUpdate = (Bot, Update, List<String>) -> Unit
 typealias ContactHandleUpdate = (Bot, Update, Contact) -> Unit
 
 typealias LocationHandleUpdate = (Bot, Update, Location) -> Unit
+
+typealias HandleInlineQuery = (Bot, InlineQuery) -> Unit

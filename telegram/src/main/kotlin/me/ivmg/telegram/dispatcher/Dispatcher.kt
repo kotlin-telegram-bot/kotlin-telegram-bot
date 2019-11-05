@@ -6,6 +6,7 @@ import me.ivmg.telegram.Bot
 import me.ivmg.telegram.CommandHandleUpdate
 import me.ivmg.telegram.ContactHandleUpdate
 import me.ivmg.telegram.HandleError
+import me.ivmg.telegram.HandleInlineQuery
 import me.ivmg.telegram.HandleUpdate
 import me.ivmg.telegram.LocationHandleUpdate
 import me.ivmg.telegram.dispatcher.handlers.CallbackQueryHandler
@@ -14,6 +15,7 @@ import me.ivmg.telegram.dispatcher.handlers.CheckoutHandler
 import me.ivmg.telegram.dispatcher.handlers.CommandHandler
 import me.ivmg.telegram.dispatcher.handlers.ContactHandler
 import me.ivmg.telegram.dispatcher.handlers.Handler
+import me.ivmg.telegram.dispatcher.handlers.InlineQueryHandler
 import me.ivmg.telegram.dispatcher.handlers.LocationHandler
 import me.ivmg.telegram.dispatcher.handlers.MessageHandler
 import me.ivmg.telegram.dispatcher.handlers.TextHandler
@@ -64,6 +66,10 @@ fun Dispatcher.preCheckoutQuery(body: HandleUpdate) {
 
 fun Dispatcher.channel(body: HandleUpdate) {
     addHandler(ChannelHandler(body))
+}
+
+fun Dispatcher.inlineQuery(body: HandleInlineQuery) {
+    addHandler(InlineQueryHandler(body))
 }
 
 class Dispatcher {
