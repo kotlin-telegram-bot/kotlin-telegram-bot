@@ -1,6 +1,6 @@
 # Kotlin Telegram Bot
-[![Build Status](https://travis-ci.org/seik/kotlin-telegram-bot.svg?branch=master)](https://travis-ci.org/seik/kotlin-telegram-bot)
-[![Release](https://jitpack.io/v/Seik/kotlin-telegram-bot.svg)](https://jitpack.io/#Seik/kotlin-telegram-bot)
+[![Build Status](https://travis-ci.org/kotlin-telegram-bot/kotlin-telegram-bot.svg?branch=master)](https://travis-ci.org/seik/kotlin-telegram-bot)
+[![Release](https://jitpack.io/v/kotlin-telegram-bot/kotlin-telegram-bot.svg)](https://jitpack.io/#Seik/kotlin-telegram-bot)
 [![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
 
 A wrapper for the Telegram Bot API written in Kotlin.
@@ -56,7 +56,7 @@ fun main(args: Array<String>) {
 ```
 
 ## Examples
-Take a look at the [examples folder](https://github.com/seik/kotlin-telegram-bot/tree/master/samples).
+Take a look at the [examples folder](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/tree/master/samples).
 
 There is a simple echo bot and a more complex one with commands, filters, reply markup keyboard and more.
 
@@ -73,7 +73,7 @@ repositories {
 
 ```gradle
 dependencies {
-    implementation 'io.github.seik.kotlin-telegram-bot:telegram:x.y.z'
+    implementation 'io.github.kotlin-telegram-bot.kotlin-telegram-bot:telegram:x.y.z'
 }
 ```
 
