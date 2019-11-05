@@ -3,9 +3,9 @@ package me.ivmg.telegram
 import me.ivmg.telegram.entities.Animation
 import me.ivmg.telegram.entities.Audio
 import me.ivmg.telegram.entities.Contact
-import me.ivmg.telegram.entities.InlineQuery
 import me.ivmg.telegram.entities.Document
 import me.ivmg.telegram.entities.Game
+import me.ivmg.telegram.entities.InlineQuery
 import me.ivmg.telegram.entities.Location
 import me.ivmg.telegram.entities.PhotoSize
 import me.ivmg.telegram.entities.Update
