@@ -11,6 +11,7 @@ import me.ivmg.telegram.dispatcher.handlers.CallbackQueryHandler
 import me.ivmg.telegram.dispatcher.inlineQuery
 import me.ivmg.telegram.dispatcher.location
 import me.ivmg.telegram.dispatcher.message
+import me.ivmg.telegram.dispatcher.photos
 import me.ivmg.telegram.dispatcher.telegramError
 import me.ivmg.telegram.dispatcher.text
 import me.ivmg.telegram.entities.InlineKeyboardButton
@@ -147,6 +148,14 @@ fun main(args: Array<String>) {
                     )
                 }
                 bot.answerInlineQuery(inlineQuery.id, inlineResults)
+            }
+
+            photos { bot, update, _ ->
+                val chatId = update.message?.chat?.id ?: return@photos
+                bot.sendMessage(
+                    chatId = chatId,
+                    text = "Wowww, awesome photos!!! :P"
+                )
             }
 
             telegramError { _, telegramError ->
