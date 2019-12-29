@@ -26,10 +26,7 @@ import me.ivmg.telegram.entities.stickers.ChatPermissions
 import me.ivmg.telegram.entities.stickers.MaskPosition
 import me.ivmg.telegram.entities.stickers.StickerSet
 import me.ivmg.telegram.network.adapter.InlineQueryResultAdapter
-import okhttp3.MediaType
-import okhttp3.MultipartBody
-import okhttp3.OkHttpClient
-import okhttp3.RequestBody
+import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -60,8 +57,8 @@ private fun convertBytes(
 }
 
 class ApiClient(
-    token: String,
-    apiUrl: String,
+    private val token: String,
+    private val apiUrl: String,
     private val botTimeout: Int = 30,
     logLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.NONE,
     proxy: Proxy = Proxy.NO_PROXY
@@ -82,7 +79,7 @@ class ApiClient(
             .build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("$apiUrl$token/")
+            .baseUrl("${apiUrl}bot$token/")
             .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -615,6 +612,10 @@ class ApiClient(
     fun getFile(fileId: String): Call<Response<File>> {
 
         return service.getFile(fileId)
+    }
+
+    fun downloadFile(filePath: String): Call<ResponseBody> {
+        return service.downloadFile("${apiUrl}file/bot$token/$filePath")
     }
 
     fun kickChatMember(chatId: Long, userId: Long, untilDate: Date): Call<Response<Boolean>> {

@@ -44,7 +44,7 @@ class Bot private constructor(
     class Builder {
         lateinit var token: String
         var timeout: Int = 30
-        var apiUrl: String = "https://api.telegram.org/bot"
+        var apiUrl: String = "https://api.telegram.org/"
         var logLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.BODY
         var proxy: Proxy = Proxy.NO_PROXY
 
@@ -535,6 +535,18 @@ class Bot private constructor(
         apiClient.getUserProfilePhotos(userId, offset, limit).call()
 
     fun getFile(fileId: String) = apiClient.getFile(fileId).call()
+
+    fun downloadFile(filePath: String) = apiClient.downloadFile(filePath).call()
+
+    fun downloadFileBytes(fileId: String): ByteArray? {
+        val fileResp = getFile(fileId).first
+        return if (fileResp?.isSuccessful == true) {
+            val filePath = fileResp.body()?.result?.filePath
+            if (filePath == null) null else downloadFile(filePath).first?.body()?.bytes()
+        } else {
+            null
+        }
+    }
 
     fun kickChatMember(chatId: Long, userId: Long, untilDate: Date) =
         apiClient.kickChatMember(chatId, userId, untilDate).call()
