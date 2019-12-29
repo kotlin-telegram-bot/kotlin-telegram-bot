@@ -48,12 +48,13 @@ private fun convertFile(name: String, file: SystemFile, mimeType: String? = null
 private fun convertBytes(
     name: String,
     bytes: ByteArray,
-    mimeType: String? = null
+    mimeType: String? = null,
+    filename: String? = null
 ): MultipartBody.Part {
     val mediaType = mimeType?.let { MediaType.parse(it) }
     val requestBody = RequestBody.create(mediaType, bytes)
 
-    return MultipartBody.Part.createFormData(name, name, requestBody)
+    return MultipartBody.Part.createFormData(name, filename ?: "untitled", requestBody)
 }
 
 class ApiClient(
@@ -252,6 +253,28 @@ class ApiClient(
             disableNotification,
             replyToMessageId,
             replyMarkup
+        )
+    }
+
+    fun sendDocument(
+        chatId: Long,
+        fileBytes: ByteArray,
+        caption: String?,
+        parseMode: String?,
+        disableNotification: Boolean?,
+        replyToMessageId: Long?,
+        replyMarkup: ReplyMarkup?,
+        fileName: String?
+    ): Call<Response<Message>> {
+
+        return service.sendDocument(
+            convertString(chatId.toString()),
+            convertBytes("document", fileBytes, null, fileName ?: caption),
+            if (caption != null) convertString(caption) else null,
+            if (parseMode != null) convertString(parseMode) else null,
+            if (disableNotification != null) convertString(disableNotification.toString()) else null,
+            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
+            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
         )
     }
 

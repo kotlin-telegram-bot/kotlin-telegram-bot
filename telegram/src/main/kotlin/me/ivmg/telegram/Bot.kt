@@ -236,6 +236,26 @@ class Bot private constructor(
 
     fun sendDocument(
         chatId: Long,
+        fileBytes: ByteArray,
+        caption: String? = null,
+        parseMode: ParseMode? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        replyMarkup: ReplyMarkup? = null,
+        fileName: String? = null
+    ) = apiClient.sendDocument(
+        chatId,
+        fileBytes,
+        caption,
+        parseMode?.modeName,
+        disableNotification,
+        replyToMessageId,
+        replyMarkup,
+        fileName
+    ).call()
+
+    fun sendDocument(
+        chatId: Long,
         fileId: String,
         caption: String? = null,
         parseMode: ParseMode? = null,
