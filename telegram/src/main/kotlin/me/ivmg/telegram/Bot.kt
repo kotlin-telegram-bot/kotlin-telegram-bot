@@ -242,7 +242,7 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         replyMarkup: ReplyMarkup? = null,
-        fileName: String? = null
+        fileName: String
     ) = apiClient.sendDocument(
         chatId,
         fileBytes,
