@@ -30,6 +30,7 @@ import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -51,17 +52,18 @@ private fun convertFile(name: String, file: SystemFile, mimeType: String? = null
 private fun convertBytes(
     name: String,
     bytes: ByteArray,
-    mimeType: String? = null
+    mimeType: String? = null,
+    filename: String? = null
 ): MultipartBody.Part {
     val mediaType = mimeType?.let { MediaType.parse(it) }
     val requestBody = RequestBody.create(mediaType, bytes)
 
-    return MultipartBody.Part.createFormData(name, name, requestBody)
+    return MultipartBody.Part.createFormData(name, filename ?: "untitled", requestBody)
 }
 
 class ApiClient(
-    token: String,
-    apiUrl: String,
+    private val token: String,
+    private val apiUrl: String,
     private val botTimeout: Int = 30,
     logLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.NONE,
     proxy: Proxy = Proxy.NO_PROXY
@@ -82,7 +84,7 @@ class ApiClient(
             .build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("$apiUrl$token/")
+            .baseUrl("${apiUrl}bot$token/")
             .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -255,6 +257,28 @@ class ApiClient(
             disableNotification,
             replyToMessageId,
             replyMarkup
+        )
+    }
+
+    fun sendDocument(
+        chatId: Long,
+        fileBytes: ByteArray,
+        caption: String?,
+        parseMode: String?,
+        disableNotification: Boolean?,
+        replyToMessageId: Long?,
+        replyMarkup: ReplyMarkup?,
+        fileName: String?
+    ): Call<Response<Message>> {
+
+        return service.sendDocument(
+            convertString(chatId.toString()),
+            convertBytes("document", fileBytes, null, fileName ?: caption),
+            if (caption != null) convertString(caption) else null,
+            if (parseMode != null) convertString(parseMode) else null,
+            if (disableNotification != null) convertString(disableNotification.toString()) else null,
+            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
+            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
         )
     }
 
@@ -615,6 +639,10 @@ class ApiClient(
     fun getFile(fileId: String): Call<Response<File>> {
 
         return service.getFile(fileId)
+    }
+
+    fun downloadFile(filePath: String): Call<ResponseBody> {
+        return service.downloadFile("${apiUrl}file/bot$token/$filePath")
     }
 
     fun kickChatMember(chatId: Long, userId: Long, untilDate: Date): Call<Response<Boolean>> {
