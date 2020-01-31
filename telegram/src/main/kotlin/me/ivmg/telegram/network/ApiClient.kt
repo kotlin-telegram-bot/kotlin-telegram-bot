@@ -150,7 +150,8 @@ class ApiClient(
         caption: String?,
         parseMode: String?,
         disableNotification: Boolean?,
-        replyToMessageId: Long?
+        replyToMessageId: Long?,
+        replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
         return service.sendPhoto(
@@ -159,7 +160,8 @@ class ApiClient(
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
-            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null
+            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
+            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
         )
     }
 
@@ -169,7 +171,8 @@ class ApiClient(
         caption: String?,
         parseMode: String?,
         disableNotification: Boolean?,
-        replyToMessageId: Long?
+        replyToMessageId: Long?,
+        replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
         return service.sendPhoto(
@@ -178,7 +181,8 @@ class ApiClient(
             caption,
             parseMode,
             disableNotification,
-            replyToMessageId
+            replyToMessageId,
+            replyMarkup
         )
     }
 
