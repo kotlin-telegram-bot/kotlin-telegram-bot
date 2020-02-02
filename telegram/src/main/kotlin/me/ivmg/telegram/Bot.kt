@@ -132,14 +132,16 @@ class Bot private constructor(
         caption: String? = null,
         parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null
+        replyToMessageId: Long? = null,
+        replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendPhoto(
         chatId,
         photo,
         caption,
         parseMode?.modeName,
         disableNotification,
-        replyToMessageId
+        replyToMessageId,
+        replyMarkup
     ).call()
 
     fun sendPhoto(
@@ -148,14 +150,16 @@ class Bot private constructor(
         caption: String? = null,
         parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null
+        replyToMessageId: Long? = null,
+        replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendPhoto(
         chatId,
         photo,
         caption,
         parseMode?.modeName,
         disableNotification,
-        replyToMessageId
+        replyToMessageId,
+        replyMarkup
     ).call()
 
     fun sendAudio(
