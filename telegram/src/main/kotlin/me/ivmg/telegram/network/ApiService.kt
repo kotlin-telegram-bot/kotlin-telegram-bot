@@ -3,6 +3,7 @@ package me.ivmg.telegram.network
 import com.google.gson.Gson
 import java.util.Date
 import me.ivmg.telegram.Poll
+import me.ivmg.telegram.entities.BotCommand
 import me.ivmg.telegram.entities.Chat
 import me.ivmg.telegram.entities.ChatAction
 import me.ivmg.telegram.entities.ChatMember
@@ -709,6 +710,15 @@ interface ApiService {
         @Field("next_offset") nextOffset: String?,
         @Field("switch_pm_text") switchPmText: String?,
         @Field("switch_pm_parameter") switchPmParameter: String?
+    ): Call<Response<Boolean>>
+
+    @GET("getMyCommands")
+    fun getMyCommands(): Call<Response<List<BotCommand>>>
+
+    @FormUrlEncoded
+    @POST("setMyCommands")
+    fun setMyCommands(
+        @Field("commands") commands: String
     ): Call<Response<Boolean>>
 }
 

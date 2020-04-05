@@ -8,6 +8,7 @@ import java.nio.file.Files
 import java.util.Date
 import java.util.concurrent.TimeUnit
 import me.ivmg.telegram.Poll
+import me.ivmg.telegram.entities.BotCommand
 import me.ivmg.telegram.entities.Chat
 import me.ivmg.telegram.entities.ChatAction
 import me.ivmg.telegram.entities.ChatMember
@@ -1146,5 +1147,13 @@ class ApiClient(
             switchPmText,
             switchPmParameter
         )
+    }
+
+    fun getMyCommands(): Call<Response<List<BotCommand>>> {
+        return service.getMyCommands()
+    }
+
+    fun setMyCommands(commands: List<BotCommand>): Call<Response<Boolean>> {
+        return service.setMyCommands(GsonBuilder().create().toJson(commands))
     }
 }
