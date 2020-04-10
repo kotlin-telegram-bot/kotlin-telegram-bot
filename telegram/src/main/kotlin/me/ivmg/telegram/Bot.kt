@@ -4,6 +4,7 @@ import java.io.File as SystemFile
 import java.net.Proxy
 import java.util.Date
 import me.ivmg.telegram.dispatcher.Dispatcher
+import me.ivmg.telegram.entities.BotCommand
 import me.ivmg.telegram.entities.ChatAction
 import me.ivmg.telegram.entities.InlineKeyboardMarkup
 import me.ivmg.telegram.entities.ParseMode
@@ -956,4 +957,12 @@ class Bot private constructor(
         switchPmText,
         switchPmParameter
     ).call()
+
+    fun setMyCommands(
+        commands: List<BotCommand>
+    ) = apiClient.setMyCommands(
+        commands
+    ).call()
+
+    fun getMyCommands() = apiClient.getMyCommands().call()
 }
