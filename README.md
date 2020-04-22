@@ -17,6 +17,16 @@ fun main(args: Array<String>) {
 }
 ```
 
+If you need, you can use HTTP or SOCKS proxy
+
+```kotlin
+fun main(args: Array<String>) {
+    val bot = bot {
+        proxy = Proxy(Proxy.Type.SOCKS, InetSocketAddress("hostname", port))
+    }
+}
+```
+
 Now lets poll telegram API and route all text updates:
 
 ```kotlin
@@ -41,13 +51,30 @@ fun main(args: Array<String>) {
     val bot = bot {
         token = "YOUR_API_KEY"
         dispatch {
-            command("start") { bot, update->
+            command("start") { bot, update ->
                 val result = bot.sendMessage(chatId = update.message!!.chat.id, text = "Hi there!")
                 result.fold({
                     // do something here with the response
                 },{
                     // do something with the error 
                 })
+            }
+        }
+    }
+    bot.startPolling()
+}
+```
+
+And commands with parameters
+
+```kotlin
+fun main(args: Array<String>) {
+    val bot = bot {
+        token = "YOUR_API_KEY"
+        dispatch {
+            command("echo") { bot, update, list ->
+                val joinedArgs = list.joinToString()
+                bot.sendMessage(chatId = update.message!!.chat.id, text = joinedArgs)
             }
         }
     }
