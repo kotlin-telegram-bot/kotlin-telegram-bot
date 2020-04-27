@@ -16,9 +16,14 @@ import me.ivmg.telegram.entities.File
 import me.ivmg.telegram.entities.InlineKeyboardMarkup
 import me.ivmg.telegram.entities.Message
 import me.ivmg.telegram.entities.ReplyMarkup
+import me.ivmg.telegram.entities.TelegramFile
+import me.ivmg.telegram.entities.TelegramFile.ByFile
+import me.ivmg.telegram.entities.TelegramFile.ByFileId
+import me.ivmg.telegram.entities.TelegramFile.ByUrl
 import me.ivmg.telegram.entities.Update
 import me.ivmg.telegram.entities.User
 import me.ivmg.telegram.entities.UserProfilePhotos
+import me.ivmg.telegram.entities.WebhookInfo
 import me.ivmg.telegram.entities.inlinequeryresults.InlineQueryResult
 import me.ivmg.telegram.entities.inputmedia.InputMedia
 import me.ivmg.telegram.entities.payments.LabeledPrice
@@ -43,7 +48,11 @@ private val APPLICATION_JSON_MIME = MediaType.parse("application/json")
 private fun convertString(text: String) = RequestBody.create(PLAIN_TEXT_MIME, text)
 private fun convertJson(text: String) = RequestBody.create(APPLICATION_JSON_MIME, text)
 
-private fun convertFile(name: String, file: SystemFile, mimeType: String? = null): MultipartBody.Part {
+private fun convertFile(
+    name: String,
+    file: SystemFile,
+    mimeType: String? = null
+): MultipartBody.Part {
     val mediaType = (mimeType ?: Files.probeContentType(file.toPath()))?.let { MediaType.parse(it) }
     val requestBody = RequestBody.create(mediaType, file)
 
@@ -79,6 +88,7 @@ class ApiClient(
     logLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.NONE,
     proxy: Proxy = Proxy.NO_PROXY
 ) {
+
     private val service: ApiService
 
     // TODO check if init is the best approach for this
@@ -110,6 +120,44 @@ class ApiClient(
     ): Call<Response<List<Update>>> {
         return service.getUpdates(offset, limit, timeout)
     }
+
+    fun setWebhook(
+        url: String,
+        certificate: TelegramFile? = null,
+        maxConnections: Int? = null,
+        allowedUpdates: List<String>? = null
+    ): Call<Response<Boolean>> = when (certificate) {
+        is ByFileId -> service.setWebhookWithCertificateAsFileId(
+            url = url,
+            certificateFileId = certificate.fileId,
+            maxConnections = maxConnections,
+            allowedUpdates = allowedUpdates
+        )
+        is ByUrl -> service.setWebhookWithCertificateAsFileUrl(
+            url = url,
+            certificateUrl = certificate.url,
+            maxConnections = maxConnections,
+            allowedUpdates = allowedUpdates
+        )
+        is ByFile -> service.setWebhookWithCertificateAsFile(
+            url = url.toMultipartBodyPart(ApiConstants.SetWebhook.URL),
+            certificate = certificate.file.toMultipartBodyPart(
+                partName = ApiConstants.SetWebhook.CERTIFICATE,
+                mediaType = MediaTypeConstants.UTF_8_TEXT
+            ),
+            maxConnections = maxConnections.toMultipartBodyPartOrNull(ApiConstants.SetWebhook.MAX_CONNECTIONS),
+            allowedUpdates = allowedUpdates.toMultipartBodyPartOrNull(ApiConstants.SetWebhook.ALLOWED_UPDATES)
+        )
+        null -> service.setWebhook(
+            url = url,
+            maxConnections = maxConnections,
+            allowedUpdates = allowedUpdates
+        )
+    }
+
+    fun deleteWebhook(): Call<Response<Boolean>> = service.deleteWebhook()
+
+    fun getWebhookInfo(): Call<Response<WebhookInfo>> = service.getWebhookInfo()
 
     /**
      * Available methods

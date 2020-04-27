@@ -7,6 +7,7 @@ buildscript {
     ext.retrofit_version = '2.3.0'
     ext.junit_version = "5.5.1"
     ext.logging_interceptor_version = '3.8.0'
+    ext.mock_web_server_version = '4.2.1'
 
     repositories {
         mavenCentral()
@@ -36,6 +37,7 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
     testImplementation "org.junit.jupiter:junit-jupiter-params:$junit_version"
     testImplementation "io.mockk:mockk:1.9.3.kotlin12"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$mock_web_server_version"
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {

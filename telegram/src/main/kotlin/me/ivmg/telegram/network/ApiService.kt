@@ -13,6 +13,7 @@ import me.ivmg.telegram.entities.ReplyMarkup
 import me.ivmg.telegram.entities.Update
 import me.ivmg.telegram.entities.User
 import me.ivmg.telegram.entities.UserProfilePhotos
+import me.ivmg.telegram.entities.WebhookInfo
 import me.ivmg.telegram.entities.inputmedia.InputMedia
 import me.ivmg.telegram.entities.payments.LabeledPrice
 import me.ivmg.telegram.entities.payments.ShippingOption
@@ -44,7 +45,46 @@ interface ApiService {
         @Query("timeout") timeout: Int? = 10
     ): Call<Response<List<Update>>>
 
-    // TODO webhooks
+    @FormUrlEncoded
+    @POST("setWebhook")
+    fun setWebhook(
+        @Field(ApiConstants.SetWebhook.URL) url: String,
+        @Field(ApiConstants.SetWebhook.MAX_CONNECTIONS) maxConnections: Int? = null,
+        @Field(ApiConstants.SetWebhook.ALLOWED_UPDATES) allowedUpdates: List<String>? = null
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("setWebhook")
+    fun setWebhookWithCertificateAsFileId(
+        @Field(ApiConstants.SetWebhook.URL) url: String,
+        @Field(ApiConstants.SetWebhook.CERTIFICATE) certificateFileId: String,
+        @Field(ApiConstants.SetWebhook.MAX_CONNECTIONS) maxConnections: Int? = null,
+        @Field(ApiConstants.SetWebhook.ALLOWED_UPDATES) allowedUpdates: List<String>? = null
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("setWebhook")
+    fun setWebhookWithCertificateAsFileUrl(
+        @Field(ApiConstants.SetWebhook.URL) url: String,
+        @Field(ApiConstants.SetWebhook.CERTIFICATE) certificateUrl: String,
+        @Field(ApiConstants.SetWebhook.MAX_CONNECTIONS) maxConnections: Int? = null,
+        @Field(ApiConstants.SetWebhook.ALLOWED_UPDATES) allowedUpdates: List<String>? = null
+    ): Call<Response<Boolean>>
+
+    @Multipart
+    @POST("setWebhook")
+    fun setWebhookWithCertificateAsFile(
+        @Part url: MultipartBody.Part,
+        @Part certificate: MultipartBody.Part,
+        @Part maxConnections: MultipartBody.Part? = null,
+        @Part allowedUpdates: MultipartBody.Part? = null
+    ): Call<Response<Boolean>>
+
+    @GET("deleteWebhook")
+    fun deleteWebhook(): Call<Response<Boolean>>
+
+    @GET("getWebhookInfo")
+    fun getWebhookInfo(): Call<Response<WebhookInfo>>
 
     /**
      * Available methods

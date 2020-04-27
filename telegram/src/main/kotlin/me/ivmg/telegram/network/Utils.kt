@@ -16,3 +16,11 @@ fun <T> Pair<Response<T?>?, Exception?>.fold(response: (T?) -> Unit = {}, error:
     if (first?.isSuccessful == true && first?.body() != null) response(first!!.body()!!)
     else error(ResponseError(first?.errorBody(), second))
 }
+
+fun <T, R> Pair<Response<T?>?, Exception?>.bimap(mapResponse: (T?) -> R, mapError: (ResponseError) -> R): R =
+    if (first?.isSuccessful == true && first?.body() != null) {
+        val response = first!!.body()!!
+        mapResponse(response)
+    } else {
+        mapError(ResponseError(first?.errorBody(), second))
+    }

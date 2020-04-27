@@ -1,0 +1,26 @@
+apply plugin: 'kotlin'
+
+repositories {
+    google()
+    jcenter()
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib"
+    compile "io.ktor:ktor-server-netty:1.2.6"
+    compile project(":telegram")
+}
+
+task runApp(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'me.ivmg.webhook.MainKt'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'me.ivmg.webhook.MainKt'
+    }
+
+
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}

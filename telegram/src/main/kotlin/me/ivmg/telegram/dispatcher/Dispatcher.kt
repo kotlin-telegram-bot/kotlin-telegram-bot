@@ -126,11 +126,11 @@ fun Dispatcher.videoNote(body: HandleVideoNoteUpdate) {
     addHandler(VideoNoteHandler(body))
 }
 
-class Dispatcher {
+class Dispatcher(
+    val updatesQueue: BlockingQueue<DispatchableObject> = LinkedBlockingQueue<DispatchableObject>()
+) {
 
     lateinit var bot: Bot
-
-    val updatesQueue: BlockingQueue<DispatchableObject> = LinkedBlockingQueue<DispatchableObject>()
 
     private val commandHandlers = mutableMapOf<String, ArrayList<Handler>>()
     private val errorHandlers = arrayListOf<HandleError>()
@@ -144,9 +144,10 @@ class Dispatcher {
     private fun checkQueueUpdates() {
         while (!Thread.currentThread().isInterrupted && !stopped) {
             val item = updatesQueue.take()
-            if (item != null) {
-                if (item is Update) handleUpdate(item)
-                else if (item is TelegramError) handleError(item)
+            when (item) {
+                is Update -> handleUpdate(item)
+                is TelegramError -> handleError(item)
+                else -> Unit
             }
         }
     }

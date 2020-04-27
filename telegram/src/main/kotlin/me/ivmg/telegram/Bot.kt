@@ -9,6 +9,7 @@ import me.ivmg.telegram.entities.ChatAction
 import me.ivmg.telegram.entities.InlineKeyboardMarkup
 import me.ivmg.telegram.entities.ParseMode
 import me.ivmg.telegram.entities.ReplyMarkup
+import me.ivmg.telegram.entities.TelegramFile
 import me.ivmg.telegram.entities.Update
 import me.ivmg.telegram.entities.inlinequeryresults.InlineQueryResult
 import me.ivmg.telegram.entities.inputmedia.InputMedia
@@ -19,16 +20,30 @@ import me.ivmg.telegram.entities.stickers.MaskPosition
 import me.ivmg.telegram.errors.RetrieveUpdatesError
 import me.ivmg.telegram.errors.TelegramError
 import me.ivmg.telegram.network.ApiClient
+import me.ivmg.telegram.network.bimap
 import me.ivmg.telegram.network.call
 import me.ivmg.telegram.types.DispatchableObject
+import me.ivmg.telegram.updater.Updater
+import me.ivmg.telegram.webhook.WebhookConfig
+import me.ivmg.telegram.webhook.WebhookConfigBuilder
 import okhttp3.logging.HttpLoggingInterceptor
 
-fun bot(body: Bot.Builder.() -> Unit) = Bot.Builder().build(body)
+fun bot(body: Bot.Builder.() -> Unit): Bot = Bot.Builder().build(body)
 
 fun Bot.Builder.dispatch(body: Dispatcher.() -> Unit) = updater.dispatcher.apply(body)
 
+fun Bot.Builder.webhook(
+    body: WebhookConfigBuilder.() -> Unit
+) {
+    val webhookConfigBuilder = WebhookConfigBuilder()
+    webhookConfigBuilder.apply(body)
+    webhookConfig = webhookConfigBuilder.build()
+}
+
 class Bot private constructor(
     private val updater: Updater,
+    private val updateMapper: UpdateMapper,
+    private val webhookConfig: WebhookConfig?,
     token: String,
     apiUrl: String,
     timeout: Int = 30,
@@ -43,27 +58,75 @@ class Bot private constructor(
     }
 
     class Builder {
+        val updater = Updater()
+        private val updateMapper = UpdateMapper()
+        var webhookConfig: WebhookConfig? = null
         lateinit var token: String
         var timeout: Int = 30
         var apiUrl: String = "https://api.telegram.org/"
         var logLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.BODY
         var proxy: Proxy = Proxy.NO_PROXY
 
-        val updater = Updater()
-
         fun build(): Bot {
-            return Bot(updater, token, apiUrl, timeout, logLevel, proxy)
+            return Bot(updater, updateMapper, webhookConfig, token, apiUrl, timeout, logLevel, proxy)
         }
 
         fun build(body: Bot.Builder.() -> Unit): Bot {
             body()
-            return Bot(updater, token, apiUrl, timeout, logLevel, proxy)
+            return Bot(updater, updateMapper, webhookConfig, token, apiUrl, timeout, logLevel, proxy)
         }
     }
 
     fun startPolling() = updater.startPolling()
 
     fun stopPolling() = updater.stopPolling()
+
+    /**
+     * Starts a webhook through the setWebhook Telegram's API operation and starts checking
+     * updates if it was successfully set.
+     * @return true if the webhook was successfully set or false otherwise
+     */
+    fun startWebhook(): Boolean {
+        if (webhookConfig == null) {
+            error("To start a webhook you need to configure it on bot set up. Check the `webhook` builder function")
+        }
+
+        val setWebhookResult = setWebhook(
+            webhookConfig.url,
+            webhookConfig.certificate,
+            webhookConfig.maxConnections,
+            webhookConfig.allowedUpdates
+        )
+        val webhookSet = setWebhookResult.bimap(
+            mapResponse = { true },
+            mapError = { false }
+        )
+
+        if (webhookSet) {
+            updater.startCheckingUpdates()
+        }
+
+        return webhookSet
+    }
+
+    /**
+     * Deletes a webhook through the deleteWebhook Telegram's API operation and stops checking updates.
+     * @return true if the webhook was successfully deleted or false otherwise
+     */
+    fun stopWebhook(): Boolean {
+        if (webhookConfig == null) {
+            error("To stop a webhook you need to configure it on bot set up. Check the `webhook` builder function")
+        }
+
+        updater.stopCheckingUpdates()
+
+        val deleteWebhookResult = deleteWebhook()
+
+        return deleteWebhookResult.bimap(
+            mapResponse = { true },
+            mapError = { false }
+        )
+    }
 
     fun getUpdates(offset: Long): List<DispatchableObject> {
         val call = if (offset > 0)
@@ -91,8 +154,24 @@ class Bot private constructor(
         return emptyList()
     }
 
+    fun setWebhook(
+        url: String,
+        certificate: TelegramFile? = null,
+        maxConnections: Int? = null,
+        allowedUpdates: List<String>? = null
+    ) = apiClient.setWebhook(url, certificate, maxConnections, allowedUpdates).call()
+
+    fun deleteWebhook() = apiClient.deleteWebhook().call()
+
+    fun getWebhookInfo() = apiClient.getWebhookInfo().call()
+
     fun processUpdate(update: Update) {
         updater.dispatcher.updatesQueue.put(update)
+    }
+
+    fun processUpdate(updateJson: String) {
+        val update = updateMapper.jsonToUpdate(updateJson)
+        processUpdate(update)
     }
 
     fun getMe() = apiClient.getMe().call()
