@@ -58,7 +58,10 @@ fun main(args: Array<String>) {
 ## Examples
 Take a look at the [examples folder](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/tree/master/samples).
 
-There is a simple echo bot and a more complex one with commands, filters, reply markup keyboard and more.
+There are several samples:
+* A simple echo bot
+* A more complex sample with commands, filter, reply markup keyboard and more
+* A sample getting updates through Telegram's webhook using a Netty server
 
 ## Download
 + Add the JitPack repository to your root build.gradle file:
@@ -76,6 +79,10 @@ dependencies {
     implementation 'io.github.kotlin-telegram-bot.kotlin-telegram-bot:telegram:x.y.z'
 }
 ```
+
+## Detailed documentation
+
+1. [Getting updates](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/tree/master/docs/gettingUpdates.md)
 
 ## Contributing
 

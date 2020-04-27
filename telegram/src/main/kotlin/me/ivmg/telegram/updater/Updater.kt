@@ -1,7 +1,8 @@
-package me.ivmg.telegram
+package me.ivmg.telegram.updater
 
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
+import me.ivmg.telegram.Bot
 import me.ivmg.telegram.dispatcher.Dispatcher
 import me.ivmg.telegram.entities.Update
 
@@ -14,9 +15,13 @@ class Updater {
     val dispatcher = Dispatcher()
 
     fun startPolling() {
+        startCheckingUpdates()
         stopped = false
-        executor.execute { dispatcher.startCheckingUpdates() }
         executor.execute { updaterStartPolling() }
+    }
+
+    fun startCheckingUpdates() {
+        executor.execute { dispatcher.startCheckingUpdates() }
     }
 
     private fun updaterStartPolling() {
@@ -41,6 +46,10 @@ class Updater {
 
     internal fun stopPolling() {
         stopped = true
+        stopCheckingUpdates()
+    }
+
+    fun stopCheckingUpdates() {
         dispatcher.stopCheckingUpdates()
     }
 }
