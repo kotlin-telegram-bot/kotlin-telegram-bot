@@ -1,25 +1,25 @@
-import me.ivmg.telegram.entities.Audio
-import me.ivmg.telegram.entities.CallbackQuery
-import me.ivmg.telegram.entities.Chat
-import me.ivmg.telegram.entities.ChatPhoto
-import me.ivmg.telegram.entities.Contact
-import me.ivmg.telegram.entities.Document
-import me.ivmg.telegram.entities.Game
-import me.ivmg.telegram.entities.Invoice
-import me.ivmg.telegram.entities.Location
-import me.ivmg.telegram.entities.Message
-import me.ivmg.telegram.entities.MessageEntity
-import me.ivmg.telegram.entities.PhotoSize
-import me.ivmg.telegram.entities.Update
-import me.ivmg.telegram.entities.User
-import me.ivmg.telegram.entities.Venue
-import me.ivmg.telegram.entities.Video
-import me.ivmg.telegram.entities.VideoNote
-import me.ivmg.telegram.entities.Voice
-import me.ivmg.telegram.entities.payments.PreCheckoutQuery
-import me.ivmg.telegram.entities.payments.ShippingQuery
-import me.ivmg.telegram.entities.payments.SuccessfulPayment
-import me.ivmg.telegram.entities.stickers.Sticker
+import com.github.kotlintelegrambot.entities.Audio
+import com.github.kotlintelegrambot.entities.CallbackQuery
+import com.github.kotlintelegrambot.entities.Chat
+import com.github.kotlintelegrambot.entities.ChatPhoto
+import com.github.kotlintelegrambot.entities.Contact
+import com.github.kotlintelegrambot.entities.Document
+import com.github.kotlintelegrambot.entities.Game
+import com.github.kotlintelegrambot.entities.Invoice
+import com.github.kotlintelegrambot.entities.Location
+import com.github.kotlintelegrambot.entities.Message
+import com.github.kotlintelegrambot.entities.MessageEntity
+import com.github.kotlintelegrambot.entities.PhotoSize
+import com.github.kotlintelegrambot.entities.Update
+import com.github.kotlintelegrambot.entities.User
+import com.github.kotlintelegrambot.entities.Venue
+import com.github.kotlintelegrambot.entities.Video
+import com.github.kotlintelegrambot.entities.VideoNote
+import com.github.kotlintelegrambot.entities.Voice
+import com.github.kotlintelegrambot.entities.payments.PreCheckoutQuery
+import com.github.kotlintelegrambot.entities.payments.ShippingQuery
+import com.github.kotlintelegrambot.entities.payments.SuccessfulPayment
+import com.github.kotlintelegrambot.entities.stickers.Sticker
 
 private const val ANY_UPDATE_ID = 3523523L
 

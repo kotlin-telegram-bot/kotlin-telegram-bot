@@ -1,4 +1,4 @@
-group 'me.ivmg.telegram'
+group 'com.github.kotlintelegrambot'
 version '1.0'
 
 buildscript {

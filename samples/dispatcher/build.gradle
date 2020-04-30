@@ -11,7 +11,7 @@ dependencies {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'me.ivmg.dispatcher.MainKt'
+        attributes 'Main-Class': 'com.github.kotlintelegrambot.MainKt'
     }
 
 

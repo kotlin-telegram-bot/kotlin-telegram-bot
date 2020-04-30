@@ -13,12 +13,12 @@ dependencies {
 
 task runApp(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
-    main = 'me.ivmg.webhook.MainKt'
+    main = 'com.github.kotlintelegrambot.webhook.MainKt'
 }
 
 jar {
     manifest {
-        attributes 'Main-Class': 'me.ivmg.webhook.MainKt'
+        attributes 'Main-Class': 'com.github.kotlintelegrambot.webhook.MainKt'
     }
 
 
