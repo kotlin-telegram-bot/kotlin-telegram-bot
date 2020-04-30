@@ -1,12 +1,12 @@
+import com.github.kotlintelegrambot.Bot
+import com.github.kotlintelegrambot.HandleUpdate
+import com.github.kotlintelegrambot.dispatcher.Dispatcher
+import com.github.kotlintelegrambot.dispatcher.handlers.Handler
+import com.github.kotlintelegrambot.types.DispatchableObject
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import java.util.concurrent.BlockingQueue
-import me.ivmg.telegram.Bot
-import me.ivmg.telegram.HandleUpdate
-import me.ivmg.telegram.dispatcher.Dispatcher
-import me.ivmg.telegram.dispatcher.handlers.Handler
-import me.ivmg.telegram.types.DispatchableObject
 import org.junit.jupiter.api.Test
 
 class DispatcherTest {

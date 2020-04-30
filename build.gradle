@@ -11,7 +11,7 @@ plugins {
 allprojects {
     apply from: "$rootDir/ktlint.gradle"
 
-    group 'me.ivmg.kotlin-telegram-bot'
+    group 'com.github.kotlintelegrambot'
     version '0.3.4'
 
     repositories {
