@@ -20,7 +20,7 @@ This library provides an API that lets you getting updates through the mentioned
 
 You'll just need to create an instance of a bot and call to the `startPolling` method: 
 
-```
+```kotlin
 bot {
     token = "YOUR_BOT_TOKEN"
     // bot implementation
@@ -49,7 +49,7 @@ For more detailed info about Telegram Bot API's webhooks check https://core.tele
 
 To use this feature from our library you'll have to do something like the next:
 
-```
+```kotlin
 val bot = bot {
         token = "YOUR_BOT_TOKEN"
         // bot implementattion
@@ -76,7 +76,7 @@ If your server has a CA trusted SSL certificate all is fine. Otherwise, you'll n
 
 To try the sample provided in this project you can generate a self-signed certificate with the next commands (replacing the capital words with your own names):
 
-```
+```bash
 # Generate the self-signed certificate in PEM format. Returns the certificate (.pem) and the private key (.key)
 openssl req -newkey rsa:2048 -sha256 -nodes -keyout YOURPRIVATE.key -x509 -days 365 -out YOURPUBLIC.pem -subj "/C=US/ST=New York/L=Brooklyn/O=Example Brooklyn Company/CN=YOURDOMAIN.EXAMPLE"
 
