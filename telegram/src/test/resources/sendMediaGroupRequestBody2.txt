@@ -1,0 +1,11 @@
+--%1$s
+Content-Disposition: form-data; name="chat_id"
+Content-Length: 7
+
+3242424
+--%1$s
+Content-Disposition: form-data; name="media"
+Content-Length: 104
+
+[{"media":"https://www.ghana.com/burying.mp4","type":"video"},{"media":"fweo32r32nruka","type":"photo"}]
+--%1$s--

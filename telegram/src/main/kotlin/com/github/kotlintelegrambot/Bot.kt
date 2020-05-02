@@ -10,6 +10,7 @@ import com.github.kotlintelegrambot.entities.TelegramFile
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.inlinequeryresults.InlineQueryResult
 import com.github.kotlintelegrambot.entities.inputmedia.InputMedia
+import com.github.kotlintelegrambot.entities.inputmedia.MediaGroup
 import com.github.kotlintelegrambot.entities.payments.PaymentInvoiceInfo
 import com.github.kotlintelegrambot.entities.payments.ShippingOption
 import com.github.kotlintelegrambot.entities.stickers.ChatPermissions
@@ -533,16 +534,18 @@ class Bot private constructor(
     ).call()
 
     fun sendMediaGroup(
-        chatId: Long,
-        media: List<InputMedia>,
+        chatId: String,
+        mediaGroup: MediaGroup,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null
-    ) = apiClient.sendMediaGroup(
-        chatId,
-        media,
-        disableNotification,
-        replyToMessageId
-    ).call()
+    ) = apiClient.sendMediaGroup(chatId, mediaGroup, disableNotification, replyToMessageId).call()
+
+    fun sendMediaGroup(
+        chatId: Long,
+        mediaGroup: MediaGroup,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null
+    ) = apiClient.sendMediaGroup(chatId, mediaGroup, disableNotification, replyToMessageId).call()
 
     fun sendLocation(
         chatId: Long,

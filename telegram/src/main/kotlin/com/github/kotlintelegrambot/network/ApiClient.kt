@@ -19,13 +19,16 @@ import com.github.kotlintelegrambot.entities.UserProfilePhotos
 import com.github.kotlintelegrambot.entities.WebhookInfo
 import com.github.kotlintelegrambot.entities.inlinequeryresults.InlineQueryResult
 import com.github.kotlintelegrambot.entities.inputmedia.InputMedia
+import com.github.kotlintelegrambot.entities.inputmedia.MediaGroup
 import com.github.kotlintelegrambot.entities.payments.LabeledPrice
 import com.github.kotlintelegrambot.entities.payments.ShippingOption
 import com.github.kotlintelegrambot.entities.stickers.ChatPermissions
 import com.github.kotlintelegrambot.entities.stickers.MaskPosition
 import com.github.kotlintelegrambot.entities.stickers.StickerSet
-import com.github.kotlintelegrambot.network.adapter.InlineQueryResultAdapter
-import com.google.gson.GsonBuilder
+import com.github.kotlintelegrambot.network.multipart.MultipartBodyFactory
+import com.github.kotlintelegrambot.network.multipart.toMultipartBodyPart
+import com.github.kotlintelegrambot.network.serialization.GsonFactory
+import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.File as SystemFile
 import java.net.Proxy
@@ -86,7 +89,9 @@ class ApiClient(
     private val apiUrl: String,
     private val botTimeout: Int = 30,
     logLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.NONE,
-    proxy: Proxy = Proxy.NO_PROXY
+    proxy: Proxy = Proxy.NO_PROXY,
+    private val gson: Gson = GsonFactory.createForApiClient(),
+    private val multipartBodyFactory: MultipartBodyFactory = MultipartBodyFactory(GsonFactory.createForMultipartBodyFactory())
 ) {
 
     private val service: ApiService
@@ -107,7 +112,7 @@ class ApiClient(
         val retrofit = Retrofit.Builder()
             .baseUrl("${apiUrl}bot$token/")
             .client(httpClient)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
 
         service = retrofit.create(ApiService::class.java)
@@ -145,8 +150,8 @@ class ApiClient(
                 partName = ApiConstants.SetWebhook.CERTIFICATE,
                 mediaType = MediaTypeConstants.UTF_8_TEXT
             ),
-            maxConnections = maxConnections.toMultipartBodyPartOrNull(ApiConstants.SetWebhook.MAX_CONNECTIONS),
-            allowedUpdates = allowedUpdates.toMultipartBodyPartOrNull(ApiConstants.SetWebhook.ALLOWED_UPDATES)
+            maxConnections = maxConnections?.toMultipartBodyPart(ApiConstants.SetWebhook.MAX_CONNECTIONS),
+            allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES)
         )
         null -> service.setWebhook(
             url = url,
@@ -162,7 +167,6 @@ class ApiClient(
     /**
      * Available methods
      */
-
     fun getMe(): Call<Response<User>> {
         return service.getMe()
     }
@@ -548,19 +552,50 @@ class ApiClient(
         )
     }
 
+    /**
+     * Use this method to send a group of photos or videos as an album
+     * @param chatId Unique identifier for the target chat
+     * @param mediaGroup An object describing photos and videos to be sent, must include 2-10 items
+     * @param disableNotification Sends the messages silently. Users will receive a notification with no sound
+     * @param replyToMessageId If the messages are a reply, ID of the original message
+     * @return an array of the sent Messages
+     */
     fun sendMediaGroup(
         chatId: Long,
-        media: List<InputMedia>,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?
-    ): Call<Response<Message>> {
-
-        return service.sendMediaGroup(
+        mediaGroup: MediaGroup,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null
+    ): Call<Response<Array<Message>>> {
+        val sendMediaGroupMultipartBody = multipartBodyFactory.createForSendMediaGroup(
             chatId,
-            media,
+            mediaGroup,
             disableNotification,
             replyToMessageId
         )
+        return service.sendMediaGroup(sendMediaGroupMultipartBody)
+    }
+
+    /**
+     * Use this method to send a group of photos or videos as an album
+     * @param chatId Username of the target channel (in the format @channelusername)
+     * @param mediaGroup An object describing photos and videos to be sent, must include 2-10 items
+     * @param disableNotification Sends the messages silently. Users will receive a notification with no sound
+     * @param replyToMessageId If the messages are a reply, ID of the original message
+     * @return an array of the sent Messages
+     */
+    fun sendMediaGroup(
+        chatId: String,
+        mediaGroup: MediaGroup,
+        disableNotification: Boolean?,
+        replyToMessageId: Long?
+    ): Call<Response<Array<Message>>> {
+        val sendMediaGroupMultipartBody = multipartBodyFactory.createForSendMediaGroup(
+            chatId,
+            mediaGroup,
+            disableNotification,
+            replyToMessageId
+        )
+        return service.sendMediaGroup(sendMediaGroupMultipartBody)
     }
 
     fun sendLocation(
@@ -1180,9 +1215,6 @@ class ApiClient(
         switchPmText: String?,
         switchPmParameter: String?
     ): Call<Response<Boolean>> {
-        val gson = GsonBuilder().apply {
-            registerTypeAdapter(InlineQueryResult::class.java, InlineQueryResultAdapter())
-        }.create()
         val inlineQueryResultsType = object : TypeToken<List<InlineQueryResult>>() {}.type
         val serializedInlineQueryResults = gson.toJson(inlineQueryResults, inlineQueryResultsType)
 
@@ -1202,6 +1234,6 @@ class ApiClient(
     }
 
     fun setMyCommands(commands: List<BotCommand>): Call<Response<Boolean>> {
-        return service.setMyCommands(GsonBuilder().create().toJson(commands))
+        return service.setMyCommands(gson.toJson(commands))
     }
 }

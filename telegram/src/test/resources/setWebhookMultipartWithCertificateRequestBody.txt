@@ -1,9 +1,9 @@
---%s
+--%1$s
 Content-Disposition: form-data; name="url"
 Content-Length: 27
 
 https://webhook.telegram.io
---%s
+--%1$s
 Content-Disposition: form-data; name="certificate"; filename="certificate.pem"
 Content-Type: text/*; charset=utf-8
 Content-Length: 3254
@@ -68,4 +68,4 @@ GDz3w+4/hJHgyLwZ1X9JB5rJ17nCPDJw1ABvvIG32ZGyUSpXno2eiGfmn+TYpNk0
 sWgi
 -----END CERTIFICATE-----
 
---%s--
+--%1$s--
