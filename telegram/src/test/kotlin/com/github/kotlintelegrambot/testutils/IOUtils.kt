@@ -1,4 +1,4 @@
-package com.github.kotlintelegrambot
+package com.github.kotlintelegrambot.testutils
 
 import java.io.File
 

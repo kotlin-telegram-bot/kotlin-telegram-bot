@@ -1,4 +1,4 @@
-package com.github.kotlintelegrambot.network.adapter
+package com.github.kotlintelegrambot.network.serialization.adapter
 
 import com.github.kotlintelegrambot.entities.inlinequeryresults.InlineQueryResult
 import com.github.kotlintelegrambot.entities.inlinequeryresults.InlineQueryResult.Article

@@ -292,14 +292,9 @@ interface ApiService {
         @Field("reply_markup") replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
-    @FormUrlEncoded
+    @Multipart
     @POST("sendMediaGroup")
-    fun sendMediaGroup(
-        @Field("chat_id") chatId: Long,
-        @Field("media") media: List<InputMedia>,
-        @Field("disable_notification") disableNotification: Boolean?,
-        @Field("reply_to_message_id") replyToMessageId: Long?
-    ): Call<Response<Message>>
+    fun sendMediaGroup(@Part body: List<MultipartBody.Part>): Call<Response<Array<Message>>>
 
     @FormUrlEncoded
     @POST("sendLocation")

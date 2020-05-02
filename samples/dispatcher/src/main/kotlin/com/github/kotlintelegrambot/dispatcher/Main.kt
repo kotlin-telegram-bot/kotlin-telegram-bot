@@ -10,8 +10,11 @@ import com.github.kotlintelegrambot.entities.KeyboardButton
 import com.github.kotlintelegrambot.entities.KeyboardReplyMarkup
 import com.github.kotlintelegrambot.entities.ParseMode.MARKDOWN
 import com.github.kotlintelegrambot.entities.ReplyKeyboardRemove
+import com.github.kotlintelegrambot.entities.TelegramFile.ByUrl
 import com.github.kotlintelegrambot.entities.inlinequeryresults.InlineQueryResult
 import com.github.kotlintelegrambot.entities.inlinequeryresults.InputMessageContent
+import com.github.kotlintelegrambot.entities.inputmedia.InputMediaPhoto
+import com.github.kotlintelegrambot.entities.inputmedia.MediaGroup
 import com.github.kotlintelegrambot.extensions.filters.Filter
 import com.github.kotlintelegrambot.network.fold
 import okhttp3.logging.HttpLoggingInterceptor
@@ -82,6 +85,21 @@ fun main(args: Array<String>) {
 
                 val keyboardMarkup = KeyboardReplyMarkup(keyboard = generateUsersButton(), resizeKeyboard = true)
                 bot.sendMessage(chatId = chatId, text = "Hello, users buttons!", replyMarkup = keyboardMarkup)
+            }
+
+            command("mediaGroup") { bot, update ->
+                val chatId = update.message?.chat?.id ?: return@command
+                val messageId = update.message?.messageId ?: return@command
+                bot.sendMediaGroup(
+                    chatId = chatId,
+                    mediaGroup = MediaGroup.from(
+                        InputMediaPhoto(
+                            media = ByUrl("https://www.sngular.com/wp-content/uploads/2019/11/Kotlin-Blog-1400x411.png"),
+                            caption = "I come from an url :P"
+                        )
+                    ),
+                    replyToMessageId = messageId
+                )
             }
 
             callbackQuery("testButton") { bot, update ->
