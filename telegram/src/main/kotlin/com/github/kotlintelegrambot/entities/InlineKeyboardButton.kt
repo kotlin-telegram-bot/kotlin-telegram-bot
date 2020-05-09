@@ -8,4 +8,4 @@ data class InlineKeyboardButton(
     @Name("callback_data") val callbackData: String? = null,
     @Name("switch_inline_query") val switchInlineQuery: String? = null,
     @Name("switch_inline_query_current_chat") val switchInlineQueryCurrentChat: String? = null
-) : ReplyMarkup
+)
