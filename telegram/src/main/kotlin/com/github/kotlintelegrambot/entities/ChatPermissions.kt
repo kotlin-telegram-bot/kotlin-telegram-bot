@@ -1,4 +1,4 @@
-package com.github.kotlintelegrambot.entities.stickers
+package com.github.kotlintelegrambot.entities
 
 import com.google.gson.annotations.SerializedName as Name
 

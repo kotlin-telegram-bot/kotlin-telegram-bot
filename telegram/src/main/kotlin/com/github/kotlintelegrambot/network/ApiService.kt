@@ -5,6 +5,7 @@ import com.github.kotlintelegrambot.entities.BotCommand
 import com.github.kotlintelegrambot.entities.Chat
 import com.github.kotlintelegrambot.entities.ChatAction
 import com.github.kotlintelegrambot.entities.ChatMember
+import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.File
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.ReplyMarkup
@@ -15,7 +16,6 @@ import com.github.kotlintelegrambot.entities.WebhookInfo
 import com.github.kotlintelegrambot.entities.inputmedia.InputMedia
 import com.github.kotlintelegrambot.entities.payments.LabeledPrice
 import com.github.kotlintelegrambot.entities.payments.ShippingOption
-import com.github.kotlintelegrambot.entities.stickers.ChatPermissions
 import com.github.kotlintelegrambot.entities.stickers.MaskPosition
 import com.github.kotlintelegrambot.entities.stickers.StickerSet
 import com.google.gson.Gson
