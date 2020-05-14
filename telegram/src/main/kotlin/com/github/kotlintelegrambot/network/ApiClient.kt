@@ -512,7 +512,7 @@ class ApiClient(
 
     fun sendVideoNote(
         chatId: Long,
-        audio: SystemFile,
+        videoNote: SystemFile,
         duration: Int?,
         length: Int?,
         disableNotification: Boolean?,
@@ -522,7 +522,7 @@ class ApiClient(
 
         return service.sendVideoNote(
             convertString(chatId.toString()),
-            convertFile("video_note", audio),
+            convertFile("video_note", videoNote),
             if (duration != null) convertString(duration.toString()) else null,
             if (length != null) convertString(length.toString()) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
