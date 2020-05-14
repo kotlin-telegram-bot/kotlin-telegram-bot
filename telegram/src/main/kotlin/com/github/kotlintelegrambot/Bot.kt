@@ -499,7 +499,7 @@ class Bot private constructor(
 
     fun sendVideoNote(
         chatId: Long,
-        audio: SystemFile,
+        videoNote: SystemFile,
         duration: Int? = null,
         length: Int? = null,
         disableNotification: Boolean? = null,
@@ -507,7 +507,7 @@ class Bot private constructor(
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendVideoNote(
         chatId,
-        audio,
+        videoNote,
         duration,
         length,
         disableNotification,
