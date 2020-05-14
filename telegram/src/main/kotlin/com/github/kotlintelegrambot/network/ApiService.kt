@@ -130,7 +130,7 @@ interface ApiService {
     @POST("sendPhoto")
     fun sendPhoto(
         @Field("chat_id") chatId: Long,
-        @Field("photo") fileId: String,
+        @Field("photo") photoId: String,
         @Field("caption") caption: String?,
         @Field("parse_mode") parseMode: String?,
         @Field("disable_notification") disableNotification: Boolean?,
@@ -155,7 +155,7 @@ interface ApiService {
     @POST("sendAudio")
     fun sendAudio(
         @Field("chat_id") chatId: Long,
-        @Field("audio") fileId: String,
+        @Field("audio") audioId: String,
         @Field("duration") duration: Int?,
         @Field("performer") performer: String?,
         @Field("title") title: String?,
@@ -180,7 +180,7 @@ interface ApiService {
     @POST("sendDocument")
     fun sendDocument(
         @Field("chat_id") chatId: Long,
-        @Field("document") fileId: String,
+        @Field("document") documentId: String,
         @Field("caption") caption: String?,
         @Field("parse_mode") parseMode: String?,
         @Field("disable_notification") disableNotification: Boolean?,
@@ -206,7 +206,7 @@ interface ApiService {
     @POST("sendVideo")
     fun sendVideo(
         @Field("chat_id") chatId: Long,
-        @Field("video") fileId: String,
+        @Field("video") videoId: String,
         @Field("duration") duration: Int?,
         @Field("width") width: Int?,
         @Field("height") height: Int?,
@@ -235,7 +235,7 @@ interface ApiService {
     @POST("sendAnimation")
     fun sendAnimation(
         @Field("chat_id") chatId: Long,
-        @Field("animation") fileId: String,
+        @Field("animation") animationId: String,
         @Field("duration") duration: Int?,
         @Field("width") width: Int?,
         @Field("height") height: Int?,
@@ -261,7 +261,7 @@ interface ApiService {
     @POST("sendVoice")
     fun sendVoice(
         @Field("chat_id") chatId: Long,
-        @Field("voice") fileId: String,
+        @Field("voice") voiceId: String,
         @Field("duration") duration: Int?,
         @Field("disable_notification") disableNotification: Boolean?,
         @Field("reply_to_message_id") replyToMessageId: Long?,
@@ -284,7 +284,7 @@ interface ApiService {
     @POST("sendVideoNote")
     fun sendVideoNote(
         @Field("chat_id") chatId: Long,
-        @Field("video_note") fileId: String,
+        @Field("video_note") videoNoteId: String,
         @Field("duration") duration: Int?,
         @Field("length") length: Int?,
         @Field("disable_notification") disableNotification: Boolean?,
@@ -611,7 +611,7 @@ interface ApiService {
     @POST("sendSticker")
     fun sendSticker(
         @Field("chat_id") chatId: Long,
-        @Field("sticker") fileId: String,
+        @Field("sticker") stickerId: String,
         @Field("disable_notification") disableNotification: Boolean?,
         @Field("reply_to_message_id") replyToMessageId: Long?,
         @Field("reply_markup") replyMarkup: ReplyMarkup? = null
@@ -647,7 +647,7 @@ interface ApiService {
         @Field("user_id") userId: Long,
         @Field("name") name: String,
         @Field("title") title: String,
-        @Field("png_sticker") fileId: String,
+        @Field("png_sticker") pngStickerId: String,
         @Field("emojis") emojis: String,
         @Field("contains_masks") containsMasks: Boolean?,
         @Field("mask_position") maskPosition: MaskPosition?
@@ -668,7 +668,7 @@ interface ApiService {
     fun addStickerToSet(
         @Field("user_id") userId: Long,
         @Field("name") name: String,
-        @Field("png_sticker") fileId: String,
+        @Field("png_sticker") pngStickerId: String,
         @Field("emojis") emojis: String,
         @Field("mask_position") maskPosition: MaskPosition?
     ): Call<Response<Boolean>>
@@ -676,14 +676,14 @@ interface ApiService {
     @FormUrlEncoded
     @POST("setStickerPositionInSet")
     fun setStickerPositionInSet(
-        @Part("sticker") sticker: String,
+        @Part("sticker") stickerId: String,
         @Part("position") position: Int
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
     @POST("deleteStickerFromSet")
     fun deleteStickerFromSet(
-        @Part("sticker") sticker: String
+        @Part("sticker") stickerId: String
     ): Call<Response<Boolean>>
 
     /**

@@ -227,7 +227,7 @@ class Bot private constructor(
 
     fun sendPhoto(
         chatId: Long,
-        photo: String,
+        photoId: String,
         caption: String? = null,
         parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
@@ -235,7 +235,7 @@ class Bot private constructor(
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendPhoto(
         chatId,
-        photo,
+        photoId,
         caption,
         parseMode?.modeName,
         disableNotification,
@@ -245,14 +245,14 @@ class Bot private constructor(
 
     fun sendAudio(
         chatId: Long,
-        audio: String,
+        audioId: String,
         caption: String? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendAudio(
         chatId,
-        audio,
+        audioId,
         null,
         null,
         caption,
@@ -283,7 +283,7 @@ class Bot private constructor(
 
     fun sendAudio(
         chatId: Long,
-        audio: String,
+        audioId: String,
         duration: Int? = null,
         performer: String? = null,
         title: String? = null,
@@ -292,7 +292,7 @@ class Bot private constructor(
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendAudio(
         chatId,
-        audio,
+        audioId,
         duration,
         performer,
         title,
@@ -321,7 +321,7 @@ class Bot private constructor(
 
     fun sendDocument(
         chatId: Long,
-        fileBytes: ByteArray,
+        document: ByteArray,
         caption: String? = null,
         parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
@@ -330,7 +330,7 @@ class Bot private constructor(
         fileName: String
     ) = apiClient.sendDocument(
         chatId,
-        fileBytes,
+        document,
         caption,
         parseMode?.modeName,
         disableNotification,
@@ -341,7 +341,7 @@ class Bot private constructor(
 
     fun sendDocument(
         chatId: Long,
-        fileId: String,
+        documentId: String,
         caption: String? = null,
         parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
@@ -349,7 +349,7 @@ class Bot private constructor(
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendDocument(
         chatId,
-        fileId,
+        documentId,
         caption,
         parseMode?.modeName,
         disableNotification,
@@ -381,7 +381,7 @@ class Bot private constructor(
 
     fun sendVideo(
         chatId: Long,
-        fileId: String,
+        videoId: String,
         duration: Int? = null,
         width: Int? = null,
         height: Int? = null,
@@ -391,7 +391,7 @@ class Bot private constructor(
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendVideo(
         chatId,
-        fileId,
+        videoId,
         duration,
         width,
         height,
@@ -427,7 +427,7 @@ class Bot private constructor(
 
     fun sendAnimation(
         chatId: Long,
-        fileId: String,
+        animationId: String,
         duration: Int? = null,
         width: Int? = null,
         height: Int? = null,
@@ -438,7 +438,7 @@ class Bot private constructor(
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendAnimation(
         chatId,
-        fileId,
+        animationId,
         duration,
         width,
         height,
@@ -451,14 +451,14 @@ class Bot private constructor(
 
     fun sendVoice(
         chatId: Long,
-        audio: ByteArray,
+        voice: ByteArray,
         duration: Int? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendVoice(
         chatId,
-        audio,
+        voice,
         duration,
         disableNotification,
         replyToMessageId,
@@ -467,14 +467,14 @@ class Bot private constructor(
 
     fun sendVoice(
         chatId: Long,
-        audio: SystemFile,
+        voice: SystemFile,
         duration: Int? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendVoice(
         chatId,
-        audio,
+        voice,
         duration,
         disableNotification,
         replyToMessageId,
@@ -483,14 +483,14 @@ class Bot private constructor(
 
     fun sendVoice(
         chatId: Long,
-        audioId: String,
+        voiceId: String,
         duration: Int? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendVoice(
         chatId,
-        audioId,
+        voiceId,
         duration,
         disableNotification,
         replyToMessageId,
@@ -834,13 +834,13 @@ class Bot private constructor(
 
     fun sendSticker(
         chatId: Long,
-        sticker: String,
+        stickerId: String,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         replyMarkup: ReplyMarkup?
     ) = apiClient.sendSticker(
         chatId,
-        sticker,
+        stickerId,
         disableNotification,
         replyToMessageId,
         replyMarkup
@@ -880,7 +880,7 @@ class Bot private constructor(
         userId: Long,
         name: String,
         title: String,
-        pngSticker: String,
+        pngStickerId: String,
         emojis: String,
         containsMasks: Boolean? = null,
         maskPosition: MaskPosition?
@@ -888,7 +888,7 @@ class Bot private constructor(
         userId,
         name,
         title,
-        pngSticker,
+        pngStickerId,
         emojis,
         containsMasks,
         maskPosition
@@ -911,29 +911,29 @@ class Bot private constructor(
     fun addStickerToSet(
         userId: Long,
         name: String,
-        pngSticker: String,
+        pngStickerId: String,
         emojis: String,
         maskPosition: MaskPosition?
     ) = apiClient.addStickerToSet(
         userId,
         name,
-        pngSticker,
+        pngStickerId,
         emojis,
         maskPosition
     ).call()
 
     fun setStickerPositionInSet(
-        sticker: String,
+        stickerId: String,
         position: Int
     ) = apiClient.setStickerPositionInSet(
-        sticker,
+        stickerId,
         position
     ).call()
 
     fun deleteStickerFromSet(
-        sticker: String
+        stickerId: String
     ) = apiClient.deleteStickerFromSet(
-        sticker
+        stickerId
     ).call()
 
     /**

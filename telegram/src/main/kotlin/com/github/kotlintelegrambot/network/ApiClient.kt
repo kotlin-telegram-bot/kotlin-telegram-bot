@@ -220,7 +220,7 @@ class ApiClient(
 
     fun sendPhoto(
         chatId: Long,
-        photo: String,
+        photoId: String,
         caption: String?,
         parseMode: String?,
         disableNotification: Boolean?,
@@ -230,7 +230,7 @@ class ApiClient(
 
         return service.sendPhoto(
             chatId,
-            photo,
+            photoId,
             caption,
             parseMode,
             disableNotification,
@@ -264,7 +264,7 @@ class ApiClient(
 
     fun sendAudio(
         chatId: Long,
-        audio: String,
+        audioId: String,
         duration: Int?,
         performer: String?,
         title: String?,
@@ -275,7 +275,7 @@ class ApiClient(
 
         return service.sendAudio(
             chatId,
-            audio,
+            audioId,
             duration,
             performer,
             title,
@@ -308,7 +308,7 @@ class ApiClient(
 
     fun sendDocument(
         chatId: Long,
-        fileId: String,
+        documentId: String,
         caption: String?,
         parseMode: String?,
         disableNotification: Boolean?,
@@ -318,7 +318,7 @@ class ApiClient(
 
         return service.sendDocument(
             chatId,
-            fileId,
+            documentId,
             caption,
             parseMode,
             disableNotification,
@@ -329,7 +329,7 @@ class ApiClient(
 
     fun sendDocument(
         chatId: Long,
-        fileBytes: ByteArray,
+        document: ByteArray,
         caption: String?,
         parseMode: String?,
         disableNotification: Boolean?,
@@ -340,7 +340,7 @@ class ApiClient(
 
         return service.sendDocument(
             convertString(chatId.toString()),
-            fileBytes.toMultipartBodyPart(name = "document", filename = filename),
+            document.toMultipartBodyPart(name = "document", filename = filename),
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
@@ -376,7 +376,7 @@ class ApiClient(
 
     fun sendVideo(
         chatId: Long,
-        fileId: String,
+        videoId: String,
         duration: Int?,
         width: Int?,
         height: Int?,
@@ -388,7 +388,7 @@ class ApiClient(
 
         return service.sendVideo(
             chatId,
-            fileId,
+            videoId,
             duration,
             width,
             height,
@@ -428,7 +428,7 @@ class ApiClient(
 
     fun sendAnimation(
         chatId: Long,
-        fileId: String,
+        animationId: String,
         duration: Int?,
         width: Int?,
         height: Int?,
@@ -441,7 +441,7 @@ class ApiClient(
 
         return service.sendAnimation(
             chatId,
-            fileId,
+            animationId,
             duration,
             width,
             height,
@@ -455,7 +455,7 @@ class ApiClient(
 
     fun sendVoice(
         chatId: Long,
-        audio: SystemFile,
+        voice: SystemFile,
         duration: Int?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
@@ -464,7 +464,7 @@ class ApiClient(
 
         return service.sendVoice(
             convertString(chatId.toString()),
-            convertFile("voice", audio),
+            convertFile("voice", voice),
             if (duration != null) convertString(duration.toString()) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
@@ -474,7 +474,7 @@ class ApiClient(
 
     fun sendVoice(
         chatId: Long,
-        audioId: String,
+        voiceId: String,
         duration: Int?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
@@ -483,7 +483,7 @@ class ApiClient(
 
         return service.sendVoice(
             chatId,
-            audioId,
+            voiceId,
             duration,
             disableNotification,
             replyToMessageId,
@@ -493,7 +493,7 @@ class ApiClient(
 
     fun sendVoice(
         chatId: Long,
-        audio: ByteArray,
+        voice: ByteArray,
         duration: Int? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
@@ -502,7 +502,7 @@ class ApiClient(
 
         return service.sendVoice(
             convertString(chatId.toString()),
-            convertBytes("voice", audio),
+            convertBytes("voice", voice),
             if (duration != null) convertString(duration.toString()) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
@@ -1077,7 +1077,7 @@ class ApiClient(
 
     fun sendSticker(
         chatId: Long,
-        sticker: String,
+        stickerId: String,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
         replyMarkup: ReplyMarkup?
@@ -1085,7 +1085,7 @@ class ApiClient(
 
         return service.sendSticker(
             chatId,
-            sticker,
+            stickerId,
             disableNotification,
             replyToMessageId,
             replyMarkup
@@ -1135,7 +1135,7 @@ class ApiClient(
         userId: Long,
         name: String,
         title: String,
-        pngSticker: String,
+        pngStickerId: String,
         emojis: String,
         containsMasks: Boolean?,
         maskPosition: MaskPosition?
@@ -1145,7 +1145,7 @@ class ApiClient(
             userId,
             name,
             title,
-            pngSticker,
+            pngStickerId,
             emojis,
             containsMasks,
             maskPosition
@@ -1172,7 +1172,7 @@ class ApiClient(
     fun addStickerToSet(
         userId: Long,
         name: String,
-        pngSticker: String,
+        pngStickerId: String,
         emojis: String,
         maskPosition: MaskPosition?
     ): Call<Response<Boolean>> {
@@ -1180,29 +1180,29 @@ class ApiClient(
         return service.addStickerToSet(
             userId,
             name,
-            pngSticker,
+            pngStickerId,
             emojis,
             maskPosition
         )
     }
 
     fun setStickerPositionInSet(
-        sticker: String,
+        stickerId: String,
         position: Int
     ): Call<Response<Boolean>> {
 
         return service.setStickerPositionInSet(
-            sticker,
+            stickerId,
             position
         )
     }
 
     fun deleteStickerFromSet(
-        sticker: String
+        stickerId: String
     ): Call<Response<Boolean>> {
 
         return service.deleteStickerFromSet(
-            sticker
+            stickerId
         )
     }
 
