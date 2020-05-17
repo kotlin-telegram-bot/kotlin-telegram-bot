@@ -62,6 +62,7 @@ There are several samples:
 * A simple echo bot
 * A more complex sample with commands, filter, reply markup keyboard and more
 * A sample getting updates through Telegram's webhook using a Netty server
+* An example bot sending polls and listening to poll answers
 
 ## Download
 + Add the JitPack repository to your root build.gradle file:
@@ -83,6 +84,7 @@ dependencies {
 ## Detailed documentation
 
 1. [Getting updates](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/tree/master/docs/gettingUpdates.md)
+2. [Polls](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/tree/master/docs/polls.md)
 
 ## Contributing
 

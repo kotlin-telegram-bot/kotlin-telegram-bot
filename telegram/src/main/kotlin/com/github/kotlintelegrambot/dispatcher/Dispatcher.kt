@@ -10,6 +10,7 @@ import com.github.kotlintelegrambot.HandleError
 import com.github.kotlintelegrambot.HandleGameUpdate
 import com.github.kotlintelegrambot.HandleInlineQuery
 import com.github.kotlintelegrambot.HandlePhotosUpdate
+import com.github.kotlintelegrambot.HandlePollAnswer
 import com.github.kotlintelegrambot.HandleStickerUpdate
 import com.github.kotlintelegrambot.HandleUpdate
 import com.github.kotlintelegrambot.HandleVideoNoteUpdate
@@ -25,6 +26,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.Handler
 import com.github.kotlintelegrambot.dispatcher.handlers.InlineQueryHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.LocationHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.MessageHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.PollAnswerHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.TextHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.AnimationHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.AudioHandler
@@ -124,6 +126,10 @@ fun Dispatcher.voice(body: HandleVoiceUpdate) {
 
 fun Dispatcher.videoNote(body: HandleVideoNoteUpdate) {
     addHandler(VideoNoteHandler(body))
+}
+
+fun Dispatcher.pollAnswer(body: HandlePollAnswer) {
+    addHandler(PollAnswerHandler(body))
 }
 
 class Dispatcher(
