@@ -33,7 +33,7 @@ data class Message(
     val contact: Contact? = null,
     val location: Location? = null,
     val venue: Venue? = null,
-    @Name("new_chat_member") val newChatMember: User? = null,
+    @Name("new_chat_members") val newChatMembers: List<User>? = null,
     @Name("left_chat_member") val leftChatMember: User? = null,
     @Name("new_chat_title") val newChatTitle: String? = null,
     @Name("new_chat_photo") val newChatPhoto: List<PhotoSize>? = null,

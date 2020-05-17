@@ -25,6 +25,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.Handler
 import com.github.kotlintelegrambot.dispatcher.handlers.InlineQueryHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.LocationHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.MessageHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.NewChatMembersHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.TextHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.AnimationHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.AudioHandler
@@ -124,6 +125,10 @@ fun Dispatcher.voice(body: HandleVoiceUpdate) {
 
 fun Dispatcher.videoNote(body: HandleVideoNoteUpdate) {
     addHandler(VideoNoteHandler(body))
+}
+
+fun Dispatcher.newChatMembers(body: HandleUpdate) {
+    addHandler(NewChatMembersHandler(body))
 }
 
 class Dispatcher(
