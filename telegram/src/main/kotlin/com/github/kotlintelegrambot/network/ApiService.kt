@@ -1,12 +1,13 @@
 package com.github.kotlintelegrambot.network
 
-import com.github.kotlintelegrambot.Poll
 import com.github.kotlintelegrambot.entities.BotCommand
 import com.github.kotlintelegrambot.entities.Chat
 import com.github.kotlintelegrambot.entities.ChatAction
 import com.github.kotlintelegrambot.entities.ChatMember
+import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.File
 import com.github.kotlintelegrambot.entities.Message
+import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.ReplyMarkup
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.User
@@ -15,7 +16,9 @@ import com.github.kotlintelegrambot.entities.WebhookInfo
 import com.github.kotlintelegrambot.entities.inputmedia.InputMedia
 import com.github.kotlintelegrambot.entities.payments.LabeledPrice
 import com.github.kotlintelegrambot.entities.payments.ShippingOption
-import com.github.kotlintelegrambot.entities.stickers.ChatPermissions
+import com.github.kotlintelegrambot.entities.polls.Poll
+import com.github.kotlintelegrambot.entities.polls.PollFields
+import com.github.kotlintelegrambot.entities.polls.PollType
 import com.github.kotlintelegrambot.entities.stickers.MaskPosition
 import com.github.kotlintelegrambot.entities.stickers.StickerSet
 import com.google.gson.Gson
@@ -358,12 +361,41 @@ interface ApiService {
     @FormUrlEncoded
     @POST("sendPoll")
     fun sendPoll(
-        @Field("chat_id") chatId: Long,
-        @Field("question") question: String,
-        @Field("options") options: List<String>,
-        @Field("disable_notification") disableNotification: Boolean?,
-        @Field("reply_to_message_id") replyToMessageId: Long?,
-        @Field("reply_markup") replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.CHAT_ID) chatId: Long,
+        @Field(PollFields.QUESTION) question: String,
+        @Field(PollFields.OPTIONS) options: String,
+        @Field(PollFields.IS_ANONYMOUS) isAnonymous: Boolean? = null,
+        @Field(PollFields.TYPE) type: PollType? = null,
+        @Field(PollFields.ALLOWS_MULTIPLE_ANSWERS) allowsMultipleAnswers: Boolean? = null,
+        @Field(PollFields.CORRECT_OPTION_ID) correctOptionId: Int? = null,
+        @Field(PollFields.EXPLANATION) explanation: String? = null,
+        @Field(PollFields.EXPLANATION_PARSE_MODE) explanationParseMode: ParseMode? = null,
+        @Field(PollFields.OPEN_PERIOD) openPeriod: Int? = null,
+        @Field(PollFields.CLOSE_DATE) closeDate: Long? = null,
+        @Field(PollFields.IS_CLOSED) isClosed: Boolean? = null,
+        @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+    ): Call<Response<Message>>
+
+    @FormUrlEncoded
+    @POST("sendPoll")
+    fun sendPoll(
+        @Field(ApiConstants.CHAT_ID) channelUsername: String,
+        @Field(PollFields.QUESTION) question: String,
+        @Field(PollFields.OPTIONS) options: String,
+        @Field(PollFields.IS_ANONYMOUS) isAnonymous: Boolean? = null,
+        @Field(PollFields.TYPE) type: PollType? = null,
+        @Field(PollFields.ALLOWS_MULTIPLE_ANSWERS) allowsMultipleAnswers: Boolean? = null,
+        @Field(PollFields.CORRECT_OPTION_ID) correctOptionId: Int? = null,
+        @Field(PollFields.EXPLANATION) explanation: String? = null,
+        @Field(PollFields.EXPLANATION_PARSE_MODE) explanationParseMode: ParseMode? = null,
+        @Field(PollFields.OPEN_PERIOD) openPeriod: Int? = null,
+        @Field(PollFields.CLOSE_DATE) closeDate: Long? = null,
+        @Field(PollFields.IS_CLOSED) isClosed: Boolean? = null,
+        @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
     @FormUrlEncoded

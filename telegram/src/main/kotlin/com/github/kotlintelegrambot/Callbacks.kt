@@ -12,6 +12,7 @@ import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.Video
 import com.github.kotlintelegrambot.entities.VideoNote
 import com.github.kotlintelegrambot.entities.Voice
+import com.github.kotlintelegrambot.entities.polls.PollAnswer
 import com.github.kotlintelegrambot.entities.stickers.Sticker
 import com.github.kotlintelegrambot.errors.TelegramError
 
@@ -26,6 +27,8 @@ typealias ContactHandleUpdate = (Bot, Update, Contact) -> Unit
 typealias LocationHandleUpdate = (Bot, Update, Location) -> Unit
 
 typealias HandleInlineQuery = (Bot, InlineQuery) -> Unit
+
+typealias HandlePollAnswer = (Bot, PollAnswer) -> Unit
 
 typealias HandleAudioUpdate = (Bot, Update, Audio) -> Unit
 typealias HandleDocumentUpdate = (Bot, Update, Document) -> Unit

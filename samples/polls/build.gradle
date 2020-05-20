@@ -1,0 +1,18 @@
+apply plugin: 'kotlin'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile project(":telegram")
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.github.kotlintelegrambot.polls.MainKt'
+    }
+
+
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}

@@ -42,8 +42,8 @@ class MultipartBodyFactory(private val gson: Gson) {
             file.toMultipartBodyPart(mediaType = mediaType)
         }
         val mediaGroupPart = gson.toJson(mediaGroup.medias).toMultipartBodyPart(ApiConstants.SendMediaGroup.MEDIA)
-        val disableNotificationPart = disableNotification?.toMultipartBodyPart(ApiConstants.SendMediaGroup.DISABLE_NOTIFICATION)
-        val replayToMessageId = replyToMessageId?.toMultipartBodyPart(ApiConstants.SendMediaGroup.REPLY_TO_MESSAGE_ID)
+        val disableNotificationPart = disableNotification?.toMultipartBodyPart(ApiConstants.DISABLE_NOTIFICATION)
+        val replayToMessageId = replyToMessageId?.toMultipartBodyPart(ApiConstants.REPLY_TO_MESSAGE_ID)
 
         return listOfNotNull(chatIdPart, mediaGroupPart, disableNotificationPart, replayToMessageId) + filesParts
     }

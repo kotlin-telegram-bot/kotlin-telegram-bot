@@ -1,8 +1,9 @@
 package com.github.kotlintelegrambot.entities
 
-import com.github.kotlintelegrambot.Poll
 import com.github.kotlintelegrambot.entities.payments.PreCheckoutQuery
 import com.github.kotlintelegrambot.entities.payments.ShippingQuery
+import com.github.kotlintelegrambot.entities.polls.Poll
+import com.github.kotlintelegrambot.entities.polls.PollAnswer
 import com.github.kotlintelegrambot.types.DispatchableObject
 import com.google.gson.annotations.SerializedName as Name
 
@@ -17,7 +18,8 @@ data class Update constructor(
     @Name("callback_query") val callbackQuery: CallbackQuery? = null,
     @Name("shipping_query") val shippingQuery: ShippingQuery? = null,
     @Name("pre_checkout_query") val preCheckoutQuery: PreCheckoutQuery? = null,
-    @Name("poll") val poll: Poll? = null
+    @Name("poll") val poll: Poll? = null,
+    @Name("poll_answer") val pollAnswer: PollAnswer? = null
 ) : DispatchableObject
 
 /**

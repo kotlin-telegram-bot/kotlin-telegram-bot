@@ -1,13 +1,14 @@
 package com.github.kotlintelegrambot.network
 
-import com.github.kotlintelegrambot.Poll
 import com.github.kotlintelegrambot.entities.BotCommand
 import com.github.kotlintelegrambot.entities.Chat
 import com.github.kotlintelegrambot.entities.ChatAction
 import com.github.kotlintelegrambot.entities.ChatMember
+import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.File
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
 import com.github.kotlintelegrambot.entities.Message
+import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.ReplyMarkup
 import com.github.kotlintelegrambot.entities.TelegramFile
 import com.github.kotlintelegrambot.entities.TelegramFile.ByFile
@@ -22,11 +23,13 @@ import com.github.kotlintelegrambot.entities.inputmedia.InputMedia
 import com.github.kotlintelegrambot.entities.inputmedia.MediaGroup
 import com.github.kotlintelegrambot.entities.payments.LabeledPrice
 import com.github.kotlintelegrambot.entities.payments.ShippingOption
-import com.github.kotlintelegrambot.entities.stickers.ChatPermissions
+import com.github.kotlintelegrambot.entities.polls.Poll
+import com.github.kotlintelegrambot.entities.polls.PollType
 import com.github.kotlintelegrambot.entities.stickers.MaskPosition
 import com.github.kotlintelegrambot.entities.stickers.StickerSet
 import com.github.kotlintelegrambot.network.multipart.MultipartBodyFactory
 import com.github.kotlintelegrambot.network.multipart.toMultipartBodyPart
+import com.github.kotlintelegrambot.network.retrofit.converters.EnumRetrofitConverterFactory
 import com.github.kotlintelegrambot.network.serialization.GsonFactory
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -113,6 +116,11 @@ class ApiClient(
             .baseUrl("${apiUrl}bot$token/")
             .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
+            // In retrofit, Gson is used only for response/request decoding/encoding, but not for @Query/@Url/@Path etc...
+            // For them, Retrofit uses Converter.Factory classes to convert any type to String. By default, enums are transformed
+            // with BuiltInConverters.ToStringConverter which just calls to the toString() method of a given object.
+            // Is needed to provide a special Converter.Factory if a custom transformation is wanted for them.
+            .addConverterFactory(EnumRetrofitConverterFactory())
             .build()
 
         service = retrofit.create(ApiService::class.java)
@@ -512,7 +520,7 @@ class ApiClient(
 
     fun sendVideoNote(
         chatId: Long,
-        audio: SystemFile,
+        videoNote: SystemFile,
         duration: Int?,
         length: Int?,
         disableNotification: Boolean?,
@@ -522,7 +530,7 @@ class ApiClient(
 
         return service.sendVideoNote(
             convertString(chatId.toString()),
-            convertFile("video_note", audio),
+            convertFile("video_note", videoNote),
             if (duration != null) convertString(duration.toString()) else null,
             if (length != null) convertString(length.toString()) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
@@ -705,20 +713,69 @@ class ApiClient(
         chatId: Long,
         question: String,
         options: List<String>,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?,
-        replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
+        isAnonymous: Boolean? = null,
+        type: PollType? = null,
+        allowsMultipleAnswers: Boolean? = null,
+        correctOptionId: Int? = null,
+        explanation: String? = null,
+        explanationParseMode: ParseMode? = null,
+        openPeriod: Int? = null,
+        closeDate: Long? = null,
+        isClosed: Boolean? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        replyMarkup: ReplyMarkup? = null
+    ): Call<Response<Message>> = service.sendPoll(
+        chatId,
+        question,
+        gson.toJson(options),
+        isAnonymous,
+        type,
+        allowsMultipleAnswers,
+        correctOptionId,
+        explanation,
+        explanationParseMode,
+        openPeriod,
+        closeDate,
+        isClosed,
+        disableNotification,
+        replyToMessageId,
+        replyMarkup
+    )
 
-        return service.sendPoll(
-            chatId,
-            question,
-            options,
-            disableNotification,
-            replyToMessageId,
-            replyMarkup
-        )
-    }
+    fun sendPoll(
+        channelUsername: String,
+        question: String,
+        options: List<String>,
+        isAnonymous: Boolean? = null,
+        type: PollType? = null,
+        allowsMultipleAnswers: Boolean? = null,
+        correctOptionId: Int? = null,
+        explanation: String? = null,
+        explanationParseMode: ParseMode? = null,
+        openPeriod: Int? = null,
+        closeDate: Long? = null,
+        isClosed: Boolean? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        replyMarkup: ReplyMarkup? = null
+    ): Call<Response<Message>> = service.sendPoll(
+        channelUsername,
+        question,
+        gson.toJson(options),
+        isAnonymous,
+        type,
+        allowsMultipleAnswers,
+        correctOptionId,
+        explanation,
+        explanationParseMode,
+        openPeriod,
+        closeDate,
+        isClosed,
+        disableNotification,
+        replyToMessageId,
+        replyMarkup
+    )
 
     fun sendChatAction(chatId: Long, action: ChatAction): Call<Response<Boolean>> {
 

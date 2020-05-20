@@ -1,5 +1,6 @@
 package com.github.kotlintelegrambot.entities
 
+import com.github.kotlintelegrambot.entities.keyboard.KeyboardButton
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName as Name
 
