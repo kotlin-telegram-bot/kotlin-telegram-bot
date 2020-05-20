@@ -1,4 +1,4 @@
-package com.github.kotlintelegrambot.entities
+package com.github.kotlintelegrambot.entities.keyboard
 
 import com.google.gson.annotations.SerializedName as Name
 
