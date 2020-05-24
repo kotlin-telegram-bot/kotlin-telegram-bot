@@ -9,6 +9,7 @@ import com.github.kotlintelegrambot.HandleDocumentUpdate
 import com.github.kotlintelegrambot.HandleError
 import com.github.kotlintelegrambot.HandleGameUpdate
 import com.github.kotlintelegrambot.HandleInlineQuery
+import com.github.kotlintelegrambot.HandleNewChatMembers
 import com.github.kotlintelegrambot.HandlePhotosUpdate
 import com.github.kotlintelegrambot.HandleStickerUpdate
 import com.github.kotlintelegrambot.HandleUpdate
@@ -127,7 +128,7 @@ fun Dispatcher.videoNote(body: HandleVideoNoteUpdate) {
     addHandler(VideoNoteHandler(body))
 }
 
-fun Dispatcher.newChatMembers(body: HandleUpdate) {
+fun Dispatcher.newChatMembers(body: HandleNewChatMembers) {
     addHandler(NewChatMembersHandler(body))
 }
 

@@ -7,8 +7,10 @@ import com.github.kotlintelegrambot.entities.Document
 import com.github.kotlintelegrambot.entities.Game
 import com.github.kotlintelegrambot.entities.InlineQuery
 import com.github.kotlintelegrambot.entities.Location
+import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.PhotoSize
 import com.github.kotlintelegrambot.entities.Update
+import com.github.kotlintelegrambot.entities.User
 import com.github.kotlintelegrambot.entities.Video
 import com.github.kotlintelegrambot.entities.VideoNote
 import com.github.kotlintelegrambot.entities.Voice
@@ -26,6 +28,8 @@ typealias ContactHandleUpdate = (Bot, Update, Contact) -> Unit
 typealias LocationHandleUpdate = (Bot, Update, Location) -> Unit
 
 typealias HandleInlineQuery = (Bot, InlineQuery) -> Unit
+
+typealias HandleNewChatMembers = (Bot, Message, List<User>) -> Unit
 
 typealias HandleAudioUpdate = (Bot, Update, Audio) -> Unit
 typealias HandleDocumentUpdate = (Bot, Update, Document) -> Unit
