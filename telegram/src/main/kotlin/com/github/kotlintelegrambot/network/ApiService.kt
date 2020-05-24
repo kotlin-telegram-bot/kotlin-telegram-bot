@@ -13,6 +13,8 @@ import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.User
 import com.github.kotlintelegrambot.entities.UserProfilePhotos
 import com.github.kotlintelegrambot.entities.WebhookInfo
+import com.github.kotlintelegrambot.entities.dice.DiceEmoji
+import com.github.kotlintelegrambot.entities.dice.DiceFields
 import com.github.kotlintelegrambot.entities.inputmedia.InputMedia
 import com.github.kotlintelegrambot.entities.payments.LabeledPrice
 import com.github.kotlintelegrambot.entities.payments.ShippingOption
@@ -787,6 +789,26 @@ interface ApiService {
     fun setMyCommands(
         @Field("commands") commands: String
     ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST(DiceFields.SEND_DICE_OP_NAME)
+    fun sendDice(
+        @Field(ApiConstants.CHAT_ID) chatId: Long,
+        @Field(DiceFields.EMOJI) emoji: DiceEmoji? = null,
+        @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean? = null,
+        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long? = null,
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+    ): Call<Response<Message>>
+
+    @FormUrlEncoded
+    @POST(DiceFields.SEND_DICE_OP_NAME)
+    fun sendDice(
+        @Field(ApiConstants.CHAT_ID) channelUsername: String,
+        @Field(DiceFields.EMOJI) emoji: DiceEmoji? = null,
+        @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean? = null,
+        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long? = null,
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+    ): Call<Response<Message>>
 }
 
 class LabeledPriceList(private val labeledPrice: List<LabeledPrice>) {

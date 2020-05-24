@@ -9,6 +9,7 @@ import com.github.kotlintelegrambot.entities.KeyboardReplyMarkup
 import com.github.kotlintelegrambot.entities.ParseMode.MARKDOWN
 import com.github.kotlintelegrambot.entities.ReplyKeyboardRemove
 import com.github.kotlintelegrambot.entities.TelegramFile.ByUrl
+import com.github.kotlintelegrambot.entities.dice.DiceEmoji
 import com.github.kotlintelegrambot.entities.inlinequeryresults.InlineQueryResult
 import com.github.kotlintelegrambot.entities.inlinequeryresults.InputMessageContent
 import com.github.kotlintelegrambot.entities.inputmedia.InputMediaPhoto
@@ -164,6 +165,15 @@ fun main(args: Array<String>) {
                     chatId = chatId,
                     text = "Wowww, awesome photos!!! :P"
                 )
+            }
+
+            command("diceAsDartboard") { bot, update ->
+                val chatId = update.message?.chat?.id ?: return@command
+                bot.sendDice(chatId, DiceEmoji.Dartboard)
+            }
+
+            dice { bot, message, dice ->
+                bot.sendMessage(message.chat.id, "A dice ${dice.emoji.emojiValue} with value ${dice.value} has been received!")
             }
 
             telegramError { _, telegramError ->

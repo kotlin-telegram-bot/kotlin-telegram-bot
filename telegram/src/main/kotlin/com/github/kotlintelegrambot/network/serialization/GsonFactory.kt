@@ -1,8 +1,10 @@
 package com.github.kotlintelegrambot.network.serialization
 
 import com.github.kotlintelegrambot.entities.TelegramFile
+import com.github.kotlintelegrambot.entities.dice.DiceEmoji
 import com.github.kotlintelegrambot.entities.inlinequeryresults.InlineQueryResult
 import com.github.kotlintelegrambot.entities.inputmedia.GroupableMedia
+import com.github.kotlintelegrambot.network.serialization.adapter.DiceEmojiAdapter
 import com.github.kotlintelegrambot.network.serialization.adapter.GroupableMediaAdapter
 import com.github.kotlintelegrambot.network.serialization.adapter.InlineQueryResultAdapter
 import com.github.kotlintelegrambot.network.serialization.adapter.InputMediaAdapter
@@ -14,6 +16,7 @@ object GsonFactory {
 
     fun createForApiClient(): Gson = GsonBuilder()
         .registerTypeAdapter(InlineQueryResult::class.java, InlineQueryResultAdapter())
+        .registerTypeAdapter(DiceEmoji::class.java, DiceEmojiAdapter())
         .create()
 
     fun createForMultipartBodyFactory(): Gson = GsonBuilder()
