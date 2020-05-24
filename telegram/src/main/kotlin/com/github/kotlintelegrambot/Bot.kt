@@ -3,6 +3,7 @@ package com.github.kotlintelegrambot
 import com.github.kotlintelegrambot.dispatcher.Dispatcher
 import com.github.kotlintelegrambot.entities.BotCommand
 import com.github.kotlintelegrambot.entities.ChatAction
+import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
 import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.ReplyMarkup
@@ -13,7 +14,7 @@ import com.github.kotlintelegrambot.entities.inputmedia.InputMedia
 import com.github.kotlintelegrambot.entities.inputmedia.MediaGroup
 import com.github.kotlintelegrambot.entities.payments.PaymentInvoiceInfo
 import com.github.kotlintelegrambot.entities.payments.ShippingOption
-import com.github.kotlintelegrambot.entities.stickers.ChatPermissions
+import com.github.kotlintelegrambot.entities.polls.PollType
 import com.github.kotlintelegrambot.entities.stickers.MaskPosition
 import com.github.kotlintelegrambot.errors.RetrieveUpdatesError
 import com.github.kotlintelegrambot.errors.TelegramError
@@ -499,7 +500,7 @@ class Bot private constructor(
 
     fun sendVideoNote(
         chatId: Long,
-        audio: SystemFile,
+        videoNote: SystemFile,
         duration: Int? = null,
         length: Int? = null,
         disableNotification: Boolean? = null,
@@ -507,7 +508,7 @@ class Bot private constructor(
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendVideoNote(
         chatId,
-        audio,
+        videoNote,
         duration,
         length,
         disableNotification,
@@ -560,6 +561,74 @@ class Bot private constructor(
         latitude,
         longitude,
         livePeriod,
+        disableNotification,
+        replyToMessageId,
+        replyMarkup
+    ).call()
+
+    fun sendPoll(
+        channelUsername: String,
+        question: String,
+        options: List<String>,
+        isAnonymous: Boolean? = null,
+        type: PollType? = null,
+        allowsMultipleAnswers: Boolean? = null,
+        correctOptionId: Int? = null,
+        explanation: String? = null,
+        explanationParseMode: ParseMode? = null,
+        openPeriod: Int? = null,
+        closeDate: Long? = null,
+        isClosed: Boolean? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        replyMarkup: ReplyMarkup? = null
+    ) = apiClient.sendPoll(
+        channelUsername,
+        question,
+        options,
+        isAnonymous,
+        type,
+        allowsMultipleAnswers,
+        correctOptionId,
+        explanation,
+        explanationParseMode,
+        openPeriod,
+        closeDate,
+        isClosed,
+        disableNotification,
+        replyToMessageId,
+        replyMarkup
+    ).call()
+
+    fun sendPoll(
+        chatId: Long,
+        question: String,
+        options: List<String>,
+        isAnonymous: Boolean? = null,
+        type: PollType? = null,
+        allowsMultipleAnswers: Boolean? = null,
+        correctOptionId: Int? = null,
+        explanation: String? = null,
+        explanationParseMode: ParseMode? = null,
+        openPeriod: Int? = null,
+        closeDate: Long? = null,
+        isClosed: Boolean? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        replyMarkup: ReplyMarkup? = null
+    ) = apiClient.sendPoll(
+        chatId,
+        question,
+        options,
+        isAnonymous,
+        type,
+        allowsMultipleAnswers,
+        correctOptionId,
+        explanation,
+        explanationParseMode,
+        openPeriod,
+        closeDate,
+        isClosed,
         disableNotification,
         replyToMessageId,
         replyMarkup
