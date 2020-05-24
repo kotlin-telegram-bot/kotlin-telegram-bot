@@ -22,8 +22,7 @@ private class NewChatMembersHandlerProxy(
     override fun invoke(bot: Bot, update: Update) {
         val message = update.message
         val newChatMembers = message?.newChatMembers
-        checkNotNull(message)
         checkNotNull(newChatMembers)
-        handleNewChatMembers.invoke(bot, update.message, newChatMembers)
+        handleNewChatMembers.invoke(bot, message, newChatMembers)
     }
 }
