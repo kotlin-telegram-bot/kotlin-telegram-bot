@@ -14,6 +14,7 @@ import com.github.kotlintelegrambot.entities.User
 import com.github.kotlintelegrambot.entities.Video
 import com.github.kotlintelegrambot.entities.VideoNote
 import com.github.kotlintelegrambot.entities.Voice
+import com.github.kotlintelegrambot.entities.dice.Dice
 import com.github.kotlintelegrambot.entities.polls.PollAnswer
 import com.github.kotlintelegrambot.entities.stickers.Sticker
 import com.github.kotlintelegrambot.errors.TelegramError
@@ -33,6 +34,8 @@ typealias HandleInlineQuery = (Bot, InlineQuery) -> Unit
 typealias HandleNewChatMembers = (Bot, Message, List<User>) -> Unit
 
 typealias HandlePollAnswer = (Bot, PollAnswer) -> Unit
+
+typealias HandleDice = (Bot, Message, Dice) -> Unit
 
 typealias HandleAudioUpdate = (Bot, Update, Audio) -> Unit
 typealias HandleDocumentUpdate = (Bot, Update, Document) -> Unit

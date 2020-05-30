@@ -18,6 +18,7 @@ import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.User
 import com.github.kotlintelegrambot.entities.UserProfilePhotos
 import com.github.kotlintelegrambot.entities.WebhookInfo
+import com.github.kotlintelegrambot.entities.dice.DiceEmoji
 import com.github.kotlintelegrambot.entities.inlinequeryresults.InlineQueryResult
 import com.github.kotlintelegrambot.entities.inputmedia.InputMedia
 import com.github.kotlintelegrambot.entities.inputmedia.MediaGroup
@@ -29,6 +30,7 @@ import com.github.kotlintelegrambot.entities.stickers.MaskPosition
 import com.github.kotlintelegrambot.entities.stickers.StickerSet
 import com.github.kotlintelegrambot.network.multipart.MultipartBodyFactory
 import com.github.kotlintelegrambot.network.multipart.toMultipartBodyPart
+import com.github.kotlintelegrambot.network.retrofit.converters.DiceEmojiConverterFactory
 import com.github.kotlintelegrambot.network.retrofit.converters.EnumRetrofitConverterFactory
 import com.github.kotlintelegrambot.network.serialization.GsonFactory
 import com.google.gson.Gson
@@ -121,6 +123,7 @@ class ApiClient(
             // with BuiltInConverters.ToStringConverter which just calls to the toString() method of a given object.
             // Is needed to provide a special Converter.Factory if a custom transformation is wanted for them.
             .addConverterFactory(EnumRetrofitConverterFactory())
+            .addConverterFactory(DiceEmojiConverterFactory())
             .build()
 
         service = retrofit.create(ApiService::class.java)
@@ -1293,4 +1296,32 @@ class ApiClient(
     fun setMyCommands(commands: List<BotCommand>): Call<Response<Boolean>> {
         return service.setMyCommands(gson.toJson(commands))
     }
+
+    fun sendDice(
+        chatId: Long,
+        emoji: DiceEmoji? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        replyMarkup: ReplyMarkup? = null
+    ): Call<Response<Message>> = service.sendDice(
+        chatId,
+        emoji,
+        disableNotification,
+        replyToMessageId,
+        replyMarkup
+    )
+
+    fun sendDice(
+        channelUsername: String,
+        emoji: DiceEmoji? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        replyMarkup: ReplyMarkup? = null
+    ): Call<Response<Message>> = service.sendDice(
+        channelUsername,
+        emoji,
+        disableNotification,
+        replyToMessageId,
+        replyMarkup
+    )
 }

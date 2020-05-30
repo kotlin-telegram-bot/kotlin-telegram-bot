@@ -85,6 +85,7 @@ dependencies {
 
 1. [Getting updates](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/tree/master/docs/gettingUpdates.md)
 2. [Polls](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/tree/master/docs/polls.md)
+3. [Dice](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/tree/master/docs/dice.md)
 
 ## Contributing
 

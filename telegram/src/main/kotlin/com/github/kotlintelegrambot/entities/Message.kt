@@ -1,5 +1,6 @@
 package com.github.kotlintelegrambot.entities
 
+import com.github.kotlintelegrambot.entities.dice.Dice
 import com.github.kotlintelegrambot.entities.payments.SuccessfulPayment
 import com.github.kotlintelegrambot.entities.polls.Poll
 import com.github.kotlintelegrambot.entities.stickers.Sticker
@@ -24,6 +25,7 @@ data class Message(
     val audio: Audio? = null,
     val document: Document? = null,
     val animation: Animation? = null,
+    @Name("dice") val dice: Dice? = null,
     val game: Game? = null,
     val photo: List<PhotoSize>? = null,
     val sticker: Sticker? = null,

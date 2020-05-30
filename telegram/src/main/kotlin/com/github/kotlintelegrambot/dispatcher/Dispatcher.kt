@@ -5,6 +5,7 @@ import com.github.kotlintelegrambot.CommandHandleUpdate
 import com.github.kotlintelegrambot.ContactHandleUpdate
 import com.github.kotlintelegrambot.HandleAnimationUpdate
 import com.github.kotlintelegrambot.HandleAudioUpdate
+import com.github.kotlintelegrambot.HandleDice
 import com.github.kotlintelegrambot.HandleDocumentUpdate
 import com.github.kotlintelegrambot.HandleError
 import com.github.kotlintelegrambot.HandleGameUpdate
@@ -23,6 +24,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.ChannelHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.CheckoutHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.ContactHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.DiceHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.Handler
 import com.github.kotlintelegrambot.dispatcher.handlers.InlineQueryHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.LocationHandler
@@ -136,6 +138,10 @@ fun Dispatcher.newChatMembers(body: HandleNewChatMembers) {
 
 fun Dispatcher.pollAnswer(body: HandlePollAnswer) {
     addHandler(PollAnswerHandler(body))
+}
+
+fun Dispatcher.dice(body: HandleDice) {
+    addHandler(DiceHandler(body))
 }
 
 class Dispatcher(
