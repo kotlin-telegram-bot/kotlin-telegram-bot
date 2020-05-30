@@ -20,6 +20,16 @@ class EnumRetrofitConverterFactoryTest {
         ENUM_A
     }
 
+    data class TestClass(
+        val testAttr: Int
+    ) {
+
+        enum class InnerEnum {
+            @SerializedName("enumA")
+            ENUM_A
+        }
+    }
+
     private val retrofitMock = mockk<Retrofit>()
     private val sut = EnumRetrofitConverterFactory()
 
@@ -48,5 +58,14 @@ class EnumRetrofitConverterFactoryTest {
 
         val expectedErrorMessage = "cannot serialize ${RegularEnum::class.java} enum properly, please make sure it's annotated with @SerializedName"
         assertEquals(expectedErrorMessage, error.message)
+    }
+
+    @Test
+    fun `inner enum with values annotated with @SerializedName is correctly transformed to String`() {
+        val stringConverter = sut.stringConverter(TestClass.InnerEnum::class.java, emptyArray(), retrofitMock)
+        val stringFromRegularEnum = stringConverter?.convert(TestClass.InnerEnum.ENUM_A)
+
+        val expectedString = "enumA"
+        assertEquals(expectedString, stringFromRegularEnum)
     }
 }
