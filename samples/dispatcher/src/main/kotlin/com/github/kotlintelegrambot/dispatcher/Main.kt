@@ -7,6 +7,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.CallbackQueryHandler
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
 import com.github.kotlintelegrambot.entities.KeyboardReplyMarkup
 import com.github.kotlintelegrambot.entities.ParseMode.MARKDOWN
+import com.github.kotlintelegrambot.entities.ParseMode.MARKDOWN_V2
 import com.github.kotlintelegrambot.entities.ReplyKeyboardRemove
 import com.github.kotlintelegrambot.entities.TelegramFile.ByUrl
 import com.github.kotlintelegrambot.entities.dice.DiceEmoji
@@ -71,6 +72,29 @@ fun main(args: Array<String>) {
                     chatId = update.message!!.chat.id,
                     text = markdownText,
                     parseMode = MARKDOWN
+                )
+            }
+
+            command("markdownV2") { bot, update ->
+                val markdownV2Text = """
+                    *bold \*text*
+                    _italic \*text_
+                    __underline__
+                    ~strikethrough~
+                    *bold _italic bold ~italic bold strikethrough~ __underline italic bold___ bold*
+                    [inline URL](http://www.example.com/)
+                    [inline mention of a user](tg://user?id=123456789)
+                    `inline fixed-width code`
+                    ```kotlin
+                    fun main() {
+                        println("Hello Kotlin!")
+                    }
+                    ```
+                """.trimIndent()
+                bot.sendMessage(
+                    chatId = update.message!!.chat.id,
+                    text = markdownV2Text,
+                    parseMode = MARKDOWN_V2
                 )
             }
 
