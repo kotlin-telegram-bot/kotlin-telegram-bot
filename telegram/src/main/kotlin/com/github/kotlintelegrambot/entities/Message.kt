@@ -18,6 +18,7 @@ data class Message(
     @Name("forward_sender_name") val forwardSenderName: String? = null,
     @Name("forward_date") val forwardDate: Int? = null,
     @Name("reply_to_message") val replyToMessage: Message? = null,
+    @Name("via_bot") val viaBot: User? = null,
     @Name("edit_date") val editDate: Int? = null,
     val text: String? = null,
     val entities: List<MessageEntity>? = null,
