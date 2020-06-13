@@ -5,10 +5,18 @@ import com.github.kotlintelegrambot.entities.ParseMode
 import com.google.gson.annotations.SerializedName
 
 enum class MimeType(val rawName: String) {
+    @SerializedName("text/html")
     TEXT_HTML("text/html"),
+    @SerializedName("video/mp4")
     VIDEO_MP4("video/mp4"),
+    @SerializedName("application/pdf")
     APPLICATION_PDF("application/pdf"),
-    APPLICATION_ZIP("application/zip")
+    @SerializedName("application/zip")
+    APPLICATION_ZIP("application/zip"),
+    @SerializedName("image/jpeg")
+    IMAGE_JPEG("image/jpeg"),
+    @SerializedName("image/gif")
+    IMAGE_GIF("image/gif")
 }
 
 fun String.toMimeType(): MimeType? =
@@ -70,6 +78,7 @@ sealed class InlineQueryResult(
         @SerializedName("gif_height") val gifHeight: Int? = null,
         @SerializedName("gif_duration") val gifDuration: Int? = null,
         @SerializedName("thumb_url") val thumbUrl: String,
+        @SerializedName("thumb_mime_type") val thumbMimeType: MimeType? = null,
         val title: String? = null,
         val caption: String? = null,
         @SerializedName("parse_mode") val parseMode: ParseMode? = null,
@@ -84,6 +93,7 @@ sealed class InlineQueryResult(
         @SerializedName("mpeg4_height") val mpeg4Height: Int? = null,
         @SerializedName("mpeg4_duration") val mpeg4Duration: Int? = null,
         @SerializedName("thumb_url") val thumbUrl: String,
+        @SerializedName("thumb_mime_type") val thumbMimeType: MimeType? = null,
         val title: String? = null,
         val caption: String? = null,
         @SerializedName("parse_mode") val parseMode: ParseMode? = null,
