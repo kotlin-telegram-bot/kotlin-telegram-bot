@@ -809,6 +809,22 @@ interface ApiService {
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long? = null,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
+
+    @FormUrlEncoded
+    @POST(ApiConstants.SetChatAdministratorCustomTitle.OP_NAME)
+    fun setChatAdministratorCustomTitle(
+        @Field(ApiConstants.CHAT_ID) chatId: Long,
+        @Field(ApiConstants.USER_ID) userId: Long,
+        @Field(ApiConstants.SetChatAdministratorCustomTitle.CUSTOM_TITLE) customTitle: String
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST(ApiConstants.SetChatAdministratorCustomTitle.OP_NAME)
+    fun setChatAdministratorCustomTitle(
+        @Field(ApiConstants.CHAT_ID) channelUsername: String,
+        @Field(ApiConstants.USER_ID) userId: Long,
+        @Field(ApiConstants.SetChatAdministratorCustomTitle.CUSTOM_TITLE) customTitle: String
+    ): Call<Response<Boolean>>
 }
 
 class LabeledPriceList(private val labeledPrice: List<LabeledPrice>) {
