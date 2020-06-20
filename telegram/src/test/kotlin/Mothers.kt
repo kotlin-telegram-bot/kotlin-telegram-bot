@@ -1,21 +1,21 @@
-import com.github.kotlintelegrambot.entities.Audio
 import com.github.kotlintelegrambot.entities.CallbackQuery
 import com.github.kotlintelegrambot.entities.Chat
-import com.github.kotlintelegrambot.entities.ChatPhoto
 import com.github.kotlintelegrambot.entities.Contact
-import com.github.kotlintelegrambot.entities.Document
 import com.github.kotlintelegrambot.entities.Game
 import com.github.kotlintelegrambot.entities.Invoice
 import com.github.kotlintelegrambot.entities.Location
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.MessageEntity
-import com.github.kotlintelegrambot.entities.PhotoSize
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.User
 import com.github.kotlintelegrambot.entities.Venue
-import com.github.kotlintelegrambot.entities.Video
-import com.github.kotlintelegrambot.entities.VideoNote
-import com.github.kotlintelegrambot.entities.Voice
+import com.github.kotlintelegrambot.entities.files.Audio
+import com.github.kotlintelegrambot.entities.files.ChatPhoto
+import com.github.kotlintelegrambot.entities.files.Document
+import com.github.kotlintelegrambot.entities.files.PhotoSize
+import com.github.kotlintelegrambot.entities.files.Video
+import com.github.kotlintelegrambot.entities.files.VideoNote
+import com.github.kotlintelegrambot.entities.files.Voice
 import com.github.kotlintelegrambot.entities.payments.PreCheckoutQuery
 import com.github.kotlintelegrambot.entities.payments.ShippingQuery
 import com.github.kotlintelegrambot.entities.payments.SuccessfulPayment
@@ -155,10 +155,12 @@ fun anyChat(
 )
 
 private const val ANY_FILE_ID = "fileId:353432q213412sd"
+private const val ANY_FILE_UNIQUE_ID = "fileUniqueId:3513523frj2"
 private const val ANY_DURATION = 2421432
 
 fun anyAudio(
     fileId: String = ANY_FILE_ID,
+    fileUniqueId: String = ANY_FILE_UNIQUE_ID,
     duration: Int = ANY_DURATION,
     performer: String? = null,
     title: String? = null,
@@ -166,6 +168,7 @@ fun anyAudio(
     fileSize: Int? = null
 ): Audio = Audio(
     fileId = fileId,
+    fileUniqueId = fileUniqueId,
     duration = duration,
     performer = performer,
     title = title,
@@ -178,11 +181,13 @@ private const val ANY_HEIGHT = 674654
 
 fun anyPhotoSize(
     fileId: String = ANY_FILE_ID,
+    fileUniqueId: String = ANY_FILE_UNIQUE_ID,
     width: Int = ANY_WIDTH,
     height: Int = ANY_HEIGHT,
     fileSize: Int? = null
 ): PhotoSize = PhotoSize(
     fileId = fileId,
+    fileUniqueId = fileUniqueId,
     width = width,
     height = height,
     fileSize = fileSize
@@ -190,6 +195,7 @@ fun anyPhotoSize(
 
 fun anySticker(
     fileId: String = ANY_FILE_ID,
+    fileUniqueId: String = ANY_FILE_UNIQUE_ID,
     width: Int = ANY_WIDTH,
     height: Int = ANY_HEIGHT,
     isAnimated: Boolean = false,
@@ -198,6 +204,7 @@ fun anySticker(
     fileSize: Int? = null
 ): Sticker = Sticker(
     fileId = fileId,
+    fileUniqueId = fileUniqueId,
     width = width,
     height = height,
     isAnimated = isAnimated,
@@ -208,6 +215,7 @@ fun anySticker(
 
 fun anyVideo(
     fileId: String = ANY_FILE_ID,
+    fileUniqueId: String = ANY_FILE_UNIQUE_ID,
     width: Int = ANY_WIDTH,
     height: Int = ANY_HEIGHT,
     thumb: PhotoSize? = null,
@@ -216,6 +224,7 @@ fun anyVideo(
     duration: Int = ANY_DURATION
 ): Video = Video(
     fileId = fileId,
+    fileUniqueId = fileUniqueId,
     width = width,
     height = height,
     thumb = thumb,
@@ -228,12 +237,14 @@ private const val ANY_LENGTH = 234234
 
 fun anyVideoNote(
     fileId: String = ANY_FILE_ID,
+    fileUniqueId: String = ANY_FILE_UNIQUE_ID,
     thumb: PhotoSize? = null,
     fileSize: Int? = null,
     duration: Int = ANY_DURATION,
     length: Int = ANY_LENGTH
 ): VideoNote = VideoNote(
     fileId = fileId,
+    fileUniqueId = fileUniqueId,
     thumb = thumb,
     fileSize = fileSize,
     duration = duration,
