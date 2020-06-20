@@ -1,20 +1,25 @@
 package com.github.kotlintelegrambot.entities
 
 import com.github.kotlintelegrambot.entities.files.ChatPhoto
-import com.google.gson.annotations.SerializedName as Name
+import com.google.gson.annotations.SerializedName
 
+/**
+ * Represents a chat.
+ * https://core.telegram.org/bots/api#chat
+ */
 data class Chat(
-    val id: Long,
-    val type: String,
-    val title: String? = null,
-    val username: String? = null,
-    @Name("first_name") val firstName: String? = null,
-    @Name("last_name") val lastName: String? = null,
-    val photo: ChatPhoto? = null,
-    val description: String? = null,
-    @Name("invite_link") val inviteLink: String? = null,
-    @Name("pinned_message") val pinnedMessage: String? = null,
-    val permissions: ChatPermissions? = null,
-    @Name("sticker_set_name") val stickerSetName: String? = null,
-    @Name("can_set_sticker_set") val canSetStickerSet: Boolean? = null
+    @SerializedName("id") val id: Long,
+    @SerializedName("type") val type: String,
+    @SerializedName("title") val title: String? = null,
+    @SerializedName("username") val username: String? = null,
+    @SerializedName("first_name") val firstName: String? = null,
+    @SerializedName("last_name") val lastName: String? = null,
+    @SerializedName("photo") val photo: ChatPhoto? = null,
+    @SerializedName("description") val description: String? = null,
+    @SerializedName("invite_link") val inviteLink: String? = null,
+    @SerializedName("pinned_message") val pinnedMessage: String? = null,
+    @SerializedName("permissions") val permissions: ChatPermissions? = null,
+    @SerializedName("slow_mode_delay") val slowModeDelay: Int? = null,
+    @SerializedName("sticker_set_name") val stickerSetName: String? = null,
+    @SerializedName("can_set_sticker_set") val canSetStickerSet: Boolean? = null
 )
