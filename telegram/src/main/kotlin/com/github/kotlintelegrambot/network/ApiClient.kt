@@ -1324,4 +1324,24 @@ class ApiClient(
         replyToMessageId,
         replyMarkup
     )
+
+    fun setChatAdministratorCustomTitle(
+        chatId: Long,
+        userId: Long,
+        customTitle: String
+    ): Call<Response<Boolean>> = service.setChatAdministratorCustomTitle(
+        chatId,
+        userId,
+        customTitle
+    )
+
+    fun setChatAdministratorCustomTitle(
+        channelUsername: String,
+        userId: Long,
+        customTitle: String
+    ): Call<Response<Boolean>> = service.setChatAdministratorCustomTitle(
+        channelUsername,
+        userId,
+        customTitle
+    )
 }

@@ -1163,4 +1163,32 @@ class Bot private constructor(
         replyToMessageId,
         replyMarkup
     ).call()
+
+    /**
+     * Use this method to set a custom title for an administrator in a supergroup promoted by the bot.
+     * @param chatId Unique identifier for the target chat
+     * @param userId Unique identifier of the target user
+     * @param customTitle New custom title for the administrator; 0-16 characters, emoji are not allowed
+     * @return true on success.
+     */
+    fun setChatAdministratorCustomTitle(chatId: Long, userId: Long, customTitle: String) =
+        apiClient.setChatAdministratorCustomTitle(
+            chatId,
+            userId,
+            customTitle
+        ).call()
+
+    /**
+     * Use this method to set a custom title for an administrator in a supergroup promoted by the bot.
+     * @param channelUsername Username of the target channel (in the format @channelusername)
+     * @param userId Unique identifier of the target user
+     * @param customTitle New custom title for the administrator; 0-16 characters, emoji are not allowed
+     * @return true on success.
+     */
+    fun setChatAdministratorCustomTitle(channelUsername: String, userId: Long, customTitle: String) =
+        apiClient.setChatAdministratorCustomTitle(
+            channelUsername,
+            userId,
+            customTitle
+        ).call()
 }
