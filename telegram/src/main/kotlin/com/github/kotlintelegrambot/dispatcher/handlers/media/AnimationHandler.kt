@@ -1,8 +1,8 @@
 package com.github.kotlintelegrambot.dispatcher.handlers.media
 
 import com.github.kotlintelegrambot.HandleAnimationUpdate
-import com.github.kotlintelegrambot.entities.Animation
 import com.github.kotlintelegrambot.entities.Update
+import com.github.kotlintelegrambot.entities.files.Animation
 
 class AnimationHandler(
     handleAnimationUpdate: HandleAnimationUpdate

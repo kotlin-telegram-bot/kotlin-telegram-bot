@@ -1,5 +1,7 @@
 package com.github.kotlintelegrambot.entities
 
+import com.github.kotlintelegrambot.entities.files.Animation
+import com.github.kotlintelegrambot.entities.files.PhotoSize
 import com.google.gson.annotations.SerializedName as Name
 
 data class Game(

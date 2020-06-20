@@ -2,7 +2,7 @@ package com.github.kotlintelegrambot.dispatcher.handlers.media
 
 import com.github.kotlintelegrambot.HandleVideoUpdate
 import com.github.kotlintelegrambot.entities.Update
-import com.github.kotlintelegrambot.entities.Video
+import com.github.kotlintelegrambot.entities.files.Video
 
 class VideoHandler(
     handleVideoUpdate: HandleVideoUpdate

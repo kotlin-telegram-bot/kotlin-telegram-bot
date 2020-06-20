@@ -1,16 +1,22 @@
 package com.github.kotlintelegrambot.entities.stickers
 
-import com.github.kotlintelegrambot.entities.PhotoSize
-import com.google.gson.annotations.SerializedName as Name
+import com.github.kotlintelegrambot.entities.files.FilesFields
+import com.github.kotlintelegrambot.entities.files.PhotoSize
+import com.google.gson.annotations.SerializedName
 
+/**
+ * Represents a sticker.
+ * https://core.telegram.org/bots/api#sticker
+ */
 data class Sticker(
-    @Name("file_id") val fileId: String,
-    val width: Int,
-    val height: Int,
-    @Name("is_animated") val isAnimated: Boolean,
-    val thumb: PhotoSize? = null,
-    val emoji: String?,
-    @Name("set_name")val setName: String? = null,
-    @Name("mask_position")val maskPosition: MaskPosition? = null,
-    @Name("file_size") val fileSize: Int? = null
+    @SerializedName(FilesFields.fileId) val fileId: String,
+    @SerializedName(FilesFields.fileUniqueId) val fileUniqueId: String,
+    @SerializedName(FilesFields.width) val width: Int,
+    @SerializedName(FilesFields.height) val height: Int,
+    @SerializedName(FilesFields.isAnimated) val isAnimated: Boolean,
+    @SerializedName(FilesFields.thumb) val thumb: PhotoSize? = null,
+    @SerializedName(FilesFields.emoji) val emoji: String?,
+    @SerializedName(FilesFields.setName)val setName: String? = null,
+    @SerializedName(FilesFields.maskPosition) val maskPosition: MaskPosition? = null,
+    @SerializedName(FilesFields.fileSize) val fileSize: Int? = null
 )

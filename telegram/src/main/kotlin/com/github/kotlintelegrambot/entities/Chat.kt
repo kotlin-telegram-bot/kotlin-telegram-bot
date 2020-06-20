@@ -1,5 +1,6 @@
 package com.github.kotlintelegrambot.entities
 
+import com.github.kotlintelegrambot.entities.files.ChatPhoto
 import com.google.gson.annotations.SerializedName as Name
 
 data class Chat(
