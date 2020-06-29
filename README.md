@@ -64,22 +64,34 @@ There are several samples:
 * A sample getting updates through Telegram's webhook using a Netty server
 * An example bot sending polls and listening to poll answers
 
-## Download
-+ Add the JitPack repository to your root build.gradle file:
+## Installation
+Add `JitPack` repository:
 
 ```gradle
 repositories {
     maven { url "https://jitpack.io" }
 }
 ```
-
-+ Add the code to your **module**'s build.gradle file:
+with dependency to your root `build.gradle` file:
 
 ```gradle
 dependencies {
     implementation 'io.github.kotlin-telegram-bot.kotlin-telegram-bot:telegram:x.y.z'
 }
 ```
+If you use `Gradle Kotlin DSL` then add:
+```gradle
+repositories {
+   maven(url = "https://jitpack.io")
+}
+```
+and 
+```gradle
+dependencies {
+    implementation 'io.github.kotlin-telegram-bot.kotlin-telegram-bot:telegram:x.y.z'
+}
+```
+to `build.gradle.kts` file accordingly.
 
 ## Detailed documentation
 
