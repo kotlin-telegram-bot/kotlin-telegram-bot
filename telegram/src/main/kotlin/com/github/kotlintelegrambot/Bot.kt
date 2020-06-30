@@ -67,7 +67,7 @@ class Bot private constructor(
         lateinit var token: String
         var timeout: Int = 30
         var apiUrl: String = "https://api.telegram.org/"
-        var logLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.BODY
+        var logLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.NONE
         var proxy: Proxy = Proxy.NO_PROXY
 
         fun build(): Bot {
