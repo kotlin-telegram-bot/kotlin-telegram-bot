@@ -197,13 +197,23 @@ class Dispatcher(
         for (group in commandHandlers) {
             group.value
                 .filter { it.checkUpdate(update) }
-                .forEach { it.handlerCallback(bot, update) }
+                .forEach {
+                    try {
+                        it.handlerCallback(bot, update)
+                    } catch (exc: Exception) {
+                        exc.printStackTrace()
+                    }
+                }
         }
     }
 
     private fun handleError(error: TelegramError) {
         errorHandlers.forEach {
-            it(bot, error)
+            try {
+                it(bot, error)
+            } catch (exc: Exception) {
+                exc.printStackTrace()
+            }
         }
     }
 
