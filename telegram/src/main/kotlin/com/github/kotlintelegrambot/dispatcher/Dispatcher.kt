@@ -48,6 +48,10 @@ import com.github.kotlintelegrambot.types.DispatchableObject
 import java.util.concurrent.BlockingQueue
 import java.util.concurrent.LinkedBlockingQueue
 
+fun Dispatcher.message(handleUpdate: HandleUpdate) {
+    addHandler(MessageHandler(handleUpdate, Filter.All))
+}
+
 fun Dispatcher.message(filter: Filter, handleUpdate: HandleUpdate) {
     addHandler(MessageHandler(handleUpdate, filter))
 }
