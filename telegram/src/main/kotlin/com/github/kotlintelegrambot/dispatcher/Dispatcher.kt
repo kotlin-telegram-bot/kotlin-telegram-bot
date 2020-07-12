@@ -1,7 +1,6 @@
 package com.github.kotlintelegrambot.dispatcher
 
 import com.github.kotlintelegrambot.Bot
-import com.github.kotlintelegrambot.CommandHandleUpdate
 import com.github.kotlintelegrambot.ContactHandleUpdate
 import com.github.kotlintelegrambot.HandleAnimationUpdate
 import com.github.kotlintelegrambot.HandleAudioUpdate
@@ -23,6 +22,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.CallbackQueryHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.ChannelHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.CheckoutHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandlerEnvironment
 import com.github.kotlintelegrambot.dispatcher.handlers.ContactHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.DiceHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.Handler
@@ -52,11 +52,7 @@ fun Dispatcher.message(filter: Filter, handleUpdate: HandleUpdate) {
     addHandler(MessageHandler(handleUpdate, filter))
 }
 
-fun Dispatcher.command(command: String, body: HandleUpdate) {
-    addHandler(CommandHandler(command, body))
-}
-
-fun Dispatcher.command(command: String, body: CommandHandleUpdate) {
+fun Dispatcher.command(command: String, body: CommandHandlerEnvironment.() -> Unit) {
     addHandler(CommandHandler(command, body))
 }
 

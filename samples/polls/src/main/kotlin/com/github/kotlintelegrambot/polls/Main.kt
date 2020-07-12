@@ -13,20 +13,18 @@ fun main() {
             pollAnswer { _, pollAnswer ->
                 println("${pollAnswer.user.username} has selected the option ${pollAnswer.optionIds.lastOrNull()} in the poll ${pollAnswer.pollId}")
             }
-            command("regularPoll") { bot, update, _ ->
-                val chatId = update.message?.chat?.id ?: return@command
+            command("regularPoll") {
                 bot.sendPoll(
-                    chatId = chatId,
+                    chatId = message.chat.id,
                     question = "Pizza with or without pineapple?",
                     options = listOf("With :(", "Without :)"),
                     isAnonymous = false
                 )
             }
 
-            command("quizPoll") { bot, update, _ ->
-                val chatId = update.message?.chat?.id ?: return@command
+            command("quizPoll") {
                 bot.sendPoll(
-                    chatId = chatId,
+                    chatId = message.chat.id,
                     type = QUIZ,
                     question = "Java or Kotlin?",
                     options = listOf("Java", "Kotlin"),
@@ -35,10 +33,9 @@ fun main() {
                 )
             }
 
-            command("closedPoll") { bot, update, _ ->
-                val chatId = update.message?.chat?.id ?: return@command
+            command("closedPoll") {
                 bot.sendPoll(
-                    chatId = chatId,
+                    chatId = message.chat.id,
                     type = QUIZ,
                     question = "Foo or Bar?",
                     options = listOf("Foo", "Bar", "FooBar"),
