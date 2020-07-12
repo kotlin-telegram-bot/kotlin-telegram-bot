@@ -2,6 +2,7 @@ import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.HandleUpdate
 import com.github.kotlintelegrambot.dispatcher.Dispatcher
 import com.github.kotlintelegrambot.dispatcher.handlers.Handler
+import com.github.kotlintelegrambot.logging.LogLevel
 import com.github.kotlintelegrambot.types.DispatchableObject
 import io.mockk.every
 import io.mockk.mockk
@@ -14,8 +15,9 @@ class DispatcherTest {
     private val botMock = mockk<Bot>()
     private val blockingQueueMock = mockk<BlockingQueue<DispatchableObject>>()
 
-    private val sut = Dispatcher(updatesQueue = blockingQueueMock).apply {
+    private val sut = Dispatcher(blockingQueueMock).apply {
         bot = botMock
+        logLevel = LogLevel.None
     }
 
     @Test

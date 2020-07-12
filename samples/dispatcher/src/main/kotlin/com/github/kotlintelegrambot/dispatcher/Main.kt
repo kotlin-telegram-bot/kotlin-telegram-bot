@@ -18,8 +18,8 @@ import com.github.kotlintelegrambot.entities.inputmedia.MediaGroup
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton
 import com.github.kotlintelegrambot.entities.keyboard.KeyboardButton
 import com.github.kotlintelegrambot.extensions.filters.Filter
+import com.github.kotlintelegrambot.logging.LogLevel
 import com.github.kotlintelegrambot.network.fold
-import okhttp3.logging.HttpLoggingInterceptor
 
 fun main(args: Array<String>) {
 
@@ -27,7 +27,7 @@ fun main(args: Array<String>) {
 
         token = "YOUR_API_KEY"
         timeout = 30
-        logLevel = HttpLoggingInterceptor.Level.BODY
+        logLevel = LogLevel.Network.Body
 
         dispatch {
             message(Filter.Sticker) { bot, update ->
