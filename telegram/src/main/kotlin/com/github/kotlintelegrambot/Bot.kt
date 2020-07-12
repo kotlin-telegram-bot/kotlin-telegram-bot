@@ -19,6 +19,7 @@ import com.github.kotlintelegrambot.entities.polls.PollType
 import com.github.kotlintelegrambot.entities.stickers.MaskPosition
 import com.github.kotlintelegrambot.errors.RetrieveUpdatesError
 import com.github.kotlintelegrambot.errors.TelegramError
+import com.github.kotlintelegrambot.logging.LogLevel
 import com.github.kotlintelegrambot.network.ApiClient
 import com.github.kotlintelegrambot.network.bimap
 import com.github.kotlintelegrambot.network.call
@@ -29,7 +30,6 @@ import com.github.kotlintelegrambot.webhook.WebhookConfigBuilder
 import java.io.File as SystemFile
 import java.net.Proxy
 import java.util.Date
-import okhttp3.logging.HttpLoggingInterceptor
 
 fun bot(body: Bot.Builder.() -> Unit): Bot = Bot.Builder().build(body)
 
@@ -50,7 +50,7 @@ class Bot private constructor(
     token: String,
     apiUrl: String,
     timeout: Int = 30,
-    logLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.BODY,
+    logLevel: LogLevel,
     proxy: Proxy
 ) {
     private val apiClient: ApiClient = ApiClient(token, apiUrl, timeout, logLevel, proxy)
@@ -58,6 +58,7 @@ class Bot private constructor(
     init {
         updater.bot = this
         updater.dispatcher.bot = this
+        updater.dispatcher.logLevel = logLevel
     }
 
     class Builder {
@@ -67,7 +68,7 @@ class Bot private constructor(
         lateinit var token: String
         var timeout: Int = 30
         var apiUrl: String = "https://api.telegram.org/"
-        var logLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.NONE
+        var logLevel: LogLevel = LogLevel.None
         var proxy: Proxy = Proxy.NO_PROXY
 
         fun build(): Bot {

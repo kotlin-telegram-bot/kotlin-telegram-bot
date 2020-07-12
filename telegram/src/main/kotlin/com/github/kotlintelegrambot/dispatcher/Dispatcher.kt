@@ -44,6 +44,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.media.VoiceHandler
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.errors.TelegramError
 import com.github.kotlintelegrambot.extensions.filters.Filter
+import com.github.kotlintelegrambot.logging.LogLevel
 import com.github.kotlintelegrambot.types.DispatchableObject
 import java.util.concurrent.BlockingQueue
 import java.util.concurrent.LinkedBlockingQueue
@@ -149,9 +150,9 @@ fun Dispatcher.dice(body: HandleDice) {
 }
 
 class Dispatcher(
-    val updatesQueue: BlockingQueue<DispatchableObject> = LinkedBlockingQueue<DispatchableObject>()
+    val updatesQueue: BlockingQueue<DispatchableObject> = LinkedBlockingQueue()
 ) {
-
+    internal lateinit var logLevel: LogLevel
     lateinit var bot: Bot
 
     private val commandHandlers = mutableMapOf<String, ArrayList<Handler>>()
@@ -205,7 +206,9 @@ class Dispatcher(
                     try {
                         it.handlerCallback(bot, update)
                     } catch (exc: Exception) {
-                        exc.printStackTrace()
+                        if (logLevel.shouldLogErrors()) {
+                            exc.printStackTrace()
+                        }
                     }
                 }
         }
@@ -216,7 +219,9 @@ class Dispatcher(
             try {
                 it(bot, error)
             } catch (exc: Exception) {
-                exc.printStackTrace()
+                if (logLevel.shouldLogErrors()) {
+                    exc.printStackTrace()
+                }
             }
         }
     }

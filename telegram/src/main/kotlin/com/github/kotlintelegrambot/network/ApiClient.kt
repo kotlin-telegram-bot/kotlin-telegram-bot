@@ -28,6 +28,8 @@ import com.github.kotlintelegrambot.entities.polls.Poll
 import com.github.kotlintelegrambot.entities.polls.PollType
 import com.github.kotlintelegrambot.entities.stickers.MaskPosition
 import com.github.kotlintelegrambot.entities.stickers.StickerSet
+import com.github.kotlintelegrambot.logging.LogLevel
+import com.github.kotlintelegrambot.logging.toOkHttpLogLevel
 import com.github.kotlintelegrambot.network.multipart.MultipartBodyFactory
 import com.github.kotlintelegrambot.network.multipart.toMultipartBodyPart
 import com.github.kotlintelegrambot.network.retrofit.converters.DiceEmojiConverterFactory
@@ -93,7 +95,7 @@ class ApiClient(
     private val token: String,
     private val apiUrl: String,
     private val botTimeout: Int = 30,
-    logLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.NONE,
+    logLevel: LogLevel,
     proxy: Proxy = Proxy.NO_PROXY,
     private val gson: Gson = GsonFactory.createForApiClient(),
     private val multipartBodyFactory: MultipartBodyFactory = MultipartBodyFactory(GsonFactory.createForMultipartBodyFactory())
@@ -103,7 +105,7 @@ class ApiClient(
 
     // TODO check if init is the best approach for this
     init {
-        val logging = HttpLoggingInterceptor().apply { level = logLevel }
+        val logging = HttpLoggingInterceptor().apply { level = logLevel.toOkHttpLogLevel() }
 
         val httpClient = OkHttpClient.Builder()
             .connectTimeout(botTimeout + 10L, TimeUnit.SECONDS)
