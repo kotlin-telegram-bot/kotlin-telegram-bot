@@ -38,7 +38,7 @@ fun main(args: Array<String>) {
                 bot.sendMessage(update.message!!.chat.id, text = "someone is replying or forwarding messages ...")
             }
 
-            command("start") { bot, update ->
+            command("start") {
 
                 val result = bot.sendMessage(chatId = update.message!!.chat.id, text = "Bot started")
 
@@ -49,7 +49,7 @@ fun main(args: Array<String>) {
                 })
             }
 
-            command("hello") { bot, update ->
+            command("hello") {
 
                 val result = bot.sendMessage(chatId = update.message!!.chat.id, text = "Hello, world!")
 
@@ -60,22 +60,22 @@ fun main(args: Array<String>) {
                 })
             }
 
-            command("commandWithArgs") { bot, update, args ->
+            command("commandWithArgs") {
                 val joinedArgs = args.joinToString()
-                val response = if (!joinedArgs.isNullOrBlank()) joinedArgs else "There is no text apart from command!"
-                bot.sendMessage(chatId = update.message!!.chat.id, text = response)
+                val response = if (joinedArgs.isNotBlank()) joinedArgs else "There is no text apart from command!"
+                bot.sendMessage(chatId = message.chat.id, text = response)
             }
 
-            command("markdown") { bot, update ->
+            command("markdown") {
                 val markdownText = "_Cool message_: *Markdown* is `beatiful` :P"
                 bot.sendMessage(
-                    chatId = update.message!!.chat.id,
+                    chatId = message.chat.id,
                     text = markdownText,
                     parseMode = MARKDOWN
                 )
             }
 
-            command("markdownV2") { bot, update ->
+            command("markdownV2") {
                 val markdownV2Text = """
                     *bold \*text*
                     _italic \*text_
@@ -92,38 +92,40 @@ fun main(args: Array<String>) {
                     ```
                 """.trimIndent()
                 bot.sendMessage(
-                    chatId = update.message!!.chat.id,
+                    chatId = message.chat.id,
                     text = markdownV2Text,
                     parseMode = MARKDOWN_V2
                 )
             }
 
-            command("inlineButtons") { bot, update ->
-                val chatId = update.message?.chat?.id ?: return@command
-
+            command("inlineButtons") {
                 val inlineKeyboardMarkup = InlineKeyboardMarkup(generateButtons())
-                bot.sendMessage(chatId = chatId, text = "Hello, inline buttons!", replyMarkup = inlineKeyboardMarkup)
+                bot.sendMessage(
+                    chatId = message.chat.id,
+                    text = "Hello, inline buttons!",
+                    replyMarkup = inlineKeyboardMarkup
+                )
             }
 
-            command("userButtons") { bot, update ->
-                val chatId = update.message?.chat?.id ?: return@command
-
+            command("userButtons") {
                 val keyboardMarkup = KeyboardReplyMarkup(keyboard = generateUsersButton(), resizeKeyboard = true)
-                bot.sendMessage(chatId = chatId, text = "Hello, users buttons!", replyMarkup = keyboardMarkup)
+                bot.sendMessage(
+                    chatId = message.chat.id,
+                    text = "Hello, users buttons!",
+                    replyMarkup = keyboardMarkup
+                )
             }
 
-            command("mediaGroup") { bot, update ->
-                val chatId = update.message?.chat?.id ?: return@command
-                val messageId = update.message?.messageId ?: return@command
+            command("mediaGroup") {
                 bot.sendMediaGroup(
-                    chatId = chatId,
+                    chatId = message.chat.id,
                     mediaGroup = MediaGroup.from(
                         InputMediaPhoto(
                             media = ByUrl("https://www.sngular.com/wp-content/uploads/2019/11/Kotlin-Blog-1400x411.png"),
                             caption = "I come from an url :P"
                         )
                     ),
-                    replyToMessageId = messageId
+                    replyToMessageId = message.messageId
                 )
             }
 
@@ -191,9 +193,8 @@ fun main(args: Array<String>) {
                 )
             }
 
-            command("diceAsDartboard") { bot, update ->
-                val chatId = update.message?.chat?.id ?: return@command
-                bot.sendDice(chatId, DiceEmoji.Dartboard)
+            command("diceAsDartboard") {
+                bot.sendDice(message.chat.id, DiceEmoji.Dartboard)
             }
 
             dice { bot, message, dice ->

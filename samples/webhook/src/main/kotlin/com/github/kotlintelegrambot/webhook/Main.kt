@@ -35,9 +35,8 @@ fun main() {
             allowedUpdates = listOf("message")
         }
         dispatch {
-            command("hello") { _, update, _ ->
-                val chatId = update.message?.chat?.id ?: return@command
-                bot.sendMessage(chatId, "Hey bruh!")
+            command("hello") {
+                bot.sendMessage(message.chat.id, "Hey bruh!")
             }
         }
     }

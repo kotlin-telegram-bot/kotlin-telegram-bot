@@ -41,8 +41,8 @@ fun main(args: Array<String>) {
     val bot = bot {
         token = "YOUR_API_KEY"
         dispatch {
-            command("start") { bot, update->
-                val result = bot.sendMessage(chatId = update.message!!.chat.id, text = "Hi there!")
+            command("start") {
+                val result = bot.sendMessage(chatId = message.chat.id, text = "Hi there!")
                 result.fold({
                     // do something here with the response
                 },{
