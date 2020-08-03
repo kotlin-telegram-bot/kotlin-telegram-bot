@@ -242,9 +242,20 @@ sealed class InlineQueryResult(
         @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null
     ) : InlineQueryResult(QueryResultTypes.MPEG4_GIF)
 
+    data class CachedPhoto(
+        override val id: String,
+        @SerializedName("photo_file_id") val photoFileId: String,
+        val title: String? = null,
+        val description: String? = null,
+        val caption: String? = null,
+        @SerializedName("parse_mode") val parseMode: ParseMode? = null,
+        @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
+        @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null
+    ) : InlineQueryResult(QueryResultTypes.PHOTO)
+
     data class CachedSticker(
         override val id: String,
-        @SerializedName("sticket_file_id") val stickerFileId: String,
+        @SerializedName("sticker_file_id") val stickerFileId: String,
         @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
         @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null
     ) : InlineQueryResult(QueryResultTypes.STICKER)
@@ -252,6 +263,7 @@ sealed class InlineQueryResult(
     data class CachedVideo(
         override val id: String,
         @SerializedName("video_file_id") val videoFileId: String,
+        val title: String,
         val description: String? = null,
         val caption: String? = null,
         @SerializedName("parse_mode") val parseMode: ParseMode? = null,
@@ -264,7 +276,7 @@ sealed class InlineQueryResult(
         @SerializedName("voice_file_id") val voiceFileId: String,
         val title: String,
         val caption: String? = null,
-        @SerializedName("parse_mode") val parseModel: ParseMode? = null,
+        @SerializedName("parse_mode") val parseMode: ParseMode? = null,
         @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
         @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null
     ) : InlineQueryResult(QueryResultTypes.VOICE)

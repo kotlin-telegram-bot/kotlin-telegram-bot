@@ -7,6 +7,7 @@ import com.github.kotlintelegrambot.entities.inlinequeryresults.InlineQueryResul
 import com.github.kotlintelegrambot.entities.inlinequeryresults.InlineQueryResult.CachedDocument
 import com.github.kotlintelegrambot.entities.inlinequeryresults.InlineQueryResult.CachedGif
 import com.github.kotlintelegrambot.entities.inlinequeryresults.InlineQueryResult.CachedMpeg4Gif
+import com.github.kotlintelegrambot.entities.inlinequeryresults.InlineQueryResult.CachedPhoto
 import com.github.kotlintelegrambot.entities.inlinequeryresults.InlineQueryResult.CachedSticker
 import com.github.kotlintelegrambot.entities.inlinequeryresults.InlineQueryResult.CachedVideo
 import com.github.kotlintelegrambot.entities.inlinequeryresults.InlineQueryResult.CachedVoice
@@ -48,6 +49,7 @@ class InlineQueryResultAdapter : JsonSerializer<InlineQueryResult> {
         is CachedDocument -> context.serialize(src, CachedDocument::class.java)
         is CachedGif -> context.serialize(src, CachedGif::class.java)
         is CachedMpeg4Gif -> context.serialize(src, CachedMpeg4Gif::class.java)
+        is CachedPhoto -> context.serialize(src, CachedPhoto::class.java)
         is CachedSticker -> context.serialize(src, CachedSticker::class.java)
         is CachedVideo -> context.serialize(src, CachedVideo::class.java)
         is CachedVoice -> context.serialize(src, CachedVoice::class.java)
