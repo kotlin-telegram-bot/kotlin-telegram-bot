@@ -27,6 +27,7 @@ data class Message(
     @Name("reply_to_message") val replyToMessage: Message? = null,
     @Name("via_bot") val viaBot: User? = null,
     @Name("edit_date") val editDate: Int? = null,
+    @Name("media_group_id") val mediaGroupId: String? = null,
     val text: String? = null,
     val entities: List<MessageEntity>? = null,
     @Name("caption_entities") val captionEntities: List<MessageEntity>? = null,
