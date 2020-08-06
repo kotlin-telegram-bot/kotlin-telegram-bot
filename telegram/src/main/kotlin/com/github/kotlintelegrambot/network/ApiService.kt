@@ -653,7 +653,7 @@ interface ApiService {
 
     @GET("getStickerSet")
     fun getStickerSet(
-        @Field("name") name: String
+        @Query("name") name: String
     ): Call<Response<StickerSet>>
 
     @Multipart
