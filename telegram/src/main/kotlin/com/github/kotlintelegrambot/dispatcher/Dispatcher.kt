@@ -9,6 +9,7 @@ import com.github.kotlintelegrambot.HandleDocumentUpdate
 import com.github.kotlintelegrambot.HandleError
 import com.github.kotlintelegrambot.HandleGameUpdate
 import com.github.kotlintelegrambot.HandleInlineQuery
+import com.github.kotlintelegrambot.HandleMessage
 import com.github.kotlintelegrambot.HandleNewChatMembers
 import com.github.kotlintelegrambot.HandlePhotosUpdate
 import com.github.kotlintelegrambot.HandlePollAnswer
@@ -49,12 +50,12 @@ import com.github.kotlintelegrambot.types.DispatchableObject
 import java.util.concurrent.BlockingQueue
 import java.util.concurrent.LinkedBlockingQueue
 
-fun Dispatcher.message(handleUpdate: HandleUpdate) {
-    addHandler(MessageHandler(handleUpdate, Filter.All))
+fun Dispatcher.message(handleMessage: HandleMessage) {
+    addHandler(MessageHandler(Filter.All, handleMessage))
 }
 
-fun Dispatcher.message(filter: Filter, handleUpdate: HandleUpdate) {
-    addHandler(MessageHandler(handleUpdate, filter))
+fun Dispatcher.message(filter: Filter, handleMessage: HandleMessage) {
+    addHandler(MessageHandler(filter, handleMessage))
 }
 
 fun Dispatcher.command(command: String, body: CommandHandlerEnvironment.() -> Unit) {

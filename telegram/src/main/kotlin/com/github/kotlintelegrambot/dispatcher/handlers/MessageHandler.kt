@@ -1,13 +1,21 @@
 package com.github.kotlintelegrambot.dispatcher.handlers
 
+import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.HandleUpdate
+import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.extensions.filters.Filter
 
-class MessageHandler(
-    handlerCallback: HandleUpdate,
-    private val filter: Filter
-) : Handler(handlerCallback) {
+data class MessageHandlerEnvironment(
+    val bot: Bot,
+    val update: Update,
+    val message: Message
+)
+
+internal class MessageHandler(
+    private val filter: Filter,
+    handler: MessageHandlerEnvironment.() -> Unit
+) : Handler(MessageHandlerProxy(handler)) {
 
     override val groupIdentifier: String
         get() = "MessageHandler"
@@ -18,4 +26,15 @@ class MessageHandler(
         } else {
             filter.checkFor(update.message)
         }
+}
+
+private class MessageHandlerProxy(
+    private val handler: MessageHandlerEnvironment.() -> Unit
+) : HandleUpdate {
+
+    override fun invoke(bot: Bot, update: Update) {
+        checkNotNull(update.message)
+        val messageHandlerEnv = MessageHandlerEnvironment(bot, update, update.message)
+        handler.invoke(messageHandlerEnv)
+    }
 }

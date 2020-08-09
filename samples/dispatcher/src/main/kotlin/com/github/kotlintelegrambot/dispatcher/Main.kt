@@ -30,12 +30,12 @@ fun main(args: Array<String>) {
         logLevel = LogLevel.Network.Body
 
         dispatch {
-            message(Filter.Sticker) { bot, update ->
-                bot.sendMessage(update.message!!.chat.id, text = "You have received an awesome sticker \\o/")
+            message(Filter.Sticker) {
+                bot.sendMessage(message.chat.id, text = "You have received an awesome sticker \\o/")
             }
 
-            message(Filter.Reply or Filter.Forward) { bot, update ->
-                bot.sendMessage(update.message!!.chat.id, text = "someone is replying or forwarding messages ...")
+            message(Filter.Reply or Filter.Forward) {
+                bot.sendMessage(message.chat.id, text = "someone is replying or forwarding messages ...")
             }
 
             command("start") {
