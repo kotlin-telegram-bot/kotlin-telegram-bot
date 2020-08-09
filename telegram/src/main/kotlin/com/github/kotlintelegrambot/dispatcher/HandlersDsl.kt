@@ -10,6 +10,7 @@ import com.github.kotlintelegrambot.HandleDocumentUpdate
 import com.github.kotlintelegrambot.HandleError
 import com.github.kotlintelegrambot.HandleGameUpdate
 import com.github.kotlintelegrambot.HandleInlineQuery
+import com.github.kotlintelegrambot.HandleLocation
 import com.github.kotlintelegrambot.HandleMessage
 import com.github.kotlintelegrambot.HandleNewChatMembers
 import com.github.kotlintelegrambot.HandlePhotosUpdate
@@ -20,7 +21,6 @@ import com.github.kotlintelegrambot.HandleUpdate
 import com.github.kotlintelegrambot.HandleVideoNoteUpdate
 import com.github.kotlintelegrambot.HandleVideoUpdate
 import com.github.kotlintelegrambot.HandleVoiceUpdate
-import com.github.kotlintelegrambot.LocationHandleUpdate
 import com.github.kotlintelegrambot.dispatcher.handlers.CallbackQueryHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.ChannelHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.CheckoutHandler
@@ -89,8 +89,8 @@ fun Dispatcher.contact(handleContact: HandleContact) {
     addHandler(ContactHandler(handleContact))
 }
 
-fun Dispatcher.location(handleUpdate: LocationHandleUpdate) {
-    addHandler(LocationHandler(handleUpdate))
+fun Dispatcher.location(handleLocation: HandleLocation) {
+    addHandler(LocationHandler(handleLocation))
 }
 
 fun Dispatcher.telegramError(body: HandleError) {
