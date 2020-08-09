@@ -1,5 +1,6 @@
 package com.github.kotlintelegrambot
 
+import com.github.kotlintelegrambot.dispatcher.handlers.CallbackQueryHandlerEnvironment
 import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandlerEnvironment
 import com.github.kotlintelegrambot.dispatcher.handlers.MessageHandlerEnvironment
 import com.github.kotlintelegrambot.dispatcher.handlers.TextHandlerEnvironment
@@ -31,6 +32,8 @@ typealias HandleMessage = MessageHandlerEnvironment.() -> Unit
 typealias HandleCommand = CommandHandlerEnvironment.() -> Unit
 
 typealias HandleText = TextHandlerEnvironment.() -> Unit
+
+typealias HandleCallbackQuery = CallbackQueryHandlerEnvironment.() -> Unit
 
 typealias ContactHandleUpdate = (Bot, Update, Contact) -> Unit
 

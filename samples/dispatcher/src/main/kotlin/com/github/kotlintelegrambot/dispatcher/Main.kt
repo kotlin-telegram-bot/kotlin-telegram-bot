@@ -1,9 +1,7 @@
 package com.github.kotlintelegrambot.dispatcher
 
-import com.github.kotlintelegrambot.HandleUpdate
 import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.dispatch
-import com.github.kotlintelegrambot.dispatcher.handlers.CallbackQueryHandler
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
 import com.github.kotlintelegrambot.entities.KeyboardReplyMarkup
 import com.github.kotlintelegrambot.entities.ParseMode.MARKDOWN
@@ -129,19 +127,19 @@ fun main(args: Array<String>) {
                 )
             }
 
-            callbackQuery("testButton") { bot, update ->
-                update.callbackQuery?.let {
-                    val chatId = it.message?.chat?.id ?: return@callbackQuery
-                    bot.sendMessage(chatId = chatId, text = it.data)
-                }
+            callbackQuery("testButton") {
+                val chatId = callbackQuery.message?.chat?.id ?: return@callbackQuery
+                bot.sendMessage(chatId, callbackQuery.data)
             }
 
-            callbackQuery(createAlertCallbackQueryHandler { bot, update ->
-                update.callbackQuery?.let {
-                    val chatId = it.message?.chat?.id ?: return@createAlertCallbackQueryHandler
-                    bot.sendMessage(chatId = chatId, text = it.data)
-                }
-            })
+            callbackQuery(
+                callbackData = "showAlert",
+                callbackAnswerText = "HelloText",
+                callbackAnswerShowAlert = true
+            ) {
+                val chatId = callbackQuery.message?.chat?.id ?: return@callbackQuery
+                bot.sendMessage(chatId, callbackQuery.data)
+            }
 
             text("ping") {
                 bot.sendMessage(chatId = message.chat.id, text = "Pong")
@@ -214,15 +212,6 @@ fun generateUsersButton(): List<List<KeyboardButton>> {
     return listOf(
         listOf(KeyboardButton("Request location (not supported on desktop)", requestLocation = true)),
         listOf(KeyboardButton("Request contact", requestContact = true))
-    )
-}
-
-fun createAlertCallbackQueryHandler(handler: HandleUpdate): CallbackQueryHandler {
-    return CallbackQueryHandler(
-        callbackData = "showAlert",
-        callbackAnswerText = "HelloText",
-        callbackAnswerShowAlert = true,
-        handler = handler
     )
 }
 

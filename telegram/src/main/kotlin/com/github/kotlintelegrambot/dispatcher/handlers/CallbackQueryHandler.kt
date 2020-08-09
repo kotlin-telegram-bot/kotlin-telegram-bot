@@ -1,20 +1,28 @@
 package com.github.kotlintelegrambot.dispatcher.handlers
 
 import com.github.kotlintelegrambot.Bot
+import com.github.kotlintelegrambot.HandleCallbackQuery
 import com.github.kotlintelegrambot.HandleUpdate
+import com.github.kotlintelegrambot.entities.CallbackQuery
 import com.github.kotlintelegrambot.entities.Update
 
-class CallbackQueryHandler(
+data class CallbackQueryHandlerEnvironment(
+    val bot: Bot,
+    val update: Update,
+    val callbackQuery: CallbackQuery
+)
+
+internal class CallbackQueryHandler(
     private val callbackData: String? = null,
     callbackAnswerText: String? = null,
     callbackAnswerShowAlert: Boolean? = null,
     callbackAnswerUrl: String? = null,
     callbackAnswerCacheTime: Int? = null,
-    handler: HandleUpdate
+    handleCallbackQuery: HandleCallbackQuery
 ) :
     Handler(
-        HandleUpdateWrapper(
-            handler,
+        CallbackQueryHandlerProxy(
+            handleCallbackQuery,
             callbackAnswerText,
             callbackAnswerShowAlert,
             callbackAnswerUrl,
@@ -26,35 +34,38 @@ class CallbackQueryHandler(
 
     override fun checkUpdate(update: Update): Boolean {
         val data = update.callbackQuery?.data
-        return if (data != null && callbackData == null) {
-            true
-        } else if (callbackData != null) {
-            (data != null && data.toLowerCase().contains(callbackData.toLowerCase()))
-        } else {
-            false
+        return when {
+            data == null -> false
+            callbackData == null -> true
+            else -> data.toLowerCase().contains(callbackData.toLowerCase())
         }
     }
+}
 
-    private class HandleUpdateWrapper(
-        private val handleUpdate: HandleUpdate,
-        private val text: String? = null,
-        private val showAlert: Boolean? = null,
-        private val url: String? = null,
-        private val cacheTime: Int? = null
-    ) : HandleUpdate {
-        override fun invoke(bot: Bot, updte: Update) {
-            handleUpdate(bot, updte)
+private class CallbackQueryHandlerProxy(
+    private val handleCallbackQuery: HandleCallbackQuery,
+    private val text: String? = null,
+    private val showAlert: Boolean? = null,
+    private val url: String? = null,
+    private val cacheTime: Int? = null
+) : HandleUpdate {
 
-            val callbackQuery = updte.callbackQuery ?: return
-            val callbackQueryId = callbackQuery.id
+    override fun invoke(bot: Bot, update: Update) {
+        checkNotNull(update.callbackQuery)
+        val callbackQueryHandlerEnv = CallbackQueryHandlerEnvironment(
+            bot,
+            update,
+            update.callbackQuery
+        )
+        handleCallbackQuery(callbackQueryHandlerEnv)
 
-            bot.answerCallbackQuery(
-                callbackQueryId = callbackQueryId,
-                text = text,
-                showAlert = showAlert,
-                url = url,
-                cacheTime = cacheTime
-            )
-        }
+        val callbackQueryId = update.callbackQuery.id
+        bot.answerCallbackQuery(
+            callbackQueryId = callbackQueryId,
+            text = text,
+            showAlert = showAlert,
+            url = url,
+            cacheTime = cacheTime
+        )
     }
 }
