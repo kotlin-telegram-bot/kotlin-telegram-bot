@@ -15,6 +15,7 @@ import com.github.kotlintelegrambot.HandleNewChatMembers
 import com.github.kotlintelegrambot.HandlePhotosUpdate
 import com.github.kotlintelegrambot.HandlePollAnswer
 import com.github.kotlintelegrambot.HandleStickerUpdate
+import com.github.kotlintelegrambot.HandleText
 import com.github.kotlintelegrambot.HandleUpdate
 import com.github.kotlintelegrambot.HandleVideoNoteUpdate
 import com.github.kotlintelegrambot.HandleVideoUpdate
@@ -24,7 +25,6 @@ import com.github.kotlintelegrambot.dispatcher.handlers.CallbackQueryHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.ChannelHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.CheckoutHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandler
-import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandlerEnvironment
 import com.github.kotlintelegrambot.dispatcher.handlers.ContactHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.DiceHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.Handler
@@ -63,8 +63,8 @@ fun Dispatcher.command(command: String, handleCommand: HandleCommand) {
     addHandler(CommandHandler(command, handleCommand))
 }
 
-fun Dispatcher.text(text: String? = null, body: HandleUpdate) {
-    addHandler(TextHandler(text, body))
+fun Dispatcher.text(text: String? = null, handleText: HandleText) {
+    addHandler(TextHandler(text, handleText))
 }
 
 fun Dispatcher.callbackQuery(data: String? = null, body: HandleUpdate) {
