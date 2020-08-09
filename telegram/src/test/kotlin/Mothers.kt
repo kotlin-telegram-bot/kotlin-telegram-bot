@@ -315,3 +315,17 @@ fun anyUser(
     username = username,
     languageCode = languageCode
 )
+
+fun anyCallbackQuery(
+    id: String = "anyId",
+    from: User = anyUser(),
+    message: Message? = null,
+    inlineMessageId: String? = null,
+    data: String = "anyData"
+): CallbackQuery = CallbackQuery(
+    id = id,
+    from = from,
+    message = message,
+    inlineMessageId = inlineMessageId,
+    data = data
+)

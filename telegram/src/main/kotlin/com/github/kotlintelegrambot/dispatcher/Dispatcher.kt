@@ -4,6 +4,7 @@ import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.ContactHandleUpdate
 import com.github.kotlintelegrambot.HandleAnimationUpdate
 import com.github.kotlintelegrambot.HandleAudioUpdate
+import com.github.kotlintelegrambot.HandleCallbackQuery
 import com.github.kotlintelegrambot.HandleCommand
 import com.github.kotlintelegrambot.HandleDice
 import com.github.kotlintelegrambot.HandleDocumentUpdate
@@ -67,12 +68,28 @@ fun Dispatcher.text(text: String? = null, handleText: HandleText) {
     addHandler(TextHandler(text, handleText))
 }
 
-fun Dispatcher.callbackQuery(data: String? = null, body: HandleUpdate) {
-    addHandler(CallbackQueryHandler(callbackData = data, handler = body))
+fun Dispatcher.callbackQuery(data: String? = null, handleCallbackQuery: HandleCallbackQuery) {
+    addHandler(CallbackQueryHandler(callbackData = data, handleCallbackQuery = handleCallbackQuery))
 }
 
-fun Dispatcher.callbackQuery(callbackQueryHandler: CallbackQueryHandler) {
-    addHandler(callbackQueryHandler)
+fun Dispatcher.callbackQuery(
+    callbackData: String? = null,
+    callbackAnswerText: String? = null,
+    callbackAnswerShowAlert: Boolean? = null,
+    callbackAnswerUrl: String? = null,
+    callbackAnswerCacheTime: Int? = null,
+    handleCallbackQuery: HandleCallbackQuery
+) {
+    addHandler(
+        CallbackQueryHandler(
+            callbackData = callbackData,
+            callbackAnswerText = callbackAnswerText,
+            callbackAnswerShowAlert = callbackAnswerShowAlert,
+            callbackAnswerUrl = callbackAnswerUrl,
+            callbackAnswerCacheTime = callbackAnswerCacheTime,
+            handleCallbackQuery = handleCallbackQuery
+        )
+    )
 }
 
 fun Dispatcher.contact(handleUpdate: ContactHandleUpdate) {
