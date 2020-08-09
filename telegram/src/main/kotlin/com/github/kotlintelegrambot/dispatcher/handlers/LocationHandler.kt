@@ -1,11 +1,22 @@
 package com.github.kotlintelegrambot.dispatcher.handlers
 
 import com.github.kotlintelegrambot.Bot
+import com.github.kotlintelegrambot.HandleLocation
 import com.github.kotlintelegrambot.HandleUpdate
-import com.github.kotlintelegrambot.LocationHandleUpdate
+import com.github.kotlintelegrambot.entities.Location
+import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 
-class LocationHandler(handleUpdate: LocationHandleUpdate) : Handler(LocationHandleUpdateProxy(handleUpdate)) {
+data class LocationHandlerEnvironment(
+    val bot: Bot,
+    val update: Update,
+    val message: Message,
+    val location: Location
+)
+
+internal class LocationHandler(
+    handleLocation: HandleLocation
+) : Handler(LocationHandlerProxy(handleLocation)) {
     override val groupIdentifier: String
         get() = "System"
 
@@ -14,8 +25,19 @@ class LocationHandler(handleUpdate: LocationHandleUpdate) : Handler(LocationHand
     }
 }
 
-private class LocationHandleUpdateProxy(private val handleUpdate: LocationHandleUpdate) : HandleUpdate {
+private class LocationHandlerProxy(
+    private val handler: HandleLocation
+) : HandleUpdate {
     override fun invoke(bot: Bot, update: Update) {
-        handleUpdate(bot, update, update.message?.location!!)
+        checkNotNull(update.message)
+        checkNotNull(update.message.location)
+
+        val locationHandlerEnv = LocationHandlerEnvironment(
+            bot,
+            update,
+            update.message,
+            update.message.location
+        )
+        handler.invoke(locationHandlerEnv)
     }
 }

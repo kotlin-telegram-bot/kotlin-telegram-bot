@@ -145,10 +145,9 @@ fun main(args: Array<String>) {
                 bot.sendMessage(chatId = message.chat.id, text = "Pong")
             }
 
-            location { bot, update, location ->
-                val chatId = update.message?.chat?.id ?: return@location
+            location {
                 bot.sendMessage(
-                    chatId = chatId,
+                    chatId = message.chat.id,
                     text = "Your location is (${location.latitude}, ${location.longitude})",
                     replyMarkup = ReplyKeyboardRemove()
                 )
