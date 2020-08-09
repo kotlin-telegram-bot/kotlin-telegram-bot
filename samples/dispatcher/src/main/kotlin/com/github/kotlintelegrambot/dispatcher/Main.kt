@@ -154,10 +154,9 @@ fun main(args: Array<String>) {
                 )
             }
 
-            contact { bot, update, contact ->
-                val chatId = update.message?.chat?.id ?: return@contact
+            contact {
                 bot.sendMessage(
-                    chatId = chatId,
+                    chatId = message.chat.id,
                     text = "Hello, ${contact.firstName} ${contact.lastName}",
                     replyMarkup = ReplyKeyboardRemove()
                 )

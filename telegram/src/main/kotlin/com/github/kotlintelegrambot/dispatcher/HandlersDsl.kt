@@ -1,10 +1,10 @@
 package com.github.kotlintelegrambot.dispatcher
 
-import com.github.kotlintelegrambot.ContactHandleUpdate
 import com.github.kotlintelegrambot.HandleAnimationUpdate
 import com.github.kotlintelegrambot.HandleAudioUpdate
 import com.github.kotlintelegrambot.HandleCallbackQuery
 import com.github.kotlintelegrambot.HandleCommand
+import com.github.kotlintelegrambot.HandleContact
 import com.github.kotlintelegrambot.HandleDice
 import com.github.kotlintelegrambot.HandleDocumentUpdate
 import com.github.kotlintelegrambot.HandleError
@@ -85,8 +85,8 @@ fun Dispatcher.callbackQuery(
     )
 }
 
-fun Dispatcher.contact(handleUpdate: ContactHandleUpdate) {
-    addHandler(ContactHandler(handleUpdate))
+fun Dispatcher.contact(handleContact: HandleContact) {
+    addHandler(ContactHandler(handleContact))
 }
 
 fun Dispatcher.location(handleUpdate: LocationHandleUpdate) {
