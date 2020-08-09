@@ -1,11 +1,22 @@
 package com.github.kotlintelegrambot.dispatcher.handlers
 
 import com.github.kotlintelegrambot.Bot
-import com.github.kotlintelegrambot.ContactHandleUpdate
+import com.github.kotlintelegrambot.HandleContact
 import com.github.kotlintelegrambot.HandleUpdate
+import com.github.kotlintelegrambot.entities.Contact
+import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 
-class ContactHandler(handleUpdate: ContactHandleUpdate) : Handler(ContactHandleUpdateProxy(handleUpdate)) {
+data class ContactHandlerEnvironment(
+    val bot: Bot,
+    val update: Update,
+    val message: Message,
+    val contact: Contact
+)
+
+internal class ContactHandler(
+    handleContact: HandleContact
+) : Handler(ContactHandlerProxy(handleContact)) {
 
     override val groupIdentifier: String
         get() = "System"
@@ -15,8 +26,20 @@ class ContactHandler(handleUpdate: ContactHandleUpdate) : Handler(ContactHandleU
     }
 }
 
-private class ContactHandleUpdateProxy(private val handleUpdate: ContactHandleUpdate) : HandleUpdate {
+private class ContactHandlerProxy(
+    private val handler: HandleContact
+) : HandleUpdate {
+
     override fun invoke(bot: Bot, update: Update) {
-        handleUpdate(bot, update, update.message?.contact!!)
+        checkNotNull(update.message)
+        checkNotNull(update.message.contact)
+
+        val contactHandlerEnv = ContactHandlerEnvironment(
+            bot,
+            update,
+            update.message,
+            update.message.contact
+        )
+        handler.invoke(contactHandlerEnv)
     }
 }

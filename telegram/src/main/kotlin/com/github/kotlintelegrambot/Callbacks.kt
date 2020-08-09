@@ -2,9 +2,9 @@ package com.github.kotlintelegrambot
 
 import com.github.kotlintelegrambot.dispatcher.handlers.CallbackQueryHandlerEnvironment
 import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandlerEnvironment
+import com.github.kotlintelegrambot.dispatcher.handlers.ContactHandlerEnvironment
 import com.github.kotlintelegrambot.dispatcher.handlers.MessageHandlerEnvironment
 import com.github.kotlintelegrambot.dispatcher.handlers.TextHandlerEnvironment
-import com.github.kotlintelegrambot.entities.Contact
 import com.github.kotlintelegrambot.entities.Game
 import com.github.kotlintelegrambot.entities.InlineQuery
 import com.github.kotlintelegrambot.entities.Location
@@ -35,7 +35,7 @@ typealias HandleText = TextHandlerEnvironment.() -> Unit
 
 typealias HandleCallbackQuery = CallbackQueryHandlerEnvironment.() -> Unit
 
-typealias ContactHandleUpdate = (Bot, Update, Contact) -> Unit
+typealias HandleContact = ContactHandlerEnvironment.() -> Unit
 
 typealias LocationHandleUpdate = (Bot, Update, Location) -> Unit
 
