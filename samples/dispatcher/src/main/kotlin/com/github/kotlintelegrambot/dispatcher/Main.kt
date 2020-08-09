@@ -143,8 +143,8 @@ fun main(args: Array<String>) {
                 }
             })
 
-            text("ping") { bot, update ->
-                bot.sendMessage(chatId = update.message!!.chat.id, text = "Pong")
+            text("ping") {
+                bot.sendMessage(chatId = message.chat.id, text = "Pong")
             }
 
             location { bot, update, location ->

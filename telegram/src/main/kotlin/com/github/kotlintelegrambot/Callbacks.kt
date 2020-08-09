@@ -2,6 +2,7 @@ package com.github.kotlintelegrambot
 
 import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandlerEnvironment
 import com.github.kotlintelegrambot.dispatcher.handlers.MessageHandlerEnvironment
+import com.github.kotlintelegrambot.dispatcher.handlers.TextHandlerEnvironment
 import com.github.kotlintelegrambot.entities.Contact
 import com.github.kotlintelegrambot.entities.Game
 import com.github.kotlintelegrambot.entities.InlineQuery
@@ -28,6 +29,8 @@ typealias HandleError = (Bot, TelegramError) -> Unit
 typealias HandleMessage = MessageHandlerEnvironment.() -> Unit
 
 typealias HandleCommand = CommandHandlerEnvironment.() -> Unit
+
+typealias HandleText = TextHandlerEnvironment.() -> Unit
 
 typealias ContactHandleUpdate = (Bot, Update, Contact) -> Unit
 
