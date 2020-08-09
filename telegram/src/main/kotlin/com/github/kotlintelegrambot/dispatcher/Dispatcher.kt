@@ -4,6 +4,7 @@ import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.ContactHandleUpdate
 import com.github.kotlintelegrambot.HandleAnimationUpdate
 import com.github.kotlintelegrambot.HandleAudioUpdate
+import com.github.kotlintelegrambot.HandleCommand
 import com.github.kotlintelegrambot.HandleDice
 import com.github.kotlintelegrambot.HandleDocumentUpdate
 import com.github.kotlintelegrambot.HandleError
@@ -58,8 +59,8 @@ fun Dispatcher.message(filter: Filter, handleMessage: HandleMessage) {
     addHandler(MessageHandler(filter, handleMessage))
 }
 
-fun Dispatcher.command(command: String, body: CommandHandlerEnvironment.() -> Unit) {
-    addHandler(CommandHandler(command, body))
+fun Dispatcher.command(command: String, handleCommand: HandleCommand) {
+    addHandler(CommandHandler(command, handleCommand))
 }
 
 fun Dispatcher.text(text: String? = null, body: HandleUpdate) {
