@@ -2,21 +2,23 @@ package com.github.kotlintelegrambot.dispatcher.handlers
 
 import anyMessage
 import anyUpdate
-import com.github.kotlintelegrambot.HandleUpdate
+import com.github.kotlintelegrambot.Bot
+import com.github.kotlintelegrambot.HandleMessage
 import com.github.kotlintelegrambot.extensions.filters.Filter
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 class MessageHandlerTest {
 
-    private val handlerCallbackMock = mockk<HandleUpdate>()
+    private val handlerMock = mockk<HandleMessage>(relaxed = true)
     private val filterMock = mockk<Filter>()
 
     private val sut = MessageHandler(
-        handlerCallback = handlerCallbackMock,
+        handler = handlerMock,
         filter = filterMock
     )
 
@@ -43,6 +45,22 @@ class MessageHandlerTest {
         val checkUpdateResult = sut.checkUpdate(anyUpdate(message = anyMessage()))
 
         assertFalse(checkUpdateResult)
+    }
+
+    @Test
+    fun `message update is properly dispatched to the handler function`() {
+        val botMock = mockk<Bot>()
+        val anyMessage = anyMessage()
+        val anyUpdate = anyUpdate(message = anyMessage)
+
+        sut.handlerCallback(botMock, anyUpdate)
+
+        val expectedMessageHandlerEnvironment = MessageHandlerEnvironment(
+            botMock,
+            anyUpdate,
+            anyMessage
+        )
+        verify { handlerMock.invoke(expectedMessageHandlerEnvironment) }
     }
 
     private fun givenFilterReturns(filterReturnValue: Boolean) {
