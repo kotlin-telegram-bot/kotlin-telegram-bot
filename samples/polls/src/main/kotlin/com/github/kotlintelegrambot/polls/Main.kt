@@ -10,7 +10,7 @@ fun main() {
     bot {
         token = "BOT_API_TOKEN"
         dispatch {
-            pollAnswer { _, pollAnswer ->
+            pollAnswer {
                 println("${pollAnswer.user.username} has selected the option ${pollAnswer.optionIds.lastOrNull()} in the poll ${pollAnswer.pollId}")
             }
             command("regularPoll") {

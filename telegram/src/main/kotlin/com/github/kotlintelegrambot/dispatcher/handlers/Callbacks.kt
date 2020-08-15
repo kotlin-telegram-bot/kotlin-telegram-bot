@@ -12,7 +12,6 @@ import com.github.kotlintelegrambot.entities.files.PhotoSize
 import com.github.kotlintelegrambot.entities.files.Video
 import com.github.kotlintelegrambot.entities.files.VideoNote
 import com.github.kotlintelegrambot.entities.files.Voice
-import com.github.kotlintelegrambot.entities.polls.PollAnswer
 import com.github.kotlintelegrambot.entities.stickers.Sticker
 
 typealias HandleUpdate = (Bot, Update) -> Unit
@@ -35,7 +34,7 @@ typealias HandleInlineQuery = InlineQueryHandlerEnvironment.() -> Unit
 
 typealias HandleNewChatMembers = NewChatMembersHandlerEnvironment.() -> Unit
 
-typealias HandlePollAnswer = (Bot, PollAnswer) -> Unit
+typealias HandlePollAnswer = PollAnswerHandlerEnvironment.() -> Unit
 
 typealias HandleDice = (Bot, Message, Dice) -> Unit
 
