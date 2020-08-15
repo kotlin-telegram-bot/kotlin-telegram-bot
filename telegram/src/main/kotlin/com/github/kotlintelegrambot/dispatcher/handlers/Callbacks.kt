@@ -2,7 +2,6 @@ package com.github.kotlintelegrambot.dispatcher.handlers
 
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.Game
-import com.github.kotlintelegrambot.entities.InlineQuery
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.User
@@ -33,7 +32,7 @@ typealias HandleContact = ContactHandlerEnvironment.() -> Unit
 
 typealias HandleLocation = LocationHandlerEnvironment.() -> Unit
 
-typealias HandleInlineQuery = (Bot, InlineQuery) -> Unit
+typealias HandleInlineQuery = InlineQueryHandlerEnvironment.() -> Unit
 
 typealias HandleNewChatMembers = (Bot, Message, List<User>) -> Unit
 

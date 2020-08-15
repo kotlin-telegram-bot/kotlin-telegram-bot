@@ -1,9 +1,16 @@
 package com.github.kotlintelegrambot.dispatcher.handlers
 
 import com.github.kotlintelegrambot.Bot
+import com.github.kotlintelegrambot.entities.InlineQuery
 import com.github.kotlintelegrambot.entities.Update
 
-class InlineQueryHandler(
+data class InlineQueryHandlerEnvironment(
+    val bot: Bot,
+    val update: Update,
+    val inlineQuery: InlineQuery
+)
+
+internal class InlineQueryHandler(
     handleInlineQuery: HandleInlineQuery
 ) : Handler(InlineQueryHandlerProxy(handleInlineQuery)) {
     override val groupIdentifier: String
@@ -19,6 +26,7 @@ private class InlineQueryHandlerProxy(
     override fun invoke(bot: Bot, update: Update) {
         val inlineQuery = update.inlineQuery
         checkNotNull(inlineQuery)
-        handleInlineQuery(bot, inlineQuery)
+        val inlineQueryHandlerEnv = InlineQueryHandlerEnvironment(bot, update, inlineQuery)
+        handleInlineQuery(inlineQueryHandlerEnv)
     }
 }
