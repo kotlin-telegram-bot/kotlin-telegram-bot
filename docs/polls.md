@@ -24,7 +24,7 @@ Moreover, it is also possible to listen to the answers of users in non-anonymous
 bot {
     token = BOT_API_TOKEN
     dispatch {
-        pollAnswer { bot, pollAnswer ->
+        pollAnswer {
             // do whatever you want with the answer
         }               
     }

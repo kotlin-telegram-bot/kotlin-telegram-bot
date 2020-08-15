@@ -20,6 +20,7 @@ import com.github.kotlintelegrambot.entities.files.Voice
 import com.github.kotlintelegrambot.entities.payments.PreCheckoutQuery
 import com.github.kotlintelegrambot.entities.payments.ShippingQuery
 import com.github.kotlintelegrambot.entities.payments.SuccessfulPayment
+import com.github.kotlintelegrambot.entities.polls.PollAnswer
 import com.github.kotlintelegrambot.entities.stickers.Sticker
 
 private const val ANY_UPDATE_ID = 3523523L
@@ -33,7 +34,8 @@ fun anyUpdate(
     callbackQuery: CallbackQuery? = null,
     preCheckoutQuery: PreCheckoutQuery? = null,
     shippingQuery: ShippingQuery? = null,
-    inlineQuery: InlineQuery? = null
+    inlineQuery: InlineQuery? = null,
+    pollAnswer: PollAnswer? = null
 ): Update = Update(
     updateId = updateId,
     message = message,
@@ -43,7 +45,8 @@ fun anyUpdate(
     callbackQuery = callbackQuery,
     preCheckoutQuery = preCheckoutQuery,
     shippingQuery = shippingQuery,
-    inlineQuery = inlineQuery
+    inlineQuery = inlineQuery,
+    pollAnswer = pollAnswer
 )
 
 private const val ANY_MESSAGE_ID = 32142353L
@@ -345,4 +348,14 @@ fun anyInlineQuery(
     location = location,
     query = query,
     offset = offset
+)
+
+fun anyPollAnswer(
+    pollId: String = "anyPollId",
+    user: User = anyUser(),
+    optionIds: List<Int> = emptyList()
+): PollAnswer = PollAnswer(
+    pollId = pollId,
+    user = user,
+    optionIds = optionIds
 )
