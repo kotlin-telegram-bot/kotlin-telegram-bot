@@ -2,6 +2,7 @@ import com.github.kotlintelegrambot.entities.CallbackQuery
 import com.github.kotlintelegrambot.entities.Chat
 import com.github.kotlintelegrambot.entities.Contact
 import com.github.kotlintelegrambot.entities.Game
+import com.github.kotlintelegrambot.entities.InlineQuery
 import com.github.kotlintelegrambot.entities.Invoice
 import com.github.kotlintelegrambot.entities.Location
 import com.github.kotlintelegrambot.entities.Message
@@ -31,7 +32,8 @@ fun anyUpdate(
     editedChannelPost: Message? = null,
     callbackQuery: CallbackQuery? = null,
     preCheckoutQuery: PreCheckoutQuery? = null,
-    shippingQuery: ShippingQuery? = null
+    shippingQuery: ShippingQuery? = null,
+    inlineQuery: InlineQuery? = null
 ): Update = Update(
     updateId = updateId,
     message = message,
@@ -40,7 +42,8 @@ fun anyUpdate(
     editedChannelPost = editedChannelPost,
     callbackQuery = callbackQuery,
     preCheckoutQuery = preCheckoutQuery,
-    shippingQuery = shippingQuery
+    shippingQuery = shippingQuery,
+    inlineQuery = inlineQuery
 )
 
 private const val ANY_MESSAGE_ID = 32142353L
@@ -328,4 +331,18 @@ fun anyCallbackQuery(
     message = message,
     inlineMessageId = inlineMessageId,
     data = data
+)
+
+fun anyInlineQuery(
+    id: String = "anyId",
+    from: User = anyUser(),
+    location: Location? = null,
+    query: String = "anyQuery",
+    offset: String = "anyOffset"
+): InlineQuery = InlineQuery(
+    id = id,
+    from = from,
+    location = location,
+    query = query,
+    offset = offset
 )

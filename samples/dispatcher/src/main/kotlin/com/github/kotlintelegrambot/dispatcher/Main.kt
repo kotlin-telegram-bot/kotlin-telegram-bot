@@ -165,7 +165,7 @@ fun main(args: Array<String>) {
                 // Handle channel update
             }
 
-            inlineQuery { bot, inlineQuery ->
+            inlineQuery {
                 val queryText = inlineQuery.query
 
                 if (queryText.isBlank() or queryText.isEmpty()) return@inlineQuery
