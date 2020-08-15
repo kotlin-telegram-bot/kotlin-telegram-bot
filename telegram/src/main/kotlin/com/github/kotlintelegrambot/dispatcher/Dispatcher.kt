@@ -1,7 +1,7 @@
 package com.github.kotlintelegrambot.dispatcher
 
 import com.github.kotlintelegrambot.Bot
-import com.github.kotlintelegrambot.HandleError
+import com.github.kotlintelegrambot.dispatcher.handlers.ErrorHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.Handler
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.errors.TelegramError
@@ -17,7 +17,7 @@ class Dispatcher(
     lateinit var bot: Bot
 
     private val commandHandlers = mutableMapOf<String, ArrayList<Handler>>()
-    private val errorHandlers = arrayListOf<HandleError>()
+    private val errorHandlers = arrayListOf<ErrorHandler>()
     private var stopped = false
 
     fun startCheckingUpdates() {
@@ -51,11 +51,11 @@ class Dispatcher(
         commandHandlers[handler.groupIdentifier]?.remove(handler)
     }
 
-    fun addErrorHandler(errorHandler: HandleError) {
+    fun addErrorHandler(errorHandler: ErrorHandler) {
         errorHandlers.add(errorHandler)
     }
 
-    fun removeErrorHandler(errorHandler: HandleError) {
+    fun removeErrorHandler(errorHandler: ErrorHandler) {
         errorHandlers.remove(errorHandler)
     }
 
@@ -76,9 +76,9 @@ class Dispatcher(
     }
 
     private fun handleError(error: TelegramError) {
-        errorHandlers.forEach {
+        errorHandlers.forEach { handleError ->
             try {
-                it(bot, error)
+                handleError(bot, error)
             } catch (exc: Exception) {
                 if (logLevel.shouldLogErrors()) {
                     exc.printStackTrace()
