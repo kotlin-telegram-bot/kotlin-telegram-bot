@@ -1,8 +1,6 @@
 package com.github.kotlintelegrambot.dispatcher.handlers
 
 import com.github.kotlintelegrambot.Bot
-import com.github.kotlintelegrambot.HandleCallbackQuery
-import com.github.kotlintelegrambot.HandleUpdate
 import com.github.kotlintelegrambot.entities.CallbackQuery
 import com.github.kotlintelegrambot.entities.Update
 

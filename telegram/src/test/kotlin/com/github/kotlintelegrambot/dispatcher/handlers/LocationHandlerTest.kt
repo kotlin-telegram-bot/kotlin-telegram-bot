@@ -4,7 +4,6 @@ import anyLocation
 import anyMessage
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
-import com.github.kotlintelegrambot.HandleLocation
 import io.mockk.mockk
 import io.mockk.verify
 import junit.framework.TestCase.assertFalse

@@ -1,12 +1,6 @@
-package com.github.kotlintelegrambot
+package com.github.kotlintelegrambot.dispatcher.handlers
 
-import com.github.kotlintelegrambot.dispatcher.handlers.CallbackQueryHandlerEnvironment
-import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandlerEnvironment
-import com.github.kotlintelegrambot.dispatcher.handlers.ContactHandlerEnvironment
-import com.github.kotlintelegrambot.dispatcher.handlers.ErrorHandlerEnvironment
-import com.github.kotlintelegrambot.dispatcher.handlers.LocationHandlerEnvironment
-import com.github.kotlintelegrambot.dispatcher.handlers.MessageHandlerEnvironment
-import com.github.kotlintelegrambot.dispatcher.handlers.TextHandlerEnvironment
+import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.Game
 import com.github.kotlintelegrambot.entities.InlineQuery
 import com.github.kotlintelegrambot.entities.Message

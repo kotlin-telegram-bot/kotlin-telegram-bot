@@ -1,7 +1,6 @@
 package com.github.kotlintelegrambot.dispatcher.handlers
 
 import com.github.kotlintelegrambot.Bot
-import com.github.kotlintelegrambot.HandleError
 import com.github.kotlintelegrambot.errors.TelegramError
 
 data class ErrorHandlerEnvironment(

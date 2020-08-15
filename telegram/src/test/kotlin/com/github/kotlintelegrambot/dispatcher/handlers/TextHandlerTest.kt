@@ -3,7 +3,6 @@ package com.github.kotlintelegrambot.dispatcher.handlers
 import anyMessage
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
-import com.github.kotlintelegrambot.HandleText
 import io.mockk.mockk
 import io.mockk.verify
 import junit.framework.TestCase.assertFalse

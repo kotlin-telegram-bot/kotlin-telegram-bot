@@ -1,7 +1,7 @@
 package com.github.kotlintelegrambot.dispatcher.handlers.media
 
 import com.github.kotlintelegrambot.Bot
-import com.github.kotlintelegrambot.HandleUpdate
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleUpdate
 import com.github.kotlintelegrambot.dispatcher.handlers.Handler
 import com.github.kotlintelegrambot.entities.Update
 
