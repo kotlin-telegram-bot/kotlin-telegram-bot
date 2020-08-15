@@ -27,6 +27,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.CheckoutHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.ContactHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.DiceHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.ErrorHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.InlineQueryHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.LocationHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.MessageHandler
@@ -93,8 +94,8 @@ fun Dispatcher.location(handleLocation: HandleLocation) {
     addHandler(LocationHandler(handleLocation))
 }
 
-fun Dispatcher.telegramError(body: HandleError) {
-    addErrorHandler(body)
+fun Dispatcher.telegramError(handleError: HandleError) {
+    addErrorHandler(ErrorHandler(handleError))
 }
 
 fun Dispatcher.preCheckoutQuery(body: HandleUpdate) {

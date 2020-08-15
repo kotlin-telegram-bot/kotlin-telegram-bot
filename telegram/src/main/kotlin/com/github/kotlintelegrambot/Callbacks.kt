@@ -3,6 +3,7 @@ package com.github.kotlintelegrambot
 import com.github.kotlintelegrambot.dispatcher.handlers.CallbackQueryHandlerEnvironment
 import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandlerEnvironment
 import com.github.kotlintelegrambot.dispatcher.handlers.ContactHandlerEnvironment
+import com.github.kotlintelegrambot.dispatcher.handlers.ErrorHandlerEnvironment
 import com.github.kotlintelegrambot.dispatcher.handlers.LocationHandlerEnvironment
 import com.github.kotlintelegrambot.dispatcher.handlers.MessageHandlerEnvironment
 import com.github.kotlintelegrambot.dispatcher.handlers.TextHandlerEnvironment
@@ -21,11 +22,10 @@ import com.github.kotlintelegrambot.entities.files.VideoNote
 import com.github.kotlintelegrambot.entities.files.Voice
 import com.github.kotlintelegrambot.entities.polls.PollAnswer
 import com.github.kotlintelegrambot.entities.stickers.Sticker
-import com.github.kotlintelegrambot.errors.TelegramError
 
 typealias HandleUpdate = (Bot, Update) -> Unit
 
-typealias HandleError = (Bot, TelegramError) -> Unit
+typealias HandleError = ErrorHandlerEnvironment.() -> Unit
 
 typealias HandleMessage = MessageHandlerEnvironment.() -> Unit
 

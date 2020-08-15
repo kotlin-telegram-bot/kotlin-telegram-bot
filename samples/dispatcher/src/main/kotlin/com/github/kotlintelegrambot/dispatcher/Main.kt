@@ -197,8 +197,8 @@ fun main(args: Array<String>) {
                 bot.sendMessage(message.chat.id, "A dice ${dice.emoji.emojiValue} with value ${dice.value} has been received!")
             }
 
-            telegramError { _, telegramError ->
-                println(telegramError.getErrorMessage())
+            telegramError {
+                println(error.getErrorMessage())
             }
         }
     }
