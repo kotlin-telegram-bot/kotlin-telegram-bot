@@ -1,6 +1,5 @@
 package com.github.kotlintelegrambot.dispatcher.handlers
 
-import com.github.kotlintelegrambot.HandleUpdate
 import com.github.kotlintelegrambot.entities.Update
 
 class CheckoutHandler(handleUpdate: HandleUpdate) : Handler(handleUpdate) {

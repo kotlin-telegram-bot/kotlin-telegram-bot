@@ -1,6 +1,6 @@
 package com.github.kotlintelegrambot.dispatcher.handlers.media
 
-import com.github.kotlintelegrambot.HandleStickerUpdate
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleStickerUpdate
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.stickers.Sticker
 

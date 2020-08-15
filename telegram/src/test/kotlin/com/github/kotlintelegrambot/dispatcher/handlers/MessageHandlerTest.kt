@@ -3,7 +3,6 @@ package com.github.kotlintelegrambot.dispatcher.handlers
 import anyMessage
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
-import com.github.kotlintelegrambot.HandleMessage
 import com.github.kotlintelegrambot.extensions.filters.Filter
 import io.mockk.every
 import io.mockk.mockk

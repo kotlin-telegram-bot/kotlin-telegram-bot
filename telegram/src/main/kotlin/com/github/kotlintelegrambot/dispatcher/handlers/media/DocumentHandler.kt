@@ -1,6 +1,6 @@
 package com.github.kotlintelegrambot.dispatcher.handlers.media
 
-import com.github.kotlintelegrambot.HandleDocumentUpdate
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleDocumentUpdate
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.files.Document
 

@@ -1,6 +1,6 @@
 package com.github.kotlintelegrambot.dispatcher.handlers.media
 
-import com.github.kotlintelegrambot.HandleGameUpdate
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleGameUpdate
 import com.github.kotlintelegrambot.entities.Game
 import com.github.kotlintelegrambot.entities.Update
 

@@ -1,8 +1,6 @@
 package com.github.kotlintelegrambot.dispatcher.handlers
 
 import com.github.kotlintelegrambot.Bot
-import com.github.kotlintelegrambot.HandleContact
-import com.github.kotlintelegrambot.HandleUpdate
 import com.github.kotlintelegrambot.entities.Contact
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
