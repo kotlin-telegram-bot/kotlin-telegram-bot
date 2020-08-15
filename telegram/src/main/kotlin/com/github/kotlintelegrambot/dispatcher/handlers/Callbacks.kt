@@ -4,7 +4,6 @@ import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.Game
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
-import com.github.kotlintelegrambot.entities.User
 import com.github.kotlintelegrambot.entities.dice.Dice
 import com.github.kotlintelegrambot.entities.files.Animation
 import com.github.kotlintelegrambot.entities.files.Audio
@@ -34,7 +33,7 @@ typealias HandleLocation = LocationHandlerEnvironment.() -> Unit
 
 typealias HandleInlineQuery = InlineQueryHandlerEnvironment.() -> Unit
 
-typealias HandleNewChatMembers = (Bot, Message, List<User>) -> Unit
+typealias HandleNewChatMembers = NewChatMembersHandlerEnvironment.() -> Unit
 
 typealias HandlePollAnswer = (Bot, PollAnswer) -> Unit
 
