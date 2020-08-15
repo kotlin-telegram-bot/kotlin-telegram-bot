@@ -36,7 +36,7 @@ Moreover, it's also possible to listen to dice messages. These dice messages com
 bot {
     token = BOT_API_TOKEN
     dispatch {
-        dice { bot, message, update ->
+        dice {
             // do whatever you want with the dice message
         }               
     }

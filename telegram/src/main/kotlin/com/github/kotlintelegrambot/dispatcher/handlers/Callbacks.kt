@@ -2,9 +2,7 @@ package com.github.kotlintelegrambot.dispatcher.handlers
 
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.Game
-import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
-import com.github.kotlintelegrambot.entities.dice.Dice
 import com.github.kotlintelegrambot.entities.files.Animation
 import com.github.kotlintelegrambot.entities.files.Audio
 import com.github.kotlintelegrambot.entities.files.Document
@@ -36,7 +34,7 @@ typealias HandleNewChatMembers = NewChatMembersHandlerEnvironment.() -> Unit
 
 typealias HandlePollAnswer = PollAnswerHandlerEnvironment.() -> Unit
 
-typealias HandleDice = (Bot, Message, Dice) -> Unit
+typealias HandleDice = DiceHandlerEnvironment.() -> Unit
 
 typealias HandleAudioUpdate = (Bot, Update, Audio) -> Unit
 typealias HandleDocumentUpdate = (Bot, Update, Document) -> Unit

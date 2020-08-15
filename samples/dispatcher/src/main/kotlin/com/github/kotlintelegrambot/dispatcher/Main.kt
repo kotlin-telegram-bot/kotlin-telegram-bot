@@ -193,7 +193,7 @@ fun main(args: Array<String>) {
                 bot.sendDice(message.chat.id, DiceEmoji.Dartboard)
             }
 
-            dice { bot, message, dice ->
+            dice {
                 bot.sendMessage(message.chat.id, "A dice ${dice.emoji.emojiValue} with value ${dice.value} has been received!")
             }
 
