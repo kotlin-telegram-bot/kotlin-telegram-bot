@@ -10,6 +10,8 @@ import com.github.kotlintelegrambot.entities.MessageEntity
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.User
 import com.github.kotlintelegrambot.entities.Venue
+import com.github.kotlintelegrambot.entities.dice.Dice
+import com.github.kotlintelegrambot.entities.dice.DiceEmoji
 import com.github.kotlintelegrambot.entities.files.Audio
 import com.github.kotlintelegrambot.entities.files.ChatPhoto
 import com.github.kotlintelegrambot.entities.files.Document
@@ -88,7 +90,8 @@ fun anyMessage(
     migrateToChatId: Long? = null,
     migrateFromChatId: Long? = null,
     invoice: Invoice? = null,
-    successfulPayment: SuccessfulPayment? = null
+    successfulPayment: SuccessfulPayment? = null,
+    dice: Dice? = null
 ): Message = Message(
     messageId = messageId,
     from = from,
@@ -125,7 +128,8 @@ fun anyMessage(
     migrateToChatId = migrateToChatId,
     migrateFromChatId = migrateFromChatId,
     invoice = invoice,
-    successfulPayment = successfulPayment
+    successfulPayment = successfulPayment,
+    dice = dice
 )
 
 private const val ANY_CHAT_ID = 243423535L
@@ -358,4 +362,12 @@ fun anyPollAnswer(
     pollId = pollId,
     user = user,
     optionIds = optionIds
+)
+
+fun anyDice(
+    diceEmoji: DiceEmoji = DiceEmoji.Dartboard,
+    value: Int = 5
+): Dice = Dice(
+    emoji = diceEmoji,
+    value = value
 )
