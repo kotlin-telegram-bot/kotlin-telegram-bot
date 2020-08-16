@@ -12,6 +12,7 @@ import com.github.kotlintelegrambot.entities.User
 import com.github.kotlintelegrambot.entities.Venue
 import com.github.kotlintelegrambot.entities.dice.Dice
 import com.github.kotlintelegrambot.entities.dice.DiceEmoji
+import com.github.kotlintelegrambot.entities.files.Animation
 import com.github.kotlintelegrambot.entities.files.Audio
 import com.github.kotlintelegrambot.entities.files.ChatPhoto
 import com.github.kotlintelegrambot.entities.files.Document
@@ -91,7 +92,8 @@ fun anyMessage(
     migrateFromChatId: Long? = null,
     invoice: Invoice? = null,
     successfulPayment: SuccessfulPayment? = null,
-    dice: Dice? = null
+    dice: Dice? = null,
+    animation: Animation? = null
 ): Message = Message(
     messageId = messageId,
     from = from,
@@ -129,7 +131,8 @@ fun anyMessage(
     migrateFromChatId = migrateFromChatId,
     invoice = invoice,
     successfulPayment = successfulPayment,
-    dice = dice
+    dice = dice,
+    animation = animation
 )
 
 private const val ANY_CHAT_ID = 243423535L
@@ -370,4 +373,72 @@ fun anyDice(
 ): Dice = Dice(
     emoji = diceEmoji,
     value = value
+)
+
+fun anyAnimation(
+    fileId: String = "anyFileId",
+    fileUniqueId: String = "anyFileUniqueId",
+    width: Int = 200,
+    height: Int = 244,
+    duration: Int = 299,
+    thumb: PhotoSize? = null,
+    fileName: String? = null,
+    mimeType: String? = null,
+    fileSize: Long? = null
+): Animation = Animation(
+    fileId = fileId,
+    fileUniqueId = fileUniqueId,
+    width = width,
+    height = height,
+    duration = duration,
+    thumb = thumb,
+    fileName = fileName,
+    mimeType = mimeType,
+    fileSize = fileSize
+)
+
+fun anyDocument(
+    fileId: String = "anyFileId",
+    fileUniqueId: String = "anyFileUniqueId",
+    thumb: PhotoSize? = null,
+    fileName: String? = null,
+    mimeType: String? = null,
+    fileSize: Int? = null
+): Document = Document(
+    fileId = fileId,
+    fileUniqueId = fileUniqueId,
+    thumb = thumb,
+    fileName = fileName,
+    mimeType = mimeType,
+    fileSize = fileSize
+)
+
+fun anyGame(
+    title: String = "anyTitle",
+    description: String = "anyDescription",
+    photos: List<PhotoSize> = emptyList(),
+    text: String? = null,
+    textEntities: List<MessageEntity>? = null,
+    animation: Animation? = null
+): Game = Game(
+    title = title,
+    description = description,
+    photo = photos,
+    text = text,
+    textEntities = textEntities,
+    animation = animation
+)
+
+fun anyVoice(
+    fileId: String = "anyFileId",
+    fileUniqueId: String = "anyUniqueFileId",
+    duration: Int = 14124,
+    mimeType: String? = null,
+    fileSize: Int? = null
+): Voice = Voice(
+    fileId = fileId,
+    fileUniqueId = fileUniqueId,
+    duration = duration,
+    mimeType = mimeType,
+    fileSize = fileSize
 )

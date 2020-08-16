@@ -181,10 +181,9 @@ fun main(args: Array<String>) {
                 bot.answerInlineQuery(inlineQuery.id, inlineResults)
             }
 
-            photos { bot, update, _ ->
-                val chatId = update.message?.chat?.id ?: return@photos
+            photos {
                 bot.sendMessage(
-                    chatId = chatId,
+                    chatId = message.chat.id,
                     text = "Wowww, awesome photos!!! :P"
                 )
             }

@@ -1,24 +1,24 @@
 package com.github.kotlintelegrambot.dispatcher.handlers.media
 
-import com.github.kotlintelegrambot.dispatcher.handlers.HandleAnimationUpdate
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleAnimation
+import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.files.Animation
 
-class AnimationHandler(
-    handleAnimationUpdate: HandleAnimationUpdate
+internal class AnimationHandler(
+    handleAnimation: HandleAnimation
 ) : MediaHandler<Animation>(
-    handleAnimationUpdate,
-    AnimationHandlerFunctions::toMedia,
-    AnimationHandlerFunctions::predicate
+    handleAnimation,
+    AnimationHandlerFunctions::mapMessageToAnimation,
+    AnimationHandlerFunctions::updateIsAnimation
 )
 
 private object AnimationHandlerFunctions {
 
-    fun toMedia(update: Update): Animation {
-        val animation = update.message?.animation
-        checkNotNull(animation)
-        return animation
+    fun mapMessageToAnimation(message: Message): Animation {
+        checkNotNull(message.animation)
+        return message.animation
     }
 
-    fun predicate(update: Update): Boolean = update.message?.animation != null
+    fun updateIsAnimation(update: Update): Boolean = update.message?.animation != null
 }

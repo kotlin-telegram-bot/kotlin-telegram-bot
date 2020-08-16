@@ -1,24 +1,25 @@
 package com.github.kotlintelegrambot.dispatcher.handlers.media
 
-import com.github.kotlintelegrambot.dispatcher.handlers.HandleGameUpdate
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleGame
 import com.github.kotlintelegrambot.entities.Game
+import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 
-class GameHandler(
-    handleGameUpdate: HandleGameUpdate
+internal class GameHandler(
+    handleGame: HandleGame
 ) : MediaHandler<Game>(
-    handleGameUpdate,
-    GameHandlerFunctions::toMedia,
-    GameHandlerFunctions::predicate
+    handleGame,
+    GameHandlerFunctions::mapMessageToGame,
+    GameHandlerFunctions::isUpdateGame
 )
 
 private object GameHandlerFunctions {
 
-    fun toMedia(update: Update): Game {
-        val game = update.message?.game
+    fun mapMessageToGame(message: Message): Game {
+        val game = message.game
         checkNotNull(game)
         return game
     }
 
-    fun predicate(update: Update): Boolean = update.message?.game != null
+    fun isUpdateGame(update: Update): Boolean = update.message?.game != null
 }

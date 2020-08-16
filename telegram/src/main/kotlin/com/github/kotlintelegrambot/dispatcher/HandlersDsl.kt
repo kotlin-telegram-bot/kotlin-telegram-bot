@@ -7,27 +7,27 @@ import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.ContactHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.DiceHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.ErrorHandler
-import com.github.kotlintelegrambot.dispatcher.handlers.HandleAnimationUpdate
-import com.github.kotlintelegrambot.dispatcher.handlers.HandleAudioUpdate
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleAnimation
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleAudio
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleCallbackQuery
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleCommand
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleContact
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleDice
-import com.github.kotlintelegrambot.dispatcher.handlers.HandleDocumentUpdate
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleDocument
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleError
-import com.github.kotlintelegrambot.dispatcher.handlers.HandleGameUpdate
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleGame
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleInlineQuery
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleLocation
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleMessage
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleNewChatMembers
-import com.github.kotlintelegrambot.dispatcher.handlers.HandlePhotosUpdate
+import com.github.kotlintelegrambot.dispatcher.handlers.HandlePhotos
 import com.github.kotlintelegrambot.dispatcher.handlers.HandlePollAnswer
-import com.github.kotlintelegrambot.dispatcher.handlers.HandleStickerUpdate
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleSticker
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleText
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleUpdate
-import com.github.kotlintelegrambot.dispatcher.handlers.HandleVideoNoteUpdate
-import com.github.kotlintelegrambot.dispatcher.handlers.HandleVideoUpdate
-import com.github.kotlintelegrambot.dispatcher.handlers.HandleVoiceUpdate
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleVideo
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleVideoNote
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleVoice
 import com.github.kotlintelegrambot.dispatcher.handlers.InlineQueryHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.LocationHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.MessageHandler
@@ -110,39 +110,39 @@ fun Dispatcher.inlineQuery(body: HandleInlineQuery) {
     addHandler(InlineQueryHandler(body))
 }
 
-fun Dispatcher.audio(body: HandleAudioUpdate) {
+fun Dispatcher.audio(body: HandleAudio) {
     addHandler(AudioHandler(body))
 }
 
-fun Dispatcher.document(body: HandleDocumentUpdate) {
+fun Dispatcher.document(body: HandleDocument) {
     addHandler(DocumentHandler(body))
 }
 
-fun Dispatcher.animation(body: HandleAnimationUpdate) {
+fun Dispatcher.animation(body: HandleAnimation) {
     addHandler(AnimationHandler(body))
 }
 
-fun Dispatcher.game(body: HandleGameUpdate) {
+fun Dispatcher.game(body: HandleGame) {
     addHandler(GameHandler(body))
 }
 
-fun Dispatcher.photos(body: HandlePhotosUpdate) {
+fun Dispatcher.photos(body: HandlePhotos) {
     addHandler(PhotosHandler(body))
 }
 
-fun Dispatcher.sticker(body: HandleStickerUpdate) {
+fun Dispatcher.sticker(body: HandleSticker) {
     addHandler(StickerHandler(body))
 }
 
-fun Dispatcher.video(body: HandleVideoUpdate) {
+fun Dispatcher.video(body: HandleVideo) {
     addHandler(VideoHandler(body))
 }
 
-fun Dispatcher.voice(body: HandleVoiceUpdate) {
+fun Dispatcher.voice(body: HandleVoice) {
     addHandler(VoiceHandler(body))
 }
 
-fun Dispatcher.videoNote(body: HandleVideoNoteUpdate) {
+fun Dispatcher.videoNote(body: HandleVideoNote) {
     addHandler(VideoNoteHandler(body))
 }
 

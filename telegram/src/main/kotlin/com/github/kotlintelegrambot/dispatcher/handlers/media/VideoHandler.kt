@@ -1,24 +1,25 @@
 package com.github.kotlintelegrambot.dispatcher.handlers.media
 
-import com.github.kotlintelegrambot.dispatcher.handlers.HandleVideoUpdate
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleVideo
+import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.files.Video
 
-class VideoHandler(
-    handleVideoUpdate: HandleVideoUpdate
+internal class VideoHandler(
+    handleVideo: HandleVideo
 ) : MediaHandler<Video>(
-    handleVideoUpdate,
-    VideoHandlerFunctions::toMedia,
-    VideoHandlerFunctions::predicate
+    handleVideo,
+    VideoHandlerFunctions::mapMessageToVideo,
+    VideoHandlerFunctions::isUpdateVideo
 )
 
 private object VideoHandlerFunctions {
 
-    fun toMedia(update: Update): Video {
-        val video = update.message?.video
+    fun mapMessageToVideo(message: Message): Video {
+        val video = message.video
         checkNotNull(video)
         return video
     }
 
-    fun predicate(update: Update): Boolean = update.message?.video != null
+    fun isUpdateVideo(update: Update): Boolean = update.message?.video != null
 }

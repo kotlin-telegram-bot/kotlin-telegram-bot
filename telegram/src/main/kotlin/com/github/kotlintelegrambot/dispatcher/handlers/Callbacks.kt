@@ -1,6 +1,7 @@
 package com.github.kotlintelegrambot.dispatcher.handlers
 
 import com.github.kotlintelegrambot.Bot
+import com.github.kotlintelegrambot.dispatcher.handlers.media.MediaHandlerEnvironment
 import com.github.kotlintelegrambot.entities.Game
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.files.Animation
@@ -36,12 +37,12 @@ typealias HandlePollAnswer = PollAnswerHandlerEnvironment.() -> Unit
 
 typealias HandleDice = DiceHandlerEnvironment.() -> Unit
 
-typealias HandleAudioUpdate = (Bot, Update, Audio) -> Unit
-typealias HandleDocumentUpdate = (Bot, Update, Document) -> Unit
-typealias HandleAnimationUpdate = (Bot, Update, Animation) -> Unit
-typealias HandleGameUpdate = (Bot, Update, Game) -> Unit
-typealias HandlePhotosUpdate = (Bot, Update, List<PhotoSize>) -> Unit
-typealias HandleStickerUpdate = (Bot, Update, Sticker) -> Unit
-typealias HandleVideoUpdate = (Bot, Update, Video) -> Unit
-typealias HandleVoiceUpdate = (Bot, Update, Voice) -> Unit
-typealias HandleVideoNoteUpdate = (Bot, Update, VideoNote) -> Unit
+typealias HandleAudio = MediaHandlerEnvironment<Audio>.() -> Unit
+typealias HandleDocument = MediaHandlerEnvironment<Document>.() -> Unit
+typealias HandleAnimation = MediaHandlerEnvironment<Animation>.() -> Unit
+typealias HandleGame = MediaHandlerEnvironment<Game>.() -> Unit
+typealias HandlePhotos = MediaHandlerEnvironment<List<PhotoSize>>.() -> Unit
+typealias HandleSticker = MediaHandlerEnvironment<Sticker>.() -> Unit
+typealias HandleVideo = MediaHandlerEnvironment<Video>.() -> Unit
+typealias HandleVoice = MediaHandlerEnvironment<Voice>.() -> Unit
+typealias HandleVideoNote = MediaHandlerEnvironment<VideoNote>.() -> Unit
