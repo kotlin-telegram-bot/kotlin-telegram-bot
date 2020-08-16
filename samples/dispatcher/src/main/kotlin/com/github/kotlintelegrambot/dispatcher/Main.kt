@@ -161,7 +161,7 @@ fun main(args: Array<String>) {
                 )
             }
 
-            channel { bot, update ->
+            channel {
                 // Handle channel update
             }
 
