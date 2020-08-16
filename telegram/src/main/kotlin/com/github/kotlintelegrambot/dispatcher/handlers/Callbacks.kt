@@ -37,6 +37,8 @@ typealias HandlePollAnswer = PollAnswerHandlerEnvironment.() -> Unit
 
 typealias HandleDice = DiceHandlerEnvironment.() -> Unit
 
+typealias HandleChannelPost = ChannelHandlerEnvironment.() -> Unit
+
 typealias HandleAudio = MediaHandlerEnvironment<Audio>.() -> Unit
 typealias HandleDocument = MediaHandlerEnvironment<Document>.() -> Unit
 typealias HandleAnimation = MediaHandlerEnvironment<Animation>.() -> Unit

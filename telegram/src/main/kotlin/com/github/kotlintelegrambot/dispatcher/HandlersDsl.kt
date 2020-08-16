@@ -10,6 +10,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.ErrorHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleAnimation
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleAudio
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleCallbackQuery
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleChannelPost
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleCommand
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleContact
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleDice
@@ -102,7 +103,7 @@ fun Dispatcher.preCheckoutQuery(body: HandleUpdate) {
     addHandler(CheckoutHandler(body))
 }
 
-fun Dispatcher.channel(body: HandleUpdate) {
+fun Dispatcher.channel(body: HandleChannelPost) {
     addHandler(ChannelHandler(body))
 }
 
