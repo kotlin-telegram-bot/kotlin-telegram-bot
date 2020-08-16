@@ -1,24 +1,25 @@
 package com.github.kotlintelegrambot.dispatcher.handlers.media
 
-import com.github.kotlintelegrambot.dispatcher.handlers.HandleAudioUpdate
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleAudio
+import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.files.Audio
 
-class AudioHandler(
-    handleAudioUpdate: HandleAudioUpdate
+internal class AudioHandler(
+    handleAudio: HandleAudio
 ) : MediaHandler<Audio>(
-    handleAudioUpdate,
-    AudioHandlerFunctions::toMedia,
-    AudioHandlerFunctions::predicate
+    handleAudio,
+    AudioHandlerFunctions::mapMessageToAudio,
+    AudioHandlerFunctions::isUpdateAudio
 )
 
 private object AudioHandlerFunctions {
 
-    fun toMedia(update: Update): Audio {
-        val audio = update.message?.audio
+    fun mapMessageToAudio(message: Message): Audio {
+        val audio = message.audio
         checkNotNull(audio)
         return audio
     }
 
-    fun predicate(update: Update): Boolean = update.message?.audio != null
+    fun isUpdateAudio(update: Update): Boolean = update.message?.audio != null
 }
