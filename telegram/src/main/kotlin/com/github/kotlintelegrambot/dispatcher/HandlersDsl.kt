@@ -2,7 +2,6 @@ package com.github.kotlintelegrambot.dispatcher
 
 import com.github.kotlintelegrambot.dispatcher.handlers.CallbackQueryHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.ChannelHandler
-import com.github.kotlintelegrambot.dispatcher.handlers.CheckoutHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.ContactHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.DiceHandler
@@ -23,9 +22,9 @@ import com.github.kotlintelegrambot.dispatcher.handlers.HandleMessage
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleNewChatMembers
 import com.github.kotlintelegrambot.dispatcher.handlers.HandlePhotos
 import com.github.kotlintelegrambot.dispatcher.handlers.HandlePollAnswer
+import com.github.kotlintelegrambot.dispatcher.handlers.HandlePreCheckoutQuery
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleSticker
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleText
-import com.github.kotlintelegrambot.dispatcher.handlers.HandleUpdate
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleVideo
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleVideoNote
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleVoice
@@ -34,6 +33,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.LocationHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.MessageHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.NewChatMembersHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.PollAnswerHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.PreCheckoutQueryHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.TextHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.AnimationHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.AudioHandler
@@ -99,8 +99,8 @@ fun Dispatcher.telegramError(handleError: HandleError) {
     addErrorHandler(ErrorHandler(handleError))
 }
 
-fun Dispatcher.preCheckoutQuery(body: HandleUpdate) {
-    addHandler(CheckoutHandler(body))
+fun Dispatcher.preCheckoutQuery(body: HandlePreCheckoutQuery) {
+    addHandler(PreCheckoutQueryHandler(body))
 }
 
 fun Dispatcher.channel(body: HandleChannelPost) {

@@ -20,11 +20,13 @@ import com.github.kotlintelegrambot.entities.files.PhotoSize
 import com.github.kotlintelegrambot.entities.files.Video
 import com.github.kotlintelegrambot.entities.files.VideoNote
 import com.github.kotlintelegrambot.entities.files.Voice
+import com.github.kotlintelegrambot.entities.payments.OrderInfo
 import com.github.kotlintelegrambot.entities.payments.PreCheckoutQuery
 import com.github.kotlintelegrambot.entities.payments.ShippingQuery
 import com.github.kotlintelegrambot.entities.payments.SuccessfulPayment
 import com.github.kotlintelegrambot.entities.polls.PollAnswer
 import com.github.kotlintelegrambot.entities.stickers.Sticker
+import java.math.BigInteger
 
 private const val ANY_UPDATE_ID = 3523523L
 
@@ -441,4 +443,22 @@ fun anyVoice(
     duration = duration,
     mimeType = mimeType,
     fileSize = fileSize
+)
+
+fun anyPreCheckoutQuery(
+    id: String = "anyId",
+    from: User = anyUser(),
+    currency: String = "USD",
+    totalAmount: BigInteger = BigInteger.ONE,
+    invoicePayload: String = "anyInvoicePayload",
+    shippingOptionId: String? = null,
+    orderInfo: OrderInfo? = null
+): PreCheckoutQuery = PreCheckoutQuery(
+    id = id,
+    from = from,
+    currency = currency,
+    totalAmount = totalAmount,
+    invoicePayload = invoicePayload,
+    shippingOptionId = shippingOptionId,
+    orderInfo = orderInfo
 )
