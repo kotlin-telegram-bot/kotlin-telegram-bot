@@ -39,6 +39,8 @@ typealias HandleDice = DiceHandlerEnvironment.() -> Unit
 
 typealias HandleChannelPost = ChannelHandlerEnvironment.() -> Unit
 
+typealias HandlePreCheckoutQuery = PreCheckoutQueryHandlerEnvironment.() -> Unit
+
 typealias HandleAudio = MediaHandlerEnvironment<Audio>.() -> Unit
 typealias HandleDocument = MediaHandlerEnvironment<Document>.() -> Unit
 typealias HandleAnimation = MediaHandlerEnvironment<Animation>.() -> Unit
