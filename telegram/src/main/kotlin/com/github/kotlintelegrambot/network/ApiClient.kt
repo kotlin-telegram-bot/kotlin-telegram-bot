@@ -187,7 +187,7 @@ class ApiClient(
     fun sendMessage(
         chatId: Long,
         text: String,
-        parseMode: String?,
+        parseMode: ParseMode?,
         disableWebPagePreview: Boolean?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
@@ -235,7 +235,7 @@ class ApiClient(
         chatId: Long,
         photo: String,
         caption: String?,
-        parseMode: String?,
+        parseMode: ParseMode?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
         replyMarkup: ReplyMarkup?
@@ -323,7 +323,7 @@ class ApiClient(
         chatId: Long,
         fileId: String,
         caption: String?,
-        parseMode: String?,
+        parseMode: ParseMode?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
         replyMarkup: ReplyMarkup?
@@ -446,7 +446,7 @@ class ApiClient(
         width: Int?,
         height: Int?,
         caption: String?,
-        parseMode: String?,
+        parseMode: ParseMode?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
         replyMarkup: ReplyMarkup?
@@ -964,7 +964,7 @@ class ApiClient(
         messageId: Long?,
         inlineMessageId: String?,
         text: String,
-        parseMode: String?,
+        parseMode: ParseMode?,
         disableWebPagePreview: Boolean?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
