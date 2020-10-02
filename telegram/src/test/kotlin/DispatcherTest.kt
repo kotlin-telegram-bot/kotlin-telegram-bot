@@ -1,14 +1,14 @@
+
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.dispatcher.Dispatcher
-import com.github.kotlintelegrambot.dispatcher.handlers.HandleUpdate
 import com.github.kotlintelegrambot.dispatcher.handlers.Handler
 import com.github.kotlintelegrambot.logging.LogLevel
 import com.github.kotlintelegrambot.types.DispatchableObject
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import java.util.concurrent.BlockingQueue
 import org.junit.jupiter.api.Test
+import java.util.concurrent.BlockingQueue
 
 class DispatcherTest {
 
@@ -22,9 +22,7 @@ class DispatcherTest {
 
     @Test
     fun `updates are dispatched to handlers when updates check starts and there are some updates`() {
-        val handlerCallbackMock = mockk<HandleUpdate>(relaxed = true)
         val handlerMock = mockk<Handler> {
-            every { handlerCallback } returns handlerCallbackMock
             every { checkUpdate(any()) } returns true
             every { groupIdentifier } returns ""
         }
@@ -36,7 +34,7 @@ class DispatcherTest {
             sut.startCheckingUpdates()
         } catch (exception: InterruptedException) {
         } finally {
-            verify(exactly = 1) { handlerCallbackMock(botMock, anyUpdate) }
+            verify(exactly = 1) { handlerMock(botMock, anyUpdate) }
         }
     }
 }

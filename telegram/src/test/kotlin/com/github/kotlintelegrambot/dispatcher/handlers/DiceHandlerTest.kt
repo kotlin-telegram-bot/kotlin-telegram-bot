@@ -50,7 +50,7 @@ class DiceHandlerTest {
         val anyMessageWithDice = anyMessage(dice = anyDice)
         val anyUpdateWithDice = anyUpdate(message = anyMessageWithDice)
 
-        sut.handlerCallback(botMock, anyUpdateWithDice)
+        sut(botMock, anyUpdateWithDice)
 
         val expectedDiceHandlerEnv = DiceHandlerEnvironment(
             botMock,

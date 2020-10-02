@@ -17,7 +17,7 @@ class MessageHandlerTest {
     private val filterMock = mockk<Filter>()
 
     private val sut = MessageHandler(
-        handler = handlerMock,
+        handle = handlerMock,
         filter = filterMock
     )
 
@@ -52,7 +52,7 @@ class MessageHandlerTest {
         val anyMessage = anyMessage()
         val anyUpdate = anyUpdate(message = anyMessage)
 
-        sut.handlerCallback(botMock, anyUpdate)
+        sut(botMock, anyUpdate)
 
         val expectedMessageHandlerEnvironment = MessageHandlerEnvironment(
             botMock,

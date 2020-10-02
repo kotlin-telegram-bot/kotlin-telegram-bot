@@ -41,7 +41,7 @@ class ContactHandlerTest {
         val anyMessageWithContact = anyMessage(contact = anyContact)
         val anyUpdateWithContact = anyUpdate(message = anyMessageWithContact)
 
-        sut.handlerCallback(botMock, anyUpdateWithContact)
+        sut(botMock, anyUpdateWithContact)
 
         val expectedCommandHandlerEnv = ContactHandlerEnvironment(
             botMock,

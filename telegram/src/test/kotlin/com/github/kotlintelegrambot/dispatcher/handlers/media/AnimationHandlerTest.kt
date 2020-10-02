@@ -42,7 +42,7 @@ class AnimationHandlerTest {
         val anyMessageWithAnimation = anyMessage(animation = anyAnimation)
         val anyUpdateWithAnimation = anyUpdate(message = anyMessageWithAnimation)
 
-        sut.handlerCallback(botMock, anyUpdateWithAnimation)
+        sut(botMock, anyUpdateWithAnimation)
 
         val expectedAnimationHandlerEnv = MediaHandlerEnvironment(
             botMock,

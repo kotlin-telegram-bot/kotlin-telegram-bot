@@ -42,7 +42,7 @@ class GameHandlerTest {
         val anyMessageWithGame = anyMessage(game = anyGame)
         val anyUpdateWithGame = anyUpdate(message = anyMessageWithGame)
 
-        sut.handlerCallback(botMock, anyUpdateWithGame)
+        sut(botMock, anyUpdateWithGame)
 
         val expectedGameHandlerEnv = MediaHandlerEnvironment(
             botMock,

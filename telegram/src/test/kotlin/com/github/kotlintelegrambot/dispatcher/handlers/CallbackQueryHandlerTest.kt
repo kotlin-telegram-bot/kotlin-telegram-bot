@@ -91,7 +91,7 @@ class CallbackQueryHandlerTest {
             handleCallbackQuery = handleCallbackQueryMock
         )
 
-        sut.handlerCallback(botMock, anyUpdateWithCallbackQuery)
+        sut(botMock, anyUpdateWithCallbackQuery)
 
         val expectedCallbackQueryHandlerEnvironment = CallbackQueryHandlerEnvironment(
             botMock,
@@ -119,7 +119,7 @@ class CallbackQueryHandlerTest {
             callbackAnswerShowAlert = CALLBACK_ANSWER_SHOW_ALERT
         )
 
-        sut.handlerCallback(botMock, anyUpdateWithCallbackQuery)
+        sut(botMock, anyUpdateWithCallbackQuery)
 
         verify {
             botMock.answerCallbackQuery(

@@ -59,7 +59,7 @@ class NewChatMembersHandlerTest {
         val anyMessageWithNewChatMembers = anyMessage(newChatMembers = anyNewChatMembers)
         val anyUpdateWithNewChatMembers = anyUpdate(message = anyMessageWithNewChatMembers)
 
-        sut.handlerCallback(botMock, anyUpdateWithNewChatMembers)
+        sut(botMock, anyUpdateWithNewChatMembers)
 
         val expectedNewChatMembersHandlerEnv = NewChatMembersHandlerEnvironment(
             botMock,

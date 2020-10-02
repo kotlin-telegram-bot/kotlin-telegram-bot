@@ -42,7 +42,7 @@ class VideoNoteHandlerTest {
         val anyMessageWithVideoNote = anyMessage(videoNote = anyVideoNote)
         val anyUpdateWithVideoNote = anyUpdate(message = anyMessageWithVideoNote)
 
-        sut.handlerCallback(botMock, anyUpdateWithVideoNote)
+        sut(botMock, anyUpdateWithVideoNote)
 
         val expectedVideoNoteHandlerEnv = MediaHandlerEnvironment(
             botMock,

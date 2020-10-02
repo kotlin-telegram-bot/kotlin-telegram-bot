@@ -42,7 +42,7 @@ class VideoHandlerTest {
         val anyMessageWithVideo = anyMessage(video = anyVideo)
         val anyUpdateWithVideo = anyUpdate(message = anyMessageWithVideo)
 
-        sut.handlerCallback(botMock, anyUpdateWithVideo)
+        sut(botMock, anyUpdateWithVideo)
 
         val expectedVideoHandlerEnv = MediaHandlerEnvironment(
             botMock,

@@ -42,7 +42,7 @@ class StickerHandlerTest {
         val anyMessageWithSticker = anyMessage(sticker = anySticker)
         val anyUpdateWithSticker = anyUpdate(message = anyMessageWithSticker)
 
-        sut.handlerCallback(botMock, anyUpdateWithSticker)
+        sut(botMock, anyUpdateWithSticker)
 
         val expectedStickerHandlerEnv = MediaHandlerEnvironment(
             botMock,

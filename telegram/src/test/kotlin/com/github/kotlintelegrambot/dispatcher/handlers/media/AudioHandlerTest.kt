@@ -42,7 +42,7 @@ class AudioHandlerTest {
         val anyMessageWithAudio = anyMessage(audio = anyAudio)
         val anyUpdateWithAudio = anyUpdate(message = anyMessageWithAudio)
 
-        sut.handlerCallback(botMock, anyUpdateWithAudio)
+        sut(botMock, anyUpdateWithAudio)
 
         val expectedAudioHandlerEnv = MediaHandlerEnvironment(
             botMock,

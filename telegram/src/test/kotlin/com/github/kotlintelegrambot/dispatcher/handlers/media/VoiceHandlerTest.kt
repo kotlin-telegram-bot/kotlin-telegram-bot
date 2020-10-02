@@ -42,7 +42,7 @@ class VoiceHandlerTest {
         val anyMessageWithVoice = anyMessage(voice = anyVoice)
         val anyUpdateWithVoice = anyUpdate(message = anyMessageWithVoice)
 
-        sut.handlerCallback(botMock, anyUpdateWithVoice)
+        sut(botMock, anyUpdateWithVoice)
 
         val expectedVoiceHandlerEnv = MediaHandlerEnvironment(
             botMock,

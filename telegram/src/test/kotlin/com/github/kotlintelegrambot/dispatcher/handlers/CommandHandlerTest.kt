@@ -59,7 +59,7 @@ class CommandHandlerTest {
         val commandMessage = anyMessage(text = "/$ANY_COMMAND_NAME $ANY_ARG")
         val anyUpdate = anyUpdate(message = commandMessage)
 
-        sut.handlerCallback(botMock, anyUpdate)
+        sut(botMock, anyUpdate)
 
         val expectedArgs = CommandHandlerEnvironment(botMock, anyUpdate, commandMessage, listOf(ANY_ARG))
         verify { handlerFunctionMock.invoke(expectedArgs) }

@@ -48,7 +48,7 @@ class ChannelHandlerTest {
         val anyChannelPost = anyMessage()
         val anyUpdateWithChannelPost = anyUpdate(channelPost = anyChannelPost)
 
-        sut.handlerCallback(botMock, anyUpdateWithChannelPost)
+        sut(botMock, anyUpdateWithChannelPost)
 
         val expectedChannelHandlerEnv = ChannelHandlerEnvironment(
             botMock,
@@ -65,7 +65,7 @@ class ChannelHandlerTest {
         val anyEditedChannelPost = anyMessage()
         val anyUpdateWithEditedChannelPost = anyUpdate(editedChannelPost = anyEditedChannelPost)
 
-        sut.handlerCallback(botMock, anyUpdateWithEditedChannelPost)
+        sut(botMock, anyUpdateWithEditedChannelPost)
 
         val expectedChannelHandlerEnv = ChannelHandlerEnvironment(
             botMock,

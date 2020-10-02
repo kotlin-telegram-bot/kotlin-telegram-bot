@@ -41,7 +41,7 @@ class LocationHandlerTest {
         val anyMessageWithLocation = anyMessage(location = anyLocation)
         val anyUpdateWithLocation = anyUpdate(message = anyMessageWithLocation)
 
-        sut.handlerCallback(botMock, anyUpdateWithLocation)
+        sut(botMock, anyUpdateWithLocation)
 
         val expectedLocationHandlerEnv = LocationHandlerEnvironment(
             botMock,

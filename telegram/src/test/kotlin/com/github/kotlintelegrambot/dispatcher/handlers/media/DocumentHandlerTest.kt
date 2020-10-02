@@ -42,7 +42,7 @@ class DocumentHandlerTest {
         val anyMessageWithDocument = anyMessage(document = anyDocument)
         val anyUpdateWithDocument = anyUpdate(message = anyMessageWithDocument)
 
-        sut.handlerCallback(botMock, anyUpdateWithDocument)
+        sut(botMock, anyUpdateWithDocument)
 
         val expectedDocumentHandlerEnv = MediaHandlerEnvironment(
             botMock,

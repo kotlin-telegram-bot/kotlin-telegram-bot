@@ -39,7 +39,7 @@ class PollAnswerHandlerTest {
         val anyPollAnswer = anyPollAnswer()
         val anyUpdateWithPollAnswer = anyUpdate(pollAnswer = anyPollAnswer)
 
-        sut.handlerCallback(botMock, anyUpdateWithPollAnswer)
+        sut(botMock, anyUpdateWithPollAnswer)
 
         val expectedPollAnswerHandlerEnv = PollAnswerHandlerEnvironment(
             botMock,
