@@ -5,16 +5,16 @@ import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 
 data class TextHandlerEnvironment(
-    val bot: Bot,
-    val update: Update,
+    override val bot: Bot,
+    override val update: Update,
     val message: Message,
     val text: String
-)
+) : HandlerEnvironment(bot, update)
 
 internal class TextHandler(
     private val text: String? = null,
-    handleText: HandleText
-) : Handler(TextHandlerProxy(handleText)) {
+    private val handleText: HandleText
+) : Handler() {
     override val groupIdentifier: String = "CommandHandler"
 
     override fun checkUpdate(update: Update): Boolean {
@@ -24,21 +24,11 @@ internal class TextHandler(
         }
         return false
     }
-}
-
-private class TextHandlerProxy(
-    private val handler: TextHandlerEnvironment.() -> Unit
-) : HandleUpdate {
 
     override fun invoke(bot: Bot, update: Update) {
         checkNotNull(update.message)
         checkNotNull(update.message.text)
-        val textHandlerEnv = TextHandlerEnvironment(
-            bot,
-            update,
-            update.message,
-            update.message.text
-        )
-        handler.invoke(textHandlerEnv)
+        handleText.invoke(TextHandlerEnvironment(bot, update, update.message, update.message.text))
     }
 }
+

@@ -6,15 +6,15 @@ import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 
 data class ContactHandlerEnvironment(
-    val bot: Bot,
-    val update: Update,
+    override val bot: Bot,
+    override val update: Update,
     val message: Message,
     val contact: Contact
-)
+): HandlerEnvironment(bot, update)
 
 internal class ContactHandler(
-    handleContact: HandleContact
-) : Handler(ContactHandlerProxy(handleContact)) {
+    private val handle: HandleContact
+) : Handler() {
 
     override val groupIdentifier: String
         get() = "System"
@@ -22,22 +22,11 @@ internal class ContactHandler(
     override fun checkUpdate(update: Update): Boolean {
         return update.message?.contact != null
     }
-}
-
-private class ContactHandlerProxy(
-    private val handler: HandleContact
-) : HandleUpdate {
 
     override fun invoke(bot: Bot, update: Update) {
         checkNotNull(update.message)
         checkNotNull(update.message.contact)
-
-        val contactHandlerEnv = ContactHandlerEnvironment(
-            bot,
-            update,
-            update.message,
-            update.message.contact
-        )
-        handler.invoke(contactHandlerEnv)
+        handle.invoke(ContactHandlerEnvironment(bot, update, update.message, update.message.contact))
     }
 }
+

@@ -4,29 +4,20 @@ import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.CallbackQuery
 import com.github.kotlintelegrambot.entities.Update
 
-data class CallbackQueryHandlerEnvironment(
-    val bot: Bot,
-    val update: Update,
+class CallbackQueryHandlerEnvironment(
+    override val bot: Bot,
+    override val update: Update,
     val callbackQuery: CallbackQuery
-)
+) : HandlerEnvironment(bot, update)
 
 internal class CallbackQueryHandler(
     private val callbackData: String? = null,
-    callbackAnswerText: String? = null,
-    callbackAnswerShowAlert: Boolean? = null,
-    callbackAnswerUrl: String? = null,
-    callbackAnswerCacheTime: Int? = null,
-    handleCallbackQuery: HandleCallbackQuery
-) :
-    Handler(
-        CallbackQueryHandlerProxy(
-            handleCallbackQuery,
-            callbackAnswerText,
-            callbackAnswerShowAlert,
-            callbackAnswerUrl,
-            callbackAnswerCacheTime
-        )
-    ) {
+    private val callbackAnswerText: String? = null,
+    private val callbackAnswerShowAlert: Boolean? = null,
+    private val callbackAnswerUrl: String? = null,
+    private val callbackAnswerCacheTime: Int? = null,
+    private val handleCallbackQuery: HandleCallbackQuery
+) : Handler() {
 
     override val groupIdentifier: String = "CallbackQuery"
 
@@ -38,32 +29,17 @@ internal class CallbackQueryHandler(
             else -> data.toLowerCase().contains(callbackData.toLowerCase())
         }
     }
-}
-
-private class CallbackQueryHandlerProxy(
-    private val handleCallbackQuery: HandleCallbackQuery,
-    private val text: String? = null,
-    private val showAlert: Boolean? = null,
-    private val url: String? = null,
-    private val cacheTime: Int? = null
-) : HandleUpdate {
 
     override fun invoke(bot: Bot, update: Update) {
         checkNotNull(update.callbackQuery)
-        val callbackQueryHandlerEnv = CallbackQueryHandlerEnvironment(
-            bot,
-            update,
-            update.callbackQuery
-        )
-        handleCallbackQuery(callbackQueryHandlerEnv)
-
-        val callbackQueryId = update.callbackQuery.id
+        handleCallbackQuery.invoke(CallbackQueryHandlerEnvironment(bot, update, update.callbackQuery))
         bot.answerCallbackQuery(
-            callbackQueryId = callbackQueryId,
-            text = text,
-            showAlert = showAlert,
-            url = url,
-            cacheTime = cacheTime
+            callbackQueryId = update.callbackQuery.id,
+            text = callbackAnswerText,
+            showAlert = callbackAnswerShowAlert,
+            url = callbackAnswerUrl,
+            cacheTime = callbackAnswerCacheTime
         )
     }
 }
+

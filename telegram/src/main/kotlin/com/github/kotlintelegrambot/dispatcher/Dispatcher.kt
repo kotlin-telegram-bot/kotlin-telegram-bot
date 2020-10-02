@@ -63,9 +63,9 @@ class Dispatcher(
         for (group in commandHandlers) {
             group.value
                 .filter { it.checkUpdate(update) }
-                .forEach {
+                .forEach { handleUpdate ->
                     try {
-                        it.handlerCallback(bot, update)
+                        handleUpdate(bot, update)
                     } catch (exc: Exception) {
                         if (logLevel.shouldLogErrors()) {
                             exc.printStackTrace()

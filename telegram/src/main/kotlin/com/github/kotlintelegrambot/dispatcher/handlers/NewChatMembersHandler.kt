@@ -6,15 +6,15 @@ import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.User
 
 data class NewChatMembersHandlerEnvironment(
-    val bot: Bot,
-    val update: Update,
+    override val bot: Bot,
+    override val update: Update,
     val message: Message,
     val newChatMembers: List<User>
-)
+) : HandlerEnvironment(bot, update)
 
 internal class NewChatMembersHandler(
-    handleNewChatMembers: HandleNewChatMembers
-) : Handler(NewChatMembersHandlerProxy(handleNewChatMembers)) {
+    private val handle: HandleNewChatMembers
+) : Handler() {
     override val groupIdentifier: String
         get() = "newChatMembers"
 
@@ -22,22 +22,11 @@ internal class NewChatMembersHandler(
         val newChatMembers = update.message?.newChatMembers
         return newChatMembers != null && newChatMembers.isNotEmpty()
     }
-}
 
-private class NewChatMembersHandlerProxy(
-    val handleNewChatMembers: HandleNewChatMembers
-) : HandleUpdate {
     override fun invoke(bot: Bot, update: Update) {
         val message = update.message
         val newChatMembers = message?.newChatMembers
         checkNotNull(newChatMembers)
-
-        val newChatMembersHandlerEnv = NewChatMembersHandlerEnvironment(
-            bot,
-            update,
-            message,
-            newChatMembers
-        )
-        handleNewChatMembers.invoke(newChatMembersHandlerEnv)
+        handle.invoke(NewChatMembersHandlerEnvironment(bot, update, message, newChatMembers))
     }
 }
