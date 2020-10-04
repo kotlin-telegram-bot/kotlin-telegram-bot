@@ -4,7 +4,6 @@ import com.github.kotlintelegrambot.entities.BotCommand
 import com.github.kotlintelegrambot.entities.Chat
 import com.github.kotlintelegrambot.entities.ChatAction
 import com.github.kotlintelegrambot.entities.ChatMember
-import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.ReplyMarkup
@@ -444,8 +443,8 @@ interface ApiService {
     fun restrictChatMember(
         @Field("chat_id") chatId: Long,
         @Field("user_id") userId: Long,
-        @Field("permissions") permissions: ChatPermissions,
-        @Field("until_date") untilDate: Date?
+        @Field("permissions") permissions: String,
+        @Field("until_date") untilDate: Long?
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
@@ -467,7 +466,7 @@ interface ApiService {
     @POST("setChatPermissions")
     fun setChatPermissions(
         @Field("chat_id") chatId: Long,
-        @Field("permissions") permissions: ChatPermissions
+        @Field("permissions") permissions: String
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
