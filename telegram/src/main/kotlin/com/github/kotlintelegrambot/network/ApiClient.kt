@@ -819,13 +819,13 @@ class ApiClient(
         chatId: Long,
         userId: Long,
         chatPermissions: ChatPermissions,
-        untilDate: Date?
+        untilDate: Long? = null
     ): Call<Response<Boolean>> {
 
         return service.restrictChatMember(
             chatId,
             userId,
-            chatPermissions,
+            gson.toJson(chatPermissions),
             untilDate
         )
     }
@@ -859,7 +859,7 @@ class ApiClient(
 
     fun setChatPermissions(chatId: Long, permissions: ChatPermissions): Call<Response<Boolean>> {
 
-        return service.setChatPermissions(chatId, permissions)
+        return service.setChatPermissions(chatId, gson.toJson(permissions))
     }
 
     fun exportChatInviteLink(chatId: Long): Call<Response<String>> {

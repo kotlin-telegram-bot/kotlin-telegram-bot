@@ -736,7 +736,7 @@ class Bot private constructor(
         chatId: Long,
         userId: Long,
         chatPermissions: ChatPermissions,
-        untilDate: Date? = null
+        untilDate: Long? = null // unix time - https://en.wikipedia.org/wiki/Unix_time
     ) = apiClient.restrictChatMember(
         chatId,
         userId,
