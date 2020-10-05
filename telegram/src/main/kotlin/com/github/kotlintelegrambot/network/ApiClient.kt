@@ -40,7 +40,6 @@ import com.google.gson.reflect.TypeToken
 import java.io.File as SystemFile
 import java.net.Proxy
 import java.nio.file.Files
-import java.util.Date
 import java.util.concurrent.TimeUnit
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -805,7 +804,7 @@ class ApiClient(
         return service.downloadFile("${apiUrl}file/bot$token/$filePath")
     }
 
-    fun kickChatMember(chatId: Long, userId: Long, untilDate: Date): Call<Response<Boolean>> {
+    fun kickChatMember(chatId: Long, userId: Long, untilDate: Long? = null): Call<Response<Boolean>> {
 
         return service.kickChatMember(chatId, userId, untilDate)
     }
