@@ -29,7 +29,6 @@ import com.github.kotlintelegrambot.webhook.WebhookConfig
 import com.github.kotlintelegrambot.webhook.WebhookConfigBuilder
 import java.io.File as SystemFile
 import java.net.Proxy
-import java.util.Date
 
 fun bot(body: Bot.Builder.() -> Unit): Bot = Bot.Builder().build(body)
 
@@ -726,8 +725,11 @@ class Bot private constructor(
         }
     }
 
-    fun kickChatMember(chatId: Long, userId: Long, untilDate: Date) =
-        apiClient.kickChatMember(chatId, userId, untilDate).call()
+    fun kickChatMember(
+        chatId: Long,
+        userId: Long,
+        untilDate: Long? = null // unix time - https://en.wikipedia.org/wiki/Unix_time
+    ) = apiClient.kickChatMember(chatId, userId, untilDate).call()
 
     fun unbanChatMember(chatId: Long, userId: Long) =
         apiClient.unbanChatMember(chatId, userId).call()

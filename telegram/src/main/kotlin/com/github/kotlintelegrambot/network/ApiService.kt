@@ -23,7 +23,6 @@ import com.github.kotlintelegrambot.entities.polls.PollType
 import com.github.kotlintelegrambot.entities.stickers.MaskPosition
 import com.github.kotlintelegrambot.entities.stickers.StickerSet
 import com.google.gson.Gson
-import java.util.Date
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -428,7 +427,7 @@ interface ApiService {
     fun kickChatMember(
         @Field("chat_id") chatId: Long,
         @Field("user_id") userId: Long,
-        @Field("until_date") untilDate: Date
+        @Field("until_date") untilDate: Long?
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
