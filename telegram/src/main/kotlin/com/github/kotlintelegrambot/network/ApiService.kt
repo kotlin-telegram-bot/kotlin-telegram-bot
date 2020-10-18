@@ -101,7 +101,7 @@ interface ApiService {
     fun sendMessage(
         @Field("chat_id") chatId: Long,
         @Field("text") text: String,
-        @Field("parse_mode") parseMode: String?,
+        @Field("parse_mode") parseMode: ParseMode?,
         @Field("disable_web_page_preview") disableWebPagePreview: Boolean?,
         @Field("disable_notification") disableNotification: Boolean?,
         @Field("reply_to_message_id") replyToMessageId: Long?,
@@ -135,7 +135,7 @@ interface ApiService {
         @Field("chat_id") chatId: Long,
         @Field("photo") fileId: String,
         @Field("caption") caption: String?,
-        @Field("parse_mode") parseMode: String?,
+        @Field("parse_mode") parseMode: ParseMode?,
         @Field("disable_notification") disableNotification: Boolean?,
         @Field("reply_to_message_id") replyToMessageId: Long?,
         @Field("reply_markup") replyMarkup: ReplyMarkup? = null
@@ -185,7 +185,7 @@ interface ApiService {
         @Field("chat_id") chatId: Long,
         @Field("document") fileId: String,
         @Field("caption") caption: String?,
-        @Field("parse_mode") parseMode: String?,
+        @Field("parse_mode") parseMode: ParseMode?,
         @Field("disable_notification") disableNotification: Boolean?,
         @Field("reply_to_message_id") replyToMessageId: Long?,
         @Field("reply_markup") replyMarkup: ReplyMarkup? = null
@@ -243,7 +243,7 @@ interface ApiService {
         @Field("width") width: Int?,
         @Field("height") height: Int?,
         @Field("caption") caption: String?,
-        @Field("parse_mode") parseMode: String?,
+        @Field("parse_mode") parseMode: ParseMode?,
         @Field("disable_notification") disableNotification: Boolean?,
         @Field("reply_to_message_id") replyToMessageId: Long?,
         @Field("reply_markup") replyMarkup: ReplyMarkup? = null
@@ -576,7 +576,7 @@ interface ApiService {
         @Field("message_id") messageId: Long?,
         @Field("inline_message_id") inlineMessageId: String?,
         @Field("text") text: String,
-        @Field("parse_mode") parseMode: String?,
+        @Field("parse_mode") parseMode: ParseMode?,
         @Field("disable_web_page_preview") disableWebPagePreview: Boolean?,
         @Field("reply_markup") replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>

@@ -190,7 +190,7 @@ class Bot private constructor(
     ) = apiClient.sendMessage(
         chatId,
         text,
-        parseMode?.modeName,
+        parseMode,
         disableWebPagePreview,
         disableNotification,
         replyToMessageId,
@@ -239,7 +239,7 @@ class Bot private constructor(
         chatId,
         photo,
         caption,
-        parseMode?.modeName,
+        parseMode,
         disableNotification,
         replyToMessageId,
         replyMarkup
@@ -353,7 +353,7 @@ class Bot private constructor(
         chatId,
         fileId,
         caption,
-        parseMode?.modeName,
+        parseMode,
         disableNotification,
         replyToMessageId,
         replyMarkup
@@ -434,7 +434,7 @@ class Bot private constructor(
         width: Int? = null,
         height: Int? = null,
         caption: String? = null,
-        parseMode: String? = null,
+        parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         replyMarkup: ReplyMarkup? = null
@@ -839,7 +839,7 @@ class Bot private constructor(
         messageId,
         inlineMessageId,
         text,
-        parseMode?.modeName,
+        parseMode,
         disableWebPagePreview,
         replyMarkup
     ).call()
