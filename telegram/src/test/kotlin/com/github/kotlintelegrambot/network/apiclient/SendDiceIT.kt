@@ -57,6 +57,17 @@ class SendDiceIT : ApiClientIT() {
     }
 
     @Test
+    fun `sendDice with football emoji`() {
+        givenAnySendDiceResponse()
+
+        sut.sendDice(ANY_CHAT_ID, emoji = DiceEmoji.Football).execute()
+
+        val request = mockWebServer.takeRequest()
+        val expectedRequestBody = "chat_id=$ANY_CHAT_ID&emoji=⚽️"
+        assertEquals(expectedRequestBody, request.body.readUtf8().decode())
+    }
+
+    @Test
     fun `sendDice with all the optional parameters`() {
         givenAnySendDiceResponse()
 
