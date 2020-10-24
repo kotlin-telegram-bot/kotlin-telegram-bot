@@ -22,6 +22,9 @@ bot.sendDice(ANY_CHAT_ID, DiceEmoji.Dartboard)
 
 // to send the dice with a basketball emoji
 bot.sendDice(ANY_CHAT_ID, DiceEmoji.Basketball)
+
+// to send the dice with a football emoji
+bot.sendDice(ANY_CHAT_ID, DiceEmoji.Football)
 ```
 
 Moreover, it's also possible to listen to dice messages. These dice messages come within an update object and you can listen to them with the library's DSL in the next way:
