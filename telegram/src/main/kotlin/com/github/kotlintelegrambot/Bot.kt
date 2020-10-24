@@ -145,13 +145,29 @@ class Bot private constructor(
                 if (updates?.result != null) return updates.result
             }
             false, null -> {
-                val errorMessage: String = when {
-                    error?.message != null -> error.message!!
-                    response?.errorBody() != null -> response.errorBody().toString()
-                    else -> "There was a problem retrieving updates from Telegram server"
+                fun dispatchableError(message: String) =
+                    listOf<TelegramError>(RetrieveUpdatesError(message))
+
+                val errorMessage = error?.message
+                if (errorMessage != null) {
+                    return dispatchableError(errorMessage)
                 }
 
-                return listOf(RetrieveUpdatesError(errorMessage) as TelegramError)
+                val errorBody = response?.errorBody()?.string()
+                if (errorBody != null && errorBody.isNotBlank()) {
+                    return dispatchableError(errorBody)
+                }
+
+                val rawHttpResponse = response?.raw()
+                if (rawHttpResponse != null && rawHttpResponse.message().isNotBlank()) {
+                    return dispatchableError(
+                        "${rawHttpResponse.code()} - ${rawHttpResponse.message()}"
+                    )
+                }
+
+                return dispatchableError(
+                    "There was a problem retrieving updates from Telegram server"
+                )
             }
         }
         return emptyList()
