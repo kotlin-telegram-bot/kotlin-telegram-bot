@@ -195,6 +195,18 @@ class Bot private constructor(
 
     fun getMe() = apiClient.getMe().call()
 
+    /**
+     * Use this method to send text messages
+     * @param chatId unique identifier for the target chat
+     * @param text text of the message to be sent, 1-4096 characters after entities parsing
+     * @param parseMode mode for parsing entities in the message text
+     * @param disableWebPagePreview disables link previews for links in this message
+     * @param disableNotification sends the message silently - users will receive a notification with no sound
+     * @param replyToMessageId if the message is a reply, ID of the original message
+     * @param replyMarkup additional options - inline keyboard, custom reply keyboard, instructions to remove reply
+     * keyboard or to force a reply from the user
+     * @return the sent [Message] on success
+     */
     fun sendMessage(
         chatId: Long,
         text: String,
@@ -205,6 +217,36 @@ class Bot private constructor(
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendMessage(
         chatId,
+        text,
+        parseMode,
+        disableWebPagePreview,
+        disableNotification,
+        replyToMessageId,
+        replyMarkup
+    ).call()
+
+    /**
+     * Use this method to send text messages
+     * @param channelUsername username of the target channel (in the format @channelusername)
+     * @param text text of the message to be sent, 1-4096 characters after entities parsing
+     * @param parseMode mode for parsing entities in the message text
+     * @param disableWebPagePreview disables link previews for links in this message
+     * @param disableNotification sends the message silently - users will receive a notification with no sound
+     * @param replyToMessageId if the message is a reply, ID of the original message
+     * @param replyMarkup additional options - inline keyboard, custom reply keyboard, instructions to remove reply
+     * keyboard or to force a reply from the user
+     * @return the sent [Message] on success
+     */
+    fun sendMessage(
+        channelUsername: String,
+        text: String,
+        parseMode: ParseMode? = null,
+        disableWebPagePreview: Boolean? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        replyMarkup: ReplyMarkup? = null
+    ) = apiClient.sendMessage(
+        channelUsername,
         text,
         parseMode,
         disableWebPagePreview,

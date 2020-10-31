@@ -199,6 +199,24 @@ class ApiClient(
         )
     }
 
+    fun sendMessage(
+        channelUsername: String,
+        text: String,
+        parseMode: ParseMode?,
+        disableWebPagePreview: Boolean?,
+        disableNotification: Boolean?,
+        replyToMessageId: Long?,
+        replyMarkup: ReplyMarkup?
+    ): Call<Response<Message>> = service.sendMessage(
+        channelUsername,
+        text,
+        parseMode,
+        disableWebPagePreview,
+        disableNotification,
+        replyToMessageId,
+        replyMarkup
+    )
+
     fun forwardMessage(
         chatId: Long,
         fromChatId: Long,
