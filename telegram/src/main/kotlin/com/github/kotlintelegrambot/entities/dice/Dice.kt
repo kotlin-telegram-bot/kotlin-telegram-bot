@@ -34,6 +34,11 @@ sealed class DiceEmoji {
             get() = "⚽️"
     }
 
+    object SlotMachine : DiceEmoji() {
+        override val emojiValue: String
+            get() = "🎰"
+    }
+
     // Currently not supported, adding it just in case Telegram Bot API
     // starts supporting new emojis for the dice in the future
     data class Other(override val emojiValue: String) : DiceEmoji()
@@ -44,6 +49,7 @@ sealed class DiceEmoji {
             Dartboard.emojiValue -> Dartboard
             Basketball.emojiValue -> Basketball
             Football.emojiValue -> Football
+            SlotMachine.emojiValue -> SlotMachine
             else -> Other(emoji)
         }
     }
