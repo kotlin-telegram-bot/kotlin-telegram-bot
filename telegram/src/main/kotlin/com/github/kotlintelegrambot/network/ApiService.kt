@@ -633,9 +633,16 @@ interface ApiService {
     @FormUrlEncoded
     @POST("deleteMessage")
     fun deleteMessage(
-        @Field("chat_id") chatId: Long?,
-        @Field("message_id") messageId: Long?
-    ): Call<Response<Message>>
+        @Field("chat_id") chatId: Long,
+        @Field("message_id") messageId: Long
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("deleteMessage")
+    fun deleteMessage(
+        @Field("chat_id") channelUsername: String,
+        @Field("message_id") messageId: Long
+    ): Call<Response<Boolean>>
 
     /***
      * Stickers

@@ -942,8 +942,37 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
-    fun deleteMessage(chatId: Long? = null, messageId: Long? = null) =
+    /**
+     * Use this method to delete a message, including service messages, with the following limitations:
+     * - A message can only be deleted if it was sent less than 48 hours ago.
+     * - A dice message in a private chat can only be deleted if it was sent more than 24 hours ago.
+     * - Bots can delete outgoing messages in private chats, groups, and supergroups.
+     * - Bots can delete incoming messages in private chats.
+     * - Bots granted `can_post_messages` permissions can delete outgoing messages in channels.
+     * - If the bot is an administrator of a group, it can delete any message there.
+     * - If the bot has `can_delete_messages` permission in a supergroup or a channel, it can delete any message there.
+     * @param chatId Unique identifier for the target chat.
+     * @param messageId Identifier of the message to delete.
+     * @return True on success.
+     */
+    fun deleteMessage(chatId: Long, messageId: Long) =
         apiClient.deleteMessage(chatId, messageId).call()
+
+    /**
+     * Use this method to delete a message, including service messages, with the following limitations:
+     * - A message can only be deleted if it was sent less than 48 hours ago.
+     * - A dice message in a private chat can only be deleted if it was sent more than 24 hours ago.
+     * - Bots can delete outgoing messages in private chats, groups, and supergroups.
+     * - Bots can delete incoming messages in private chats.
+     * - Bots granted `can_post_messages` permissions can delete outgoing messages in channels.
+     * - If the bot is an administrator of a group, it can delete any message there.
+     * - If the bot has `can_delete_messages` permission in a supergroup or a channel, it can delete any message there.
+     * @param channelUsername Username of the target channel (in the format @channelusername).
+     * @param messageId Identifier of the message to delete.
+     * @return True on success.
+     */
+    fun deleteMessage(channelUsername: String, messageId: Long) =
+        apiClient.deleteMessage(channelUsername, messageId).call()
 
     /***
      * Stickers
