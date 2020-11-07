@@ -1059,10 +1059,11 @@ class ApiClient(
         )
     }
 
-    fun deleteMessage(chatId: Long?, messageId: Long?): Call<Response<Message>> {
+    fun deleteMessage(chatId: Long, messageId: Long): Call<Response<Boolean>> =
+        service.deleteMessage(chatId, messageId)
 
-        return service.deleteMessage(chatId, messageId)
-    }
+    fun deleteMessage(channelUsername: String, messageId: Long): Call<Response<Boolean>> =
+        service.deleteMessage(channelUsername, messageId)
 
     /**
      * Payment
