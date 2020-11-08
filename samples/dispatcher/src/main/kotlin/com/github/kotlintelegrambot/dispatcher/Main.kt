@@ -97,7 +97,10 @@ fun main(args: Array<String>) {
             }
 
             command("inlineButtons") {
-                val inlineKeyboardMarkup = InlineKeyboardMarkup(generateButtons())
+                val inlineKeyboardMarkup = InlineKeyboardMarkup.create(
+                    listOf(InlineKeyboardButton.CallbackData(text = "Test Inline Button", callbackData = "testButton")),
+                    listOf(InlineKeyboardButton.CallbackData(text = "Show alert", callbackData = "showAlert"))
+                )
                 bot.sendMessage(
                     chatId = message.chat.id,
                     text = "Hello, inline buttons!",
@@ -209,12 +212,5 @@ fun generateUsersButton(): List<List<KeyboardButton>> {
     return listOf(
         listOf(KeyboardButton("Request location (not supported on desktop)", requestLocation = true)),
         listOf(KeyboardButton("Request contact", requestContact = true))
-    )
-}
-
-fun generateButtons(): List<List<InlineKeyboardButton>> {
-    return listOf(
-        listOf(InlineKeyboardButton(text = "Test Inline Button", callbackData = "testButton")),
-        listOf(InlineKeyboardButton(text = "Show alert", callbackData = "showAlert"))
     )
 }

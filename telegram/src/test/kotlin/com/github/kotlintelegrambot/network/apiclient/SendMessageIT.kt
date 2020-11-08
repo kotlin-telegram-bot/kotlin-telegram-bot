@@ -2,8 +2,10 @@ package com.github.kotlintelegrambot.network.apiclient
 
 import com.github.kotlintelegrambot.entities.Chat
 import com.github.kotlintelegrambot.entities.ForceReplyMarkup
+import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.ParseMode.MARKDOWN
+import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton
 import com.github.kotlintelegrambot.testutils.decode
 import junit.framework.TestCase.assertEquals
 import okhttp3.mockwebserver.MockResponse
@@ -75,6 +77,42 @@ class SendMessageIT : ApiClientIT() {
     }
 
     @Test
+    fun `sendMessage with inline keyboard is properly sent`() {
+        givenAnySendMessageResponse()
+
+        sut.sendMessage(
+            channelUsername = ANY_CHANNEL_USERNAME,
+            text = ANY_TEXT,
+            parseMode = null,
+            disableWebPagePreview = null,
+            disableNotification = null,
+            replyToMessageId = null,
+            replyMarkup = InlineKeyboardMarkup.create(
+                listOf(
+                    InlineKeyboardButton.Url(ANY_TEXT, ANY_URL),
+                    InlineKeyboardButton.CallbackData(ANY_TEXT, ANY_TEXT)
+                ),
+                listOf(
+                    InlineKeyboardButton.SwitchInlineQuery(ANY_TEXT, ANY_TEXT),
+                    InlineKeyboardButton.SwitchInlineQueryCurrentChat(ANY_TEXT, ANY_TEXT)
+                )
+            )
+        ).execute()
+
+        val request = mockWebServer.takeRequest()
+        val expectedRequestBody = "chat_id=$ANY_CHANNEL_USERNAME" +
+                "&text=$ANY_TEXT" +
+                "&reply_markup={\"inline_keyboard\":[[" +
+                "{\"text\":\"Mucho texto\",\"url\":\"https://www.github.com/vjgarciag96\"}," +
+                "{\"text\":\"Mucho texto\",\"callback_data\":\"Mucho texto\"}" +
+                "],[" +
+                "{\"text\":\"Mucho texto\",\"switch_inline_query\":\"Mucho texto\"}," +
+                "{\"text\":\"Mucho texto\",\"switch_inline_query_current_chat\":\"Mucho texto\"}" +
+                "]]}"
+        assertEquals(expectedRequestBody, request.body.readUtf8().decode())
+    }
+
+    @Test
     fun `sendMessage response is returned correctly`() {
         givenAnySendMessageResponse()
 
@@ -130,5 +168,6 @@ class SendMessageIT : ApiClientIT() {
         const val ANY_CHANNEL_USERNAME = "testtelegrambotapi"
         const val ANY_MESSAGE_ID = 35235423L
         const val ANY_TEXT = "Mucho texto"
+        const val ANY_URL = "https://www.github.com/vjgarciag96"
     }
 }
