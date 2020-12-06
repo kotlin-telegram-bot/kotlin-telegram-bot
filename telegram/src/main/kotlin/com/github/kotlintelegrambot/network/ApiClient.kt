@@ -96,7 +96,7 @@ class ApiClient(
     private val botTimeout: Int = 30,
     logLevel: LogLevel,
     proxy: Proxy = Proxy.NO_PROXY,
-    private val gson: Gson = GsonFactory.createForApiClient(),
+    private val gson: Gson,
     private val multipartBodyFactory: MultipartBodyFactory = MultipartBodyFactory(GsonFactory.createForMultipartBodyFactory())
 ) {
 

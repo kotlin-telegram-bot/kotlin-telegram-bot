@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName as Name
 
 data class Update constructor(
     @Name("update_id") val updateId: Long,
-    val message: Message?,
+    val message: Message? = null,
     @Name("edited_message") val editedMessage: Message? = null,
     @Name("channel_post") val channelPost: Message? = null,
     @Name("edited_channel_post") val editedChannelPost: Message? = null,

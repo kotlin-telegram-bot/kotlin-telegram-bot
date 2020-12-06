@@ -336,13 +336,15 @@ fun anyCallbackQuery(
     from: User = anyUser(),
     message: Message? = null,
     inlineMessageId: String? = null,
-    data: String = "anyData"
+    data: String = "anyData",
+    chatInstance: String = "1"
 ): CallbackQuery = CallbackQuery(
     id = id,
     from = from,
     message = message,
     inlineMessageId = inlineMessageId,
-    data = data
+    data = data,
+    chatInstance = chatInstance
 )
 
 fun anyInlineQuery(
