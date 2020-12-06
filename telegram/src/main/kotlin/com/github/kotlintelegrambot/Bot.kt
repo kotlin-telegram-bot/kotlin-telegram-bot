@@ -23,10 +23,12 @@ import com.github.kotlintelegrambot.logging.LogLevel
 import com.github.kotlintelegrambot.network.ApiClient
 import com.github.kotlintelegrambot.network.bimap
 import com.github.kotlintelegrambot.network.call
+import com.github.kotlintelegrambot.network.serialization.GsonFactory
 import com.github.kotlintelegrambot.types.DispatchableObject
 import com.github.kotlintelegrambot.updater.Updater
 import com.github.kotlintelegrambot.webhook.WebhookConfig
 import com.github.kotlintelegrambot.webhook.WebhookConfigBuilder
+import com.google.gson.Gson
 import java.io.File as SystemFile
 import java.net.Proxy
 
@@ -50,9 +52,11 @@ class Bot private constructor(
     apiUrl: String,
     timeout: Int = 30,
     logLevel: LogLevel,
-    proxy: Proxy
+    proxy: Proxy,
+    gson: Gson
 ) {
-    private val apiClient: ApiClient = ApiClient(token, apiUrl, timeout, logLevel, proxy)
+
+    private val apiClient: ApiClient = ApiClient(token, apiUrl, timeout, logLevel, proxy, gson)
 
     init {
         updater.bot = this
@@ -62,7 +66,8 @@ class Bot private constructor(
 
     class Builder {
         val updater = Updater()
-        private val updateMapper = UpdateMapper()
+        private val gson = GsonFactory.createForApiClient()
+        private val updateMapper = UpdateMapper(gson)
         var webhookConfig: WebhookConfig? = null
         lateinit var token: String
         var timeout: Int = 30
@@ -71,12 +76,12 @@ class Bot private constructor(
         var proxy: Proxy = Proxy.NO_PROXY
 
         fun build(): Bot {
-            return Bot(updater, updateMapper, webhookConfig, token, apiUrl, timeout, logLevel, proxy)
+            return Bot(updater, updateMapper, webhookConfig, token, apiUrl, timeout, logLevel, proxy, gson)
         }
 
         fun build(body: Bot.Builder.() -> Unit): Bot {
             body()
-            return Bot(updater, updateMapper, webhookConfig, token, apiUrl, timeout, logLevel, proxy)
+            return Bot(updater, updateMapper, webhookConfig, token, apiUrl, timeout, logLevel, proxy, gson)
         }
     }
 
