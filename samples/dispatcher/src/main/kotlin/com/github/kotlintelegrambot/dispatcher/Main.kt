@@ -124,6 +124,10 @@ fun main(args: Array<String>) {
                         InputMediaPhoto(
                             media = ByUrl("https://www.sngular.com/wp-content/uploads/2019/11/Kotlin-Blog-1400x411.png"),
                             caption = "I come from an url :P"
+                        ),
+                        InputMediaPhoto(
+                            media = ByUrl("https://www.sngular.com/wp-content/uploads/2019/11/Kotlin-Blog-1400x411.png"),
+                            caption = "Me too!"
                         )
                     ),
                     replyToMessageId = message.messageId
