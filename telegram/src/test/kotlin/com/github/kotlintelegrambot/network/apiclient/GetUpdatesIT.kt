@@ -81,7 +81,7 @@ class GetUpdatesIT : ApiClientIT() {
                     from = User(
                         id = 1,
                         isBot = false,
-                        firstName = "TestName",
+                        firstName = "testName",
                         username = "testname",
                         languageCode = "de"
                     ),
