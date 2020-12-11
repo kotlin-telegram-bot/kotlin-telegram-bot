@@ -1,5 +1,5 @@
 # Kotlin Telegram Bot
-[![Build Status](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/workflows/Kotlin%20CI/badge.svg?branch=master)](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/actions?query=workflow%3A%22Kotlin+CI%22+branch%3Amaster)
+[![Build Status](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/workflows/Continuous%20Integration/badge.svg?branch=master)](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/actions?query=workflow%3A%22Continuous+Integration%22+branch%3Amaster)
 [![Release](https://jitpack.io/v/kotlin-telegram-bot/kotlin-telegram-bot.svg)](https://jitpack.io/#kotlin-telegram-bot/kotlin-telegram-bot)
 [![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
 
