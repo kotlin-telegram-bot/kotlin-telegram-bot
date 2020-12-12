@@ -7,6 +7,7 @@ import com.github.kotlintelegrambot.entities.ChatMember
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
 import com.github.kotlintelegrambot.entities.Message
+import com.github.kotlintelegrambot.entities.MessageEntity
 import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.ReplyMarkup
 import com.github.kotlintelegrambot.entities.TelegramFile
@@ -486,6 +487,9 @@ class ApiClient(
     fun sendVoice(
         chatId: Long,
         audio: SystemFile,
+        caption: String?,
+        parseMode: ParseMode?,
+        captionEntities: List<MessageEntity>?,
         duration: Int?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
@@ -495,6 +499,9 @@ class ApiClient(
         return service.sendVoice(
             convertString(chatId.toString()),
             convertFile("voice", audio),
+            if (caption != null) convertString(caption) else null,
+            if (parseMode != null) convertString(parseMode.modeName) else null,
+            if (captionEntities != null) convertJson(gson.toJson(captionEntities)) else null,
             if (duration != null) convertString(duration.toString()) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
@@ -505,6 +512,9 @@ class ApiClient(
     fun sendVoice(
         chatId: Long,
         audioId: String,
+        caption: String?,
+        parseMode: ParseMode?,
+        captionEntities: List<MessageEntity>?,
         duration: Int?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
@@ -514,6 +524,9 @@ class ApiClient(
         return service.sendVoice(
             chatId,
             audioId,
+            caption,
+            parseMode,
+            captionEntities,
             duration,
             disableNotification,
             replyToMessageId,
@@ -524,6 +537,9 @@ class ApiClient(
     fun sendVoice(
         chatId: Long,
         audio: ByteArray,
+        caption: String?,
+        parseMode: ParseMode?,
+        captionEntities: List<MessageEntity>?,
         duration: Int? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
@@ -533,6 +549,9 @@ class ApiClient(
         return service.sendVoice(
             convertString(chatId.toString()),
             convertBytes("voice", audio),
+            if (caption != null) convertString(caption) else null,
+            if (parseMode != null) convertString(parseMode.modeName) else null,
+            if (captionEntities != null) convertJson(gson.toJson(captionEntities)) else null,
             if (duration != null) convertString(duration.toString()) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
