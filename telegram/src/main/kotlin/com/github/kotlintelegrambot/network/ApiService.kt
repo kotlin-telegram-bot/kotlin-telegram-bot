@@ -283,7 +283,7 @@ interface ApiService {
         @Field("voice") fileId: String,
         @Field("caption") caption: String?,
         @Field("parse_mode") parseMode: ParseMode?,
-        @Field("caption_entities") captionEntities: List<MessageEntity>?,
+        @Field("caption_entities") captionEntities: String?,
         @Field("duration") duration: Int?,
         @Field("disable_notification") disableNotification: Boolean?,
         @Field("reply_to_message_id") replyToMessageId: Long?,

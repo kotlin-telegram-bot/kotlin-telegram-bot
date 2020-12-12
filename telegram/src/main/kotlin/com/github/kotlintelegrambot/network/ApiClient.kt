@@ -526,7 +526,7 @@ class ApiClient(
             audioId,
             caption,
             parseMode,
-            captionEntities,
+            if (captionEntities != null) gson.toJson(captionEntities) else null,
             duration,
             disableNotification,
             replyToMessageId,
