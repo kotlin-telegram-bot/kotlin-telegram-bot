@@ -15,6 +15,7 @@ import okhttp3.mockwebserver.MockResponse
 import org.junit.jupiter.api.Test
 
 class SendVoiceIT : ApiClientIT() {
+    private fun String.normalizeLineEndings() = this.replace(Regex("\\r\\n?"), "\n")
 
     @Test
     fun `sendVoice with audioId`() {
@@ -72,7 +73,7 @@ class SendVoiceIT : ApiClientIT() {
             String(getFileFromResources<SendVoiceIT>(VOICE_FILENAME).readBytes()),
             VOICE_FILENAME
         )
-        assertEquals(expectedRequestBody.replace("\n", "\r"), requestBody.replace("\n", "\r"))
+        assertEquals(expectedRequestBody.normalizeLineEndings(), requestBody.normalizeLineEndings())
     }
 
     @Test
@@ -101,7 +102,7 @@ class SendVoiceIT : ApiClientIT() {
             String(getFileFromResources<SendVoiceIT>("short.ogg").readBytes()),
             "voice"
         )
-        assertEquals(expectedRequestBody.replace("\n", "\r"), requestBody.replace("\n", "\r"))
+        assertEquals(expectedRequestBody.normalizeLineEndings(), requestBody.normalizeLineEndings())
     }
 
     private fun givenAnySendVoiceResponse() {
