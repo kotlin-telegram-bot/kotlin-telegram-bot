@@ -24,6 +24,7 @@ jobs:
 
       - name: Generate Test Report
         id: xunit-viewer
+        if: always()
         uses: AutoModality/action-xunit-viewer@v1
         with:
           results: ${{ env.TEST_RESULTS_PATH }}
