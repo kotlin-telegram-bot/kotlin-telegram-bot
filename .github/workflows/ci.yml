@@ -18,5 +18,21 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+
       - name: Build with Gradle
         run: ./gradlew build
+
+      - name: Generate Test Report
+        id: xunit-viewer
+        uses: AutoModality/action-xunit-viewer@v1
+        with:
+          results: ${{ env.TEST_RESULTS_PATH }}
+        env:
+          TEST_RESULTS_PATH: telegram/build/reports/tests/test/index.html
+      - name: Attach the report
+        if: always()
+        uses: actions/upload-artifact@v1
+        with:
+          name: Tests report
+          path: ${{ steps.xunit-viewer.outputs.report-dir }}
+
