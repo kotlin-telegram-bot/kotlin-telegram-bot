@@ -5,6 +5,7 @@ import com.github.kotlintelegrambot.entities.BotCommand
 import com.github.kotlintelegrambot.entities.ChatAction
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
+import com.github.kotlintelegrambot.entities.MessageEntity
 import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.ReplyMarkup
 import com.github.kotlintelegrambot.entities.TelegramFile
@@ -517,6 +518,9 @@ class Bot private constructor(
     fun sendVoice(
         chatId: Long,
         audio: ByteArray,
+        caption: String? = null,
+        parseMode: ParseMode? = null,
+        captionEntities: List<MessageEntity>? = null,
         duration: Int? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
@@ -524,6 +528,9 @@ class Bot private constructor(
     ) = apiClient.sendVoice(
         chatId,
         audio,
+        caption,
+        parseMode,
+        captionEntities,
         duration,
         disableNotification,
         replyToMessageId,
@@ -533,6 +540,9 @@ class Bot private constructor(
     fun sendVoice(
         chatId: Long,
         audio: SystemFile,
+        caption: String? = null,
+        parseMode: ParseMode? = null,
+        captionEntities: List<MessageEntity>? = null,
         duration: Int? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
@@ -540,6 +550,9 @@ class Bot private constructor(
     ) = apiClient.sendVoice(
         chatId,
         audio,
+        caption,
+        parseMode,
+        captionEntities,
         duration,
         disableNotification,
         replyToMessageId,
@@ -549,6 +562,9 @@ class Bot private constructor(
     fun sendVoice(
         chatId: Long,
         audioId: String,
+        caption: String? = null,
+        parseMode: ParseMode? = null,
+        captionEntities: List<MessageEntity>? = null,
         duration: Int? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
@@ -556,6 +572,9 @@ class Bot private constructor(
     ) = apiClient.sendVoice(
         chatId,
         audioId,
+        caption,
+        parseMode,
+        captionEntities,
         duration,
         disableNotification,
         replyToMessageId,

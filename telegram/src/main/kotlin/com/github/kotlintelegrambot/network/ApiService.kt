@@ -266,6 +266,9 @@ interface ApiService {
     fun sendVoice(
         @Part("chat_id") chatId: RequestBody,
         @Part voice: MultipartBody.Part,
+        @Part("caption") caption: RequestBody?,
+        @Part("parse_mode") parseMode: RequestBody?,
+        @Part("caption_entities") captionEntities: RequestBody?,
         @Part("duration") duration: RequestBody?,
         @Part("disable_notification") disableNotification: RequestBody?,
         @Part("reply_to_message_id") replyToMessageId: RequestBody?,
@@ -277,6 +280,9 @@ interface ApiService {
     fun sendVoice(
         @Field("chat_id") chatId: Long,
         @Field("voice") fileId: String,
+        @Field("caption") caption: String?,
+        @Field("parse_mode") parseMode: ParseMode?,
+        @Field("caption_entities") captionEntities: String?,
         @Field("duration") duration: Int?,
         @Field("disable_notification") disableNotification: Boolean?,
         @Field("reply_to_message_id") replyToMessageId: Long?,
