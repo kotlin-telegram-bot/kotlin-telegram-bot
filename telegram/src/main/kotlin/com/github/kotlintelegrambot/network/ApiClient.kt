@@ -498,7 +498,7 @@ class ApiClient(
 
         return service.sendVoice(
             convertString(chatId.toString()),
-            convertFile("voice", audio),
+            convertFile("voice", audio, "audio/ogg"),
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode.modeName) else null,
             if (captionEntities != null) convertJson(gson.toJson(captionEntities)) else null,
@@ -548,7 +548,7 @@ class ApiClient(
 
         return service.sendVoice(
             convertString(chatId.toString()),
-            convertBytes("voice", audio),
+            convertBytes("voice", audio, "audio/ogg"),
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode.modeName) else null,
             if (captionEntities != null) convertJson(gson.toJson(captionEntities)) else null,
