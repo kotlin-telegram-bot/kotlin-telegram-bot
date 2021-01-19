@@ -4,6 +4,7 @@ import com.github.kotlintelegrambot.entities.payments.PreCheckoutQuery
 import com.github.kotlintelegrambot.entities.payments.ShippingQuery
 import com.github.kotlintelegrambot.entities.polls.Poll
 import com.github.kotlintelegrambot.entities.polls.PollAnswer
+import com.github.kotlintelegrambot.types.ConsumableObject
 import com.github.kotlintelegrambot.types.DispatchableObject
 import com.google.gson.annotations.SerializedName as Name
 
@@ -20,7 +21,7 @@ data class Update constructor(
     @Name("pre_checkout_query") val preCheckoutQuery: PreCheckoutQuery? = null,
     @Name("poll") val poll: Poll? = null,
     @Name("poll_answer") val pollAnswer: PollAnswer? = null
-) : DispatchableObject
+) : DispatchableObject, ConsumableObject()
 
 /**
  * Generate list of key-value from start payload.
