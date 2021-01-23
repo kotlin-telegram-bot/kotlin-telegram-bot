@@ -16,7 +16,7 @@ class Dispatcher(
     internal lateinit var logLevel: LogLevel
     lateinit var bot: Bot
 
-    private val commandHandlers = mutableMapOf<String, ArrayList<Handler>>()
+    private val commandHandlers = linkedMapOf<String, ArrayList<Handler>>()
     private val errorHandlers = arrayListOf<ErrorHandler>()
     private var stopped = false
 
@@ -64,6 +64,9 @@ class Dispatcher(
             group.value
                 .filter { it.checkUpdate(update) }
                 .forEach {
+                    if (update.consumed) {
+                        return
+                    }
                     try {
                         it.handlerCallback(bot, update)
                     } catch (exc: Exception) {

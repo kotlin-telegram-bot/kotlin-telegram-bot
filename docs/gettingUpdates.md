@@ -29,6 +29,23 @@ bot {
 
 For a more detailed example you can check the `dispatcher` and `echo` samples you can find in the `samples` folder of this project.
 
+### Update consumption
+Usually the `dispatcher` calls all the handlers which satisfy update parameters. If update was handled you can implicitly call `update.consume()` to mark the update as consumed so other handlers won't get it:  
+```kotlin
+bot { 
+    dispatcher {
+        text {  
+            if (text == 'Hello World!') {
+                update.consume()
+            }  
+        }
+        text {
+            // This handler will not get an update.
+        }
+    }
+}
+``` 
+
 
 ## Setting up a webhook
 
