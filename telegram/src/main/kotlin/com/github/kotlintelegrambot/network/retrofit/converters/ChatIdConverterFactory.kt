@@ -3,9 +3,9 @@ package com.github.kotlintelegrambot.network.retrofit.converters
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ChatId.Id
 import com.github.kotlintelegrambot.entities.ChatId.Username
+import java.lang.reflect.Type
 import retrofit2.Converter
 import retrofit2.Retrofit
-import java.lang.reflect.Type
 
 class ChatIdConverterFactory : Converter.Factory() {
     override fun stringConverter(type: Type, annotations: Array<Annotation>, retrofit: Retrofit): Converter<ChatId, String>? {

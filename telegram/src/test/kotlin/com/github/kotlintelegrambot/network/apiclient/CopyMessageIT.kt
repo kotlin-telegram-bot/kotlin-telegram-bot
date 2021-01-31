@@ -32,7 +32,7 @@ class CopyMessageIT : ApiClientIT() {
         ).execute()
 
         val request = mockWebServer.takeRequest()
-        val expectedRequestBody ="chat_id=$ANY_CHANNEL_USERNAME" +
+        val expectedRequestBody = "chat_id=$ANY_CHANNEL_USERNAME" +
                 "&from_chat_id=$ANY_CHAT_ID" +
                 "&message_id=$ANY_MESSAGE_ID" +
                 "&caption=$ANY_CAPTION" +
@@ -46,14 +46,14 @@ class CopyMessageIT : ApiClientIT() {
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
 
-
     @Test
     fun `sendPoll response is returned correctly`() {
         givenAnyCopyMessageResponse()
 
         val copyMessageResponse = sut.copyMessage(
             ChatId.fromId(ANY_CHAT_ID),
-            ChatId.fromUsername(ANY_CHANNEL_USERNAME), ANY_MESSAGE_ID,
+            ChatId.fromUsername(ANY_CHANNEL_USERNAME),
+            ANY_MESSAGE_ID
         ).execute()
 
         val expectedMessageId = MessageId(messageId = ANY_RESULT_MESSAGE_ID)

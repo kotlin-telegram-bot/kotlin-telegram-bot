@@ -143,7 +143,7 @@ interface ApiService {
         @Field("disable_notification") disableNotification: Boolean?,
         @Field("reply_to_message_id") replyToMessageId: Long?,
         @Field("allow_sending_without_reply") allowSendingWithoutReply: Boolean?,
-        @Field("reply_markup") replyMarkup: ReplyMarkup?,
+        @Field("reply_markup") replyMarkup: ReplyMarkup?
     ): Call<Response<MessageId>>
 
     @Multipart

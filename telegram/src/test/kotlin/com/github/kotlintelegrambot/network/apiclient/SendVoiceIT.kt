@@ -9,7 +9,6 @@ import com.github.kotlintelegrambot.testutils.decode
 import com.github.kotlintelegrambot.testutils.getFileAsStringFromResources
 import com.github.kotlintelegrambot.testutils.getFileFromResources
 import com.github.kotlintelegrambot.testutils.multipartBoundary
-import com.google.gson.Gson
 import junit.framework.TestCase.assertEquals
 import okhttp3.mockwebserver.MockResponse
 import org.junit.jupiter.api.Test
