@@ -39,6 +39,7 @@ import com.github.kotlintelegrambot.network.retrofit.converters.ChatIdConverterF
 import com.github.kotlintelegrambot.network.retrofit.converters.DiceEmojiConverterFactory
 import com.github.kotlintelegrambot.network.retrofit.converters.EnumRetrofitConverterFactory
 import com.github.kotlintelegrambot.network.serialization.GsonFactory
+import com.github.kotlintelegrambot.types.TelegramBotResult
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import okhttp3.MediaType
