@@ -17,7 +17,7 @@ class DiceEmojiAdapterTest {
                     "emoji": "🎲",
                     "value": "5"
                 }
-            """.trimIndent()
+        """.trimIndent()
         val deserializedDice = sut.fromJson(diceJson, Dice::class.java)
 
         val expectedEmoji = DiceEmoji.Dice

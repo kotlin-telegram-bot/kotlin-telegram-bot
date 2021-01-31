@@ -53,10 +53,10 @@ class SendPollIT : ApiClientIT() {
         val request = mockWebServer.takeRequest()
         val expectedRequestBody =
             "chat_id=$ANY_CHANNEL_USERNAME" +
-                    "&question=$ANY_QUESTION" +
-                    "&options=${ANY_POLL_OPTIONS.joinToString(",", "[", "]", transform = { "\"$it\"" })}" +
-                    "&allows_multiple_answers=$ALLOWS_MULTIPLE_ANSWERS" +
-                    "&open_period=$ANY_OPEN_PERIOD"
+                "&question=$ANY_QUESTION" +
+                "&options=${ANY_POLL_OPTIONS.joinToString(",", "[", "]", transform = { "\"$it\"" })}" +
+                "&allows_multiple_answers=$ALLOWS_MULTIPLE_ANSWERS" +
+                "&open_period=$ANY_OPEN_PERIOD"
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
 
@@ -83,18 +83,18 @@ class SendPollIT : ApiClientIT() {
         val request = mockWebServer.takeRequest()
         val expectedRequestBody =
             "chat_id=$ANY_CHAT_ID" +
-                    "&question=$ANY_QUESTION" +
-                    "&options=${ANY_POLL_OPTIONS.joinToString(",", "[", "]", transform = { "\"$it\"" })}" +
-                    "&is_anonymous=$IS_ANONYMOUS" +
-                    "&type=regular" +
-                    "&allows_multiple_answers=$ALLOWS_MULTIPLE_ANSWERS" +
-                    "&correct_option_id=$ANY_OPTION_ID" +
-                    "&explanation=$ANY_EXPLANATION" +
-                    "&explanation_parse_mode=Markdown" +
-                    "&open_period=$ANY_OPEN_PERIOD" +
-                    "&is_closed=$IS_CLOSED" +
-                    "&disable_notification=$DO_NOT_DISABLE_NOTIFICATIONS" +
-                    "&reply_to_message_id=$ANY_MESSAGE_ID"
+                "&question=$ANY_QUESTION" +
+                "&options=${ANY_POLL_OPTIONS.joinToString(",", "[", "]", transform = { "\"$it\"" })}" +
+                "&is_anonymous=$IS_ANONYMOUS" +
+                "&type=regular" +
+                "&allows_multiple_answers=$ALLOWS_MULTIPLE_ANSWERS" +
+                "&correct_option_id=$ANY_OPTION_ID" +
+                "&explanation=$ANY_EXPLANATION" +
+                "&explanation_parse_mode=Markdown" +
+                "&open_period=$ANY_OPEN_PERIOD" +
+                "&is_closed=$IS_CLOSED" +
+                "&disable_notification=$DO_NOT_DISABLE_NOTIFICATIONS" +
+                "&reply_to_message_id=$ANY_MESSAGE_ID"
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
 

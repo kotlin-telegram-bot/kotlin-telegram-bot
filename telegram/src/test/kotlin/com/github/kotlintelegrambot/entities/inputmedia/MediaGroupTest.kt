@@ -1,10 +1,10 @@
 package com.github.kotlintelegrambot.entities.inputmedia
 
-import java.lang.IllegalArgumentException
 import junit.framework.TestCase.assertEquals
 import org.junit.Assert.assertArrayEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import java.lang.IllegalArgumentException
 
 class MediaGroupTest {
 

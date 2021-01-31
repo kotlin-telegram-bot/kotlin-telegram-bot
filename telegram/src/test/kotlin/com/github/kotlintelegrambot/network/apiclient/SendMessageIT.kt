@@ -67,12 +67,12 @@ class SendMessageIT : ApiClientIT() {
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHANNEL_USERNAME" +
-                "&text=$ANY_TEXT" +
-                "&parse_mode=Markdown" +
-                "&disable_web_page_preview=false" +
-                "&disable_notification=true" +
-                "&reply_to_message_id=$ANY_MESSAGE_ID" +
-                "&reply_markup={\"force_reply\":false}"
+            "&text=$ANY_TEXT" +
+            "&parse_mode=Markdown" +
+            "&disable_web_page_preview=false" +
+            "&disable_notification=true" +
+            "&reply_to_message_id=$ANY_MESSAGE_ID" +
+            "&reply_markup={\"force_reply\":false}"
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
 
@@ -101,14 +101,14 @@ class SendMessageIT : ApiClientIT() {
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHANNEL_USERNAME" +
-                "&text=$ANY_TEXT" +
-                "&reply_markup={\"inline_keyboard\":[[" +
-                "{\"text\":\"Mucho texto\",\"url\":\"https://www.github.com/vjgarciag96\"}," +
-                "{\"text\":\"Mucho texto\",\"callback_data\":\"Mucho texto\"}" +
-                "],[" +
-                "{\"text\":\"Mucho texto\",\"switch_inline_query\":\"Mucho texto\"}," +
-                "{\"text\":\"Mucho texto\",\"switch_inline_query_current_chat\":\"Mucho texto\"}" +
-                "]]}"
+            "&text=$ANY_TEXT" +
+            "&reply_markup={\"inline_keyboard\":[[" +
+            "{\"text\":\"Mucho texto\",\"url\":\"https://www.github.com/vjgarciag96\"}," +
+            "{\"text\":\"Mucho texto\",\"callback_data\":\"Mucho texto\"}" +
+            "],[" +
+            "{\"text\":\"Mucho texto\",\"switch_inline_query\":\"Mucho texto\"}," +
+            "{\"text\":\"Mucho texto\",\"switch_inline_query_current_chat\":\"Mucho texto\"}" +
+            "]]}"
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
 

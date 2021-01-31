@@ -12,12 +12,12 @@ import anyUser
 import anyVideo
 import anyVideoNote
 import com.github.kotlintelegrambot.entities.Message
-import java.util.stream.Stream
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
+import java.util.stream.Stream
 
 private const val ANY_DATE = 325232423
 private const val ANY_CHAT_ID = 3523523L
@@ -45,32 +45,32 @@ class FiltersTest {
         buildTestCase(
             testCaseName = "AND function with all filters returning true returns true",
             filter = anyFilterReturning(true)
-                    and anyFilterReturning(true)
-                    and anyFilterReturning(true),
+                and anyFilterReturning(true)
+                and anyFilterReturning(true),
             message = anyMessage(),
             expectedFilterResult = true
         ),
         buildTestCase(
             testCaseName = "AND function with one filter returning false returns false",
             filter = anyFilterReturning(false)
-                    and anyFilterReturning(true)
-                    and anyFilterReturning(true),
+                and anyFilterReturning(true)
+                and anyFilterReturning(true),
             message = anyMessage(),
             expectedFilterResult = false
         ),
         buildTestCase(
             testCaseName = "OR function with one filter returning true returns true",
             filter = anyFilterReturning(true)
-                    or anyFilterReturning(false)
-                    or anyFilterReturning(false),
+                or anyFilterReturning(false)
+                or anyFilterReturning(false),
             message = anyMessage(),
             expectedFilterResult = true
         ),
         buildTestCase(
             testCaseName = "OR function with all filters returning false returns false",
             filter = anyFilterReturning(false)
-                    or anyFilterReturning(false)
-                    or anyFilterReturning(false),
+                or anyFilterReturning(false)
+                or anyFilterReturning(false),
             message = anyMessage(),
             expectedFilterResult = false
         ),

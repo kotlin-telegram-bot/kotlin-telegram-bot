@@ -1,9 +1,9 @@
 package com.github.kotlintelegrambot.network.multipart
 
-import java.io.File
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import java.io.File
 
 internal fun File.toMultipartBodyPart(partName: String = name, mediaType: String): MultipartBody.Part {
     val fileRequestBody = RequestBody.create(MediaType.parse(mediaType), this)
