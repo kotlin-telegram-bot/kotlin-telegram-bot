@@ -1,6 +1,6 @@
 # Dice
 
-The Telegram Bot API offers one operation to send a die (dice) to a given chat. The operation is called `sendDice` and in this library you can use it by directly calling the `sendDice` method of a bot instance. For example, you can send a dice in the next way: 
+The Telegram Bot API offers one operation to send a die (dice) to a given chat. The operation is called `sendDice` and in this library you can use it by directly calling the `sendDice` method of a bot instance. For example, you can send a dice in the next way:
 
 ```kotlin
 val bot = bot {
@@ -28,6 +28,9 @@ bot.sendDice(ANY_CHAT_ID, DiceEmoji.Football)
 
 // to send the dice with a slot machine emoji
 bot.sendDice(ANY_CHAT_ID, DiceEmoji.SlotMachine)
+
+// to send the dice with a bowling emoji
+bot.sendDice(ANY_CHAT_ID, DiceEmoji.Bowling)
 ```
 
 Moreover, it's also possible to listen to dice messages. These dice messages come within an update object and you can listen to them with the library's DSL in the next way:
