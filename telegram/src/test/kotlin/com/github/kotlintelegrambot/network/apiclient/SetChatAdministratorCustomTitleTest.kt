@@ -22,8 +22,8 @@ class SetChatAdministratorCustomTitleTest : ApiClientIT() {
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID&" +
-                "user_id=$ANY_USER_ID&" +
-                "custom_title=$ANY_CUSTOM_TITLE"
+            "user_id=$ANY_USER_ID&" +
+            "custom_title=$ANY_CUSTOM_TITLE"
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
 
@@ -39,8 +39,8 @@ class SetChatAdministratorCustomTitleTest : ApiClientIT() {
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHANNEL_USERNAME&" +
-                "user_id=$ANY_USER_ID&" +
-                "custom_title=$ANY_CUSTOM_TITLE"
+            "user_id=$ANY_USER_ID&" +
+            "custom_title=$ANY_CUSTOM_TITLE"
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
 

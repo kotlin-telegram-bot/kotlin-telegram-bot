@@ -41,10 +41,6 @@ import com.github.kotlintelegrambot.network.retrofit.converters.EnumRetrofitConv
 import com.github.kotlintelegrambot.network.serialization.GsonFactory
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import java.io.File as SystemFile
-import java.net.Proxy
-import java.nio.file.Files
-import java.util.concurrent.TimeUnit
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
@@ -54,6 +50,10 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.net.Proxy
+import java.nio.file.Files
+import java.util.concurrent.TimeUnit
+import java.io.File as SystemFile
 
 private val PLAIN_TEXT_MIME = MediaType.parse("text/plain")
 private val APPLICATION_JSON_MIME = MediaType.parse("application/json")

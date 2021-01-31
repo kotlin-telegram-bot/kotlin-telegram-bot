@@ -31,8 +31,8 @@ import com.github.kotlintelegrambot.updater.Updater
 import com.github.kotlintelegrambot.webhook.WebhookConfig
 import com.github.kotlintelegrambot.webhook.WebhookConfigBuilder
 import com.google.gson.Gson
-import java.io.File as SystemFile
 import java.net.Proxy
+import java.io.File as SystemFile
 
 fun bot(body: Bot.Builder.() -> Unit): Bot = Bot.Builder().build(body)
 

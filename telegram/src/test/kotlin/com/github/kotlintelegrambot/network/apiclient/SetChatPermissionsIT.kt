@@ -30,7 +30,7 @@ class SetChatPermissionsIT : ApiClientIT() {
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=1241242&" +
-                "permissions={\"can_send_messages\":false}"
+            "permissions={\"can_send_messages\":false}"
         TestCase.assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
 
@@ -49,9 +49,9 @@ class SetChatPermissionsIT : ApiClientIT() {
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=1241242&" +
-                "permissions={\"can_send_messages\":false," +
-                "\"can_send_polls\":true," +
-                "\"can_add_web_page_previews\":false}"
+            "permissions={\"can_send_messages\":false," +
+            "\"can_send_polls\":true," +
+            "\"can_add_web_page_previews\":false}"
         TestCase.assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
 

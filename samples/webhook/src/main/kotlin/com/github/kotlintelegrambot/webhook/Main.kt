@@ -57,7 +57,8 @@ fun main() {
             keyStore = CertificateUtils.keyStore,
             keyAlias = CertificateUtils.keyAlias,
             keyStorePassword = { CertificateUtils.keyStorePassword },
-            privateKeyPassword = { CertificateUtils.privateKeyPassword }) {
+            privateKeyPassword = { CertificateUtils.privateKeyPassword }
+        ) {
             port = 443
             keyStorePath = CertificateUtils.keyStoreFile.absoluteFile
             host = "0.0.0.0"

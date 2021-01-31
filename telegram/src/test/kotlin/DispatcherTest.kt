@@ -10,9 +10,9 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import io.mockk.verifyOrder
-import java.util.concurrent.BlockingQueue
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import java.util.concurrent.BlockingQueue
 
 class DispatcherTest {
 
@@ -60,11 +60,14 @@ class DispatcherTest {
     fun `handlers are not called after update is consumed`() {
         val sut = dispatcher()
         val anyMessageWithText = anyUpdate(message = anyMessage(text = ANY_TEXT))
-        val firstHandler = TextHandler(text = null, handleText = {
-            if (text == ANY_TEXT) {
-                update.consume()
+        val firstHandler = TextHandler(
+            text = null,
+            handleText = {
+                if (text == ANY_TEXT) {
+                    update.consume()
+                }
             }
-        })
+        )
 
         val handlerCallbackMock = mockk<HandleText>(relaxed = true)
         val secondHandler = TextHandler(text = null, handleText = handlerCallbackMock)

@@ -7,8 +7,8 @@ import com.github.kotlintelegrambot.entities.inputmedia.MediaGroup
 import com.github.kotlintelegrambot.network.ApiConstants
 import com.github.kotlintelegrambot.network.MediaTypeConstants
 import com.google.gson.Gson
-import java.io.File
 import okhttp3.MultipartBody
+import java.io.File
 
 class MultipartBodyFactory(private val gson: Gson) {
 

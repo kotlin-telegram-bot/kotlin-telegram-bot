@@ -102,9 +102,9 @@ class SendDiceIT : ApiClientIT() {
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID" +
-                "&emoji=🎯" +
-                "&disable_notification=$DISABLE_NOTIFICATION" +
-                "&reply_to_message_id=$ANY_MESSAGE_ID"
+            "&emoji=🎯" +
+            "&disable_notification=$DISABLE_NOTIFICATION" +
+            "&reply_to_message_id=$ANY_MESSAGE_ID"
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
 

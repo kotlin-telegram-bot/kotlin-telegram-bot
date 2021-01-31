@@ -35,8 +35,8 @@ class RestrictChatMembersIT : ApiClientIT() {
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=1241242&" +
-                "user_id=32523623&" +
-                "permissions={\"can_send_messages\":false}"
+            "user_id=32523623&" +
+            "permissions={\"can_send_messages\":false}"
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
 
@@ -56,10 +56,10 @@ class RestrictChatMembersIT : ApiClientIT() {
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=1241242&" +
-                "user_id=32523623&" +
-                "permissions={\"can_send_messages\":false," +
-                "\"can_send_polls\":true," +
-                "\"can_add_web_page_previews\":false}"
+            "user_id=32523623&" +
+            "permissions={\"can_send_messages\":false," +
+            "\"can_send_polls\":true," +
+            "\"can_add_web_page_previews\":false}"
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
 
@@ -76,8 +76,8 @@ class RestrictChatMembersIT : ApiClientIT() {
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=1241242&" +
-                "user_id=32523623&permissions={}&" +
-                "until_date=132523523"
+            "user_id=32523623&permissions={}&" +
+            "until_date=132523523"
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
 
