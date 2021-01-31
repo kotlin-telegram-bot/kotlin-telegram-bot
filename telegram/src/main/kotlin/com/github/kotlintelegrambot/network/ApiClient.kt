@@ -9,6 +9,7 @@ import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.MessageEntity
+import com.github.kotlintelegrambot.entities.MessageId
 import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.ReplyMarkup
 import com.github.kotlintelegrambot.entities.TelegramFile
@@ -234,14 +235,14 @@ class ApiClient(
         chatId: ChatId,
         fromChatId: ChatId,
         messageId: Long,
-        caption: String?,
-        parseMode: ParseMode?,
-        captionEntities: List<MessageEntity>?,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
+        caption: String? = null,
+        parseMode: ParseMode? = null,
+        captionEntities: List<MessageEntity>? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
+        replyMarkup: ReplyMarkup? = null
+    ): Call<Response<MessageId>> {
         return service.copyMessage(
             chatId,
             fromChatId,

@@ -6,6 +6,7 @@ import com.github.kotlintelegrambot.entities.ChatAction
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ChatMember
 import com.github.kotlintelegrambot.entities.Message
+import com.github.kotlintelegrambot.entities.MessageId
 import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.ReplyMarkup
 import com.github.kotlintelegrambot.entities.Update
@@ -143,7 +144,7 @@ interface ApiService {
         @Field("reply_to_message_id") replyToMessageId: Long?,
         @Field("allow_sending_without_reply") allowSendingWithoutReply: Boolean?,
         @Field("reply_markup") replyMarkup: ReplyMarkup?,
-    ): Call<Response<Message>>
+    ): Call<Response<MessageId>>
 
     @Multipart
     @POST("sendPhoto")

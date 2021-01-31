@@ -3,6 +3,7 @@ package com.github.kotlintelegrambot.network.apiclient
 import com.github.kotlintelegrambot.logging.LogLevel
 import com.github.kotlintelegrambot.network.ApiClient
 import com.github.kotlintelegrambot.network.serialization.GsonFactory
+import com.google.gson.Gson
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -12,6 +13,8 @@ abstract class ApiClientIT {
     protected val mockWebServer = MockWebServer()
 
     protected lateinit var sut: ApiClient
+
+    protected val gson = Gson()
 
     @BeforeEach
     fun setUp() {
