@@ -3,6 +3,7 @@ package com.github.kotlintelegrambot.network
 import com.github.kotlintelegrambot.entities.BotCommand
 import com.github.kotlintelegrambot.entities.Chat
 import com.github.kotlintelegrambot.entities.ChatAction
+import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ChatMember
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.ParseMode
@@ -127,6 +128,21 @@ interface ApiService {
         @Field("from_chat_id") fromChatId: Long,
         @Field("disable_notification") disableNotification: Boolean?,
         @Field("message_id") messageId: Long
+    ): Call<Response<Message>>
+
+    @FormUrlEncoded
+    @POST("copyMessage")
+    fun copyMessage(
+        @Field("chat_id") chatId: ChatId,
+        @Field("from_chat_id") fromChatId: ChatId,
+        @Field("message_id") messageId: Long,
+        @Field("caption") caption: String?,
+        @Field("parse_mode") parseMode: ParseMode?,
+        @Field("caption_entities") captionEntities: String?,
+        @Field("disable_notification") disableNotification: Boolean?,
+        @Field("reply_to_message_id") replyToMessageId: Long?,
+        @Field("allow_sending_without_reply") allowSendingWithoutReply: Boolean?,
+        @Field("reply_markup") replyMarkup: ReplyMarkup?,
     ): Call<Response<Message>>
 
     @Multipart

@@ -3,6 +3,7 @@ package com.github.kotlintelegrambot
 import com.github.kotlintelegrambot.dispatcher.Dispatcher
 import com.github.kotlintelegrambot.entities.BotCommand
 import com.github.kotlintelegrambot.entities.ChatAction
+import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
 import com.github.kotlintelegrambot.entities.MessageEntity
@@ -271,6 +272,30 @@ class Bot private constructor(
         fromChatId,
         messageId,
         disableNotification
+    ).call()
+
+    fun copyMessage(
+        chatId: ChatId,
+        fromChatId: ChatId,
+        messageId: Long,
+        caption: String? = null,
+        parseMode: ParseMode? = null,
+        captionEntities: List<MessageEntity>? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
+        replyMarkup: ReplyMarkup? = null
+    ) = apiClient.copyMessage(
+        chatId,
+        fromChatId,
+        messageId,
+        caption,
+        parseMode,
+        captionEntities,
+        disableNotification,
+        replyToMessageId,
+        allowSendingWithoutReply,
+        replyMarkup
     ).call()
 
     fun sendPhoto(
