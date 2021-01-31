@@ -29,7 +29,7 @@ telegram/local.properties
 # IDEA
 *.iml
 .idea/*
-!.idea/codeStyleSettings.xml
+.idea/codeStyleSettings.xml
 
 ## Plugin-specific files:
 

@@ -1,9 +1,9 @@
 package com.github.kotlintelegrambot.network.retrofit.converters
 
 import com.github.kotlintelegrambot.entities.dice.DiceEmoji
-import java.lang.reflect.Type
 import retrofit2.Converter
 import retrofit2.Retrofit
+import java.lang.reflect.Type
 
 class DiceEmojiConverterFactory : Converter.Factory() {
 

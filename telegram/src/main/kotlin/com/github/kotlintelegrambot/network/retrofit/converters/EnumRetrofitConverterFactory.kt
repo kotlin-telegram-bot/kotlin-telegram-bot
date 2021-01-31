@@ -1,9 +1,9 @@
 package com.github.kotlintelegrambot.network.retrofit.converters
 
 import com.google.gson.annotations.SerializedName
-import java.lang.reflect.Type
 import retrofit2.Converter
 import retrofit2.Retrofit
+import java.lang.reflect.Type
 
 class EnumRetrofitConverterFactory : Converter.Factory() {
 

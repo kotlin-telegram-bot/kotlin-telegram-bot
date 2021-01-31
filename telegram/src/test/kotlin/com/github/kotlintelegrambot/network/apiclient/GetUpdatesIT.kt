@@ -15,7 +15,8 @@ class GetUpdatesIT : ApiClientIT() {
 
     @Test
     fun `getUpdates returning an update with callback query containing inline keyboard buttons`() {
-        givenGetUpdatesResponse("""
+        givenGetUpdatesResponse(
+            """
             {
                 "ok": true,
                 "result": [
@@ -69,7 +70,8 @@ class GetUpdatesIT : ApiClientIT() {
                     }
                 ]
             }
-        """.trimIndent())
+            """.trimIndent()
+        )
 
         val getUpdatesResult = sut.getUpdates().execute()
 

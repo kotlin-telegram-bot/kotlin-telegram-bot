@@ -40,22 +40,28 @@ fun main(args: Array<String>) {
 
                 val result = bot.sendMessage(chatId = update.message!!.chat.id, text = "Bot started")
 
-                result.fold({
-                    // do something here with the response
-                }, {
-                    // do something with the error
-                })
+                result.fold(
+                    {
+                        // do something here with the response
+                    },
+                    {
+                        // do something with the error
+                    }
+                )
             }
 
             command("hello") {
 
                 val result = bot.sendMessage(chatId = update.message!!.chat.id, text = "Hello, world!")
 
-                result.fold({
-                    // do something here with the response
-                }, {
-                    // do something with the error
-                })
+                result.fold(
+                    {
+                        // do something here with the response
+                    },
+                    {
+                        // do something with the error
+                    }
+                )
             }
 
             command("commandWithArgs") {

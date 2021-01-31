@@ -35,14 +35,14 @@ class SendVoiceIT : ApiClientIT() {
         sendVoice.execute()
 
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID" +
-                    "&voice=$ANY_VOICE_FILE_ID" +
-                    "&caption=$CAPTION" +
-                    "&parse_mode=${MARKDOWN_V2.modeName}" +
-                    "&caption_entities=${Gson.toJson(CAPTION_ENTITIES)}" +
-                    "&duration=$DURATION" +
-                    "&disable_notification=false" +
-                    "&reply_to_message_id=$REPLY_TO_MESSAGE_ID" +
-                    "&reply_markup=${Gson.toJson(REPLY_MARKUP)}"
+            "&voice=$ANY_VOICE_FILE_ID" +
+            "&caption=$CAPTION" +
+            "&parse_mode=${MARKDOWN_V2.modeName}" +
+            "&caption_entities=${Gson.toJson(CAPTION_ENTITIES)}" +
+            "&duration=$DURATION" +
+            "&disable_notification=false" +
+            "&reply_to_message_id=$REPLY_TO_MESSAGE_ID" +
+            "&reply_markup=${Gson.toJson(REPLY_MARKUP)}"
         val request = mockWebServer.takeRequest()
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
