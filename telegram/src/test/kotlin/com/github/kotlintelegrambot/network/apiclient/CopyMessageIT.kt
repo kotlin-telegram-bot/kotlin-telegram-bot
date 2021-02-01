@@ -33,15 +33,15 @@ class CopyMessageIT : ApiClientIT() {
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHANNEL_USERNAME" +
-                "&from_chat_id=$ANY_CHAT_ID" +
-                "&message_id=$ANY_MESSAGE_ID" +
-                "&caption=$ANY_CAPTION" +
-                "&parse_mode=${MARKDOWN_V2.modeName}" +
-                "&caption_entities=${gson.toJson(CAPTION_ENTITIES)}" +
-                "&disable_notification=true" +
-                "&reply_to_message_id=$REPLY_TO_MESSAGE_ID" +
-                "&allow_sending_without_reply=true" +
-                "&reply_markup=${gson.toJson(REPLY_MARKUP)}"
+            "&from_chat_id=$ANY_CHAT_ID" +
+            "&message_id=$ANY_MESSAGE_ID" +
+            "&caption=$ANY_CAPTION" +
+            "&parse_mode=${MARKDOWN_V2.modeName}" +
+            "&caption_entities=${gson.toJson(CAPTION_ENTITIES)}" +
+            "&disable_notification=true" +
+            "&reply_to_message_id=$REPLY_TO_MESSAGE_ID" +
+            "&allow_sending_without_reply=true" +
+            "&reply_markup=${gson.toJson(REPLY_MARKUP)}"
 
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
