@@ -3,7 +3,6 @@ package com.github.kotlintelegrambot.entities
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-
 internal class ChatIdTest {
     @Test
     fun `should not add @ to channel username if already present`() {

@@ -1,8 +1,8 @@
 package com.github.kotlintelegrambot.network.retrofit.converters
 
 import com.github.kotlintelegrambot.entities.ChatId
-import com.github.kotlintelegrambot.entities.ChatId.Id
 import com.github.kotlintelegrambot.entities.ChatId.ChannelUsername
+import com.github.kotlintelegrambot.entities.ChatId.Id
 import com.github.kotlintelegrambot.entities.Message
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
