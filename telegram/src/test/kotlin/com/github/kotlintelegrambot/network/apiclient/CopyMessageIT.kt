@@ -8,6 +8,7 @@ import com.github.kotlintelegrambot.entities.MessageId
 import com.github.kotlintelegrambot.entities.ParseMode.MARKDOWN_V2
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.CallbackData
 import com.github.kotlintelegrambot.testutils.decode
+import com.google.gson.Gson
 import junit.framework.TestCase.assertEquals
 import okhttp3.mockwebserver.MockResponse
 import org.junit.jupiter.api.Test
@@ -19,7 +20,7 @@ class CopyMessageIT : ApiClientIT() {
         givenAnyCopyMessageResponse()
 
         sut.copyMessage(
-            ChatId.fromUsername(ANY_CHANNEL_USERNAME),
+            ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME),
             ChatId.fromId(ANY_CHAT_ID),
             messageId = ANY_MESSAGE_ID,
             caption = ANY_CAPTION,
@@ -47,12 +48,12 @@ class CopyMessageIT : ApiClientIT() {
     }
 
     @Test
-    fun `sendPoll response is returned correctly`() {
+    fun `copyMessage response is returned correctly`() {
         givenAnyCopyMessageResponse()
 
         val copyMessageResponse = sut.copyMessage(
             ChatId.fromId(ANY_CHAT_ID),
-            ChatId.fromUsername(ANY_CHANNEL_USERNAME),
+            ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME),
             ANY_MESSAGE_ID
         ).execute()
 
@@ -61,16 +62,17 @@ class CopyMessageIT : ApiClientIT() {
     }
 
     private fun givenAnyCopyMessageResponse() {
-        val sendPollResponse = """
+        val copyMessageResponse = """
             {"ok":true,"result":{"message_id":$ANY_RESULT_MESSAGE_ID}}
         """.trimIndent()
         val mockedResponse = MockResponse()
             .setResponseCode(200)
-            .setBody(sendPollResponse)
+            .setBody(copyMessageResponse)
         mockWebServer.enqueue(mockedResponse)
     }
 
     private companion object {
+        val gson = Gson()
         const val ANY_CHAT_ID = 12412342L
         const val ANY_CHANNEL_USERNAME = "@polly"
         const val ANY_CAPTION = "was geht ab?"

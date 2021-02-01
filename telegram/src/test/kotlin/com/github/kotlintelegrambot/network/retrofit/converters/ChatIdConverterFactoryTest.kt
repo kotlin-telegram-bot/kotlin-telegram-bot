@@ -2,7 +2,7 @@ package com.github.kotlintelegrambot.network.retrofit.converters
 
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ChatId.Id
-import com.github.kotlintelegrambot.entities.ChatId.Username
+import com.github.kotlintelegrambot.entities.ChatId.ChannelUsername
 import com.github.kotlintelegrambot.entities.Message
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
@@ -39,14 +39,6 @@ class ChatIdConverterFactoryTest {
         val converter = sut.stringConverter(ChatId::class.java, emptyArray(), retrofitMock)
 
         val username = "@battlecruiser-operational"
-        assertEquals(username, converter?.convert(Username(username)))
-    }
-
-    @Test
-    fun `returns a converter that transforms ChatId Username class to string and adds '@'`() {
-        val converter = sut.stringConverter(ChatId::class.java, emptyArray(), retrofitMock)
-
-        val username = "battlecruiser-operational"
-        assertEquals("@$username", converter?.convert(Username(username)))
+        assertEquals(username, converter?.convert(ChannelUsername(username)))
     }
 }

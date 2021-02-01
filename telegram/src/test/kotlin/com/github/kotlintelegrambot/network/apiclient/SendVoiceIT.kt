@@ -9,6 +9,7 @@ import com.github.kotlintelegrambot.testutils.decode
 import com.github.kotlintelegrambot.testutils.getFileAsStringFromResources
 import com.github.kotlintelegrambot.testutils.getFileFromResources
 import com.github.kotlintelegrambot.testutils.multipartBoundary
+import com.google.gson.Gson
 import junit.framework.TestCase.assertEquals
 import okhttp3.mockwebserver.MockResponse
 import org.junit.jupiter.api.Test
@@ -150,6 +151,7 @@ class SendVoiceIT : ApiClientIT() {
     }
 
     private companion object {
+        val gson = Gson()
         const val ANY_CHAT_ID = 3242424L
         const val REPLY_TO_MESSAGE_ID = 32235235L
         const val ANY_VOICE_FILE_ID =

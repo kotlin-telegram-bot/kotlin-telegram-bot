@@ -5,12 +5,12 @@ package com.github.kotlintelegrambot.entities
  */
 sealed class ChatId {
     data class Id(val id: Long) : ChatId()
-    class Username(username: String) : ChatId() {
+    class ChannelUsername(username: String) : ChatId() {
         val username: String = if (username.startsWith("@")) username else "@$username"
     }
 
     companion object {
         fun fromId(id: Long) = Id(id)
-        fun fromUsername(username: String) = Username(username)
+        fun fromChannelUsername(username: String) = ChannelUsername(username)
     }
 }

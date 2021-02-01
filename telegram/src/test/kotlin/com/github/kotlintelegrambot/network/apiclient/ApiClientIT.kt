@@ -14,8 +14,6 @@ abstract class ApiClientIT {
 
     protected lateinit var sut: ApiClient
 
-    protected val gson = Gson()
-
     @BeforeEach
     fun setUp() {
         mockWebServer.start()
