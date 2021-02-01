@@ -3,11 +3,13 @@ package com.github.kotlintelegrambot.network
 import com.github.kotlintelegrambot.entities.BotCommand
 import com.github.kotlintelegrambot.entities.Chat
 import com.github.kotlintelegrambot.entities.ChatAction
+import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ChatMember
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.MessageEntity
+import com.github.kotlintelegrambot.entities.MessageId
 import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.ReplyMarkup
 import com.github.kotlintelegrambot.entities.TelegramFile
@@ -33,6 +35,7 @@ import com.github.kotlintelegrambot.logging.LogLevel
 import com.github.kotlintelegrambot.logging.toOkHttpLogLevel
 import com.github.kotlintelegrambot.network.multipart.MultipartBodyFactory
 import com.github.kotlintelegrambot.network.multipart.toMultipartBodyPart
+import com.github.kotlintelegrambot.network.retrofit.converters.ChatIdConverterFactory
 import com.github.kotlintelegrambot.network.retrofit.converters.DiceEmojiConverterFactory
 import com.github.kotlintelegrambot.network.retrofit.converters.EnumRetrofitConverterFactory
 import com.github.kotlintelegrambot.network.serialization.GsonFactory
@@ -126,6 +129,7 @@ class ApiClient(
             // Is needed to provide a special Converter.Factory if a custom transformation is wanted for them.
             .addConverterFactory(EnumRetrofitConverterFactory())
             .addConverterFactory(DiceEmojiConverterFactory())
+            .addConverterFactory(ChatIdConverterFactory())
             .build()
 
         service = retrofit.create(ApiService::class.java)
@@ -224,8 +228,33 @@ class ApiClient(
         messageId: Long,
         disableNotification: Boolean?
     ): Call<Response<Message>> {
-
         return service.forwardMessage(chatId, fromChatId, disableNotification, messageId)
+    }
+
+    fun copyMessage(
+        chatId: ChatId,
+        fromChatId: ChatId,
+        messageId: Long,
+        caption: String? = null,
+        parseMode: ParseMode? = null,
+        captionEntities: List<MessageEntity>? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
+        replyMarkup: ReplyMarkup? = null
+    ): Call<Response<MessageId>> {
+        return service.copyMessage(
+            chatId,
+            fromChatId,
+            messageId,
+            caption,
+            parseMode,
+            if (captionEntities != null) gson.toJson(captionEntities) else null,
+            disableNotification,
+            replyToMessageId,
+            allowSendingWithoutReply,
+            replyMarkup
+        )
     }
 
     fun sendPhoto(
