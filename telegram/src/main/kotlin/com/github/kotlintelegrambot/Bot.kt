@@ -257,7 +257,7 @@ class Bot private constructor(
     ).call()
 
     fun sendPhoto(
-        chatId: Long,
+        chatId: ChatId,
         photo: SystemFile,
         caption: String? = null,
         parseMode: ParseMode? = null,
@@ -275,7 +275,7 @@ class Bot private constructor(
     ).call()
 
     fun sendPhoto(
-        chatId: Long,
+        chatId: ChatId,
         photo: String,
         caption: String? = null,
         parseMode: ParseMode? = null,

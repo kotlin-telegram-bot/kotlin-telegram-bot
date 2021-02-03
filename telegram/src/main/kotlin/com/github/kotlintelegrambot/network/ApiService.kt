@@ -149,7 +149,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("sendPhoto")
     fun sendPhoto(
-        @Field("chat_id") chatId: Long,
+        @Field("chat_id") chatId: ChatId,
         @Field("photo") fileId: String,
         @Field("caption") caption: String?,
         @Field("parse_mode") parseMode: ParseMode?,

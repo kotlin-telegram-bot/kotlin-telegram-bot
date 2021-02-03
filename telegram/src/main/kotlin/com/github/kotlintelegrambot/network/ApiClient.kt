@@ -239,7 +239,7 @@ class ApiClient(
     }
 
     fun sendPhoto(
-        chatId: Long,
+        chatId: ChatId,
         photo: SystemFile,
         caption: String?,
         parseMode: String?,
@@ -247,7 +247,6 @@ class ApiClient(
         replyToMessageId: Long?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
-
         return service.sendPhoto(
             convertString(chatId.toString()),
             convertFile("photo", photo),
@@ -260,7 +259,7 @@ class ApiClient(
     }
 
     fun sendPhoto(
-        chatId: Long,
+        chatId: ChatId,
         photo: String,
         caption: String?,
         parseMode: ParseMode?,
@@ -268,7 +267,6 @@ class ApiClient(
         replyToMessageId: Long?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
-
         return service.sendPhoto(
             chatId,
             photo,
