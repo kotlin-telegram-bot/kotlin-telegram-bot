@@ -2,6 +2,7 @@ package com.github.kotlintelegrambot.dispatcher
 
 import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.dispatch
+import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
 import com.github.kotlintelegrambot.entities.KeyboardReplyMarkup
 import com.github.kotlintelegrambot.entities.ParseMode.MARKDOWN
@@ -29,16 +30,16 @@ fun main(args: Array<String>) {
 
         dispatch {
             message(Filter.Sticker) {
-                bot.sendMessage(message.chat.id, text = "You have received an awesome sticker \\o/")
+                bot.sendMessage(ChatId.fromId(message.chat.id), text = "You have received an awesome sticker \\o/")
             }
 
             message(Filter.Reply or Filter.Forward) {
-                bot.sendMessage(message.chat.id, text = "someone is replying or forwarding messages ...")
+                bot.sendMessage(ChatId.fromId(message.chat.id), text = "someone is replying or forwarding messages ...")
             }
 
             command("start") {
 
-                val result = bot.sendMessage(chatId = update.message!!.chat.id, text = "Bot started")
+                val result = bot.sendMessage(chatId = ChatId.fromId(update.message!!.chat.id), text = "Bot started")
 
                 result.fold(
                     {
@@ -52,7 +53,7 @@ fun main(args: Array<String>) {
 
             command("hello") {
 
-                val result = bot.sendMessage(chatId = update.message!!.chat.id, text = "Hello, world!")
+                val result = bot.sendMessage(chatId = ChatId.fromId(update.message!!.chat.id), text = "Hello, world!")
 
                 result.fold(
                     {
@@ -67,13 +68,13 @@ fun main(args: Array<String>) {
             command("commandWithArgs") {
                 val joinedArgs = args.joinToString()
                 val response = if (joinedArgs.isNotBlank()) joinedArgs else "There is no text apart from command!"
-                bot.sendMessage(chatId = message.chat.id, text = response)
+                bot.sendMessage(chatId = ChatId.fromId(message.chat.id), text = response)
             }
 
             command("markdown") {
                 val markdownText = "_Cool message_: *Markdown* is `beatiful` :P"
                 bot.sendMessage(
-                    chatId = message.chat.id,
+                    chatId = ChatId.fromId(message.chat.id),
                     text = markdownText,
                     parseMode = MARKDOWN
                 )
@@ -96,7 +97,7 @@ fun main(args: Array<String>) {
                     ```
                 """.trimIndent()
                 bot.sendMessage(
-                    chatId = message.chat.id,
+                    chatId = ChatId.fromId(message.chat.id),
                     text = markdownV2Text,
                     parseMode = MARKDOWN_V2
                 )
@@ -108,7 +109,7 @@ fun main(args: Array<String>) {
                     listOf(InlineKeyboardButton.CallbackData(text = "Show alert", callbackData = "showAlert"))
                 )
                 bot.sendMessage(
-                    chatId = message.chat.id,
+                    chatId = ChatId.fromId(message.chat.id),
                     text = "Hello, inline buttons!",
                     replyMarkup = inlineKeyboardMarkup
                 )
@@ -117,7 +118,7 @@ fun main(args: Array<String>) {
             command("userButtons") {
                 val keyboardMarkup = KeyboardReplyMarkup(keyboard = generateUsersButton(), resizeKeyboard = true)
                 bot.sendMessage(
-                    chatId = message.chat.id,
+                    chatId = ChatId.fromId(message.chat.id),
                     text = "Hello, users buttons!",
                     replyMarkup = keyboardMarkup
                 )
@@ -142,7 +143,7 @@ fun main(args: Array<String>) {
 
             callbackQuery("testButton") {
                 val chatId = callbackQuery.message?.chat?.id ?: return@callbackQuery
-                bot.sendMessage(chatId, callbackQuery.data)
+                bot.sendMessage(ChatId.fromId(chatId), callbackQuery.data)
             }
 
             callbackQuery(
@@ -151,16 +152,16 @@ fun main(args: Array<String>) {
                 callbackAnswerShowAlert = true
             ) {
                 val chatId = callbackQuery.message?.chat?.id ?: return@callbackQuery
-                bot.sendMessage(chatId, callbackQuery.data)
+                bot.sendMessage(ChatId.fromId(chatId), callbackQuery.data)
             }
 
             text("ping") {
-                bot.sendMessage(chatId = message.chat.id, text = "Pong")
+                bot.sendMessage(chatId = ChatId.fromId(message.chat.id), text = "Pong")
             }
 
             location {
                 bot.sendMessage(
-                    chatId = message.chat.id,
+                    chatId = ChatId.fromId(message.chat.id),
                     text = "Your location is (${location.latitude}, ${location.longitude})",
                     replyMarkup = ReplyKeyboardRemove()
                 )
@@ -168,7 +169,7 @@ fun main(args: Array<String>) {
 
             contact {
                 bot.sendMessage(
-                    chatId = message.chat.id,
+                    chatId = ChatId.fromId(message.chat.id),
                     text = "Hello, ${contact.firstName} ${contact.lastName}",
                     replyMarkup = ReplyKeyboardRemove()
                 )
@@ -196,7 +197,7 @@ fun main(args: Array<String>) {
 
             photos {
                 bot.sendMessage(
-                    chatId = message.chat.id,
+                    chatId = ChatId.fromId(message.chat.id),
                     text = "Wowww, awesome photos!!! :P"
                 )
             }
@@ -206,7 +207,7 @@ fun main(args: Array<String>) {
             }
 
             dice {
-                bot.sendMessage(message.chat.id, "A dice ${dice.emoji.emojiValue} with value ${dice.value} has been received!")
+                bot.sendMessage(ChatId.fromId(message.chat.id), "A dice ${dice.emoji.emojiValue} with value ${dice.value} has been received!")
             }
 
             telegramError {

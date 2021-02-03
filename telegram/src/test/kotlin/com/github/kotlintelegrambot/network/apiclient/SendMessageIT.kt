@@ -1,6 +1,8 @@
 package com.github.kotlintelegrambot.network.apiclient
 
 import com.github.kotlintelegrambot.entities.Chat
+import com.github.kotlintelegrambot.entities.ChatId
+import com.github.kotlintelegrambot.entities.ChatId.Companion
 import com.github.kotlintelegrambot.entities.ForceReplyMarkup
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
 import com.github.kotlintelegrambot.entities.Message
@@ -18,7 +20,7 @@ class SendMessageIT : ApiClientIT() {
         givenAnySendMessageResponse()
 
         sut.sendMessage(
-            chatId = ANY_CHAT_ID,
+            chatId = ChatId.fromId(ANY_CHAT_ID),
             text = ANY_TEXT,
             parseMode = null,
             disableWebPagePreview = null,
@@ -37,7 +39,7 @@ class SendMessageIT : ApiClientIT() {
         givenAnySendMessageResponse()
 
         sut.sendMessage(
-            channelUsername = ANY_CHANNEL_USERNAME,
+            chatId = ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME),
             text = ANY_TEXT,
             parseMode = null,
             disableWebPagePreview = null,
@@ -56,7 +58,7 @@ class SendMessageIT : ApiClientIT() {
         givenAnySendMessageResponse()
 
         sut.sendMessage(
-            channelUsername = ANY_CHANNEL_USERNAME,
+            chatId = ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME),
             text = ANY_TEXT,
             parseMode = MARKDOWN,
             disableWebPagePreview = false,
@@ -81,7 +83,7 @@ class SendMessageIT : ApiClientIT() {
         givenAnySendMessageResponse()
 
         sut.sendMessage(
-            channelUsername = ANY_CHANNEL_USERNAME,
+            chatId = ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME),
             text = ANY_TEXT,
             parseMode = null,
             disableWebPagePreview = null,
@@ -117,7 +119,7 @@ class SendMessageIT : ApiClientIT() {
         givenAnySendMessageResponse()
 
         val sendMessageResult = sut.sendMessage(
-            chatId = ANY_CHAT_ID,
+            chatId = ChatId.fromId(ANY_CHAT_ID),
             text = ANY_TEXT,
             parseMode = null,
             disableWebPagePreview = null,
@@ -165,7 +167,7 @@ class SendMessageIT : ApiClientIT() {
 
     private companion object {
         const val ANY_CHAT_ID = 235235235L
-        const val ANY_CHANNEL_USERNAME = "testtelegrambotapi"
+        const val ANY_CHANNEL_USERNAME = "@testtelegrambotapi"
         const val ANY_MESSAGE_ID = 35235423L
         const val ANY_TEXT = "Mucho texto"
         const val ANY_URL = "https://www.github.com/vjgarciag96"

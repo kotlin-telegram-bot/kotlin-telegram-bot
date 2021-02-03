@@ -101,19 +101,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("sendMessage")
     fun sendMessage(
-        @Field("chat_id") chatId: Long,
-        @Field("text") text: String,
-        @Field("parse_mode") parseMode: ParseMode?,
-        @Field("disable_web_page_preview") disableWebPagePreview: Boolean?,
-        @Field("disable_notification") disableNotification: Boolean?,
-        @Field("reply_to_message_id") replyToMessageId: Long?,
-        @Field("reply_markup") replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>>
-
-    @FormUrlEncoded
-    @POST("sendMessage")
-    fun sendMessage(
-        @Field("chat_id") channelUsername: String,
+        @Field("chat_id") chatId: ChatId,
         @Field("text") text: String,
         @Field("parse_mode") parseMode: ParseMode?,
         @Field("disable_web_page_preview") disableWebPagePreview: Boolean?,
