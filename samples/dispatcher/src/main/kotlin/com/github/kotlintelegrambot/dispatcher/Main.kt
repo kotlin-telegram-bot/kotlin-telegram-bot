@@ -3,6 +3,7 @@ package com.github.kotlintelegrambot.dispatcher
 import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.dispatch
 import com.github.kotlintelegrambot.entities.ChatId
+import com.github.kotlintelegrambot.entities.ChatId.Companion
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
 import com.github.kotlintelegrambot.entities.KeyboardReplyMarkup
 import com.github.kotlintelegrambot.entities.ParseMode.MARKDOWN
@@ -126,7 +127,7 @@ fun main(args: Array<String>) {
 
             command("mediaGroup") {
                 bot.sendMediaGroup(
-                    chatId = message.chat.id,
+                    chatId = ChatId.fromId(message.chat.id),
                     mediaGroup = MediaGroup.from(
                         InputMediaPhoto(
                             media = ByUrl("https://www.sngular.com/wp-content/uploads/2019/11/Kotlin-Blog-1400x411.png"),
@@ -203,7 +204,7 @@ fun main(args: Array<String>) {
             }
 
             command("diceAsDartboard") {
-                bot.sendDice(message.chat.id, DiceEmoji.Dartboard)
+                bot.sendDice(ChatId.fromId(message.chat.id), DiceEmoji.Dartboard)
             }
 
             dice {

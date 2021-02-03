@@ -222,7 +222,7 @@ class Bot private constructor(
 
     fun forwardMessage(
         chatId: ChatId,
-        fromChatId: Long,
+        fromChatId: ChatId,
         messageId: Long,
         disableNotification: Boolean? = null
     ) = apiClient.forwardMessage(
@@ -565,7 +565,7 @@ class Bot private constructor(
     ).call()
 
     fun sendVideoNote(
-        chatId: Long,
+        chatId: ChatId,
         videoNote: SystemFile,
         duration: Int? = null,
         length: Int? = null,
@@ -583,7 +583,7 @@ class Bot private constructor(
     ).call()
 
     fun sendVideoNote(
-        chatId: Long,
+        chatId: ChatId,
         videoNoteId: String,
         duration: Int? = null,
         length: Int? = null,
@@ -601,21 +601,14 @@ class Bot private constructor(
     ).call()
 
     fun sendMediaGroup(
-        chatId: String,
-        mediaGroup: MediaGroup,
-        disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null
-    ) = apiClient.sendMediaGroup(chatId, mediaGroup, disableNotification, replyToMessageId).call()
-
-    fun sendMediaGroup(
-        chatId: Long,
+        chatId: ChatId,
         mediaGroup: MediaGroup,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null
     ) = apiClient.sendMediaGroup(chatId, mediaGroup, disableNotification, replyToMessageId).call()
 
     fun sendLocation(
-        chatId: Long,
+        chatId: ChatId,
         latitude: Float,
         longitude: Float,
         livePeriod: Int? = null,
@@ -633,41 +626,7 @@ class Bot private constructor(
     ).call()
 
     fun sendPoll(
-        channelUsername: String,
-        question: String,
-        options: List<String>,
-        isAnonymous: Boolean? = null,
-        type: PollType? = null,
-        allowsMultipleAnswers: Boolean? = null,
-        correctOptionId: Int? = null,
-        explanation: String? = null,
-        explanationParseMode: ParseMode? = null,
-        openPeriod: Int? = null,
-        closeDate: Long? = null,
-        isClosed: Boolean? = null,
-        disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null,
-        replyMarkup: ReplyMarkup? = null
-    ) = apiClient.sendPoll(
-        channelUsername,
-        question,
-        options,
-        isAnonymous,
-        type,
-        allowsMultipleAnswers,
-        correctOptionId,
-        explanation,
-        explanationParseMode,
-        openPeriod,
-        closeDate,
-        isClosed,
-        disableNotification,
-        replyToMessageId,
-        replyMarkup
-    ).call()
-
-    fun sendPoll(
-        chatId: Long,
+        chatId: ChatId,
         question: String,
         options: List<String>,
         isAnonymous: Boolean? = null,
@@ -701,7 +660,7 @@ class Bot private constructor(
     ).call()
 
     fun editMessageLiveLocation(
-        chatId: Long? = null,
+        chatId: ChatId? = null,
         messageId: Long? = null,
         inlineMessageId: String? = null,
         latitude: Float,
@@ -717,7 +676,7 @@ class Bot private constructor(
     ).call()
 
     fun stopMessageLiveLocation(
-        chatId: Long? = null,
+        chatId: ChatId? = null,
         messageId: Long? = null,
         inlineMessageId: String? = null,
         replyMarkup: ReplyMarkup? = null
@@ -729,7 +688,7 @@ class Bot private constructor(
     ).call()
 
     fun sendVenue(
-        chatId: Long,
+        chatId: ChatId,
         latitude: Float,
         longitude: Float,
         title: String,
@@ -753,7 +712,7 @@ class Bot private constructor(
     ).call()
 
     fun sendContact(
-        chatId: Long,
+        chatId: ChatId,
         phoneNumber: String,
         firstName: String,
         lastName: String? = null,
@@ -770,7 +729,7 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
-    fun sendChatAction(chatId: Long, action: ChatAction) =
+    fun sendChatAction(chatId: ChatId, action: ChatAction) =
         apiClient.sendChatAction(chatId, action).call()
 
     fun getUserProfilePhotos(userId: Long, offset: Long? = null, limit: Int? = null) =
@@ -791,16 +750,16 @@ class Bot private constructor(
     }
 
     fun kickChatMember(
-        chatId: Long,
+        chatId: ChatId,
         userId: Long,
         untilDate: Long? = null // unix time - https://en.wikipedia.org/wiki/Unix_time
     ) = apiClient.kickChatMember(chatId, userId, untilDate).call()
 
-    fun unbanChatMember(chatId: Long, userId: Long) =
+    fun unbanChatMember(chatId: ChatId, userId: Long) =
         apiClient.unbanChatMember(chatId, userId).call()
 
     fun restrictChatMember(
-        chatId: Long,
+        chatId: ChatId,
         userId: Long,
         chatPermissions: ChatPermissions,
         untilDate: Long? = null // unix time - https://en.wikipedia.org/wiki/Unix_time
@@ -812,7 +771,7 @@ class Bot private constructor(
     ).call()
 
     fun promoteChatMember(
-        chatId: Long,
+        chatId: ChatId,
         userId: Long,
         canChangeInfo: Boolean? = null,
         canPostMessages: Boolean? = null,
@@ -835,43 +794,43 @@ class Bot private constructor(
         canPromoteMembers
     ).call()
 
-    fun setChatPermissions(chatId: Long, permissions: ChatPermissions) =
+    fun setChatPermissions(chatId: ChatId, permissions: ChatPermissions) =
         apiClient.setChatPermissions(chatId, permissions).call()
 
-    fun exportChatInviteLink(chatId: Long) = apiClient.exportChatInviteLink(chatId).call()
+    fun exportChatInviteLink(chatId: ChatId) = apiClient.exportChatInviteLink(chatId).call()
 
     fun setChatPhoto(
-        chatId: Long,
+        chatId: ChatId,
         photo: SystemFile
     ) =
         apiClient.setChatPhoto(chatId, photo).call()
 
-    fun deleteChatPhoto(chatId: Long) = apiClient.deleteChatPhoto(chatId).call()
+    fun deleteChatPhoto(chatId: ChatId) = apiClient.deleteChatPhoto(chatId).call()
 
-    fun setChatTitle(chatId: Long, title: String) = apiClient.setChatTitle(chatId, title).call()
+    fun setChatTitle(chatId: ChatId, title: String) = apiClient.setChatTitle(chatId, title).call()
 
-    fun setChatDescription(chatId: Long, description: String) =
+    fun setChatDescription(chatId: ChatId, description: String) =
         apiClient.setChatDescription(chatId, description).call()
 
-    fun pinChatMessage(chatId: Long, messageId: Long, disableNotification: Boolean? = null) =
+    fun pinChatMessage(chatId: ChatId, messageId: Long, disableNotification: Boolean? = null) =
         apiClient.pinChatMessage(chatId, messageId, disableNotification).call()
 
-    fun unpinChatMessage(chatId: Long) = apiClient.unpinChatMessage(chatId).call()
+    fun unpinChatMessage(chatId: ChatId) = apiClient.unpinChatMessage(chatId).call()
 
-    fun leaveChat(chatId: Long) = apiClient.leaveChat(chatId).call()
+    fun leaveChat(chatId: ChatId) = apiClient.leaveChat(chatId).call()
 
-    fun getChat(chatId: Long) = apiClient.getChat(chatId).call()
+    fun getChat(chatId: ChatId) = apiClient.getChat(chatId).call()
 
-    fun getChatAdministrators(chatId: Long) = apiClient.getChatAdministrators(chatId).call()
+    fun getChatAdministrators(chatId: ChatId) = apiClient.getChatAdministrators(chatId).call()
 
-    fun getChatMembersCount(chatId: Long) = apiClient.getChatMembersCount(chatId).call()
+    fun getChatMembersCount(chatId: ChatId) = apiClient.getChatMembersCount(chatId).call()
 
-    fun getChatMember(chatId: Long, userId: Long) = apiClient.getChatMember(chatId, userId).call()
+    fun getChatMember(chatId: ChatId, userId: Long) = apiClient.getChatMember(chatId, userId).call()
 
-    fun setChatStickerSet(chatId: Long, stickerSetName: String) =
+    fun setChatStickerSet(chatId: ChatId, stickerSetName: String) =
         apiClient.setChatStickerSet(chatId, stickerSetName).call()
 
-    fun deleteChatStickerSet(chatId: Long) = apiClient.deleteChatStickerSet(chatId).call()
+    fun deleteChatStickerSet(chatId: ChatId) = apiClient.deleteChatStickerSet(chatId).call()
 
     fun answerCallbackQuery(
         callbackQueryId: String,
@@ -892,7 +851,7 @@ class Bot private constructor(
      */
 
     fun editMessageText(
-        chatId: Long? = null,
+        chatId: ChatId? = null,
         messageId: Long? = null,
         inlineMessageId: String? = null,
         text: String,
@@ -910,7 +869,7 @@ class Bot private constructor(
     ).call()
 
     fun editMessageCaption(
-        chatId: Long? = null,
+        chatId: ChatId? = null,
         messageId: Long? = null,
         inlineMessageId: String? = null,
         caption: String,
@@ -924,7 +883,7 @@ class Bot private constructor(
     ).call()
 
     fun editMessageMedia(
-        chatId: Long? = null,
+        chatId: ChatId? = null,
         messageId: Long? = null,
         inlineMessageId: String? = null,
         media: InputMedia,
@@ -938,7 +897,7 @@ class Bot private constructor(
     ).call()
 
     fun editMessageReplyMarkup(
-        chatId: Long? = null,
+        chatId: ChatId? = null,
         messageId: Long? = null,
         inlineMessageId: String? = null,
         replyMarkup: ReplyMarkup? = null
@@ -962,31 +921,15 @@ class Bot private constructor(
      * @param messageId Identifier of the message to delete.
      * @return True on success.
      */
-    fun deleteMessage(chatId: Long, messageId: Long) =
+    fun deleteMessage(chatId: ChatId, messageId: Long) =
         apiClient.deleteMessage(chatId, messageId).call()
-
-    /**
-     * Use this method to delete a message, including service messages, with the following limitations:
-     * - A message can only be deleted if it was sent less than 48 hours ago.
-     * - A dice message in a private chat can only be deleted if it was sent more than 24 hours ago.
-     * - Bots can delete outgoing messages in private chats, groups, and supergroups.
-     * - Bots can delete incoming messages in private chats.
-     * - Bots granted `can_post_messages` permissions can delete outgoing messages in channels.
-     * - If the bot is an administrator of a group, it can delete any message there.
-     * - If the bot has `can_delete_messages` permission in a supergroup or a channel, it can delete any message there.
-     * @param channelUsername Username of the target channel (in the format @channelusername).
-     * @param messageId Identifier of the message to delete.
-     * @return True on success.
-     */
-    fun deleteMessage(channelUsername: String, messageId: Long) =
-        apiClient.deleteMessage(channelUsername, messageId).call()
 
     /***
      * Stickers
      */
 
     fun sendSticker(
-        chatId: Long,
+        chatId: ChatId,
         sticker: SystemFile,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
@@ -1000,7 +943,7 @@ class Bot private constructor(
     ).call()
 
     fun sendSticker(
-        chatId: Long,
+        chatId: ChatId,
         sticker: String,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
@@ -1118,7 +1061,7 @@ class Bot private constructor(
      * @see PaymentInvoiceInfo
      */
     fun sendInvoice(
-        chatId: Long,
+        chatId: ChatId,
         paymentInvoiceInfo: PaymentInvoiceInfo,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
@@ -1225,7 +1168,7 @@ class Bot private constructor(
      * @return the sent Message
      */
     fun sendDice(
-        chatId: Long,
+        chatId: ChatId,
         emoji: DiceEmoji? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
@@ -1239,52 +1182,15 @@ class Bot private constructor(
     ).call()
 
     /**
-     * Use this method to send a dice, which will have a random value from 1 to 6.
-     * @param channelUsername Username of the target channel (in the format @channelusername)
-     * @param emoji Emoji on which the dice throw animation is based. Currently, must be one of 🎲 or 🎯. Defaults to 🎲
-     * @param disableNotification Sends the message silently. Users will receive a notification with no sound
-     * @param replyToMessageId If the message is a reply, ID of the original message
-     * @param replyMarkup A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user
-     * @return the sent Message
-     */
-    fun sendDice(
-        channelUsername: String,
-        emoji: DiceEmoji? = null,
-        disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null,
-        replyMarkup: ReplyMarkup? = null
-    ) = apiClient.sendDice(
-        channelUsername,
-        emoji,
-        disableNotification,
-        replyToMessageId,
-        replyMarkup
-    ).call()
-
-    /**
      * Use this method to set a custom title for an administrator in a supergroup promoted by the bot.
      * @param chatId Unique identifier for the target chat
      * @param userId Unique identifier of the target user
      * @param customTitle New custom title for the administrator; 0-16 characters, emoji are not allowed
      * @return true on success.
      */
-    fun setChatAdministratorCustomTitle(chatId: Long, userId: Long, customTitle: String) =
+    fun setChatAdministratorCustomTitle(chatId: ChatId, userId: Long, customTitle: String) =
         apiClient.setChatAdministratorCustomTitle(
             chatId,
-            userId,
-            customTitle
-        ).call()
-
-    /**
-     * Use this method to set a custom title for an administrator in a supergroup promoted by the bot.
-     * @param channelUsername Username of the target channel (in the format @channelusername)
-     * @param userId Unique identifier of the target user
-     * @param customTitle New custom title for the administrator; 0-16 characters, emoji are not allowed
-     * @return true on success.
-     */
-    fun setChatAdministratorCustomTitle(channelUsername: String, userId: Long, customTitle: String) =
-        apiClient.setChatAdministratorCustomTitle(
-            channelUsername,
             userId,
             customTitle
         ).call()

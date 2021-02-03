@@ -1,5 +1,6 @@
 package com.github.kotlintelegrambot.network.apiclient
 
+import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.testutils.decode
 import junit.framework.TestCase
@@ -12,7 +13,7 @@ class SetChatPermissionsIT : ApiClientIT() {
     fun `setChatPermissions with no chat permissions sends the correct request`() {
         givenSetChatPermissionsSuccessResponse()
 
-        sut.setChatPermissions(ANY_CHAT_ID, ChatPermissions()).execute()
+        sut.setChatPermissions(ChatId.fromId(ANY_CHAT_ID), ChatPermissions()).execute()
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=1241242&permissions={}"
@@ -24,7 +25,7 @@ class SetChatPermissionsIT : ApiClientIT() {
         givenSetChatPermissionsSuccessResponse()
 
         sut.setChatPermissions(
-            ANY_CHAT_ID,
+            ChatId.fromId(ANY_CHAT_ID),
             ChatPermissions(canSendMessages = false)
         ).execute()
 
@@ -39,7 +40,7 @@ class SetChatPermissionsIT : ApiClientIT() {
         givenSetChatPermissionsSuccessResponse()
 
         sut.setChatPermissions(
-            ANY_CHAT_ID,
+            ChatId.fromId(ANY_CHAT_ID),
             ChatPermissions(
                 canSendMessages = false,
                 canSendPolls = true,

@@ -1,5 +1,7 @@
 package com.github.kotlintelegrambot.network.apiclient
 
+import com.github.kotlintelegrambot.entities.ChatId
+import com.github.kotlintelegrambot.entities.ChatId.Companion
 import com.github.kotlintelegrambot.testutils.decode
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertFalse
@@ -15,7 +17,7 @@ class SetChatAdministratorCustomTitleTest : ApiClientIT() {
         givenAnySetChatAdministratorCustomTitleResponse()
 
         sut.setChatAdministratorCustomTitle(
-            chatId = ANY_CHAT_ID,
+            chatId = ChatId.fromId(ANY_CHAT_ID),
             userId = ANY_USER_ID,
             customTitle = ANY_CUSTOM_TITLE
         ).execute()
@@ -32,7 +34,7 @@ class SetChatAdministratorCustomTitleTest : ApiClientIT() {
         givenAnySetChatAdministratorCustomTitleResponse()
 
         sut.setChatAdministratorCustomTitle(
-            channelUsername = ANY_CHANNEL_USERNAME,
+            chatId = ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME),
             userId = ANY_USER_ID,
             customTitle = ANY_CUSTOM_TITLE
         ).execute()
@@ -49,7 +51,7 @@ class SetChatAdministratorCustomTitleTest : ApiClientIT() {
         givenSetChatAdministratorCustomTitleSuccess()
 
         val setChatAdministratorCustomTitleResponse = sut.setChatAdministratorCustomTitle(
-            channelUsername = ANY_CHANNEL_USERNAME,
+            chatId = ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME),
             userId = ANY_USER_ID,
             customTitle = ANY_CUSTOM_TITLE
         ).execute()
@@ -64,7 +66,7 @@ class SetChatAdministratorCustomTitleTest : ApiClientIT() {
         givenSetChatAdministratorCustomTitleError()
 
         val setChatAdministratorCustomTitleResponse = sut.setChatAdministratorCustomTitle(
-            channelUsername = ANY_CHANNEL_USERNAME,
+            chatId = ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME),
             userId = ANY_USER_ID,
             customTitle = ANY_CUSTOM_TITLE
         ).execute()

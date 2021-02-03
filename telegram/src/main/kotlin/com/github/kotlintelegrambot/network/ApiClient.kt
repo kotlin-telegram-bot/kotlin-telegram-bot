@@ -205,7 +205,7 @@ class ApiClient(
 
     fun forwardMessage(
         chatId: ChatId,
-        fromChatId: Long,
+        fromChatId: ChatId,
         messageId: Long,
         disableNotification: Boolean?
     ): Call<Response<Message>> {
@@ -568,7 +568,7 @@ class ApiClient(
     }
 
     fun sendVideoNote(
-        chatId: Long,
+        chatId: ChatId,
         videoNote: SystemFile,
         duration: Int?,
         length: Int?,
@@ -589,7 +589,7 @@ class ApiClient(
     }
 
     fun sendVideoNote(
-        chatId: Long,
+        chatId: ChatId,
         videoNoteId: String,
         duration: Int?,
         length: Int?,
@@ -618,7 +618,7 @@ class ApiClient(
      * @return an array of the sent Messages
      */
     fun sendMediaGroup(
-        chatId: Long,
+        chatId: ChatId,
         mediaGroup: MediaGroup,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null
@@ -632,31 +632,8 @@ class ApiClient(
         return service.sendMediaGroup(sendMediaGroupMultipartBody)
     }
 
-    /**
-     * Use this method to send a group of photos or videos as an album
-     * @param chatId Username of the target channel (in the format @channelusername)
-     * @param mediaGroup An object describing photos and videos to be sent, must include 2-10 items
-     * @param disableNotification Sends the messages silently. Users will receive a notification with no sound
-     * @param replyToMessageId If the messages are a reply, ID of the original message
-     * @return an array of the sent Messages
-     */
-    fun sendMediaGroup(
-        chatId: String,
-        mediaGroup: MediaGroup,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?
-    ): Call<Response<Array<Message>>> {
-        val sendMediaGroupMultipartBody = multipartBodyFactory.createForSendMediaGroup(
-            chatId,
-            mediaGroup,
-            disableNotification,
-            replyToMessageId
-        )
-        return service.sendMediaGroup(sendMediaGroupMultipartBody)
-    }
-
     fun sendLocation(
-        chatId: Long,
+        chatId: ChatId,
         latitude: Float,
         longitude: Float,
         livePeriod: Int?,
@@ -677,7 +654,7 @@ class ApiClient(
     }
 
     fun editMessageLiveLocation(
-        chatId: Long?,
+        chatId: ChatId?,
         messageId: Long?,
         inlineMessageId: String?,
         latitude: Float,
@@ -696,7 +673,7 @@ class ApiClient(
     }
 
     fun stopMessageLiveLocation(
-        chatId: Long?,
+        chatId: ChatId?,
         messageId: Long?,
         inlineMessageId: String?,
         replyMarkup: ReplyMarkup?
@@ -711,7 +688,7 @@ class ApiClient(
     }
 
     fun sendVenue(
-        chatId: Long,
+        chatId: ChatId,
         latitude: Float,
         longitude: Float,
         title: String,
@@ -738,7 +715,7 @@ class ApiClient(
     }
 
     fun sendContact(
-        chatId: Long,
+        chatId: ChatId,
         phoneNumber: String,
         firstName: String,
         lastName: String?,
@@ -759,7 +736,7 @@ class ApiClient(
     }
 
     fun sendPoll(
-        chatId: Long,
+        chatId: ChatId,
         question: String,
         options: List<String>,
         isAnonymous: Boolean? = null,
@@ -792,41 +769,7 @@ class ApiClient(
         replyMarkup
     )
 
-    fun sendPoll(
-        channelUsername: String,
-        question: String,
-        options: List<String>,
-        isAnonymous: Boolean? = null,
-        type: PollType? = null,
-        allowsMultipleAnswers: Boolean? = null,
-        correctOptionId: Int? = null,
-        explanation: String? = null,
-        explanationParseMode: ParseMode? = null,
-        openPeriod: Int? = null,
-        closeDate: Long? = null,
-        isClosed: Boolean? = null,
-        disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null,
-        replyMarkup: ReplyMarkup? = null
-    ): Call<Response<Message>> = service.sendPoll(
-        channelUsername,
-        question,
-        gson.toJson(options),
-        isAnonymous,
-        type,
-        allowsMultipleAnswers,
-        correctOptionId,
-        explanation,
-        explanationParseMode,
-        openPeriod,
-        closeDate,
-        isClosed,
-        disableNotification,
-        replyToMessageId,
-        replyMarkup
-    )
-
-    fun sendChatAction(chatId: Long, action: ChatAction): Call<Response<Boolean>> {
+    fun sendChatAction(chatId: ChatId, action: ChatAction): Call<Response<Boolean>> {
 
         return service.sendChatAction(chatId, action)
     }
@@ -849,18 +792,18 @@ class ApiClient(
         return service.downloadFile("${apiUrl}file/bot$token/$filePath")
     }
 
-    fun kickChatMember(chatId: Long, userId: Long, untilDate: Long? = null): Call<Response<Boolean>> {
+    fun kickChatMember(chatId: ChatId, userId: Long, untilDate: Long? = null): Call<Response<Boolean>> {
 
         return service.kickChatMember(chatId, userId, untilDate)
     }
 
-    fun unbanChatMember(chatId: Long, userId: Long): Call<Response<Boolean>> {
+    fun unbanChatMember(chatId: ChatId, userId: Long): Call<Response<Boolean>> {
 
         return service.unbanChatMember(chatId, userId)
     }
 
     fun restrictChatMember(
-        chatId: Long,
+        chatId: ChatId,
         userId: Long,
         chatPermissions: ChatPermissions,
         untilDate: Long? = null
@@ -875,7 +818,7 @@ class ApiClient(
     }
 
     fun promoteChatMember(
-        chatId: Long,
+        chatId: ChatId,
         userId: Long,
         canChangeInfo: Boolean?,
         canPostMessages: Boolean?,
@@ -901,40 +844,40 @@ class ApiClient(
         )
     }
 
-    fun setChatPermissions(chatId: Long, permissions: ChatPermissions): Call<Response<Boolean>> {
+    fun setChatPermissions(chatId: ChatId, permissions: ChatPermissions): Call<Response<Boolean>> {
 
         return service.setChatPermissions(chatId, gson.toJson(permissions))
     }
 
-    fun exportChatInviteLink(chatId: Long): Call<Response<String>> {
+    fun exportChatInviteLink(chatId: ChatId): Call<Response<String>> {
 
         return service.exportChatInviteLink(chatId)
     }
 
     fun setChatPhoto(
-        chatId: Long,
+        chatId: ChatId,
         photo: SystemFile
     ): Call<Response<Boolean>> {
         return service.setChatPhoto(convertString(chatId.toString()), convertFile("photo", photo))
     }
 
-    fun deleteChatPhoto(chatId: Long): Call<Response<Boolean>> {
+    fun deleteChatPhoto(chatId: ChatId): Call<Response<Boolean>> {
 
         return service.deleteChatPhoto(chatId)
     }
 
-    fun setChatTitle(chatId: Long, title: String): Call<Response<Boolean>> {
+    fun setChatTitle(chatId: ChatId, title: String): Call<Response<Boolean>> {
 
         return service.setChatTitle(chatId, title)
     }
 
-    fun setChatDescription(chatId: Long, description: String): Call<Response<Boolean>> {
+    fun setChatDescription(chatId: ChatId, description: String): Call<Response<Boolean>> {
 
         return service.setChatDescription(chatId, description)
     }
 
     fun pinChatMessage(
-        chatId: Long,
+        chatId: ChatId,
         messageId: Long,
         disableNotification: Boolean?
     ): Call<Response<Boolean>> {
@@ -942,42 +885,42 @@ class ApiClient(
         return service.pinChatMessage(chatId, messageId, disableNotification)
     }
 
-    fun unpinChatMessage(chatId: Long): Call<Response<Boolean>> {
+    fun unpinChatMessage(chatId: ChatId): Call<Response<Boolean>> {
 
         return service.unpinChatMessage(chatId)
     }
 
-    fun leaveChat(chatId: Long): Call<Response<Boolean>> {
+    fun leaveChat(chatId: ChatId): Call<Response<Boolean>> {
 
         return service.leaveChat(chatId)
     }
 
-    fun getChat(chatId: Long): Call<Response<Chat>> {
+    fun getChat(chatId: ChatId): Call<Response<Chat>> {
 
         return service.getChat(chatId)
     }
 
-    fun getChatAdministrators(chatId: Long): Call<Response<List<ChatMember>>> {
+    fun getChatAdministrators(chatId: ChatId): Call<Response<List<ChatMember>>> {
 
         return service.getChatAdministrators(chatId)
     }
 
-    fun getChatMembersCount(chatId: Long): Call<Response<Int>> {
+    fun getChatMembersCount(chatId: ChatId): Call<Response<Int>> {
 
         return service.getChatMembersCount(chatId)
     }
 
-    fun getChatMember(chatId: Long, userId: Long): Call<Response<ChatMember>> {
+    fun getChatMember(chatId: ChatId, userId: Long): Call<Response<ChatMember>> {
 
         return service.getChatMember(chatId, userId)
     }
 
-    fun setChatStickerSet(chatId: Long, stickerSetName: String): Call<Response<Boolean>> {
+    fun setChatStickerSet(chatId: ChatId, stickerSetName: String): Call<Response<Boolean>> {
 
         return service.setChatStickerSet(chatId, stickerSetName)
     }
 
-    fun deleteChatStickerSet(chatId: Long): Call<Response<Boolean>> {
+    fun deleteChatStickerSet(chatId: ChatId): Call<Response<Boolean>> {
 
         return service.deleteChatStickerSet(chatId)
     }
@@ -1004,7 +947,7 @@ class ApiClient(
      */
 
     fun editMessageText(
-        chatId: Long?,
+        chatId: ChatId?,
         messageId: Long?,
         inlineMessageId: String?,
         text: String,
@@ -1025,7 +968,7 @@ class ApiClient(
     }
 
     fun editMessageCaption(
-        chatId: Long?,
+        chatId: ChatId?,
         messageId: Long?,
         inlineMessageId: String?,
         caption: String,
@@ -1042,7 +985,7 @@ class ApiClient(
     }
 
     fun editMessageMedia(
-        chatId: Long?,
+        chatId: ChatId?,
         messageId: Long?,
         inlineMessageId: String?,
         media: InputMedia,
@@ -1059,7 +1002,7 @@ class ApiClient(
     }
 
     fun editMessageReplyMarkup(
-        chatId: Long?,
+        chatId: ChatId?,
         messageId: Long?,
         inlineMessageId: String?,
         replyMarkup: ReplyMarkup?
@@ -1074,7 +1017,7 @@ class ApiClient(
     }
 
     fun stopPoll(
-        chatId: Long?,
+        chatId: ChatId?,
         messageId: Long?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Poll>> {
@@ -1086,18 +1029,15 @@ class ApiClient(
         )
     }
 
-    fun deleteMessage(chatId: Long, messageId: Long): Call<Response<Boolean>> =
+    fun deleteMessage(chatId: ChatId, messageId: Long): Call<Response<Boolean>> =
         service.deleteMessage(chatId, messageId)
-
-    fun deleteMessage(channelUsername: String, messageId: Long): Call<Response<Boolean>> =
-        service.deleteMessage(channelUsername, messageId)
 
     /**
      * Payment
      */
 
     fun sendInvoice(
-        chatId: Long,
+        chatId: ChatId,
         title: String,
         description: String,
         payload: String,
@@ -1166,7 +1106,7 @@ class ApiClient(
      */
 
     fun sendSticker(
-        chatId: Long,
+        chatId: ChatId,
         sticker: SystemFile,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
@@ -1183,7 +1123,7 @@ class ApiClient(
     }
 
     fun sendSticker(
-        chatId: Long,
+        chatId: ChatId,
         sticker: String,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
@@ -1345,7 +1285,7 @@ class ApiClient(
     }
 
     fun sendDice(
-        chatId: Long,
+        chatId: ChatId,
         emoji: DiceEmoji? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
@@ -1358,36 +1298,12 @@ class ApiClient(
         replyMarkup
     )
 
-    fun sendDice(
-        channelUsername: String,
-        emoji: DiceEmoji? = null,
-        disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null,
-        replyMarkup: ReplyMarkup? = null
-    ): Call<Response<Message>> = service.sendDice(
-        channelUsername,
-        emoji,
-        disableNotification,
-        replyToMessageId,
-        replyMarkup
-    )
-
     fun setChatAdministratorCustomTitle(
-        chatId: Long,
+        chatId: ChatId,
         userId: Long,
         customTitle: String
     ): Call<Response<Boolean>> = service.setChatAdministratorCustomTitle(
         chatId,
-        userId,
-        customTitle
-    )
-
-    fun setChatAdministratorCustomTitle(
-        channelUsername: String,
-        userId: Long,
-        customTitle: String
-    ): Call<Response<Boolean>> = service.setChatAdministratorCustomTitle(
-        channelUsername,
         userId,
         customTitle
     )

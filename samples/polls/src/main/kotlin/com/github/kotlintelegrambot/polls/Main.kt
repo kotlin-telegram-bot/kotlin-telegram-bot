@@ -4,6 +4,8 @@ import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.dispatch
 import com.github.kotlintelegrambot.dispatcher.command
 import com.github.kotlintelegrambot.dispatcher.pollAnswer
+import com.github.kotlintelegrambot.entities.ChatId
+import com.github.kotlintelegrambot.entities.ChatId.Companion
 import com.github.kotlintelegrambot.entities.polls.PollType.QUIZ
 
 fun main() {
@@ -15,7 +17,7 @@ fun main() {
             }
             command("regularPoll") {
                 bot.sendPoll(
-                    chatId = message.chat.id,
+                    chatId = ChatId.fromId(message.chat.id),
                     question = "Pizza with or without pineapple?",
                     options = listOf("With :(", "Without :)"),
                     isAnonymous = false
@@ -24,7 +26,7 @@ fun main() {
 
             command("quizPoll") {
                 bot.sendPoll(
-                    chatId = message.chat.id,
+                    chatId = Companion.fromId(message.chat.id),
                     type = QUIZ,
                     question = "Java or Kotlin?",
                     options = listOf("Java", "Kotlin"),
@@ -35,7 +37,7 @@ fun main() {
 
             command("closedPoll") {
                 bot.sendPoll(
-                    chatId = message.chat.id,
+                    chatId = Companion.fromId(message.chat.id),
                     type = QUIZ,
                     question = "Foo or Bar?",
                     options = listOf("Foo", "Bar", "FooBar"),
