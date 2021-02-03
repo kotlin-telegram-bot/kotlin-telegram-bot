@@ -451,7 +451,7 @@ class Bot private constructor(
     ).call()
 
     fun sendAnimation(
-        chatId: Long,
+        chatId: ChatId,
         animation: SystemFile,
         duration: Int? = null,
         width: Int? = null,
@@ -475,7 +475,7 @@ class Bot private constructor(
     ).call()
 
     fun sendAnimation(
-        chatId: Long,
+        chatId: ChatId,
         fileId: String,
         duration: Int? = null,
         width: Int? = null,

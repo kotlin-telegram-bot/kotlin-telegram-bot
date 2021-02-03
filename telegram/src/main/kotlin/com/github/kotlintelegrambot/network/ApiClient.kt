@@ -439,7 +439,7 @@ class ApiClient(
     }
 
     fun sendAnimation(
-        chatId: Long,
+        chatId: ChatId,
         animation: SystemFile,
         duration: Int?,
         width: Int?,
@@ -466,7 +466,7 @@ class ApiClient(
     }
 
     fun sendAnimation(
-        chatId: Long,
+        chatId: ChatId,
         fileId: String,
         duration: Int?,
         width: Int?,

@@ -254,7 +254,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("sendAnimation")
     fun sendAnimation(
-        @Field("chat_id") chatId: Long,
+        @Field("chat_id") chatId: ChatId,
         @Field("animation") fileId: String,
         @Field("duration") duration: Int?,
         @Field("width") width: Int?,
