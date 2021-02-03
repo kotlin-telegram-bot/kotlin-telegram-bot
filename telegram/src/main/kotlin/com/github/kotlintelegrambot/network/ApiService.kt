@@ -113,7 +113,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("forwardMessage")
     fun forwardMessage(
-        @Field("chat_id") chatId: Long,
+        @Field("chat_id") chatId: ChatId,
         @Field("from_chat_id") fromChatId: Long,
         @Field("disable_notification") disableNotification: Boolean?,
         @Field("message_id") messageId: Long

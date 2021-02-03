@@ -221,7 +221,7 @@ class Bot private constructor(
     ).call()
 
     fun forwardMessage(
-        chatId: Long,
+        chatId: ChatId,
         fromChatId: Long,
         messageId: Long,
         disableNotification: Boolean? = null
