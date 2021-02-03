@@ -283,7 +283,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("sendVoice")
     fun sendVoice(
-        @Field("chat_id") chatId: Long,
+        @Field("chat_id") chatId: ChatId,
         @Field("voice") fileId: String,
         @Field("caption") caption: String?,
         @Field("parse_mode") parseMode: ParseMode?,

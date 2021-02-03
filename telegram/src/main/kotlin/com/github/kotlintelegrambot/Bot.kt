@@ -499,7 +499,7 @@ class Bot private constructor(
     ).call()
 
     fun sendVoice(
-        chatId: Long,
+        chatId: ChatId,
         audio: ByteArray,
         caption: String? = null,
         parseMode: ParseMode? = null,
@@ -521,7 +521,7 @@ class Bot private constructor(
     ).call()
 
     fun sendVoice(
-        chatId: Long,
+        chatId: ChatId,
         audio: SystemFile,
         caption: String? = null,
         parseMode: ParseMode? = null,
@@ -543,7 +543,7 @@ class Bot private constructor(
     ).call()
 
     fun sendVoice(
-        chatId: Long,
+        chatId: ChatId,
         audioId: String,
         caption: String? = null,
         parseMode: ParseMode? = null,

@@ -493,7 +493,7 @@ class ApiClient(
     }
 
     fun sendVoice(
-        chatId: Long,
+        chatId: ChatId,
         audio: SystemFile,
         caption: String?,
         parseMode: ParseMode?,
@@ -518,7 +518,7 @@ class ApiClient(
     }
 
     fun sendVoice(
-        chatId: Long,
+        chatId: ChatId,
         audioId: String,
         caption: String?,
         parseMode: ParseMode?,
@@ -543,7 +543,7 @@ class ApiClient(
     }
 
     fun sendVoice(
-        chatId: Long,
+        chatId: ChatId,
         audio: ByteArray,
         caption: String?,
         parseMode: ParseMode?,

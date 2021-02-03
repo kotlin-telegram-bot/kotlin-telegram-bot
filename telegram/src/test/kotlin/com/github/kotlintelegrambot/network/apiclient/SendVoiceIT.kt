@@ -1,5 +1,7 @@
 package com.github.kotlintelegrambot.network.apiclient
 
+import com.github.kotlintelegrambot.entities.ChatId
+import com.github.kotlintelegrambot.entities.ChatId.Companion
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
 import com.github.kotlintelegrambot.entities.MessageEntity
 import com.github.kotlintelegrambot.entities.MessageEntity.Type.ITALIC
@@ -22,7 +24,7 @@ class SendVoiceIT : ApiClientIT() {
         givenAnySendVoiceResponse()
 
         val sendVoice = sut.sendVoice(
-            ANY_CHAT_ID,
+            ChatId.fromId(ANY_CHAT_ID),
             ANY_VOICE_FILE_ID,
             caption = CAPTION,
             parseMode = MARKDOWN_V2,
@@ -52,7 +54,7 @@ class SendVoiceIT : ApiClientIT() {
         givenAnySendVoiceResponse()
 
         val sendVoice = sut.sendVoice(
-            ANY_CHAT_ID,
+            ChatId.fromId(ANY_CHAT_ID),
             getFileFromResources<SendVoiceIT>(VOICE_FILENAME),
             caption = CAPTION,
             parseMode = MARKDOWN_V2,
@@ -81,7 +83,7 @@ class SendVoiceIT : ApiClientIT() {
         givenAnySendVoiceResponse()
 
         val sendVoice = sut.sendVoice(
-            ANY_CHAT_ID,
+            ChatId.fromId(ANY_CHAT_ID),
             getFileFromResources<SendVoiceIT>("short.ogg").readBytes(),
             caption = CAPTION,
             parseMode = MARKDOWN_V2,
