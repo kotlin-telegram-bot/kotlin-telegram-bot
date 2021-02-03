@@ -389,7 +389,7 @@ class ApiClient(
     }
 
     fun sendVideo(
-        chatId: Long,
+        chatId: ChatId,
         video: SystemFile,
         duration: Int?,
         width: Int?,
@@ -414,7 +414,7 @@ class ApiClient(
     }
 
     fun sendVideo(
-        chatId: Long,
+        chatId: ChatId,
         fileId: String,
         duration: Int?,
         width: Int?,

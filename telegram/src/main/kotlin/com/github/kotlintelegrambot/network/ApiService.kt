@@ -225,7 +225,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("sendVideo")
     fun sendVideo(
-        @Field("chat_id") chatId: Long,
+        @Field("chat_id") chatId: ChatId,
         @Field("video") fileId: String,
         @Field("duration") duration: Int?,
         @Field("width") width: Int?,
