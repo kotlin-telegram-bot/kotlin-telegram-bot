@@ -174,7 +174,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("sendAudio")
     fun sendAudio(
-        @Field("chat_id") chatId: Long,
+        @Field("chat_id") chatId: ChatId,
         @Field("audio") fileId: String,
         @Field("duration") duration: Int?,
         @Field("performer") performer: String?,

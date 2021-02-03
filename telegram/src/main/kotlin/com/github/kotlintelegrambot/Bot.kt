@@ -293,7 +293,7 @@ class Bot private constructor(
     ).call()
 
     fun sendAudio(
-        chatId: Long,
+        chatId: ChatId,
         audio: String,
         caption: String? = null,
         disableNotification: Boolean? = null,
@@ -311,7 +311,7 @@ class Bot private constructor(
     ).call()
 
     fun sendAudio(
-        chatId: Long,
+        chatId: ChatId,
         audio: SystemFile,
         duration: Int? = null,
         performer: String? = null,
@@ -331,7 +331,7 @@ class Bot private constructor(
     ).call()
 
     fun sendAudio(
-        chatId: Long,
+        chatId: ChatId,
         audio: String,
         duration: Int? = null,
         performer: String? = null,

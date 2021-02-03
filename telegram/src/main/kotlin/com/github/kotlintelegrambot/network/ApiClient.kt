@@ -279,7 +279,7 @@ class ApiClient(
     }
 
     fun sendAudio(
-        chatId: Long,
+        chatId: ChatId,
         audio: SystemFile,
         duration: Int?,
         performer: String?,
@@ -302,7 +302,7 @@ class ApiClient(
     }
 
     fun sendAudio(
-        chatId: Long,
+        chatId: ChatId,
         audio: String,
         duration: Int?,
         performer: String?,
