@@ -325,7 +325,7 @@ class ApiClient(
     }
 
     fun sendDocument(
-        chatId: Long,
+        chatId: ChatId,
         document: SystemFile,
         caption: String?,
         parseMode: String?,
@@ -346,7 +346,7 @@ class ApiClient(
     }
 
     fun sendDocument(
-        chatId: Long,
+        chatId: ChatId,
         fileId: String,
         caption: String?,
         parseMode: ParseMode?,
@@ -367,7 +367,7 @@ class ApiClient(
     }
 
     fun sendDocument(
-        chatId: Long,
+        chatId: ChatId,
         fileBytes: ByteArray,
         caption: String?,
         parseMode: String?,

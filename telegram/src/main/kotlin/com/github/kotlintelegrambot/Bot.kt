@@ -351,7 +351,7 @@ class Bot private constructor(
     ).call()
 
     fun sendDocument(
-        chatId: Long,
+        chatId: ChatId,
         document: SystemFile,
         caption: String? = null,
         parseMode: ParseMode? = null,
@@ -369,7 +369,7 @@ class Bot private constructor(
     ).call()
 
     fun sendDocument(
-        chatId: Long,
+        chatId: ChatId,
         fileBytes: ByteArray,
         caption: String? = null,
         parseMode: ParseMode? = null,
@@ -389,7 +389,7 @@ class Bot private constructor(
     ).call()
 
     fun sendDocument(
-        chatId: Long,
+        chatId: ChatId,
         fileId: String,
         caption: String? = null,
         parseMode: ParseMode? = null,

@@ -199,7 +199,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("sendDocument")
     fun sendDocument(
-        @Field("chat_id") chatId: Long,
+        @Field("chat_id") chatId: ChatId,
         @Field("document") fileId: String,
         @Field("caption") caption: String?,
         @Field("parse_mode") parseMode: ParseMode?,
