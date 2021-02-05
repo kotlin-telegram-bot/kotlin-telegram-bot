@@ -27,6 +27,7 @@ import com.github.kotlintelegrambot.network.bimap
 import com.github.kotlintelegrambot.network.call
 import com.github.kotlintelegrambot.network.serialization.GsonFactory
 import com.github.kotlintelegrambot.types.DispatchableObject
+import com.github.kotlintelegrambot.types.TelegramBotResult
 import com.github.kotlintelegrambot.updater.Updater
 import com.github.kotlintelegrambot.webhook.WebhookConfig
 import com.github.kotlintelegrambot.webhook.WebhookConfigBuilder
@@ -898,7 +899,23 @@ class Bot private constructor(
     fun pinChatMessage(chatId: Long, messageId: Long, disableNotification: Boolean? = null) =
         apiClient.pinChatMessage(chatId, messageId, disableNotification).call()
 
-    fun unpinChatMessage(chatId: Long) = apiClient.unpinChatMessage(chatId).call()
+    /**
+     * Use this method to remove a message from the list of pinned messages in a chat. If the chat
+     * is not a private chat, the bot must be an administrator in the chat for this to work and
+     * must have the 'can_pin_messages' admin right in a supergroup or 'can_edit_messages' admin
+     * right in a channel.
+     *
+     * @param chatId Unique identifier for the target chat or username of the target channel (in
+     * the format @channelusername)
+     * @param messageId Identifier of a message to unpin. If not specified, the most recent pinned
+     * message (by sending date) will be unpinned.
+     *
+     * @return True on success.
+     */
+    fun unpinChatMessage(
+        chatId: ChatId,
+        messageId: Long? = null
+    ): TelegramBotResult<Boolean> = apiClient.unpinChatMessage(chatId, messageId)
 
     fun leaveChat(chatId: Long) = apiClient.leaveChat(chatId).call()
 
