@@ -552,6 +552,12 @@ interface ApiService {
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
+    @POST("unpinAllChatMessages")
+    fun unpinAllChatMessages(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
     @POST("leaveChat")
     fun leaveChat(
         @Field("chat_id") chatId: Long

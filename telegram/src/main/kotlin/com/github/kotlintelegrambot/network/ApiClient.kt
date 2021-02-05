@@ -974,6 +974,12 @@ class ApiClient(
         messageId
     ).runApiOperation()
 
+    fun unpinAllChatMessages(
+        chatId: ChatId
+    ): TelegramBotResult<Boolean> = service.unpinAllChatMessages(
+        chatId
+    ).runApiOperation()
+
     fun leaveChat(chatId: Long): Call<Response<Boolean>> {
 
         return service.leaveChat(chatId)

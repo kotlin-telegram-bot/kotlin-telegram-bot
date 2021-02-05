@@ -917,6 +917,21 @@ class Bot private constructor(
         messageId: Long? = null
     ): TelegramBotResult<Boolean> = apiClient.unpinChatMessage(chatId, messageId)
 
+    /**
+     * Use this method to clear the list of pinned messages in a chat. If the chat is not a private
+     * chat, the bot must be an administrator in the chat for this to work and must have the
+     * 'can_pin_messages' admin right in a supergroup or 'can_edit_messages' admin right in a
+     * channel.
+     *
+     * @param chatId Unique identifier for the target chat or username of the target channel (in
+     * the format @channelusername).
+     *
+     * @return True on success.
+     */
+    fun unpinAllChatMessages(
+        chatId: ChatId
+    ): TelegramBotResult<Boolean> = apiClient.unpinAllChatMessages(chatId)
+
     fun leaveChat(chatId: Long) = apiClient.leaveChat(chatId).call()
 
     fun getChat(chatId: Long) = apiClient.getChat(chatId).call()
