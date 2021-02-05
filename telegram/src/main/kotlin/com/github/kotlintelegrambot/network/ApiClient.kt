@@ -102,7 +102,9 @@ class ApiClient(
     logLevel: LogLevel,
     proxy: Proxy = Proxy.NO_PROXY,
     private val gson: Gson,
-    private val multipartBodyFactory: MultipartBodyFactory = MultipartBodyFactory(GsonFactory.createForMultipartBodyFactory())
+    private val multipartBodyFactory: MultipartBodyFactory = MultipartBodyFactory(GsonFactory.createForMultipartBodyFactory()),
+    private val apiRequestSender: ApiRequestSender = ApiRequestSender(),
+    private val apiResponseMapper: ApiResponseMapper = ApiResponseMapper()
 ) {
 
     private val service: ApiService
@@ -964,10 +966,13 @@ class ApiClient(
         return service.pinChatMessage(chatId, messageId, disableNotification)
     }
 
-    fun unpinChatMessage(chatId: Long): Call<Response<Boolean>> {
-
-        return service.unpinChatMessage(chatId)
-    }
+    fun unpinChatMessage(
+        chatId: ChatId,
+        messageId: Long?
+    ): TelegramBotResult<Boolean> = service.unpinChatMessage(
+        chatId,
+        messageId
+    ).runApiOperation()
 
     fun leaveChat(chatId: Long): Call<Response<Boolean>> {
 
@@ -1413,4 +1418,14 @@ class ApiClient(
         userId,
         customTitle
     )
+
+    private fun <T> Call<Response<T>>.runApiOperation(): TelegramBotResult<T> {
+        val apiResponse = try {
+            apiRequestSender.send(this)
+        } catch (exception: Exception) {
+            return TelegramBotResult.Error.Unknown(exception)
+        }
+
+        return apiResponseMapper.mapToTelegramBotResult(apiResponse)
+    }
 }

@@ -547,7 +547,8 @@ interface ApiService {
     @FormUrlEncoded
     @POST("unpinChatMessage")
     fun unpinChatMessage(
-        @Field("chat_id") chatId: Long
+        @Field("chat_id") chatId: ChatId,
+        @Field("message_id") messageId: Long?
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
