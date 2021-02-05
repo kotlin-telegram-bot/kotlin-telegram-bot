@@ -1,7 +1,6 @@
 package com.github.kotlintelegrambot.network.apiclient
 
 import com.github.kotlintelegrambot.entities.ChatId
-import com.github.kotlintelegrambot.entities.ChatId.Companion
 import com.github.kotlintelegrambot.testutils.decode
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertFalse
