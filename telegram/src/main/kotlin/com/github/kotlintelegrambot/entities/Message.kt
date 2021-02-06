@@ -17,7 +17,7 @@ data class Message(
     @Name("message_id") val messageId: Long,
     val from: User? = null,
     @Name("sender_chat") val senderChat: Chat? = null,
-    val date: Int,
+    val date: Long,
     val chat: Chat,
     @Name("forward_from") val forwardFrom: User? = null,
     @Name("forward_from_chat") val forwardFromChat: Chat? = null,
