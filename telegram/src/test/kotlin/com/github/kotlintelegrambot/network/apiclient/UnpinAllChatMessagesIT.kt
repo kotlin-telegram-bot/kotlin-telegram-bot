@@ -1,7 +1,8 @@
 package com.github.kotlintelegrambot.network.apiclient
 
 import com.github.kotlintelegrambot.entities.ChatId
-import com.github.kotlintelegrambot.testutils.decode
+import com.github.kotlintelegrambot.testutils.apiMethodName
+import com.github.kotlintelegrambot.testutils.decodedBody
 import junit.framework.TestCase.assertEquals
 import okhttp3.mockwebserver.MockResponse
 import org.junit.jupiter.api.Test
@@ -15,10 +16,8 @@ class UnpinAllChatMessagesIT : ApiClientIT() {
         sut.unpinAllChatMessages(ChatId.fromId(ANY_CHAT_ID))
 
         val request = mockWebServer.takeRequest()
-        val requestMethodName = request.path?.split("/")?.lastOrNull()
-        val requestBody = request.body.readUtf8().decode()
-        assertEquals("unpinAllChatMessages", requestMethodName)
-        assertEquals("chat_id=$ANY_CHAT_ID", requestBody)
+        assertEquals("unpinAllChatMessages", request.apiMethodName)
+        assertEquals("chat_id=$ANY_CHAT_ID", request.decodedBody)
     }
 
     @Test
@@ -28,10 +27,8 @@ class UnpinAllChatMessagesIT : ApiClientIT() {
         sut.unpinAllChatMessages(ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME))
 
         val request = mockWebServer.takeRequest()
-        val requestMethodName = request.path?.split("/")?.lastOrNull()
-        val requestBody = request.body.readUtf8().decode()
-        assertEquals("unpinAllChatMessages", requestMethodName)
-        assertEquals("chat_id=$ANY_CHANNEL_USERNAME", requestBody)
+        assertEquals("unpinAllChatMessages", request.apiMethodName)
+        assertEquals("chat_id=$ANY_CHANNEL_USERNAME", request.decodedBody)
     }
 
     @Test

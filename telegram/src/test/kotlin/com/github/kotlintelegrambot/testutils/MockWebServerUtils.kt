@@ -9,3 +9,12 @@ val RecordedRequest.multipartBoundary: String
         val boundary = contentTypeHeader.split(';')[1].split('=')[1]
         return boundary
     }
+
+val RecordedRequest.apiMethodName: String?
+    get() = path?.split("/")?.lastOrNull()?.split("?")?.firstOrNull()
+
+val RecordedRequest.queryParams: String?
+    get() = this.path?.split("/")?.lastOrNull()?.split("?")?.lastOrNull()
+
+val RecordedRequest.decodedBody: String
+    get() = body.readUtf8().decode()

@@ -484,8 +484,9 @@ interface ApiService {
     @FormUrlEncoded
     @POST("promoteChatMember")
     fun promoteChatMember(
-        @Field("chat_id") chatId: Long,
+        @Field("chat_id") chatId: ChatId,
         @Field("user_id") userId: Long,
+        @Field("is_anonymous") isAnonymous: Boolean?,
         @Field("can_change_info") canChangeInfo: Boolean?,
         @Field("can_post_messages") canPostMessages: Boolean?,
         @Field("can_edit_messages") canEditMessages: Boolean?,
@@ -570,7 +571,7 @@ interface ApiService {
 
     @GET("getChatAdministrators")
     fun getChatAdministrators(
-        @Query("chat_id") chatId: Long
+        @Query("chat_id") chatId: ChatId
     ): Call<Response<List<ChatMember>>>
 
     @GET("getChatMembersCount")
