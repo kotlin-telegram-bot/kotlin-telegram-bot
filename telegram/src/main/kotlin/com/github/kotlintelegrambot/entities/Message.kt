@@ -16,6 +16,7 @@ import com.google.gson.annotations.SerializedName as Name
 data class Message(
     @Name("message_id") val messageId: Long,
     val from: User? = null,
+    @Name("sender_chat") val senderChat: Chat? = null,
     val date: Int,
     val chat: Chat,
     @Name("forward_from") val forwardFrom: User? = null,
