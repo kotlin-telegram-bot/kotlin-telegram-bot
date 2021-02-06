@@ -203,6 +203,18 @@ class Bot private constructor(
 
     fun getMe() = apiClient.getMe().call()
 
+    /**
+     * Use this method to send text messages
+     * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param text text of the message to be sent, 1-4096 characters after entities parsing
+     * @param parseMode mode for parsing entities in the message text
+     * @param disableWebPagePreview disables link previews for links in this message
+     * @param disableNotification sends the message silently - users will receive a notification with no sound
+     * @param replyToMessageId if the message is a reply, ID of the original message
+     * @param replyMarkup additional options - inline keyboard, custom reply keyboard, instructions to remove reply
+     * keyboard or to force a reply from the user
+     * @return the sent [Message] on success
+     */
     fun sendMessage(
         chatId: ChatId,
         text: String,
@@ -949,7 +961,7 @@ class Bot private constructor(
      * - Bots granted `can_post_messages` permissions can delete outgoing messages in channels.
      * - If the bot is an administrator of a group, it can delete any message there.
      * - If the bot has `can_delete_messages` permission in a supergroup or a channel, it can delete any message there.
-     * @param chatId Unique identifier for the target chat.
+     * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param messageId Identifier of the message to delete.
      * @return True on success.
      */
@@ -1192,7 +1204,7 @@ class Bot private constructor(
 
     /**
      * Use this method to send a dice, which will have a random value from 1 to 6.
-     * @param chatId Unique identifier for the target chat
+     * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param emoji Emoji on which the dice throw animation is based. Currently, must be one of 🎲 or 🎯. Defaults to 🎲
      * @param disableNotification Sends the message silently. Users will receive a notification with no sound
      * @param replyToMessageId If the message is a reply, ID of the original message
@@ -1215,7 +1227,7 @@ class Bot private constructor(
 
     /**
      * Use this method to set a custom title for an administrator in a supergroup promoted by the bot.
-     * @param chatId Unique identifier for the target chat
+     * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param userId Unique identifier of the target user
      * @param customTitle New custom title for the administrator; 0-16 characters, emoji are not allowed
      * @return true on success.
