@@ -39,6 +39,7 @@ import com.github.kotlintelegrambot.network.retrofit.converters.ChatIdConverterF
 import com.github.kotlintelegrambot.network.retrofit.converters.DiceEmojiConverterFactory
 import com.github.kotlintelegrambot.network.retrofit.converters.EnumRetrofitConverterFactory
 import com.github.kotlintelegrambot.network.serialization.GsonFactory
+import com.github.kotlintelegrambot.types.TelegramBotResult
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import okhttp3.MediaType
@@ -101,7 +102,9 @@ class ApiClient(
     logLevel: LogLevel,
     proxy: Proxy = Proxy.NO_PROXY,
     private val gson: Gson,
-    private val multipartBodyFactory: MultipartBodyFactory = MultipartBodyFactory(GsonFactory.createForMultipartBodyFactory())
+    private val multipartBodyFactory: MultipartBodyFactory = MultipartBodyFactory(GsonFactory.createForMultipartBodyFactory()),
+    private val apiRequestSender: ApiRequestSender = ApiRequestSender(),
+    private val apiResponseMapper: ApiResponseMapper = ApiResponseMapper()
 ) {
 
     private val service: ApiService
@@ -770,7 +773,6 @@ class ApiClient(
     )
 
     fun sendChatAction(chatId: ChatId, action: ChatAction): Call<Response<Boolean>> {
-
         return service.sendChatAction(chatId, action)
     }
 
@@ -885,10 +887,19 @@ class ApiClient(
         return service.pinChatMessage(chatId, messageId, disableNotification)
     }
 
-    fun unpinChatMessage(chatId: ChatId): Call<Response<Boolean>> {
+    fun unpinChatMessage(
+        chatId: ChatId,
+        messageId: Long?
+    ): TelegramBotResult<Boolean> = service.unpinChatMessage(
+        chatId,
+        messageId
+    ).runApiOperation()
 
-        return service.unpinChatMessage(chatId)
-    }
+    fun unpinAllChatMessages(
+        chatId: ChatId
+    ): TelegramBotResult<Boolean> = service.unpinAllChatMessages(
+        chatId
+    ).runApiOperation()
 
     fun leaveChat(chatId: ChatId): Call<Response<Boolean>> {
 
@@ -1307,4 +1318,14 @@ class ApiClient(
         userId,
         customTitle
     )
+
+    private fun <T> Call<Response<T>>.runApiOperation(): TelegramBotResult<T> {
+        val apiResponse = try {
+            apiRequestSender.send(this)
+        } catch (exception: Exception) {
+            return TelegramBotResult.Error.Unknown(exception)
+        }
+
+        return apiResponseMapper.mapToTelegramBotResult(apiResponse)
+    }
 }
