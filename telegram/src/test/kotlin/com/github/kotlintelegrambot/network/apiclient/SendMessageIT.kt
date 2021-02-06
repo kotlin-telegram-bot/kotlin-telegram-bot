@@ -135,7 +135,8 @@ class SendMessageIT : ApiClientIT() {
                 type = "channel"
             ),
             date = 1604158404,
-            text = "I'm part of a test :)"
+            text = "I'm part of a test :)",
+            authorSignature = "incognito",
         )
         assertEquals(expectedMessage, sendMessageResult.body()?.result)
     }
@@ -153,7 +154,8 @@ class SendMessageIT : ApiClientIT() {
                         "type": "channel"
                     },
                     "date": 1604158404,
-                    "text": "I'm part of a test :)"
+                    "text": "I'm part of a test :)",
+                    "author_signature": "incognito"
                 }
             }
         """.trimIndent()
