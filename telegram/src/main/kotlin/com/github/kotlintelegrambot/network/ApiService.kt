@@ -137,7 +137,7 @@ interface ApiService {
     @Multipart
     @POST("sendPhoto")
     fun sendPhoto(
-        @Part("chat_id") chatId: RequestBody,
+        @Part("chat_id") chatId: ChatId,
         @Part photo: MultipartBody.Part,
         @Part("caption") caption: RequestBody?,
         @Part("parse_mode") parseMode: RequestBody?,
@@ -161,7 +161,7 @@ interface ApiService {
     @Multipart
     @POST("sendAudio")
     fun sendAudio(
-        @Part("chat_id") chatId: RequestBody,
+        @Part("chat_id") chatId: ChatId,
         @Part audio: MultipartBody.Part,
         @Part("duration") duration: RequestBody?,
         @Part("performer") performer: RequestBody?,
@@ -187,7 +187,7 @@ interface ApiService {
     @POST("sendDocument")
     @Multipart
     fun sendDocument(
-        @Part("chat_id") chatId: RequestBody,
+        @Part("chat_id") chatId: ChatId,
         @Part document: MultipartBody.Part,
         @Part("caption") caption: RequestBody?,
         @Part("parse_mode") parseMode: RequestBody?,
@@ -211,7 +211,7 @@ interface ApiService {
     @Multipart
     @POST("sendVideo")
     fun sendVideo(
-        @Part("chat_id") chatId: RequestBody,
+        @Part("chat_id") chatId: ChatId,
         @Part video: MultipartBody.Part,
         @Part("duration") duration: RequestBody?,
         @Part("width") width: RequestBody?,
@@ -239,7 +239,7 @@ interface ApiService {
     @Multipart
     @POST("sendAnimation")
     fun sendAnimation(
-        @Part("chat_id") chatId: RequestBody,
+        @Part("chat_id") chatId: ChatId,
         @Part animation: MultipartBody.Part,
         @Part("duration") duration: RequestBody?,
         @Part("width") width: RequestBody?,
@@ -269,7 +269,7 @@ interface ApiService {
     @Multipart
     @POST("sendVoice")
     fun sendVoice(
-        @Part("chat_id") chatId: RequestBody,
+        @Part("chat_id") chatId: ChatId,
         @Part voice: MultipartBody.Part,
         @Part("caption") caption: RequestBody?,
         @Part("parse_mode") parseMode: RequestBody?,
@@ -297,7 +297,7 @@ interface ApiService {
     @POST("sendVideoNote")
     @Multipart
     fun sendVideoNote(
-        @Part("chat_id") chatId: RequestBody,
+        @Part("chat_id") chatId: ChatId,
         @Part videoNote: MultipartBody.Part,
         @Part("duration") duration: RequestBody?,
         @Part("length") length: RequestBody?,
@@ -481,7 +481,7 @@ interface ApiService {
     @Multipart
     @POST("setChatPhoto")
     fun setChatPhoto(
-        @Part("chat_id") chatId: RequestBody,
+        @Part("chat_id") chatId: ChatId,
         @Part("photo") photo: MultipartBody.Part
     ): Call<Response<Boolean>>
 
@@ -643,7 +643,7 @@ interface ApiService {
     @Multipart
     @POST("sendSticker")
     fun sendSticker(
-        @Part("chat_id") chatId: RequestBody,
+        @Part("chat_id") chatId: ChatId,
         @Part("sticker") sticker: MultipartBody.Part,
         @Part("disable_notification") disableNotification: RequestBody?,
         @Part("reply_to_message_id") replyToMessageId: RequestBody?,

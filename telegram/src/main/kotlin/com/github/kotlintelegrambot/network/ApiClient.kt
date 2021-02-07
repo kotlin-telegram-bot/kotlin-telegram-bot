@@ -56,8 +56,8 @@ import java.nio.file.Files
 import java.util.concurrent.TimeUnit
 import java.io.File as SystemFile
 
-private val PLAIN_TEXT_MIME = MediaType.parse("text/plain")
-private val APPLICATION_JSON_MIME = MediaType.parse("application/json")
+val PLAIN_TEXT_MIME = MediaType.parse("text/plain")
+val APPLICATION_JSON_MIME = MediaType.parse("application/json")
 
 private fun convertString(text: String) = RequestBody.create(PLAIN_TEXT_MIME, text)
 private fun convertJson(text: String) = RequestBody.create(APPLICATION_JSON_MIME, text)
@@ -251,7 +251,7 @@ class ApiClient(
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
         return service.sendPhoto(
-            convertString(chatId.toString()),
+            chatId,
             convertFile("photo", photo),
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode) else null,
@@ -293,7 +293,7 @@ class ApiClient(
     ): Call<Response<Message>> {
 
         return service.sendAudio(
-            convertString(chatId.toString()),
+            chatId,
             convertFile("audio", audio),
             if (duration != null) convertString(duration.toString()) else null,
             if (performer != null) convertString(performer) else null,
@@ -338,7 +338,7 @@ class ApiClient(
     ): Call<Response<Message>> {
 
         return service.sendDocument(
-            convertString(chatId.toString()),
+            chatId,
             convertFile("document", document),
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode) else null,
@@ -381,7 +381,7 @@ class ApiClient(
     ): Call<Response<Message>> {
 
         return service.sendDocument(
-            convertString(chatId.toString()),
+            chatId,
             fileBytes.toMultipartBodyPart(name = "document", filename = filename),
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode) else null,
@@ -404,7 +404,7 @@ class ApiClient(
     ): Call<Response<Message>> {
 
         return service.sendVideo(
-            convertString(chatId.toString()),
+            chatId,
             convertFile("video", video),
             if (duration != null) convertString(duration.toString()) else null,
             if (width != null) convertString(width.toString()) else null,
@@ -455,7 +455,7 @@ class ApiClient(
     ): Call<Response<Message>> {
 
         return service.sendAnimation(
-            convertString(chatId.toString()),
+            chatId,
             convertFile("video", animation),
             if (duration != null) convertString(duration.toString()) else null,
             if (width != null) convertString(width.toString()) else null,
@@ -508,7 +508,7 @@ class ApiClient(
     ): Call<Response<Message>> {
 
         return service.sendVoice(
-            convertString(chatId.toString()),
+            chatId,
             convertFile("voice", audio, "audio/ogg"),
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode.modeName) else null,
@@ -558,7 +558,7 @@ class ApiClient(
     ): Call<Response<Message>> {
 
         return service.sendVoice(
-            convertString(chatId.toString()),
+            chatId,
             convertBytes("voice", audio, "audio/ogg"),
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode.modeName) else null,
@@ -581,7 +581,7 @@ class ApiClient(
     ): Call<Response<Message>> {
 
         return service.sendVideoNote(
-            convertString(chatId.toString()),
+            chatId,
             convertFile("video_note", videoNote),
             if (duration != null) convertString(duration.toString()) else null,
             if (length != null) convertString(length.toString()) else null,
@@ -859,7 +859,7 @@ class ApiClient(
         chatId: ChatId,
         photo: SystemFile
     ): Call<Response<Boolean>> {
-        return service.setChatPhoto(convertString(chatId.toString()), convertFile("photo", photo))
+        return service.setChatPhoto(chatId, convertFile("photo", photo))
     }
 
     fun deleteChatPhoto(chatId: ChatId): Call<Response<Boolean>> {
@@ -1122,7 +1122,7 @@ class ApiClient(
     ): Call<Response<Message>> {
 
         return service.sendSticker(
-            convertString(chatId.toString()),
+            chatId,
             convertFile("photo", sticker),
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
