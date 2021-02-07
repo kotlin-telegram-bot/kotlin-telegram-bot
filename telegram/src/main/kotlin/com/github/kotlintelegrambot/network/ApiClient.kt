@@ -822,6 +822,7 @@ class ApiClient(
     fun promoteChatMember(
         chatId: ChatId,
         userId: Long,
+        isAnonymous: Boolean?,
         canChangeInfo: Boolean?,
         canPostMessages: Boolean?,
         canEditMessages: Boolean?,
@@ -830,21 +831,19 @@ class ApiClient(
         canRestrictMembers: Boolean?,
         canPinMessages: Boolean?,
         canPromoteMembers: Boolean?
-    ): Call<Response<Boolean>> {
-
-        return service.promoteChatMember(
-            chatId,
-            userId,
-            canChangeInfo,
-            canPostMessages,
-            canEditMessages,
-            canDeleteMessages,
-            canInviteUsers,
-            canRestrictMembers,
-            canPinMessages,
-            canPromoteMembers
-        )
-    }
+    ): TelegramBotResult<Boolean> = service.promoteChatMember(
+        chatId,
+        userId,
+        isAnonymous,
+        canChangeInfo,
+        canPostMessages,
+        canEditMessages,
+        canDeleteMessages,
+        canInviteUsers,
+        canRestrictMembers,
+        canPinMessages,
+        canPromoteMembers
+    ).runApiOperation()
 
     fun setChatPermissions(chatId: ChatId, permissions: ChatPermissions): Call<Response<Boolean>> {
 
@@ -911,10 +910,8 @@ class ApiClient(
         return service.getChat(chatId)
     }
 
-    fun getChatAdministrators(chatId: ChatId): Call<Response<List<ChatMember>>> {
-
-        return service.getChatAdministrators(chatId)
-    }
+    fun getChatAdministrators(chatId: ChatId): TelegramBotResult<List<ChatMember>> =
+        service.getChatAdministrators(chatId).runApiOperation()
 
     fun getChatMembersCount(chatId: ChatId): Call<Response<Int>> {
 

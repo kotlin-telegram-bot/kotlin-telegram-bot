@@ -16,7 +16,8 @@ import com.google.gson.annotations.SerializedName as Name
 data class Message(
     @Name("message_id") val messageId: Long,
     val from: User? = null,
-    val date: Int,
+    @Name("sender_chat") val senderChat: Chat? = null,
+    val date: Long,
     val chat: Chat,
     @Name("forward_from") val forwardFrom: User? = null,
     @Name("forward_from_chat") val forwardFromChat: Chat? = null,
@@ -28,6 +29,7 @@ data class Message(
     @Name("via_bot") val viaBot: User? = null,
     @Name("edit_date") val editDate: Int? = null,
     @Name("media_group_id") val mediaGroupId: String? = null,
+    @Name("author_signature") val authorSignature: String? = null,
     val text: String? = null,
     val entities: List<MessageEntity>? = null,
     @Name("caption_entities") val captionEntities: List<MessageEntity>? = null,

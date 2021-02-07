@@ -127,6 +127,112 @@ class GetUpdatesIT : ApiClientIT() {
         assertEquals(expectedUpdates, actualUpdates)
     }
 
+    @Test
+    fun `getUpdates with a channel post containing sender chat`() {
+        givenGetUpdatesResponse(
+            """
+                {
+                    "ok": true,
+                    "result": [
+                        {
+                            "update_id": 132059007,
+                            "channel_post": {
+                                "message_id": 18,
+                                "sender_chat": {
+                                    "id": -1001367429635,
+                                    "title": "[Channel] Test Telegram Bot",
+                                    "username": "testtelegrambotapi",
+                                    "type": "channel"
+                                },
+                                "chat": {
+                                    "id": -1001367429635,
+                                    "title": "[Channel] Test Telegram Bot",
+                                    "username": "testtelegrambotapi",
+                                    "type": "channel"
+                                },
+                                "date": 1612631280,
+                                "text": "Test"
+                            }
+                        }
+                    ]
+                }
+            """.trimIndent()
+        )
+
+        val getUpdatesResult = sut.getUpdates().execute()
+
+        val expectedGetUpdatesResult = listOf(
+            Update(
+                updateId = 132059007,
+                channelPost = Message(
+                    messageId = 18,
+                    senderChat = Chat(
+                        id = -1001367429635,
+                        title = "[Channel] Test Telegram Bot",
+                        username = "testtelegrambotapi",
+                        type = "channel",
+                    ),
+                    chat = Chat(
+                        id = -1001367429635,
+                        title = "[Channel] Test Telegram Bot",
+                        username = "testtelegrambotapi",
+                        type = "channel",
+                    ),
+                    date = 1612631280,
+                    text = "Test"
+                )
+            )
+        )
+        assertEquals(expectedGetUpdatesResult, getUpdatesResult.body()?.result)
+    }
+
+    @Test
+    fun `getUpdates with a message containing a date after 03h14m07s UTC on 19 January 2038`() {
+        givenGetUpdatesResponse(
+            """
+                {
+                    "ok": true,
+                    "result": [
+                        {
+                            "update_id": 132059007,
+                            "message": {
+                                "message_id": 18,
+                                "chat": {
+                                    "id": -1001367429635,
+                                    "title": "[Channel] Test Telegram Bot",
+                                    "username": "testtelegrambotapi",
+                                    "type": "channel"
+                                },
+                                "date": 2147483648,
+                                "text": "Test"
+                            }
+                        }
+                    ]
+                }
+            """.trimIndent()
+        )
+
+        val getUpdatesResult = sut.getUpdates().execute()
+
+        val expectedGetUpdatesResult = listOf(
+            Update(
+                updateId = 132059007,
+                message = Message(
+                    messageId = 18,
+                    chat = Chat(
+                        id = -1001367429635,
+                        title = "[Channel] Test Telegram Bot",
+                        username = "testtelegrambotapi",
+                        type = "channel",
+                    ),
+                    date = 2147483648,
+                    text = "Test"
+                )
+            )
+        )
+        assertEquals(expectedGetUpdatesResult, getUpdatesResult.body()?.result)
+    }
+
     private fun givenGetUpdatesResponse(getUpdatesResponseJson: String) {
         val mockedResponse = MockResponse()
             .setResponseCode(200)

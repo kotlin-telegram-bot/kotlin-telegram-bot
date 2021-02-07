@@ -1,5 +1,5 @@
 # Kotlin Telegram Bot
-[![Build Status](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/workflows/Continuous%20Integration/badge.svg?branch=master)](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/actions?query=workflow%3A%22Continuous+Integration%22+branch%3Amaster)
+[![Build Status](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/workflows/Continuous%20Integration/badge.svg?branch=main)](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/actions?query=workflow%3A%22Continuous+Integration%22+branch%3Amain)
 [![Release](https://jitpack.io/v/kotlin-telegram-bot/kotlin-telegram-bot.svg)](https://jitpack.io/#kotlin-telegram-bot/kotlin-telegram-bot)
 [![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
 
@@ -56,7 +56,7 @@ fun main(args: Array<String>) {
 ```
 
 ## Examples
-Take a look at the [examples folder](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/tree/master/samples).
+Take a look at the [examples folder](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/tree/main/samples).
 
 There are several samples:
 * A simple echo bot
@@ -83,10 +83,10 @@ dependencies {
 
 ## Detailed documentation
 
-1. [Getting updates](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/tree/master/docs/gettingUpdates.md)
-2. [Polls](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/tree/master/docs/polls.md)
-3. [Dice](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/tree/master/docs/dice.md)
-4. [Logging](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/tree/master/docs/logging.md)
+1. [Getting updates](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/tree/main/docs/gettingUpdates.md)
+2. [Polls](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/tree/main/docs/polls.md)
+3. [Dice](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/tree/main/docs/dice.md)
+4. [Logging](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/tree/main/docs/logging.md)
 
 ## Contributing
 

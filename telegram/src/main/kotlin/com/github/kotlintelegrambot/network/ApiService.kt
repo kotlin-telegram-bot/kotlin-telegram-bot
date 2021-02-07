@@ -454,6 +454,7 @@ interface ApiService {
     fun promoteChatMember(
         @Field("chat_id") chatId: ChatId,
         @Field("user_id") userId: Long,
+        @Field("is_anonymous") isAnonymous: Boolean?,
         @Field("can_change_info") canChangeInfo: Boolean?,
         @Field("can_post_messages") canPostMessages: Boolean?,
         @Field("can_edit_messages") canEditMessages: Boolean?,

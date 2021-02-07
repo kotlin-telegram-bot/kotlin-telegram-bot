@@ -31,7 +31,7 @@ bot {
 }
 ```
 
-You can find an example bot sending polls and listening to poll answers in the [samples/polls](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/tree/master/samples/polls) directory of this project.
+You can find an example bot sending polls and listening to poll answers in the [samples/polls](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/tree/main/samples/polls) directory of this project.
 
 If you want more information about Telegram polls, you can check the next links:
 

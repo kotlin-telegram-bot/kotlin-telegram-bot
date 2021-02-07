@@ -55,12 +55,12 @@ fun anyUpdate(
 )
 
 private const val ANY_MESSAGE_ID = 32142353L
-private const val ANY_DATE = 12412421
+private const val ANY_DATE = 12412421L
 
 fun anyMessage(
     messageId: Long = ANY_MESSAGE_ID,
     from: User? = null,
-    date: Int = ANY_DATE,
+    date: Long = ANY_DATE,
     chat: Chat = anyChat(),
     forwardFrom: User? = null,
     forwardFromChat: Chat? = null,
