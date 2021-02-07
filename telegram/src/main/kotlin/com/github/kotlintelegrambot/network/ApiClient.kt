@@ -125,14 +125,14 @@ class ApiClient(
         val retrofit = Retrofit.Builder()
             .baseUrl("${apiUrl}bot$token/")
             .client(httpClient)
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(ChatIdConverterFactory())
             // In retrofit, Gson is used only for response/request decoding/encoding, but not for @Query/@Url/@Path etc...
             // For them, Retrofit uses Converter.Factory classes to convert any type to String. By default, enums are transformed
             // with BuiltInConverters.ToStringConverter which just calls to the toString() method of a given object.
             // Is needed to provide a special Converter.Factory if a custom transformation is wanted for them.
             .addConverterFactory(EnumRetrofitConverterFactory())
             .addConverterFactory(DiceEmojiConverterFactory())
-            .addConverterFactory(ChatIdConverterFactory())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
 
         service = retrofit.create(ApiService::class.java)

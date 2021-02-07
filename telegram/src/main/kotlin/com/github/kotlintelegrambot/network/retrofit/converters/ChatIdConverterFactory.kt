@@ -30,10 +30,9 @@ class ChatIdConverterFactory : Converter.Factory() {
     }
 
     companion object {
-        private fun chatIdToString(chatId: ChatId) = when (chatId) {
+        fun chatIdToString(chatId: ChatId) = when (chatId) {
             is Id -> chatId.id.toString()
             is ChannelUsername -> chatId.username
         }
     }
 }
-
