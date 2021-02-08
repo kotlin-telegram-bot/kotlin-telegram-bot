@@ -1,5 +1,6 @@
 package com.github.kotlintelegrambot.network.apiclient
 
+import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.testutils.decode
 import junit.framework.TestCase.assertEquals
 import okhttp3.mockwebserver.MockResponse
@@ -11,7 +12,7 @@ class KickChatMemberIT : ApiClientIT() {
     fun `kickChatMember with no until date sends the correct request`() {
         givenKickChatMemberSuccessResponse()
 
-        sut.kickChatMember(ANY_CHAT_ID, ANY_USER_ID).execute()
+        sut.kickChatMember(ChatId.fromId(ANY_CHAT_ID), ANY_USER_ID).execute()
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID&user_id=$ANY_USER_ID"
@@ -23,7 +24,7 @@ class KickChatMemberIT : ApiClientIT() {
         givenKickChatMemberSuccessResponse()
 
         sut.kickChatMember(
-            ANY_CHAT_ID,
+            ChatId.fromId(ANY_CHAT_ID),
             ANY_USER_ID,
             ANY_TIMESTAMP
         ).execute()

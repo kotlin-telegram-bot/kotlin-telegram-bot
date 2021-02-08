@@ -1,11 +1,13 @@
 package com.github.kotlintelegrambot.network.multipart
 
+import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.TelegramFile
 import com.github.kotlintelegrambot.entities.inputmedia.InputMediaPhoto
 import com.github.kotlintelegrambot.entities.inputmedia.InputMediaVideo
 import com.github.kotlintelegrambot.entities.inputmedia.MediaGroup
 import com.github.kotlintelegrambot.network.ApiConstants
 import com.github.kotlintelegrambot.network.MediaTypeConstants
+import com.github.kotlintelegrambot.network.retrofit.converters.ChatIdConverterFactory
 import com.google.gson.Gson
 import okhttp3.MultipartBody
 import java.io.File
@@ -13,22 +15,13 @@ import java.io.File
 class MultipartBodyFactory(private val gson: Gson) {
 
     fun createForSendMediaGroup(
-        chatId: Long,
+        chatId: ChatId,
         mediaGroup: MediaGroup,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null
     ): List<MultipartBody.Part> {
-        val chatIdPart = chatId.toMultipartBodyPart(ApiConstants.CHAT_ID)
-        return createSendMediaGroupMultipartBody(chatIdPart, mediaGroup, disableNotification, replyToMessageId)
-    }
-
-    fun createForSendMediaGroup(
-        chatId: String,
-        mediaGroup: MediaGroup,
-        disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null
-    ): List<MultipartBody.Part> {
-        val chatIdPart = chatId.toMultipartBodyPart(ApiConstants.CHAT_ID)
+        val chatIdString = ChatIdConverterFactory.chatIdToString(chatId)
+        val chatIdPart = chatIdString.toMultipartBodyPart(ApiConstants.CHAT_ID)
         return createSendMediaGroupMultipartBody(chatIdPart, mediaGroup, disableNotification, replyToMessageId)
     }
 

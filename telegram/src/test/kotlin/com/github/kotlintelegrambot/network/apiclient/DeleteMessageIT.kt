@@ -1,5 +1,6 @@
 package com.github.kotlintelegrambot.network.apiclient
 
+import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.testutils.decode
 import junit.framework.TestCase.assertEquals
 import okhttp3.mockwebserver.MockResponse
@@ -11,7 +12,7 @@ class DeleteMessageIT : ApiClientIT() {
     fun `deleteMessage with chat id sends correct request`() {
         givenDeleteMessageSuccessfulResponse()
 
-        sut.deleteMessage(ANY_CHAT_ID, ANY_MESSAGE_ID).execute()
+        sut.deleteMessage(ChatId.fromId(ANY_CHAT_ID), ANY_MESSAGE_ID).execute()
 
         val requestBody = mockWebServer.takeRequest().body.readUtf8().decode()
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID&message_id=$ANY_MESSAGE_ID"
@@ -22,7 +23,7 @@ class DeleteMessageIT : ApiClientIT() {
     fun `deleteMessage with channel username sends correct request`() {
         givenDeleteMessageSuccessfulResponse()
 
-        sut.deleteMessage(ANY_CHANNEL_USERNAME, ANY_MESSAGE_ID).execute()
+        sut.deleteMessage(ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME), ANY_MESSAGE_ID).execute()
 
         val requestBody = mockWebServer.takeRequest().body.readUtf8().decode()
         val expectedRequestBody = "chat_id=$ANY_CHANNEL_USERNAME&message_id=$ANY_MESSAGE_ID"
@@ -33,7 +34,7 @@ class DeleteMessageIT : ApiClientIT() {
     fun `deleteMessage response is returned correctly`() {
         givenDeleteMessageSuccessfulResponse()
 
-        val deleteMessageResult = sut.deleteMessage(ANY_CHAT_ID, ANY_MESSAGE_ID).execute()
+        val deleteMessageResult = sut.deleteMessage(ChatId.fromId(ANY_CHAT_ID), ANY_MESSAGE_ID).execute()
 
         assertEquals(true, deleteMessageResult.body()?.result)
     }

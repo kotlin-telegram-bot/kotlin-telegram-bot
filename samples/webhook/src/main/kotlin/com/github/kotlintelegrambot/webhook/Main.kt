@@ -3,6 +3,7 @@ package com.github.kotlintelegrambot.webhook
 import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.dispatch
 import com.github.kotlintelegrambot.dispatcher.command
+import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.TelegramFile
 import com.github.kotlintelegrambot.webhook
 import io.ktor.application.call
@@ -36,7 +37,7 @@ fun main() {
         }
         dispatch {
             command("hello") {
-                bot.sendMessage(message.chat.id, "Hey bruh!")
+                bot.sendMessage(ChatId.fromId(message.chat.id), "Hey bruh!")
             }
         }
     }

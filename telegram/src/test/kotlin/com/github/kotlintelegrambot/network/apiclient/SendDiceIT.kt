@@ -1,6 +1,7 @@
 package com.github.kotlintelegrambot.network.apiclient
 
 import com.github.kotlintelegrambot.entities.Chat
+import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.User
 import com.github.kotlintelegrambot.entities.dice.Dice
@@ -16,7 +17,7 @@ class SendDiceIT : ApiClientIT() {
     fun `sendDice only with mandatory parameters`() {
         givenAnySendDiceResponse()
 
-        sut.sendDice(ANY_CHAT_ID).execute()
+        sut.sendDice(ChatId.fromId(ANY_CHAT_ID)).execute()
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID"
@@ -27,7 +28,7 @@ class SendDiceIT : ApiClientIT() {
     fun `sendDice with dice emoji`() {
         givenAnySendDiceResponse()
 
-        sut.sendDice(ANY_CHAT_ID, emoji = DiceEmoji.Dice).execute()
+        sut.sendDice(ChatId.fromId(ANY_CHAT_ID), emoji = DiceEmoji.Dice).execute()
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID&emoji=🎲"
@@ -38,7 +39,7 @@ class SendDiceIT : ApiClientIT() {
     fun `sendDice with dartboard emoji`() {
         givenAnySendDiceResponse()
 
-        sut.sendDice(ANY_CHAT_ID, emoji = DiceEmoji.Dartboard).execute()
+        sut.sendDice(ChatId.fromId(ANY_CHAT_ID), emoji = DiceEmoji.Dartboard).execute()
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID&emoji=🎯"
@@ -49,7 +50,7 @@ class SendDiceIT : ApiClientIT() {
     fun `sendDice with basketball emoji`() {
         givenAnySendDiceResponse()
 
-        sut.sendDice(ANY_CHAT_ID, emoji = DiceEmoji.Basketball).execute()
+        sut.sendDice(ChatId.fromId(ANY_CHAT_ID), emoji = DiceEmoji.Basketball).execute()
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID&emoji=🏀"
@@ -60,7 +61,7 @@ class SendDiceIT : ApiClientIT() {
     fun `sendDice with football emoji`() {
         givenAnySendDiceResponse()
 
-        sut.sendDice(ANY_CHAT_ID, emoji = DiceEmoji.Football).execute()
+        sut.sendDice(ChatId.fromId(ANY_CHAT_ID), emoji = DiceEmoji.Football).execute()
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID&emoji=⚽️"
@@ -71,7 +72,7 @@ class SendDiceIT : ApiClientIT() {
     fun `sendDice with slot machine emoji`() {
         givenAnySendDiceResponse()
 
-        sut.sendDice(ANY_CHAT_ID, emoji = DiceEmoji.SlotMachine).execute()
+        sut.sendDice(ChatId.fromId(ANY_CHAT_ID), emoji = DiceEmoji.SlotMachine).execute()
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID&emoji=🎰"
@@ -82,7 +83,7 @@ class SendDiceIT : ApiClientIT() {
     fun `sendDice with bowling emoji`() {
         givenAnySendDiceResponse()
 
-        sut.sendDice(ANY_CHAT_ID, emoji = DiceEmoji.Bowling).execute()
+        sut.sendDice(ChatId.fromId(ANY_CHAT_ID), emoji = DiceEmoji.Bowling).execute()
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID&emoji=🎳"
@@ -94,7 +95,7 @@ class SendDiceIT : ApiClientIT() {
         givenAnySendDiceResponse()
 
         sut.sendDice(
-            ANY_CHAT_ID,
+            ChatId.fromId(ANY_CHAT_ID),
             emoji = DiceEmoji.Dartboard,
             disableNotification = DISABLE_NOTIFICATION,
             replyToMessageId = ANY_MESSAGE_ID
@@ -112,7 +113,7 @@ class SendDiceIT : ApiClientIT() {
     fun `sendDice response is correctly returned`() {
         givenAnySendDiceResponse()
 
-        val sendDiceResult = sut.sendDice(ANY_CHAT_ID, emoji = DiceEmoji.Dartboard).execute()
+        val sendDiceResult = sut.sendDice(ChatId.fromId(ANY_CHAT_ID), emoji = DiceEmoji.Dartboard).execute()
 
         val expectedMessage = Message(
             messageId = 56,

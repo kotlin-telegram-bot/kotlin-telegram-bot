@@ -101,19 +101,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("sendMessage")
     fun sendMessage(
-        @Field("chat_id") chatId: Long,
-        @Field("text") text: String,
-        @Field("parse_mode") parseMode: ParseMode?,
-        @Field("disable_web_page_preview") disableWebPagePreview: Boolean?,
-        @Field("disable_notification") disableNotification: Boolean?,
-        @Field("reply_to_message_id") replyToMessageId: Long?,
-        @Field("reply_markup") replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>>
-
-    @FormUrlEncoded
-    @POST("sendMessage")
-    fun sendMessage(
-        @Field("chat_id") channelUsername: String,
+        @Field("chat_id") chatId: ChatId,
         @Field("text") text: String,
         @Field("parse_mode") parseMode: ParseMode?,
         @Field("disable_web_page_preview") disableWebPagePreview: Boolean?,
@@ -125,8 +113,8 @@ interface ApiService {
     @FormUrlEncoded
     @POST("forwardMessage")
     fun forwardMessage(
-        @Field("chat_id") chatId: Long,
-        @Field("from_chat_id") fromChatId: Long,
+        @Field("chat_id") chatId: ChatId,
+        @Field("from_chat_id") fromChatId: ChatId,
         @Field("disable_notification") disableNotification: Boolean?,
         @Field("message_id") messageId: Long
     ): Call<Response<Message>>
@@ -149,7 +137,7 @@ interface ApiService {
     @Multipart
     @POST("sendPhoto")
     fun sendPhoto(
-        @Part("chat_id") chatId: RequestBody,
+        @Part("chat_id") chatId: ChatId,
         @Part photo: MultipartBody.Part,
         @Part("caption") caption: RequestBody?,
         @Part("parse_mode") parseMode: RequestBody?,
@@ -161,7 +149,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("sendPhoto")
     fun sendPhoto(
-        @Field("chat_id") chatId: Long,
+        @Field("chat_id") chatId: ChatId,
         @Field("photo") fileId: String,
         @Field("caption") caption: String?,
         @Field("parse_mode") parseMode: ParseMode?,
@@ -173,7 +161,7 @@ interface ApiService {
     @Multipart
     @POST("sendAudio")
     fun sendAudio(
-        @Part("chat_id") chatId: RequestBody,
+        @Part("chat_id") chatId: ChatId,
         @Part audio: MultipartBody.Part,
         @Part("duration") duration: RequestBody?,
         @Part("performer") performer: RequestBody?,
@@ -186,7 +174,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("sendAudio")
     fun sendAudio(
-        @Field("chat_id") chatId: Long,
+        @Field("chat_id") chatId: ChatId,
         @Field("audio") fileId: String,
         @Field("duration") duration: Int?,
         @Field("performer") performer: String?,
@@ -199,7 +187,7 @@ interface ApiService {
     @POST("sendDocument")
     @Multipart
     fun sendDocument(
-        @Part("chat_id") chatId: RequestBody,
+        @Part("chat_id") chatId: ChatId,
         @Part document: MultipartBody.Part,
         @Part("caption") caption: RequestBody?,
         @Part("parse_mode") parseMode: RequestBody?,
@@ -211,7 +199,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("sendDocument")
     fun sendDocument(
-        @Field("chat_id") chatId: Long,
+        @Field("chat_id") chatId: ChatId,
         @Field("document") fileId: String,
         @Field("caption") caption: String?,
         @Field("parse_mode") parseMode: ParseMode?,
@@ -223,7 +211,7 @@ interface ApiService {
     @Multipart
     @POST("sendVideo")
     fun sendVideo(
-        @Part("chat_id") chatId: RequestBody,
+        @Part("chat_id") chatId: ChatId,
         @Part video: MultipartBody.Part,
         @Part("duration") duration: RequestBody?,
         @Part("width") width: RequestBody?,
@@ -237,7 +225,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("sendVideo")
     fun sendVideo(
-        @Field("chat_id") chatId: Long,
+        @Field("chat_id") chatId: ChatId,
         @Field("video") fileId: String,
         @Field("duration") duration: Int?,
         @Field("width") width: Int?,
@@ -251,7 +239,7 @@ interface ApiService {
     @Multipart
     @POST("sendAnimation")
     fun sendAnimation(
-        @Part("chat_id") chatId: RequestBody,
+        @Part("chat_id") chatId: ChatId,
         @Part animation: MultipartBody.Part,
         @Part("duration") duration: RequestBody?,
         @Part("width") width: RequestBody?,
@@ -266,7 +254,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("sendAnimation")
     fun sendAnimation(
-        @Field("chat_id") chatId: Long,
+        @Field("chat_id") chatId: ChatId,
         @Field("animation") fileId: String,
         @Field("duration") duration: Int?,
         @Field("width") width: Int?,
@@ -281,7 +269,7 @@ interface ApiService {
     @Multipart
     @POST("sendVoice")
     fun sendVoice(
-        @Part("chat_id") chatId: RequestBody,
+        @Part("chat_id") chatId: ChatId,
         @Part voice: MultipartBody.Part,
         @Part("caption") caption: RequestBody?,
         @Part("parse_mode") parseMode: RequestBody?,
@@ -295,7 +283,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("sendVoice")
     fun sendVoice(
-        @Field("chat_id") chatId: Long,
+        @Field("chat_id") chatId: ChatId,
         @Field("voice") fileId: String,
         @Field("caption") caption: String?,
         @Field("parse_mode") parseMode: ParseMode?,
@@ -309,7 +297,7 @@ interface ApiService {
     @POST("sendVideoNote")
     @Multipart
     fun sendVideoNote(
-        @Part("chat_id") chatId: RequestBody,
+        @Part("chat_id") chatId: ChatId,
         @Part videoNote: MultipartBody.Part,
         @Part("duration") duration: RequestBody?,
         @Part("length") length: RequestBody?,
@@ -321,7 +309,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("sendVideoNote")
     fun sendVideoNote(
-        @Field("chat_id") chatId: Long,
+        @Field("chat_id") chatId: ChatId,
         @Field("video_note") fileId: String,
         @Field("duration") duration: Int?,
         @Field("length") length: Int?,
@@ -337,7 +325,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("sendLocation")
     fun sendLocation(
-        @Field("chat_id") chatId: Long,
+        @Field("chat_id") chatId: ChatId,
         @Field("latitude") latitude: Float,
         @Field("longitude") longitude: Float,
         @Field("live_period") livePeriod: Int?,
@@ -349,7 +337,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("editMessageLiveLocation")
     fun editMessageLiveLocation(
-        @Field("chat_id") chatId: Long?,
+        @Field("chat_id") chatId: ChatId?,
         @Field("message_id") messageId: Long?,
         @Field("inline_message_id") inlineMessageId: String?,
         @Field("latitude") latitude: Float,
@@ -360,7 +348,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("stopMessageLiveLocation")
     fun stopMessageLiveLocation(
-        @Field("chat_id") chatId: Long?,
+        @Field("chat_id") chatId: ChatId?,
         @Field("message_id") messageId: Long?,
         @Field("inline_message_id") inlineMessageId: String?,
         @Field("reply_markup") replyMarkup: ReplyMarkup? = null
@@ -369,7 +357,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("sendVenue")
     fun sendVenue(
-        @Field("chat_id") chatId: Long,
+        @Field("chat_id") chatId: ChatId,
         @Field("latitude") latitude: Float,
         @Field("longitude") longitude: Float,
         @Field("title") title: String,
@@ -384,7 +372,7 @@ interface ApiService {
     @POST("sendContact")
     @FormUrlEncoded
     fun sendContact(
-        @Field("chat_id") chatId: Long,
+        @Field("chat_id") chatId: ChatId,
         @Field("phone_number") phoneNumber: String,
         @Field("first_name") firstName: String,
         @Field("last_name") lastName: String?,
@@ -396,27 +384,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("sendPoll")
     fun sendPoll(
-        @Field(ApiConstants.CHAT_ID) chatId: Long,
-        @Field(PollFields.QUESTION) question: String,
-        @Field(PollFields.OPTIONS) options: String,
-        @Field(PollFields.IS_ANONYMOUS) isAnonymous: Boolean? = null,
-        @Field(PollFields.TYPE) type: PollType? = null,
-        @Field(PollFields.ALLOWS_MULTIPLE_ANSWERS) allowsMultipleAnswers: Boolean? = null,
-        @Field(PollFields.CORRECT_OPTION_ID) correctOptionId: Int? = null,
-        @Field(PollFields.EXPLANATION) explanation: String? = null,
-        @Field(PollFields.EXPLANATION_PARSE_MODE) explanationParseMode: ParseMode? = null,
-        @Field(PollFields.OPEN_PERIOD) openPeriod: Int? = null,
-        @Field(PollFields.CLOSE_DATE) closeDate: Long? = null,
-        @Field(PollFields.IS_CLOSED) isClosed: Boolean? = null,
-        @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
-        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
-    ): Call<Response<Message>>
-
-    @FormUrlEncoded
-    @POST("sendPoll")
-    fun sendPoll(
-        @Field(ApiConstants.CHAT_ID) channelUsername: String,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field(PollFields.QUESTION) question: String,
         @Field(PollFields.OPTIONS) options: String,
         @Field(PollFields.IS_ANONYMOUS) isAnonymous: Boolean? = null,
@@ -436,7 +404,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("sendChatAction")
     fun sendChatAction(
-        @Field("chat_id") chatId: Long,
+        @Field("chat_id") chatId: ChatId,
         @Field("action") action: ChatAction
     ): Call<Response<Boolean>>
 
@@ -460,7 +428,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("kickChatMember")
     fun kickChatMember(
-        @Field("chat_id") chatId: Long,
+        @Field("chat_id") chatId: ChatId,
         @Field("user_id") userId: Long,
         @Field("until_date") untilDate: Long?
     ): Call<Response<Boolean>>
@@ -468,14 +436,14 @@ interface ApiService {
     @FormUrlEncoded
     @POST("unbanChatMember")
     fun unbanChatMember(
-        @Field("chat_id") chatId: Long,
+        @Field("chat_id") chatId: ChatId,
         @Field("user_id") userId: Long
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
     @POST("restrictChatMember")
     fun restrictChatMember(
-        @Field("chat_id") chatId: Long,
+        @Field("chat_id") chatId: ChatId,
         @Field("user_id") userId: Long,
         @Field("permissions") permissions: String,
         @Field("until_date") untilDate: Long?
@@ -500,47 +468,47 @@ interface ApiService {
     @FormUrlEncoded
     @POST("setChatPermissions")
     fun setChatPermissions(
-        @Field("chat_id") chatId: Long,
+        @Field("chat_id") chatId: ChatId,
         @Field("permissions") permissions: String
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
     @POST("exportChatInviteLink")
     fun exportChatInviteLink(
-        @Field("chat_id") chatId: Long
+        @Field("chat_id") chatId: ChatId
     ): Call<Response<String>>
 
     @Multipart
     @POST("setChatPhoto")
     fun setChatPhoto(
-        @Part("chat_id") chatId: RequestBody,
+        @Part("chat_id") chatId: ChatId,
         @Part("photo") photo: MultipartBody.Part
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
     @POST("deleteChatPhoto")
     fun deleteChatPhoto(
-        @Field("chat_id") chatId: Long
+        @Field("chat_id") chatId: ChatId
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
     @POST("setChatTitle")
     fun setChatTitle(
-        @Field("chat_id") chatId: Long,
+        @Field("chat_id") chatId: ChatId,
         @Field("title") title: String
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
     @POST("setChatDescription")
     fun setChatDescription(
-        @Field("chat_id") chatId: Long,
+        @Field("chat_id") chatId: ChatId,
         @Field("description") description: String
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
     @POST("pinChatMessage")
     fun pinChatMessage(
-        @Field("chat_id") chatId: Long,
+        @Field("chat_id") chatId: ChatId,
         @Field("message_id") messageId: Long,
         @Field("disable_notification") disableNotification: Boolean?
     ): Call<Response<Boolean>>
@@ -561,12 +529,12 @@ interface ApiService {
     @FormUrlEncoded
     @POST("leaveChat")
     fun leaveChat(
-        @Field("chat_id") chatId: Long
+        @Field("chat_id") chatId: ChatId
     ): Call<Response<Boolean>>
 
     @GET("getChat")
     fun getChat(
-        @Query("chat_id") chatId: Long
+        @Query("chat_id") chatId: ChatId
     ): Call<Response<Chat>>
 
     @GET("getChatAdministrators")
@@ -576,26 +544,26 @@ interface ApiService {
 
     @GET("getChatMembersCount")
     fun getChatMembersCount(
-        @Query("chat_id") chatId: Long
+        @Query("chat_id") chatId: ChatId
     ): Call<Response<Int>>
 
     @GET("getChatMember")
     fun getChatMember(
-        @Query("chat_id") chatId: Long,
+        @Query("chat_id") chatId: ChatId,
         @Query("user_id") userId: Long
     ): Call<Response<ChatMember>>
 
     @FormUrlEncoded
     @POST("setChatStickerSet")
     fun setChatStickerSet(
-        @Field("chat_id") chatId: Long,
+        @Field("chat_id") chatId: ChatId,
         @Field("sticker_set_name") stickerSetName: String
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
     @POST("deleteChatStickerSet")
     fun deleteChatStickerSet(
-        @Field("chat_id") chatId: Long
+        @Field("chat_id") chatId: ChatId
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
@@ -615,7 +583,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("editMessageText")
     fun editMessageText(
-        @Field("chat_id") chatId: Long?,
+        @Field("chat_id") chatId: ChatId?,
         @Field("message_id") messageId: Long?,
         @Field("inline_message_id") inlineMessageId: String?,
         @Field("text") text: String,
@@ -627,7 +595,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("editMessageCaption")
     fun editMessageCaption(
-        @Field("chat_id") chatId: Long?,
+        @Field("chat_id") chatId: ChatId?,
         @Field("message_id") messageId: Long?,
         @Field("inline_message_id") inlineMessageId: String?,
         @Field("caption") caption: String,
@@ -637,7 +605,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("editMessageMedia")
     fun editMessageMedia(
-        @Field("chat_id") chatId: Long?,
+        @Field("chat_id") chatId: ChatId?,
         @Field("message_id") messageId: Long?,
         @Field("inline_message_id") inlineMessageId: String?,
         @Field("media") media: InputMedia,
@@ -647,7 +615,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("editMessageReplyMarkup")
     fun editMessageReplyMarkup(
-        @Field("chat_id") chatId: Long?,
+        @Field("chat_id") chatId: ChatId?,
         @Field("message_id") messageId: Long?,
         @Field("inline_message_id") inlineMessageId: String?,
         @Field("reply_markup") replyMarkup: ReplyMarkup? = null
@@ -656,7 +624,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("stopPoll")
     fun stopPoll(
-        @Field("chat_id") chatId: Long?,
+        @Field("chat_id") chatId: ChatId?,
         @Field("message_id") messageId: Long?,
         @Field("reply_markup") replyMarkup: ReplyMarkup? = null
     ): Call<Response<Poll>>
@@ -664,14 +632,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("deleteMessage")
     fun deleteMessage(
-        @Field("chat_id") chatId: Long,
-        @Field("message_id") messageId: Long
-    ): Call<Response<Boolean>>
-
-    @FormUrlEncoded
-    @POST("deleteMessage")
-    fun deleteMessage(
-        @Field("chat_id") channelUsername: String,
+        @Field("chat_id") chatId: ChatId,
         @Field("message_id") messageId: Long
     ): Call<Response<Boolean>>
 
@@ -682,7 +643,7 @@ interface ApiService {
     @Multipart
     @POST("sendSticker")
     fun sendSticker(
-        @Part("chat_id") chatId: RequestBody,
+        @Part("chat_id") chatId: ChatId,
         @Part("sticker") sticker: MultipartBody.Part,
         @Part("disable_notification") disableNotification: RequestBody?,
         @Part("reply_to_message_id") replyToMessageId: RequestBody?,
@@ -692,7 +653,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("sendSticker")
     fun sendSticker(
-        @Field("chat_id") chatId: Long,
+        @Field("chat_id") chatId: ChatId,
         @Field("sticker") fileId: String,
         @Field("disable_notification") disableNotification: Boolean?,
         @Field("reply_to_message_id") replyToMessageId: Long?,
@@ -775,7 +736,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("sendInvoice")
     fun sendInvoice(
-        @Field("chat_id") chatId: Long,
+        @Field("chat_id") chatId: ChatId,
         @Field("title") title: String,
         @Field("description") description: String,
         @Field("payload") payload: String,
@@ -841,17 +802,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST(DiceFields.SEND_DICE_OP_NAME)
     fun sendDice(
-        @Field(ApiConstants.CHAT_ID) chatId: Long,
-        @Field(DiceFields.EMOJI) emoji: DiceEmoji? = null,
-        @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean? = null,
-        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long? = null,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
-    ): Call<Response<Message>>
-
-    @FormUrlEncoded
-    @POST(DiceFields.SEND_DICE_OP_NAME)
-    fun sendDice(
-        @Field(ApiConstants.CHAT_ID) channelUsername: String,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field(DiceFields.EMOJI) emoji: DiceEmoji? = null,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean? = null,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long? = null,
@@ -861,15 +812,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST(ApiConstants.SetChatAdministratorCustomTitle.OP_NAME)
     fun setChatAdministratorCustomTitle(
-        @Field(ApiConstants.CHAT_ID) chatId: Long,
-        @Field(ApiConstants.USER_ID) userId: Long,
-        @Field(ApiConstants.SetChatAdministratorCustomTitle.CUSTOM_TITLE) customTitle: String
-    ): Call<Response<Boolean>>
-
-    @FormUrlEncoded
-    @POST(ApiConstants.SetChatAdministratorCustomTitle.OP_NAME)
-    fun setChatAdministratorCustomTitle(
-        @Field(ApiConstants.CHAT_ID) channelUsername: String,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field(ApiConstants.USER_ID) userId: Long,
         @Field(ApiConstants.SetChatAdministratorCustomTitle.CUSTOM_TITLE) customTitle: String
     ): Call<Response<Boolean>>

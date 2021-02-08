@@ -1,5 +1,6 @@
 package com.github.kotlintelegrambot.network.apiclient
 
+import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.testutils.decode
 import junit.framework.TestCase.assertEquals
@@ -13,7 +14,7 @@ class RestrictChatMembersIT : ApiClientIT() {
         givenRestrictChatMembersSuccessResponse()
 
         sut.restrictChatMember(
-            ANY_CHAT_ID,
+            ChatId.fromId(ANY_CHAT_ID),
             ANY_USER_ID,
             ChatPermissions()
         ).execute()
@@ -28,7 +29,7 @@ class RestrictChatMembersIT : ApiClientIT() {
         givenRestrictChatMembersSuccessResponse()
 
         sut.restrictChatMember(
-            ANY_CHAT_ID,
+            ChatId.fromId(ANY_CHAT_ID),
             ANY_USER_ID,
             ChatPermissions(canSendMessages = false)
         ).execute()
@@ -45,7 +46,7 @@ class RestrictChatMembersIT : ApiClientIT() {
         givenRestrictChatMembersSuccessResponse()
 
         sut.restrictChatMember(
-            ANY_CHAT_ID,
+            ChatId.fromId(ANY_CHAT_ID),
             ANY_USER_ID,
             ChatPermissions(
                 canSendMessages = false,
@@ -68,7 +69,7 @@ class RestrictChatMembersIT : ApiClientIT() {
         givenRestrictChatMembersSuccessResponse()
 
         sut.restrictChatMember(
-            ANY_CHAT_ID,
+            ChatId.fromId(ANY_CHAT_ID),
             ANY_USER_ID,
             ChatPermissions(),
             ANY_TIMESTAMP

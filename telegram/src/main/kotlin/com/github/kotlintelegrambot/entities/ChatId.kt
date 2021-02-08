@@ -5,6 +5,7 @@ package com.github.kotlintelegrambot.entities
  */
 sealed class ChatId {
     data class Id(val id: Long) : ChatId()
+
     class ChannelUsername(username: String) : ChatId() {
         val username: String = if (username.startsWith("@")) username else "@$username"
     }

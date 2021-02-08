@@ -1,6 +1,7 @@
 package com.github.kotlintelegrambot.network.apiclient
 
 import com.github.kotlintelegrambot.entities.Chat
+import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.ParseMode.MARKDOWN
 import com.github.kotlintelegrambot.entities.User
@@ -18,7 +19,7 @@ class SendPollIT : ApiClientIT() {
     fun `sendPoll with chat id and only the mandatory parameters is correctly sent`() {
         givenAnySendPollResponse()
 
-        sut.sendPoll(ANY_CHAT_ID, ANY_QUESTION, ANY_POLL_OPTIONS).execute()
+        sut.sendPoll(ChatId.fromId(ANY_CHAT_ID), ANY_QUESTION, ANY_POLL_OPTIONS).execute()
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody =
@@ -30,7 +31,7 @@ class SendPollIT : ApiClientIT() {
     fun `sendPoll with channel username and only the mandatory parameters is correctly sent`() {
         givenAnySendPollResponse()
 
-        sut.sendPoll(ANY_CHANNEL_USERNAME, ANY_QUESTION, ANY_POLL_OPTIONS).execute()
+        sut.sendPoll(ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME), ANY_QUESTION, ANY_POLL_OPTIONS).execute()
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody =
@@ -43,7 +44,7 @@ class SendPollIT : ApiClientIT() {
         givenAnySendPollResponse()
 
         sut.sendPoll(
-            channelUsername = ANY_CHANNEL_USERNAME,
+            chatId = ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME),
             question = ANY_QUESTION,
             options = ANY_POLL_OPTIONS,
             allowsMultipleAnswers = ALLOWS_MULTIPLE_ANSWERS,
@@ -65,7 +66,7 @@ class SendPollIT : ApiClientIT() {
         givenAnySendPollResponse()
 
         sut.sendPoll(
-            chatId = ANY_CHAT_ID,
+            chatId = ChatId.fromId(ANY_CHAT_ID),
             question = ANY_QUESTION,
             options = ANY_POLL_OPTIONS,
             isAnonymous = IS_ANONYMOUS,
@@ -102,7 +103,7 @@ class SendPollIT : ApiClientIT() {
     fun `sendPoll response is returned correctly`() {
         givenAnySendPollResponse()
 
-        val sendPollResult = sut.sendPoll(ANY_CHAT_ID, ANY_QUESTION, ANY_POLL_OPTIONS).execute()
+        val sendPollResult = sut.sendPoll(ChatId.fromId(ANY_CHAT_ID), ANY_QUESTION, ANY_POLL_OPTIONS).execute()
 
         val expectedMessage = Message(
             messageId = 9,

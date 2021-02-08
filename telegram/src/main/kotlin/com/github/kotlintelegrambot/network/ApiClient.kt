@@ -56,8 +56,8 @@ import java.nio.file.Files
 import java.util.concurrent.TimeUnit
 import java.io.File as SystemFile
 
-private val PLAIN_TEXT_MIME = MediaType.parse("text/plain")
-private val APPLICATION_JSON_MIME = MediaType.parse("application/json")
+val PLAIN_TEXT_MIME = MediaType.parse("text/plain")
+val APPLICATION_JSON_MIME = MediaType.parse("application/json")
 
 private fun convertString(text: String) = RequestBody.create(PLAIN_TEXT_MIME, text)
 private fun convertJson(text: String) = RequestBody.create(APPLICATION_JSON_MIME, text)
@@ -125,14 +125,14 @@ class ApiClient(
         val retrofit = Retrofit.Builder()
             .baseUrl("${apiUrl}bot$token/")
             .client(httpClient)
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(ChatIdConverterFactory())
             // In retrofit, Gson is used only for response/request decoding/encoding, but not for @Query/@Url/@Path etc...
             // For them, Retrofit uses Converter.Factory classes to convert any type to String. By default, enums are transformed
             // with BuiltInConverters.ToStringConverter which just calls to the toString() method of a given object.
             // Is needed to provide a special Converter.Factory if a custom transformation is wanted for them.
             .addConverterFactory(EnumRetrofitConverterFactory())
             .addConverterFactory(DiceEmojiConverterFactory())
-            .addConverterFactory(ChatIdConverterFactory())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
 
         service = retrofit.create(ApiService::class.java)
@@ -192,7 +192,7 @@ class ApiClient(
     }
 
     fun sendMessage(
-        chatId: Long,
+        chatId: ChatId,
         text: String,
         parseMode: ParseMode?,
         disableWebPagePreview: Boolean?,
@@ -200,34 +200,15 @@ class ApiClient(
         replyToMessageId: Long?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
-
         return service.sendMessage(
             chatId, text, parseMode, disableWebPagePreview, disableNotification,
             replyToMessageId, replyMarkup
         )
     }
 
-    fun sendMessage(
-        channelUsername: String,
-        text: String,
-        parseMode: ParseMode?,
-        disableWebPagePreview: Boolean?,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?,
-        replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> = service.sendMessage(
-        channelUsername,
-        text,
-        parseMode,
-        disableWebPagePreview,
-        disableNotification,
-        replyToMessageId,
-        replyMarkup
-    )
-
     fun forwardMessage(
-        chatId: Long,
-        fromChatId: Long,
+        chatId: ChatId,
+        fromChatId: ChatId,
         messageId: Long,
         disableNotification: Boolean?
     ): Call<Response<Message>> {
@@ -261,7 +242,7 @@ class ApiClient(
     }
 
     fun sendPhoto(
-        chatId: Long,
+        chatId: ChatId,
         photo: SystemFile,
         caption: String?,
         parseMode: String?,
@@ -269,9 +250,8 @@ class ApiClient(
         replyToMessageId: Long?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
-
         return service.sendPhoto(
-            convertString(chatId.toString()),
+            chatId,
             convertFile("photo", photo),
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode) else null,
@@ -282,7 +262,7 @@ class ApiClient(
     }
 
     fun sendPhoto(
-        chatId: Long,
+        chatId: ChatId,
         photo: String,
         caption: String?,
         parseMode: ParseMode?,
@@ -290,7 +270,6 @@ class ApiClient(
         replyToMessageId: Long?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
-
         return service.sendPhoto(
             chatId,
             photo,
@@ -303,7 +282,7 @@ class ApiClient(
     }
 
     fun sendAudio(
-        chatId: Long,
+        chatId: ChatId,
         audio: SystemFile,
         duration: Int?,
         performer: String?,
@@ -314,7 +293,7 @@ class ApiClient(
     ): Call<Response<Message>> {
 
         return service.sendAudio(
-            convertString(chatId.toString()),
+            chatId,
             convertFile("audio", audio),
             if (duration != null) convertString(duration.toString()) else null,
             if (performer != null) convertString(performer) else null,
@@ -326,7 +305,7 @@ class ApiClient(
     }
 
     fun sendAudio(
-        chatId: Long,
+        chatId: ChatId,
         audio: String,
         duration: Int?,
         performer: String?,
@@ -349,7 +328,7 @@ class ApiClient(
     }
 
     fun sendDocument(
-        chatId: Long,
+        chatId: ChatId,
         document: SystemFile,
         caption: String?,
         parseMode: String?,
@@ -359,7 +338,7 @@ class ApiClient(
     ): Call<Response<Message>> {
 
         return service.sendDocument(
-            convertString(chatId.toString()),
+            chatId,
             convertFile("document", document),
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode) else null,
@@ -370,7 +349,7 @@ class ApiClient(
     }
 
     fun sendDocument(
-        chatId: Long,
+        chatId: ChatId,
         fileId: String,
         caption: String?,
         parseMode: ParseMode?,
@@ -391,7 +370,7 @@ class ApiClient(
     }
 
     fun sendDocument(
-        chatId: Long,
+        chatId: ChatId,
         fileBytes: ByteArray,
         caption: String?,
         parseMode: String?,
@@ -402,7 +381,7 @@ class ApiClient(
     ): Call<Response<Message>> {
 
         return service.sendDocument(
-            convertString(chatId.toString()),
+            chatId,
             fileBytes.toMultipartBodyPart(name = "document", filename = filename),
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode) else null,
@@ -413,7 +392,7 @@ class ApiClient(
     }
 
     fun sendVideo(
-        chatId: Long,
+        chatId: ChatId,
         video: SystemFile,
         duration: Int?,
         width: Int?,
@@ -425,7 +404,7 @@ class ApiClient(
     ): Call<Response<Message>> {
 
         return service.sendVideo(
-            convertString(chatId.toString()),
+            chatId,
             convertFile("video", video),
             if (duration != null) convertString(duration.toString()) else null,
             if (width != null) convertString(width.toString()) else null,
@@ -438,7 +417,7 @@ class ApiClient(
     }
 
     fun sendVideo(
-        chatId: Long,
+        chatId: ChatId,
         fileId: String,
         duration: Int?,
         width: Int?,
@@ -463,7 +442,7 @@ class ApiClient(
     }
 
     fun sendAnimation(
-        chatId: Long,
+        chatId: ChatId,
         animation: SystemFile,
         duration: Int?,
         width: Int?,
@@ -476,7 +455,7 @@ class ApiClient(
     ): Call<Response<Message>> {
 
         return service.sendAnimation(
-            convertString(chatId.toString()),
+            chatId,
             convertFile("video", animation),
             if (duration != null) convertString(duration.toString()) else null,
             if (width != null) convertString(width.toString()) else null,
@@ -490,7 +469,7 @@ class ApiClient(
     }
 
     fun sendAnimation(
-        chatId: Long,
+        chatId: ChatId,
         fileId: String,
         duration: Int?,
         width: Int?,
@@ -517,7 +496,7 @@ class ApiClient(
     }
 
     fun sendVoice(
-        chatId: Long,
+        chatId: ChatId,
         audio: SystemFile,
         caption: String?,
         parseMode: ParseMode?,
@@ -529,7 +508,7 @@ class ApiClient(
     ): Call<Response<Message>> {
 
         return service.sendVoice(
-            convertString(chatId.toString()),
+            chatId,
             convertFile("voice", audio, "audio/ogg"),
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode.modeName) else null,
@@ -542,7 +521,7 @@ class ApiClient(
     }
 
     fun sendVoice(
-        chatId: Long,
+        chatId: ChatId,
         audioId: String,
         caption: String?,
         parseMode: ParseMode?,
@@ -567,7 +546,7 @@ class ApiClient(
     }
 
     fun sendVoice(
-        chatId: Long,
+        chatId: ChatId,
         audio: ByteArray,
         caption: String?,
         parseMode: ParseMode?,
@@ -579,7 +558,7 @@ class ApiClient(
     ): Call<Response<Message>> {
 
         return service.sendVoice(
-            convertString(chatId.toString()),
+            chatId,
             convertBytes("voice", audio, "audio/ogg"),
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode.modeName) else null,
@@ -592,7 +571,7 @@ class ApiClient(
     }
 
     fun sendVideoNote(
-        chatId: Long,
+        chatId: ChatId,
         videoNote: SystemFile,
         duration: Int?,
         length: Int?,
@@ -602,7 +581,7 @@ class ApiClient(
     ): Call<Response<Message>> {
 
         return service.sendVideoNote(
-            convertString(chatId.toString()),
+            chatId,
             convertFile("video_note", videoNote),
             if (duration != null) convertString(duration.toString()) else null,
             if (length != null) convertString(length.toString()) else null,
@@ -613,7 +592,7 @@ class ApiClient(
     }
 
     fun sendVideoNote(
-        chatId: Long,
+        chatId: ChatId,
         videoNoteId: String,
         duration: Int?,
         length: Int?,
@@ -635,14 +614,14 @@ class ApiClient(
 
     /**
      * Use this method to send a group of photos or videos as an album
-     * @param chatId Unique identifier for the target chat
+     * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param mediaGroup An object describing photos and videos to be sent, must include 2-10 items
      * @param disableNotification Sends the messages silently. Users will receive a notification with no sound
      * @param replyToMessageId If the messages are a reply, ID of the original message
      * @return an array of the sent Messages
      */
     fun sendMediaGroup(
-        chatId: Long,
+        chatId: ChatId,
         mediaGroup: MediaGroup,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null
@@ -656,31 +635,8 @@ class ApiClient(
         return service.sendMediaGroup(sendMediaGroupMultipartBody)
     }
 
-    /**
-     * Use this method to send a group of photos or videos as an album
-     * @param chatId Username of the target channel (in the format @channelusername)
-     * @param mediaGroup An object describing photos and videos to be sent, must include 2-10 items
-     * @param disableNotification Sends the messages silently. Users will receive a notification with no sound
-     * @param replyToMessageId If the messages are a reply, ID of the original message
-     * @return an array of the sent Messages
-     */
-    fun sendMediaGroup(
-        chatId: String,
-        mediaGroup: MediaGroup,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?
-    ): Call<Response<Array<Message>>> {
-        val sendMediaGroupMultipartBody = multipartBodyFactory.createForSendMediaGroup(
-            chatId,
-            mediaGroup,
-            disableNotification,
-            replyToMessageId
-        )
-        return service.sendMediaGroup(sendMediaGroupMultipartBody)
-    }
-
     fun sendLocation(
-        chatId: Long,
+        chatId: ChatId,
         latitude: Float,
         longitude: Float,
         livePeriod: Int?,
@@ -701,7 +657,7 @@ class ApiClient(
     }
 
     fun editMessageLiveLocation(
-        chatId: Long?,
+        chatId: ChatId?,
         messageId: Long?,
         inlineMessageId: String?,
         latitude: Float,
@@ -720,7 +676,7 @@ class ApiClient(
     }
 
     fun stopMessageLiveLocation(
-        chatId: Long?,
+        chatId: ChatId?,
         messageId: Long?,
         inlineMessageId: String?,
         replyMarkup: ReplyMarkup?
@@ -735,7 +691,7 @@ class ApiClient(
     }
 
     fun sendVenue(
-        chatId: Long,
+        chatId: ChatId,
         latitude: Float,
         longitude: Float,
         title: String,
@@ -762,7 +718,7 @@ class ApiClient(
     }
 
     fun sendContact(
-        chatId: Long,
+        chatId: ChatId,
         phoneNumber: String,
         firstName: String,
         lastName: String?,
@@ -783,7 +739,7 @@ class ApiClient(
     }
 
     fun sendPoll(
-        chatId: Long,
+        chatId: ChatId,
         question: String,
         options: List<String>,
         isAnonymous: Boolean? = null,
@@ -816,42 +772,7 @@ class ApiClient(
         replyMarkup
     )
 
-    fun sendPoll(
-        channelUsername: String,
-        question: String,
-        options: List<String>,
-        isAnonymous: Boolean? = null,
-        type: PollType? = null,
-        allowsMultipleAnswers: Boolean? = null,
-        correctOptionId: Int? = null,
-        explanation: String? = null,
-        explanationParseMode: ParseMode? = null,
-        openPeriod: Int? = null,
-        closeDate: Long? = null,
-        isClosed: Boolean? = null,
-        disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null,
-        replyMarkup: ReplyMarkup? = null
-    ): Call<Response<Message>> = service.sendPoll(
-        channelUsername,
-        question,
-        gson.toJson(options),
-        isAnonymous,
-        type,
-        allowsMultipleAnswers,
-        correctOptionId,
-        explanation,
-        explanationParseMode,
-        openPeriod,
-        closeDate,
-        isClosed,
-        disableNotification,
-        replyToMessageId,
-        replyMarkup
-    )
-
-    fun sendChatAction(chatId: Long, action: ChatAction): Call<Response<Boolean>> {
-
+    fun sendChatAction(chatId: ChatId, action: ChatAction): Call<Response<Boolean>> {
         return service.sendChatAction(chatId, action)
     }
 
@@ -873,18 +794,18 @@ class ApiClient(
         return service.downloadFile("${apiUrl}file/bot$token/$filePath")
     }
 
-    fun kickChatMember(chatId: Long, userId: Long, untilDate: Long? = null): Call<Response<Boolean>> {
+    fun kickChatMember(chatId: ChatId, userId: Long, untilDate: Long? = null): Call<Response<Boolean>> {
 
         return service.kickChatMember(chatId, userId, untilDate)
     }
 
-    fun unbanChatMember(chatId: Long, userId: Long): Call<Response<Boolean>> {
+    fun unbanChatMember(chatId: ChatId, userId: Long): Call<Response<Boolean>> {
 
         return service.unbanChatMember(chatId, userId)
     }
 
     fun restrictChatMember(
-        chatId: Long,
+        chatId: ChatId,
         userId: Long,
         chatPermissions: ChatPermissions,
         untilDate: Long? = null
@@ -924,40 +845,40 @@ class ApiClient(
         canPromoteMembers
     ).runApiOperation()
 
-    fun setChatPermissions(chatId: Long, permissions: ChatPermissions): Call<Response<Boolean>> {
+    fun setChatPermissions(chatId: ChatId, permissions: ChatPermissions): Call<Response<Boolean>> {
 
         return service.setChatPermissions(chatId, gson.toJson(permissions))
     }
 
-    fun exportChatInviteLink(chatId: Long): Call<Response<String>> {
+    fun exportChatInviteLink(chatId: ChatId): Call<Response<String>> {
 
         return service.exportChatInviteLink(chatId)
     }
 
     fun setChatPhoto(
-        chatId: Long,
+        chatId: ChatId,
         photo: SystemFile
     ): Call<Response<Boolean>> {
-        return service.setChatPhoto(convertString(chatId.toString()), convertFile("photo", photo))
+        return service.setChatPhoto(chatId, convertFile("photo", photo))
     }
 
-    fun deleteChatPhoto(chatId: Long): Call<Response<Boolean>> {
+    fun deleteChatPhoto(chatId: ChatId): Call<Response<Boolean>> {
 
         return service.deleteChatPhoto(chatId)
     }
 
-    fun setChatTitle(chatId: Long, title: String): Call<Response<Boolean>> {
+    fun setChatTitle(chatId: ChatId, title: String): Call<Response<Boolean>> {
 
         return service.setChatTitle(chatId, title)
     }
 
-    fun setChatDescription(chatId: Long, description: String): Call<Response<Boolean>> {
+    fun setChatDescription(chatId: ChatId, description: String): Call<Response<Boolean>> {
 
         return service.setChatDescription(chatId, description)
     }
 
     fun pinChatMessage(
-        chatId: Long,
+        chatId: ChatId,
         messageId: Long,
         disableNotification: Boolean?
     ): Call<Response<Boolean>> {
@@ -979,12 +900,12 @@ class ApiClient(
         chatId
     ).runApiOperation()
 
-    fun leaveChat(chatId: Long): Call<Response<Boolean>> {
+    fun leaveChat(chatId: ChatId): Call<Response<Boolean>> {
 
         return service.leaveChat(chatId)
     }
 
-    fun getChat(chatId: Long): Call<Response<Chat>> {
+    fun getChat(chatId: ChatId): Call<Response<Chat>> {
 
         return service.getChat(chatId)
     }
@@ -992,22 +913,22 @@ class ApiClient(
     fun getChatAdministrators(chatId: ChatId): TelegramBotResult<List<ChatMember>> =
         service.getChatAdministrators(chatId).runApiOperation()
 
-    fun getChatMembersCount(chatId: Long): Call<Response<Int>> {
+    fun getChatMembersCount(chatId: ChatId): Call<Response<Int>> {
 
         return service.getChatMembersCount(chatId)
     }
 
-    fun getChatMember(chatId: Long, userId: Long): Call<Response<ChatMember>> {
+    fun getChatMember(chatId: ChatId, userId: Long): Call<Response<ChatMember>> {
 
         return service.getChatMember(chatId, userId)
     }
 
-    fun setChatStickerSet(chatId: Long, stickerSetName: String): Call<Response<Boolean>> {
+    fun setChatStickerSet(chatId: ChatId, stickerSetName: String): Call<Response<Boolean>> {
 
         return service.setChatStickerSet(chatId, stickerSetName)
     }
 
-    fun deleteChatStickerSet(chatId: Long): Call<Response<Boolean>> {
+    fun deleteChatStickerSet(chatId: ChatId): Call<Response<Boolean>> {
 
         return service.deleteChatStickerSet(chatId)
     }
@@ -1034,7 +955,7 @@ class ApiClient(
      */
 
     fun editMessageText(
-        chatId: Long?,
+        chatId: ChatId?,
         messageId: Long?,
         inlineMessageId: String?,
         text: String,
@@ -1055,7 +976,7 @@ class ApiClient(
     }
 
     fun editMessageCaption(
-        chatId: Long?,
+        chatId: ChatId?,
         messageId: Long?,
         inlineMessageId: String?,
         caption: String,
@@ -1072,7 +993,7 @@ class ApiClient(
     }
 
     fun editMessageMedia(
-        chatId: Long?,
+        chatId: ChatId?,
         messageId: Long?,
         inlineMessageId: String?,
         media: InputMedia,
@@ -1089,7 +1010,7 @@ class ApiClient(
     }
 
     fun editMessageReplyMarkup(
-        chatId: Long?,
+        chatId: ChatId?,
         messageId: Long?,
         inlineMessageId: String?,
         replyMarkup: ReplyMarkup?
@@ -1104,7 +1025,7 @@ class ApiClient(
     }
 
     fun stopPoll(
-        chatId: Long?,
+        chatId: ChatId?,
         messageId: Long?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Poll>> {
@@ -1116,18 +1037,15 @@ class ApiClient(
         )
     }
 
-    fun deleteMessage(chatId: Long, messageId: Long): Call<Response<Boolean>> =
+    fun deleteMessage(chatId: ChatId, messageId: Long): Call<Response<Boolean>> =
         service.deleteMessage(chatId, messageId)
-
-    fun deleteMessage(channelUsername: String, messageId: Long): Call<Response<Boolean>> =
-        service.deleteMessage(channelUsername, messageId)
 
     /**
      * Payment
      */
 
     fun sendInvoice(
-        chatId: Long,
+        chatId: ChatId,
         title: String,
         description: String,
         payload: String,
@@ -1196,7 +1114,7 @@ class ApiClient(
      */
 
     fun sendSticker(
-        chatId: Long,
+        chatId: ChatId,
         sticker: SystemFile,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
@@ -1204,7 +1122,7 @@ class ApiClient(
     ): Call<Response<Message>> {
 
         return service.sendSticker(
-            convertString(chatId.toString()),
+            chatId,
             convertFile("photo", sticker),
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
@@ -1213,7 +1131,7 @@ class ApiClient(
     }
 
     fun sendSticker(
-        chatId: Long,
+        chatId: ChatId,
         sticker: String,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
@@ -1375,7 +1293,7 @@ class ApiClient(
     }
 
     fun sendDice(
-        chatId: Long,
+        chatId: ChatId,
         emoji: DiceEmoji? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
@@ -1388,36 +1306,12 @@ class ApiClient(
         replyMarkup
     )
 
-    fun sendDice(
-        channelUsername: String,
-        emoji: DiceEmoji? = null,
-        disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null,
-        replyMarkup: ReplyMarkup? = null
-    ): Call<Response<Message>> = service.sendDice(
-        channelUsername,
-        emoji,
-        disableNotification,
-        replyToMessageId,
-        replyMarkup
-    )
-
     fun setChatAdministratorCustomTitle(
-        chatId: Long,
+        chatId: ChatId,
         userId: Long,
         customTitle: String
     ): Call<Response<Boolean>> = service.setChatAdministratorCustomTitle(
         chatId,
-        userId,
-        customTitle
-    )
-
-    fun setChatAdministratorCustomTitle(
-        channelUsername: String,
-        userId: Long,
-        customTitle: String
-    ): Call<Response<Boolean>> = service.setChatAdministratorCustomTitle(
-        channelUsername,
         userId,
         customTitle
     )

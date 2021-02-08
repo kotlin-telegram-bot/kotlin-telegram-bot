@@ -1,5 +1,6 @@
 package com.github.kotlintelegrambot.network.apiclient
 
+import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.TelegramFile
 import com.github.kotlintelegrambot.entities.inputmedia.MediaGroup
 import com.github.kotlintelegrambot.entities.inputmedia.anyInputMediaPhoto
@@ -21,7 +22,7 @@ class SendMediaGroupIT : ApiClientIT() {
             anyInputMediaPhoto(media = TelegramFile.ByFileId(ANY_IMAGE_FILE_ID))
         )
 
-        sut.sendMediaGroup(ANY_CHAT_ID, mediaGroup, DISABLE_NOTIFICATION, REPLY_TO_MESSAGE_ID).execute()
+        sut.sendMediaGroup(ChatId.fromId(ANY_CHAT_ID), mediaGroup, DISABLE_NOTIFICATION, REPLY_TO_MESSAGE_ID).execute()
 
         val request = mockWebServer.takeRequest()
         val multipartBoundary = request.multipartBoundary
@@ -41,7 +42,7 @@ class SendMediaGroupIT : ApiClientIT() {
             anyInputMediaPhoto(media = TelegramFile.ByFileId(ANY_IMAGE_FILE_ID))
         )
 
-        sut.sendMediaGroup(ANY_CHAT_ID, mediaGroup).execute()
+        sut.sendMediaGroup(ChatId.fromId(ANY_CHAT_ID), mediaGroup).execute()
 
         val request = mockWebServer.takeRequest()
         val multipartBoundary = request.multipartBoundary
@@ -61,7 +62,7 @@ class SendMediaGroupIT : ApiClientIT() {
             anyInputMediaPhoto(media = TelegramFile.ByFile(getFileFromResources<SendMediaGroupIT>("image.png")))
         )
 
-        sut.sendMediaGroup(ANY_CHAT_ID, mediaGroup).execute()
+        sut.sendMediaGroup(ChatId.fromId(ANY_CHAT_ID), mediaGroup).execute()
 
         val request = mockWebServer.takeRequest()
         val multipartBoundary = request.multipartBoundary
@@ -84,7 +85,7 @@ class SendMediaGroupIT : ApiClientIT() {
             anyInputMediaPhoto(media = TelegramFile.ByFile(getFileFromResources<SendMediaGroupIT>("image.png")))
         )
 
-        sut.sendMediaGroup(ANY_CHAT_ID, mediaGroup).execute()
+        sut.sendMediaGroup(ChatId.fromId(ANY_CHAT_ID), mediaGroup).execute()
 
         val request = mockWebServer.takeRequest()
         val multipartBoundary = request.multipartBoundary
