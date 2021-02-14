@@ -2,6 +2,7 @@ package com.github.kotlintelegrambot
 
 import com.github.kotlintelegrambot.dispatcher.Dispatcher
 import com.github.kotlintelegrambot.entities.BotCommand
+import com.github.kotlintelegrambot.entities.Chat
 import com.github.kotlintelegrambot.entities.ChatAction
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ChatMember
@@ -908,7 +909,16 @@ class Bot private constructor(
 
     fun leaveChat(chatId: ChatId) = apiClient.leaveChat(chatId).call()
 
-    fun getChat(chatId: ChatId) = apiClient.getChat(chatId).call()
+    /**
+     * Use this method to get up to date information about the chat (current name of the user
+     * for one-on-one conversations, current username of a user, group or channel, etc.).
+     *
+     * @param chatId Unique identifier for the target chat or username of the target supergroup
+     * or channel (in the format @channelusername).
+     *
+     * @return a Chat object on success.
+     */
+    fun getChat(chatId: ChatId): TelegramBotResult<Chat> = apiClient.getChat(chatId)
 
     /**
      * Use this method to get a list of administrators in a chat. If the chat is a

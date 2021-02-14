@@ -897,10 +897,7 @@ class ApiClient(
         return service.leaveChat(chatId)
     }
 
-    fun getChat(chatId: ChatId): Call<Response<Chat>> {
-
-        return service.getChat(chatId)
-    }
+    fun getChat(chatId: ChatId): TelegramBotResult<Chat> = service.getChat(chatId).runApiOperation()
 
     fun getChatAdministrators(chatId: ChatId): TelegramBotResult<List<ChatMember>> =
         service.getChatAdministrators(chatId).runApiOperation()
