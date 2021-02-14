@@ -1,0 +1,11 @@
+--%1$s
+Content-Disposition: form-data; name="chat_id"
+Content-Length: 7
+
+3242424
+--%1$s
+Content-Disposition: form-data; name="media"
+Content-Length: 115
+
+[{"media":"http://www.test.com/audio.ogg","type":"audio"},{"media":"http://www.test.com/audio.ogg","type":"audio"}]
+--%1$s--

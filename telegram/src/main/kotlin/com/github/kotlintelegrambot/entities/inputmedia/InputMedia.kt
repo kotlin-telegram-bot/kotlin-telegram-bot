@@ -92,7 +92,7 @@ data class InputMediaAudio(
     @SerializedName(InputMediaFields.DURATION) val duration: Int? = null,
     @SerializedName(InputMediaFields.PERFORMER) val performer: String? = null,
     @SerializedName(InputMediaFields.TITLE) val title: String? = null
-) : InputMedia() {
+) : InputMedia(), GroupableMedia {
     override val type: String
         get() = InputMediaTypes.AUDIO
 }
@@ -106,7 +106,7 @@ data class InputMediaDocument(
     @SerializedName(InputMediaFields.CAPTION) override val caption: String? = null,
     @SerializedName(InputMediaFields.PARSE_MODE) override val parseMode: String? = null,
     @SerializedName(InputMediaFields.THUMB) val thumb: TelegramFile.ByFile? = null
-) : InputMedia() {
+) : InputMedia(), GroupableMedia {
     override val type: String
         get() = InputMediaTypes.DOCUMENT
 }

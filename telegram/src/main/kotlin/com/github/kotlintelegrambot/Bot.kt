@@ -7,6 +7,7 @@ import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ChatMember
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
+import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.MessageEntity
 import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.ReplyMarkup
@@ -614,12 +615,28 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
+    /**
+     * Use this method to send a group of photos, videos, documents or audios as an album.
+     * Documents and audio files can be only grouped in an album with messages of the same type.
+     *
+     * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername).
+     * @param mediaGroup An object describing photos and videos to be sent, must include 2-10 items.
+     * @param disableNotification Sends the messages silently. Users will receive a notification with no sound.
+     * @param replyToMessageId If the messages are a reply, ID of the original message.
+     *
+     * @return a list of the sent Messages.
+     */
     fun sendMediaGroup(
         chatId: ChatId,
         mediaGroup: MediaGroup,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null
-    ) = apiClient.sendMediaGroup(chatId, mediaGroup, disableNotification, replyToMessageId).call()
+    ): TelegramBotResult<List<Message>> = apiClient.sendMediaGroup(
+        chatId,
+        mediaGroup,
+        disableNotification,
+        replyToMessageId
+    )
 
     fun sendLocation(
         chatId: ChatId,

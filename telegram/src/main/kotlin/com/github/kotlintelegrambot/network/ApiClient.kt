@@ -612,27 +612,19 @@ class ApiClient(
         )
     }
 
-    /**
-     * Use this method to send a group of photos or videos as an album
-     * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param mediaGroup An object describing photos and videos to be sent, must include 2-10 items
-     * @param disableNotification Sends the messages silently. Users will receive a notification with no sound
-     * @param replyToMessageId If the messages are a reply, ID of the original message
-     * @return an array of the sent Messages
-     */
     fun sendMediaGroup(
         chatId: ChatId,
         mediaGroup: MediaGroup,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null
-    ): Call<Response<Array<Message>>> {
+    ): TelegramBotResult<List<Message>> {
         val sendMediaGroupMultipartBody = multipartBodyFactory.createForSendMediaGroup(
             chatId,
             mediaGroup,
             disableNotification,
             replyToMessageId
         )
-        return service.sendMediaGroup(sendMediaGroupMultipartBody)
+        return service.sendMediaGroup(sendMediaGroupMultipartBody).runApiOperation()
     }
 
     fun sendLocation(
