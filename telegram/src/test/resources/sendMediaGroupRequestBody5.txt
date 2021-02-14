@@ -1,0 +1,11 @@
+--%1$s
+Content-Disposition: form-data; name="chat_id"
+Content-Length: 7
+
+3242424
+--%1$s
+Content-Disposition: form-data; name="media"
+Content-Length: 127
+
+[{"media":"http://www.test.com/document.pdf","type":"document"},{"media":"http://www.test.com/document.pdf","type":"document"}]
+--%1$s--

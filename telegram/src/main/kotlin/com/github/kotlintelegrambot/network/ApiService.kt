@@ -320,7 +320,7 @@ interface ApiService {
 
     @Multipart
     @POST("sendMediaGroup")
-    fun sendMediaGroup(@Part body: List<MultipartBody.Part>): Call<Response<Array<Message>>>
+    fun sendMediaGroup(@Part body: List<MultipartBody.Part>): Call<Response<List<Message>>>
 
     @FormUrlEncoded
     @POST("sendLocation")
