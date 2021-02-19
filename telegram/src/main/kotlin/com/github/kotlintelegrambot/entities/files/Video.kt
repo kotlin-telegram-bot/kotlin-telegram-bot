@@ -14,5 +14,6 @@ data class Video(
     @SerializedName(FilesFields.duration) val duration: Int,
     @SerializedName(FilesFields.thumb) val thumb: PhotoSize? = null,
     @SerializedName(FilesFields.mimeType) val mimeType: String? = null,
-    @SerializedName(FilesFields.fileSize) val fileSize: Int? = null
+    @SerializedName(FilesFields.fileSize) val fileSize: Int? = null,
+    @SerializedName(FilesFields.fileName) val fileName: String? = null
 )

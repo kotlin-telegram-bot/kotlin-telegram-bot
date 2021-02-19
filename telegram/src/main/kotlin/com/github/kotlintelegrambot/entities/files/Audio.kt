@@ -14,5 +14,6 @@ data class Audio(
     @SerializedName(FilesFields.title) val title: String? = null,
     @SerializedName(FilesFields.mimeType) val mimeType: String? = null,
     @SerializedName(FilesFields.fileSize) val fileSize: Int? = null,
-    @SerializedName(FilesFields.thumb) val thumb: PhotoSize? = null
+    @SerializedName(FilesFields.thumb) val thumb: PhotoSize? = null,
+    @SerializedName(FilesFields.fileName) val fileName: String? = null
 )

@@ -180,7 +180,8 @@ fun anyAudio(
     performer: String? = null,
     title: String? = null,
     mimeType: String? = null,
-    fileSize: Int? = null
+    fileSize: Int? = null,
+    fileName: String? = null
 ): Audio = Audio(
     fileId = fileId,
     fileUniqueId = fileUniqueId,
@@ -188,7 +189,8 @@ fun anyAudio(
     performer = performer,
     title = title,
     mimeType = mimeType,
-    fileSize = fileSize
+    fileSize = fileSize,
+    fileName = fileName
 )
 
 private const val ANY_WIDTH = 23452345
@@ -236,7 +238,8 @@ fun anyVideo(
     thumb: PhotoSize? = null,
     mimeType: String? = null,
     fileSize: Int? = null,
-    duration: Int = ANY_DURATION
+    duration: Int = ANY_DURATION,
+    fileName: String? = null
 ): Video = Video(
     fileId = fileId,
     fileUniqueId = fileUniqueId,
@@ -245,7 +248,8 @@ fun anyVideo(
     thumb = thumb,
     mimeType = mimeType,
     fileSize = fileSize,
-    duration = duration
+    duration = duration,
+    fileName = fileName
 )
 
 private const val ANY_LENGTH = 234234
