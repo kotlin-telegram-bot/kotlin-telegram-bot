@@ -1272,12 +1272,16 @@ class Bot private constructor(
 
     /**
      * Use this method to send a dice, which will have a random value from 1 to 6.
-     * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param emoji Emoji on which the dice throw animation is based. Currently, must be one of 🎲 or 🎯. Defaults to 🎲
-     * @param disableNotification Sends the message silently. Users will receive a notification with no sound
-     * @param replyToMessageId If the message is a reply, ID of the original message
-     * @param replyMarkup A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user
-     * @return the sent Message
+     *
+     * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername).
+     * @param emoji Emoji on which the dice throw animation is based. Currently, must be one of 🎲, 🎯, 🏀, ⚽, 🎰 or 🎳.
+     * Defaults to 🎲.
+     * @param disableNotification Sends the message silently. Users will receive a notification with no sound.
+     * @param replyToMessageId If the message is a reply, ID of the original message.
+     * @param replyMarkup A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove
+     * reply keyboard or to force a reply from the user.
+     *
+     * @return the sent Message.
      */
     fun sendDice(
         chatId: ChatId,
@@ -1285,13 +1289,13 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         replyMarkup: ReplyMarkup? = null
-    ) = apiClient.sendDice(
+    ): TelegramBotResult<Message> = apiClient.sendDice(
         chatId,
         emoji,
         disableNotification,
         replyToMessageId,
         replyMarkup
-    ).call()
+    )
 
     /**
      * Use this method to set a custom title for an administrator in a supergroup promoted by the bot.
