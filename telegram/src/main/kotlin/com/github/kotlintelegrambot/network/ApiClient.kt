@@ -1258,7 +1258,7 @@ class ApiClient(
         nextOffset: String?,
         switchPmText: String?,
         switchPmParameter: String?
-    ): Call<Response<Boolean>> {
+    ): TelegramBotResult<Boolean> {
         val inlineQueryResultsType = object : TypeToken<List<InlineQueryResult>>() {}.type
         val serializedInlineQueryResults = gson.toJson(inlineQueryResults, inlineQueryResultsType)
 
@@ -1270,7 +1270,7 @@ class ApiClient(
             nextOffset,
             switchPmText,
             switchPmParameter
-        )
+        ).runApiOperation()
     }
 
     fun getMyCommands(): TelegramBotResult<List<BotCommand>> = service.getMyCommands().runApiOperation()
