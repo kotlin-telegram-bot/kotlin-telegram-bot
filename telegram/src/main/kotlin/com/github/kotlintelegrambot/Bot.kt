@@ -1262,13 +1262,19 @@ class Bot private constructor(
         switchPmParameter
     ).call()
 
+    fun getMyCommands() = apiClient.getMyCommands().call()
+
+    /**
+     * Use this method to change the list of the bot's commands.
+     *
+     * @param commands A JSON-serialized list of bot commands to be set as the list of the bot's
+     * commands. At most 100 commands can be specified.
+     *
+     * @return True on success.
+     */
     fun setMyCommands(
         commands: List<BotCommand>
-    ) = apiClient.setMyCommands(
-        commands
-    ).call()
-
-    fun getMyCommands() = apiClient.getMyCommands().call()
+    ): TelegramBotResult<Boolean> = apiClient.setMyCommands(commands)
 
     /**
      * Use this method to send a dice, which will have a random value from 1 to 6.
