@@ -1096,7 +1096,11 @@ class ApiClient(
         preCheckoutQueryId: String,
         ok: Boolean,
         errorMessage: String?
-    ) = service.answerPreCheckoutQuery(preCheckoutQueryId, ok, errorMessage)
+    ): TelegramBotResult<Boolean> = service.answerPreCheckoutQuery(
+        preCheckoutQueryId,
+        ok,
+        errorMessage
+    ).runApiOperation()
 
     /***
      * Stickers
