@@ -1295,15 +1295,20 @@ class Bot private constructor(
 
     /**
      * Use this method to set a custom title for an administrator in a supergroup promoted by the bot.
-     * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param userId Unique identifier of the target user
-     * @param customTitle New custom title for the administrator; 0-16 characters, emoji are not allowed
+     *
+     * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername).
+     * @param userId Unique identifier of the target user.
+     * @param customTitle New custom title for the administrator; 0-16 characters, emoji are not allowed.
+     *
      * @return true on success.
      */
-    fun setChatAdministratorCustomTitle(chatId: ChatId, userId: Long, customTitle: String) =
-        apiClient.setChatAdministratorCustomTitle(
-            chatId,
-            userId,
-            customTitle
-        ).call()
+    fun setChatAdministratorCustomTitle(
+        chatId: ChatId,
+        userId: Long,
+        customTitle: String
+    ): TelegramBotResult<Boolean> = apiClient.setChatAdministratorCustomTitle(
+        chatId,
+        userId,
+        customTitle
+    )
 }
