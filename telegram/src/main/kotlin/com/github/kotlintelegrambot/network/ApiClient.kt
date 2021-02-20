@@ -1277,9 +1277,11 @@ class ApiClient(
         return service.getMyCommands()
     }
 
-    fun setMyCommands(commands: List<BotCommand>): Call<Response<Boolean>> {
-        return service.setMyCommands(gson.toJson(commands))
-    }
+    fun setMyCommands(
+        commands: List<BotCommand>
+    ): TelegramBotResult<Boolean> = service.setMyCommands(
+        gson.toJson(commands)
+    ).runApiOperation()
 
     fun sendDice(
         chatId: ChatId,
