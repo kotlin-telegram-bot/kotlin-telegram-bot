@@ -17,7 +17,7 @@ class SendDiceIT : ApiClientIT() {
     fun `sendDice only with mandatory parameters`() {
         givenAnySendDiceResponse()
 
-        sut.sendDice(ChatId.fromId(ANY_CHAT_ID)).execute()
+        sut.sendDice(ChatId.fromId(ANY_CHAT_ID))
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID"
@@ -28,7 +28,7 @@ class SendDiceIT : ApiClientIT() {
     fun `sendDice with dice emoji`() {
         givenAnySendDiceResponse()
 
-        sut.sendDice(ChatId.fromId(ANY_CHAT_ID), emoji = DiceEmoji.Dice).execute()
+        sut.sendDice(ChatId.fromId(ANY_CHAT_ID), emoji = DiceEmoji.Dice)
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID&emoji=🎲"
@@ -39,7 +39,7 @@ class SendDiceIT : ApiClientIT() {
     fun `sendDice with dartboard emoji`() {
         givenAnySendDiceResponse()
 
-        sut.sendDice(ChatId.fromId(ANY_CHAT_ID), emoji = DiceEmoji.Dartboard).execute()
+        sut.sendDice(ChatId.fromId(ANY_CHAT_ID), emoji = DiceEmoji.Dartboard)
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID&emoji=🎯"
@@ -50,7 +50,7 @@ class SendDiceIT : ApiClientIT() {
     fun `sendDice with basketball emoji`() {
         givenAnySendDiceResponse()
 
-        sut.sendDice(ChatId.fromId(ANY_CHAT_ID), emoji = DiceEmoji.Basketball).execute()
+        sut.sendDice(ChatId.fromId(ANY_CHAT_ID), emoji = DiceEmoji.Basketball)
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID&emoji=🏀"
@@ -61,7 +61,7 @@ class SendDiceIT : ApiClientIT() {
     fun `sendDice with football emoji`() {
         givenAnySendDiceResponse()
 
-        sut.sendDice(ChatId.fromId(ANY_CHAT_ID), emoji = DiceEmoji.Football).execute()
+        sut.sendDice(ChatId.fromId(ANY_CHAT_ID), emoji = DiceEmoji.Football)
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID&emoji=⚽️"
@@ -72,7 +72,7 @@ class SendDiceIT : ApiClientIT() {
     fun `sendDice with slot machine emoji`() {
         givenAnySendDiceResponse()
 
-        sut.sendDice(ChatId.fromId(ANY_CHAT_ID), emoji = DiceEmoji.SlotMachine).execute()
+        sut.sendDice(ChatId.fromId(ANY_CHAT_ID), emoji = DiceEmoji.SlotMachine)
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID&emoji=🎰"
@@ -83,7 +83,7 @@ class SendDiceIT : ApiClientIT() {
     fun `sendDice with bowling emoji`() {
         givenAnySendDiceResponse()
 
-        sut.sendDice(ChatId.fromId(ANY_CHAT_ID), emoji = DiceEmoji.Bowling).execute()
+        sut.sendDice(ChatId.fromId(ANY_CHAT_ID), emoji = DiceEmoji.Bowling)
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID&emoji=🎳"
@@ -99,7 +99,7 @@ class SendDiceIT : ApiClientIT() {
             emoji = DiceEmoji.Dartboard,
             disableNotification = DISABLE_NOTIFICATION,
             replyToMessageId = ANY_MESSAGE_ID
-        ).execute()
+        )
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID" +
@@ -113,7 +113,7 @@ class SendDiceIT : ApiClientIT() {
     fun `sendDice response is correctly returned`() {
         givenAnySendDiceResponse()
 
-        val sendDiceResult = sut.sendDice(ChatId.fromId(ANY_CHAT_ID), emoji = DiceEmoji.Dartboard).execute()
+        val sendDiceResult = sut.sendDice(ChatId.fromId(ANY_CHAT_ID), emoji = DiceEmoji.Dartboard)
 
         val expectedMessage = Message(
             messageId = 56,
@@ -134,7 +134,7 @@ class SendDiceIT : ApiClientIT() {
                 value = 6
             )
         )
-        assertEquals(expectedMessage, sendDiceResult.body()?.result)
+        assertEquals(expectedMessage, sendDiceResult.getOrNull())
     }
 
     private fun givenAnySendDiceResponse() {

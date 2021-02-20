@@ -1287,13 +1287,13 @@ class ApiClient(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         replyMarkup: ReplyMarkup? = null
-    ): Call<Response<Message>> = service.sendDice(
+    ): TelegramBotResult<Message> = service.sendDice(
         chatId,
         emoji,
         disableNotification,
         replyToMessageId,
         replyMarkup
-    )
+    ).runApiOperation()
 
     fun setChatAdministratorCustomTitle(
         chatId: ChatId,
