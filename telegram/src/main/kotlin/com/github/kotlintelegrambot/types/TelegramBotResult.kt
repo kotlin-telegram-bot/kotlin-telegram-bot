@@ -10,11 +10,36 @@ import java.lang.Exception
 sealed class TelegramBotResult<T> {
 
     /**
+     * Returns True if this a [Success] and False otherwise. Added for flexibility, but the use
+     * of [fold] is recommended instead.
+     */
+    abstract val isSuccess: Boolean
+
+    /**
+     * Returns True if this an [Error] and False otherwise. Added for flexibility, but the use
+     * of [fold] is recommended instead.
+     */
+    abstract val isError: Boolean
+
+    /**
      * Represents a Telegram Bot Api successful response.
      */
-    data class Success<T>(val value: T) : TelegramBotResult<T>()
+    data class Success<T>(val value: T) : TelegramBotResult<T>() {
+
+        override val isSuccess: Boolean
+            get() = true
+
+        override val isError: Boolean
+            get() = false
+    }
 
     sealed class Error<T> : TelegramBotResult<T>() {
+
+        override val isSuccess: Boolean
+            get() = false
+
+        override val isError: Boolean
+            get() = true
 
         /**
          * Represents an HTTP error.
@@ -45,4 +70,27 @@ sealed class TelegramBotResult<T> {
      * Returns the [Success] value if available, otherwise null.
      */
     fun getOrNull(): T? = if (this is Success) value else null
+
+    /**
+     * Returns the [Success] value if available, otherwise [default].
+     */
+    fun getOrDefault(default: T): T = if (this is Success) value else default
+
+    /**
+     * Returns the [Success] value if available, otherwise throws an exception.
+     */
+    fun get(): T = if (this is Success) value else error("Can't get success value in $this")
+
+    /**
+     * Applies [ifSuccess] if this is a [Success] and [ifError] if this is an [Error].
+     *
+     * @param ifSuccess the function to apply if this is a [Success].
+     * @param ifError the function to apply if this is an [Error].
+     *
+     * @return the result of applying the correspondent function.
+     */
+    inline fun <R> fold(ifSuccess: (T) -> R, ifError: (Error<T>) -> R): R = when (this) {
+        is Success -> ifSuccess(value)
+        is Error -> ifError(this)
+    }
 }
