@@ -1090,7 +1090,12 @@ class ApiClient(
         ok: Boolean,
         shippingOptions: List<ShippingOption>?,
         errorMessage: String?
-    ) = service.answerShippingQuery(shippingQueryId, ok, shippingOptions, errorMessage)
+    ): TelegramBotResult<Boolean> = service.answerShippingQuery(
+        shippingQueryId,
+        ok,
+        shippingOptions,
+        errorMessage
+    ).runApiOperation()
 
     fun answerPreCheckoutQuery(
         preCheckoutQueryId: String,

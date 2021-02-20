@@ -1204,17 +1204,32 @@ class Bot private constructor(
         replyMarkup = replyMarkup
     ).call()
 
+    /**
+     * If you sent an invoice requesting a shipping address and the parameter is_flexible was
+     * specified, the Bot API will send an [Update] with a [shippingQuery] field to the bot.
+     * Use this method to reply to shipping queries.
+     *
+     * @param shippingQueryId Unique identifier for the query to be answered.
+     * @param ok Specify True if delivery to the specified address is possible and False if there
+     * are any problems (for example, if delivery to the specified address is not possible).
+     * @param shippingOptions Required if [ok] is True. A list of available shipping options.
+     * @param errorMessage Required if [ok] is False. Error message in human readable form that
+     * explains why it is impossible to complete the order (e.g. "Sorry, delivery to your desired
+     * address is unavailable'). Telegram will display this message to the user.
+     *
+     * @return True on success.
+     */
     fun answerShippingQuery(
         shippingQueryId: String,
         ok: Boolean,
         shippingOptions: List<ShippingOption>? = null,
         errorMessage: String? = null
-    ) = apiClient.answerShippingQuery(
+    ): TelegramBotResult<Boolean> = apiClient.answerShippingQuery(
         shippingQueryId,
         ok,
         shippingOptions,
         errorMessage
-    ).call()
+    )
 
     /**
      * Once the user has confirmed their payment and shipping details, the Bot API sends the final
