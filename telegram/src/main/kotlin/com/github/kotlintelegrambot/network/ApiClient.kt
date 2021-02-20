@@ -1273,9 +1273,7 @@ class ApiClient(
         )
     }
 
-    fun getMyCommands(): Call<Response<List<BotCommand>>> {
-        return service.getMyCommands()
-    }
+    fun getMyCommands(): TelegramBotResult<List<BotCommand>> = service.getMyCommands().runApiOperation()
 
     fun setMyCommands(
         commands: List<BotCommand>

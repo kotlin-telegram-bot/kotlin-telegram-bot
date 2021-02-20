@@ -1262,7 +1262,12 @@ class Bot private constructor(
         switchPmParameter
     ).call()
 
-    fun getMyCommands() = apiClient.getMyCommands().call()
+    /**
+     * Use this method to get the current list of the bot's commands.
+     *
+     * @return A list of [BotCommand] on success.
+     */
+    fun getMyCommands(): TelegramBotResult<List<BotCommand>> = apiClient.getMyCommands()
 
     /**
      * Use this method to change the list of the bot's commands.
