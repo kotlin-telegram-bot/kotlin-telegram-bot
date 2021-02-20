@@ -1299,11 +1299,11 @@ class ApiClient(
         chatId: ChatId,
         userId: Long,
         customTitle: String
-    ): Call<Response<Boolean>> = service.setChatAdministratorCustomTitle(
+    ): TelegramBotResult<Boolean> = service.setChatAdministratorCustomTitle(
         chatId,
         userId,
         customTitle
-    )
+    ).runApiOperation()
 
     private fun <T> Call<Response<T>>.runApiOperation(): TelegramBotResult<T> {
         val apiResponse = try {
