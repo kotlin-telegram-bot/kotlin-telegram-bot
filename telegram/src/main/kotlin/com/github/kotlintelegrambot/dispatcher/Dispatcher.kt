@@ -69,9 +69,9 @@ class Dispatcher(
                     }
                     try {
                         it.handlerCallback(bot, update)
-                    } catch (exc: Exception) {
+                    } catch (throwable: Throwable) {
                         if (logLevel.shouldLogErrors()) {
-                            exc.printStackTrace()
+                            throwable.printStackTrace()
                         }
                     }
                 }
@@ -82,9 +82,9 @@ class Dispatcher(
         errorHandlers.forEach { handleError ->
             try {
                 handleError(bot, error)
-            } catch (exc: Exception) {
+            } catch (throwable: Throwable) {
                 if (logLevel.shouldLogErrors()) {
-                    exc.printStackTrace()
+                    throwable.printStackTrace()
                 }
             }
         }
