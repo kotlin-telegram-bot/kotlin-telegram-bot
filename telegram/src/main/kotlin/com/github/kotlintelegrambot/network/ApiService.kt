@@ -437,7 +437,8 @@ interface ApiService {
     @POST("unbanChatMember")
     fun unbanChatMember(
         @Field("chat_id") chatId: ChatId,
-        @Field("user_id") userId: Long
+        @Field("user_id") userId: Long,
+        @Field("only_if_banned") onlyIfBanned: Boolean?
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
