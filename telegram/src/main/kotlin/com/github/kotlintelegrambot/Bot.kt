@@ -787,8 +787,30 @@ class Bot private constructor(
         untilDate: Long? = null // unix time - https://en.wikipedia.org/wiki/Unix_time
     ) = apiClient.kickChatMember(chatId, userId, untilDate).call()
 
-    fun unbanChatMember(chatId: ChatId, userId: Long) =
-        apiClient.unbanChatMember(chatId, userId).call()
+    /**
+     * Use this method to unban a previously kicked user in a supergroup or channel. The user will
+     * not return to the group or channel automatically, but will be able to join via link, etc.
+     * The bot must be an administrator for this to work. By default, this method guarantees that
+     * after the call the user is not a member of the chat, but will be able to join it. So if the
+     * user is a member of the chat they will also be removed from the chat. If you don't want
+     * this, use the parameter [onlyIfBanned].
+     *
+     * @param chatId Unique identifier for the target group or username of the target supergroup or
+     * channel (in the format @username).
+     * @param userId Unique identifier of the target user.
+     * @param onlyIfBanned Do nothing if the user is not banned.
+     *
+     * @return True on success.
+     */
+    fun unbanChatMember(
+        chatId: ChatId,
+        userId: Long,
+        onlyIfBanned: Boolean? = null,
+    ): TelegramBotResult<Boolean> = apiClient.unbanChatMember(
+        chatId,
+        userId,
+        onlyIfBanned,
+    )
 
     fun restrictChatMember(
         chatId: ChatId,

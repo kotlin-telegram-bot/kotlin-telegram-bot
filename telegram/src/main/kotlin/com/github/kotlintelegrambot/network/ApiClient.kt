@@ -791,10 +791,15 @@ class ApiClient(
         return service.kickChatMember(chatId, userId, untilDate)
     }
 
-    fun unbanChatMember(chatId: ChatId, userId: Long): Call<Response<Boolean>> {
-
-        return service.unbanChatMember(chatId, userId)
-    }
+    fun unbanChatMember(
+        chatId: ChatId,
+        userId: Long,
+        onlyIfBanned: Boolean?,
+    ): TelegramBotResult<Boolean> = service.unbanChatMember(
+        chatId,
+        userId,
+        onlyIfBanned,
+    ).runApiOperation()
 
     fun restrictChatMember(
         chatId: ChatId,
