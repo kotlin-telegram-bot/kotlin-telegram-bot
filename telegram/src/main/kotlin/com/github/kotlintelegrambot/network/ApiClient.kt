@@ -944,6 +944,11 @@ class ApiClient(
         )
     }
 
+    fun logOut(): Call<Response<Boolean>> {
+
+        return service.logOut()
+    }
+
     /**
      * Updating messages
      */
