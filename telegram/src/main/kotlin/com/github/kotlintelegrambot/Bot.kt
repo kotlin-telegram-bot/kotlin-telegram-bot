@@ -85,7 +85,7 @@ class Bot private constructor(
             return Bot(updater, updateMapper, webhookConfig, token, apiUrl, timeout, logLevel, proxy, gson)
         }
 
-        fun build(body: Bot.Builder.() -> Unit): Bot {
+        fun build(body: Builder.() -> Unit): Bot {
             body()
             return Bot(updater, updateMapper, webhookConfig, token, apiUrl, timeout, logLevel, proxy, gson)
         }
@@ -981,6 +981,17 @@ class Bot private constructor(
     ).call()
 
     /**
+     * Use this method to log out from the cloud Bot API server before launching the bot locally. You must log out the bot
+     * before running it locally, otherwise there is no guarantee that the bot will receive updates.
+     * After a successful call, you can immediately log in on a local server,
+     * but will not be able to log in back to the cloud Bot API server for 10 minutes.
+     *
+     * @return True on success
+     */
+
+    fun logOut() = apiClient.logOut().call()
+
+    /**
      * Updating messages
      */
 
@@ -1228,7 +1239,7 @@ class Bot private constructor(
 
     /**
      * If you sent an invoice requesting a shipping address and the parameter is_flexible was
-     * specified, the Bot API will send an [Update] with a [shippingQuery] field to the bot.
+     * specified, the Bot API will send an [Update] with a [shippingQueryId] field to the bot.
      * Use this method to reply to shipping queries.
      *
      * @param shippingQueryId Unique identifier for the query to be answered.
@@ -1255,7 +1266,7 @@ class Bot private constructor(
 
     /**
      * Once the user has confirmed their payment and shipping details, the Bot API sends the final
-     * confirmation in the form of an [Update] with the field [preCheckoutQuery]. Use this method to
+     * confirmation in the form of an [Update] with the field [preCheckoutQueryId]. Use this method to
      * respond to such pre-checkout queries. Note: The Bot API must receive an answer within 10
      * seconds after the pre-checkout query was sent.
      *

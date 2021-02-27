@@ -577,6 +577,9 @@ interface ApiService {
         @Field("cache_time") cacheTime: Int?
     ): Call<Response<Boolean>>
 
+    @GET("logOut")
+    fun logOut(): Call<Response<Boolean>>
+
     /**
      * Updating messages
      */
