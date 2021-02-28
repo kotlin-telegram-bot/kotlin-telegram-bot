@@ -34,13 +34,17 @@ import com.github.kotlintelegrambot.types.TelegramBotResult
 import com.github.kotlintelegrambot.updater.Updater
 import com.github.kotlintelegrambot.webhook.WebhookConfig
 import com.github.kotlintelegrambot.webhook.WebhookConfigBuilder
-import com.google.gson.Gson
 import java.net.Proxy
+import java.util.concurrent.BlockingQueue
+import java.util.concurrent.Executors
+import java.util.concurrent.LinkedBlockingQueue
 import java.io.File as SystemFile
 
 fun bot(body: Bot.Builder.() -> Unit): Bot = Bot.Builder().build(body)
 
-fun Bot.Builder.dispatch(body: Dispatcher.() -> Unit) = updater.dispatcher.apply(body)
+fun Bot.Builder.dispatch(body: Dispatcher.() -> Unit) {
+    dispatcherConfiguration = body
+}
 
 fun Bot.Builder.webhook(
     body: WebhookConfigBuilder.() -> Unit
@@ -52,26 +56,21 @@ fun Bot.Builder.webhook(
 
 class Bot private constructor(
     private val updater: Updater,
+    private val dispatcher: Dispatcher,
+    private val updatesQueue: BlockingQueue<DispatchableObject>,
     private val updateMapper: UpdateMapper,
     private val webhookConfig: WebhookConfig?,
-    token: String,
-    apiUrl: String,
-    timeout: Int = 30,
+    private val apiClient: ApiClient,
     logLevel: LogLevel,
-    proxy: Proxy,
-    gson: Gson
 ) {
-
-    private val apiClient: ApiClient = ApiClient(token, apiUrl, timeout, logLevel, proxy, gson)
 
     init {
         updater.bot = this
-        updater.dispatcher.bot = this
-        updater.dispatcher.logLevel = logLevel
+        dispatcher.bot = this
+        dispatcher.logLevel = logLevel
     }
 
     class Builder {
-        internal val updater = Updater()
         private val gson = GsonFactory.createForApiClient()
         private val updateMapper = UpdateMapper(gson)
         var webhookConfig: WebhookConfig? = null
@@ -80,20 +79,41 @@ class Bot private constructor(
         var apiUrl: String = "https://api.telegram.org/"
         var logLevel: LogLevel = LogLevel.None
         var proxy: Proxy = Proxy.NO_PROXY
+        internal var dispatcherConfiguration: Dispatcher.() -> Unit = { }
 
         fun build(): Bot {
-            return Bot(updater, updateMapper, webhookConfig, token, apiUrl, timeout, logLevel, proxy, gson)
+            val updatesExecutor = Executors.newCachedThreadPool()
+            val updatesQueue = LinkedBlockingQueue<DispatchableObject>()
+            val updater = Updater(updatesQueue, updatesExecutor)
+            val dispatcher = Dispatcher(updatesQueue, updatesExecutor).apply(dispatcherConfiguration)
+            val apiClient = ApiClient(token, apiUrl, timeout, logLevel, proxy, gson)
+
+            return Bot(
+                updater,
+                dispatcher,
+                updatesQueue,
+                updateMapper,
+                webhookConfig,
+                apiClient,
+                logLevel,
+            )
         }
 
         fun build(body: Builder.() -> Unit): Bot {
             body()
-            return Bot(updater, updateMapper, webhookConfig, token, apiUrl, timeout, logLevel, proxy, gson)
+            return build()
         }
     }
 
-    fun startPolling() = updater.startPolling()
+    fun startPolling() {
+        dispatcher.startCheckingUpdates()
+        updater.startPolling()
+    }
 
-    fun stopPolling() = updater.stopPolling()
+    fun stopPolling() {
+        updater.stopPolling()
+        dispatcher.stopCheckingUpdates()
+    }
 
     /**
      * Starts a webhook through the setWebhook Telegram's API operation and starts checking
@@ -117,7 +137,7 @@ class Bot private constructor(
         )
 
         if (webhookSet) {
-            updater.startCheckingUpdates()
+            dispatcher.startCheckingUpdates()
         }
 
         return webhookSet
@@ -132,7 +152,7 @@ class Bot private constructor(
             error("To stop a webhook you need to configure it on bot set up. Check the `webhook` builder function")
         }
 
-        updater.stopCheckingUpdates()
+        dispatcher.stopCheckingUpdates()
 
         val deleteWebhookResult = deleteWebhook()
 
@@ -232,7 +252,7 @@ class Bot private constructor(
     fun getWebhookInfo() = apiClient.getWebhookInfo().call()
 
     fun processUpdate(update: Update) {
-        updater.dispatcher.updatesQueue.put(update)
+        updatesQueue.put(update)
     }
 
     fun processUpdate(updateJson: String) {

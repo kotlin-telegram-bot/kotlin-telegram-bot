@@ -5,6 +5,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.HandleUpdate
 import com.github.kotlintelegrambot.dispatcher.handlers.Handler
 import com.github.kotlintelegrambot.dispatcher.handlers.TextHandler
 import com.github.kotlintelegrambot.logging.LogLevel
+import com.github.kotlintelegrambot.testutils.DirectExecutor
 import com.github.kotlintelegrambot.types.DispatchableObject
 import io.mockk.every
 import io.mockk.mockk
@@ -19,7 +20,10 @@ class DispatcherTest {
     private val botMock = mockk<Bot>()
     private val blockingQueueMock = mockk<BlockingQueue<DispatchableObject>>()
 
-    private fun dispatcher() = Dispatcher(blockingQueueMock).apply {
+    private val sut = Dispatcher(
+        blockingQueueMock,
+        DirectExecutor()
+    ).apply {
         bot = botMock
         logLevel = LogLevel.None
     }
@@ -41,8 +45,6 @@ class DispatcherTest {
 
     @Test
     fun `updates are dispatched to handlers when updates check starts and there are some updates`() {
-        val sut = dispatcher()
-
         val handlerCallbackMock = mockk<HandleUpdate>(relaxed = true)
         sut.addHandler(mockHandler(handlerCallbackMock))
         val anyUpdate = anyUpdate()
@@ -58,7 +60,6 @@ class DispatcherTest {
 
     @Test
     fun `handlers are not called after update is consumed`() {
-        val sut = dispatcher()
         val anyMessageWithText = anyUpdate(message = anyMessage(text = ANY_TEXT))
         val firstHandler = TextHandler(
             text = null,
@@ -87,7 +88,6 @@ class DispatcherTest {
 
     @Test
     fun `test that handlers from different groups are called in consistent order`() {
-        val sut = dispatcher()
         val firstHandlerCallbackMock = mockk<HandleUpdate>(relaxed = true)
         val secondHandlerCallbackMock = mockk<HandleUpdate>(relaxed = true)
         val thirdHandlerCallbackMock = mockk<HandleUpdate>(relaxed = true)

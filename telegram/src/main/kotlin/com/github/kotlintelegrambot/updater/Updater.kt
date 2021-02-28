@@ -1,27 +1,27 @@
 package com.github.kotlintelegrambot.updater
 
 import com.github.kotlintelegrambot.Bot
-import com.github.kotlintelegrambot.dispatcher.Dispatcher
 import com.github.kotlintelegrambot.entities.Update
+import com.github.kotlintelegrambot.types.DispatchableObject
+import java.util.concurrent.BlockingQueue
 import java.util.concurrent.Executor
-import java.util.concurrent.Executors
 
-internal class Updater {
-    private val executor: Executor = Executors.newCachedThreadPool()
+internal class Updater(
+    private val updatesQueue: BlockingQueue<DispatchableObject>,
+    private val updatesExecutor: Executor,
+) {
     private var lastUpdateId = 0L
-    private var stopped = false
+    @Volatile private var stopped = false
 
     lateinit var bot: Bot
-    val dispatcher = Dispatcher()
 
-    fun startPolling() {
-        startCheckingUpdates()
+    internal fun startPolling() {
         stopped = false
-        executor.execute { updaterStartPolling() }
+        updatesExecutor.execute { updaterStartPolling() }
     }
 
-    fun startCheckingUpdates() {
-        executor.execute { dispatcher.startCheckingUpdates() }
+    internal fun stopPolling() {
+        stopped = true
     }
 
     private fun updaterStartPolling() {
@@ -30,9 +30,7 @@ internal class Updater {
 
             if (items.isEmpty()) continue
 
-            items.forEach {
-                dispatcher.updatesQueue.put(it)
-            }
+            items.forEach(updatesQueue::put)
 
             val lastUpdate = try {
                 items.last({ it is Update }) as Update
@@ -42,14 +40,5 @@ internal class Updater {
 
             lastUpdateId = lastUpdate.updateId + 1
         }
-    }
-
-    fun stopPolling() {
-        stopped = true
-        stopCheckingUpdates()
-    }
-
-    fun stopCheckingUpdates() {
-        dispatcher.stopCheckingUpdates()
     }
 }
