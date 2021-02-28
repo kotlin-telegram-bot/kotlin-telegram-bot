@@ -10,11 +10,19 @@ val RecordedRequest.multipartBoundary: String
         return boundary
     }
 
+
 val RecordedRequest.apiMethodName: String?
     get() = path?.split("/")?.lastOrNull()?.split("?")?.firstOrNull()
 
 val RecordedRequest.queryParams: String?
-    get() = this.path?.split("/")?.lastOrNull()?.split("?")?.lastOrNull()
+    get() {
+        val parts = path?.split("?")
+        return when {
+            parts == null -> null
+            parts.size == 1 -> null
+            else -> parts.lastOrNull()
+        }
+    }
 
 val RecordedRequest.decodedBody: String
     get() = body.readUtf8().decode()

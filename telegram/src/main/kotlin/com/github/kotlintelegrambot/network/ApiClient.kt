@@ -139,11 +139,23 @@ internal class ApiClient(
     }
 
     fun getUpdates(
+        offset: Long?,
+        limit: Int?,
+        timeout: Int?,
+        allowedUpdates: List<String>?
+    ): TelegramBotResult<List<Update>> = service.getUpdates(
+        offset,
+        limit,
+        timeout,
+        allowedUpdates?.serialize(),
+    ).runApiOperation()
+
+    fun getUpdates(
         offset: Long? = null,
         limit: Int? = null,
         timeout: Int? = botTimeout
     ): Call<Response<List<Update>>> {
-        return service.getUpdates(offset, limit, timeout)
+        return service.getUpdates(offset, limit, timeout, null)
     }
 
     fun setWebhook(
@@ -1382,4 +1394,18 @@ internal class ApiClient(
 
         return apiResponseMapper.mapToTelegramBotResult(apiResponse)
     }
+
+    /**
+     * Transforms a list of strings into a string with the values separated by commas and
+     * the result surrounded by square brackets. Some of the List<String> parameters of the
+     * Telegram Bot Api operations require to be serialized in that format and retrofit doesn't
+     * know how to properly do that (and can't be configured to do it for query params for example).
+     *
+     * e.g. for a list composed by test1, test2 and test3, the result must be ["test1","test2", "test3"].
+     */
+    private fun List<String>.serialize(): String = joinToString(
+        separator = ",",
+        prefix = "[",
+        postfix = "]"
+    ) { "\"$it\"" }
 }

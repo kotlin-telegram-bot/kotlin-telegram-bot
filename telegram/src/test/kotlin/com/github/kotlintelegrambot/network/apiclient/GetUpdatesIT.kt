@@ -7,11 +7,53 @@ import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.User
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton
+import com.github.kotlintelegrambot.testutils.apiMethodName
+import com.github.kotlintelegrambot.testutils.queryParams
 import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertNull
 import okhttp3.mockwebserver.MockResponse
 import org.junit.jupiter.api.Test
 
 class GetUpdatesIT : ApiClientIT() {
+
+    @Test
+    fun `api method name`() {
+        givenAnyGetUpdatesResponse()
+
+        sut.getUpdates(null, null, null, null)
+
+        val request = mockWebServer.takeRequest()
+        assertEquals("getUpdates", request.apiMethodName)
+    }
+
+    @Test
+    fun `query parameters when called without parameters`() {
+        givenAnyGetUpdatesResponse()
+
+        sut.getUpdates(null, null, null, null)
+
+        val request = mockWebServer.takeRequest()
+        assertNull(request.queryParams)
+    }
+
+    @Test
+    fun `query parameters when called with all the parameters`() {
+        givenAnyGetUpdatesResponse()
+
+        sut.getUpdates(
+            offset = ANY_OFFSET,
+            limit = ANY_LIMIT,
+            timeout = ANY_TIMEOUT,
+            allowedUpdates = ANY_ALLOWED_UPDATES
+        )
+
+        val request = mockWebServer.takeRequest()
+        val expectedQueryParameters = "offset=$ANY_OFFSET" +
+            "&limit=$ANY_LIMIT" +
+            "&timeout=$ANY_TIMEOUT" +
+            "&allowed_updates=%5B%22message%22%2C%22edited_channel_post%22%2C%22callback_query%22%5D"
+        assertEquals(expectedQueryParameters, request.queryParams)
+    }
 
     @Test
     fun `getUpdates returning an update with callback query containing inline keyboard buttons`() {
@@ -73,7 +115,7 @@ class GetUpdatesIT : ApiClientIT() {
             """.trimIndent()
         )
 
-        val getUpdatesResult = sut.getUpdates().execute()
+        val getUpdatesResult = sut.getUpdates(null, null, null, null)
 
         val expectedUpdates = listOf(
             Update(
@@ -123,8 +165,7 @@ class GetUpdatesIT : ApiClientIT() {
                 )
             )
         )
-        val actualUpdates: List<Update> = getUpdatesResult.body()?.result!!
-        assertEquals(expectedUpdates, actualUpdates)
+        assertEquals(expectedUpdates, getUpdatesResult.getOrNull())
     }
 
     @Test
@@ -159,7 +200,7 @@ class GetUpdatesIT : ApiClientIT() {
             """.trimIndent()
         )
 
-        val getUpdatesResult = sut.getUpdates().execute()
+        val getUpdatesResult = sut.getUpdates(null, null, null, null)
 
         val expectedGetUpdatesResult = listOf(
             Update(
@@ -183,7 +224,7 @@ class GetUpdatesIT : ApiClientIT() {
                 )
             )
         )
-        assertEquals(expectedGetUpdatesResult, getUpdatesResult.body()?.result)
+        assertEquals(expectedGetUpdatesResult, getUpdatesResult.getOrNull())
     }
 
     @Test
@@ -212,7 +253,7 @@ class GetUpdatesIT : ApiClientIT() {
             """.trimIndent()
         )
 
-        val getUpdatesResult = sut.getUpdates().execute()
+        val getUpdatesResult = sut.getUpdates(null, null, null, null)
 
         val expectedGetUpdatesResult = listOf(
             Update(
@@ -230,7 +271,7 @@ class GetUpdatesIT : ApiClientIT() {
                 )
             )
         )
-        assertEquals(expectedGetUpdatesResult, getUpdatesResult.body()?.result)
+        assertEquals(expectedGetUpdatesResult, getUpdatesResult.get())
     }
 
     private fun givenGetUpdatesResponse(getUpdatesResponseJson: String) {
@@ -238,5 +279,26 @@ class GetUpdatesIT : ApiClientIT() {
             .setResponseCode(200)
             .setBody(getUpdatesResponseJson)
         mockWebServer.enqueue(mockedResponse)
+    }
+
+    private fun givenAnyGetUpdatesResponse() {
+        val responseBody = """
+            {
+                "ok": true,
+                "result": []
+            }
+        """.trimIndent()
+        mockWebServer.enqueue(
+            MockResponse()
+                .setResponseCode(200)
+                .setBody(responseBody)
+        )
+    }
+
+    private companion object {
+        const val ANY_OFFSET = 234234L
+        const val ANY_TIMEOUT = 3244
+        const val ANY_LIMIT = 12412
+        val ANY_ALLOWED_UPDATES = listOf("message", "edited_channel_post", "callback_query")
     }
 }

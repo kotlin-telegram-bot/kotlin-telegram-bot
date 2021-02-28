@@ -40,14 +40,12 @@ import retrofit2.http.Url
 
 internal interface ApiService {
 
-    /**
-     * Getting updates
-     */
     @GET("getUpdates")
     fun getUpdates(
         @Query("offset") offset: Long?,
         @Query("limit") limit: Int?,
-        @Query("timeout") timeout: Int? = 10
+        @Query("timeout") timeout: Int?,
+        @Query("allowed_updates") allowedUpdates: String?,
     ): Call<Response<List<Update>>>
 
     @FormUrlEncoded
