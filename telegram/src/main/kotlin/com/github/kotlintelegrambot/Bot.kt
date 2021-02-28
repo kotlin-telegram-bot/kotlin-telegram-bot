@@ -225,6 +225,7 @@ class Bot private constructor(
         disableWebPagePreview: Boolean? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendMessage(
         chatId,
@@ -233,6 +234,7 @@ class Bot private constructor(
         disableWebPagePreview,
         disableNotification,
         replyToMessageId,
+        allowSendingWithoutReply,
         replyMarkup
     ).call()
 
@@ -279,6 +281,7 @@ class Bot private constructor(
         parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendPhoto(
         chatId,
@@ -287,6 +290,7 @@ class Bot private constructor(
         parseMode?.modeName,
         disableNotification,
         replyToMessageId,
+        allowSendingWithoutReply,
         replyMarkup
     ).call()
 
@@ -297,6 +301,7 @@ class Bot private constructor(
         parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendPhoto(
         chatId,
@@ -305,6 +310,7 @@ class Bot private constructor(
         parseMode,
         disableNotification,
         replyToMessageId,
+        allowSendingWithoutReply,
         replyMarkup
     ).call()
 
@@ -314,6 +320,7 @@ class Bot private constructor(
         caption: String? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendAudio(
         chatId,
@@ -323,6 +330,7 @@ class Bot private constructor(
         caption,
         disableNotification,
         replyToMessageId,
+        allowSendingWithoutReply,
         replyMarkup
     ).call()
 
@@ -334,6 +342,7 @@ class Bot private constructor(
         title: String? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendAudio(
         chatId,
@@ -343,6 +352,7 @@ class Bot private constructor(
         title,
         disableNotification,
         replyToMessageId,
+        allowSendingWithoutReply,
         replyMarkup
     ).call()
 
@@ -354,6 +364,7 @@ class Bot private constructor(
         title: String? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendAudio(
         chatId,
@@ -363,6 +374,7 @@ class Bot private constructor(
         title,
         disableNotification,
         replyToMessageId,
+        allowSendingWithoutReply,
         replyMarkup
     ).call()
 
@@ -373,6 +385,7 @@ class Bot private constructor(
         parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendDocument(
         chatId,
@@ -381,6 +394,7 @@ class Bot private constructor(
         parseMode?.modeName,
         disableNotification,
         replyToMessageId,
+        allowSendingWithoutReply,
         replyMarkup
     ).call()
 
@@ -391,6 +405,7 @@ class Bot private constructor(
         parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
         fileName: String
     ) = apiClient.sendDocument(
@@ -400,6 +415,7 @@ class Bot private constructor(
         parseMode?.modeName,
         disableNotification,
         replyToMessageId,
+        allowSendingWithoutReply,
         replyMarkup,
         fileName
     ).call()
@@ -411,6 +427,7 @@ class Bot private constructor(
         parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendDocument(
         chatId,
@@ -419,6 +436,7 @@ class Bot private constructor(
         parseMode,
         disableNotification,
         replyToMessageId,
+        allowSendingWithoutReply,
         replyMarkup
     ).call()
 
@@ -431,6 +449,7 @@ class Bot private constructor(
         caption: String? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendVideo(
         chatId,
@@ -441,6 +460,7 @@ class Bot private constructor(
         caption,
         disableNotification,
         replyToMessageId,
+        allowSendingWithoutReply,
         replyMarkup
     ).call()
 
@@ -453,6 +473,7 @@ class Bot private constructor(
         caption: String? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendVideo(
         chatId,
@@ -463,6 +484,7 @@ class Bot private constructor(
         caption,
         disableNotification,
         replyToMessageId,
+        allowSendingWithoutReply,
         replyMarkup
     ).call()
 
@@ -476,6 +498,7 @@ class Bot private constructor(
         parseMode: String? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendAnimation(
         chatId,
@@ -487,6 +510,7 @@ class Bot private constructor(
         parseMode,
         disableNotification,
         replyToMessageId,
+        allowSendingWithoutReply,
         replyMarkup
     ).call()
 
@@ -500,6 +524,7 @@ class Bot private constructor(
         parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendAnimation(
         chatId,
@@ -511,6 +536,7 @@ class Bot private constructor(
         parseMode,
         disableNotification,
         replyToMessageId,
+        allowSendingWithoutReply,
         replyMarkup
     ).call()
 
@@ -523,6 +549,7 @@ class Bot private constructor(
         duration: Int? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendVoice(
         chatId,
@@ -533,6 +560,7 @@ class Bot private constructor(
         duration,
         disableNotification,
         replyToMessageId,
+        allowSendingWithoutReply,
         replyMarkup
     ).call()
 
@@ -545,6 +573,7 @@ class Bot private constructor(
         duration: Int? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendVoice(
         chatId,
@@ -555,6 +584,7 @@ class Bot private constructor(
         duration,
         disableNotification,
         replyToMessageId,
+        allowSendingWithoutReply,
         replyMarkup
     ).call()
 
@@ -567,6 +597,7 @@ class Bot private constructor(
         duration: Int? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendVoice(
         chatId,
@@ -577,6 +608,7 @@ class Bot private constructor(
         duration,
         disableNotification,
         replyToMessageId,
+        allowSendingWithoutReply,
         replyMarkup
     ).call()
 
@@ -587,6 +619,7 @@ class Bot private constructor(
         length: Int? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendVideoNote(
         chatId,
@@ -595,6 +628,7 @@ class Bot private constructor(
         length,
         disableNotification,
         replyToMessageId,
+        allowSendingWithoutReply,
         replyMarkup
     ).call()
 
@@ -605,6 +639,7 @@ class Bot private constructor(
         length: Int? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendVideoNote(
         chatId,
@@ -613,6 +648,7 @@ class Bot private constructor(
         length,
         disableNotification,
         replyToMessageId,
+        allowSendingWithoutReply,
         replyMarkup
     ).call()
 
@@ -646,6 +682,7 @@ class Bot private constructor(
         livePeriod: Int? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendLocation(
         chatId,
@@ -654,6 +691,7 @@ class Bot private constructor(
         livePeriod,
         disableNotification,
         replyToMessageId,
+        allowSendingWithoutReply,
         replyMarkup
     ).call()
 
@@ -672,6 +710,7 @@ class Bot private constructor(
         isClosed: Boolean? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendPoll(
         chatId,
@@ -688,6 +727,7 @@ class Bot private constructor(
         isClosed,
         disableNotification,
         replyToMessageId,
+        allowSendingWithoutReply,
         replyMarkup
     ).call()
 
@@ -729,6 +769,7 @@ class Bot private constructor(
         foursquareType: String? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendVenue(
         chatId,
@@ -740,6 +781,7 @@ class Bot private constructor(
         foursquareType,
         disableNotification,
         replyToMessageId,
+        allowSendingWithoutReply,
         replyMarkup
     ).call()
 
@@ -750,6 +792,7 @@ class Bot private constructor(
         lastName: String? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.sendContact(
         chatId,
@@ -758,6 +801,7 @@ class Bot private constructor(
         lastName,
         disableNotification,
         replyToMessageId,
+        allowSendingWithoutReply,
         replyMarkup
     ).call()
 
@@ -1078,12 +1122,14 @@ class Bot private constructor(
         sticker: SystemFile,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup?
     ) = apiClient.sendSticker(
         chatId,
         sticker,
         disableNotification,
         replyToMessageId,
+        allowSendingWithoutReply,
         replyMarkup
     ).call()
 
@@ -1092,12 +1138,14 @@ class Bot private constructor(
         sticker: String,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup?
     ) = apiClient.sendSticker(
         chatId,
         sticker,
         disableNotification,
         replyToMessageId,
+        allowSendingWithoutReply,
         replyMarkup
     ).call()
 
@@ -1210,6 +1258,7 @@ class Bot private constructor(
         paymentInvoiceInfo: PaymentInvoiceInfo,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: InlineKeyboardMarkup? = null
     ) = apiClient.sendInvoice(
         chatId,
@@ -1232,8 +1281,9 @@ class Bot private constructor(
         photoUrl = paymentInvoiceInfo.invoicePhoto?.photoUrl,
         photoSize = paymentInvoiceInfo.invoicePhoto?.photoSize,
         photoHeight = paymentInvoiceInfo.invoicePhoto?.photoHeight,
-        replyToMessageId = replyToMessageId,
         disableNotification = disableNotification,
+        replyToMessageId = replyToMessageId,
+        allowSendingWithoutReply = allowSendingWithoutReply,
         replyMarkup = replyMarkup
     ).call()
 
@@ -1414,12 +1464,14 @@ class Bot private constructor(
         emoji: DiceEmoji? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
     ): TelegramBotResult<Message> = apiClient.sendDice(
         chatId,
         emoji,
         disableNotification,
         replyToMessageId,
+        allowSendingWithoutReply,
         replyMarkup
     )
 
