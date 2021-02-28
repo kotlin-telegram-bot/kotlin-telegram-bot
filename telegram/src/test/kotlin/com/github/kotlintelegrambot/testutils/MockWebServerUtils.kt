@@ -10,7 +10,6 @@ val RecordedRequest.multipartBoundary: String
         return boundary
     }
 
-
 val RecordedRequest.apiMethodName: String?
     get() = path?.split("/")?.lastOrNull()?.split("?")?.firstOrNull()
 

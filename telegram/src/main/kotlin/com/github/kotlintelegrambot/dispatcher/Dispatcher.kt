@@ -8,21 +8,24 @@ import com.github.kotlintelegrambot.errors.TelegramError
 import com.github.kotlintelegrambot.logging.LogLevel
 import com.github.kotlintelegrambot.types.DispatchableObject
 import java.util.concurrent.BlockingQueue
-import java.util.concurrent.LinkedBlockingQueue
+import java.util.concurrent.Executor
 
 class Dispatcher(
-    val updatesQueue: BlockingQueue<DispatchableObject> = LinkedBlockingQueue()
+    private val updatesQueue: BlockingQueue<DispatchableObject>,
+    private val updatesExecutor: Executor,
 ) {
+
     internal lateinit var logLevel: LogLevel
-    lateinit var bot: Bot
+    internal lateinit var bot: Bot
 
     private val commandHandlers = linkedMapOf<String, ArrayList<Handler>>()
     private val errorHandlers = arrayListOf<ErrorHandler>()
-    private var stopped = false
+
+    @Volatile private var stopped = false
 
     internal fun startCheckingUpdates() {
         stopped = false
-        checkQueueUpdates()
+        updatesExecutor.execute { checkQueueUpdates() }
     }
 
     private fun checkQueueUpdates() {
