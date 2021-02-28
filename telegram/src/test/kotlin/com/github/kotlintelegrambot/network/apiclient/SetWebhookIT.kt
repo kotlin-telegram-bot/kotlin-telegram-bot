@@ -96,7 +96,7 @@ class SetWebhookIT : ApiClientIT() {
         val expectedRequestBody = String.format(
             getFileAsStringFromResources<SetWebhookIT>("setWebhookMultipartWithCertificateRequestBody.txt"),
             multipartBoundary
-        )
+        ).trimIndent()
         assertEquals(expectedRequestBody, requestBody)
     }
 

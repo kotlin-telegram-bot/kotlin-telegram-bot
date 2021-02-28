@@ -5,7 +5,7 @@ import com.github.kotlintelegrambot.dispatch
 import com.github.kotlintelegrambot.dispatcher.text
 import com.github.kotlintelegrambot.entities.ChatId
 
-fun main(args: Array<String>) {
+fun main() {
 
     val bot = bot {
 

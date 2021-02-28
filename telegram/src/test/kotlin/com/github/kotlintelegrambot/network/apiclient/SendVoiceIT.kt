@@ -31,6 +31,7 @@ class SendVoiceIT : ApiClientIT() {
             duration = DURATION,
             disableNotification = false,
             replyToMessageId = REPLY_TO_MESSAGE_ID,
+            allowSendingWithoutReply = null,
             replyMarkup = REPLY_MARKUP
         )
         sendVoice.execute()
@@ -61,6 +62,7 @@ class SendVoiceIT : ApiClientIT() {
             duration = DURATION,
             disableNotification = false,
             replyToMessageId = REPLY_TO_MESSAGE_ID,
+            allowSendingWithoutReply = null,
             replyMarkup = REPLY_MARKUP
         )
         sendVoice.execute()
@@ -90,6 +92,7 @@ class SendVoiceIT : ApiClientIT() {
             duration = DURATION,
             disableNotification = false,
             replyToMessageId = REPLY_TO_MESSAGE_ID,
+            allowSendingWithoutReply = null,
             replyMarkup = REPLY_MARKUP
         )
         sendVoice.execute()

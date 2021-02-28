@@ -41,7 +41,7 @@ class SendMediaGroupIT : ApiClientIT() {
         val expectedRequestBody = String.format(
             getFileAsStringFromResources<SendMediaGroupIT>("sendMediaGroupRequestBody1.txt"),
             multipartBoundary
-        )
+        ).trimIndent()
         assertEquals(expectedRequestBody, requestBody)
     }
 
@@ -61,7 +61,7 @@ class SendMediaGroupIT : ApiClientIT() {
         val expectedRequestBody = String.format(
             getFileAsStringFromResources<SendMediaGroupIT>("sendMediaGroupRequestBody2.txt"),
             multipartBoundary
-        )
+        ).trimIndent()
         assertEquals(expectedRequestBody, requestBody)
     }
 
@@ -81,7 +81,7 @@ class SendMediaGroupIT : ApiClientIT() {
         val expectedRequestBody = String.format(
             getFileAsStringFromResources<SendMediaGroupIT>("sendMediaGroupRequestBody3.txt"),
             multipartBoundary
-        )
+        ).trimIndent()
         assertEquals(expectedRequestBody, requestBody)
     }
 
@@ -104,7 +104,7 @@ class SendMediaGroupIT : ApiClientIT() {
         val expectedRequestBody = String.format(
             getFileAsStringFromResources<SendMediaGroupIT>("sendMediaGroupRequestBody4.txt"),
             multipartBoundary
-        )
+        ).trimIndent()
         assertEquals(expectedRequestBody, requestBody)
     }
 
@@ -124,7 +124,7 @@ class SendMediaGroupIT : ApiClientIT() {
         val expectedRequestBody = String.format(
             getFileAsStringFromResources<SendMediaGroupIT>("sendMediaGroupRequestBody5.txt"),
             multipartBoundary
-        )
+        ).trimIndent()
         assertEquals(expectedRequestBody, requestBody)
     }
 
@@ -207,7 +207,7 @@ class SendMediaGroupIT : ApiClientIT() {
         val expectedRequestBody = String.format(
             getFileAsStringFromResources<SendMediaGroupIT>("sendMediaGroupRequestBody6.txt"),
             multipartBoundary
-        )
+        ).trimIndent()
         assertEquals(expectedRequestBody, requestBody)
     }
 

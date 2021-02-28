@@ -25,6 +25,7 @@ class SendMessageIT : ApiClientIT() {
             disableWebPagePreview = null,
             disableNotification = null,
             replyToMessageId = null,
+            allowSendingWithoutReply = null,
             replyMarkup = null
         ).execute()
 
@@ -44,6 +45,7 @@ class SendMessageIT : ApiClientIT() {
             disableWebPagePreview = null,
             disableNotification = null,
             replyToMessageId = null,
+            allowSendingWithoutReply = null,
             replyMarkup = null
         ).execute()
 
@@ -63,6 +65,7 @@ class SendMessageIT : ApiClientIT() {
             disableWebPagePreview = false,
             disableNotification = true,
             replyToMessageId = ANY_MESSAGE_ID,
+            allowSendingWithoutReply = null,
             replyMarkup = ForceReplyMarkup(forceReply = false)
         ).execute()
 
@@ -88,6 +91,7 @@ class SendMessageIT : ApiClientIT() {
             disableWebPagePreview = null,
             disableNotification = null,
             replyToMessageId = null,
+            allowSendingWithoutReply = null,
             replyMarkup = InlineKeyboardMarkup.create(
                 listOf(
                     InlineKeyboardButton.Url(ANY_TEXT, ANY_URL),
@@ -124,6 +128,7 @@ class SendMessageIT : ApiClientIT() {
             disableWebPagePreview = null,
             disableNotification = null,
             replyToMessageId = null,
+            allowSendingWithoutReply = null,
             replyMarkup = null
         ).execute()
 

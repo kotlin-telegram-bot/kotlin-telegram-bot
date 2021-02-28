@@ -198,11 +198,12 @@ class ApiClient(
         disableWebPagePreview: Boolean?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
+        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
         return service.sendMessage(
             chatId, text, parseMode, disableWebPagePreview, disableNotification,
-            replyToMessageId, replyMarkup
+            replyToMessageId, allowSendingWithoutReply, replyMarkup
         )
     }
 
@@ -248,6 +249,7 @@ class ApiClient(
         parseMode: String?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
+        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
         return service.sendPhoto(
@@ -257,6 +259,7 @@ class ApiClient(
             if (parseMode != null) convertString(parseMode) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
+            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
         )
     }
@@ -268,6 +271,7 @@ class ApiClient(
         parseMode: ParseMode?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
+        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
         return service.sendPhoto(
@@ -277,6 +281,7 @@ class ApiClient(
             parseMode,
             disableNotification,
             replyToMessageId,
+            allowSendingWithoutReply,
             replyMarkup
         )
     }
@@ -289,6 +294,7 @@ class ApiClient(
         title: String?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
+        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
@@ -300,6 +306,7 @@ class ApiClient(
             if (title != null) convertString(title) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
+            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
         )
     }
@@ -312,6 +319,7 @@ class ApiClient(
         title: String?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
+        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
@@ -323,6 +331,7 @@ class ApiClient(
             title,
             disableNotification,
             replyToMessageId,
+            allowSendingWithoutReply,
             replyMarkup
         )
     }
@@ -334,6 +343,7 @@ class ApiClient(
         parseMode: String?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
+        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
@@ -344,6 +354,7 @@ class ApiClient(
             if (parseMode != null) convertString(parseMode) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
+            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
         )
     }
@@ -355,6 +366,7 @@ class ApiClient(
         parseMode: ParseMode?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
+        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
@@ -365,6 +377,7 @@ class ApiClient(
             parseMode,
             disableNotification,
             replyToMessageId,
+            allowSendingWithoutReply,
             replyMarkup
         )
     }
@@ -376,6 +389,7 @@ class ApiClient(
         parseMode: String?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
+        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
         filename: String
     ): Call<Response<Message>> {
@@ -387,6 +401,7 @@ class ApiClient(
             if (parseMode != null) convertString(parseMode) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
+            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
         )
     }
@@ -400,6 +415,7 @@ class ApiClient(
         caption: String?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
+        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
@@ -412,6 +428,7 @@ class ApiClient(
             if (caption != null) convertString(caption) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
+            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
         )
     }
@@ -425,6 +442,7 @@ class ApiClient(
         caption: String?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
+        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
@@ -437,6 +455,7 @@ class ApiClient(
             caption,
             disableNotification,
             replyToMessageId,
+            allowSendingWithoutReply,
             replyMarkup
         )
     }
@@ -451,6 +470,7 @@ class ApiClient(
         parseMode: String?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
+        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
@@ -464,6 +484,7 @@ class ApiClient(
             if (parseMode != null) convertString(parseMode) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
+            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
         )
     }
@@ -478,6 +499,7 @@ class ApiClient(
         parseMode: ParseMode?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
+        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
@@ -491,6 +513,7 @@ class ApiClient(
             parseMode,
             disableNotification,
             replyToMessageId,
+            allowSendingWithoutReply,
             replyMarkup
         )
     }
@@ -504,6 +527,7 @@ class ApiClient(
         duration: Int?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
+        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
@@ -516,6 +540,7 @@ class ApiClient(
             if (duration != null) convertString(duration.toString()) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
+            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
         )
     }
@@ -529,6 +554,7 @@ class ApiClient(
         duration: Int?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
+        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
@@ -541,6 +567,7 @@ class ApiClient(
             duration,
             disableNotification,
             replyToMessageId,
+            allowSendingWithoutReply,
             replyMarkup
         )
     }
@@ -554,6 +581,7 @@ class ApiClient(
         duration: Int? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>> {
 
@@ -566,6 +594,7 @@ class ApiClient(
             if (duration != null) convertString(duration.toString()) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
+            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
         )
     }
@@ -577,6 +606,7 @@ class ApiClient(
         length: Int?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
+        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
@@ -587,6 +617,7 @@ class ApiClient(
             if (length != null) convertString(length.toString()) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
+            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
         )
     }
@@ -598,6 +629,7 @@ class ApiClient(
         length: Int?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
+        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
@@ -608,6 +640,7 @@ class ApiClient(
             length,
             disableNotification,
             replyToMessageId,
+            allowSendingWithoutReply,
             replyMarkup
         )
     }
@@ -634,6 +667,7 @@ class ApiClient(
         livePeriod: Int?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
+        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
@@ -644,6 +678,7 @@ class ApiClient(
             livePeriod,
             disableNotification,
             replyToMessageId,
+            allowSendingWithoutReply,
             replyMarkup
         )
     }
@@ -692,6 +727,7 @@ class ApiClient(
         foursquareType: String?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
+        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
@@ -705,6 +741,7 @@ class ApiClient(
             foursquareType,
             disableNotification,
             replyToMessageId,
+            allowSendingWithoutReply,
             replyMarkup
         )
     }
@@ -716,6 +753,7 @@ class ApiClient(
         lastName: String?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
+        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
@@ -726,6 +764,7 @@ class ApiClient(
             lastName,
             disableNotification,
             replyToMessageId,
+            allowSendingWithoutReply,
             replyMarkup
         )
     }
@@ -745,6 +784,7 @@ class ApiClient(
         isClosed: Boolean? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>> = service.sendPoll(
         chatId,
@@ -761,6 +801,7 @@ class ApiClient(
         isClosed,
         disableNotification,
         replyToMessageId,
+        allowSendingWithoutReply,
         replyMarkup
     )
 
@@ -1066,6 +1107,7 @@ class ApiClient(
         isFlexible: Boolean?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
+        allowSendingWithoutReply: Boolean?,
         replyMarkup: InlineKeyboardMarkup?
     ): Call<Response<Message>> {
         return service.sendInvoice(
@@ -1091,7 +1133,8 @@ class ApiClient(
             isFlexible = isFlexible,
             disableNotification = disableNotification,
             replyMarkup = replyMarkup,
-            replyToMessageId = replyToMessageId
+            replyToMessageId = replyToMessageId,
+            allowSendingWithoutReply = allowSendingWithoutReply
         )
     }
 
@@ -1126,6 +1169,7 @@ class ApiClient(
         sticker: SystemFile,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
+        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
@@ -1134,6 +1178,7 @@ class ApiClient(
             convertFile("photo", sticker),
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
+            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
         )
     }
@@ -1143,6 +1188,7 @@ class ApiClient(
         sticker: String,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
+        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
@@ -1151,6 +1197,7 @@ class ApiClient(
             sticker,
             disableNotification,
             replyToMessageId,
+            allowSendingWithoutReply,
             replyMarkup
         )
     }
@@ -1305,12 +1352,14 @@ class ApiClient(
         emoji: DiceEmoji? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
     ): TelegramBotResult<Message> = service.sendDice(
         chatId,
         emoji,
         disableNotification,
         replyToMessageId,
+        allowSendingWithoutReply,
         replyMarkup
     ).runApiOperation()
 

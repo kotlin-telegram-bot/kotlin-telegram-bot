@@ -101,221 +101,236 @@ interface ApiService {
     @FormUrlEncoded
     @POST("sendMessage")
     fun sendMessage(
-        @Field("chat_id") chatId: ChatId,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("text") text: String,
         @Field("parse_mode") parseMode: ParseMode?,
         @Field("disable_web_page_preview") disableWebPagePreview: Boolean?,
-        @Field("disable_notification") disableNotification: Boolean?,
-        @Field("reply_to_message_id") replyToMessageId: Long?,
-        @Field("reply_markup") replyMarkup: ReplyMarkup?
+        @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
+        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup?
     ): Call<Response<Message>>
 
     @FormUrlEncoded
     @POST("forwardMessage")
     fun forwardMessage(
-        @Field("chat_id") chatId: ChatId,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("from_chat_id") fromChatId: ChatId,
-        @Field("disable_notification") disableNotification: Boolean?,
+        @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field("message_id") messageId: Long
     ): Call<Response<Message>>
 
     @FormUrlEncoded
     @POST("copyMessage")
     fun copyMessage(
-        @Field("chat_id") chatId: ChatId,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("from_chat_id") fromChatId: ChatId,
         @Field("message_id") messageId: Long,
         @Field("caption") caption: String?,
         @Field("parse_mode") parseMode: ParseMode?,
         @Field("caption_entities") captionEntities: String?,
-        @Field("disable_notification") disableNotification: Boolean?,
-        @Field("reply_to_message_id") replyToMessageId: Long?,
-        @Field("allow_sending_without_reply") allowSendingWithoutReply: Boolean?,
-        @Field("reply_markup") replyMarkup: ReplyMarkup?
+        @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
+        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup?
     ): Call<Response<MessageId>>
 
     @Multipart
     @POST("sendPhoto")
     fun sendPhoto(
-        @Part("chat_id") chatId: ChatId,
+        @Part(ApiConstants.CHAT_ID) chatId: ChatId,
         @Part photo: MultipartBody.Part,
         @Part("caption") caption: RequestBody?,
         @Part("parse_mode") parseMode: RequestBody?,
-        @Part("disable_notification") disableNotification: RequestBody?,
-        @Part("reply_to_message_id") replyToMessageId: RequestBody?,
-        @Part("reply_markup") replyMarkup: RequestBody? = null
+        @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
+        @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
+        @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
+        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null
     ): Call<Response<Message>>
 
     @FormUrlEncoded
     @POST("sendPhoto")
     fun sendPhoto(
-        @Field("chat_id") chatId: ChatId,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("photo") fileId: String,
         @Field("caption") caption: String?,
         @Field("parse_mode") parseMode: ParseMode?,
-        @Field("disable_notification") disableNotification: Boolean?,
-        @Field("reply_to_message_id") replyToMessageId: Long?,
-        @Field("reply_markup") replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
+        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
     @Multipart
     @POST("sendAudio")
     fun sendAudio(
-        @Part("chat_id") chatId: ChatId,
+        @Part(ApiConstants.CHAT_ID) chatId: ChatId,
         @Part audio: MultipartBody.Part,
         @Part("duration") duration: RequestBody?,
         @Part("performer") performer: RequestBody?,
         @Part("title") title: RequestBody?,
-        @Part("disable_notification") disableNotification: RequestBody?,
-        @Part("reply_to_message_id") replyToMessageId: RequestBody?,
-        @Part("reply_markup") replyMarkup: RequestBody? = null
+        @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
+        @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
+        @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
+        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null
     ): Call<Response<Message>>
 
     @FormUrlEncoded
     @POST("sendAudio")
     fun sendAudio(
-        @Field("chat_id") chatId: ChatId,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("audio") fileId: String,
         @Field("duration") duration: Int?,
         @Field("performer") performer: String?,
         @Field("title") title: String?,
-        @Field("disable_notification") disableNotification: Boolean?,
-        @Field("reply_to_message_id") replyToMessageId: Long?,
-        @Field("reply_markup") replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
+        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
     @POST("sendDocument")
     @Multipart
     fun sendDocument(
-        @Part("chat_id") chatId: ChatId,
+        @Part(ApiConstants.CHAT_ID) chatId: ChatId,
         @Part document: MultipartBody.Part,
         @Part("caption") caption: RequestBody?,
         @Part("parse_mode") parseMode: RequestBody?,
-        @Part("disable_notification") disableNotification: RequestBody?,
-        @Part("reply_to_message_id") replyToMessageId: RequestBody?,
-        @Part("reply_markup") replyMarkup: RequestBody? = null
+        @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
+        @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
+        @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
+        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null
     ): Call<Response<Message>>
 
     @FormUrlEncoded
     @POST("sendDocument")
     fun sendDocument(
-        @Field("chat_id") chatId: ChatId,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("document") fileId: String,
         @Field("caption") caption: String?,
         @Field("parse_mode") parseMode: ParseMode?,
-        @Field("disable_notification") disableNotification: Boolean?,
-        @Field("reply_to_message_id") replyToMessageId: Long?,
-        @Field("reply_markup") replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
+        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
     @Multipart
     @POST("sendVideo")
     fun sendVideo(
-        @Part("chat_id") chatId: ChatId,
+        @Part(ApiConstants.CHAT_ID) chatId: ChatId,
         @Part video: MultipartBody.Part,
         @Part("duration") duration: RequestBody?,
         @Part("width") width: RequestBody?,
         @Part("height") height: RequestBody?,
         @Part("caption") caption: RequestBody?,
-        @Part("disable_notification") disableNotification: RequestBody?,
-        @Part("reply_to_message_id") replyToMessageId: RequestBody?,
-        @Part("reply_markup") replyMarkup: RequestBody? = null
+        @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
+        @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
+        @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
+        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null
     ): Call<Response<Message>>
 
     @FormUrlEncoded
     @POST("sendVideo")
     fun sendVideo(
-        @Field("chat_id") chatId: ChatId,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("video") fileId: String,
         @Field("duration") duration: Int?,
         @Field("width") width: Int?,
         @Field("height") height: Int?,
         @Field("caption") caption: String?,
-        @Field("disable_notification") disableNotification: Boolean?,
-        @Field("reply_to_message_id") replyToMessageId: Long?,
-        @Field("reply_markup") replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
+        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
     @Multipart
     @POST("sendAnimation")
     fun sendAnimation(
-        @Part("chat_id") chatId: ChatId,
+        @Part(ApiConstants.CHAT_ID) chatId: ChatId,
         @Part animation: MultipartBody.Part,
         @Part("duration") duration: RequestBody?,
         @Part("width") width: RequestBody?,
         @Part("height") height: RequestBody?,
         @Part("caption") caption: RequestBody?,
         @Part("parse_mode") parseMode: RequestBody?,
-        @Part("disable_notification") disableNotification: RequestBody?,
-        @Part("reply_to_message_id") replyToMessageId: RequestBody?,
-        @Part("reply_markup") replyMarkup: RequestBody? = null
+        @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
+        @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
+        @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
+        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null
     ): Call<Response<Message>>
 
     @FormUrlEncoded
     @POST("sendAnimation")
     fun sendAnimation(
-        @Field("chat_id") chatId: ChatId,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("animation") fileId: String,
         @Field("duration") duration: Int?,
         @Field("width") width: Int?,
         @Field("height") height: Int?,
         @Field("caption") caption: String?,
         @Field("parse_mode") parseMode: ParseMode?,
-        @Field("disable_notification") disableNotification: Boolean?,
-        @Field("reply_to_message_id") replyToMessageId: Long?,
-        @Field("reply_markup") replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
+        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
     @Multipart
     @POST("sendVoice")
     fun sendVoice(
-        @Part("chat_id") chatId: ChatId,
+        @Part(ApiConstants.CHAT_ID) chatId: ChatId,
         @Part voice: MultipartBody.Part,
         @Part("caption") caption: RequestBody?,
         @Part("parse_mode") parseMode: RequestBody?,
         @Part("caption_entities") captionEntities: RequestBody?,
         @Part("duration") duration: RequestBody?,
-        @Part("disable_notification") disableNotification: RequestBody?,
-        @Part("reply_to_message_id") replyToMessageId: RequestBody?,
-        @Part("reply_markup") replyMarkup: RequestBody? = null
+        @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
+        @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
+        @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
+        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null
     ): Call<Response<Message>>
 
     @FormUrlEncoded
     @POST("sendVoice")
     fun sendVoice(
-        @Field("chat_id") chatId: ChatId,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("voice") fileId: String,
         @Field("caption") caption: String?,
         @Field("parse_mode") parseMode: ParseMode?,
         @Field("caption_entities") captionEntities: String?,
         @Field("duration") duration: Int?,
-        @Field("disable_notification") disableNotification: Boolean?,
-        @Field("reply_to_message_id") replyToMessageId: Long?,
-        @Field("reply_markup") replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
+        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
     @POST("sendVideoNote")
     @Multipart
     fun sendVideoNote(
-        @Part("chat_id") chatId: ChatId,
+        @Part(ApiConstants.CHAT_ID) chatId: ChatId,
         @Part videoNote: MultipartBody.Part,
         @Part("duration") duration: RequestBody?,
         @Part("length") length: RequestBody?,
-        @Part("disable_notification") disableNotification: RequestBody?,
-        @Part("reply_to_message_id") replyToMessageId: RequestBody?,
-        @Part("reply_markup") replyMarkup: RequestBody? = null
+        @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
+        @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
+        @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
+        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null
     ): Call<Response<Message>>
 
     @FormUrlEncoded
     @POST("sendVideoNote")
     fun sendVideoNote(
-        @Field("chat_id") chatId: ChatId,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("video_note") fileId: String,
         @Field("duration") duration: Int?,
         @Field("length") length: Int?,
-        @Field("disable_notification") disableNotification: Boolean?,
-        @Field("reply_to_message_id") replyToMessageId: Long?,
-        @Field("reply_markup") replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
+        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
     @Multipart
@@ -325,60 +340,63 @@ interface ApiService {
     @FormUrlEncoded
     @POST("sendLocation")
     fun sendLocation(
-        @Field("chat_id") chatId: ChatId,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("latitude") latitude: Float,
         @Field("longitude") longitude: Float,
         @Field("live_period") livePeriod: Int?,
-        @Field("disable_notification") disableNotification: Boolean?,
-        @Field("reply_to_message_id") replyToMessageId: Long?,
-        @Field("reply_markup") replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
+        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
     @FormUrlEncoded
     @POST("editMessageLiveLocation")
     fun editMessageLiveLocation(
-        @Field("chat_id") chatId: ChatId?,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId?,
         @Field("message_id") messageId: Long?,
         @Field("inline_message_id") inlineMessageId: String?,
         @Field("latitude") latitude: Float,
         @Field("longitude") longitude: Float,
-        @Field("reply_markup") replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
     @FormUrlEncoded
     @POST("stopMessageLiveLocation")
     fun stopMessageLiveLocation(
-        @Field("chat_id") chatId: ChatId?,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId?,
         @Field("message_id") messageId: Long?,
         @Field("inline_message_id") inlineMessageId: String?,
-        @Field("reply_markup") replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
     @FormUrlEncoded
     @POST("sendVenue")
     fun sendVenue(
-        @Field("chat_id") chatId: ChatId,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("latitude") latitude: Float,
         @Field("longitude") longitude: Float,
         @Field("title") title: String,
         @Field("address") address: String,
         @Field("foursquare_id") foursquareId: String?,
         @Field("foursquare_type") foursquareType: String?,
-        @Field("disable_notification") disableNotification: Boolean?,
-        @Field("reply_to_message_id") replyToMessageId: Long?,
-        @Field("reply_markup") replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
+        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
     @POST("sendContact")
     @FormUrlEncoded
     fun sendContact(
-        @Field("chat_id") chatId: ChatId,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("phone_number") phoneNumber: String,
         @Field("first_name") firstName: String,
         @Field("last_name") lastName: String?,
-        @Field("disable_notification") disableNotification: Boolean?,
-        @Field("reply_to_message_id") replyToMessageId: Long?,
-        @Field("reply_markup") replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
+        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -398,19 +416,20 @@ interface ApiService {
         @Field(PollFields.IS_CLOSED) isClosed: Boolean? = null,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
+        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
     @FormUrlEncoded
     @POST("sendChatAction")
     fun sendChatAction(
-        @Field("chat_id") chatId: ChatId,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("action") action: ChatAction
     ): Call<Response<Boolean>>
 
     @GET("getUserProfilePhotos")
     fun getUserProfilePhotos(
-        @Query("user_id") userId: Long,
+        @Query(ApiConstants.USER_ID) userId: Long,
         @Query("offset") offset: Long?,
         @Query("limit") limit: Int? = null
     ): Call<Response<UserProfilePhotos>>
@@ -428,24 +447,24 @@ interface ApiService {
     @FormUrlEncoded
     @POST("kickChatMember")
     fun kickChatMember(
-        @Field("chat_id") chatId: ChatId,
-        @Field("user_id") userId: Long,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field(ApiConstants.USER_ID) userId: Long,
         @Field("until_date") untilDate: Long?
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
     @POST("unbanChatMember")
     fun unbanChatMember(
-        @Field("chat_id") chatId: ChatId,
-        @Field("user_id") userId: Long,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field(ApiConstants.USER_ID) userId: Long,
         @Field("only_if_banned") onlyIfBanned: Boolean?
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
     @POST("restrictChatMember")
     fun restrictChatMember(
-        @Field("chat_id") chatId: ChatId,
-        @Field("user_id") userId: Long,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field(ApiConstants.USER_ID) userId: Long,
         @Field("permissions") permissions: String,
         @Field("until_date") untilDate: Long?
     ): Call<Response<Boolean>>
@@ -453,8 +472,8 @@ interface ApiService {
     @FormUrlEncoded
     @POST("promoteChatMember")
     fun promoteChatMember(
-        @Field("chat_id") chatId: ChatId,
-        @Field("user_id") userId: Long,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field(ApiConstants.USER_ID) userId: Long,
         @Field("is_anonymous") isAnonymous: Boolean?,
         @Field("can_change_info") canChangeInfo: Boolean?,
         @Field("can_post_messages") canPostMessages: Boolean?,
@@ -469,55 +488,55 @@ interface ApiService {
     @FormUrlEncoded
     @POST("setChatPermissions")
     fun setChatPermissions(
-        @Field("chat_id") chatId: ChatId,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("permissions") permissions: String
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
     @POST("exportChatInviteLink")
     fun exportChatInviteLink(
-        @Field("chat_id") chatId: ChatId
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId
     ): Call<Response<String>>
 
     @Multipart
     @POST("setChatPhoto")
     fun setChatPhoto(
-        @Part("chat_id") chatId: ChatId,
+        @Part(ApiConstants.CHAT_ID) chatId: ChatId,
         @Part("photo") photo: MultipartBody.Part
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
     @POST("deleteChatPhoto")
     fun deleteChatPhoto(
-        @Field("chat_id") chatId: ChatId
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
     @POST("setChatTitle")
     fun setChatTitle(
-        @Field("chat_id") chatId: ChatId,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("title") title: String
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
     @POST("setChatDescription")
     fun setChatDescription(
-        @Field("chat_id") chatId: ChatId,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("description") description: String
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
     @POST("pinChatMessage")
     fun pinChatMessage(
-        @Field("chat_id") chatId: ChatId,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("message_id") messageId: Long,
-        @Field("disable_notification") disableNotification: Boolean?
+        @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
     @POST("unpinChatMessage")
     fun unpinChatMessage(
-        @Field("chat_id") chatId: ChatId,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("message_id") messageId: Long?
     ): Call<Response<Boolean>>
 
@@ -530,41 +549,41 @@ interface ApiService {
     @FormUrlEncoded
     @POST("leaveChat")
     fun leaveChat(
-        @Field("chat_id") chatId: ChatId
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId
     ): Call<Response<Boolean>>
 
     @GET("getChat")
     fun getChat(
-        @Query("chat_id") chatId: ChatId
+        @Query(ApiConstants.CHAT_ID) chatId: ChatId
     ): Call<Response<Chat>>
 
     @GET("getChatAdministrators")
     fun getChatAdministrators(
-        @Query("chat_id") chatId: ChatId
+        @Query(ApiConstants.CHAT_ID) chatId: ChatId
     ): Call<Response<List<ChatMember>>>
 
     @GET("getChatMembersCount")
     fun getChatMembersCount(
-        @Query("chat_id") chatId: ChatId
+        @Query(ApiConstants.CHAT_ID) chatId: ChatId
     ): Call<Response<Int>>
 
     @GET("getChatMember")
     fun getChatMember(
-        @Query("chat_id") chatId: ChatId,
-        @Query("user_id") userId: Long
+        @Query(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Query(ApiConstants.USER_ID) userId: Long
     ): Call<Response<ChatMember>>
 
     @FormUrlEncoded
     @POST("setChatStickerSet")
     fun setChatStickerSet(
-        @Field("chat_id") chatId: ChatId,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("sticker_set_name") stickerSetName: String
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
     @POST("deleteChatStickerSet")
     fun deleteChatStickerSet(
-        @Field("chat_id") chatId: ChatId
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
@@ -587,56 +606,56 @@ interface ApiService {
     @FormUrlEncoded
     @POST("editMessageText")
     fun editMessageText(
-        @Field("chat_id") chatId: ChatId?,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId?,
         @Field("message_id") messageId: Long?,
         @Field("inline_message_id") inlineMessageId: String?,
         @Field("text") text: String,
         @Field("parse_mode") parseMode: ParseMode?,
         @Field("disable_web_page_preview") disableWebPagePreview: Boolean?,
-        @Field("reply_markup") replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
     @FormUrlEncoded
     @POST("editMessageCaption")
     fun editMessageCaption(
-        @Field("chat_id") chatId: ChatId?,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId?,
         @Field("message_id") messageId: Long?,
         @Field("inline_message_id") inlineMessageId: String?,
         @Field("caption") caption: String,
-        @Field("reply_markup") replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
     @FormUrlEncoded
     @POST("editMessageMedia")
     fun editMessageMedia(
-        @Field("chat_id") chatId: ChatId?,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId?,
         @Field("message_id") messageId: Long?,
         @Field("inline_message_id") inlineMessageId: String?,
         @Field("media") media: InputMedia,
-        @Field("reply_markup") replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
     @FormUrlEncoded
     @POST("editMessageReplyMarkup")
     fun editMessageReplyMarkup(
-        @Field("chat_id") chatId: ChatId?,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId?,
         @Field("message_id") messageId: Long?,
         @Field("inline_message_id") inlineMessageId: String?,
-        @Field("reply_markup") replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
     @FormUrlEncoded
     @POST("stopPoll")
     fun stopPoll(
-        @Field("chat_id") chatId: ChatId?,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId?,
         @Field("message_id") messageId: Long?,
-        @Field("reply_markup") replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
     ): Call<Response<Poll>>
 
     @FormUrlEncoded
     @POST("deleteMessage")
     fun deleteMessage(
-        @Field("chat_id") chatId: ChatId,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("message_id") messageId: Long
     ): Call<Response<Boolean>>
 
@@ -647,21 +666,23 @@ interface ApiService {
     @Multipart
     @POST("sendSticker")
     fun sendSticker(
-        @Part("chat_id") chatId: ChatId,
+        @Part(ApiConstants.CHAT_ID) chatId: ChatId,
         @Part("sticker") sticker: MultipartBody.Part,
-        @Part("disable_notification") disableNotification: RequestBody?,
-        @Part("reply_to_message_id") replyToMessageId: RequestBody?,
-        @Part("reply_markup") replyMarkup: RequestBody? = null
+        @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
+        @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
+        @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
+        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null
     ): Call<Response<Message>>
 
     @FormUrlEncoded
     @POST("sendSticker")
     fun sendSticker(
-        @Field("chat_id") chatId: ChatId,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("sticker") fileId: String,
-        @Field("disable_notification") disableNotification: Boolean?,
-        @Field("reply_to_message_id") replyToMessageId: Long?,
-        @Field("reply_markup") replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
+        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
     @GET("getStickerSet")
@@ -672,14 +693,14 @@ interface ApiService {
     @Multipart
     @POST("uploadStickerFile")
     fun uploadStickerFile(
-        @Part("user_id") userId: RequestBody,
+        @Part(ApiConstants.USER_ID) userId: RequestBody,
         @Part("png_sticker") pngSticker: MultipartBody.Part
     ): Call<Response<File>>
 
     @Multipart
     @POST("createNewStickerSet")
     fun createNewStickerSet(
-        @Part("user_id") userId: RequestBody,
+        @Part(ApiConstants.USER_ID) userId: RequestBody,
         @Part("name") name: RequestBody,
         @Part("title") title: RequestBody,
         @Part("png_sticker") pngSticker: MultipartBody.Part,
@@ -691,7 +712,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("createNewStickerSet")
     fun createNewStickerSet(
-        @Field("user_id") userId: Long,
+        @Field(ApiConstants.USER_ID) userId: Long,
         @Field("name") name: String,
         @Field("title") title: String,
         @Field("png_sticker") fileId: String,
@@ -703,7 +724,7 @@ interface ApiService {
     @Multipart
     @POST("addStickerToSet")
     fun addStickerToSet(
-        @Part("user_id") userId: RequestBody,
+        @Part(ApiConstants.USER_ID) userId: RequestBody,
         @Part("name") name: RequestBody,
         @Part("png_sticker") pngSticker: MultipartBody.Part,
         @Part("emojis") emojis: RequestBody,
@@ -713,7 +734,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("addStickerToSet")
     fun addStickerToSet(
-        @Field("user_id") userId: Long,
+        @Field(ApiConstants.USER_ID) userId: Long,
         @Field("name") name: String,
         @Field("png_sticker") fileId: String,
         @Field("emojis") emojis: String,
@@ -740,7 +761,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("sendInvoice")
     fun sendInvoice(
-        @Field("chat_id") chatId: ChatId,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("title") title: String,
         @Field("description") description: String,
         @Field("payload") payload: String,
@@ -760,9 +781,10 @@ interface ApiService {
         @Field("send_phone_number_to_provider") sendPhoneNumberToProvider: Boolean?,
         @Field("send_email_to_provider") sendEmailToProvider: Boolean?,
         @Field("is_flexible") isFlexible: Boolean?,
-        @Field("disable_notification") disableNotification: Boolean?,
-        @Field("reply_to_message_id") replyToMessageId: Long?,
-        @Field("reply_markup") replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
+        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -810,6 +832,7 @@ interface ApiService {
         @Field(DiceFields.EMOJI) emoji: DiceEmoji? = null,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean? = null,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long? = null,
+        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 

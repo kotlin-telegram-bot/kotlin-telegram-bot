@@ -147,7 +147,6 @@ fun anyChat(
     username: String? = null,
     firstName: String? = null,
     lastName: String? = null,
-    allMembersAreAdministrators: Boolean? = null,
     photo: ChatPhoto? = null,
     description: String? = null,
     inviteLink: String? = null,
