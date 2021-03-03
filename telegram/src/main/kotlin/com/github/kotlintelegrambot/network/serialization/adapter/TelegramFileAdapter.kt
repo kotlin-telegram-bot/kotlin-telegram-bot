@@ -9,7 +9,7 @@ import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 
-class TelegramFileAdapter : JsonSerializer<TelegramFile> {
+internal class TelegramFileAdapter : JsonSerializer<TelegramFile> {
     override fun serialize(src: TelegramFile, typeOfSrc: Type, context: JsonSerializationContext): JsonElement = when (src) {
         is ByFileId -> context.serialize(src.fileId, String::class.java)
         is ByUrl -> context.serialize(src.url, String::class.java)

@@ -6,7 +6,7 @@ import com.github.kotlintelegrambot.entities.Update
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
-class Updater {
+internal class Updater {
     private val executor: Executor = Executors.newCachedThreadPool()
     private var lastUpdateId = 0L
     private var stopped = false
@@ -44,7 +44,7 @@ class Updater {
         }
     }
 
-    internal fun stopPolling() {
+    fun stopPolling() {
         stopped = true
         stopCheckingUpdates()
     }

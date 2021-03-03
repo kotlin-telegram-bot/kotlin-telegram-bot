@@ -56,8 +56,8 @@ import java.nio.file.Files
 import java.util.concurrent.TimeUnit
 import java.io.File as SystemFile
 
-val PLAIN_TEXT_MIME = MediaType.parse("text/plain")
-val APPLICATION_JSON_MIME = MediaType.parse("application/json")
+internal val PLAIN_TEXT_MIME = MediaType.parse("text/plain")
+internal val APPLICATION_JSON_MIME = MediaType.parse("application/json")
 
 private fun convertString(text: String) = RequestBody.create(PLAIN_TEXT_MIME, text)
 private fun convertJson(text: String) = RequestBody.create(APPLICATION_JSON_MIME, text)
@@ -95,7 +95,7 @@ private fun ByteArray.toMultipartBodyPart(
     return MultipartBody.Part.createFormData(name, filename, requestBody)
 }
 
-class ApiClient(
+internal class ApiClient(
     private val token: String,
     private val apiUrl: String,
     private val botTimeout: Int = 30,

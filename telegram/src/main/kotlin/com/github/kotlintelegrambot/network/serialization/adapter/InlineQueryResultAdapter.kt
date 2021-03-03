@@ -26,7 +26,7 @@ import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 
-class InlineQueryResultAdapter : JsonSerializer<InlineQueryResult> {
+internal class InlineQueryResultAdapter : JsonSerializer<InlineQueryResult> {
 
     override fun serialize(
         src: InlineQueryResult,

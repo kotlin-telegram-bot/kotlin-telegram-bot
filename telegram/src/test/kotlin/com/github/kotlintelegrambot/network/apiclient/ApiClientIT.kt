@@ -11,7 +11,7 @@ abstract class ApiClientIT {
 
     protected val mockWebServer = MockWebServer()
 
-    protected lateinit var sut: ApiClient
+    internal lateinit var sut: ApiClient
 
     @BeforeEach
     fun setUp() {

@@ -71,7 +71,7 @@ class Bot private constructor(
     }
 
     class Builder {
-        val updater = Updater()
+        internal val updater = Updater()
         private val gson = GsonFactory.createForApiClient()
         private val updateMapper = UpdateMapper(gson)
         var webhookConfig: WebhookConfig? = null
