@@ -9,4 +9,4 @@ import retrofit2.Response
  * is very confusing because we end up with something like Response<Response<T>>. I'm creating this
  * typealias in order to better differentiate the Response types we're using there.
  */
-typealias CallResponse<T> = Response<T>
+internal typealias CallResponse<T> = Response<T>

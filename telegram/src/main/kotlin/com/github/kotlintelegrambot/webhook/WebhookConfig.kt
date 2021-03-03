@@ -8,7 +8,7 @@ class WebhookConfigBuilder {
     var maxConnections: Int? = null
     var allowedUpdates: List<String>? = null
 
-    fun build(): WebhookConfig {
+    internal fun build(): WebhookConfig {
         val finalUrl = url ?: error("You must provide a url for the webhook")
         return WebhookConfig(finalUrl, certificate, maxConnections, allowedUpdates)
     }

@@ -20,7 +20,7 @@ class Dispatcher(
     private val errorHandlers = arrayListOf<ErrorHandler>()
     private var stopped = false
 
-    fun startCheckingUpdates() {
+    internal fun startCheckingUpdates() {
         stopped = false
         checkQueueUpdates()
     }
