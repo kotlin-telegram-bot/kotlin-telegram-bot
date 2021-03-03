@@ -5,7 +5,7 @@ import retrofit2.Converter
 import retrofit2.Retrofit
 import java.lang.reflect.Type
 
-class DiceEmojiConverterFactory : Converter.Factory() {
+internal class DiceEmojiConverterFactory : Converter.Factory() {
 
     override fun stringConverter(type: Type?, annotations: Array<out Annotation>?, retrofit: Retrofit?): Converter<DiceEmoji, String>? {
         val clazz = type as? Class<*> ?: return null

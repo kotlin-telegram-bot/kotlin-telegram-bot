@@ -12,7 +12,7 @@ import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 
-class InputMediaAdapter : JsonSerializer<InputMedia> {
+internal class InputMediaAdapter : JsonSerializer<InputMedia> {
     override fun serialize(src: InputMedia, typeOfSrc: Type, context: JsonSerializationContext): JsonElement {
         val jsonElement = when (src) {
             is InputMediaPhoto -> context.serialize(src, InputMediaPhoto::class.java)

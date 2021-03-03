@@ -14,7 +14,7 @@ import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
 import java.lang.reflect.Type
 
-class InlineKeyboardButtonAdapter : JsonSerializer<InlineKeyboardButton>, JsonDeserializer<InlineKeyboardButton> {
+internal class InlineKeyboardButtonAdapter : JsonSerializer<InlineKeyboardButton>, JsonDeserializer<InlineKeyboardButton> {
 
     private class InlineKeyboardButtonDto(
         val text: String,

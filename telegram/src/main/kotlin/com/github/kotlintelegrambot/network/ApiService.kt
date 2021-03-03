@@ -38,7 +38,7 @@ import retrofit2.http.Part
 import retrofit2.http.Query
 import retrofit2.http.Url
 
-interface ApiService {
+internal interface ApiService {
 
     /**
      * Getting updates

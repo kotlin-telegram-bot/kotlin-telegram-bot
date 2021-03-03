@@ -2,7 +2,7 @@ package com.github.kotlintelegrambot.network
 
 import com.github.kotlintelegrambot.types.TelegramBotResult
 
-class ApiResponseMapper {
+internal class ApiResponseMapper {
 
     fun <T> mapToTelegramBotResult(apiResponse: CallResponse<Response<T>>): TelegramBotResult<T> {
         fun invalidResponse() = TelegramBotResult.Error.InvalidResponse(

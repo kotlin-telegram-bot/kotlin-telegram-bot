@@ -12,7 +12,7 @@ import com.google.gson.Gson
 import okhttp3.MultipartBody
 import java.io.File
 
-class MultipartBodyFactory(private val gson: Gson) {
+internal class MultipartBodyFactory(private val gson: Gson) {
 
     fun createForSendMediaGroup(
         chatId: ChatId,
