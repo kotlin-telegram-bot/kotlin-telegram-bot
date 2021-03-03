@@ -61,7 +61,7 @@ class TelegramBotResultTest {
     }
 
     @Test
-    fun `is the result a success?`() {
+    fun `is the result a success`() {
         val success = TelegramBotResult.Success(1)
         assertTrue(success.isSuccess)
 
@@ -70,7 +70,7 @@ class TelegramBotResultTest {
     }
 
     @Test
-    fun `is the result an error?`() {
+    fun `is the result an error`() {
         val success = TelegramBotResult.Success(1)
         assertFalse(success.isError)
 
