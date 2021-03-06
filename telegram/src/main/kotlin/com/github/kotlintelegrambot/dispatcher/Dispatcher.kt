@@ -63,7 +63,7 @@ class Dispatcher internal constructor(
                     return
                 }
                 try {
-                    it.handlerCallback(bot, update)
+                    it.handleUpdate(bot, update)
                 } catch (throwable: Throwable) {
                     if (logLevel.shouldLogErrors()) {
                         throwable.printStackTrace()

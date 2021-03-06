@@ -13,18 +13,14 @@ data class LocationHandlerEnvironment(
 )
 
 internal class LocationHandler(
-    handleLocation: HandleLocation
-) : Handler(LocationHandlerProxy(handleLocation)) {
+    private val handleLocation: HandleLocation
+) : Handler {
 
     override fun checkUpdate(update: Update): Boolean {
         return update.message?.location != null
     }
-}
 
-private class LocationHandlerProxy(
-    private val handler: HandleLocation
-) : HandleUpdate {
-    override fun invoke(bot: Bot, update: Update) {
+    override fun handleUpdate(bot: Bot, update: Update) {
         checkNotNull(update.message)
         checkNotNull(update.message.location)
 
@@ -34,6 +30,6 @@ private class LocationHandlerProxy(
             update.message,
             update.message.location
         )
-        handler.invoke(locationHandlerEnv)
+        handleLocation(locationHandlerEnv)
     }
 }

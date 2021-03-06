@@ -39,7 +39,7 @@ class PreCheckoutQueryHandlerTest {
         val anyPreCheckoutQuery = anyPreCheckoutQuery()
         val anyUpdateWithPreCheckoutQuery = anyUpdate(preCheckoutQuery = anyPreCheckoutQuery)
 
-        sut.handlerCallback(botMock, anyUpdateWithPreCheckoutQuery)
+        sut.handleUpdate(botMock, anyUpdateWithPreCheckoutQuery)
 
         val expectedPreCheckoutQueryHandlerEnv = PreCheckoutQueryHandlerEnvironment(
             botMock,

@@ -12,19 +12,14 @@ data class ChannelHandlerEnvironment(
 )
 
 internal class ChannelHandler(
-    handleChannelPost: HandleChannelPost
-) : Handler(ChannelHandlerProxy(handleChannelPost)) {
+    private val handleChannelPost: HandleChannelPost
+) : Handler {
 
     override fun checkUpdate(update: Update): Boolean {
         return update.channelPost != null || update.editedChannelPost != null
     }
-}
 
-private class ChannelHandlerProxy(
-    private val handleChannelPost: HandleChannelPost
-) : HandleUpdate {
-
-    override fun invoke(bot: Bot, update: Update) {
+    override fun handleUpdate(bot: Bot, update: Update) {
         val channelHandlerEnv = when {
             update.channelPost != null -> ChannelHandlerEnvironment(
                 bot,

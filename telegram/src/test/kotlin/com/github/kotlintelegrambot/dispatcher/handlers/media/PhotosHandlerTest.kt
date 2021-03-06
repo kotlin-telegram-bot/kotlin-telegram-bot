@@ -51,7 +51,7 @@ class PhotosHandlerTest {
         val anyMessageWithPhotos = anyMessage(photo = anyPhotos)
         val anyUpdateWithPhotos = anyUpdate(message = anyMessage(photo = anyPhotos))
 
-        sut.handlerCallback(botMock, anyUpdateWithPhotos)
+        sut.handleUpdate(botMock, anyUpdateWithPhotos)
 
         val expectedPhotoHandlerEnv = MediaHandlerEnvironment(
             botMock,

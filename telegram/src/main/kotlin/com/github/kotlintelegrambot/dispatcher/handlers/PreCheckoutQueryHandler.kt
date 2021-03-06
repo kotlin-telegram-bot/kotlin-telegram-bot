@@ -11,19 +11,14 @@ data class PreCheckoutQueryHandlerEnvironment(
 )
 
 internal class PreCheckoutQueryHandler(
-    handlePreCheckoutQuery: HandlePreCheckoutQuery
-) : Handler(PreCheckoutQueryHandlerProxy(handlePreCheckoutQuery)) {
+    private val handlePreCheckoutQuery: HandlePreCheckoutQuery
+) : Handler {
 
     override fun checkUpdate(update: Update): Boolean {
         return update.preCheckoutQuery != null
     }
-}
 
-private class PreCheckoutQueryHandlerProxy(
-    private val handlePreCheckoutQuery: HandlePreCheckoutQuery
-) : HandleUpdate {
-
-    override fun invoke(bot: Bot, update: Update) {
+    override fun handleUpdate(bot: Bot, update: Update) {
         checkNotNull(update.preCheckoutQuery)
 
         val preCheckoutQueryHandlerEnv = PreCheckoutQueryHandlerEnvironment(

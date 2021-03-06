@@ -13,19 +13,14 @@ data class ContactHandlerEnvironment(
 )
 
 internal class ContactHandler(
-    handleContact: HandleContact
-) : Handler(ContactHandlerProxy(handleContact)) {
+    private val handleContact: HandleContact
+) : Handler {
 
     override fun checkUpdate(update: Update): Boolean {
         return update.message?.contact != null
     }
-}
 
-private class ContactHandlerProxy(
-    private val handler: HandleContact
-) : HandleUpdate {
-
-    override fun invoke(bot: Bot, update: Update) {
+    override fun handleUpdate(bot: Bot, update: Update) {
         checkNotNull(update.message)
         checkNotNull(update.message.contact)
 
@@ -35,6 +30,6 @@ private class ContactHandlerProxy(
             update.message,
             update.message.contact
         )
-        handler.invoke(contactHandlerEnv)
+        handleContact(contactHandlerEnv)
     }
 }

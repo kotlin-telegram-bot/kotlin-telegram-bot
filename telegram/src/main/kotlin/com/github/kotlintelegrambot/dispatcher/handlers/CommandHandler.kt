@@ -13,8 +13,8 @@ data class CommandHandlerEnvironment internal constructor(
 
 internal class CommandHandler(
     private val command: String,
-    handler: CommandHandlerEnvironment.() -> Unit
-) : Handler(CommandHandleCommandHandlerEnvironmentProxy(handler)) {
+    private val handleCommand: CommandHandlerEnvironment.() -> Unit
+) : Handler {
 
     override fun checkUpdate(update: Update): Boolean {
         return (
@@ -22,15 +22,10 @@ internal class CommandHandler(
                 update.message.text.drop(1).split(" ")[0].split("@")[0] == command
             )
     }
-}
 
-private class CommandHandleCommandHandlerEnvironmentProxy(
-    private val handleUpdate: CommandHandlerEnvironment.() -> Unit
-) : HandleUpdate {
-
-    override fun invoke(bot: Bot, update: Update) {
+    override fun handleUpdate(bot: Bot, update: Update) {
         checkNotNull(update.message)
-        handleUpdate(CommandHandlerEnvironment(bot, update, update.message, update.getCommandArgs()))
+        handleCommand(CommandHandlerEnvironment(bot, update, update.message, update.getCommandArgs()))
     }
 
     private fun Update.getCommandArgs(): List<String> =

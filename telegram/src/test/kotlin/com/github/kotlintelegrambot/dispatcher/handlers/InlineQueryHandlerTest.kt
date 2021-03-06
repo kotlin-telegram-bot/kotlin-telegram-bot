@@ -39,7 +39,7 @@ class InlineQueryHandlerTest {
         val anyInlineQuery = anyInlineQuery()
         val anyUpdateWithInlineQuery = anyUpdate(inlineQuery = anyInlineQuery)
 
-        sut.handlerCallback(botMock, anyUpdateWithInlineQuery)
+        sut.handleUpdate(botMock, anyUpdateWithInlineQuery)
 
         val expectedInlineQueryHandlerEnv = InlineQueryHandlerEnvironment(
             botMock,

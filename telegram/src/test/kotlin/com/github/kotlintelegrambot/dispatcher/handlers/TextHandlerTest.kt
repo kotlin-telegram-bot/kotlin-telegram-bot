@@ -80,7 +80,7 @@ class TextHandlerTest {
         val anyUpdate = anyUpdate(message = anyMessageWithText)
         val sut = TextHandler(text = ANY_TEXT, handleText = handleTextMock)
 
-        sut.handlerCallback(botMock, anyUpdate)
+        sut.handleUpdate(botMock, anyUpdate)
 
         val expectedTextHandlerEnvironment = TextHandlerEnvironment(
             botMock,
