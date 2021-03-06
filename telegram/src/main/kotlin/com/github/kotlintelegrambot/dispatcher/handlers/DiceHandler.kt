@@ -13,8 +13,6 @@ data class DiceHandlerEnvironment(
 )
 
 internal class DiceHandler(handleDice: HandleDice) : Handler(HandleDiceProxy(handleDice)) {
-    override val groupIdentifier: String
-        get() = "dice"
 
     override fun checkUpdate(update: Update): Boolean = update.message?.dice != null
 }

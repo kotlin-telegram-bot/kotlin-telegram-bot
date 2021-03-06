@@ -16,9 +16,6 @@ internal class MessageHandler(
     handler: MessageHandlerEnvironment.() -> Unit
 ) : Handler(MessageHandlerProxy(handler)) {
 
-    override val groupIdentifier: String
-        get() = "MessageHandler"
-
     override fun checkUpdate(update: Update): Boolean =
         if (update.message == null) {
             false

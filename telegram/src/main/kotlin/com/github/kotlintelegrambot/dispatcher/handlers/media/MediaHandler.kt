@@ -19,9 +19,6 @@ internal abstract class MediaHandler<Media>(
     private val isUpdateMedia: (Update) -> Boolean
 ) : Handler(MediaHandlerProxy(handleMediaUpdate, toMedia)) {
 
-    override val groupIdentifier: String
-        get() = "MediaHandler"
-
     override fun checkUpdate(update: Update): Boolean = isUpdateMedia(update)
 }
 

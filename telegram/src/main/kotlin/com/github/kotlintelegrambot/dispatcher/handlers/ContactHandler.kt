@@ -16,9 +16,6 @@ internal class ContactHandler(
     handleContact: HandleContact
 ) : Handler(ContactHandlerProxy(handleContact)) {
 
-    override val groupIdentifier: String
-        get() = "System"
-
     override fun checkUpdate(update: Update): Boolean {
         return update.message?.contact != null
     }

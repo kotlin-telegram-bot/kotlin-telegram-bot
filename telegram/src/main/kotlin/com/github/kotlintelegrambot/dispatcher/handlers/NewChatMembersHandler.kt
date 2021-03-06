@@ -15,8 +15,6 @@ data class NewChatMembersHandlerEnvironment(
 internal class NewChatMembersHandler(
     handleNewChatMembers: HandleNewChatMembers
 ) : Handler(NewChatMembersHandlerProxy(handleNewChatMembers)) {
-    override val groupIdentifier: String
-        get() = "newChatMembers"
 
     override fun checkUpdate(update: Update): Boolean {
         val newChatMembers = update.message?.newChatMembers

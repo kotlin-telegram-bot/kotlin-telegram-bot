@@ -18,7 +18,7 @@ class Dispatcher internal constructor(
 
     internal lateinit var bot: Bot
 
-    private val commandHandlers = linkedMapOf<String, ArrayList<Handler>>()
+    private val commandHandlers = linkedSetOf<Handler>()
     private val errorHandlers = arrayListOf<ErrorHandler>()
 
     @Volatile private var stopped = false
@@ -40,18 +40,11 @@ class Dispatcher internal constructor(
     }
 
     fun addHandler(handler: Handler) {
-        var handlers = commandHandlers[handler.groupIdentifier]
-
-        if (handlers == null) {
-            handlers = arrayListOf()
-            commandHandlers[handler.groupIdentifier] = handlers
-        }
-
-        handlers.add(handler)
+        commandHandlers.add(handler)
     }
 
     fun removeHandler(handler: Handler) {
-        commandHandlers[handler.groupIdentifier]?.remove(handler)
+        commandHandlers.remove(handler)
     }
 
     fun addErrorHandler(errorHandler: ErrorHandler) {
@@ -63,22 +56,20 @@ class Dispatcher internal constructor(
     }
 
     private fun handleUpdate(update: Update) {
-        for (group in commandHandlers) {
-            group.value
-                .filter { it.checkUpdate(update) }
-                .forEach {
-                    if (update.consumed) {
-                        return
-                    }
-                    try {
-                        it.handlerCallback(bot, update)
-                    } catch (throwable: Throwable) {
-                        if (logLevel.shouldLogErrors()) {
-                            throwable.printStackTrace()
-                        }
+        commandHandlers
+            .filter { it.checkUpdate(update) }
+            .forEach {
+                if (update.consumed) {
+                    return
+                }
+                try {
+                    it.handlerCallback(bot, update)
+                } catch (throwable: Throwable) {
+                    if (logLevel.shouldLogErrors()) {
+                        throwable.printStackTrace()
                     }
                 }
-        }
+            }
     }
 
     private fun handleError(error: TelegramError) {

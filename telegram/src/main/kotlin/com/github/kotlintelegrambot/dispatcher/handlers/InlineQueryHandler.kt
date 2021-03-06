@@ -13,8 +13,6 @@ data class InlineQueryHandlerEnvironment(
 internal class InlineQueryHandler(
     handleInlineQuery: HandleInlineQuery
 ) : Handler(InlineQueryHandlerProxy(handleInlineQuery)) {
-    override val groupIdentifier: String
-        get() = "InlineQueryHandler"
 
     override fun checkUpdate(update: Update): Boolean = update.inlineQuery != null
 }

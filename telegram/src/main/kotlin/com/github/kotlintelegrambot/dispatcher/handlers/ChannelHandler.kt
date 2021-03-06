@@ -15,9 +15,6 @@ internal class ChannelHandler(
     handleChannelPost: HandleChannelPost
 ) : Handler(ChannelHandlerProxy(handleChannelPost)) {
 
-    override val groupIdentifier: String
-        get() = "channel"
-
     override fun checkUpdate(update: Update): Boolean {
         return update.channelPost != null || update.editedChannelPost != null
     }

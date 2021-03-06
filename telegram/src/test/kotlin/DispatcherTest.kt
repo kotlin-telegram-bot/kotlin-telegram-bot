@@ -30,12 +30,10 @@ class DispatcherTest {
 
     private fun mockHandler(
         handlerCallbackMock: HandleUpdate,
-        groupIdentifierMock: String = ""
     ): Handler {
         return mockk {
             every { handlerCallback } returns handlerCallbackMock
             every { checkUpdate(any()) } returns true
-            every { groupIdentifier } returns groupIdentifierMock
         }
     }
 
@@ -91,9 +89,9 @@ class DispatcherTest {
         val firstHandlerCallbackMock = mockk<HandleUpdate>(relaxed = true)
         val secondHandlerCallbackMock = mockk<HandleUpdate>(relaxed = true)
         val thirdHandlerCallbackMock = mockk<HandleUpdate>(relaxed = true)
-        sut.addHandler(mockHandler(firstHandlerCallbackMock, "Group 1"))
-        sut.addHandler(mockHandler(secondHandlerCallbackMock, "Group 2"))
-        sut.addHandler(mockHandler(thirdHandlerCallbackMock, "Group 3"))
+        sut.addHandler(mockHandler(firstHandlerCallbackMock))
+        sut.addHandler(mockHandler(secondHandlerCallbackMock))
+        sut.addHandler(mockHandler(thirdHandlerCallbackMock))
 
         val anyUpdate = anyUpdate()
         every { blockingQueueMock.take() } returns anyUpdate andThenThrows InterruptedException()

@@ -16,8 +16,6 @@ internal class CommandHandler(
     handler: CommandHandlerEnvironment.() -> Unit
 ) : Handler(CommandHandleCommandHandlerEnvironmentProxy(handler)) {
 
-    override val groupIdentifier: String = "CommandHandler"
-
     override fun checkUpdate(update: Update): Boolean {
         return (
             update.message?.text != null && update.message.text.startsWith("/") &&

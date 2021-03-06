@@ -14,9 +14,6 @@ internal class PreCheckoutQueryHandler(
     handlePreCheckoutQuery: HandlePreCheckoutQuery
 ) : Handler(PreCheckoutQueryHandlerProxy(handlePreCheckoutQuery)) {
 
-    override val groupIdentifier: String
-        get() = "payment"
-
     override fun checkUpdate(update: Update): Boolean {
         return update.preCheckoutQuery != null
     }
