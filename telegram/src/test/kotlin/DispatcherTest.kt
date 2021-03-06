@@ -22,10 +22,10 @@ class DispatcherTest {
 
     private val sut = Dispatcher(
         blockingQueueMock,
-        DirectExecutor()
+        DirectExecutor(),
+        LogLevel.None,
     ).apply {
         bot = botMock
-        logLevel = LogLevel.None
     }
 
     private fun mockHandler(
