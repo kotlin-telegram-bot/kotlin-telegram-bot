@@ -20,7 +20,7 @@ import com.github.kotlintelegrambot.extensions.filters.Filter
 import com.github.kotlintelegrambot.logging.LogLevel
 import com.github.kotlintelegrambot.network.fold
 
-fun main(args: Array<String>) {
+fun main() {
 
     val bot = bot {
 
