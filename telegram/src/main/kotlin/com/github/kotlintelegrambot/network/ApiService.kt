@@ -245,6 +245,17 @@ internal interface ApiService {
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 
+    @FormUrlEncoded
+    @POST("sendGame")
+    fun sendGame(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field(ApiConstants.SendGame.GAME_SHORT_NAME) gameShortName: String,
+        @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
+        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+    ): Call<Response<Message>>
+
     @Multipart
     @POST("sendAnimation")
     fun sendAnimation(

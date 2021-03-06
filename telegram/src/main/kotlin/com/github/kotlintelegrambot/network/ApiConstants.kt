@@ -12,6 +12,10 @@ internal object ApiConstants {
         const val MEDIA = "media"
     }
 
+    object SendGame {
+        const val GAME_SHORT_NAME = "game_short_name"
+    }
+
     object SetWebhook {
         const val URL = "url"
         const val CERTIFICATE = "certificate"

@@ -87,6 +87,7 @@ dependencies {
 2. [Polls](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/tree/main/docs/polls.md)
 3. [Dice](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/tree/main/docs/dice.md)
 4. [Logging](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/tree/main/docs/logging.md)
+5. [Games](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/tree/main/docs/games.md)
 
 ## Contributing
 

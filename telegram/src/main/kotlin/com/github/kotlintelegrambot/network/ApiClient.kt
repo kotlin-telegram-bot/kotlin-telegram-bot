@@ -460,6 +460,22 @@ internal class ApiClient(
         )
     }
 
+    fun sendGame(
+        chatId: ChatId,
+        gameShortName: String,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
+        replyMarkup: ReplyMarkup? = null
+    ): TelegramBotResult<Message> = service.sendGame(
+        chatId,
+        gameShortName,
+        disableNotification,
+        replyToMessageId,
+        allowSendingWithoutReply,
+        replyMarkup
+    ).runApiOperation()
+
     fun sendAnimation(
         chatId: ChatId,
         animation: SystemFile,

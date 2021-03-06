@@ -488,6 +488,37 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
+    /**
+     * Use this method to send a game. On success, the sent Message is returned..
+     *
+     * @param chatId Unique identifier for the target chat or username of the target channel
+     * (in the format @channelusername).
+     * @param gameShortName Short name of the game, serves as the unique identifier for the game.
+     * @param disableNotification Sends the message silently. Users will receive a notification with no sound.
+     * @param replyToMessageId If the message is a reply, ID of the original message.
+     * @param allowSendingWithoutReply Pass True, if the message should be sent even if the specified
+     * replied-to message is not found
+     * @param replyMarkup A JSON-serialized object for an inline keyboard. If empty, one 'Play game_title'
+     * button will be shown. If not empty, the first button must launch the game.
+     *
+     * @return the sent Message.
+     */
+    fun sendGame(
+        chatId: ChatId,
+        gameShortName: String,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
+        replyMarkup: ReplyMarkup? = null
+    ): TelegramBotResult<Message> = apiClient.sendGame(
+        chatId,
+        gameShortName,
+        disableNotification,
+        replyToMessageId,
+        allowSendingWithoutReply,
+        replyMarkup
+    )
+
     fun sendAnimation(
         chatId: ChatId,
         animation: SystemFile,
