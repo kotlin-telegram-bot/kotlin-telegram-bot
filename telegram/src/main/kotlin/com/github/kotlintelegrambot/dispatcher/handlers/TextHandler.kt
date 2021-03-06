@@ -15,7 +15,6 @@ internal class TextHandler(
     private val text: String? = null,
     handleText: HandleText
 ) : Handler(TextHandlerProxy(handleText)) {
-    override val groupIdentifier: String = "CommandHandler"
 
     override fun checkUpdate(update: Update): Boolean {
         if (update.message?.text != null && text == null) return true

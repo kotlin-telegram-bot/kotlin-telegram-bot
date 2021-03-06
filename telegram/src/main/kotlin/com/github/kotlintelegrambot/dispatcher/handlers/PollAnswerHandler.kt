@@ -14,9 +14,6 @@ internal class PollAnswerHandler(
     handlePollAnswer: HandlePollAnswer
 ) : Handler(HandlePollAnswerProxy(handlePollAnswer)) {
 
-    override val groupIdentifier: String
-        get() = "pollAnswer"
-
     override fun checkUpdate(update: Update): Boolean = update.pollAnswer != null
 }
 

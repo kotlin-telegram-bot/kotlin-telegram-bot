@@ -28,8 +28,6 @@ internal class CallbackQueryHandler(
         )
     ) {
 
-    override val groupIdentifier: String = "CallbackQuery"
-
     override fun checkUpdate(update: Update): Boolean {
         val data = update.callbackQuery?.data
         return when {

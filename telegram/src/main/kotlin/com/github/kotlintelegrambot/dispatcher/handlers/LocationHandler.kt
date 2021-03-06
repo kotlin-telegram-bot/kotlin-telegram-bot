@@ -15,8 +15,6 @@ data class LocationHandlerEnvironment(
 internal class LocationHandler(
     handleLocation: HandleLocation
 ) : Handler(LocationHandlerProxy(handleLocation)) {
-    override val groupIdentifier: String
-        get() = "System"
 
     override fun checkUpdate(update: Update): Boolean {
         return update.message?.location != null
