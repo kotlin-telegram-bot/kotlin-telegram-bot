@@ -2,6 +2,7 @@ import com.github.kotlintelegrambot.entities.CallbackQuery
 import com.github.kotlintelegrambot.entities.Chat
 import com.github.kotlintelegrambot.entities.Contact
 import com.github.kotlintelegrambot.entities.Game
+import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
 import com.github.kotlintelegrambot.entities.InlineQuery
 import com.github.kotlintelegrambot.entities.Invoice
 import com.github.kotlintelegrambot.entities.Location
@@ -95,7 +96,8 @@ fun anyMessage(
     invoice: Invoice? = null,
     successfulPayment: SuccessfulPayment? = null,
     dice: Dice? = null,
-    animation: Animation? = null
+    animation: Animation? = null,
+    replyMarkup: InlineKeyboardMarkup? = null
 ): Message = Message(
     messageId = messageId,
     from = from,
@@ -134,7 +136,8 @@ fun anyMessage(
     invoice = invoice,
     successfulPayment = successfulPayment,
     dice = dice,
-    animation = animation
+    animation = animation,
+    replyMarkup = replyMarkup
 )
 
 private const val ANY_CHAT_ID = 243423535L

@@ -1,5 +1,6 @@
 package com.github.kotlintelegrambot.entities.keyboard
 
+import com.github.kotlintelegrambot.entities.CallbackGame
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -43,6 +44,15 @@ sealed class InlineKeyboardButton {
     data class SwitchInlineQueryCurrentChat(
         override val text: String,
         @SerializedName("switch_inline_query_current_chat") val switchInlineQueryCurrentChat: String
+    ) : InlineKeyboardButton()
+
+    /**
+     * Description of the game that will be launched when the user presses the button.
+     * NOTE: this type of button must always be the first button in the first row.
+     */
+    data class CallbackGameButtonType(
+        override val text: String,
+        @SerializedName("callback_game") val callbackGame: CallbackGame?
     ) : InlineKeyboardButton()
 
     /**

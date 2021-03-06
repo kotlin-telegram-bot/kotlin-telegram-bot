@@ -1,7 +1,9 @@
 package com.github.kotlintelegrambot.network.serialization.adapter
 
+import com.github.kotlintelegrambot.entities.CallbackGame
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.CallbackData
+import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.CallbackGameButtonType
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.Pay
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.SwitchInlineQuery
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.SwitchInlineQueryCurrentChat
@@ -20,6 +22,7 @@ internal class InlineKeyboardButtonAdapter : JsonSerializer<InlineKeyboardButton
         val text: String,
         val url: String? = null,
         @SerializedName("callback_data") val callbackData: String? = null,
+        @SerializedName("callback_game") val callbackGame: CallbackGame? = null,
         @SerializedName("switch_inline_query") val switchInlineQuery: String? = null,
         @SerializedName("switch_inline_query_current_chat") val switchInlineQueryCurrentChat: String? = null,
         val pay: Boolean? = null
@@ -34,6 +37,7 @@ internal class InlineKeyboardButtonAdapter : JsonSerializer<InlineKeyboardButton
         is CallbackData -> context.serialize(src, CallbackData::class.java)
         is SwitchInlineQuery -> context.serialize(src, SwitchInlineQuery::class.java)
         is SwitchInlineQueryCurrentChat -> context.serialize(src, SwitchInlineQueryCurrentChat::class.java)
+        is CallbackGameButtonType -> context.serialize(src, CallbackGameButtonType::class.java)
         is Pay -> context.serialize(src, Pay::class.java)
     }
 
@@ -56,6 +60,7 @@ internal class InlineKeyboardButtonAdapter : JsonSerializer<InlineKeyboardButton
                     text,
                     switchInlineQueryCurrentChat
                 )
+                callbackGame != null -> CallbackGameButtonType(text, callbackGame)
                 pay != null -> Pay(text)
                 else -> error("unsupported inline keyboard button $inlineKeyboardButtonDto")
             }
