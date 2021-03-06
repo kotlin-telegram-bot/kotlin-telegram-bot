@@ -1,6 +1,5 @@
 package com.github.kotlintelegrambot.entities
 
-import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton
 import junit.framework.TestCase.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -12,8 +11,8 @@ class InlineKeyboardMarkupTest {
     fun `can't create an inline keyboard with two pay buttons`() {
         assertThrows<IllegalArgumentException> {
             InlineKeyboardMarkup.create(
-                listOf(InlineKeyboardButton.Pay("1")),
-                listOf(InlineKeyboardButton.Pay("2"))
+                listOf(anyInlineKeyboardButtonPay()),
+                listOf(anyInlineKeyboardButtonPay())
             )
         }
     }
@@ -22,16 +21,36 @@ class InlineKeyboardMarkupTest {
     fun `can't create an inline keyboard with a pay button not first in first row`() {
         assertThrows<IllegalArgumentException> {
             InlineKeyboardMarkup.createSingleRowKeyboard(
-                InlineKeyboardButton.Url("1", "https://www.github.com"),
-                InlineKeyboardButton.Pay("2")
+                anyInlineKeyboardButtonUrl(),
+                anyInlineKeyboardButtonPay()
+            )
+        }
+    }
+
+    @Test
+    fun `can't create an inline keyboard with two CallbackGameButtonType buttons`() {
+        assertThrows<IllegalArgumentException> {
+            InlineKeyboardMarkup.create(
+                listOf(anyInlineKeyboardButtonCallbackGameButtonType()),
+                listOf(anyInlineKeyboardButtonCallbackGameButtonType())
+            )
+        }
+    }
+
+    @Test
+    fun `can't create an inline keyboard with a CallbackGameButtonType button not first in first row`() {
+        assertThrows<IllegalArgumentException> {
+            InlineKeyboardMarkup.createSingleRowKeyboard(
+                anyInlineKeyboardButtonUrl(),
+                anyInlineKeyboardButtonCallbackGameButtonType()
             )
         }
     }
 
     @Test
     fun `create an inline keyboard with pay button first in first row`() {
-        val payButton = InlineKeyboardButton.Pay("1")
-        val urlButton = InlineKeyboardButton.Url("3", "http://noone.com")
+        val payButton = anyInlineKeyboardButtonPay()
+        val urlButton = anyInlineKeyboardButtonUrl()
 
         val inlineKeyboard = InlineKeyboardMarkup.createSingleRowKeyboard(payButton, urlButton)
 
@@ -40,9 +59,20 @@ class InlineKeyboardMarkupTest {
     }
 
     @Test
+    fun `create an inline keyboard with CallbackGameButtonType button first in first row`() {
+        val callbackGameButton = anyInlineKeyboardButtonCallbackGameButtonType()
+        val urlButton = anyInlineKeyboardButtonUrl()
+
+        val inlineKeyboard = InlineKeyboardMarkup.createSingleRowKeyboard(callbackGameButton, urlButton)
+
+        assertEquals(callbackGameButton, inlineKeyboard.inlineKeyboard.flatten().first())
+        assertEquals(urlButton, inlineKeyboard.inlineKeyboard.flatten().last())
+    }
+
+    @Test
     fun `create an inline keyboard with url buttons`() {
-        val urlButton1 = InlineKeyboardButton.Url("3", "http://noone.com")
-        val urlButton2 = InlineKeyboardButton.Url("5", "http://noone.com/2")
+        val urlButton1 = anyInlineKeyboardButtonUrl()
+        val urlButton2 = anyInlineKeyboardButtonUrl()
 
         val inlineKeyboard = InlineKeyboardMarkup.create(listOf(urlButton1), listOf(urlButton2))
 

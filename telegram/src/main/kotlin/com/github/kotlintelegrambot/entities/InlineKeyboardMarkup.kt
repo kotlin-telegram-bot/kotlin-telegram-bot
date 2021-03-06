@@ -14,12 +14,22 @@ data class InlineKeyboardMarkup internal constructor(
 ) : ReplyMarkup {
 
     init {
-        // Buttons of type [Pay] must always be the first button in the first row.
+        validatePriorityButtonsForType<InlineKeyboardButton.Pay>()
+        validatePriorityButtonsForType<InlineKeyboardButton.CallbackGameButtonType>()
+    }
+
+    // Priority buttons must always be the first button in the first row.
+    private inline fun <reified T> validatePriorityButtonsForType() {
         val flattenedButtons = inlineKeyboard.flatten()
-        val payButtons = flattenedButtons.filterIsInstance<InlineKeyboardButton.Pay>()
-        require(payButtons.size <= 1) { "Can't have more than one pay button per inline keyboard" }
-        require(payButtons.size != 1 || flattenedButtons.firstOrNull() is InlineKeyboardButton.Pay) {
-            "Pay buttons must always be the first button in the first row"
+        val filteredButtons = flattenedButtons.filterIsInstance<T>()
+        val typeName = T::class.simpleName
+
+        require(filteredButtons.size <= 1) {
+            "Can't have more than one button of type $typeName per inline keyboard"
+        }
+
+        require(filteredButtons.size != 1 || flattenedButtons.firstOrNull() is T) {
+            "Buttons of type $typeName must always be the first button in the first row"
         }
     }
 
