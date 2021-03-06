@@ -22,8 +22,6 @@ import com.github.kotlintelegrambot.entities.payments.PaymentInvoiceInfo
 import com.github.kotlintelegrambot.entities.payments.ShippingOption
 import com.github.kotlintelegrambot.entities.polls.PollType
 import com.github.kotlintelegrambot.entities.stickers.MaskPosition
-import com.github.kotlintelegrambot.errors.RetrieveUpdatesError
-import com.github.kotlintelegrambot.errors.TelegramError
 import com.github.kotlintelegrambot.logging.LogLevel
 import com.github.kotlintelegrambot.network.ApiClient
 import com.github.kotlintelegrambot.network.bimap
@@ -198,48 +196,6 @@ class Bot private constructor(
         timeout = timeout,
         allowedUpdates = allowedUpdates,
     )
-
-    fun getUpdates(offset: Long): List<DispatchableObject> {
-        val call = if (offset > 0)
-            apiClient.getUpdates(offset = offset)
-        else
-            apiClient.getUpdates()
-
-        val (response, error) = call.call()
-
-        when (response?.isSuccessful) {
-            true -> {
-                val updates = response.body()
-                if (updates?.result != null) return updates.result
-            }
-            false, null -> {
-                fun dispatchableError(message: String) =
-                    listOf<TelegramError>(RetrieveUpdatesError(message))
-
-                val errorMessage = error?.message
-                if (errorMessage != null) {
-                    return dispatchableError(errorMessage)
-                }
-
-                val errorBody = response?.errorBody()?.string()
-                if (errorBody != null && errorBody.isNotBlank()) {
-                    return dispatchableError(errorBody)
-                }
-
-                val rawHttpResponse = response?.raw()
-                if (rawHttpResponse != null && rawHttpResponse.message().isNotBlank()) {
-                    return dispatchableError(
-                        "${rawHttpResponse.code()} - ${rawHttpResponse.message()}"
-                    )
-                }
-
-                return dispatchableError(
-                    "There was a problem retrieving updates from Telegram server"
-                )
-            }
-        }
-        return emptyList()
-    }
 
     fun setWebhook(
         url: String,

@@ -150,14 +150,6 @@ internal class ApiClient(
         allowedUpdates?.serialize(),
     ).runApiOperation()
 
-    fun getUpdates(
-        offset: Long? = null,
-        limit: Int? = null,
-        timeout: Int? = botTimeout
-    ): Call<Response<List<Update>>> {
-        return service.getUpdates(offset, limit, timeout, null)
-    }
-
     fun setWebhook(
         url: String,
         certificate: TelegramFile? = null,
