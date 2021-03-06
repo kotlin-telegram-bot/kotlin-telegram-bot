@@ -31,6 +31,7 @@ import com.github.kotlintelegrambot.network.call
 import com.github.kotlintelegrambot.network.serialization.GsonFactory
 import com.github.kotlintelegrambot.types.DispatchableObject
 import com.github.kotlintelegrambot.types.TelegramBotResult
+import com.github.kotlintelegrambot.updater.ExecutorLooper
 import com.github.kotlintelegrambot.updater.Updater
 import com.github.kotlintelegrambot.webhook.WebhookConfig
 import com.github.kotlintelegrambot.webhook.WebhookConfigBuilder
@@ -65,7 +66,6 @@ class Bot private constructor(
 ) {
 
     init {
-        updater.bot = this
         dispatcher.bot = this
         dispatcher.logLevel = logLevel
     }
@@ -84,9 +84,10 @@ class Bot private constructor(
         fun build(): Bot {
             val updatesExecutor = Executors.newCachedThreadPool()
             val updatesQueue = LinkedBlockingQueue<DispatchableObject>()
-            val updater = Updater(updatesQueue, updatesExecutor)
-            val dispatcher = Dispatcher(updatesQueue, updatesExecutor).apply(dispatcherConfiguration)
+            val looper = ExecutorLooper(updatesExecutor)
             val apiClient = ApiClient(token, apiUrl, timeout, logLevel, proxy, gson)
+            val updater = Updater(looper, updatesQueue, apiClient, timeout)
+            val dispatcher = Dispatcher(updatesQueue, updatesExecutor).apply(dispatcherConfiguration)
 
             return Bot(
                 updater,
