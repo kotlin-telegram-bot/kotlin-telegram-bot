@@ -10,12 +10,12 @@ import com.github.kotlintelegrambot.types.DispatchableObject
 import java.util.concurrent.BlockingQueue
 import java.util.concurrent.Executor
 
-class Dispatcher(
+class Dispatcher internal constructor(
     private val updatesQueue: BlockingQueue<DispatchableObject>,
     private val updatesExecutor: Executor,
+    private val logLevel: LogLevel,
 ) {
 
-    internal lateinit var logLevel: LogLevel
     internal lateinit var bot: Bot
 
     private val commandHandlers = linkedMapOf<String, ArrayList<Handler>>()

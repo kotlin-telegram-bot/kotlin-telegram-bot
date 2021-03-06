@@ -60,12 +60,10 @@ class Bot private constructor(
     private val updateMapper: UpdateMapper,
     private val webhookConfig: WebhookConfig?,
     private val apiClient: ApiClient,
-    logLevel: LogLevel,
 ) {
 
     init {
         dispatcher.bot = this
-        dispatcher.logLevel = logLevel
     }
 
     class Builder {
@@ -85,7 +83,11 @@ class Bot private constructor(
             val looper = ExecutorLooper(updatesExecutor)
             val apiClient = ApiClient(token, apiUrl, timeout, logLevel, proxy, gson)
             val updater = Updater(looper, updatesQueue, apiClient, timeout)
-            val dispatcher = Dispatcher(updatesQueue, updatesExecutor).apply(dispatcherConfiguration)
+            val dispatcher = Dispatcher(
+                updatesQueue,
+                updatesExecutor,
+                logLevel,
+            ).apply(dispatcherConfiguration)
 
             return Bot(
                 updater,
@@ -94,7 +96,6 @@ class Bot private constructor(
                 updateMapper,
                 webhookConfig,
                 apiClient,
-                logLevel,
             )
         }
 
