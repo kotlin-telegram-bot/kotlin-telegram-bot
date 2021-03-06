@@ -11,21 +11,16 @@ data class PollAnswerHandlerEnvironment(
 )
 
 internal class PollAnswerHandler(
-    handlePollAnswer: HandlePollAnswer
-) : Handler(HandlePollAnswerProxy(handlePollAnswer)) {
+    private val handlePollAnswer: HandlePollAnswer
+) : Handler {
 
     override fun checkUpdate(update: Update): Boolean = update.pollAnswer != null
-}
 
-private class HandlePollAnswerProxy(
-    private val handlePollAnswer: HandlePollAnswer
-) : HandleUpdate {
-
-    override fun invoke(bot: Bot, update: Update) {
+    override fun handleUpdate(bot: Bot, update: Update) {
         val pollAnswer = update.pollAnswer
         checkNotNull(pollAnswer)
 
         val pollAnswerHandlerEnv = PollAnswerHandlerEnvironment(bot, update, pollAnswer)
-        handlePollAnswer.invoke(pollAnswerHandlerEnv)
+        handlePollAnswer(pollAnswerHandlerEnv)
     }
 }

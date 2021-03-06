@@ -13,8 +13,8 @@ data class MessageHandlerEnvironment(
 
 internal class MessageHandler(
     private val filter: Filter,
-    handler: MessageHandlerEnvironment.() -> Unit
-) : Handler(MessageHandlerProxy(handler)) {
+    private val handleMessage: MessageHandlerEnvironment.() -> Unit
+) : Handler {
 
     override fun checkUpdate(update: Update): Boolean =
         if (update.message == null) {
@@ -22,15 +22,10 @@ internal class MessageHandler(
         } else {
             filter.checkFor(update.message)
         }
-}
 
-private class MessageHandlerProxy(
-    private val handler: MessageHandlerEnvironment.() -> Unit
-) : HandleUpdate {
-
-    override fun invoke(bot: Bot, update: Update) {
+    override fun handleUpdate(bot: Bot, update: Update) {
         checkNotNull(update.message)
         val messageHandlerEnv = MessageHandlerEnvironment(bot, update, update.message)
-        handler.invoke(messageHandlerEnv)
+        handleMessage(messageHandlerEnv)
     }
 }

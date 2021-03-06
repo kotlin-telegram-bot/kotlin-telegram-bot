@@ -16,10 +16,7 @@ class MessageHandlerTest {
     private val handlerMock = mockk<HandleMessage>(relaxed = true)
     private val filterMock = mockk<Filter>()
 
-    private val sut = MessageHandler(
-        handler = handlerMock,
-        filter = filterMock
-    )
+    private val sut = MessageHandler(filterMock, handlerMock)
 
     @Test
     fun `checkUpdate returns false when the update doesn't contain a message`() {
@@ -52,7 +49,7 @@ class MessageHandlerTest {
         val anyMessage = anyMessage()
         val anyUpdate = anyUpdate(message = anyMessage)
 
-        sut.handlerCallback(botMock, anyUpdate)
+        sut.handleUpdate(botMock, anyUpdate)
 
         val expectedMessageHandlerEnvironment = MessageHandlerEnvironment(
             botMock,

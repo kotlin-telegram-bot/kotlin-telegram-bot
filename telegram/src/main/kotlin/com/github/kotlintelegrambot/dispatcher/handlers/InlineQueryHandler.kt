@@ -11,19 +11,15 @@ data class InlineQueryHandlerEnvironment(
 )
 
 internal class InlineQueryHandler(
-    handleInlineQuery: HandleInlineQuery
-) : Handler(InlineQueryHandlerProxy(handleInlineQuery)) {
+    private val handleInlineQuery: HandleInlineQuery
+) : Handler {
 
     override fun checkUpdate(update: Update): Boolean = update.inlineQuery != null
-}
 
-private class InlineQueryHandlerProxy(
-    private val handleInlineQuery: HandleInlineQuery
-) : HandleUpdate {
-
-    override fun invoke(bot: Bot, update: Update) {
+    override fun handleUpdate(bot: Bot, update: Update) {
         val inlineQuery = update.inlineQuery
         checkNotNull(inlineQuery)
+
         val inlineQueryHandlerEnv = InlineQueryHandlerEnvironment(bot, update, inlineQuery)
         handleInlineQuery(inlineQueryHandlerEnv)
     }

@@ -12,14 +12,13 @@ data class DiceHandlerEnvironment(
     val dice: Dice
 )
 
-internal class DiceHandler(handleDice: HandleDice) : Handler(HandleDiceProxy(handleDice)) {
+internal class DiceHandler(
+    private val handleDice: HandleDice
+) : Handler {
 
     override fun checkUpdate(update: Update): Boolean = update.message?.dice != null
-}
 
-private class HandleDiceProxy(private val handleDice: HandleDice) :
-    HandleUpdate {
-    override fun invoke(bot: Bot, update: Update) {
+    override fun handleUpdate(bot: Bot, update: Update) {
         val message = update.message
         val dice = message?.dice
         checkNotNull(dice)

@@ -1,14 +1,15 @@
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.dispatcher.Dispatcher
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleText
-import com.github.kotlintelegrambot.dispatcher.handlers.HandleUpdate
 import com.github.kotlintelegrambot.dispatcher.handlers.Handler
 import com.github.kotlintelegrambot.dispatcher.handlers.TextHandler
 import com.github.kotlintelegrambot.logging.LogLevel
 import com.github.kotlintelegrambot.testutils.DirectExecutor
 import com.github.kotlintelegrambot.types.DispatchableObject
 import io.mockk.every
+import io.mockk.just
 import io.mockk.mockk
+import io.mockk.runs
 import io.mockk.verify
 import io.mockk.verifyOrder
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -28,11 +29,9 @@ class DispatcherTest {
         bot = botMock
     }
 
-    private fun mockHandler(
-        handlerCallbackMock: HandleUpdate,
-    ): Handler {
+    private fun mockHandler(): Handler {
         return mockk {
-            every { handlerCallback } returns handlerCallbackMock
+            every { handleUpdate(any(), any()) } just runs
             every { checkUpdate(any()) } returns true
         }
     }
@@ -43,8 +42,8 @@ class DispatcherTest {
 
     @Test
     fun `updates are dispatched to handlers when updates check starts and there are some updates`() {
-        val handlerCallbackMock = mockk<HandleUpdate>(relaxed = true)
-        sut.addHandler(mockHandler(handlerCallbackMock))
+        val mockHandler = mockHandler()
+        sut.addHandler(mockHandler)
         val anyUpdate = anyUpdate()
         every { blockingQueueMock.take() } returns anyUpdate andThenThrows InterruptedException()
 
@@ -52,7 +51,7 @@ class DispatcherTest {
             sut.startCheckingUpdates()
         } catch (exception: InterruptedException) {
         } finally {
-            verify(exactly = 1) { handlerCallbackMock(botMock, anyUpdate) }
+            verify(exactly = 1) { mockHandler.handleUpdate(botMock, anyUpdate) }
         }
     }
 
@@ -86,12 +85,12 @@ class DispatcherTest {
 
     @Test
     fun `test that handlers from different groups are called in consistent order`() {
-        val firstHandlerCallbackMock = mockk<HandleUpdate>(relaxed = true)
-        val secondHandlerCallbackMock = mockk<HandleUpdate>(relaxed = true)
-        val thirdHandlerCallbackMock = mockk<HandleUpdate>(relaxed = true)
-        sut.addHandler(mockHandler(firstHandlerCallbackMock))
-        sut.addHandler(mockHandler(secondHandlerCallbackMock))
-        sut.addHandler(mockHandler(thirdHandlerCallbackMock))
+        val mockHandler1 = mockHandler()
+        val mockHandler2 = mockHandler()
+        val mockHandler3 = mockHandler()
+        sut.addHandler(mockHandler1)
+        sut.addHandler(mockHandler2)
+        sut.addHandler(mockHandler3)
 
         val anyUpdate = anyUpdate()
         every { blockingQueueMock.take() } returns anyUpdate andThenThrows InterruptedException()
@@ -101,9 +100,9 @@ class DispatcherTest {
         } catch (exception: InterruptedException) {
         } finally {
             verifyOrder {
-                firstHandlerCallbackMock(botMock, anyUpdate)
-                secondHandlerCallbackMock(botMock, anyUpdate)
-                thirdHandlerCallbackMock(botMock, anyUpdate)
+                mockHandler1.handleUpdate(botMock, anyUpdate)
+                mockHandler2.handleUpdate(botMock, anyUpdate)
+                mockHandler3.handleUpdate(botMock, anyUpdate)
             }
         }
     }

@@ -13,19 +13,15 @@ data class NewChatMembersHandlerEnvironment(
 )
 
 internal class NewChatMembersHandler(
-    handleNewChatMembers: HandleNewChatMembers
-) : Handler(NewChatMembersHandlerProxy(handleNewChatMembers)) {
+    private val handleNewChatMembers: HandleNewChatMembers
+) : Handler {
 
     override fun checkUpdate(update: Update): Boolean {
         val newChatMembers = update.message?.newChatMembers
         return newChatMembers != null && newChatMembers.isNotEmpty()
     }
-}
 
-private class NewChatMembersHandlerProxy(
-    val handleNewChatMembers: HandleNewChatMembers
-) : HandleUpdate {
-    override fun invoke(bot: Bot, update: Update) {
+    override fun handleUpdate(bot: Bot, update: Update) {
         val message = update.message
         val newChatMembers = message?.newChatMembers
         checkNotNull(newChatMembers)

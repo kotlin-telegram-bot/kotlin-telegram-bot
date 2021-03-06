@@ -12,21 +12,12 @@ data class CallbackQueryHandlerEnvironment(
 
 internal class CallbackQueryHandler(
     private val callbackData: String? = null,
-    callbackAnswerText: String? = null,
-    callbackAnswerShowAlert: Boolean? = null,
-    callbackAnswerUrl: String? = null,
-    callbackAnswerCacheTime: Int? = null,
-    handleCallbackQuery: HandleCallbackQuery
-) :
-    Handler(
-        CallbackQueryHandlerProxy(
-            handleCallbackQuery,
-            callbackAnswerText,
-            callbackAnswerShowAlert,
-            callbackAnswerUrl,
-            callbackAnswerCacheTime
-        )
-    ) {
+    private val callbackAnswerText: String? = null,
+    private val callbackAnswerShowAlert: Boolean? = null,
+    private val callbackAnswerUrl: String? = null,
+    private val callbackAnswerCacheTime: Int? = null,
+    private val handleCallbackQuery: HandleCallbackQuery
+) : Handler {
 
     override fun checkUpdate(update: Update): Boolean {
         val data = update.callbackQuery?.data
@@ -36,17 +27,8 @@ internal class CallbackQueryHandler(
             else -> data.toLowerCase().contains(callbackData.toLowerCase())
         }
     }
-}
 
-private class CallbackQueryHandlerProxy(
-    private val handleCallbackQuery: HandleCallbackQuery,
-    private val text: String? = null,
-    private val showAlert: Boolean? = null,
-    private val url: String? = null,
-    private val cacheTime: Int? = null
-) : HandleUpdate {
-
-    override fun invoke(bot: Bot, update: Update) {
+    override fun handleUpdate(bot: Bot, update: Update) {
         checkNotNull(update.callbackQuery)
         val callbackQueryHandlerEnv = CallbackQueryHandlerEnvironment(
             bot,
@@ -58,10 +40,10 @@ private class CallbackQueryHandlerProxy(
         val callbackQueryId = update.callbackQuery.id
         bot.answerCallbackQuery(
             callbackQueryId = callbackQueryId,
-            text = text,
-            showAlert = showAlert,
-            url = url,
-            cacheTime = cacheTime
+            text = callbackAnswerText,
+            showAlert = callbackAnswerShowAlert,
+            url = callbackAnswerUrl,
+            cacheTime = callbackAnswerCacheTime,
         )
     }
 }

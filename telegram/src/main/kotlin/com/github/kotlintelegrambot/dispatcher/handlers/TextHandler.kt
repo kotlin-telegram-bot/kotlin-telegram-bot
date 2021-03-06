@@ -13,8 +13,8 @@ data class TextHandlerEnvironment(
 
 internal class TextHandler(
     private val text: String? = null,
-    handleText: HandleText
-) : Handler(TextHandlerProxy(handleText)) {
+    private val handleText: HandleText
+) : Handler {
 
     override fun checkUpdate(update: Update): Boolean {
         if (update.message?.text != null && text == null) return true
@@ -23,13 +23,8 @@ internal class TextHandler(
         }
         return false
     }
-}
 
-private class TextHandlerProxy(
-    private val handler: TextHandlerEnvironment.() -> Unit
-) : HandleUpdate {
-
-    override fun invoke(bot: Bot, update: Update) {
+    override fun handleUpdate(bot: Bot, update: Update) {
         checkNotNull(update.message)
         checkNotNull(update.message.text)
         val textHandlerEnv = TextHandlerEnvironment(
@@ -38,6 +33,6 @@ private class TextHandlerProxy(
             update.message,
             update.message.text
         )
-        handler.invoke(textHandlerEnv)
+        handleText(textHandlerEnv)
     }
 }
