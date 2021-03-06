@@ -93,7 +93,7 @@ dependencies {
 
  1. **Fork** and **clone** the repo
  2. Run `./gradlew ktlintFormat`
- 3. Run `./gradlew check` to see if tests and ktlint pass.  
+ 3. Run `./gradlew build` to see if tests, [ktlint](https://github.com/pinterest/ktlint) and [abi checks](https://github.com/Kotlin/binary-compatibility-validator) pass.  
  4. **Commit** and **push** your changes
  5. Submit a **pull request** to get your changes reviewed
 
