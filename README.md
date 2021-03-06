@@ -10,7 +10,7 @@ A wrapper for the Telegram Bot API written in Kotlin.
 Creating a bot instance is really simple:
 
 ```kotlin
-fun main(args: Array<String>) {
+fun main() {
     val bot = bot {
         token = "YOUR_API_KEY"
     }
