@@ -20,13 +20,12 @@ fun main(args: Array<String>) {
 Now lets poll telegram API and route all text updates:
 
 ```kotlin
-fun main(args: Array<String>) {
+fun main() {
     val bot = bot {
         token = "YOUR_API_KEY"
         dispatch {
-            text { bot, update ->
-                val text = update.message?.text ?: "Hello, World!"
-                bot.sendMessage(ChatId.fromId(chatId = update.message!!.chat.id), text = text)
+            text {
+                bot.sendMessage(ChatId.fromId(message.chat.id), text = text)
             }
         }
     }
@@ -37,7 +36,7 @@ fun main(args: Array<String>) {
 Want to route commands?:
 
 ```kotlin
-fun main(args: Array<String>) {
+fun main() {
     val bot = bot {
         token = "YOUR_API_KEY"
         dispatch {
