@@ -1085,17 +1085,14 @@ internal class ApiClient(
     }
 
     fun stopPoll(
-        chatId: ChatId?,
-        messageId: Long?,
-        replyMarkup: ReplyMarkup?
-    ): Call<Response<Poll>> {
-
-        return service.stopPoll(
-            chatId,
-            messageId,
-            replyMarkup
-        )
-    }
+        chatId: ChatId,
+        messageId: Long,
+        replyMarkup: InlineKeyboardMarkup?,
+    ): TelegramBotResult<Poll> = service.stopPoll(
+        chatId,
+        messageId,
+        replyMarkup,
+    ).runApiOperation()
 
     fun deleteMessage(
         chatId: ChatId,

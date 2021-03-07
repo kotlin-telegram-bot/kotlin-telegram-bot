@@ -20,6 +20,7 @@ import com.github.kotlintelegrambot.entities.inputmedia.InputMedia
 import com.github.kotlintelegrambot.entities.inputmedia.MediaGroup
 import com.github.kotlintelegrambot.entities.payments.PaymentInvoiceInfo
 import com.github.kotlintelegrambot.entities.payments.ShippingOption
+import com.github.kotlintelegrambot.entities.polls.Poll
 import com.github.kotlintelegrambot.entities.polls.PollType
 import com.github.kotlintelegrambot.entities.stickers.MaskPosition
 import com.github.kotlintelegrambot.logging.LogLevel
@@ -1177,6 +1178,26 @@ class Bot private constructor(
         inlineMessageId,
         replyMarkup
     ).call()
+
+    /**
+     * Use this method to stop a poll which was sent by the bot.
+     *
+     * @param chatId Unique identifier for the target chat or username of the target channel (in
+     * the format @channelusername).
+     * @param messageId Identifier of the original message with the poll.
+     * @param replyMarkup A JSON-serialized object for a new message inline keyboard.
+     *
+     * @return On success, the stopped [Poll] with the final results.
+     */
+    fun stopPoll(
+        chatId: ChatId,
+        messageId: Long,
+        replyMarkup: InlineKeyboardMarkup? = null,
+    ): TelegramBotResult<Poll> = apiClient.stopPoll(
+        chatId,
+        messageId,
+        replyMarkup,
+    )
 
     /**
      * Use this method to delete a message, including service messages, with the following limitations:
