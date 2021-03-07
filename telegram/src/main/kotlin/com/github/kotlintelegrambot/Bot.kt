@@ -1285,18 +1285,17 @@ class Bot private constructor(
     ).call()
 
     /**
-     * Payments
-     */
-
-    /**
      * Use this method to send invoices.
      *
-     * @param [chatId] Unique identifier for the target private chat.
-     * @param [disableNotification] Sends the message silently. Users will receive a notification with no sound.
-     * @param [replyToMessageId] If the message is a reply, ID of the original message.
-     * @param [replyMarkup] Additional interface options. An inlineKeyboard. If empty, one 'Pay total price' button will be shown. If not empty, the first button must be a Pay button.
-     * @see InlineKeyboardMarkup
-     * @see PaymentInvoiceInfo
+     * @param chatId Unique identifier for the target private chat.
+     * @param paymentInvoiceInfo All the payment invoice information.
+     * @param disableNotification Sends the message silently. Users will receive a notification
+     * with no sound.
+     * @param replyToMessageId If the message is a reply, ID of the original message.
+     * @param replyMarkup Additional interface options. An inlineKeyboard. If empty, one 'Pay total
+     * price' button will be shown. If not empty, the first button must be a Pay button.
+     *
+     * @return The sent [Message].
      */
     fun sendInvoice(
         chatId: ChatId,
@@ -1305,7 +1304,7 @@ class Bot private constructor(
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: InlineKeyboardMarkup? = null
-    ) = apiClient.sendInvoice(
+    ): TelegramBotResult<Message> = apiClient.sendInvoice(
         chatId,
         paymentInvoiceInfo.title,
         paymentInvoiceInfo.description,
@@ -1330,7 +1329,7 @@ class Bot private constructor(
         replyToMessageId = replyToMessageId,
         allowSendingWithoutReply = allowSendingWithoutReply,
         replyMarkup = replyMarkup
-    ).call()
+    )
 
     /**
      * If you sent an invoice requesting a shipping address and the parameter is_flexible was

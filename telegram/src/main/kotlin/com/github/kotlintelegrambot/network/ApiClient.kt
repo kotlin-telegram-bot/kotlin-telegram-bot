@@ -1100,10 +1100,6 @@ internal class ApiClient(
     fun deleteMessage(chatId: ChatId, messageId: Long): Call<Response<Boolean>> =
         service.deleteMessage(chatId, messageId)
 
-    /**
-     * Payment
-     */
-
     fun sendInvoice(
         chatId: ChatId,
         title: String,
@@ -1129,34 +1125,32 @@ internal class ApiClient(
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: InlineKeyboardMarkup?
-    ): Call<Response<Message>> {
-        return service.sendInvoice(
-            chatId = chatId,
-            title = title,
-            description = description,
-            payload = payload,
-            providerToken = providerToken,
-            startParameter = startParameter,
-            currency = currency,
-            prices = LabeledPriceList(prices),
-            providerData = providerData,
-            photoHeight = photoHeight,
-            photoSize = photoSize,
-            photoUrl = photoUrl,
-            photoWidth = photoWidth,
-            needEmail = needEmail,
-            needName = needName,
-            needPhoneNumber = needPhoneNumber,
-            needShippingAddress = needShippingAddress,
-            sendPhoneNumberToProvider = sendPhoneNumberToProvider,
-            sendEmailToProvider = sendEmailToProvider,
-            isFlexible = isFlexible,
-            disableNotification = disableNotification,
-            replyMarkup = replyMarkup,
-            replyToMessageId = replyToMessageId,
-            allowSendingWithoutReply = allowSendingWithoutReply
-        )
-    }
+    ): TelegramBotResult<Message> = service.sendInvoice(
+        chatId = chatId,
+        title = title,
+        description = description,
+        payload = payload,
+        providerToken = providerToken,
+        startParameter = startParameter,
+        currency = currency,
+        prices = LabeledPriceList(prices),
+        providerData = providerData,
+        photoHeight = photoHeight,
+        photoSize = photoSize,
+        photoUrl = photoUrl,
+        photoWidth = photoWidth,
+        needEmail = needEmail,
+        needName = needName,
+        needPhoneNumber = needPhoneNumber,
+        needShippingAddress = needShippingAddress,
+        sendPhoneNumberToProvider = sendPhoneNumberToProvider,
+        sendEmailToProvider = sendEmailToProvider,
+        isFlexible = isFlexible,
+        disableNotification = disableNotification,
+        replyMarkup = replyMarkup,
+        replyToMessageId = replyToMessageId,
+        allowSendingWithoutReply = allowSendingWithoutReply
+    ).runApiOperation()
 
     fun answerShippingQuery(
         shippingQueryId: String,
