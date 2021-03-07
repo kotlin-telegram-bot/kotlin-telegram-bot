@@ -19,7 +19,7 @@ class SendPollIT : ApiClientIT() {
     fun `sendPoll with chat id and only the mandatory parameters is correctly sent`() {
         givenAnySendPollResponse()
 
-        sut.sendPoll(ChatId.fromId(ANY_CHAT_ID), ANY_QUESTION, ANY_POLL_OPTIONS).execute()
+        sut.sendPoll(ChatId.fromId(ANY_CHAT_ID), ANY_QUESTION, ANY_POLL_OPTIONS)
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody =
@@ -31,7 +31,7 @@ class SendPollIT : ApiClientIT() {
     fun `sendPoll with channel username and only the mandatory parameters is correctly sent`() {
         givenAnySendPollResponse()
 
-        sut.sendPoll(ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME), ANY_QUESTION, ANY_POLL_OPTIONS).execute()
+        sut.sendPoll(ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME), ANY_QUESTION, ANY_POLL_OPTIONS)
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody =
@@ -49,7 +49,7 @@ class SendPollIT : ApiClientIT() {
             options = ANY_POLL_OPTIONS,
             allowsMultipleAnswers = ALLOWS_MULTIPLE_ANSWERS,
             openPeriod = ANY_OPEN_PERIOD
-        ).execute()
+        )
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody =
@@ -79,7 +79,7 @@ class SendPollIT : ApiClientIT() {
             isClosed = IS_CLOSED,
             disableNotification = DO_NOT_DISABLE_NOTIFICATIONS,
             replyToMessageId = ANY_MESSAGE_ID
-        ).execute()
+        )
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody =
@@ -103,7 +103,7 @@ class SendPollIT : ApiClientIT() {
     fun `sendPoll response is returned correctly`() {
         givenAnySendPollResponse()
 
-        val sendPollResult = sut.sendPoll(ChatId.fromId(ANY_CHAT_ID), ANY_QUESTION, ANY_POLL_OPTIONS).execute()
+        val sendPollResult = sut.sendPoll(ChatId.fromId(ANY_CHAT_ID), ANY_QUESTION, ANY_POLL_OPTIONS)
 
         val expectedMessage = Message(
             messageId = 9,
@@ -133,7 +133,7 @@ class SendPollIT : ApiClientIT() {
                 allowsMultipleAnswers = false
             )
         )
-        assertEquals(expectedMessage, sendPollResult.body()?.result)
+        assertEquals(expectedMessage, sendPollResult.get())
     }
 
     private fun givenAnySendPollResponse() {
