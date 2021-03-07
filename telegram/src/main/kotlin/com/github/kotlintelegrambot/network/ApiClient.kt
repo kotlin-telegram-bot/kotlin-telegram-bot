@@ -1097,8 +1097,13 @@ internal class ApiClient(
         )
     }
 
-    fun deleteMessage(chatId: ChatId, messageId: Long): Call<Response<Boolean>> =
-        service.deleteMessage(chatId, messageId)
+    fun deleteMessage(
+        chatId: ChatId,
+        messageId: Long,
+    ): TelegramBotResult<Boolean> = service.deleteMessage(
+        chatId,
+        messageId,
+    ).runApiOperation()
 
     fun sendInvoice(
         chatId: ChatId,

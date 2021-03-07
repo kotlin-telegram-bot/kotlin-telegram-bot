@@ -20,7 +20,7 @@ public final class com/github/kotlintelegrambot/Bot {
 	public static synthetic fun createNewStickerSet$default (Lcom/github/kotlintelegrambot/Bot;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/stickers/MaskPosition;ILjava/lang/Object;)Lkotlin/Pair;
 	public final fun deleteChatPhoto (Lcom/github/kotlintelegrambot/entities/ChatId;)Lkotlin/Pair;
 	public final fun deleteChatStickerSet (Lcom/github/kotlintelegrambot/entities/ChatId;)Lkotlin/Pair;
-	public final fun deleteMessage (Lcom/github/kotlintelegrambot/entities/ChatId;J)Lkotlin/Pair;
+	public final fun deleteMessage (Lcom/github/kotlintelegrambot/entities/ChatId;J)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public final fun deleteStickerFromSet (Ljava/lang/String;)Lkotlin/Pair;
 	public final fun deleteWebhook ()Lkotlin/Pair;
 	public final fun downloadFile (Ljava/lang/String;)Lkotlin/Pair;
