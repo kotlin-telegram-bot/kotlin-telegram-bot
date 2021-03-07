@@ -805,8 +805,8 @@ internal class ApiClient(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
-    ): Call<Response<Message>> = service.sendPoll(
+        replyMarkup: ReplyMarkup? = null,
+    ): TelegramBotResult<Message> = service.sendPoll(
         chatId,
         question,
         gson.toJson(options),
@@ -822,8 +822,8 @@ internal class ApiClient(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
-    )
+        replyMarkup,
+    ).runApiOperation()
 
     fun sendChatAction(chatId: ChatId, action: ChatAction): Call<Response<Boolean>> {
         return service.sendChatAction(chatId, action)
