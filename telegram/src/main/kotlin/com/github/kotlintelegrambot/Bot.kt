@@ -1151,12 +1151,20 @@ class Bot private constructor(
      * - Bots granted `can_post_messages` permissions can delete outgoing messages in channels.
      * - If the bot is an administrator of a group, it can delete any message there.
      * - If the bot has `can_delete_messages` permission in a supergroup or a channel, it can delete any message there.
-     * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     *
+     * @param chatId Unique identifier for the target chat or username of the target channel (in
+     * the format @channelusername)
      * @param messageId Identifier of the message to delete.
+     *
      * @return True on success.
      */
-    fun deleteMessage(chatId: ChatId, messageId: Long) =
-        apiClient.deleteMessage(chatId, messageId).call()
+    fun deleteMessage(
+        chatId: ChatId,
+        messageId: Long,
+    ): TelegramBotResult<Boolean> = apiClient.deleteMessage(
+        chatId,
+        messageId,
+    )
 
     /***
      * Stickers
