@@ -994,16 +994,13 @@ internal class ApiClient(
         showAlert: Boolean?,
         url: String?,
         cacheTime: Int?
-    ): Call<Response<Boolean>> {
-
-        return service.answerCallbackQuery(
-            callbackQueryId,
-            text,
-            showAlert,
-            url,
-            cacheTime
-        )
-    }
+    ): TelegramBotResult<Boolean> = service.answerCallbackQuery(
+        callbackQueryId,
+        text,
+        showAlert,
+        url,
+        cacheTime
+    ).runApiOperation()
 
     fun logOut(): Call<Response<Boolean>> {
 
