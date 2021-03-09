@@ -983,10 +983,9 @@ internal class ApiClient(
         return service.setChatStickerSet(chatId, stickerSetName)
     }
 
-    fun deleteChatStickerSet(chatId: ChatId): Call<Response<Boolean>> {
-
-        return service.deleteChatStickerSet(chatId)
-    }
+    fun deleteChatStickerSet(
+        chatId: ChatId
+    ): TelegramBotResult<Boolean> = service.deleteChatStickerSet(chatId).runApiOperation()
 
     fun answerCallbackQuery(
         callbackQueryId: String,
