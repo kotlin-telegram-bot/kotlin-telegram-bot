@@ -1090,7 +1090,20 @@ class Bot private constructor(
     fun setChatStickerSet(chatId: ChatId, stickerSetName: String) =
         apiClient.setChatStickerSet(chatId, stickerSetName).call()
 
-    fun deleteChatStickerSet(chatId: ChatId) = apiClient.deleteChatStickerSet(chatId).call()
+    /**
+     * Use this method to delete a group sticker set from a supergroup. The bot must be an
+     * administrator in the chat for this to work and must have the appropriate admin rights. Use
+     * the field [canSetStickerSet] optionally returned in [getChat] requests to check if the bot
+     * can use this method.
+     *
+     * @param chatId Unique identifier for the target chat or username of the target supergroup (in
+     * the format @supergroupusername).
+     *
+     * @return True on success.
+     */
+    fun deleteChatStickerSet(
+        chatId: ChatId
+    ): TelegramBotResult<Boolean> = apiClient.deleteChatStickerSet(chatId)
 
     /**
      * Use this method to send answers to callback queries sent from inline keyboards. The answer
