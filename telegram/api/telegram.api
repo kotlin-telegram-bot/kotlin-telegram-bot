@@ -124,7 +124,7 @@ public final class com/github/kotlintelegrambot/Bot {
 	public final fun setChatDescription (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/String;)Lkotlin/Pair;
 	public final fun setChatPermissions (Lcom/github/kotlintelegrambot/entities/ChatId;Lcom/github/kotlintelegrambot/entities/ChatPermissions;)Lkotlin/Pair;
 	public final fun setChatPhoto (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/io/File;)Lkotlin/Pair;
-	public final fun setChatStickerSet (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/String;)Lkotlin/Pair;
+	public final fun setChatStickerSet (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/String;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public final fun setChatTitle (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/String;)Lkotlin/Pair;
 	public final fun setMyCommands (Ljava/util/List;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public final fun setStickerPositionInSet (Ljava/lang/String;I)Lkotlin/Pair;
