@@ -1087,8 +1087,25 @@ class Bot private constructor(
 
     fun getChatMember(chatId: ChatId, userId: Long) = apiClient.getChatMember(chatId, userId).call()
 
-    fun setChatStickerSet(chatId: ChatId, stickerSetName: String) =
-        apiClient.setChatStickerSet(chatId, stickerSetName).call()
+    /**
+     * Use this method to set a new group sticker set for a supergroup. The bot must be an
+     * administrator in the chat for this to work and must have the appropriate admin rights. Use
+     * the field [canSetStickerSet] optionally returned in [getChat] requests to check if the bot
+     * can use this method.
+     *
+     * @param chatId Unique identifier for the target chat or username of the target supergroup (in
+     * the format @supergroupusername).
+     * @param stickerSetName Name of the sticker set to be set as the group sticker set.
+     *
+     * @return True on success.
+     */
+    fun setChatStickerSet(
+        chatId: ChatId,
+        stickerSetName: String,
+    ): TelegramBotResult<Boolean> = apiClient.setChatStickerSet(
+        chatId,
+        stickerSetName,
+    )
 
     /**
      * Use this method to delete a group sticker set from a supergroup. The bot must be an
