@@ -973,10 +973,13 @@ internal class ApiClient(
         return service.getChatMembersCount(chatId)
     }
 
-    fun getChatMember(chatId: ChatId, userId: Long): Call<Response<ChatMember>> {
-
-        return service.getChatMember(chatId, userId)
-    }
+    fun getChatMember(
+        chatId: ChatId,
+        userId: Long,
+    ): TelegramBotResult<ChatMember> = service.getChatMember(
+        chatId,
+        userId,
+    ).runApiOperation()
 
     fun setChatStickerSet(
         chatId: ChatId,
