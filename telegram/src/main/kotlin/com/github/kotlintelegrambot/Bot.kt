@@ -1085,7 +1085,22 @@ class Bot private constructor(
 
     fun getChatMembersCount(chatId: ChatId) = apiClient.getChatMembersCount(chatId).call()
 
-    fun getChatMember(chatId: ChatId, userId: Long) = apiClient.getChatMember(chatId, userId).call()
+    /**
+     * Use this method to get information about a member of a chat.
+     *
+     * @param chatId Unique identifier for the target chat or username of the target supergroup or
+     * channel (in the format @channelusername).
+     * @param userId Unique identifier of the target user.
+     *
+     * @return A [ChatMember] object on success.
+     */
+    fun getChatMember(
+        chatId: ChatId,
+        userId: Long,
+    ): TelegramBotResult<ChatMember> = apiClient.getChatMember(
+        chatId,
+        userId,
+    )
 
     /**
      * Use this method to set a new group sticker set for a supergroup. The bot must be an
