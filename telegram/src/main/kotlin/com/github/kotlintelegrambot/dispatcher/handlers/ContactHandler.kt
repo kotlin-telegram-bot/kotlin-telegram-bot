@@ -10,7 +10,7 @@ data class ContactHandlerEnvironment(
     override val update: Update,
     override val message: Message,
     val contact: Contact
-): IMessageHandlerEnvironment
+) : IMessageHandlerEnvironment
 
 internal class ContactHandler(
     private val handleContact: HandleContact

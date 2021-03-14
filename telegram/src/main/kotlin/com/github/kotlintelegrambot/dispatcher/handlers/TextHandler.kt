@@ -9,7 +9,7 @@ data class TextHandlerEnvironment(
     override val update: Update,
     override val message: Message,
     val text: String
-): IMessageHandlerEnvironment
+) : IMessageHandlerEnvironment
 
 internal class TextHandler(
     private val text: String? = null,

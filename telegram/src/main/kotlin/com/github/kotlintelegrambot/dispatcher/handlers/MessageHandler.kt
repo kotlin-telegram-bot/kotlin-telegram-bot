@@ -15,7 +15,7 @@ data class MessageHandlerEnvironment(
     override val bot: Bot,
     override val update: Update,
     override val message: Message
-): IMessageHandlerEnvironment
+) : IMessageHandlerEnvironment
 
 internal class MessageHandler(
     private val filter: Filter,

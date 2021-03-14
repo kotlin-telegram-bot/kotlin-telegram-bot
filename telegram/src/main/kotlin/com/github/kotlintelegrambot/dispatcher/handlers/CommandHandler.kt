@@ -9,7 +9,7 @@ data class CommandHandlerEnvironment internal constructor(
     override val update: Update,
     override val message: Message,
     val args: List<String>
-): IMessageHandlerEnvironment
+) : IMessageHandlerEnvironment
 
 internal class CommandHandler(
     private val command: String,

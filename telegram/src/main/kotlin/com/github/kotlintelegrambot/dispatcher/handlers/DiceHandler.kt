@@ -10,7 +10,7 @@ data class DiceHandlerEnvironment(
     override val update: Update,
     override val message: Message,
     val dice: Dice
-): IMessageHandlerEnvironment
+) : IMessageHandlerEnvironment
 
 internal class DiceHandler(
     private val handleDice: HandleDice

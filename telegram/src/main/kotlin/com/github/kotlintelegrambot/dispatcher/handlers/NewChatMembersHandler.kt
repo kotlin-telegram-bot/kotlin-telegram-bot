@@ -10,7 +10,7 @@ data class NewChatMembersHandlerEnvironment(
     override val update: Update,
     override val message: Message,
     val newChatMembers: List<User>
-): IMessageHandlerEnvironment
+) : IMessageHandlerEnvironment
 
 internal class NewChatMembersHandler(
     private val handleNewChatMembers: HandleNewChatMembers

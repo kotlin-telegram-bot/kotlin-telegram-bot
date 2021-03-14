@@ -10,7 +10,7 @@ data class LocationHandlerEnvironment(
     override val update: Update,
     override val message: Message,
     val location: Location
-): IMessageHandlerEnvironment
+) : IMessageHandlerEnvironment
 
 internal class LocationHandler(
     private val handleLocation: HandleLocation
