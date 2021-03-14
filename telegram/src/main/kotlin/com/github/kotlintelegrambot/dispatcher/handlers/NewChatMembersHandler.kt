@@ -6,11 +6,11 @@ import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.User
 
 data class NewChatMembersHandlerEnvironment(
-    val bot: Bot,
-    val update: Update,
-    val message: Message,
+    override val bot: Bot,
+    override val update: Update,
+    override val message: Message,
     val newChatMembers: List<User>
-)
+) : IMessageHandlerEnvironment
 
 internal class NewChatMembersHandler(
     private val handleNewChatMembers: HandleNewChatMembers
