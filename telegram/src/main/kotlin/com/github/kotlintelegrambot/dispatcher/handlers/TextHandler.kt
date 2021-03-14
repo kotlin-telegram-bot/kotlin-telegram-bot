@@ -5,11 +5,11 @@ import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 
 data class TextHandlerEnvironment(
-    val bot: Bot,
-    val update: Update,
-    val message: Message,
+    override val bot: Bot,
+    override val update: Update,
+    override val message: Message,
     val text: String
-)
+): IMessageHandlerEnvironment
 
 internal class TextHandler(
     private val text: String? = null,

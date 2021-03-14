@@ -5,11 +5,17 @@ import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.extensions.filters.Filter
 
-data class MessageHandlerEnvironment(
-    val bot: Bot,
-    val update: Update,
+interface IMessageHandlerEnvironment {
+    val bot: Bot
+    val update: Update
     val message: Message
-)
+}
+
+data class MessageHandlerEnvironment(
+    override val bot: Bot,
+    override val update: Update,
+    override val message: Message
+): IMessageHandlerEnvironment
 
 internal class MessageHandler(
     private val filter: Filter,

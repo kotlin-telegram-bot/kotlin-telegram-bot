@@ -5,11 +5,11 @@ import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 
 data class CommandHandlerEnvironment internal constructor(
-    val bot: Bot,
-    val update: Update,
-    val message: Message,
+    override val bot: Bot,
+    override val update: Update,
+    override val message: Message,
     val args: List<String>
-)
+): IMessageHandlerEnvironment
 
 internal class CommandHandler(
     private val command: String,

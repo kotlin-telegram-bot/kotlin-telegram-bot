@@ -6,11 +6,11 @@ import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 
 data class LocationHandlerEnvironment(
-    val bot: Bot,
-    val update: Update,
-    val message: Message,
+    override val bot: Bot,
+    override val update: Update,
+    override val message: Message,
     val location: Location
-)
+): IMessageHandlerEnvironment
 
 internal class LocationHandler(
     private val handleLocation: HandleLocation
