@@ -18,27 +18,30 @@ internal class MultipartBodyFactory(private val gson: Gson) {
         chatId: ChatId,
         mediaGroup: MediaGroup,
         disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null
+        replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean?
     ): List<MultipartBody.Part> {
         val chatIdString = ChatIdConverterFactory.chatIdToString(chatId)
         val chatIdPart = chatIdString.toMultipartBodyPart(ApiConstants.CHAT_ID)
-        return createSendMediaGroupMultipartBody(chatIdPart, mediaGroup, disableNotification, replyToMessageId)
+        return createSendMediaGroupMultipartBody(chatIdPart, mediaGroup, disableNotification, replyToMessageId, allowSendingWithoutReply)
     }
 
     private fun createSendMediaGroupMultipartBody(
         chatIdPart: MultipartBody.Part,
         mediaGroup: MediaGroup,
         disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null
+        replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean?
     ): List<MultipartBody.Part> {
         val filesParts = mediaGroup.takeFiles().map { (file, mediaType) ->
             file.toMultipartBodyPart(mediaType = mediaType)
         }
         val mediaGroupPart = gson.toJson(mediaGroup.medias).toMultipartBodyPart(ApiConstants.SendMediaGroup.MEDIA)
         val disableNotificationPart = disableNotification?.toMultipartBodyPart(ApiConstants.DISABLE_NOTIFICATION)
-        val replayToMessageId = replyToMessageId?.toMultipartBodyPart(ApiConstants.REPLY_TO_MESSAGE_ID)
+        val replyToMessageIdPart = replyToMessageId?.toMultipartBodyPart(ApiConstants.REPLY_TO_MESSAGE_ID)
+        val allowSendingWithoutReplyPart = allowSendingWithoutReply?.toMultipartBodyPart(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY)
 
-        return listOfNotNull(chatIdPart, mediaGroupPart, disableNotificationPart, replayToMessageId) + filesParts
+        return listOfNotNull(chatIdPart, mediaGroupPart, disableNotificationPart, replyToMessageIdPart, allowSendingWithoutReplyPart) + filesParts
     }
 
     private fun MediaGroup.takeFiles(): List<Pair<File, String>> = medias.flatMap { groupableMedia ->

@@ -669,13 +669,15 @@ internal class ApiClient(
         chatId: ChatId,
         mediaGroup: MediaGroup,
         disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null
+        replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null
     ): TelegramBotResult<List<Message>> {
         val sendMediaGroupMultipartBody = multipartBodyFactory.createForSendMediaGroup(
             chatId,
             mediaGroup,
             disableNotification,
-            replyToMessageId
+            replyToMessageId,
+            allowSendingWithoutReply
         )
         return service.sendMediaGroup(sendMediaGroupMultipartBody).runApiOperation()
     }
