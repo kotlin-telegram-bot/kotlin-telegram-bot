@@ -20,4 +20,5 @@ object InputMediaFields {
     const val SUPPORTS_STREAMING = "supports_streaming"
     const val PERFORMER = "performer"
     const val TITLE = "title"
+    const val DISABLE_CONTENT_TYPE_DETECTION = "disable_content_type_detection"
 }
