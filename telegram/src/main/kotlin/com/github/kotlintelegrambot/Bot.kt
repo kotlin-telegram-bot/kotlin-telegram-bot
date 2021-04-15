@@ -400,62 +400,70 @@ class Bot private constructor(
         document: SystemFile,
         caption: String? = null,
         parseMode: ParseMode? = null,
+        disableContentTypeDetection: Boolean? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
-    ) = apiClient.sendDocument(
+    ): TelegramBotResult<Message> = apiClient.sendDocument(
         chatId,
         document,
         caption,
-        parseMode?.modeName,
+        parseMode,
+        disableContentTypeDetection,
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup
-    ).call()
+    )
 
     fun sendDocument(
         chatId: ChatId,
         fileBytes: ByteArray,
         caption: String? = null,
         parseMode: ParseMode? = null,
+        disableContentTypeDetection: Boolean? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
-        fileName: String
-    ) = apiClient.sendDocument(
+        fileName: String,
+        mimeType: String? = null
+    ): TelegramBotResult<Message> = apiClient.sendDocument(
         chatId,
         fileBytes,
         caption,
-        parseMode?.modeName,
+        parseMode,
+        disableContentTypeDetection,
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
-        fileName
-    ).call()
+        fileName,
+        mimeType
+    )
 
     fun sendDocument(
         chatId: ChatId,
         fileId: String,
         caption: String? = null,
         parseMode: ParseMode? = null,
+        disableContentTypeDetection: Boolean? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
-    ) = apiClient.sendDocument(
+    ): TelegramBotResult<Message> = apiClient.sendDocument(
         chatId,
         fileId,
         caption,
         parseMode,
+        disableContentTypeDetection,
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup
-    ).call()
+    )
 
     fun sendVideo(
         chatId: ChatId,
