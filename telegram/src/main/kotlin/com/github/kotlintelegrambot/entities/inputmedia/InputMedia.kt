@@ -105,7 +105,8 @@ data class InputMediaDocument(
     @SerializedName(InputMediaFields.MEDIA) override val media: TelegramFile,
     @SerializedName(InputMediaFields.CAPTION) override val caption: String? = null,
     @SerializedName(InputMediaFields.PARSE_MODE) override val parseMode: String? = null,
-    @SerializedName(InputMediaFields.THUMB) val thumb: TelegramFile.ByFile? = null
+    @SerializedName(InputMediaFields.THUMB) val thumb: TelegramFile.ByFile? = null,
+    @SerializedName(InputMediaFields.DISABLE_CONTENT_TYPE_DETECTION) val disableContentTypeDetection: Boolean? = null
 ) : InputMedia(), GroupableMedia {
     override val type: String
         get() = InputMediaTypes.DOCUMENT
