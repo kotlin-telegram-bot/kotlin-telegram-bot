@@ -52,6 +52,7 @@ internal interface ApiService {
     @POST("setWebhook")
     fun setWebhook(
         @Field(ApiConstants.SetWebhook.URL) url: String,
+        @Field(ApiConstants.SetWebhook.IP_ADDRESS) ipAddress: String? = null,
         @Field(ApiConstants.SetWebhook.MAX_CONNECTIONS) maxConnections: Int? = null,
         @Field(ApiConstants.SetWebhook.ALLOWED_UPDATES) allowedUpdates: List<String>? = null
     ): Call<Response<Boolean>>
@@ -61,6 +62,7 @@ internal interface ApiService {
     fun setWebhookWithCertificateAsFileId(
         @Field(ApiConstants.SetWebhook.URL) url: String,
         @Field(ApiConstants.SetWebhook.CERTIFICATE) certificateFileId: String,
+        @Field(ApiConstants.SetWebhook.IP_ADDRESS) ipAddress: String? = null,
         @Field(ApiConstants.SetWebhook.MAX_CONNECTIONS) maxConnections: Int? = null,
         @Field(ApiConstants.SetWebhook.ALLOWED_UPDATES) allowedUpdates: List<String>? = null
     ): Call<Response<Boolean>>
@@ -70,6 +72,7 @@ internal interface ApiService {
     fun setWebhookWithCertificateAsFileUrl(
         @Field(ApiConstants.SetWebhook.URL) url: String,
         @Field(ApiConstants.SetWebhook.CERTIFICATE) certificateUrl: String,
+        @Field(ApiConstants.SetWebhook.IP_ADDRESS) ipAddress: String? = null,
         @Field(ApiConstants.SetWebhook.MAX_CONNECTIONS) maxConnections: Int? = null,
         @Field(ApiConstants.SetWebhook.ALLOWED_UPDATES) allowedUpdates: List<String>? = null
     ): Call<Response<Boolean>>
@@ -79,6 +82,7 @@ internal interface ApiService {
     fun setWebhookWithCertificateAsFile(
         @Part url: MultipartBody.Part,
         @Part certificate: MultipartBody.Part,
+        @Part ipAddress: MultipartBody.Part? = null,
         @Part maxConnections: MultipartBody.Part? = null,
         @Part allowedUpdates: MultipartBody.Part? = null
     ): Call<Response<Boolean>>

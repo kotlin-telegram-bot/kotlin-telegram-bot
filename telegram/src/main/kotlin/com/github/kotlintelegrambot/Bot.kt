@@ -129,6 +129,7 @@ class Bot private constructor(
         val setWebhookResult = setWebhook(
             webhookConfig.url,
             webhookConfig.certificate,
+            webhookConfig.ipAddress,
             webhookConfig.maxConnections,
             webhookConfig.allowedUpdates
         )
@@ -202,9 +203,10 @@ class Bot private constructor(
     fun setWebhook(
         url: String,
         certificate: TelegramFile? = null,
+        ipAddress: String? = null,
         maxConnections: Int? = null,
         allowedUpdates: List<String>? = null
-    ) = apiClient.setWebhook(url, certificate, maxConnections, allowedUpdates).call()
+    ) = apiClient.setWebhook(url, certificate, ipAddress, maxConnections, allowedUpdates).call()
 
     fun deleteWebhook() = apiClient.deleteWebhook().call()
 
