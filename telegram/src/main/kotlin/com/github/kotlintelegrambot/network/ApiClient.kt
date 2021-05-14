@@ -153,18 +153,21 @@ internal class ApiClient(
     fun setWebhook(
         url: String,
         certificate: TelegramFile? = null,
+        ipAddress: String? = null,
         maxConnections: Int? = null,
         allowedUpdates: List<String>? = null
     ): Call<Response<Boolean>> = when (certificate) {
         is ByFileId -> service.setWebhookWithCertificateAsFileId(
             url = url,
             certificateFileId = certificate.fileId,
+            ipAddress = ipAddress,
             maxConnections = maxConnections,
             allowedUpdates = allowedUpdates
         )
         is ByUrl -> service.setWebhookWithCertificateAsFileUrl(
             url = url,
             certificateUrl = certificate.url,
+            ipAddress = ipAddress,
             maxConnections = maxConnections,
             allowedUpdates = allowedUpdates
         )
@@ -174,11 +177,13 @@ internal class ApiClient(
                 partName = ApiConstants.SetWebhook.CERTIFICATE,
                 mediaType = MediaTypeConstants.UTF_8_TEXT
             ),
+            ipAddress = ipAddress?.toMultipartBodyPart(ApiConstants.SetWebhook.IP_ADDRESS),
             maxConnections = maxConnections?.toMultipartBodyPart(ApiConstants.SetWebhook.MAX_CONNECTIONS),
             allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES)
         )
         null -> service.setWebhook(
             url = url,
+            ipAddress = ipAddress,
             maxConnections = maxConnections,
             allowedUpdates = allowedUpdates
         )
