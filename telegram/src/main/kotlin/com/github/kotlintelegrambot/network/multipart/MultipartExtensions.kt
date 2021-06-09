@@ -14,5 +14,16 @@ internal fun String.toMultipartBodyPart(partName: String): MultipartBody.Part = 
 
 internal fun <T> T.toMultipartBodyPart(partName: String): MultipartBody.Part = toString().toMultipartBodyPart(partName)
 
-internal fun Iterable<String>.toMultipartBodyPart(partName: String): MultipartBody.Part? =
+internal fun Iterable<String>.toMultipartBodyPart(partName: String): MultipartBody.Part =
     joinToString(separator = ",", prefix = "[", postfix = "]").toMultipartBodyPart(partName)
+
+internal fun ByteArray.toMultipartBodyPart(
+    partName: String,
+    filename: String? = partName,
+    mediaType: String? = null
+): MultipartBody.Part {
+    val mimeType = mediaType?.let { MediaType.parse(it) }
+    val requestBody = RequestBody.create(mimeType, this)
+
+    return MultipartBody.Part.createFormData(partName, filename ?: partName, requestBody)
+}
