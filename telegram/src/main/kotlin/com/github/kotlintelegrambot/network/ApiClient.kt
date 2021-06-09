@@ -246,6 +246,7 @@ internal class ApiClient(
         )
     }
 
+    @Deprecated("Use overloaded version instead")
     fun sendPhoto(
         chatId: ChatId,
         photo: SystemFile,
@@ -268,6 +269,7 @@ internal class ApiClient(
         )
     }
 
+    @Deprecated("Use overloaded version instead")
     fun sendPhoto(
         chatId: ChatId,
         photo: String,
@@ -290,6 +292,43 @@ internal class ApiClient(
         )
     }
 
+    fun sendPhoto(
+        chatId: ChatId,
+        photo: TelegramFile,
+        caption: String?,
+        parseMode: ParseMode?,
+        disableNotification: Boolean?,
+        replyToMessageId: Long?,
+        allowSendingWithoutReply: Boolean?,
+        replyMarkup: ReplyMarkup?
+    ): Call<Response<Message>> = when (photo) {
+        is ByFile -> service.sendPhoto(
+            chatId,
+            convertFile("photo", photo.file),
+            if (caption != null) convertString(caption) else null,
+            if (parseMode != null) convertString(parseMode.modeName) else null,
+            if (disableNotification != null) convertString(disableNotification.toString()) else null,
+            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
+            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
+            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
+        )
+        is ByFileId, is ByUrl -> service.sendPhoto(
+            chatId,
+            when (photo) {
+                is ByFileId -> photo.fileId
+                is ByUrl -> photo.url
+                else -> throw NotImplementedError()
+            },
+            caption,
+            parseMode,
+            disableNotification,
+            replyToMessageId,
+            allowSendingWithoutReply,
+            replyMarkup
+        )
+    }
+
+    @Deprecated("Use overloaded version instead")
     fun sendAudio(
         chatId: ChatId,
         audio: SystemFile,
@@ -315,6 +354,7 @@ internal class ApiClient(
         )
     }
 
+    @Deprecated("Use overloaded version instead")
     fun sendAudio(
         chatId: ChatId,
         audio: String,
@@ -340,6 +380,46 @@ internal class ApiClient(
         )
     }
 
+    fun sendAudio(
+        chatId: ChatId,
+        audio: TelegramFile,
+        duration: Int?,
+        performer: String?,
+        title: String?,
+        disableNotification: Boolean?,
+        replyToMessageId: Long?,
+        allowSendingWithoutReply: Boolean?,
+        replyMarkup: ReplyMarkup?
+    ): Call<Response<Message>> = when (audio) {
+        is ByFile -> service.sendAudio(
+            chatId,
+            convertFile("audio", audio.file),
+            if (duration != null) convertString(duration.toString()) else null,
+            if (performer != null) convertString(performer) else null,
+            if (title != null) convertString(title) else null,
+            if (disableNotification != null) convertString(disableNotification.toString()) else null,
+            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
+            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
+            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
+        )
+        is ByFileId, is ByUrl -> service.sendAudio(
+            chatId,
+            when (audio) {
+                is ByFileId -> audio.fileId
+                is ByUrl -> audio.url
+                else -> throw NotImplementedError()
+            },
+            duration,
+            performer,
+            title,
+            disableNotification,
+            replyToMessageId,
+            allowSendingWithoutReply,
+            replyMarkup
+        )
+    }
+
+    @Deprecated("Use overloaded version instead")
     fun sendDocument(
         chatId: ChatId,
         document: SystemFile,
@@ -363,6 +443,7 @@ internal class ApiClient(
         )
     }
 
+    @Deprecated("Use overloaded version instead")
     fun sendDocument(
         chatId: ChatId,
         fileId: String,
@@ -377,6 +458,42 @@ internal class ApiClient(
         return service.sendDocument(
             chatId,
             fileId,
+            caption,
+            parseMode,
+            disableNotification,
+            replyToMessageId,
+            allowSendingWithoutReply,
+            replyMarkup
+        )
+    }
+
+    fun sendDocument(
+        chatId: ChatId,
+        document: TelegramFile,
+        caption: String?,
+        parseMode: ParseMode?,
+        disableNotification: Boolean?,
+        replyToMessageId: Long?,
+        allowSendingWithoutReply: Boolean?,
+        replyMarkup: ReplyMarkup?
+    ): Call<Response<Message>> = when (document) {
+        is ByFile -> service.sendDocument(
+            chatId,
+            convertFile("document", document.file),
+            if (caption != null) convertString(caption) else null,
+            if (parseMode != null) convertString(parseMode.modeName) else null,
+            if (disableNotification != null) convertString(disableNotification.toString()) else null,
+            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
+            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
+            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
+        )
+        is ByFileId, is ByUrl -> service.sendDocument(
+            chatId,
+            when (document) {
+                is ByFileId -> document.fileId
+                is ByUrl -> document.url
+                else -> throw NotImplementedError()
+            },
             caption,
             parseMode,
             disableNotification,
@@ -410,6 +527,7 @@ internal class ApiClient(
         )
     }
 
+    @Deprecated("Use overloaded version instead")
     fun sendVideo(
         chatId: ChatId,
         video: SystemFile,
@@ -437,6 +555,7 @@ internal class ApiClient(
         )
     }
 
+    @Deprecated("Use overloaded version instead")
     fun sendVideo(
         chatId: ChatId,
         fileId: String,
@@ -464,6 +583,48 @@ internal class ApiClient(
         )
     }
 
+    fun sendVideo(
+        chatId: ChatId,
+        video: TelegramFile,
+        duration: Int?,
+        width: Int?,
+        height: Int?,
+        caption: String?,
+        disableNotification: Boolean?,
+        replyToMessageId: Long?,
+        allowSendingWithoutReply: Boolean?,
+        replyMarkup: ReplyMarkup?
+    ): Call<Response<Message>> = when (video) {
+        is ByFile -> service.sendVideo(
+            chatId,
+            convertFile("video", video.file),
+            if (duration != null) convertString(duration.toString()) else null,
+            if (width != null) convertString(width.toString()) else null,
+            if (height != null) convertString(height.toString()) else null,
+            if (caption != null) convertString(caption) else null,
+            if (disableNotification != null) convertString(disableNotification.toString()) else null,
+            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
+            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
+            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
+        )
+        is ByFileId, is ByUrl -> service.sendVideo(
+            chatId,
+            when (video) {
+                is ByFileId -> video.fileId
+                is ByUrl -> video.url
+                else -> throw NotImplementedError()
+            },
+            duration,
+            width,
+            height,
+            caption,
+            disableNotification,
+            replyToMessageId,
+            allowSendingWithoutReply,
+            replyMarkup
+        )
+    }
+
     fun sendGame(
         chatId: ChatId,
         gameShortName: String,
@@ -480,6 +641,7 @@ internal class ApiClient(
         replyMarkup
     ).runApiOperation()
 
+    @Deprecated("Use overloaded version instead")
     fun sendAnimation(
         chatId: ChatId,
         animation: SystemFile,
@@ -509,6 +671,7 @@ internal class ApiClient(
         )
     }
 
+    @Deprecated("Use overloaded version instead")
     fun sendAnimation(
         chatId: ChatId,
         fileId: String,
@@ -538,6 +701,52 @@ internal class ApiClient(
         )
     }
 
+    fun sendAnimation(
+        chatId: ChatId,
+        animation: TelegramFile,
+        duration: Int?,
+        width: Int?,
+        height: Int?,
+        caption: String?,
+        parseMode: ParseMode?,
+        disableNotification: Boolean?,
+        replyToMessageId: Long?,
+        allowSendingWithoutReply: Boolean?,
+        replyMarkup: ReplyMarkup?
+    ): Call<Response<Message>> = when (animation) {
+        is ByFile -> service.sendAnimation(
+            chatId,
+            convertFile("video", animation.file),
+            if (duration != null) convertString(duration.toString()) else null,
+            if (width != null) convertString(width.toString()) else null,
+            if (height != null) convertString(height.toString()) else null,
+            if (caption != null) convertString(caption) else null,
+            if (parseMode != null) convertString(parseMode.modeName) else null,
+            if (disableNotification != null) convertString(disableNotification.toString()) else null,
+            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
+            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
+            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
+        )
+        is ByFileId, is ByUrl -> service.sendAnimation(
+            chatId,
+            when (animation) {
+                is ByFileId -> animation.fileId
+                is ByUrl -> animation.url
+                else -> throw NotImplementedError()
+            },
+            duration,
+            width,
+            height,
+            caption,
+            parseMode,
+            disableNotification,
+            replyToMessageId,
+            allowSendingWithoutReply,
+            replyMarkup
+        )
+    }
+
+    @Deprecated("Use overloaded version instead")
     fun sendVoice(
         chatId: ChatId,
         audio: SystemFile,
@@ -565,6 +774,7 @@ internal class ApiClient(
         )
     }
 
+    @Deprecated("Use overloaded version instead")
     fun sendVoice(
         chatId: ChatId,
         audioId: String,
@@ -581,6 +791,48 @@ internal class ApiClient(
         return service.sendVoice(
             chatId,
             audioId,
+            caption,
+            parseMode,
+            if (captionEntities != null) gson.toJson(captionEntities) else null,
+            duration,
+            disableNotification,
+            replyToMessageId,
+            allowSendingWithoutReply,
+            replyMarkup
+        )
+    }
+
+    fun sendVoice(
+        chatId: ChatId,
+        audio: TelegramFile,
+        caption: String?,
+        parseMode: ParseMode?,
+        captionEntities: List<MessageEntity>?,
+        duration: Int?,
+        disableNotification: Boolean?,
+        replyToMessageId: Long?,
+        allowSendingWithoutReply: Boolean?,
+        replyMarkup: ReplyMarkup?
+    ): Call<Response<Message>> = when (audio) {
+        is ByFile -> service.sendVoice(
+            chatId,
+            convertFile("voice", audio.file, "audio/ogg"),
+            if (caption != null) convertString(caption) else null,
+            if (parseMode != null) convertString(parseMode.modeName) else null,
+            if (captionEntities != null) convertJson(gson.toJson(captionEntities)) else null,
+            if (duration != null) convertString(duration.toString()) else null,
+            if (disableNotification != null) convertString(disableNotification.toString()) else null,
+            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
+            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
+            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
+        )
+        is ByFileId, is ByUrl -> service.sendVoice(
+            chatId,
+            when (audio) {
+                is ByFileId -> audio.fileId
+                is ByUrl -> audio.url
+                else -> throw NotImplementedError()
+            },
             caption,
             parseMode,
             if (captionEntities != null) gson.toJson(captionEntities) else null,

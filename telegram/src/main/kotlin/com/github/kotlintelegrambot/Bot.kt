@@ -289,6 +289,7 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
+    @Deprecated("Use overloaded version instead")
     fun sendPhoto(
         chatId: ChatId,
         photo: SystemFile,
@@ -309,6 +310,7 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
+    @Deprecated("Use overloaded version instead")
     fun sendPhoto(
         chatId: ChatId,
         photo: String,
@@ -329,6 +331,7 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
+    @Deprecated("Use overloaded version instead")
     fun sendAudio(
         chatId: ChatId,
         audio: SystemFile,
@@ -351,6 +354,7 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
+    @Deprecated("Use overloaded version instead")
     fun sendAudio(
         chatId: ChatId,
         audio: String,
@@ -373,6 +377,7 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
+    @Deprecated("Use overloaded version instead")
     fun sendDocument(
         chatId: ChatId,
         document: SystemFile,
@@ -415,6 +420,7 @@ class Bot private constructor(
         fileName
     ).call()
 
+    @Deprecated("Use overloaded version instead")
     fun sendDocument(
         chatId: ChatId,
         fileId: String,
@@ -435,6 +441,7 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
+    @Deprecated("Use overloaded version instead")
     fun sendVideo(
         chatId: ChatId,
         video: SystemFile,
@@ -459,6 +466,7 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
+    @Deprecated("Use overloaded version instead")
     fun sendVideo(
         chatId: ChatId,
         fileId: String,
@@ -473,6 +481,92 @@ class Bot private constructor(
     ) = apiClient.sendVideo(
         chatId,
         fileId,
+        duration,
+        width,
+        height,
+        caption,
+        disableNotification,
+        replyToMessageId,
+        allowSendingWithoutReply,
+        replyMarkup
+    ).call()
+
+    fun sendPhoto(
+        chatId: ChatId,
+        photo: TelegramFile,
+        caption: String? = null,
+        parseMode: ParseMode? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
+        replyMarkup: ReplyMarkup? = null
+    ) = apiClient.sendPhoto(
+        chatId,
+        photo,
+        caption,
+        parseMode,
+        disableNotification,
+        replyToMessageId,
+        allowSendingWithoutReply,
+        replyMarkup
+    ).call()
+
+    fun sendAudio(
+        chatId: ChatId,
+        audio: TelegramFile,
+        duration: Int? = null,
+        performer: String? = null,
+        title: String? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
+        replyMarkup: ReplyMarkup? = null
+    ) = apiClient.sendAudio(
+        chatId,
+        audio,
+        duration,
+        performer,
+        title,
+        disableNotification,
+        replyToMessageId,
+        allowSendingWithoutReply,
+        replyMarkup
+    ).call()
+
+    fun sendDocument(
+        chatId: ChatId,
+        document: TelegramFile,
+        caption: String? = null,
+        parseMode: ParseMode? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
+        replyMarkup: ReplyMarkup? = null
+    ) = apiClient.sendDocument(
+        chatId,
+        document,
+        caption,
+        parseMode,
+        disableNotification,
+        replyToMessageId,
+        allowSendingWithoutReply,
+        replyMarkup
+    ).call()
+
+    fun sendVideo(
+        chatId: ChatId,
+        video: TelegramFile,
+        duration: Int? = null,
+        width: Int? = null,
+        height: Int? = null,
+        caption: String? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
+        replyMarkup: ReplyMarkup? = null
+    ) = apiClient.sendVideo(
+        chatId,
+        video,
         duration,
         width,
         height,
@@ -514,6 +608,7 @@ class Bot private constructor(
         replyMarkup
     )
 
+    @Deprecated("Use overloaded version instead")
     fun sendAnimation(
         chatId: ChatId,
         animation: SystemFile,
@@ -540,6 +635,7 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
+    @Deprecated("Use overloaded version instead")
     fun sendAnimation(
         chatId: ChatId,
         fileId: String,
@@ -555,6 +651,32 @@ class Bot private constructor(
     ) = apiClient.sendAnimation(
         chatId,
         fileId,
+        duration,
+        width,
+        height,
+        caption,
+        parseMode,
+        disableNotification,
+        replyToMessageId,
+        allowSendingWithoutReply,
+        replyMarkup
+    ).call()
+
+    fun sendAnimation(
+        chatId: ChatId,
+        animation: TelegramFile,
+        duration: Int? = null,
+        width: Int? = null,
+        height: Int? = null,
+        caption: String? = null,
+        parseMode: ParseMode? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
+        replyMarkup: ReplyMarkup? = null
+    ) = apiClient.sendAnimation(
+        chatId,
+        animation,
         duration,
         width,
         height,
@@ -590,6 +712,7 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
+    @Deprecated("Use overloaded version instead")
     fun sendVoice(
         chatId: ChatId,
         audio: SystemFile,
@@ -614,6 +737,7 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
+    @Deprecated("Use overloaded version instead")
     fun sendVoice(
         chatId: ChatId,
         audioId: String,
@@ -628,6 +752,30 @@ class Bot private constructor(
     ) = apiClient.sendVoice(
         chatId,
         audioId,
+        caption,
+        parseMode,
+        captionEntities,
+        duration,
+        disableNotification,
+        replyToMessageId,
+        allowSendingWithoutReply,
+        replyMarkup
+    ).call()
+
+    fun sendVoice(
+        chatId: ChatId,
+        audio: TelegramFile,
+        caption: String? = null,
+        parseMode: ParseMode? = null,
+        captionEntities: List<MessageEntity>? = null,
+        duration: Int? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
+        replyMarkup: ReplyMarkup? = null
+    ) = apiClient.sendVoice(
+        chatId,
+        audio,
         caption,
         parseMode,
         captionEntities,
