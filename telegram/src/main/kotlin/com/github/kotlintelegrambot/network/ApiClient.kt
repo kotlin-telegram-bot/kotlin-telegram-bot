@@ -52,7 +52,6 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.Proxy
-import java.nio.file.Files
 import java.util.concurrent.TimeUnit
 import java.io.File as SystemFile
 
@@ -61,17 +60,6 @@ internal val APPLICATION_JSON_MIME = MediaType.parse("application/json")
 
 private fun convertString(text: String) = RequestBody.create(PLAIN_TEXT_MIME, text)
 private fun convertJson(text: String) = RequestBody.create(APPLICATION_JSON_MIME, text)
-
-private fun convertFile(
-    name: String,
-    file: SystemFile,
-    mimeType: String? = null
-): MultipartBody.Part {
-    val mediaType = (mimeType ?: Files.probeContentType(file.toPath()))?.let { MediaType.parse(it) }
-    val requestBody = RequestBody.create(mediaType, file)
-
-    return MultipartBody.Part.createFormData(name, file.name, requestBody)
-}
 
 internal class ApiClient(
     private val token: String,
@@ -237,7 +225,7 @@ internal class ApiClient(
     ): Call<Response<Message>> {
         return service.sendPhoto(
             chatId,
-            convertFile("photo", photo),
+            photo.toMultipartBodyPart("photo"),
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
@@ -282,7 +270,7 @@ internal class ApiClient(
     ): Call<Response<Message>> = when (photo) {
         is ByFile -> service.sendPhoto(
             chatId,
-            convertFile("photo", photo.file),
+            photo.file.toMultipartBodyPart("photo"),
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode.modeName) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
@@ -321,7 +309,7 @@ internal class ApiClient(
 
         return service.sendAudio(
             chatId,
-            convertFile("audio", audio),
+            audio.toMultipartBodyPart("audio"),
             if (duration != null) convertString(duration.toString()) else null,
             if (performer != null) convertString(performer) else null,
             if (title != null) convertString(title) else null,
@@ -371,7 +359,7 @@ internal class ApiClient(
     ): Call<Response<Message>> = when (audio) {
         is ByFile -> service.sendAudio(
             chatId,
-            convertFile("audio", audio.file),
+            audio.file.toMultipartBodyPart("audio"),
             if (duration != null) convertString(duration.toString()) else null,
             if (performer != null) convertString(performer) else null,
             if (title != null) convertString(title) else null,
@@ -411,7 +399,7 @@ internal class ApiClient(
 
         return service.sendDocument(
             chatId,
-            convertFile("document", document),
+            document.toMultipartBodyPart("document"),
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
@@ -457,7 +445,7 @@ internal class ApiClient(
     ): Call<Response<Message>> = when (document) {
         is ByFile -> service.sendDocument(
             chatId,
-            convertFile("document", document.file),
+            document.file.toMultipartBodyPart("document"),
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode.modeName) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
@@ -521,7 +509,7 @@ internal class ApiClient(
 
         return service.sendVideo(
             chatId,
-            convertFile("video", video),
+            video.toMultipartBodyPart("video"),
             if (duration != null) convertString(duration.toString()) else null,
             if (width != null) convertString(width.toString()) else null,
             if (height != null) convertString(height.toString()) else null,
@@ -575,7 +563,7 @@ internal class ApiClient(
     ): Call<Response<Message>> = when (video) {
         is ByFile -> service.sendVideo(
             chatId,
-            convertFile("video", video.file),
+            video.file.toMultipartBodyPart("video"),
             if (duration != null) convertString(duration.toString()) else null,
             if (width != null) convertString(width.toString()) else null,
             if (height != null) convertString(height.toString()) else null,
@@ -636,7 +624,7 @@ internal class ApiClient(
 
         return service.sendAnimation(
             chatId,
-            convertFile("video", animation),
+            animation.toMultipartBodyPart("video"),
             if (duration != null) convertString(duration.toString()) else null,
             if (width != null) convertString(width.toString()) else null,
             if (height != null) convertString(height.toString()) else null,
@@ -694,7 +682,7 @@ internal class ApiClient(
     ): Call<Response<Message>> = when (animation) {
         is ByFile -> service.sendAnimation(
             chatId,
-            convertFile("video", animation.file),
+            animation.file.toMultipartBodyPart("video"),
             if (duration != null) convertString(duration.toString()) else null,
             if (width != null) convertString(width.toString()) else null,
             if (height != null) convertString(height.toString()) else null,
@@ -740,7 +728,7 @@ internal class ApiClient(
 
         return service.sendVoice(
             chatId,
-            convertFile("voice", audio, "audio/ogg"),
+            audio.toMultipartBodyPart("voice", "audio/ogg"),
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode.modeName) else null,
             if (captionEntities != null) convertJson(gson.toJson(captionEntities)) else null,
@@ -794,7 +782,7 @@ internal class ApiClient(
     ): Call<Response<Message>> = when (audio) {
         is ByFile -> service.sendVoice(
             chatId,
-            convertFile("voice", audio.file, "audio/ogg"),
+            audio.file.toMultipartBodyPart("voice", "audio/ogg"),
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode.modeName) else null,
             if (captionEntities != null) convertJson(gson.toJson(captionEntities)) else null,
@@ -862,7 +850,7 @@ internal class ApiClient(
 
         return service.sendVideoNote(
             chatId,
-            convertFile("video_note", videoNote),
+            videoNote.toMultipartBodyPart("video_note"),
             if (duration != null) convertString(duration.toString()) else null,
             if (length != null) convertString(length.toString()) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
@@ -1147,7 +1135,7 @@ internal class ApiClient(
         chatId: ChatId,
         photo: SystemFile
     ): Call<Response<Boolean>> {
-        return service.setChatPhoto(chatId, convertFile("photo", photo))
+        return service.setChatPhoto(chatId, photo.toMultipartBodyPart("photo"))
     }
 
     fun deleteChatPhoto(chatId: ChatId): Call<Response<Boolean>> {
@@ -1423,7 +1411,7 @@ internal class ApiClient(
 
         return service.sendSticker(
             chatId,
-            convertFile("photo", sticker),
+            sticker.toMultipartBodyPart("photo"),
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
@@ -1464,7 +1452,7 @@ internal class ApiClient(
 
         return service.uploadStickerFile(
             convertString(userId.toString()),
-            convertFile("photo", pngSticker)
+            pngSticker.toMultipartBodyPart("photo")
         )
     }
 
@@ -1482,7 +1470,7 @@ internal class ApiClient(
             convertString(userId.toString()),
             convertString(name),
             convertString(title),
-            convertFile("photo", pngSticker),
+            pngSticker.toMultipartBodyPart("photo"),
             convertString(emojis),
             if (containsMasks != null) convertString(containsMasks.toString()) else null,
             if (maskPosition != null) convertJson(maskPosition.toString()) else null
@@ -1521,7 +1509,7 @@ internal class ApiClient(
         return service.addStickerToSet(
             convertString(userId.toString()),
             convertString(name),
-            convertFile("photo", pngSticker),
+            pngSticker.toMultipartBodyPart("photo"),
             convertString(emojis),
             if (maskPosition != null) convertJson(maskPosition.toString()) else null
         )
