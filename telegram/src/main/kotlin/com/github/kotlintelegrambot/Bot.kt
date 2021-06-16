@@ -398,6 +398,7 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
+    @Deprecated("Use overloaded version instead")
     fun sendDocument(
         chatId: ChatId,
         fileBytes: ByteArray,
@@ -688,6 +689,7 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
+    @Deprecated("Use overloaded version instead")
     fun sendVoice(
         chatId: ChatId,
         audio: ByteArray,
