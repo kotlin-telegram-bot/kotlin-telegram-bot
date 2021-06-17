@@ -876,7 +876,7 @@ internal class ApiClient(
 
     fun sendVideoNote(
         chatId: ChatId,
-        videoNote: SystemFile,
+        videoNote: ByFile,
         duration: Int?,
         length: Int?,
         disableNotification: Boolean?,
@@ -887,7 +887,7 @@ internal class ApiClient(
 
         return service.sendVideoNote(
             chatId,
-            videoNote.toMultipartBodyPart("video_note"),
+            videoNote.file.toMultipartBodyPart("video_note"),
             if (duration != null) convertString(duration.toString()) else null,
             if (length != null) convertString(length.toString()) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
@@ -899,7 +899,7 @@ internal class ApiClient(
 
     fun sendVideoNote(
         chatId: ChatId,
-        videoNoteId: String,
+        videoNoteId: ByFileId,
         duration: Int?,
         length: Int?,
         disableNotification: Boolean?,
@@ -910,7 +910,7 @@ internal class ApiClient(
 
         return service.sendVideoNote(
             chatId,
-            videoNoteId,
+            videoNoteId.fileId,
             duration,
             length,
             disableNotification,

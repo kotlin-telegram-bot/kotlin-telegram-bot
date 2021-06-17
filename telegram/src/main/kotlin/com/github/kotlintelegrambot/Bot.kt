@@ -788,9 +788,57 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
+    @Deprecated(
+        "Use overloaded version instead",
+        ReplaceWith("sendVideoNote(chatId, TelegramFile.ByFile(videoNote), duration, length, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)")
+    )
     fun sendVideoNote(
         chatId: ChatId,
         videoNote: SystemFile,
+        duration: Int? = null,
+        length: Int? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
+        replyMarkup: ReplyMarkup? = null
+    ) = apiClient.sendVideoNote(
+        chatId,
+        TelegramFile.ByFile(videoNote),
+        duration,
+        length,
+        disableNotification,
+        replyToMessageId,
+        allowSendingWithoutReply,
+        replyMarkup
+    ).call()
+
+    @Deprecated(
+        "Use overloaded version instead",
+        ReplaceWith("sendVideoNote(chatId, TelegramFile.ByFileId(videoNoteId), duration, length, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)")
+    )
+    fun sendVideoNote(
+        chatId: ChatId,
+        videoNoteId: String,
+        duration: Int? = null,
+        length: Int? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
+        replyMarkup: ReplyMarkup? = null
+    ) = apiClient.sendVideoNote(
+        chatId,
+        TelegramFile.ByFileId(videoNoteId),
+        duration,
+        length,
+        disableNotification,
+        replyToMessageId,
+        allowSendingWithoutReply,
+        replyMarkup
+    ).call()
+
+    fun sendVideoNote(
+        chatId: ChatId,
+        videoNote: TelegramFile.ByFile,
         duration: Int? = null,
         length: Int? = null,
         disableNotification: Boolean? = null,
@@ -810,7 +858,7 @@ class Bot private constructor(
 
     fun sendVideoNote(
         chatId: ChatId,
-        videoNoteId: String,
+        videoNoteId: TelegramFile.ByFileId,
         duration: Int? = null,
         length: Int? = null,
         disableNotification: Boolean? = null,
