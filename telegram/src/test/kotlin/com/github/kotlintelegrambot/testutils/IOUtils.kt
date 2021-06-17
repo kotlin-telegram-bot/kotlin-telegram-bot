@@ -1,9 +1,10 @@
 package com.github.kotlintelegrambot.testutils
 
 import java.io.File
+import java.net.URLDecoder
 
 inline fun <reified T> getFileAsStringFromResources(resName: String): String =
-    T::class.java.getResource("/$resName").readText()
+    getFileFromResources<T>(resName).readText()
 
 inline fun <reified T> getFileFromResources(resName: String): File =
-    File(T::class.java.getResource("/$resName").file)
+    File(URLDecoder.decode(T::class.java.getResource("/$resName")!!.file, "UTF-8"))
