@@ -34,6 +34,7 @@ import com.github.kotlintelegrambot.entities.stickers.MaskPosition
 import com.github.kotlintelegrambot.entities.stickers.StickerSet
 import com.github.kotlintelegrambot.logging.LogLevel
 import com.github.kotlintelegrambot.logging.toOkHttpLogLevel
+import com.github.kotlintelegrambot.network.MediaTypeConstants.AUDIO_OGG
 import com.github.kotlintelegrambot.network.multipart.MultipartBodyFactory
 import com.github.kotlintelegrambot.network.multipart.toMultipartBodyPart
 import com.github.kotlintelegrambot.network.retrofit.converters.ChatIdConverterFactory
@@ -759,7 +760,7 @@ internal class ApiClient(
 
         return service.sendVoice(
             chatId,
-            audio.toMultipartBodyPart("voice", "audio/ogg"),
+            audio.toMultipartBodyPart("voice", AUDIO_OGG),
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode.modeName) else null,
             if (captionEntities != null) convertJson(gson.toJson(captionEntities)) else null,
@@ -814,8 +815,8 @@ internal class ApiClient(
         is ByFile, is ByByteArray -> service.sendVoice(
             chatId,
             when (audio) {
-                is ByFile -> audio.file.toMultipartBodyPart("voice", "audio/ogg")
-                is ByByteArray -> audio.fileBytes.toMultipartBodyPart("voice", audio.filename, "audio/ogg")
+                is ByFile -> audio.file.toMultipartBodyPart("voice", AUDIO_OGG)
+                is ByByteArray -> audio.fileBytes.toMultipartBodyPart("voice", audio.filename, AUDIO_OGG)
                 else -> throw NotImplementedError() //KT-31622
             },
             if (caption != null) convertString(caption) else null,
@@ -861,7 +862,7 @@ internal class ApiClient(
 
         return service.sendVoice(
             chatId,
-            audio.toMultipartBodyPart(partName = "voice", mediaType = "audio/ogg"),
+            audio.toMultipartBodyPart(partName = "voice", mediaType = AUDIO_OGG),
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode.modeName) else null,
             if (captionEntities != null) convertJson(gson.toJson(captionEntities)) else null,
