@@ -223,52 +223,6 @@ internal class ApiClient(
         )
     }
 
-    @Deprecated("Use overloaded version instead")
-    fun sendPhoto(
-        chatId: ChatId,
-        photo: SystemFile,
-        caption: String?,
-        parseMode: String?,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
-        return service.sendPhoto(
-            chatId,
-            photo.toMultipartBodyPart("photo"),
-            if (caption != null) convertString(caption) else null,
-            if (parseMode != null) convertString(parseMode) else null,
-            if (disableNotification != null) convertString(disableNotification.toString()) else null,
-            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
-            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
-            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
-        )
-    }
-
-    @Deprecated("Use overloaded version instead")
-    fun sendPhoto(
-        chatId: ChatId,
-        photo: String,
-        caption: String?,
-        parseMode: ParseMode?,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
-        return service.sendPhoto(
-            chatId,
-            photo,
-            caption,
-            parseMode,
-            disableNotification,
-            replyToMessageId,
-            allowSendingWithoutReply,
-            replyMarkup
-        )
-    }
-
     fun sendPhoto(
         chatId: ChatId,
         photo: TelegramFile,
@@ -302,58 +256,6 @@ internal class ApiClient(
             },
             caption,
             parseMode,
-            disableNotification,
-            replyToMessageId,
-            allowSendingWithoutReply,
-            replyMarkup
-        )
-    }
-
-    @Deprecated("Use overloaded version instead")
-    fun sendAudio(
-        chatId: ChatId,
-        audio: SystemFile,
-        duration: Int?,
-        performer: String?,
-        title: String?,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
-
-        return service.sendAudio(
-            chatId,
-            audio.toMultipartBodyPart("audio"),
-            if (duration != null) convertString(duration.toString()) else null,
-            if (performer != null) convertString(performer) else null,
-            if (title != null) convertString(title) else null,
-            if (disableNotification != null) convertString(disableNotification.toString()) else null,
-            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
-            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
-            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
-        )
-    }
-
-    @Deprecated("Use overloaded version instead")
-    fun sendAudio(
-        chatId: ChatId,
-        audio: String,
-        duration: Int?,
-        performer: String?,
-        title: String?,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
-
-        return service.sendAudio(
-            chatId,
-            audio,
-            duration,
-            performer,
-            title,
             disableNotification,
             replyToMessageId,
             allowSendingWithoutReply,
@@ -404,54 +306,6 @@ internal class ApiClient(
         )
     }
 
-    @Deprecated("Use overloaded version instead")
-    fun sendDocument(
-        chatId: ChatId,
-        document: SystemFile,
-        caption: String?,
-        parseMode: String?,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
-
-        return service.sendDocument(
-            chatId,
-            document.toMultipartBodyPart("document"),
-            if (caption != null) convertString(caption) else null,
-            if (parseMode != null) convertString(parseMode) else null,
-            if (disableNotification != null) convertString(disableNotification.toString()) else null,
-            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
-            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
-            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
-        )
-    }
-
-    @Deprecated("Use overloaded version instead")
-    fun sendDocument(
-        chatId: ChatId,
-        fileId: String,
-        caption: String?,
-        parseMode: ParseMode?,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
-
-        return service.sendDocument(
-            chatId,
-            fileId,
-            caption,
-            parseMode,
-            disableNotification,
-            replyToMessageId,
-            allowSendingWithoutReply,
-            replyMarkup
-        )
-    }
-
     fun sendDocument(
         chatId: ChatId,
         document: TelegramFile,
@@ -485,87 +339,6 @@ internal class ApiClient(
             },
             caption,
             parseMode,
-            disableNotification,
-            replyToMessageId,
-            allowSendingWithoutReply,
-            replyMarkup
-        )
-    }
-
-    @Deprecated("Use overloaded version instead")
-    fun sendDocument(
-        chatId: ChatId,
-        fileBytes: ByteArray,
-        caption: String?,
-        parseMode: String?,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?,
-        filename: String
-    ): Call<Response<Message>> {
-
-        return service.sendDocument(
-            chatId,
-            fileBytes.toMultipartBodyPart(partName = "document", filename = filename),
-            if (caption != null) convertString(caption) else null,
-            if (parseMode != null) convertString(parseMode) else null,
-            if (disableNotification != null) convertString(disableNotification.toString()) else null,
-            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
-            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
-            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
-        )
-    }
-
-    @Deprecated("Use overloaded version instead")
-    fun sendVideo(
-        chatId: ChatId,
-        video: SystemFile,
-        duration: Int?,
-        width: Int?,
-        height: Int?,
-        caption: String?,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
-
-        return service.sendVideo(
-            chatId,
-            video.toMultipartBodyPart("video"),
-            if (duration != null) convertString(duration.toString()) else null,
-            if (width != null) convertString(width.toString()) else null,
-            if (height != null) convertString(height.toString()) else null,
-            if (caption != null) convertString(caption) else null,
-            if (disableNotification != null) convertString(disableNotification.toString()) else null,
-            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
-            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
-            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
-        )
-    }
-
-    @Deprecated("Use overloaded version instead")
-    fun sendVideo(
-        chatId: ChatId,
-        fileId: String,
-        duration: Int?,
-        width: Int?,
-        height: Int?,
-        caption: String?,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
-
-        return service.sendVideo(
-            chatId,
-            fileId,
-            duration,
-            width,
-            height,
-            caption,
             disableNotification,
             replyToMessageId,
             allowSendingWithoutReply,
@@ -665,36 +438,6 @@ internal class ApiClient(
         )
     }
 
-    @Deprecated("Use overloaded version instead")
-    fun sendAnimation(
-        chatId: ChatId,
-        fileId: String,
-        duration: Int?,
-        width: Int?,
-        height: Int?,
-        caption: String?,
-        parseMode: ParseMode?,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
-
-        return service.sendAnimation(
-            chatId,
-            fileId,
-            duration,
-            width,
-            height,
-            caption,
-            parseMode,
-            disableNotification,
-            replyToMessageId,
-            allowSendingWithoutReply,
-            replyMarkup
-        )
-    }
-
     fun sendAnimation(
         chatId: ChatId,
         animation: TelegramFile,
@@ -737,62 +480,6 @@ internal class ApiClient(
             height,
             caption,
             parseMode,
-            disableNotification,
-            replyToMessageId,
-            allowSendingWithoutReply,
-            replyMarkup
-        )
-    }
-
-    @Deprecated("Use overloaded version instead")
-    fun sendVoice(
-        chatId: ChatId,
-        audio: SystemFile,
-        caption: String?,
-        parseMode: ParseMode?,
-        captionEntities: List<MessageEntity>?,
-        duration: Int?,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
-
-        return service.sendVoice(
-            chatId,
-            audio.toMultipartBodyPart("voice", AUDIO_OGG),
-            if (caption != null) convertString(caption) else null,
-            if (parseMode != null) convertString(parseMode.modeName) else null,
-            if (captionEntities != null) convertJson(gson.toJson(captionEntities)) else null,
-            if (duration != null) convertString(duration.toString()) else null,
-            if (disableNotification != null) convertString(disableNotification.toString()) else null,
-            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
-            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
-            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
-        )
-    }
-
-    @Deprecated("Use overloaded version instead")
-    fun sendVoice(
-        chatId: ChatId,
-        audioId: String,
-        caption: String?,
-        parseMode: ParseMode?,
-        captionEntities: List<MessageEntity>?,
-        duration: Int?,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
-
-        return service.sendVoice(
-            chatId,
-            audioId,
-            caption,
-            parseMode,
-            if (captionEntities != null) gson.toJson(captionEntities) else null,
-            duration,
             disableNotification,
             replyToMessageId,
             allowSendingWithoutReply,
@@ -843,34 +530,6 @@ internal class ApiClient(
             replyToMessageId,
             allowSendingWithoutReply,
             replyMarkup
-        )
-    }
-
-    @Deprecated("Use overloaded version instead")
-    fun sendVoice(
-        chatId: ChatId,
-        audio: ByteArray,
-        caption: String?,
-        parseMode: ParseMode?,
-        captionEntities: List<MessageEntity>?,
-        duration: Int? = null,
-        disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
-    ): Call<Response<Message>> {
-
-        return service.sendVoice(
-            chatId,
-            audio.toMultipartBodyPart(partName = "voice", mediaType = AUDIO_OGG),
-            if (caption != null) convertString(caption) else null,
-            if (parseMode != null) convertString(parseMode.modeName) else null,
-            if (captionEntities != null) convertJson(gson.toJson(captionEntities)) else null,
-            if (duration != null) convertString(duration.toString()) else null,
-            if (disableNotification != null) convertString(disableNotification.toString()) else null,
-            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
-            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
-            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
         )
     }
 
