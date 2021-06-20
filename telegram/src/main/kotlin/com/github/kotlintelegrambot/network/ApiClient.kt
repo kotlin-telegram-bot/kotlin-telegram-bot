@@ -238,7 +238,7 @@ internal class ApiClient(
             when (photo) {
                 is ByFile -> photo.file.toMultipartBodyPart("photo")
                 is ByByteArray -> photo.fileBytes.toMultipartBodyPart("photo", photo.filename)
-                else -> throw NotImplementedError() //KT-31622
+                else -> throw NotImplementedError() // KT-31622
             },
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode.modeName) else null,
@@ -252,7 +252,7 @@ internal class ApiClient(
             when (photo) {
                 is ByFileId -> photo.fileId
                 is ByUrl -> photo.url
-                else -> throw NotImplementedError() //KT-31622
+                else -> throw NotImplementedError() // KT-31622
             },
             caption,
             parseMode,
@@ -279,7 +279,7 @@ internal class ApiClient(
             when (audio) {
                 is ByFile -> audio.file.toMultipartBodyPart("audio")
                 is ByByteArray -> audio.fileBytes.toMultipartBodyPart("audio", audio.filename)
-                else -> throw NotImplementedError() //KT-31622
+                else -> throw NotImplementedError() // KT-31622
             },
             if (duration != null) convertString(duration.toString()) else null,
             if (performer != null) convertString(performer) else null,
@@ -294,7 +294,7 @@ internal class ApiClient(
             when (audio) {
                 is ByFileId -> audio.fileId
                 is ByUrl -> audio.url
-                else -> throw NotImplementedError() //KT-31622
+                else -> throw NotImplementedError() // KT-31622
             },
             duration,
             performer,
@@ -321,7 +321,7 @@ internal class ApiClient(
             when (document) {
                 is ByFile -> document.file.toMultipartBodyPart("document")
                 is ByByteArray -> document.fileBytes.toMultipartBodyPart("document", document.filename)
-                else -> throw NotImplementedError() //KT-31622
+                else -> throw NotImplementedError() // KT-31622
             },
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode.modeName) else null,
@@ -335,7 +335,7 @@ internal class ApiClient(
             when (document) {
                 is ByFileId -> document.fileId
                 is ByUrl -> document.url
-                else -> throw NotImplementedError() //KT-31622
+                else -> throw NotImplementedError() // KT-31622
             },
             caption,
             parseMode,
@@ -363,7 +363,7 @@ internal class ApiClient(
             when (video) {
                 is ByFile -> video.file.toMultipartBodyPart("video")
                 is ByByteArray -> video.fileBytes.toMultipartBodyPart("video", video.filename)
-                else -> throw NotImplementedError() //KT-31622
+                else -> throw NotImplementedError() // KT-31622
             },
             if (duration != null) convertString(duration.toString()) else null,
             if (width != null) convertString(width.toString()) else null,
@@ -379,7 +379,7 @@ internal class ApiClient(
             when (video) {
                 is ByFileId -> video.fileId
                 is ByUrl -> video.url
-                else -> throw NotImplementedError() //KT-31622
+                else -> throw NotImplementedError() // KT-31622
             },
             duration,
             width,
@@ -456,7 +456,7 @@ internal class ApiClient(
             when (animation) {
                 is ByFile -> animation.file.toMultipartBodyPart("video")
                 is ByByteArray -> animation.fileBytes.toMultipartBodyPart("video", animation.filename)
-                else -> throw NotImplementedError() //KT-31622
+                else -> throw NotImplementedError() // KT-31622
             },
             if (duration != null) convertString(duration.toString()) else null,
             if (width != null) convertString(width.toString()) else null,
@@ -473,7 +473,7 @@ internal class ApiClient(
             when (animation) {
                 is ByFileId -> animation.fileId
                 is ByUrl -> animation.url
-                else -> throw NotImplementedError() //KT-31622
+                else -> throw NotImplementedError() // KT-31622
             },
             duration,
             width,
@@ -504,7 +504,7 @@ internal class ApiClient(
             when (audio) {
                 is ByFile -> audio.file.toMultipartBodyPart("voice", AUDIO_OGG)
                 is ByByteArray -> audio.fileBytes.toMultipartBodyPart("voice", audio.filename, AUDIO_OGG)
-                else -> throw NotImplementedError() //KT-31622
+                else -> throw NotImplementedError() // KT-31622
             },
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode.modeName) else null,
@@ -520,7 +520,7 @@ internal class ApiClient(
             when (audio) {
                 is ByFileId -> audio.fileId
                 is ByUrl -> audio.url
-                else -> throw NotImplementedError() //KT-31622
+                else -> throw NotImplementedError() // KT-31622
             },
             caption,
             parseMode,
