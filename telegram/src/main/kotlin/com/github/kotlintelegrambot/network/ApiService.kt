@@ -16,7 +16,6 @@ import com.github.kotlintelegrambot.entities.WebhookInfo
 import com.github.kotlintelegrambot.entities.dice.DiceEmoji
 import com.github.kotlintelegrambot.entities.dice.DiceFields
 import com.github.kotlintelegrambot.entities.files.File
-import com.github.kotlintelegrambot.entities.inputmedia.InputMedia
 import com.github.kotlintelegrambot.entities.payments.LabeledPrice
 import com.github.kotlintelegrambot.entities.payments.ShippingOption
 import com.github.kotlintelegrambot.entities.polls.Poll
@@ -640,7 +639,7 @@ internal interface ApiService {
         @Field(ApiConstants.CHAT_ID) chatId: ChatId?,
         @Field("message_id") messageId: Long?,
         @Field("inline_message_id") inlineMessageId: String?,
-        @Field("media") media: InputMedia,
+        @Field("media") media: String,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 

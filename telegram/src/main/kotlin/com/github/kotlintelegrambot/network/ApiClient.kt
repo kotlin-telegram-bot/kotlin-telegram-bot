@@ -1066,7 +1066,7 @@ internal class ApiClient(
             chatId,
             messageId,
             inlineMessageId,
-            media,
+            gson.toJson(media),
             replyMarkup
         )
     }
