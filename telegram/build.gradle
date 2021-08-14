@@ -1,5 +1,5 @@
 buildscript {
-    ext.retrofit_version = '2.3.0'
+    ext.retrofit_version = '2.9.0'
     ext.junit_version = "5.5.1"
     ext.logging_interceptor_version = '3.8.0'
     ext.mock_web_server_version = '4.2.1'
