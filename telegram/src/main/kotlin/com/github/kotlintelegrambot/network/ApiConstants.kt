@@ -19,6 +19,7 @@ internal object ApiConstants {
     object SetWebhook {
         const val URL = "url"
         const val CERTIFICATE = "certificate"
+        const val IP_ADDRESS = "ip_address"
         const val MAX_CONNECTIONS = "max_connections"
         const val ALLOWED_UPDATES = "allowed_updates"
     }
