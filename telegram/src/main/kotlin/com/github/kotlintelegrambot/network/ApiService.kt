@@ -150,7 +150,7 @@ internal interface ApiService {
     @POST("sendPhoto")
     fun sendPhoto(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
-        @Field("photo") fileId: String,
+        @Field("photo") photo: String,
         @Field("caption") caption: String?,
         @Field("parse_mode") parseMode: ParseMode?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
@@ -177,7 +177,7 @@ internal interface ApiService {
     @POST("sendAudio")
     fun sendAudio(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
-        @Field("audio") fileId: String,
+        @Field("audio") audio: String,
         @Field("duration") duration: Int?,
         @Field("performer") performer: String?,
         @Field("title") title: String?,
@@ -204,7 +204,7 @@ internal interface ApiService {
     @POST("sendDocument")
     fun sendDocument(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
-        @Field("document") fileId: String,
+        @Field("document") document: String,
         @Field("caption") caption: String?,
         @Field("parse_mode") parseMode: ParseMode?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
@@ -232,7 +232,7 @@ internal interface ApiService {
     @POST("sendVideo")
     fun sendVideo(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
-        @Field("video") fileId: String,
+        @Field("video") video: String,
         @Field("duration") duration: Int?,
         @Field("width") width: Int?,
         @Field("height") height: Int?,
@@ -274,7 +274,7 @@ internal interface ApiService {
     @POST("sendAnimation")
     fun sendAnimation(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
-        @Field("animation") fileId: String,
+        @Field("animation") animation: String,
         @Field("duration") duration: Int?,
         @Field("width") width: Int?,
         @Field("height") height: Int?,
@@ -305,7 +305,7 @@ internal interface ApiService {
     @POST("sendVoice")
     fun sendVoice(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
-        @Field("voice") fileId: String,
+        @Field("voice") voice: String,
         @Field("caption") caption: String?,
         @Field("parse_mode") parseMode: ParseMode?,
         @Field("caption_entities") captionEntities: String?,

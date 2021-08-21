@@ -13,6 +13,7 @@ import com.github.kotlintelegrambot.entities.MessageId
 import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.ReplyMarkup
 import com.github.kotlintelegrambot.entities.TelegramFile
+import com.github.kotlintelegrambot.entities.TelegramFile.ByByteArray
 import com.github.kotlintelegrambot.entities.TelegramFile.ByFile
 import com.github.kotlintelegrambot.entities.TelegramFile.ByFileId
 import com.github.kotlintelegrambot.entities.TelegramFile.ByUrl
@@ -33,6 +34,7 @@ import com.github.kotlintelegrambot.entities.stickers.MaskPosition
 import com.github.kotlintelegrambot.entities.stickers.StickerSet
 import com.github.kotlintelegrambot.logging.LogLevel
 import com.github.kotlintelegrambot.logging.toOkHttpLogLevel
+import com.github.kotlintelegrambot.network.MediaTypeConstants.AUDIO_OGG
 import com.github.kotlintelegrambot.network.multipart.MultipartBodyFactory
 import com.github.kotlintelegrambot.network.multipart.toMultipartBodyPart
 import com.github.kotlintelegrambot.network.retrofit.converters.ChatIdConverterFactory
@@ -43,7 +45,6 @@ import com.github.kotlintelegrambot.types.TelegramBotResult
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import okhttp3.MediaType
-import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -52,7 +53,6 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.Proxy
-import java.nio.file.Files
 import java.util.concurrent.TimeUnit
 import java.io.File as SystemFile
 
@@ -61,39 +61,6 @@ internal val APPLICATION_JSON_MIME = MediaType.parse("application/json")
 
 private fun convertString(text: String) = RequestBody.create(PLAIN_TEXT_MIME, text)
 private fun convertJson(text: String) = RequestBody.create(APPLICATION_JSON_MIME, text)
-
-private fun convertFile(
-    name: String,
-    file: SystemFile,
-    mimeType: String? = null
-): MultipartBody.Part {
-    val mediaType = (mimeType ?: Files.probeContentType(file.toPath()))?.let { MediaType.parse(it) }
-    val requestBody = RequestBody.create(mediaType, file)
-
-    return MultipartBody.Part.createFormData(name, file.name, requestBody)
-}
-
-private fun convertBytes(
-    name: String,
-    bytes: ByteArray,
-    mimeType: String? = null
-): MultipartBody.Part {
-    val mediaType = mimeType?.let { MediaType.parse(it) }
-    val requestBody = RequestBody.create(mediaType, bytes)
-
-    return MultipartBody.Part.createFormData(name, name, requestBody)
-}
-
-private fun ByteArray.toMultipartBodyPart(
-    name: String,
-    filename: String,
-    mimeType: String? = null
-): MultipartBody.Part {
-    val mediaType = mimeType?.let { MediaType.parse(it) }
-    val requestBody = RequestBody.create(mediaType, this)
-
-    return MultipartBody.Part.createFormData(name, filename, requestBody)
-}
 
 internal class ApiClient(
     private val token: String,
@@ -177,6 +144,16 @@ internal class ApiClient(
             maxConnections = maxConnections?.toMultipartBodyPart(ApiConstants.SetWebhook.MAX_CONNECTIONS),
             allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES)
         )
+        is ByByteArray -> service.setWebhookWithCertificateAsFile(
+            url = url.toMultipartBodyPart(ApiConstants.SetWebhook.URL),
+            certificate = certificate.fileBytes.toMultipartBodyPart(
+                partName = ApiConstants.SetWebhook.CERTIFICATE,
+                filename = certificate.filename,
+                mediaType = MediaTypeConstants.UTF_8_TEXT
+            ),
+            maxConnections = maxConnections?.toMultipartBodyPart(ApiConstants.SetWebhook.MAX_CONNECTIONS),
+            allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES)
+        )
         null -> service.setWebhook(
             url = url,
             maxConnections = maxConnections,
@@ -248,39 +225,35 @@ internal class ApiClient(
 
     fun sendPhoto(
         chatId: ChatId,
-        photo: SystemFile,
-        caption: String?,
-        parseMode: String?,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
-        return service.sendPhoto(
-            chatId,
-            convertFile("photo", photo),
-            if (caption != null) convertString(caption) else null,
-            if (parseMode != null) convertString(parseMode) else null,
-            if (disableNotification != null) convertString(disableNotification.toString()) else null,
-            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
-            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
-            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
-        )
-    }
-
-    fun sendPhoto(
-        chatId: ChatId,
-        photo: String,
+        photo: TelegramFile,
         caption: String?,
         parseMode: ParseMode?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
-        return service.sendPhoto(
+    ): Call<Response<Message>> = when (photo) {
+        is ByFile, is ByByteArray -> service.sendPhoto(
             chatId,
-            photo,
+            when (photo) {
+                is ByFile -> photo.file.toMultipartBodyPart("photo")
+                is ByByteArray -> photo.fileBytes.toMultipartBodyPart("photo", photo.filename)
+                else -> throw NotImplementedError() // KT-31622
+            },
+            if (caption != null) convertString(caption) else null,
+            if (parseMode != null) convertString(parseMode.modeName) else null,
+            if (disableNotification != null) convertString(disableNotification.toString()) else null,
+            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
+            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
+            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
+        )
+        is ByFileId, is ByUrl -> service.sendPhoto(
+            chatId,
+            when (photo) {
+                is ByFileId -> photo.fileId
+                is ByUrl -> photo.url
+                else -> throw NotImplementedError() // KT-31622
+            },
             caption,
             parseMode,
             disableNotification,
@@ -292,7 +265,7 @@ internal class ApiClient(
 
     fun sendAudio(
         chatId: ChatId,
-        audio: SystemFile,
+        audio: TelegramFile,
         duration: Int?,
         performer: String?,
         title: String?,
@@ -300,11 +273,14 @@ internal class ApiClient(
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
-
-        return service.sendAudio(
+    ): Call<Response<Message>> = when (audio) {
+        is ByFile, is ByByteArray -> service.sendAudio(
             chatId,
-            convertFile("audio", audio),
+            when (audio) {
+                is ByFile -> audio.file.toMultipartBodyPart("audio")
+                is ByByteArray -> audio.fileBytes.toMultipartBodyPart("audio", audio.filename)
+                else -> throw NotImplementedError() // KT-31622
+            },
             if (duration != null) convertString(duration.toString()) else null,
             if (performer != null) convertString(performer) else null,
             if (title != null) convertString(title) else null,
@@ -313,23 +289,13 @@ internal class ApiClient(
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
         )
-    }
-
-    fun sendAudio(
-        chatId: ChatId,
-        audio: String,
-        duration: Int?,
-        performer: String?,
-        title: String?,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
-
-        return service.sendAudio(
+        is ByFileId, is ByUrl -> service.sendAudio(
             chatId,
-            audio,
+            when (audio) {
+                is ByFileId -> audio.fileId
+                is ByUrl -> audio.url
+                else -> throw NotImplementedError() // KT-31622
+            },
             duration,
             performer,
             title,
@@ -342,41 +308,35 @@ internal class ApiClient(
 
     fun sendDocument(
         chatId: ChatId,
-        document: SystemFile,
-        caption: String?,
-        parseMode: String?,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
-
-        return service.sendDocument(
-            chatId,
-            convertFile("document", document),
-            if (caption != null) convertString(caption) else null,
-            if (parseMode != null) convertString(parseMode) else null,
-            if (disableNotification != null) convertString(disableNotification.toString()) else null,
-            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
-            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
-            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
-        )
-    }
-
-    fun sendDocument(
-        chatId: ChatId,
-        fileId: String,
+        document: TelegramFile,
         caption: String?,
         parseMode: ParseMode?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
-
-        return service.sendDocument(
+    ): Call<Response<Message>> = when (document) {
+        is ByFile, is ByByteArray -> service.sendDocument(
             chatId,
-            fileId,
+            when (document) {
+                is ByFile -> document.file.toMultipartBodyPart("document")
+                is ByByteArray -> document.fileBytes.toMultipartBodyPart("document", document.filename)
+                else -> throw NotImplementedError() // KT-31622
+            },
+            if (caption != null) convertString(caption) else null,
+            if (parseMode != null) convertString(parseMode.modeName) else null,
+            if (disableNotification != null) convertString(disableNotification.toString()) else null,
+            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
+            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
+            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
+        )
+        is ByFileId, is ByUrl -> service.sendDocument(
+            chatId,
+            when (document) {
+                is ByFileId -> document.fileId
+                is ByUrl -> document.url
+                else -> throw NotImplementedError() // KT-31622
+            },
             caption,
             parseMode,
             disableNotification,
@@ -386,33 +346,9 @@ internal class ApiClient(
         )
     }
 
-    fun sendDocument(
-        chatId: ChatId,
-        fileBytes: ByteArray,
-        caption: String?,
-        parseMode: String?,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?,
-        filename: String
-    ): Call<Response<Message>> {
-
-        return service.sendDocument(
-            chatId,
-            fileBytes.toMultipartBodyPart(name = "document", filename = filename),
-            if (caption != null) convertString(caption) else null,
-            if (parseMode != null) convertString(parseMode) else null,
-            if (disableNotification != null) convertString(disableNotification.toString()) else null,
-            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
-            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
-            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
-        )
-    }
-
     fun sendVideo(
         chatId: ChatId,
-        video: SystemFile,
+        video: TelegramFile,
         duration: Int?,
         width: Int?,
         height: Int?,
@@ -421,11 +357,14 @@ internal class ApiClient(
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
-
-        return service.sendVideo(
+    ): Call<Response<Message>> = when (video) {
+        is ByFile, is ByByteArray -> service.sendVideo(
             chatId,
-            convertFile("video", video),
+            when (video) {
+                is ByFile -> video.file.toMultipartBodyPart("video")
+                is ByByteArray -> video.fileBytes.toMultipartBodyPart("video", video.filename)
+                else -> throw NotImplementedError() // KT-31622
+            },
             if (duration != null) convertString(duration.toString()) else null,
             if (width != null) convertString(width.toString()) else null,
             if (height != null) convertString(height.toString()) else null,
@@ -435,24 +374,13 @@ internal class ApiClient(
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
         )
-    }
-
-    fun sendVideo(
-        chatId: ChatId,
-        fileId: String,
-        duration: Int?,
-        width: Int?,
-        height: Int?,
-        caption: String?,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
-
-        return service.sendVideo(
+        is ByFileId, is ByUrl -> service.sendVideo(
             chatId,
-            fileId,
+            when (video) {
+                is ByFileId -> video.fileId
+                is ByUrl -> video.url
+                else -> throw NotImplementedError() // KT-31622
+            },
             duration,
             width,
             height,
@@ -480,6 +408,7 @@ internal class ApiClient(
         replyMarkup
     ).runApiOperation()
 
+    @Deprecated("Use overloaded version instead")
     fun sendAnimation(
         chatId: ChatId,
         animation: SystemFile,
@@ -496,7 +425,7 @@ internal class ApiClient(
 
         return service.sendAnimation(
             chatId,
-            convertFile("video", animation),
+            animation.toMultipartBodyPart("video"),
             if (duration != null) convertString(duration.toString()) else null,
             if (width != null) convertString(width.toString()) else null,
             if (height != null) convertString(height.toString()) else null,
@@ -511,7 +440,7 @@ internal class ApiClient(
 
     fun sendAnimation(
         chatId: ChatId,
-        fileId: String,
+        animation: TelegramFile,
         duration: Int?,
         width: Int?,
         height: Int?,
@@ -521,11 +450,31 @@ internal class ApiClient(
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
-
-        return service.sendAnimation(
+    ): Call<Response<Message>> = when (animation) {
+        is ByFile, is ByByteArray -> service.sendAnimation(
             chatId,
-            fileId,
+            when (animation) {
+                is ByFile -> animation.file.toMultipartBodyPart("video")
+                is ByByteArray -> animation.fileBytes.toMultipartBodyPart("video", animation.filename)
+                else -> throw NotImplementedError() // KT-31622
+            },
+            if (duration != null) convertString(duration.toString()) else null,
+            if (width != null) convertString(width.toString()) else null,
+            if (height != null) convertString(height.toString()) else null,
+            if (caption != null) convertString(caption) else null,
+            if (parseMode != null) convertString(parseMode.modeName) else null,
+            if (disableNotification != null) convertString(disableNotification.toString()) else null,
+            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
+            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
+            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
+        )
+        is ByFileId, is ByUrl -> service.sendAnimation(
+            chatId,
+            when (animation) {
+                is ByFileId -> animation.fileId
+                is ByUrl -> animation.url
+                else -> throw NotImplementedError() // KT-31622
+            },
             duration,
             width,
             height,
@@ -540,7 +489,7 @@ internal class ApiClient(
 
     fun sendVoice(
         chatId: ChatId,
-        audio: SystemFile,
+        audio: TelegramFile,
         caption: String?,
         parseMode: ParseMode?,
         captionEntities: List<MessageEntity>?,
@@ -549,11 +498,14 @@ internal class ApiClient(
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
-
-        return service.sendVoice(
+    ): Call<Response<Message>> = when (audio) {
+        is ByFile, is ByByteArray -> service.sendVoice(
             chatId,
-            convertFile("voice", audio, "audio/ogg"),
+            when (audio) {
+                is ByFile -> audio.file.toMultipartBodyPart("voice", AUDIO_OGG)
+                is ByByteArray -> audio.fileBytes.toMultipartBodyPart("voice", audio.filename, AUDIO_OGG)
+                else -> throw NotImplementedError() // KT-31622
+            },
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode.modeName) else null,
             if (captionEntities != null) convertJson(gson.toJson(captionEntities)) else null,
@@ -563,24 +515,13 @@ internal class ApiClient(
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
         )
-    }
-
-    fun sendVoice(
-        chatId: ChatId,
-        audioId: String,
-        caption: String?,
-        parseMode: ParseMode?,
-        captionEntities: List<MessageEntity>?,
-        duration: Int?,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
-
-        return service.sendVoice(
+        is ByFileId, is ByUrl -> service.sendVoice(
             chatId,
-            audioId,
+            when (audio) {
+                is ByFileId -> audio.fileId
+                is ByUrl -> audio.url
+                else -> throw NotImplementedError() // KT-31622
+            },
             caption,
             parseMode,
             if (captionEntities != null) gson.toJson(captionEntities) else null,
@@ -592,36 +533,9 @@ internal class ApiClient(
         )
     }
 
-    fun sendVoice(
-        chatId: ChatId,
-        audio: ByteArray,
-        caption: String?,
-        parseMode: ParseMode?,
-        captionEntities: List<MessageEntity>?,
-        duration: Int? = null,
-        disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
-    ): Call<Response<Message>> {
-
-        return service.sendVoice(
-            chatId,
-            convertBytes("voice", audio, "audio/ogg"),
-            if (caption != null) convertString(caption) else null,
-            if (parseMode != null) convertString(parseMode.modeName) else null,
-            if (captionEntities != null) convertJson(gson.toJson(captionEntities)) else null,
-            if (duration != null) convertString(duration.toString()) else null,
-            if (disableNotification != null) convertString(disableNotification.toString()) else null,
-            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
-            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
-            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
-        )
-    }
-
     fun sendVideoNote(
         chatId: ChatId,
-        videoNote: SystemFile,
+        videoNote: ByFile,
         duration: Int?,
         length: Int?,
         disableNotification: Boolean?,
@@ -632,7 +546,7 @@ internal class ApiClient(
 
         return service.sendVideoNote(
             chatId,
-            convertFile("video_note", videoNote),
+            videoNote.file.toMultipartBodyPart("video_note"),
             if (duration != null) convertString(duration.toString()) else null,
             if (length != null) convertString(length.toString()) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
@@ -644,7 +558,7 @@ internal class ApiClient(
 
     fun sendVideoNote(
         chatId: ChatId,
-        videoNoteId: String,
+        videoNoteId: ByFileId,
         duration: Int?,
         length: Int?,
         disableNotification: Boolean?,
@@ -655,7 +569,7 @@ internal class ApiClient(
 
         return service.sendVideoNote(
             chatId,
-            videoNoteId,
+            videoNoteId.fileId,
             duration,
             length,
             disableNotification,
@@ -917,7 +831,7 @@ internal class ApiClient(
         chatId: ChatId,
         photo: SystemFile
     ): Call<Response<Boolean>> {
-        return service.setChatPhoto(chatId, convertFile("photo", photo))
+        return service.setChatPhoto(chatId, photo.toMultipartBodyPart("photo"))
     }
 
     fun deleteChatPhoto(chatId: ChatId): Call<Response<Boolean>> {
@@ -1193,7 +1107,7 @@ internal class ApiClient(
 
         return service.sendSticker(
             chatId,
-            convertFile("photo", sticker),
+            sticker.toMultipartBodyPart("photo"),
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
@@ -1234,7 +1148,7 @@ internal class ApiClient(
 
         return service.uploadStickerFile(
             convertString(userId.toString()),
-            convertFile("photo", pngSticker)
+            pngSticker.toMultipartBodyPart("photo")
         )
     }
 
@@ -1252,7 +1166,7 @@ internal class ApiClient(
             convertString(userId.toString()),
             convertString(name),
             convertString(title),
-            convertFile("photo", pngSticker),
+            pngSticker.toMultipartBodyPart("photo"),
             convertString(emojis),
             if (containsMasks != null) convertString(containsMasks.toString()) else null,
             if (maskPosition != null) convertJson(maskPosition.toString()) else null
@@ -1291,7 +1205,7 @@ internal class ApiClient(
         return service.addStickerToSet(
             convertString(userId.toString()),
             convertString(name),
-            convertFile("photo", pngSticker),
+            pngSticker.toMultipartBodyPart("photo"),
             convertString(emojis),
             if (maskPosition != null) convertJson(maskPosition.toString()) else null
         )
