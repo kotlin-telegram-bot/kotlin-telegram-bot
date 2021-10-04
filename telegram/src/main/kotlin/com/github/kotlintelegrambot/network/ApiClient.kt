@@ -153,18 +153,21 @@ internal class ApiClient(
     fun setWebhook(
         url: String,
         certificate: TelegramFile? = null,
+        ipAddress: String? = null,
         maxConnections: Int? = null,
         allowedUpdates: List<String>? = null
     ): Call<Response<Boolean>> = when (certificate) {
         is ByFileId -> service.setWebhookWithCertificateAsFileId(
             url = url,
             certificateFileId = certificate.fileId,
+            ipAddress = ipAddress,
             maxConnections = maxConnections,
             allowedUpdates = allowedUpdates
         )
         is ByUrl -> service.setWebhookWithCertificateAsFileUrl(
             url = url,
             certificateUrl = certificate.url,
+            ipAddress = ipAddress,
             maxConnections = maxConnections,
             allowedUpdates = allowedUpdates
         )
@@ -174,11 +177,13 @@ internal class ApiClient(
                 partName = ApiConstants.SetWebhook.CERTIFICATE,
                 mediaType = MediaTypeConstants.UTF_8_TEXT
             ),
+            ipAddress = ipAddress?.toMultipartBodyPart(ApiConstants.SetWebhook.IP_ADDRESS),
             maxConnections = maxConnections?.toMultipartBodyPart(ApiConstants.SetWebhook.MAX_CONNECTIONS),
             allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES)
         )
         null -> service.setWebhook(
             url = url,
+            ipAddress = ipAddress,
             maxConnections = maxConnections,
             allowedUpdates = allowedUpdates
         )
@@ -343,72 +348,70 @@ internal class ApiClient(
     fun sendDocument(
         chatId: ChatId,
         document: SystemFile,
-        caption: String?,
-        parseMode: String?,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
-
-        return service.sendDocument(
-            chatId,
-            convertFile("document", document),
-            if (caption != null) convertString(caption) else null,
-            if (parseMode != null) convertString(parseMode) else null,
-            if (disableNotification != null) convertString(disableNotification.toString()) else null,
-            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
-            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
-            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
-        )
-    }
+        caption: String? = null,
+        parseMode: ParseMode? = null,
+        disableContentTypeDetection: Boolean? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
+        replyMarkup: ReplyMarkup? = null
+    ): TelegramBotResult<Message> = service.sendDocument(
+        chatId,
+        convertFile("document", document),
+        if (caption != null) convertString(caption) else null,
+        if (parseMode != null) convertString(parseMode.modeName) else null,
+        if (disableContentTypeDetection != null) convertString(disableContentTypeDetection.toString()) else null,
+        if (disableNotification != null) convertString(disableNotification.toString()) else null,
+        if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
+        if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
+        if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
+    ).runApiOperation()
 
     fun sendDocument(
         chatId: ChatId,
         fileId: String,
-        caption: String?,
-        parseMode: ParseMode?,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
-
-        return service.sendDocument(
-            chatId,
-            fileId,
-            caption,
-            parseMode,
-            disableNotification,
-            replyToMessageId,
-            allowSendingWithoutReply,
-            replyMarkup
-        )
-    }
+        caption: String? = null,
+        parseMode: ParseMode? = null,
+        disableContentTypeDetection: Boolean? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
+        replyMarkup: ReplyMarkup? = null
+    ): TelegramBotResult<Message> = service.sendDocument(
+        chatId,
+        fileId,
+        caption,
+        parseMode,
+        disableContentTypeDetection,
+        disableNotification,
+        replyToMessageId,
+        allowSendingWithoutReply,
+        replyMarkup
+    ).runApiOperation()
 
     fun sendDocument(
         chatId: ChatId,
         fileBytes: ByteArray,
-        caption: String?,
-        parseMode: String?,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?,
-        filename: String
-    ): Call<Response<Message>> {
-
-        return service.sendDocument(
-            chatId,
-            fileBytes.toMultipartBodyPart(name = "document", filename = filename),
-            if (caption != null) convertString(caption) else null,
-            if (parseMode != null) convertString(parseMode) else null,
-            if (disableNotification != null) convertString(disableNotification.toString()) else null,
-            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
-            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
-            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
-        )
-    }
+        caption: String? = null,
+        parseMode: ParseMode? = null,
+        disableContentTypeDetection: Boolean? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
+        replyMarkup: ReplyMarkup? = null,
+        filename: String,
+        mimeType: String? = null
+    ): TelegramBotResult<Message> = service.sendDocument(
+        chatId,
+        fileBytes.toMultipartBodyPart(name = "document", filename = filename, mimeType = mimeType),
+        if (caption != null) convertString(caption) else null,
+        if (parseMode != null) convertString(parseMode.modeName) else null,
+        if (disableContentTypeDetection != null) convertString(disableContentTypeDetection.toString()) else null,
+        if (disableNotification != null) convertString(disableNotification.toString()) else null,
+        if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
+        if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
+        if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
+    ).runApiOperation()
 
     fun sendVideo(
         chatId: ChatId,
@@ -669,13 +672,15 @@ internal class ApiClient(
         chatId: ChatId,
         mediaGroup: MediaGroup,
         disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null
+        replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null
     ): TelegramBotResult<List<Message>> {
         val sendMediaGroupMultipartBody = multipartBodyFactory.createForSendMediaGroup(
             chatId,
             mediaGroup,
             disableNotification,
-            replyToMessageId
+            replyToMessageId,
+            allowSendingWithoutReply
         )
         return service.sendMediaGroup(sendMediaGroupMultipartBody).runApiOperation()
     }

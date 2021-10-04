@@ -3,6 +3,7 @@ package com.github.kotlintelegrambot.network
 internal object ApiConstants {
     const val CHAT_ID = "chat_id"
     const val USER_ID = "user_id"
+    const val DISABLE_CONTENT_TYPE_DETECTION = "disable_content_type_detection"
     const val DISABLE_NOTIFICATION = "disable_notification"
     const val REPLY_TO_MESSAGE_ID = "reply_to_message_id"
     const val ALLOW_SENDING_WITHOUT_REPLY = "allow_sending_without_reply"
@@ -19,6 +20,7 @@ internal object ApiConstants {
     object SetWebhook {
         const val URL = "url"
         const val CERTIFICATE = "certificate"
+        const val IP_ADDRESS = "ip_address"
         const val MAX_CONNECTIONS = "max_connections"
         const val ALLOWED_UPDATES = "allowed_updates"
     }

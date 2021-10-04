@@ -129,6 +129,7 @@ class Bot private constructor(
         val setWebhookResult = setWebhook(
             webhookConfig.url,
             webhookConfig.certificate,
+            webhookConfig.ipAddress,
             webhookConfig.maxConnections,
             webhookConfig.allowedUpdates
         )
@@ -202,9 +203,10 @@ class Bot private constructor(
     fun setWebhook(
         url: String,
         certificate: TelegramFile? = null,
+        ipAddress: String? = null,
         maxConnections: Int? = null,
         allowedUpdates: List<String>? = null
-    ) = apiClient.setWebhook(url, certificate, maxConnections, allowedUpdates).call()
+    ) = apiClient.setWebhook(url, certificate, ipAddress, maxConnections, allowedUpdates).call()
 
     fun deleteWebhook() = apiClient.deleteWebhook().call()
 
@@ -398,62 +400,70 @@ class Bot private constructor(
         document: SystemFile,
         caption: String? = null,
         parseMode: ParseMode? = null,
+        disableContentTypeDetection: Boolean? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
-    ) = apiClient.sendDocument(
+    ): TelegramBotResult<Message> = apiClient.sendDocument(
         chatId,
         document,
         caption,
-        parseMode?.modeName,
+        parseMode,
+        disableContentTypeDetection,
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup
-    ).call()
+    )
 
     fun sendDocument(
         chatId: ChatId,
         fileBytes: ByteArray,
         caption: String? = null,
         parseMode: ParseMode? = null,
+        disableContentTypeDetection: Boolean? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
-        fileName: String
-    ) = apiClient.sendDocument(
+        fileName: String,
+        mimeType: String? = null
+    ): TelegramBotResult<Message> = apiClient.sendDocument(
         chatId,
         fileBytes,
         caption,
-        parseMode?.modeName,
+        parseMode,
+        disableContentTypeDetection,
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
-        fileName
-    ).call()
+        fileName,
+        mimeType
+    )
 
     fun sendDocument(
         chatId: ChatId,
         fileId: String,
         caption: String? = null,
         parseMode: ParseMode? = null,
+        disableContentTypeDetection: Boolean? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
-    ) = apiClient.sendDocument(
+    ): TelegramBotResult<Message> = apiClient.sendDocument(
         chatId,
         fileId,
         caption,
         parseMode,
+        disableContentTypeDetection,
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup
-    ).call()
+    )
 
     fun sendVideo(
         chatId: ChatId,
@@ -713,12 +723,14 @@ class Bot private constructor(
         chatId: ChatId,
         mediaGroup: MediaGroup,
         disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null
+        replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
     ): TelegramBotResult<List<Message>> = apiClient.sendMediaGroup(
         chatId,
         mediaGroup,
         disableNotification,
-        replyToMessageId
+        replyToMessageId,
+        allowSendingWithoutReply
     )
 
     fun sendLocation(
