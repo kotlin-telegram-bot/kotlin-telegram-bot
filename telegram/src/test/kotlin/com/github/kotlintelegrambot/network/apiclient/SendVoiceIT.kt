@@ -5,6 +5,7 @@ import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
 import com.github.kotlintelegrambot.entities.MessageEntity
 import com.github.kotlintelegrambot.entities.MessageEntity.Type.ITALIC
 import com.github.kotlintelegrambot.entities.ParseMode.MARKDOWN_V2
+import com.github.kotlintelegrambot.entities.TelegramFile
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton
 import com.github.kotlintelegrambot.testutils.decode
 import com.github.kotlintelegrambot.testutils.getFileAsStringFromResources
@@ -24,7 +25,7 @@ class SendVoiceIT : ApiClientIT() {
 
         val sendVoice = sut.sendVoice(
             ChatId.fromId(ANY_CHAT_ID),
-            ANY_VOICE_FILE_ID,
+            TelegramFile.ByFileId(ANY_VOICE_FILE_ID),
             caption = CAPTION,
             parseMode = MARKDOWN_V2,
             captionEntities = CAPTION_ENTITIES,
@@ -55,7 +56,7 @@ class SendVoiceIT : ApiClientIT() {
 
         val sendVoice = sut.sendVoice(
             ChatId.fromId(ANY_CHAT_ID),
-            getFileFromResources<SendVoiceIT>(VOICE_FILENAME),
+            TelegramFile.ByFile(getFileFromResources<SendVoiceIT>(VOICE_FILENAME)),
             caption = CAPTION,
             parseMode = MARKDOWN_V2,
             captionEntities = CAPTION_ENTITIES,
@@ -85,7 +86,7 @@ class SendVoiceIT : ApiClientIT() {
 
         val sendVoice = sut.sendVoice(
             ChatId.fromId(ANY_CHAT_ID),
-            getFileFromResources<SendVoiceIT>("short.ogg").readBytes(),
+            TelegramFile.ByByteArray(getFileFromResources<SendVoiceIT>("short.ogg").readBytes()),
             caption = CAPTION,
             parseMode = MARKDOWN_V2,
             captionEntities = CAPTION_ENTITIES,

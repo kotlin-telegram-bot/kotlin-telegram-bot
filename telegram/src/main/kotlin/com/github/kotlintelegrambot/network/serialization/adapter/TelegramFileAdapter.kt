@@ -1,6 +1,7 @@
 package com.github.kotlintelegrambot.network.serialization.adapter
 
 import com.github.kotlintelegrambot.entities.TelegramFile
+import com.github.kotlintelegrambot.entities.TelegramFile.ByByteArray
 import com.github.kotlintelegrambot.entities.TelegramFile.ByFile
 import com.github.kotlintelegrambot.entities.TelegramFile.ByFileId
 import com.github.kotlintelegrambot.entities.TelegramFile.ByUrl
@@ -14,5 +15,6 @@ internal class TelegramFileAdapter : JsonSerializer<TelegramFile> {
         is ByFileId -> context.serialize(src.fileId, String::class.java)
         is ByUrl -> context.serialize(src.url, String::class.java)
         is ByFile -> context.serialize("attach://${src.file.name}")
+        is ByByteArray -> context.serialize("attach://${src.filename!!}")
     }
 }

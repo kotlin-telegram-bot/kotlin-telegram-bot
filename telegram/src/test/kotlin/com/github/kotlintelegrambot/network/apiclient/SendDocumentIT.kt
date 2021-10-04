@@ -10,6 +10,7 @@ import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.MessageEntity
 import com.github.kotlintelegrambot.entities.MessageEntity.Type.ITALIC
 import com.github.kotlintelegrambot.entities.ParseMode.MARKDOWN_V2
+import com.github.kotlintelegrambot.entities.TelegramFile
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton
 import com.github.kotlintelegrambot.network.Response
 import com.github.kotlintelegrambot.testutils.decode
@@ -30,7 +31,7 @@ class SendDocumentIT : ApiClientIT() {
 
         sut.sendDocument(
             ChatId.fromId(ANY_CHAT_ID),
-            ANY_DOCUMENT_FILE_ID,
+            TelegramFile.ByFileId(ANY_DOCUMENT_FILE_ID),
             caption = CAPTION,
             parseMode = MARKDOWN_V2,
             disableContentTypeDetection = false,
@@ -38,7 +39,7 @@ class SendDocumentIT : ApiClientIT() {
             replyToMessageId = REPLY_TO_MESSAGE_ID,
             allowSendingWithoutReply = null,
             replyMarkup = REPLY_MARKUP
-        )
+        ).execute()
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID" +
@@ -59,7 +60,7 @@ class SendDocumentIT : ApiClientIT() {
 
         sut.sendDocument(
             ChatId.fromId(ANY_CHAT_ID),
-            getFileFromResources<SendDocumentIT>(DOCUMENT_FILE_NAME),
+            TelegramFile.ByFile(getFileFromResources<SendDocumentIT>(DOCUMENT_FILE_NAME)),
             caption = CAPTION,
             parseMode = MARKDOWN_V2,
             disableContentTypeDetection = false,
@@ -67,7 +68,7 @@ class SendDocumentIT : ApiClientIT() {
             replyToMessageId = REPLY_TO_MESSAGE_ID,
             allowSendingWithoutReply = null,
             replyMarkup = REPLY_MARKUP
-        )
+        ).execute()
 
         val request = mockWebServer.takeRequest()
         val multipartBoundary = request.multipartBoundary
@@ -87,7 +88,7 @@ class SendDocumentIT : ApiClientIT() {
 
         sut.sendDocument(
             ChatId.fromId(ANY_CHAT_ID),
-            getFileFromResources<SendDocumentIT>(DOCUMENT_FILE_NAME).readBytes(),
+            TelegramFile.ByByteArray(getFileFromResources<SendDocumentIT>(DOCUMENT_FILE_NAME).readBytes(), DOCUMENT_FILE_NAME),
             caption = CAPTION,
             parseMode = MARKDOWN_V2,
             disableContentTypeDetection = false,
@@ -95,9 +96,8 @@ class SendDocumentIT : ApiClientIT() {
             replyToMessageId = REPLY_TO_MESSAGE_ID,
             allowSendingWithoutReply = null,
             replyMarkup = REPLY_MARKUP,
-            filename = DOCUMENT_FILE_NAME,
             mimeType = "application/pdf"
-        )
+        ).execute()
 
         val request = mockWebServer.takeRequest()
         val multipartBoundary = request.multipartBoundary
@@ -117,8 +117,8 @@ class SendDocumentIT : ApiClientIT() {
 
         sut.sendDocument(
             ChatId.fromId(ANY_CHAT_ID),
-            ANY_DOCUMENT_FILE_ID
-        )
+            TelegramFile.ByFileId(ANY_DOCUMENT_FILE_ID)
+        ).execute()
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID" +
@@ -133,10 +133,10 @@ class SendDocumentIT : ApiClientIT() {
 
         val sendDocument = sut.sendDocument(
             ChatId.fromId(ANY_CHAT_ID),
-            ANY_DOCUMENT_FILE_ID
-        )
+            TelegramFile.ByFileId(ANY_DOCUMENT_FILE_ID)
+        ).execute()
 
-        assertEquals(anyDocumentMessage.toString().trim(), sendDocument.get().toString().trim())
+        assertEquals(anyDocumentMessage.toString().trim(), sendDocument.body()?.result.toString().trim())
     }
 
     private fun givenAnySendDocumentResponse() {
