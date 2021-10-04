@@ -41,8 +41,8 @@ data class InputMediaPhoto(
     @SerializedName(InputMediaFields.CAPTION) override val caption: String? = null,
     @SerializedName(InputMediaFields.PARSE_MODE) override val parseMode: String? = null
 ) : InputMedia(), GroupableMedia {
-    override val type: String
-        get() = InputMediaTypes.PHOTO
+    @SerializedName(InputMediaFields.TYPE)
+    override val type: String = InputMediaTypes.PHOTO
 }
 
 /**
@@ -59,8 +59,8 @@ data class InputMediaVideo(
     @SerializedName(InputMediaFields.DURATION) val duration: Int? = null,
     @SerializedName(InputMediaFields.SUPPORTS_STREAMING) val supportsStreaming: Boolean? = null
 ) : InputMedia(), GroupableMedia {
-    override val type: String
-        get() = InputMediaTypes.VIDEO
+    @SerializedName(InputMediaFields.TYPE)
+    override val type: String = InputMediaTypes.VIDEO
 }
 
 /**
@@ -76,8 +76,8 @@ data class InputMediaAnimation(
     @SerializedName(InputMediaFields.HEIGHT) val height: Int? = null,
     @SerializedName(InputMediaFields.DURATION) val duration: Int? = null
 ) : InputMedia() {
-    override val type: String
-        get() = InputMediaTypes.ANIMATION
+    @SerializedName(InputMediaFields.TYPE)
+    override val type: String = InputMediaTypes.ANIMATION
 }
 
 /**
@@ -93,8 +93,8 @@ data class InputMediaAudio(
     @SerializedName(InputMediaFields.PERFORMER) val performer: String? = null,
     @SerializedName(InputMediaFields.TITLE) val title: String? = null
 ) : InputMedia(), GroupableMedia {
-    override val type: String
-        get() = InputMediaTypes.AUDIO
+    @SerializedName(InputMediaFields.TYPE)
+    override val type: String = InputMediaTypes.AUDIO
 }
 
 /**
@@ -108,6 +108,6 @@ data class InputMediaDocument(
     @SerializedName(InputMediaFields.THUMB) val thumb: TelegramFile.ByFile? = null,
     @SerializedName(InputMediaFields.DISABLE_CONTENT_TYPE_DETECTION) val disableContentTypeDetection: Boolean? = null
 ) : InputMedia(), GroupableMedia {
-    override val type: String
-        get() = InputMediaTypes.DOCUMENT
+    @SerializedName(InputMediaFields.TYPE)
+    override val type: String = InputMediaTypes.DOCUMENT
 }
