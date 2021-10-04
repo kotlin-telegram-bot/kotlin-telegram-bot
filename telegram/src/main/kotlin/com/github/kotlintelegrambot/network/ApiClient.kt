@@ -38,6 +38,7 @@ import com.github.kotlintelegrambot.network.multipart.toMultipartBodyPart
 import com.github.kotlintelegrambot.network.retrofit.converters.ChatIdConverterFactory
 import com.github.kotlintelegrambot.network.retrofit.converters.DiceEmojiConverterFactory
 import com.github.kotlintelegrambot.network.retrofit.converters.EnumRetrofitConverterFactory
+import com.github.kotlintelegrambot.network.retrofit.converters.InputMediaConverterFactory
 import com.github.kotlintelegrambot.network.serialization.GsonFactory
 import com.github.kotlintelegrambot.types.TelegramBotResult
 import com.google.gson.Gson
@@ -132,6 +133,7 @@ internal class ApiClient(
             // Is needed to provide a special Converter.Factory if a custom transformation is wanted for them.
             .addConverterFactory(EnumRetrofitConverterFactory())
             .addConverterFactory(DiceEmojiConverterFactory())
+            .addConverterFactory(InputMediaConverterFactory(gson))
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
 
