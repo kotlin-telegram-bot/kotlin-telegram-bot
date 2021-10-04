@@ -80,22 +80,22 @@ public final class com/github/kotlintelegrambot/Bot {
 	public static synthetic fun sendContact$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;ILjava/lang/Object;)Lkotlin/Pair;
 	public final fun sendDice (Lcom/github/kotlintelegrambot/entities/ChatId;Lcom/github/kotlintelegrambot/entities/dice/DiceEmoji;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public static synthetic fun sendDice$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;Lcom/github/kotlintelegrambot/entities/dice/DiceEmoji;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
-	public final fun sendDocument (Lcom/github/kotlintelegrambot/entities/ChatId;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;)Lkotlin/Pair;
-	public final fun sendDocument (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/io/File;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;)Lkotlin/Pair;
-	public final fun sendDocument (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/String;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;)Lkotlin/Pair;
-	public final fun sendDocument (Lcom/github/kotlintelegrambot/entities/ChatId;[BLjava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;Ljava/lang/String;)Lkotlin/Pair;
-	public static synthetic fun sendDocument$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;ILjava/lang/Object;)Lkotlin/Pair;
-	public static synthetic fun sendDocument$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/io/File;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;ILjava/lang/Object;)Lkotlin/Pair;
-	public static synthetic fun sendDocument$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/String;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;ILjava/lang/Object;)Lkotlin/Pair;
-	public static synthetic fun sendDocument$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;[BLjava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;Ljava/lang/String;ILjava/lang/Object;)Lkotlin/Pair;
+	public final fun sendDocument (Lcom/github/kotlintelegrambot/entities/ChatId;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;Ljava/lang/String;)Lkotlin/Pair;
+	public final fun sendDocument (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/io/File;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;)Lkotlin/Pair;
+	public final fun sendDocument (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/String;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;)Lkotlin/Pair;
+	public final fun sendDocument (Lcom/github/kotlintelegrambot/entities/ChatId;[BLjava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;Ljava/lang/String;Ljava/lang/String;)Lkotlin/Pair;
+	public static synthetic fun sendDocument$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;Ljava/lang/String;ILjava/lang/Object;)Lkotlin/Pair;
+	public static synthetic fun sendDocument$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/io/File;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;ILjava/lang/Object;)Lkotlin/Pair;
+	public static synthetic fun sendDocument$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/String;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;ILjava/lang/Object;)Lkotlin/Pair;
+	public static synthetic fun sendDocument$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;[BLjava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lkotlin/Pair;
 	public final fun sendGame (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public static synthetic fun sendGame$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public final fun sendInvoice (Lcom/github/kotlintelegrambot/entities/ChatId;Lcom/github/kotlintelegrambot/entities/payments/PaymentInvoiceInfo;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/InlineKeyboardMarkup;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public static synthetic fun sendInvoice$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;Lcom/github/kotlintelegrambot/entities/payments/PaymentInvoiceInfo;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/InlineKeyboardMarkup;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public final fun sendLocation (Lcom/github/kotlintelegrambot/entities/ChatId;FFLjava/lang/Integer;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;)Lkotlin/Pair;
 	public static synthetic fun sendLocation$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;FFLjava/lang/Integer;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;ILjava/lang/Object;)Lkotlin/Pair;
-	public final fun sendMediaGroup (Lcom/github/kotlintelegrambot/entities/ChatId;Lcom/github/kotlintelegrambot/entities/inputmedia/MediaGroup;Ljava/lang/Boolean;Ljava/lang/Long;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
-	public static synthetic fun sendMediaGroup$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;Lcom/github/kotlintelegrambot/entities/inputmedia/MediaGroup;Ljava/lang/Boolean;Ljava/lang/Long;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
+	public final fun sendMediaGroup (Lcom/github/kotlintelegrambot/entities/ChatId;Lcom/github/kotlintelegrambot/entities/inputmedia/MediaGroup;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
+	public static synthetic fun sendMediaGroup$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;Lcom/github/kotlintelegrambot/entities/inputmedia/MediaGroup;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public final fun sendMessage (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;)Lkotlin/Pair;
 	public static synthetic fun sendMessage$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;ILjava/lang/Object;)Lkotlin/Pair;
 	public final fun sendPhoto (Lcom/github/kotlintelegrambot/entities/ChatId;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;)Lkotlin/Pair;
@@ -142,8 +142,8 @@ public final class com/github/kotlintelegrambot/Bot {
 	public final fun setChatTitle (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/String;)Lkotlin/Pair;
 	public final fun setMyCommands (Ljava/util/List;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public final fun setStickerPositionInSet (Ljava/lang/String;I)Lkotlin/Pair;
-	public final fun setWebhook (Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/Integer;Ljava/util/List;)Lkotlin/Pair;
-	public static synthetic fun setWebhook$default (Lcom/github/kotlintelegrambot/Bot;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/Integer;Ljava/util/List;ILjava/lang/Object;)Lkotlin/Pair;
+	public final fun setWebhook (Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/Integer;Ljava/util/List;)Lkotlin/Pair;
+	public static synthetic fun setWebhook$default (Lcom/github/kotlintelegrambot/Bot;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/Integer;Ljava/util/List;ILjava/lang/Object;)Lkotlin/Pair;
 	public final fun startPolling ()V
 	public final fun startWebhook ()Z
 	public final fun stopMessageLiveLocation (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/Long;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;)Lkotlin/Pair;
@@ -1264,19 +1264,21 @@ public final class com/github/kotlintelegrambot/entities/Venue {
 }
 
 public final class com/github/kotlintelegrambot/entities/WebhookInfo {
-	public fun <init> (Ljava/lang/String;ZILjava/lang/Long;Ljava/lang/String;Ljava/lang/Integer;Ljava/util/List;)V
+	public fun <init> (Ljava/lang/String;ZILjava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/Integer;Ljava/util/List;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Z
 	public final fun component3 ()I
-	public final fun component4 ()Ljava/lang/Long;
-	public final fun component5 ()Ljava/lang/String;
-	public final fun component6 ()Ljava/lang/Integer;
-	public final fun component7 ()Ljava/util/List;
-	public final fun copy (Ljava/lang/String;ZILjava/lang/Long;Ljava/lang/String;Ljava/lang/Integer;Ljava/util/List;)Lcom/github/kotlintelegrambot/entities/WebhookInfo;
-	public static synthetic fun copy$default (Lcom/github/kotlintelegrambot/entities/WebhookInfo;Ljava/lang/String;ZILjava/lang/Long;Ljava/lang/String;Ljava/lang/Integer;Ljava/util/List;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/entities/WebhookInfo;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/Long;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7 ()Ljava/lang/Integer;
+	public final fun component8 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/String;ZILjava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/Integer;Ljava/util/List;)Lcom/github/kotlintelegrambot/entities/WebhookInfo;
+	public static synthetic fun copy$default (Lcom/github/kotlintelegrambot/entities/WebhookInfo;Ljava/lang/String;ZILjava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/Integer;Ljava/util/List;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/entities/WebhookInfo;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAllowedUpdates ()Ljava/util/List;
 	public final fun getHasCustomCertificate ()Z
+	public final fun getIpAddress ()Ljava/lang/String;
 	public final fun getLastErrorDate ()Ljava/lang/Long;
 	public final fun getLastErrorMessage ()Ljava/lang/String;
 	public final fun getMaxConnections ()Ljava/lang/Integer;
@@ -2265,16 +2267,18 @@ public final class com/github/kotlintelegrambot/entities/inputmedia/InputMediaAu
 }
 
 public final class com/github/kotlintelegrambot/entities/inputmedia/InputMediaDocument : com/github/kotlintelegrambot/entities/inputmedia/InputMedia, com/github/kotlintelegrambot/entities/inputmedia/GroupableMedia {
-	public fun <init> (Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile$ByFile;)V
-	public synthetic fun <init> (Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile$ByFile;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile$ByFile;Ljava/lang/Boolean;)V
+	public synthetic fun <init> (Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile$ByFile;Ljava/lang/Boolean;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Lcom/github/kotlintelegrambot/entities/TelegramFile;
 	public final fun component2 ()Ljava/lang/String;
 	public final fun component3 ()Ljava/lang/String;
 	public final fun component4 ()Lcom/github/kotlintelegrambot/entities/TelegramFile$ByFile;
-	public final fun copy (Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile$ByFile;)Lcom/github/kotlintelegrambot/entities/inputmedia/InputMediaDocument;
-	public static synthetic fun copy$default (Lcom/github/kotlintelegrambot/entities/inputmedia/InputMediaDocument;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile$ByFile;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/entities/inputmedia/InputMediaDocument;
+	public final fun component5 ()Ljava/lang/Boolean;
+	public final fun copy (Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile$ByFile;Ljava/lang/Boolean;)Lcom/github/kotlintelegrambot/entities/inputmedia/InputMediaDocument;
+	public static synthetic fun copy$default (Lcom/github/kotlintelegrambot/entities/inputmedia/InputMediaDocument;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile$ByFile;Ljava/lang/Boolean;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/entities/inputmedia/InputMediaDocument;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getCaption ()Ljava/lang/String;
+	public final fun getDisableContentTypeDetection ()Ljava/lang/Boolean;
 	public fun getMedia ()Lcom/github/kotlintelegrambot/entities/TelegramFile;
 	public fun getParseMode ()Ljava/lang/String;
 	public final fun getThumb ()Lcom/github/kotlintelegrambot/entities/TelegramFile$ByFile;
@@ -2285,6 +2289,7 @@ public final class com/github/kotlintelegrambot/entities/inputmedia/InputMediaDo
 
 public final class com/github/kotlintelegrambot/entities/inputmedia/InputMediaFields {
 	public static final field CAPTION Ljava/lang/String;
+	public static final field DISABLE_CONTENT_TYPE_DETECTION Ljava/lang/String;
 	public static final field DURATION Ljava/lang/String;
 	public static final field HEIGHT Ljava/lang/String;
 	public static final field INSTANCE Lcom/github/kotlintelegrambot/entities/inputmedia/InputMediaFields;
@@ -3188,17 +3193,19 @@ public final class com/github/kotlintelegrambot/types/TelegramBotResult$Success 
 }
 
 public final class com/github/kotlintelegrambot/webhook/WebhookConfig {
-	public fun <init> (Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/Integer;Ljava/util/List;)V
-	public synthetic fun <init> (Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/Integer;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/Integer;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/Integer;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Lcom/github/kotlintelegrambot/entities/TelegramFile;
-	public final fun component3 ()Ljava/lang/Integer;
-	public final fun component4 ()Ljava/util/List;
-	public final fun copy (Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/Integer;Ljava/util/List;)Lcom/github/kotlintelegrambot/webhook/WebhookConfig;
-	public static synthetic fun copy$default (Lcom/github/kotlintelegrambot/webhook/WebhookConfig;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/Integer;Ljava/util/List;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/webhook/WebhookConfig;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/Integer;
+	public final fun component5 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/Integer;Ljava/util/List;)Lcom/github/kotlintelegrambot/webhook/WebhookConfig;
+	public static synthetic fun copy$default (Lcom/github/kotlintelegrambot/webhook/WebhookConfig;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/Integer;Ljava/util/List;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/webhook/WebhookConfig;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAllowedUpdates ()Ljava/util/List;
 	public final fun getCertificate ()Lcom/github/kotlintelegrambot/entities/TelegramFile;
+	public final fun getIpAddress ()Ljava/lang/String;
 	public final fun getMaxConnections ()Ljava/lang/Integer;
 	public final fun getUrl ()Ljava/lang/String;
 	public fun hashCode ()I
@@ -3209,10 +3216,12 @@ public final class com/github/kotlintelegrambot/webhook/WebhookConfigBuilder {
 	public fun <init> ()V
 	public final fun getAllowedUpdates ()Ljava/util/List;
 	public final fun getCertificate ()Lcom/github/kotlintelegrambot/entities/TelegramFile;
+	public final fun getIpAddress ()Ljava/lang/String;
 	public final fun getMaxConnections ()Ljava/lang/Integer;
 	public final fun getUrl ()Ljava/lang/String;
 	public final fun setAllowedUpdates (Ljava/util/List;)V
 	public final fun setCertificate (Lcom/github/kotlintelegrambot/entities/TelegramFile;)V
+	public final fun setIpAddress (Ljava/lang/String;)V
 	public final fun setMaxConnections (Ljava/lang/Integer;)V
 	public final fun setUrl (Ljava/lang/String;)V
 }

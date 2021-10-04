@@ -88,7 +88,7 @@ class InlineKeyboardButtonAdapterTest {
     @Test
     fun `serialize and deserialize inline keyboard pay button`() {
         val payButton = InlineKeyboardButton.Pay(ANY_TEXT)
-        val payButtonJson = """{"pay":true,"text":"$ANY_TEXT"}"""
+        val payButtonJson = """{"text":"$ANY_TEXT","pay":true}"""
 
         val actualPayButton = sut.fromJson(payButtonJson, InlineKeyboardButton::class.java)
         val actualPayButtonJson = sut.toJson(actualPayButton)

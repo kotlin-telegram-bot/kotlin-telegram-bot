@@ -120,18 +120,21 @@ internal class ApiClient(
     fun setWebhook(
         url: String,
         certificate: TelegramFile? = null,
+        ipAddress: String? = null,
         maxConnections: Int? = null,
         allowedUpdates: List<String>? = null
     ): Call<Response<Boolean>> = when (certificate) {
         is ByFileId -> service.setWebhookWithCertificateAsFileId(
             url = url,
             certificateFileId = certificate.fileId,
+            ipAddress = ipAddress,
             maxConnections = maxConnections,
             allowedUpdates = allowedUpdates
         )
         is ByUrl -> service.setWebhookWithCertificateAsFileUrl(
             url = url,
             certificateUrl = certificate.url,
+            ipAddress = ipAddress,
             maxConnections = maxConnections,
             allowedUpdates = allowedUpdates
         )
@@ -141,6 +144,7 @@ internal class ApiClient(
                 partName = ApiConstants.SetWebhook.CERTIFICATE,
                 mediaType = MediaTypeConstants.UTF_8_TEXT
             ),
+            ipAddress = ipAddress?.toMultipartBodyPart(ApiConstants.SetWebhook.IP_ADDRESS),
             maxConnections = maxConnections?.toMultipartBodyPart(ApiConstants.SetWebhook.MAX_CONNECTIONS),
             allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES)
         )
@@ -156,6 +160,7 @@ internal class ApiClient(
         )
         null -> service.setWebhook(
             url = url,
+            ipAddress = ipAddress,
             maxConnections = maxConnections,
             allowedUpdates = allowedUpdates
         )
@@ -309,22 +314,25 @@ internal class ApiClient(
     fun sendDocument(
         chatId: ChatId,
         document: TelegramFile,
-        caption: String?,
-        parseMode: ParseMode?,
-        disableNotification: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?
+        caption: String? = null,
+        parseMode: ParseMode? = null,
+        disableContentTypeDetection: Boolean? = null,
+        disableNotification: Boolean? = null,
+        replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
+        replyMarkup: ReplyMarkup? = null,
+        mimeType: String? = null
     ): Call<Response<Message>> = when (document) {
         is ByFile, is ByByteArray -> service.sendDocument(
             chatId,
             when (document) {
-                is ByFile -> document.file.toMultipartBodyPart("document")
-                is ByByteArray -> document.fileBytes.toMultipartBodyPart("document", document.filename)
+                is ByFile -> document.file.toMultipartBodyPart("document", mimeType)
+                is ByByteArray -> document.fileBytes.toMultipartBodyPart("document", document.filename, mimeType)
                 else -> throw NotImplementedError() // KT-31622
             },
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode.modeName) else null,
+            if (disableContentTypeDetection != null) convertString(disableContentTypeDetection.toString()) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
@@ -339,6 +347,7 @@ internal class ApiClient(
             },
             caption,
             parseMode,
+            disableContentTypeDetection,
             disableNotification,
             replyToMessageId,
             allowSendingWithoutReply,
@@ -583,13 +592,15 @@ internal class ApiClient(
         chatId: ChatId,
         mediaGroup: MediaGroup,
         disableNotification: Boolean? = null,
-        replyToMessageId: Long? = null
+        replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null
     ): TelegramBotResult<List<Message>> {
         val sendMediaGroupMultipartBody = multipartBodyFactory.createForSendMediaGroup(
             chatId,
             mediaGroup,
             disableNotification,
-            replyToMessageId
+            replyToMessageId,
+            allowSendingWithoutReply
         )
         return service.sendMediaGroup(sendMediaGroupMultipartBody).runApiOperation()
     }

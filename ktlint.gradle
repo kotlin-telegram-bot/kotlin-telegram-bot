@@ -9,7 +9,7 @@ configurations {
 }
 
 dependencies {
-    ktlint "com.pinterest:ktlint:0.40.0"
+    ktlint "com.pinterest:ktlint:0.42.1"
 }
 
 task ktlint(type: JavaExec, group: "verification") {
