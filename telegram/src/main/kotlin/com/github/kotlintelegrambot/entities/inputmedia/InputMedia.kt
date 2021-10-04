@@ -92,7 +92,7 @@ data class InputMediaAudio(
     @SerializedName(InputMediaFields.DURATION) val duration: Int? = null,
     @SerializedName(InputMediaFields.PERFORMER) val performer: String? = null,
     @SerializedName(InputMediaFields.TITLE) val title: String? = null
-) : InputMedia() {
+) : InputMedia(), GroupableMedia {
     @SerializedName(InputMediaFields.TYPE)
     override val type: String = InputMediaTypes.AUDIO
 }
