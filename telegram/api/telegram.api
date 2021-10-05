@@ -25,8 +25,8 @@ public final class com/github/kotlintelegrambot/Bot {
 	public final fun deleteWebhook ()Lkotlin/Pair;
 	public final fun downloadFile (Ljava/lang/String;)Lkotlin/Pair;
 	public final fun downloadFileBytes (Ljava/lang/String;)[B
-	public final fun editMessageCaption (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;)Lkotlin/Pair;
-	public static synthetic fun editMessageCaption$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;ILjava/lang/Object;)Lkotlin/Pair;
+	public final fun editMessageCaption (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;)Lkotlin/Pair;
+	public static synthetic fun editMessageCaption$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;ILjava/lang/Object;)Lkotlin/Pair;
 	public final fun editMessageLiveLocation (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/Long;Ljava/lang/String;FFLcom/github/kotlintelegrambot/entities/ReplyMarkup;)Lkotlin/Pair;
 	public static synthetic fun editMessageLiveLocation$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/Long;Ljava/lang/String;FFLcom/github/kotlintelegrambot/entities/ReplyMarkup;ILjava/lang/Object;)Lkotlin/Pair;
 	public final fun editMessageMedia (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/Long;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/inputmedia/InputMedia;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;)Lkotlin/Pair;
