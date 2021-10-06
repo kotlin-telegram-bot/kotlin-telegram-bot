@@ -24,3 +24,19 @@ fun anyInputMediaPhoto(
     caption = null,
     parseMode = null
 )
+
+fun anyInputMediaAudio(
+    media: TelegramFile = anyByFileIdTelegramFile()
+): InputMediaAudio = InputMediaAudio(
+    media = media,
+    caption = null,
+    parseMode = null
+)
+
+fun anyInputMediaDocument(
+    media: TelegramFile = anyByFileIdTelegramFile()
+): InputMediaDocument = InputMediaDocument(
+    media = media,
+    caption = null,
+    parseMode = null
+)

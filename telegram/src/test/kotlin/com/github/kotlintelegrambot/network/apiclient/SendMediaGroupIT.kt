@@ -9,6 +9,8 @@ import com.github.kotlintelegrambot.entities.files.Document
 import com.github.kotlintelegrambot.entities.inputmedia.InputMediaAudio
 import com.github.kotlintelegrambot.entities.inputmedia.InputMediaDocument
 import com.github.kotlintelegrambot.entities.inputmedia.MediaGroup
+import com.github.kotlintelegrambot.entities.inputmedia.anyInputMediaAudio
+import com.github.kotlintelegrambot.entities.inputmedia.anyInputMediaDocument
 import com.github.kotlintelegrambot.entities.inputmedia.anyInputMediaPhoto
 import com.github.kotlintelegrambot.entities.inputmedia.anyInputMediaVideo
 import com.github.kotlintelegrambot.testutils.getFileAsStringFromResources
@@ -106,6 +108,46 @@ class SendMediaGroupIT : ApiClientIT() {
             getFileAsStringFromResources<SendMediaGroupIT>("sendMediaGroupRequestBody4.txt"),
             multipartBoundary
         ).trimIndent()
+        assertEquals(expectedRequestBody, requestBody)
+    }
+
+    @Test
+    fun `sendMediaGroup with media group composed by nameless photo(byteArray), audio(byteArray), video(byteArray), document(byteArray)`() {
+        givenAnySendMediaGroupResponse()
+        val mediaGroup = MediaGroup.from(
+            anyInputMediaPhoto(media = TelegramFile.ByByteArray(getFileFromResources<SendMediaGroupIT>("image.png").readBytes())),
+            anyInputMediaAudio(media = TelegramFile.ByByteArray(getFileFromResources<SendMediaGroupIT>("short.ogg").readBytes())),
+            anyInputMediaVideo(media = TelegramFile.ByByteArray(getFileFromResources<SendMediaGroupIT>("white screen.avi").readBytes())),
+            anyInputMediaDocument(media = TelegramFile.ByByteArray(getFileFromResources<SendMediaGroupIT>("document.pdf").readBytes())),
+        )
+
+        sut.sendMediaGroup(ChatId.fromId(ANY_CHAT_ID), mediaGroup)
+        val request = mockWebServer.takeRequest()
+        val multipartBoundary = request.multipartBoundary
+        val requestBody = request.body.readUtf8().trimIndent()
+        val expectedRequestBody = getFileAsStringFromResources<SendMediaGroupIT>("sendMediaGroupRequestBody7.txt")
+            .replace("%1${"$"}s", multipartBoundary) //encoded files contains % symbols, so String.format will fail here, complaining about unknown format patterns
+            .trimIndent()
+        assertEquals(expectedRequestBody, requestBody)
+    }
+
+    @Test
+    fun `sendMediaGroup with media group composed by nameless photo(file), audio(file), video(file), document(file)`() {
+        givenAnySendMediaGroupResponse()
+        val mediaGroup = MediaGroup.from(
+            anyInputMediaPhoto(media = TelegramFile.ByFile(getFileFromResources<SendMediaGroupIT>("image.png"))),
+            anyInputMediaAudio(media = TelegramFile.ByFile(getFileFromResources<SendMediaGroupIT>("short.ogg"))),
+            anyInputMediaVideo(media = TelegramFile.ByFile(getFileFromResources<SendMediaGroupIT>("white screen.avi"))),
+            anyInputMediaDocument(media = TelegramFile.ByFile(getFileFromResources<SendMediaGroupIT>("document.pdf"))),
+        )
+
+        sut.sendMediaGroup(ChatId.fromId(ANY_CHAT_ID), mediaGroup)
+        val request = mockWebServer.takeRequest()
+        val multipartBoundary = request.multipartBoundary
+        val requestBody = request.body.readUtf8().trimIndent()
+        val expectedRequestBody = getFileAsStringFromResources<SendMediaGroupIT>("sendMediaGroupRequestBody8.txt")
+            .replace("%1${"$"}s", multipartBoundary) //encoded files contains % symbols, so String.format will fail here, complaining about unknown format patterns
+            .trimIndent()
         assertEquals(expectedRequestBody, requestBody)
     }
 
