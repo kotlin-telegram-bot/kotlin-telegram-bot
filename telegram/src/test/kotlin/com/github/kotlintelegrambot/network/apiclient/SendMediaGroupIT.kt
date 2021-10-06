@@ -126,7 +126,7 @@ class SendMediaGroupIT : ApiClientIT() {
         val multipartBoundary = request.multipartBoundary
         val requestBody = request.body.readUtf8().trimIndent()
         val expectedRequestBody = getFileAsStringFromResources<SendMediaGroupIT>("sendMediaGroupRequestBody7.txt")
-            .replace("%1${"$"}s", multipartBoundary) //encoded files contains % symbols, so String.format will fail here, complaining about unknown format patterns
+            .replace("%1${"$"}s", multipartBoundary) // encoded files contains % symbols, so String.format will fail here, complaining about unknown format patterns
             .trimIndent()
         assertEquals(expectedRequestBody, requestBody)
     }
@@ -146,7 +146,7 @@ class SendMediaGroupIT : ApiClientIT() {
         val multipartBoundary = request.multipartBoundary
         val requestBody = request.body.readUtf8().trimIndent()
         val expectedRequestBody = getFileAsStringFromResources<SendMediaGroupIT>("sendMediaGroupRequestBody8.txt")
-            .replace("%1${"$"}s", multipartBoundary) //encoded files contains % symbols, so String.format will fail here, complaining about unknown format patterns
+            .replace("%1${"$"}s", multipartBoundary) // encoded files contains % symbols, so String.format will fail here, complaining about unknown format patterns
             .trimIndent()
         assertEquals(expectedRequestBody, requestBody)
     }

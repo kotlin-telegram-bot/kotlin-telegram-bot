@@ -44,7 +44,7 @@ class MediaGroup private constructor(val medias: Array<out GroupableMedia>) {
                 val m = it.media
                 if (m is TelegramFile.ByByteArray && m.filename == null) {
                     var name = "noname${counter++}"
-                    while (name in mediaNames) { //in case if there already was a file with explicit name "nonameX"
+                    while (name in mediaNames) { // in case if there already was a file with explicit name "nonameX"
                         name = "noname${counter++}"
                     }
                     when (it) {
