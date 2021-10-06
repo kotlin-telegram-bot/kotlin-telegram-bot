@@ -2206,10 +2206,10 @@ public final class com/github/kotlintelegrambot/entities/inlinequeryresults/Mime
 	public static fun values ()[Lcom/github/kotlintelegrambot/entities/inlinequeryresults/MimeType;
 }
 
-public abstract interface class com/github/kotlintelegrambot/entities/inputmedia/GroupableMedia {
+public abstract interface class com/github/kotlintelegrambot/entities/inputmedia/GroupableMedia : com/github/kotlintelegrambot/entities/inputmedia/InputMedia {
 }
 
-public abstract class com/github/kotlintelegrambot/entities/inputmedia/InputMedia {
+public abstract interface class com/github/kotlintelegrambot/entities/inputmedia/InputMedia {
 	public abstract fun getCaption ()Ljava/lang/String;
 	public abstract fun getMedia ()Lcom/github/kotlintelegrambot/entities/TelegramFile;
 	public abstract fun getParseMode ()Ljava/lang/String;
@@ -2241,7 +2241,7 @@ public final class com/github/kotlintelegrambot/entities/inputmedia/InputMediaAn
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/github/kotlintelegrambot/entities/inputmedia/InputMediaAudio : com/github/kotlintelegrambot/entities/inputmedia/InputMedia, com/github/kotlintelegrambot/entities/inputmedia/GroupableMedia {
+public final class com/github/kotlintelegrambot/entities/inputmedia/InputMediaAudio : com/github/kotlintelegrambot/entities/inputmedia/GroupableMedia {
 	public fun <init> (Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile$ByFile;Ljava/lang/Integer;Ljava/lang/String;Ljava/lang/String;)V
 	public synthetic fun <init> (Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile$ByFile;Ljava/lang/Integer;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Lcom/github/kotlintelegrambot/entities/TelegramFile;
@@ -2266,7 +2266,7 @@ public final class com/github/kotlintelegrambot/entities/inputmedia/InputMediaAu
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/github/kotlintelegrambot/entities/inputmedia/InputMediaDocument : com/github/kotlintelegrambot/entities/inputmedia/InputMedia, com/github/kotlintelegrambot/entities/inputmedia/GroupableMedia {
+public final class com/github/kotlintelegrambot/entities/inputmedia/InputMediaDocument : com/github/kotlintelegrambot/entities/inputmedia/GroupableMedia {
 	public fun <init> (Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile$ByFile;Ljava/lang/Boolean;)V
 	public synthetic fun <init> (Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile$ByFile;Ljava/lang/Boolean;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Lcom/github/kotlintelegrambot/entities/TelegramFile;
@@ -2303,7 +2303,7 @@ public final class com/github/kotlintelegrambot/entities/inputmedia/InputMediaFi
 	public static final field WIDTH Ljava/lang/String;
 }
 
-public final class com/github/kotlintelegrambot/entities/inputmedia/InputMediaPhoto : com/github/kotlintelegrambot/entities/inputmedia/InputMedia, com/github/kotlintelegrambot/entities/inputmedia/GroupableMedia {
+public final class com/github/kotlintelegrambot/entities/inputmedia/InputMediaPhoto : com/github/kotlintelegrambot/entities/inputmedia/GroupableMedia {
 	public fun <init> (Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/String;)V
 	public synthetic fun <init> (Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Lcom/github/kotlintelegrambot/entities/TelegramFile;
@@ -2329,7 +2329,7 @@ public final class com/github/kotlintelegrambot/entities/inputmedia/InputMediaTy
 	public static final field VIDEO Ljava/lang/String;
 }
 
-public final class com/github/kotlintelegrambot/entities/inputmedia/InputMediaVideo : com/github/kotlintelegrambot/entities/inputmedia/InputMedia, com/github/kotlintelegrambot/entities/inputmedia/GroupableMedia {
+public final class com/github/kotlintelegrambot/entities/inputmedia/InputMediaVideo : com/github/kotlintelegrambot/entities/inputmedia/GroupableMedia {
 	public fun <init> (Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile$ByFile;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Boolean;)V
 	public synthetic fun <init> (Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile$ByFile;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Boolean;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Lcom/github/kotlintelegrambot/entities/TelegramFile;
@@ -3066,6 +3066,7 @@ public final class com/github/kotlintelegrambot/network/LabeledPriceList {
 }
 
 public final class com/github/kotlintelegrambot/network/MediaTypeConstants {
+	public static final field AUDIO Ljava/lang/String;
 	public static final field AUDIO_OGG Ljava/lang/String;
 	public static final field IMAGE Ljava/lang/String;
 	public static final field INSTANCE Lcom/github/kotlintelegrambot/network/MediaTypeConstants;
