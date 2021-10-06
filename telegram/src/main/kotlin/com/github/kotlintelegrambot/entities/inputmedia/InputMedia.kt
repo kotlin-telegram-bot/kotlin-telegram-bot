@@ -22,9 +22,7 @@ sealed interface GroupableMedia : InputMedia
 
 class MediaGroup private constructor(val medias: Array<out GroupableMedia>) {
     init {
-        if (!(2..10).contains(medias.size)) {
-            throw IllegalArgumentException("media groups must include 2-10 items")
-        }
+        require(medias.size in 2..10) { "media groups must include 2-10 items" }
     }
 
     companion object {
