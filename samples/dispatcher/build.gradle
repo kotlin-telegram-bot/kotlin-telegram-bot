@@ -5,8 +5,7 @@ repositories {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib"
-    compile project(":telegram")
+    implementation project(":telegram")
 }
 
 jar {
@@ -14,6 +13,5 @@ jar {
         attributes 'Main-Class': 'com.github.kotlintelegrambot.MainKt'
     }
 
-
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
 }
