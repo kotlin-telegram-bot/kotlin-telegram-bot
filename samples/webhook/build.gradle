@@ -6,7 +6,7 @@ repositories {
 }
 
 dependencies {
-    implementation "io.ktor:ktor-server-netty:1.2.6"
+    implementation 'io.ktor:ktor-server-netty:1.6.3'
     implementation project(":telegram")
 }
 
