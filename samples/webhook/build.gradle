@@ -12,7 +12,7 @@ dependencies {
 
 task runApp(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
-    main = 'com.github.kotlintelegrambot.webhook.MainKt'
+    mainClass.set('com.github.kotlintelegrambot.webhook.MainKt')
 }
 
 jar {
