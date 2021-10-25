@@ -27,7 +27,7 @@ class SendMessageIT : ApiClientIT() {
             replyToMessageId = null,
             allowSendingWithoutReply = null,
             replyMarkup = null
-        ).execute()
+        )
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID&text=$ANY_TEXT"
@@ -47,7 +47,7 @@ class SendMessageIT : ApiClientIT() {
             replyToMessageId = null,
             allowSendingWithoutReply = null,
             replyMarkup = null
-        ).execute()
+        )
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHANNEL_USERNAME&text=$ANY_TEXT"
@@ -67,7 +67,7 @@ class SendMessageIT : ApiClientIT() {
             replyToMessageId = ANY_MESSAGE_ID,
             allowSendingWithoutReply = null,
             replyMarkup = ForceReplyMarkup(forceReply = false)
-        ).execute()
+        )
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHANNEL_USERNAME" +
@@ -102,7 +102,7 @@ class SendMessageIT : ApiClientIT() {
                     InlineKeyboardButton.SwitchInlineQueryCurrentChat(ANY_TEXT, ANY_TEXT)
                 )
             )
-        ).execute()
+        )
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHANNEL_USERNAME" +
@@ -130,7 +130,7 @@ class SendMessageIT : ApiClientIT() {
             replyToMessageId = null,
             allowSendingWithoutReply = null,
             replyMarkup = null
-        ).execute()
+        )
 
         val expectedMessage = Message(
             messageId = 7,
@@ -144,7 +144,7 @@ class SendMessageIT : ApiClientIT() {
             text = "I'm part of a test :)",
             authorSignature = "incognito",
         )
-        assertEquals(expectedMessage, sendMessageResult.body()?.result)
+        assertEquals(expectedMessage, sendMessageResult.getOrNull())
     }
 
     private fun givenAnySendMessageResponse() {
