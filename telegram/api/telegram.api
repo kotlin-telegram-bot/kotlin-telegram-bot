@@ -36,8 +36,8 @@ public final class com/github/kotlintelegrambot/Bot {
 	public final fun editMessageText (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;)Lkotlin/Pair;
 	public static synthetic fun editMessageText$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;ILjava/lang/Object;)Lkotlin/Pair;
 	public final fun exportChatInviteLink (Lcom/github/kotlintelegrambot/entities/ChatId;)Lkotlin/Pair;
-	public final fun forwardMessage (Lcom/github/kotlintelegrambot/entities/ChatId;Lcom/github/kotlintelegrambot/entities/ChatId;JLjava/lang/Boolean;)Lkotlin/Pair;
-	public static synthetic fun forwardMessage$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;Lcom/github/kotlintelegrambot/entities/ChatId;JLjava/lang/Boolean;ILjava/lang/Object;)Lkotlin/Pair;
+	public final fun forwardMessage (Lcom/github/kotlintelegrambot/entities/ChatId;Lcom/github/kotlintelegrambot/entities/ChatId;JLjava/lang/Boolean;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
+	public static synthetic fun forwardMessage$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;Lcom/github/kotlintelegrambot/entities/ChatId;JLjava/lang/Boolean;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public final fun getChat (Lcom/github/kotlintelegrambot/entities/ChatId;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public final fun getChatAdministrators (Lcom/github/kotlintelegrambot/entities/ChatId;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public final fun getChatMember (Lcom/github/kotlintelegrambot/entities/ChatId;J)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
