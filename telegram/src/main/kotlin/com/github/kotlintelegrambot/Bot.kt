@@ -265,17 +265,22 @@ class Bot private constructor(
         replyMarkup
     )
 
+    /**
+     * Use this method to forward messages of any kind. Service messages can't be forwarded.
+     *
+     * @return the sent [Message] on success
+     */
     fun forwardMessage(
         chatId: ChatId,
         fromChatId: ChatId,
         messageId: Long,
         disableNotification: Boolean? = null
-    ) = apiClient.forwardMessage(
+    ): TelegramBotResult<Message> = apiClient.forwardMessage(
         chatId,
         fromChatId,
         messageId,
         disableNotification
-    ).call()
+    )
 
     fun copyMessage(
         chatId: ChatId,

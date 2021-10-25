@@ -201,9 +201,12 @@ internal class ApiClient(
         fromChatId: ChatId,
         messageId: Long,
         disableNotification: Boolean?
-    ): Call<Response<Message>> {
-        return service.forwardMessage(chatId, fromChatId, disableNotification, messageId)
-    }
+    ): TelegramBotResult<Message> = service.forwardMessage(
+        chatId,
+        fromChatId,
+        disableNotification,
+        messageId,
+    ).runApiOperation()
 
     fun copyMessage(
         chatId: ChatId,
