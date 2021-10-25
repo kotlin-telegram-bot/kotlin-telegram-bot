@@ -899,9 +899,9 @@ internal class ApiClient(
     fun getChatAdministrators(chatId: ChatId): TelegramBotResult<List<ChatMember>> =
         service.getChatAdministrators(chatId).runApiOperation()
 
-    fun getChatMembersCount(chatId: ChatId): Call<Response<Int>> {
+    fun getChatMemberCount(chatId: ChatId): Call<Response<Int>> {
 
-        return service.getChatMembersCount(chatId)
+        return service.getChatMemberCount(chatId)
     }
 
     fun getChatMember(

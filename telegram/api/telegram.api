@@ -43,7 +43,7 @@ public final class com/github/kotlintelegrambot/Bot {
 	public final fun getChat (Lcom/github/kotlintelegrambot/entities/ChatId;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public final fun getChatAdministrators (Lcom/github/kotlintelegrambot/entities/ChatId;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public final fun getChatMember (Lcom/github/kotlintelegrambot/entities/ChatId;J)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
-	public final fun getChatMembersCount (Lcom/github/kotlintelegrambot/entities/ChatId;)Lkotlin/Pair;
+	public final fun getChatMemberCount (Lcom/github/kotlintelegrambot/entities/ChatId;)Lkotlin/Pair;
 	public final fun getFile (Ljava/lang/String;)Lkotlin/Pair;
 	public final fun getMe ()Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public final fun getMyCommands ()Lcom/github/kotlintelegrambot/types/TelegramBotResult;

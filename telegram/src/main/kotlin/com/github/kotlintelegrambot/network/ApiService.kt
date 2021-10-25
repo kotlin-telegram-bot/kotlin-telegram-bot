@@ -577,8 +577,8 @@ internal interface ApiService {
         @Query(ApiConstants.CHAT_ID) chatId: ChatId
     ): Call<Response<List<ChatMember>>>
 
-    @GET("getChatMembersCount")
-    fun getChatMembersCount(
+    @GET("getChatMemberCount")
+    fun getChatMemberCount(
         @Query(ApiConstants.CHAT_ID) chatId: ChatId
     ): Call<Response<Int>>
 
