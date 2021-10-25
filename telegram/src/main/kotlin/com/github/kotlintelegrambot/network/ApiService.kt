@@ -460,8 +460,8 @@ internal interface ApiService {
     ): Call<ResponseBody>
 
     @FormUrlEncoded
-    @POST("kickChatMember")
-    fun kickChatMember(
+    @POST("banChatMember")
+    fun banChatMember(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field(ApiConstants.USER_ID) userId: Long,
         @Field("until_date") untilDate: Long?
