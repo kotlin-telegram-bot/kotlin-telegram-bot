@@ -3,6 +3,7 @@ package com.github.kotlintelegrambot.network.apiclient
 import com.github.kotlintelegrambot.entities.CallbackQuery
 import com.github.kotlintelegrambot.entities.Chat
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
+import com.github.kotlintelegrambot.entities.InlineQuery
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.User
@@ -272,6 +273,117 @@ class GetUpdatesIT : ApiClientIT() {
             )
         )
         assertEquals(expectedGetUpdatesResult, getUpdatesResult.get())
+    }
+
+    @Test
+    fun `getUpdates with inline queries`() {
+        givenGetUpdatesResponse(
+            """
+{
+    "ok": true,
+    "result": [
+        {
+            "update_id": 917440351,
+            "inline_query": {
+                "id": "804856167979007700",
+                "from": {
+                    "id": 187395179,
+                    "is_bot": false,
+                    "first_name": "Sheldon",
+                    "last_name": "Cooper",
+                    "username": "shelly",
+                    "language_code": "en"
+                },
+                "chat_type": "sender",
+                "query": "",
+                "offset": ""
+            }
+        },
+        {
+            "update_id": 917440352,
+            "inline_query": {
+                "id": "804856169188869353",
+                "from": {
+                    "id": 187395179,
+                    "is_bot": false,
+                    "first_name": "Sheldon",
+                    "last_name": "Cooper",
+                    "username": "shelly",
+                    "language_code": "en"
+                },
+                "chat_type": "supergroup",
+                "query": "h",
+                "offset": ""
+            }
+        },
+        {
+            "update_id": 917440353,
+            "inline_query": {
+                "id": "804856169188869354",
+                "from": {
+                    "id": 187395179,
+                    "is_bot": false,
+                    "first_name": "Sheldon",
+                    "last_name": "Cooper",
+                    "username": "shelly",
+                    "language_code": "en"
+                },
+                "query": "hi",
+                "offset": ""
+            }
+        }
+    ]
+}
+            """.trimIndent()
+        )
+
+        val getUpdatesResult = sut.getUpdates(
+            offset = null,
+            limit = null,
+            timeout = null,
+            allowedUpdates = null,
+        )
+
+        val user = User(
+            id = 187395179,
+            isBot = false,
+            firstName = "Sheldon",
+            lastName = "Cooper",
+            username = "shelly",
+            languageCode = "en",
+        )
+        val expectedGetUpdatesResult = listOf(
+            Update(
+                updateId = 917440351,
+                inlineQuery = InlineQuery(
+                    id = "804856167979007700",
+                    from = user,
+                    chatType = InlineQuery.ChatType.SENDER,
+                    query = "",
+                    offset = "",
+                ),
+            ),
+            Update(
+                updateId = 917440352,
+                inlineQuery = InlineQuery(
+                    id = "804856169188869353",
+                    from = user,
+                    chatType = InlineQuery.ChatType.SUPERGROUP,
+                    query = "h",
+                    offset = "",
+                ),
+            ),
+            Update(
+                updateId = 917440353,
+                inlineQuery = InlineQuery(
+                    id = "804856169188869354",
+                    from = user,
+                    query = "hi",
+                    offset = "",
+                ),
+            )
+        )
+        assertEquals(expectedGetUpdatesResult, getUpdatesResult.getOrNull())
     }
 
     private fun givenGetUpdatesResponse(getUpdatesResponseJson: String) {
