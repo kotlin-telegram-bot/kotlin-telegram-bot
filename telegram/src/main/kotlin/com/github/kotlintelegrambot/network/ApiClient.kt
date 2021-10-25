@@ -172,11 +172,8 @@ internal class ApiClient(
 
     fun getWebhookInfo(): Call<Response<WebhookInfo>> = service.getWebhookInfo()
 
-    /**
-     * Available methods
-     */
-    fun getMe(): Call<Response<User>> {
-        return service.getMe()
+    fun getMe(): TelegramBotResult<User> {
+        return service.getMe().runApiOperation()
     }
 
     fun sendMessage(

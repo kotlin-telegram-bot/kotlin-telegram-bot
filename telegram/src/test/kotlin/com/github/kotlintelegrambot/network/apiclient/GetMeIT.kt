@@ -11,7 +11,7 @@ class GetMeIT : ApiClientIT() {
     fun `getMe response is correctly returned`() {
         givenAnyGetMeResponse()
 
-        val getMeResult = sut.getMe().execute()
+        val getMeResult = sut.getMe()
 
         val expectedUser = User(
             id = 482352699,
@@ -22,7 +22,7 @@ class GetMeIT : ApiClientIT() {
             canReadAllGroupMessages = false,
             supportsInlineQueries = false
         )
-        assertEquals(expectedUser, getMeResult.body()?.result)
+        assertEquals(expectedUser, getMeResult.getOrNull())
     }
 
     private fun givenAnyGetMeResponse() {
