@@ -778,9 +778,9 @@ internal class ApiClient(
         return service.downloadFile("${apiUrl}file/bot$token/$filePath")
     }
 
-    fun kickChatMember(chatId: ChatId, userId: Long, untilDate: Long? = null): Call<Response<Boolean>> {
+    fun banChatMember(chatId: ChatId, userId: Long, untilDate: Long? = null): Call<Response<Boolean>> {
 
-        return service.kickChatMember(chatId, userId, untilDate)
+        return service.banChatMember(chatId, userId, untilDate)
     }
 
     fun unbanChatMember(

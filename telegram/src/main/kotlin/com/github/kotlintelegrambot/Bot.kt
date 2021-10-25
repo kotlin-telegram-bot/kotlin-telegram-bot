@@ -1154,11 +1154,11 @@ class Bot private constructor(
         }
     }
 
-    fun kickChatMember(
+    fun banChatMember(
         chatId: ChatId,
         userId: Long,
         untilDate: Long? = null // unix time - https://en.wikipedia.org/wiki/Unix_time
-    ) = apiClient.kickChatMember(chatId, userId, untilDate).call()
+    ) = apiClient.banChatMember(chatId, userId, untilDate).call()
 
     /**
      * Use this method to unban a previously kicked user in a supergroup or channel. The user will

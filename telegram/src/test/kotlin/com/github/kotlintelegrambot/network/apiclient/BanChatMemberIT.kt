@@ -6,13 +6,13 @@ import junit.framework.TestCase.assertEquals
 import okhttp3.mockwebserver.MockResponse
 import org.junit.jupiter.api.Test
 
-class KickChatMemberIT : ApiClientIT() {
+class BanChatMemberIT : ApiClientIT() {
 
     @Test
-    fun `kickChatMember with no until date sends the correct request`() {
-        givenKickChatMemberSuccessResponse()
+    fun `banChatMember with no until date sends the correct request`() {
+        givenBanChatMemberSuccessResponse()
 
-        sut.kickChatMember(ChatId.fromId(ANY_CHAT_ID), ANY_USER_ID).execute()
+        sut.banChatMember(ChatId.fromId(ANY_CHAT_ID), ANY_USER_ID).execute()
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID&user_id=$ANY_USER_ID"
@@ -20,10 +20,10 @@ class KickChatMemberIT : ApiClientIT() {
     }
 
     @Test
-    fun `kickChatMember with until date sends the correct request`() {
-        givenKickChatMemberSuccessResponse()
+    fun `banChatMember with until date sends the correct request`() {
+        givenBanChatMemberSuccessResponse()
 
-        sut.kickChatMember(
+        sut.banChatMember(
             ChatId.fromId(ANY_CHAT_ID),
             ANY_USER_ID,
             ANY_TIMESTAMP
@@ -34,8 +34,8 @@ class KickChatMemberIT : ApiClientIT() {
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
 
-    private fun givenKickChatMemberSuccessResponse() {
-        val kickChatMemberResponseBody = """
+    private fun givenBanChatMemberSuccessResponse() {
+        val banChatMemberResponseBody = """
             {
                 "ok": true,
                 "result": true 
@@ -43,7 +43,7 @@ class KickChatMemberIT : ApiClientIT() {
         """.trimIndent()
         val mockedSuccessResponse = MockResponse()
             .setResponseCode(200)
-            .setBody(kickChatMemberResponseBody)
+            .setBody(banChatMemberResponseBody)
         mockWebServer.enqueue(mockedSuccessResponse)
     }
 
