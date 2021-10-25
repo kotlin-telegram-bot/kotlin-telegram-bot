@@ -14,6 +14,7 @@ import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.ReplyMarkup
 import com.github.kotlintelegrambot.entities.TelegramFile
 import com.github.kotlintelegrambot.entities.Update
+import com.github.kotlintelegrambot.entities.User
 import com.github.kotlintelegrambot.entities.dice.DiceEmoji
 import com.github.kotlintelegrambot.entities.inlinequeryresults.InlineQueryResult
 import com.github.kotlintelegrambot.entities.inputmedia.InputMedia
@@ -221,7 +222,12 @@ class Bot private constructor(
         processUpdate(update)
     }
 
-    fun getMe() = apiClient.getMe().call()
+    /**
+     * A simple method for testing your bot's authentication token.
+     *
+     * @return basic information about the bot in form of a [User] object.
+     */
+    fun getMe(): TelegramBotResult<User> = apiClient.getMe()
 
     /**
      * Use this method to send text messages
