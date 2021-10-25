@@ -1330,7 +1330,7 @@ class Bot private constructor(
         chatId: ChatId
     ): TelegramBotResult<List<ChatMember>> = apiClient.getChatAdministrators(chatId)
 
-    fun getChatMembersCount(chatId: ChatId) = apiClient.getChatMembersCount(chatId).call()
+    fun getChatMemberCount(chatId: ChatId) = apiClient.getChatMemberCount(chatId).call()
 
     /**
      * Use this method to get information about a member of a chat.
