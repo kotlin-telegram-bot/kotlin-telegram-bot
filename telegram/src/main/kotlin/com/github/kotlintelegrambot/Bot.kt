@@ -1264,10 +1264,72 @@ class Bot private constructor(
         canPromoteMembers
     )
 
+    fun approveChatJoinRequest(
+        chatId: ChatId,
+        userId: Long,
+    ): TelegramBotResult<Boolean> = apiClient.approveChatJoinRequest(
+        chatId,
+        userId,
+    )
+
+    fun declineChatJoinRequest(
+        chatId: ChatId,
+        userId: Long,
+    ): TelegramBotResult<Boolean> = apiClient.declineChatJoinRequest(
+        chatId,
+        userId,
+    )
+
     fun setChatPermissions(chatId: ChatId, permissions: ChatPermissions) =
         apiClient.setChatPermissions(chatId, permissions).call()
 
     fun exportChatInviteLink(chatId: ChatId) = apiClient.exportChatInviteLink(chatId).call()
+
+    /**
+     * Use this method to create new invite link. On success, ChatInviteLink is returned.
+     *
+     * @param chatId Unique identifier for the target chat or username of the target channel
+     * (in the format @channelusername).
+     * @param name Invite link name; 0-32 characters.
+     * @param expireDate Point in time (Unix timestamp) when the link will expire.
+     * @param memberLimit Maximum number of users that can be members of the chat simultaneously
+     * after joining the chat via this invite link; 1-99999.
+     * @param createsJoinRequest Pass True, if users joining the chat via the link need to be approved
+     * by chat administrators. If True, member_limit can't be specified
+     *
+     * @return created ChatInviteLink.
+     */
+    fun createChatInviteLink(
+        chatId: ChatId,
+        name: String? = null,
+        expireDate: Long? = null,
+        memberLimit: Int? = null,
+        createsJoinRequest: Boolean? = null,
+    ) = apiClient.createChatInviteLink(
+        chatId,
+        name,
+        expireDate,
+        memberLimit,
+        createsJoinRequest
+    ).call()
+
+    fun editChatInviteLink(
+        chatId: ChatId,
+        inviteLink: String,
+        name: String? = null,
+        expireDate: Long? = null,
+        memberLimit: Int? = null,
+        createsJoinRequest: Boolean? = null,
+    ) = apiClient.editChatInviteLink(
+        chatId,
+        inviteLink,
+        name,
+        expireDate,
+        memberLimit,
+        createsJoinRequest,
+    ).call()
+
+    fun revokeChatInviteLink(chatId: ChatId, inviteLink: String) = apiClient.revokeChatInviteLink(chatId, inviteLink).call()
 
     fun setChatPhoto(
         chatId: ChatId,

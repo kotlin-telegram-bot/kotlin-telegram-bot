@@ -1,5 +1,8 @@
 import com.github.kotlintelegrambot.entities.CallbackQuery
 import com.github.kotlintelegrambot.entities.Chat
+import com.github.kotlintelegrambot.entities.ChatInviteLink
+import com.github.kotlintelegrambot.entities.ChatJoinRequest
+import com.github.kotlintelegrambot.entities.ChatMemberUpdated
 import com.github.kotlintelegrambot.entities.Contact
 import com.github.kotlintelegrambot.entities.Game
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
@@ -41,7 +44,10 @@ fun anyUpdate(
     preCheckoutQuery: PreCheckoutQuery? = null,
     shippingQuery: ShippingQuery? = null,
     inlineQuery: InlineQuery? = null,
-    pollAnswer: PollAnswer? = null
+    pollAnswer: PollAnswer? = null,
+    myChatMember: ChatMemberUpdated? = null,
+    chatMember: ChatMemberUpdated? = null,
+    chatJoinRequest: ChatJoinRequest? = null,
 ): Update = Update(
     updateId = updateId,
     message = message,
@@ -52,7 +58,10 @@ fun anyUpdate(
     preCheckoutQuery = preCheckoutQuery,
     shippingQuery = shippingQuery,
     inlineQuery = inlineQuery,
-    pollAnswer = pollAnswer
+    pollAnswer = pollAnswer,
+    myChatMember = myChatMember,
+    chatMember = chatMember,
+    chatJoinRequest = chatJoinRequest,
 )
 
 private const val ANY_MESSAGE_ID = 32142353L
@@ -472,4 +481,42 @@ fun anyPreCheckoutQuery(
     invoicePayload = invoicePayload,
     shippingOptionId = shippingOptionId,
     orderInfo = orderInfo
+)
+
+private const val ANY_INVITE_LINK = "https://t.me/0000i"
+
+fun anyChatInviteLink(
+    inviteLink: String = ANY_INVITE_LINK,
+    creator: User = anyUser(),
+    createsJoinRequest: Boolean = true,
+    isPrimary: Boolean = false,
+    isRevoked: Boolean = false,
+    name: String? = null,
+    expireDate: Long? = null,
+    memberLimit: Int? = null,
+    pendingJoinRequestCount: Int? = null,
+): ChatInviteLink = ChatInviteLink(
+    inviteLink = inviteLink,
+    creator = creator,
+    createsJoinRequest = createsJoinRequest,
+    isPrimary = isPrimary,
+    isRevoked = isRevoked,
+    name = name,
+    expireDate = expireDate,
+    memberLimit = memberLimit,
+    pendingJoinRequestCount = pendingJoinRequestCount,
+)
+
+fun anyChatJoinRequest(
+    chat: Chat = anyChat(),
+    from: User = anyUser(),
+    date: Long = ANY_DATE,
+    bio: String? = null,
+    inviteLink: ChatInviteLink? = anyChatInviteLink(),
+): ChatJoinRequest = ChatJoinRequest(
+    chat = chat,
+    from = from,
+    date = date,
+    bio = bio,
+    inviteLink = inviteLink,
 )

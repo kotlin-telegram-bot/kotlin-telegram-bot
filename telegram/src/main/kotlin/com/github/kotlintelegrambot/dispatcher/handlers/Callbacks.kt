@@ -33,6 +33,8 @@ typealias HandleInlineQuery = InlineQueryHandlerEnvironment.() -> Unit
 
 typealias HandleNewChatMembers = NewChatMembersHandlerEnvironment.() -> Unit
 
+typealias HandleChatJoinRequest = ChatJoinRequestHandlerEnvironment.() -> Unit
+
 typealias HandlePollAnswer = PollAnswerHandlerEnvironment.() -> Unit
 
 typealias HandleDice = DiceHandlerEnvironment.() -> Unit

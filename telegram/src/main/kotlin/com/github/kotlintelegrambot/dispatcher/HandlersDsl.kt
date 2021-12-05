@@ -2,6 +2,7 @@ package com.github.kotlintelegrambot.dispatcher
 
 import com.github.kotlintelegrambot.dispatcher.handlers.CallbackQueryHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.ChannelHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.ChatJoinRequestHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.ContactHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.DiceHandler
@@ -10,6 +11,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.HandleAnimation
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleAudio
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleCallbackQuery
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleChannelPost
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleChatJoinRequest
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleCommand
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleContact
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleDice
@@ -157,4 +159,8 @@ fun Dispatcher.pollAnswer(body: HandlePollAnswer) {
 
 fun Dispatcher.dice(body: HandleDice) {
     addHandler(DiceHandler(body))
+}
+
+fun Dispatcher.chatJoinRequest(body: HandleChatJoinRequest) {
+    addHandler(ChatJoinRequestHandler(body))
 }
