@@ -30,5 +30,5 @@ sealed class InputMessageContent {
         @SerializedName("first_name") val firstName: String,
         @SerializedName("last_name") val lastName: String? = null,
         val vcard: String? = null
-    )
+    ) : InputMessageContent()
 }
