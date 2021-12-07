@@ -18,7 +18,6 @@ import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton
 import com.github.kotlintelegrambot.entities.keyboard.KeyboardButton
 import com.github.kotlintelegrambot.extensions.filters.Filter
 import com.github.kotlintelegrambot.logging.LogLevel
-import com.github.kotlintelegrambot.network.fold
 
 fun main() {
 
@@ -193,6 +192,13 @@ fun main() {
                     )
                 }
                 bot.answerInlineQuery(inlineQuery.id, inlineResults)
+            }
+
+            chosenInlineResult {
+                bot.sendMessage(
+                    chatId = ChatId.fromId(chosenInlineResult.from.id),
+                    text = "${chosenInlineResult.resultId} ${chosenInlineResult.inlineMessageId} ${chosenInlineResult.query}"
+                )
             }
 
             photos {

@@ -28,7 +28,9 @@ import com.github.kotlintelegrambot.dispatcher.handlers.HandleText
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleVideo
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleVideoNote
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleVoice
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleChosenInlineResult
 import com.github.kotlintelegrambot.dispatcher.handlers.InlineQueryHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.ChosenInlineResultHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.LocationHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.MessageHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.NewChatMembersHandler
@@ -109,6 +111,10 @@ fun Dispatcher.channel(body: HandleChannelPost) {
 
 fun Dispatcher.inlineQuery(body: HandleInlineQuery) {
     addHandler(InlineQueryHandler(body))
+}
+
+fun Dispatcher.chosenInlineResult(body: HandleChosenInlineResult) {
+    addHandler(ChosenInlineResultHandler(body))
 }
 
 fun Dispatcher.audio(body: HandleAudio) {

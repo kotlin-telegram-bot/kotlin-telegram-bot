@@ -31,6 +31,8 @@ typealias HandleLocation = LocationHandlerEnvironment.() -> Unit
 
 typealias HandleInlineQuery = InlineQueryHandlerEnvironment.() -> Unit
 
+typealias HandleChosenInlineResult = ChosenInlineResultHandlerEnvironment.() -> Unit
+
 typealias HandleNewChatMembers = NewChatMembersHandlerEnvironment.() -> Unit
 
 typealias HandlePollAnswer = PollAnswerHandlerEnvironment.() -> Unit
