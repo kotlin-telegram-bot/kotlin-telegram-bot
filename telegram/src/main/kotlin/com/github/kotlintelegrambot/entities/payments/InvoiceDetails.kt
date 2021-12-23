@@ -9,7 +9,7 @@ package com.github.kotlintelegrambot.entities.payments
  * @property [sendEmailToProvider] Pass True, if user's email address should be sent to provider.
  * @constructor Create object which describe needed info about user for success payment
  */
-data class InvoiceUserDetail(
+public data class InvoiceUserDetail(
     val needName: Boolean? = null,
     val needPhoneNumber: Boolean? = null,
     val needEmail: Boolean? = null,
@@ -25,18 +25,18 @@ data class InvoiceUserDetail(
  * @property [photoHeight] Photo height.
  * @constructor Create object to show photo image for invoice
  */
-class InvoicePhotoDetail private constructor(
-    val photoUrl: String? = null,
-    val photoSize: Int? = null,
-    val photoWidth: Int? = null,
-    val photoHeight: Int? = null
+public class InvoicePhotoDetail private constructor(
+    public val photoUrl: String? = null,
+    public val photoSize: Int? = null,
+    public val photoWidth: Int? = null,
+    public val photoHeight: Int? = null
 ) {
 
     /**
      * @property [photoUrl] URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service. People like it better when they see what they are paying for.
      * @property [photoSize] Photo size.
      */
-    constructor(
+    public constructor(
         photoUrl: String,
         photoSize: Int
     ) : this(photoUrl, photoSize, null, null)
@@ -46,7 +46,7 @@ class InvoicePhotoDetail private constructor(
      * @param [photoWidth] Photo width.
      * @param [photoHeight] Photo height.
      */
-    constructor(
+    public constructor(
         photoUrl: String,
         photoWidth: Int,
         photoHeight: Int

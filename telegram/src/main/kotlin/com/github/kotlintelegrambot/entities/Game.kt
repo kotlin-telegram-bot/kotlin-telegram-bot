@@ -4,7 +4,7 @@ import com.github.kotlintelegrambot.entities.files.Animation
 import com.github.kotlintelegrambot.entities.files.PhotoSize
 import com.google.gson.annotations.SerializedName as Name
 
-data class Game(
+public data class Game(
     val title: String,
     val description: String,
     val photo: List<PhotoSize>,

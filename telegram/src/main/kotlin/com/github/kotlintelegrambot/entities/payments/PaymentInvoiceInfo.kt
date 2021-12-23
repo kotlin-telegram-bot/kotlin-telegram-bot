@@ -16,7 +16,7 @@ package com.github.kotlintelegrambot.entities.payments
  * @see InvoicePhotoDetail
  * @see InvoiceUserDetail
  */
-data class PaymentInvoiceInfo(
+public data class PaymentInvoiceInfo(
     val title: String,
     val description: String,
     val payload: String,

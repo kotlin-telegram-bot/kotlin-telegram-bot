@@ -2,7 +2,7 @@ package com.github.kotlintelegrambot.entities
 
 import com.google.gson.annotations.SerializedName
 
-enum class ChatAction {
+public enum class ChatAction {
     @SerializedName("typing") TYPING,
     @SerializedName("upload_photo") UPLOAD_PHOTO,
     @SerializedName("record_video") RECORD_VIDEO,

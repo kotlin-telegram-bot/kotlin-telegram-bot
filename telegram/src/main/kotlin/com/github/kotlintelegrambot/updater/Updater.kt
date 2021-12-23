@@ -5,21 +5,22 @@ import com.github.kotlintelegrambot.errors.RetrieveUpdatesError
 import com.github.kotlintelegrambot.network.ApiClient
 import com.github.kotlintelegrambot.types.DispatchableObject
 import com.github.kotlintelegrambot.types.TelegramBotResult
-import java.util.concurrent.BlockingQueue
+import kotlinx.atomicfu.atomic
+import kotlinx.coroutines.channels.Channel
 
 internal class Updater(
     private val looper: Looper,
-    private val updatesQueue: BlockingQueue<DispatchableObject>,
+    private val updatesQueue: Channel<DispatchableObject>,
     private val apiClient: ApiClient,
     private val botTimeout: Int,
 ) {
 
-    @Volatile private var lastUpdateId: Long? = null
+    private val lastUpdateId = atomic<Long?>(null)
 
     internal fun startPolling() {
         looper.loop {
             val getUpdatesResult = apiClient.getUpdates(
-                offset = lastUpdateId,
+                offset = lastUpdateId.value,
                 limit = null,
                 timeout = botTimeout,
                 allowedUpdates = null,
@@ -32,21 +33,25 @@ internal class Updater(
         }
     }
 
+    internal suspend fun awaitCancellation() {
+        looper.awaitCancellation()
+    }
+
     internal fun stopPolling() {
         looper.quit()
     }
 
-    private fun onUpdatesReceived(updates: List<Update>) {
+    private suspend fun onUpdatesReceived(updates: List<Update>) {
         if (updates.isEmpty()) {
             return
         }
 
-        updates.forEach(updatesQueue::put)
+        updates.forEach { updatesQueue.send(it) }
 
-        lastUpdateId = updates.last().updateId + 1
+        lastUpdateId.value = updates.last().updateId + 1
     }
 
-    private fun onErrorGettingUpdates(error: TelegramBotResult.Error<List<Update>>) {
+    private suspend fun onErrorGettingUpdates(error: TelegramBotResult.Error<List<Update>>) {
         val errorDescription: String? = when (error) {
             is TelegramBotResult.Error.HttpError -> "${error.httpCode} ${error.description}"
             is TelegramBotResult.Error.TelegramApi -> "${error.errorCode} ${error.description}"
@@ -57,6 +62,6 @@ internal class Updater(
         val dispatchableError = RetrieveUpdatesError(
             errorDescription ?: "Error retrieving updates"
         )
-        updatesQueue.put(dispatchableError)
+        updatesQueue.send(dispatchableError)
     }
 }

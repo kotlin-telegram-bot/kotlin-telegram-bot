@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
  * Represents a chat.
  * https://core.telegram.org/bots/api#chat
  */
-data class Chat(
+public data class Chat(
     @SerializedName("id") val id: Long,
     @SerializedName("type") val type: String,
     @SerializedName("title") val title: String? = null,

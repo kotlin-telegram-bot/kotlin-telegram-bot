@@ -2,7 +2,7 @@ package com.github.kotlintelegrambot.entities
 
 import com.google.gson.annotations.SerializedName
 
-data class WebhookInfo(
+public data class WebhookInfo(
     @SerializedName("url") val url: String,
     @SerializedName("has_custom_certificate") val hasCustomCertificate: Boolean,
     @SerializedName("pending_update_count") val pendingUpdateCount: Int,

@@ -13,40 +13,48 @@ import com.github.kotlintelegrambot.entities.files.VideoNote
 import com.github.kotlintelegrambot.entities.files.Voice
 import com.github.kotlintelegrambot.entities.stickers.Sticker
 
-typealias HandleUpdate = (Bot, Update) -> Unit
+public typealias HandleUpdate = suspend (Bot, Update) -> Unit
 
-typealias HandleError = ErrorHandlerEnvironment.() -> Unit
+public typealias HandleError = suspend ErrorHandlerEnvironment.() -> Unit
 
-typealias HandleMessage = MessageHandlerEnvironment.() -> Unit
+public typealias HandleMessage = suspend MessageHandlerEnvironment.() -> Unit
 
-typealias HandleCommand = CommandHandlerEnvironment.() -> Unit
+public typealias HandleCommand = suspend CommandHandlerEnvironment.() -> Unit
 
-typealias HandleText = TextHandlerEnvironment.() -> Unit
+public typealias HandleText = suspend TextHandlerEnvironment.() -> Unit
 
-typealias HandleCallbackQuery = CallbackQueryHandlerEnvironment.() -> Unit
+public typealias HandleCallbackQuery = suspend CallbackQueryHandlerEnvironment.() -> Unit
 
-typealias HandleContact = ContactHandlerEnvironment.() -> Unit
+public typealias HandleContact = suspend ContactHandlerEnvironment.() -> Unit
 
-typealias HandleLocation = LocationHandlerEnvironment.() -> Unit
+public typealias HandleLocation = suspend LocationHandlerEnvironment.() -> Unit
 
-typealias HandleInlineQuery = InlineQueryHandlerEnvironment.() -> Unit
+public typealias HandleInlineQuery = suspend InlineQueryHandlerEnvironment.() -> Unit
 
-typealias HandleNewChatMembers = NewChatMembersHandlerEnvironment.() -> Unit
+public typealias HandleNewChatMembers = suspend NewChatMembersHandlerEnvironment.() -> Unit
 
-typealias HandlePollAnswer = PollAnswerHandlerEnvironment.() -> Unit
+public typealias HandlePollAnswer = suspend PollAnswerHandlerEnvironment.() -> Unit
 
-typealias HandleDice = DiceHandlerEnvironment.() -> Unit
+public typealias HandleDice = suspend DiceHandlerEnvironment.() -> Unit
 
-typealias HandleChannelPost = ChannelHandlerEnvironment.() -> Unit
+public typealias HandleChannelPost = suspend ChannelHandlerEnvironment.() -> Unit
 
-typealias HandlePreCheckoutQuery = PreCheckoutQueryHandlerEnvironment.() -> Unit
+public typealias HandlePreCheckoutQuery = suspend PreCheckoutQueryHandlerEnvironment.() -> Unit
 
-typealias HandleAudio = MediaHandlerEnvironment<Audio>.() -> Unit
-typealias HandleDocument = MediaHandlerEnvironment<Document>.() -> Unit
-typealias HandleAnimation = MediaHandlerEnvironment<Animation>.() -> Unit
-typealias HandleGame = MediaHandlerEnvironment<Game>.() -> Unit
-typealias HandlePhotos = MediaHandlerEnvironment<List<PhotoSize>>.() -> Unit
-typealias HandleSticker = MediaHandlerEnvironment<Sticker>.() -> Unit
-typealias HandleVideo = MediaHandlerEnvironment<Video>.() -> Unit
-typealias HandleVoice = MediaHandlerEnvironment<Voice>.() -> Unit
-typealias HandleVideoNote = MediaHandlerEnvironment<VideoNote>.() -> Unit
+public typealias HandleAudio = suspend MediaHandlerEnvironment<Audio>.() -> Unit
+
+public typealias HandleDocument = suspend MediaHandlerEnvironment<Document>.() -> Unit
+
+public typealias HandleAnimation = suspend MediaHandlerEnvironment<Animation>.() -> Unit
+
+public typealias HandleGame = suspend MediaHandlerEnvironment<Game>.() -> Unit
+
+public typealias HandlePhotos = suspend MediaHandlerEnvironment<List<PhotoSize>>.() -> Unit
+
+public typealias HandleSticker = suspend MediaHandlerEnvironment<Sticker>.() -> Unit
+
+public typealias HandleVideo = suspend MediaHandlerEnvironment<Video>.() -> Unit
+
+public typealias HandleVoice = suspend MediaHandlerEnvironment<Voice>.() -> Unit
+
+public typealias HandleVideoNote = suspend MediaHandlerEnvironment<VideoNote>.() -> Unit

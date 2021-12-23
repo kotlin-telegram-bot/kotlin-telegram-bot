@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
  * Represents a video file.
  * https://core.telegram.org/bots/api#video
  */
-data class Video(
+public data class Video(
     @SerializedName(FilesFields.fileId) val fileId: String,
     @SerializedName(FilesFields.fileUniqueId) val fileUniqueId: String,
     @SerializedName(FilesFields.width) val width: Int,

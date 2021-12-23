@@ -2,7 +2,7 @@ package com.github.kotlintelegrambot.entities
 
 import com.google.gson.annotations.SerializedName
 
-data class CallbackQuery(
+public data class CallbackQuery(
     val id: String,
     val from: User,
     val message: Message? = null,

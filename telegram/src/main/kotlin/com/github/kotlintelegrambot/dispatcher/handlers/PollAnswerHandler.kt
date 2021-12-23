@@ -4,11 +4,11 @@ import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.polls.PollAnswer
 
-data class PollAnswerHandlerEnvironment(
-    val bot: Bot,
-    val update: Update,
+public data class PollAnswerHandlerEnvironment(
+    override val bot: Bot,
+    override val update: Update,
     val pollAnswer: PollAnswer
-)
+) : UpdateHandlerEnvironment
 
 internal class PollAnswerHandler(
     private val handlePollAnswer: HandlePollAnswer
@@ -16,7 +16,7 @@ internal class PollAnswerHandler(
 
     override fun checkUpdate(update: Update): Boolean = update.pollAnswer != null
 
-    override fun handleUpdate(bot: Bot, update: Update) {
+    override suspend fun handleUpdate(bot: Bot, update: Update) {
         val pollAnswer = update.pollAnswer
         checkNotNull(pollAnswer)
 

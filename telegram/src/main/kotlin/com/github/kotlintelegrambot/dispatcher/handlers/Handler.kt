@@ -9,7 +9,7 @@ import com.github.kotlintelegrambot.entities.Update
  * implement some custom updates handling that is not provided by the library, you can
  * implement it and add the handler to the [Dispatcher] so it receives the updates.
  */
-interface Handler {
+public interface Handler {
     /**
      * Whether the handler should process the received [update].
      *
@@ -17,7 +17,7 @@ interface Handler {
      *
      * @return True if the handler should process the update, false otherwise.
      */
-    fun checkUpdate(update: Update): Boolean
+    public fun checkUpdate(update: Update): Boolean
 
     /**
      * Code to act on a received [Update].
@@ -25,5 +25,5 @@ interface Handler {
      * @param bot Instance of the Telegram bot that received the update.
      * @param update The update to be processed.
      */
-    fun handleUpdate(bot: Bot, update: Update)
+    public suspend fun handleUpdate(bot: Bot, update: Update)
 }

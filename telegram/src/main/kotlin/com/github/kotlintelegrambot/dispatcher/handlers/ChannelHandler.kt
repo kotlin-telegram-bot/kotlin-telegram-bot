@@ -4,12 +4,12 @@ import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 
-data class ChannelHandlerEnvironment(
-    val bot: Bot,
-    val update: Update,
+public data class ChannelHandlerEnvironment(
+    override val bot: Bot,
+    override val update: Update,
     val channelPost: Message,
     val isEdition: Boolean
-)
+) : UpdateHandlerEnvironment
 
 internal class ChannelHandler(
     private val handleChannelPost: HandleChannelPost
@@ -19,7 +19,7 @@ internal class ChannelHandler(
         return update.channelPost != null || update.editedChannelPost != null
     }
 
-    override fun handleUpdate(bot: Bot, update: Update) {
+    override suspend fun handleUpdate(bot: Bot, update: Update) {
         val channelHandlerEnv = when {
             update.channelPost != null -> ChannelHandlerEnvironment(
                 bot,

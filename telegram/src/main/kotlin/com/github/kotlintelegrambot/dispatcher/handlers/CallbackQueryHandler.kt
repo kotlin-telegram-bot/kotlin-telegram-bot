@@ -4,11 +4,11 @@ import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.CallbackQuery
 import com.github.kotlintelegrambot.entities.Update
 
-data class CallbackQueryHandlerEnvironment(
-    val bot: Bot,
-    val update: Update,
+public data class CallbackQueryHandlerEnvironment(
+    override val bot: Bot,
+    override val update: Update,
     val callbackQuery: CallbackQuery
-)
+) : UpdateHandlerEnvironment
 
 internal class CallbackQueryHandler(
     private val callbackData: String? = null,
@@ -28,7 +28,7 @@ internal class CallbackQueryHandler(
         }
     }
 
-    override fun handleUpdate(bot: Bot, update: Update) {
+    override suspend fun handleUpdate(bot: Bot, update: Update) {
         checkNotNull(update.callbackQuery)
         val callbackQueryHandlerEnv = CallbackQueryHandlerEnvironment(
             bot,

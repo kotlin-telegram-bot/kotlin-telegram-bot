@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName
  * Optional fields requestContact, requestLocation, and requestPoll are mutually exclusive.
  * https://core.telegram.org/bots/api#keyboardbutton
  */
-data class KeyboardButton(
+public data class KeyboardButton(
     @SerializedName(KeyboardFields.TEXT) val text: String,
     @SerializedName(KeyboardFields.REQUEST_CONTACT) val requestContact: Boolean? = null,
     @SerializedName(KeyboardFields.REQUEST_LOCATION) val requestLocation: Boolean? = null,
@@ -17,9 +17,9 @@ data class KeyboardButton(
 )
 
 /**
- * Represents type of a poll, which is allowed to be created and sent when the corresponding button is pressed.
+ * Represents type of poll, which is allowed to be created and sent when the corresponding button is pressed.
  * https://core.telegram.org/bots/api#keyboardbuttonpolltype
  */
-data class KeyboardButtonPollType(
+public data class KeyboardButtonPollType(
     @SerializedName(KeyboardFields.TYPE) val type: PollType? = null
 )

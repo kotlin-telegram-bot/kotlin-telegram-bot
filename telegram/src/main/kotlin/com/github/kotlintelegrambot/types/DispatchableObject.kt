@@ -1,3 +1,3 @@
 package com.github.kotlintelegrambot.types
 
-interface DispatchableObject
+public interface DispatchableObject

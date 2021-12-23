@@ -9,20 +9,20 @@ import com.github.kotlintelegrambot.logging.LogLevel.Network.Headers
 import com.github.kotlintelegrambot.logging.LogLevel.None
 import okhttp3.logging.HttpLoggingInterceptor
 
-sealed class LogLevel {
+public sealed class LogLevel {
     /** No logs **/
-    object None : LogLevel()
+    public object None : LogLevel()
 
     /** Logs network requests, network responses and uncaught exceptions
      * thrown in handlers execution **/
-    data class All(
-        val networkLogLevel: LogLevel.Network = Body
+    public data class All(
+        val networkLogLevel: Network = Body
     ) : LogLevel()
 
     /** Logs network requests and responses information **/
-    sealed class Network : LogLevel() {
+    public sealed class Network : LogLevel() {
         /** No logs **/
-        object None : Network()
+        public object None : Network()
         /**
          * Logs requests and responses lines.
          *
@@ -30,7 +30,7 @@ sealed class LogLevel {
          * --> POST /test http/1.1 (8-byte body)
          * <-- 200 OK (29ms, 4-byte body)
          */
-        object Basic : Network()
+        public object Basic : Network()
         /**
          * Logs requests and responses lines and their respective headers.
          *
@@ -46,7 +46,7 @@ sealed class LogLevel {
          * Content-Length: 6
          * <-- END HTTP
          */
-        object Headers : Network()
+        public object Headers : Network()
         /**
          * Logs requests and responses lines and their respective headers and bodies (if present).
          *
@@ -66,11 +66,11 @@ sealed class LogLevel {
          * Hello!
          * <-- END HTTP
          */
-        object Body : Network()
+        public object Body : Network()
     }
 
     /** Logs uncaught exceptions thrown in the handlers execution **/
-    object Error : LogLevel()
+    public object Error : LogLevel()
 
     internal fun shouldLogErrors(): Boolean = this is All || this is Error
 }

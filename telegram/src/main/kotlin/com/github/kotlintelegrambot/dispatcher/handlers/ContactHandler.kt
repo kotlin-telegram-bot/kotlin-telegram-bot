@@ -5,12 +5,12 @@ import com.github.kotlintelegrambot.entities.Contact
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 
-data class ContactHandlerEnvironment(
-    val bot: Bot,
-    val update: Update,
+public data class ContactHandlerEnvironment(
+    override val bot: Bot,
+    override val update: Update,
     val message: Message,
     val contact: Contact
-)
+) : UpdateHandlerEnvironment
 
 internal class ContactHandler(
     private val handleContact: HandleContact
@@ -20,7 +20,7 @@ internal class ContactHandler(
         return update.message?.contact != null
     }
 
-    override fun handleUpdate(bot: Bot, update: Update) {
+    override suspend fun handleUpdate(bot: Bot, update: Update) {
         checkNotNull(update.message)
         checkNotNull(update.message.contact)
 

@@ -2,98 +2,98 @@ package com.github.kotlintelegrambot.extensions.filters
 
 import com.github.kotlintelegrambot.entities.Message
 
-interface Filter {
-    fun checkFor(message: Message): Boolean = message.predicate()
-    fun Message.predicate(): Boolean
+public interface Filter {
+    public fun checkFor(message: Message): Boolean = message.predicate()
+    public fun Message.predicate(): Boolean
 
-    infix fun and(otherFilter: Filter): Filter = object : Filter {
+    public infix fun and(otherFilter: Filter): Filter = object : Filter {
         override fun Message.predicate(): Boolean =
             this@Filter.checkFor(this) && otherFilter.checkFor(this)
     }
 
-    infix fun or(otherFilter: Filter): Filter = object : Filter {
+    public infix fun or(otherFilter: Filter): Filter = object : Filter {
         override fun Message.predicate(): Boolean =
             this@Filter.checkFor(this) || otherFilter.checkFor(this)
     }
 
-    operator fun not(): Filter = object : Filter {
+    public operator fun not(): Filter = object : Filter {
         override fun Message.predicate(): Boolean = !this@Filter.checkFor(this)
     }
 
-    class Custom(private val customPredicate: Message.() -> Boolean) : Filter {
+    public class Custom(private val customPredicate: Message.() -> Boolean) : Filter {
         override fun Message.predicate(): Boolean = customPredicate()
     }
 
-    object All : Filter {
+    public object All : Filter {
         override fun Message.predicate(): Boolean = true
     }
 
-    object Text : Filter {
+    public object Text : Filter {
         override fun Message.predicate(): Boolean = text != null && !text.startsWith("/")
     }
 
-    object Command : Filter {
+    public object Command : Filter {
         override fun Message.predicate(): Boolean = text != null && text.startsWith("/")
     }
 
-    object Reply : Filter {
+    public object Reply : Filter {
         override fun Message.predicate(): Boolean = replyToMessage != null
     }
 
-    object Forward : Filter {
+    public object Forward : Filter {
         override fun Message.predicate(): Boolean = forwardDate != null
     }
 
-    object Audio : Filter {
+    public object Audio : Filter {
         override fun Message.predicate(): Boolean = audio != null
     }
 
-    object Photo : Filter {
+    public object Photo : Filter {
         override fun Message.predicate(): Boolean = photo != null && photo.isNotEmpty()
     }
 
-    object Sticker : Filter {
+    public object Sticker : Filter {
         override fun Message.predicate(): Boolean = sticker != null
     }
 
-    object Video : Filter {
+    public object Video : Filter {
         override fun Message.predicate(): Boolean = video != null
     }
 
-    object VideoNote : Filter {
+    public object VideoNote : Filter {
         override fun Message.predicate(): Boolean = videoNote != null
     }
 
-    object Location : Filter {
+    public object Location : Filter {
         override fun Message.predicate(): Boolean = location != null
     }
 
-    object Contact : Filter {
+    public object Contact : Filter {
         override fun Message.predicate(): Boolean = contact != null
     }
 
-    object Invoice : Filter {
+    public object Invoice : Filter {
         override fun Message.predicate(): Boolean = invoice != null
     }
 
-    class Chat(private val chatId: Long) : Filter {
+    public class Chat(private val chatId: Long) : Filter {
         override fun Message.predicate(): Boolean = chat.id == chatId
     }
 
-    class User(private val userId: Long) : Filter {
+    public class User(private val userId: Long) : Filter {
         override fun Message.predicate(): Boolean = from?.id == userId
     }
 
-    object Group : Filter {
+    public object Group : Filter {
         override fun Message.predicate(): Boolean =
             chat.type == "group" || chat.type == "supergroup"
     }
 
-    object Private : Filter {
+    public object Private : Filter {
         override fun Message.predicate(): Boolean = chat.type == "private"
     }
 
-    object Channel : Filter {
+    public object Channel : Filter {
         override fun Message.predicate(): Boolean = chat.type == "channel"
     }
 }

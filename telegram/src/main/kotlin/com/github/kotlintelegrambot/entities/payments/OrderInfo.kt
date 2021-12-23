@@ -12,7 +12,7 @@ import com.google.gson.annotations.SerializedName as Name
  * @property [shippingAddress] User shipping address
  * @see ShippingAddress
  */
-data class OrderInfo(
+public data class OrderInfo(
     val name: String? = null,
     @Name("phone_number") val phoneNumber: String? = null,
     val email: String? = null,

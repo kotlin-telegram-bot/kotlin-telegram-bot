@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
  * Represents an audio file to be treated as music by the Telegram clients.
  * https://core.telegram.org/bots/api#audio
  */
-data class Audio(
+public data class Audio(
     @SerializedName(FilesFields.fileId) val fileId: String,
     @SerializedName(FilesFields.fileUniqueId) val fileUniqueId: String,
     @SerializedName(FilesFields.duration) val duration: Int,

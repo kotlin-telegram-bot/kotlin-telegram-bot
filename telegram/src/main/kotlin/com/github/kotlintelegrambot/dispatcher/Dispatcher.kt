@@ -7,31 +7,37 @@ import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.errors.TelegramError
 import com.github.kotlintelegrambot.logging.LogLevel
 import com.github.kotlintelegrambot.types.DispatchableObject
-import java.util.concurrent.BlockingQueue
-import java.util.concurrent.Executor
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.job
+import kotlinx.coroutines.launch
 
-class Dispatcher internal constructor(
-    private val updatesQueue: BlockingQueue<DispatchableObject>,
-    private val updatesExecutor: Executor,
+public class Dispatcher internal constructor(
+    private val updatesChannel: Channel<DispatchableObject>,
+    coroutineDispatcher: CoroutineDispatcher,
     private val logLevel: LogLevel,
 ) {
 
     internal lateinit var bot: Bot
 
-    private val commandHandlers = linkedSetOf<Handler>()
-    private val errorHandlers = arrayListOf<ErrorHandler>()
-
-    @Volatile private var stopped = false
+    private val commandHandlers = mutableSetOf<Handler>()
+    private val errorHandlers = mutableListOf<ErrorHandler>()
+    private val coroutineScope = CoroutineScope(coroutineDispatcher)
 
     internal fun startCheckingUpdates() {
-        stopped = false
-        updatesExecutor.execute { checkQueueUpdates() }
+        coroutineScope.launch { checkQueueUpdates() }
     }
 
-    private fun checkQueueUpdates() {
-        while (!Thread.currentThread().isInterrupted && !stopped) {
-            val item = updatesQueue.take()
-            when (item) {
+    internal suspend fun awaitCancellation() {
+        coroutineScope.coroutineContext.job.join()
+    }
+
+    private suspend fun CoroutineScope.checkQueueUpdates() {
+        while (isActive) {
+            when (val item = updatesChannel.receive()) {
                 is Update -> handleUpdate(item)
                 is TelegramError -> handleError(item)
                 else -> Unit
@@ -39,23 +45,23 @@ class Dispatcher internal constructor(
         }
     }
 
-    fun addHandler(handler: Handler) {
+    public fun addHandler(handler: Handler) {
         commandHandlers.add(handler)
     }
 
-    fun removeHandler(handler: Handler) {
+    public fun removeHandler(handler: Handler) {
         commandHandlers.remove(handler)
     }
 
-    fun addErrorHandler(errorHandler: ErrorHandler) {
+    public fun addErrorHandler(errorHandler: ErrorHandler) {
         errorHandlers.add(errorHandler)
     }
 
-    fun removeErrorHandler(errorHandler: ErrorHandler) {
+    public fun removeErrorHandler(errorHandler: ErrorHandler) {
         errorHandlers.remove(errorHandler)
     }
 
-    private fun handleUpdate(update: Update) {
+    private suspend fun handleUpdate(update: Update) {
         commandHandlers
             .filter { it.checkUpdate(update) }
             .forEach {
@@ -72,7 +78,7 @@ class Dispatcher internal constructor(
             }
     }
 
-    private fun handleError(error: TelegramError) {
+    private suspend fun handleError(error: TelegramError) {
         errorHandlers.forEach { handleError ->
             try {
                 handleError(bot, error)
@@ -85,6 +91,6 @@ class Dispatcher internal constructor(
     }
 
     internal fun stopCheckingUpdates() {
-        stopped = true
+        coroutineScope.cancel()
     }
 }

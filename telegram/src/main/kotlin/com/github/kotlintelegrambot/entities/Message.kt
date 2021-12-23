@@ -13,7 +13,7 @@ import com.github.kotlintelegrambot.entities.polls.Poll
 import com.github.kotlintelegrambot.entities.stickers.Sticker
 import com.google.gson.annotations.SerializedName as Name
 
-data class Message(
+public data class Message(
     @Name("message_id") val messageId: Long,
     val from: User? = null,
     @Name("sender_chat") val senderChat: Chat? = null,

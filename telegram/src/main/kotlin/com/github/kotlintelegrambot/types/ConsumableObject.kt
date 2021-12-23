@@ -1,11 +1,11 @@
 package com.github.kotlintelegrambot.types
 
-abstract class ConsumableObject {
+public abstract class ConsumableObject {
 
-    var consumed: Boolean = false
+    public var consumed: Boolean = false
         private set
 
-    fun consume() {
+    public fun consume() {
         if (consumed) {
             throw IllegalStateException("This object has already been consumed.")
         }

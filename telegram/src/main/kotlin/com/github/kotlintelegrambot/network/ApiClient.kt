@@ -45,28 +45,27 @@ import com.github.kotlintelegrambot.network.serialization.GsonFactory
 import com.github.kotlintelegrambot.types.TelegramBotResult
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
-import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.Proxy
 import java.util.concurrent.TimeUnit
 import java.io.File as SystemFile
 
-internal val PLAIN_TEXT_MIME = MediaType.parse("text/plain")
-internal val APPLICATION_JSON_MIME = MediaType.parse("application/json")
+internal val PLAIN_TEXT_MIME = "text/plain".toMediaTypeOrNull()
+internal val APPLICATION_JSON_MIME = "application/json".toMediaTypeOrNull()
 
-private fun convertString(text: String) = RequestBody.create(PLAIN_TEXT_MIME, text)
-private fun convertJson(text: String) = RequestBody.create(APPLICATION_JSON_MIME, text)
+private fun convertString(text: String) = text.toRequestBody(PLAIN_TEXT_MIME)
+private fun convertJson(text: String) = text.toRequestBody(APPLICATION_JSON_MIME)
 
 internal class ApiClient(
     private val token: String,
     private val apiUrl: String,
-    private val botTimeout: Int = 30,
+    botTimeout: Int = 30,
     logLevel: LogLevel,
     proxy: Proxy = Proxy.NO_PROXY,
     private val gson: Gson,
@@ -107,25 +106,27 @@ internal class ApiClient(
         service = retrofit.create(ApiService::class.java)
     }
 
-    fun getUpdates(
+    suspend fun getUpdates(
         offset: Long?,
         limit: Int?,
         timeout: Int?,
         allowedUpdates: List<String>?
-    ): TelegramBotResult<List<Update>> = service.getUpdates(
-        offset,
-        limit,
-        timeout,
-        allowedUpdates?.serialize(),
-    ).runApiOperation()
+    ): TelegramBotResult<List<Update>> = runApiOperation {
+        service.getUpdates(
+            offset,
+            limit,
+            timeout,
+            allowedUpdates?.serialize(),
+        )
+    }
 
-    fun setWebhook(
+    suspend fun setWebhook(
         url: String,
         certificate: TelegramFile? = null,
         ipAddress: String? = null,
         maxConnections: Int? = null,
         allowedUpdates: List<String>? = null
-    ): Call<Response<Boolean>> = when (certificate) {
+    ): CallResponse<Response<Boolean>> = when (certificate) {
         is ByFileId -> service.setWebhookWithCertificateAsFileId(
             url = url,
             certificateFileId = certificate.fileId,
@@ -168,15 +169,13 @@ internal class ApiClient(
         )
     }
 
-    fun deleteWebhook(): Call<Response<Boolean>> = service.deleteWebhook()
+    suspend fun deleteWebhook(): CallResponse<Response<Boolean>> = service.deleteWebhook()
 
-    fun getWebhookInfo(): Call<Response<WebhookInfo>> = service.getWebhookInfo()
+    suspend fun getWebhookInfo(): CallResponse<Response<WebhookInfo>> = service.getWebhookInfo()
 
-    fun getMe(): TelegramBotResult<User> {
-        return service.getMe().runApiOperation()
-    }
+    suspend fun getMe(): TelegramBotResult<User> = runApiOperation { service.getMe() }
 
-    fun sendMessage(
+    suspend fun sendMessage(
         chatId: ChatId,
         text: String,
         parseMode: ParseMode?,
@@ -185,30 +184,34 @@ internal class ApiClient(
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
-    ): TelegramBotResult<Message> = service.sendMessage(
-        chatId,
-        text,
-        parseMode,
-        disableWebPagePreview,
-        disableNotification,
-        replyToMessageId,
-        allowSendingWithoutReply,
-        replyMarkup
-    ).runApiOperation()
+    ): TelegramBotResult<Message> = runApiOperation {
+        service.sendMessage(
+            chatId,
+            text,
+            parseMode,
+            disableWebPagePreview,
+            disableNotification,
+            replyToMessageId,
+            allowSendingWithoutReply,
+            replyMarkup
+        )
+    }
 
-    fun forwardMessage(
+    suspend fun forwardMessage(
         chatId: ChatId,
         fromChatId: ChatId,
         messageId: Long,
         disableNotification: Boolean?
-    ): TelegramBotResult<Message> = service.forwardMessage(
-        chatId,
-        fromChatId,
-        disableNotification,
-        messageId,
-    ).runApiOperation()
+    ): TelegramBotResult<Message> = runApiOperation {
+        service.forwardMessage(
+            chatId,
+            fromChatId,
+            disableNotification,
+            messageId,
+        )
+    }
 
-    fun copyMessage(
+    suspend fun copyMessage(
         chatId: ChatId,
         fromChatId: ChatId,
         messageId: Long,
@@ -219,7 +222,7 @@ internal class ApiClient(
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
-    ): Call<Response<MessageId>> {
+    ): CallResponse<Response<MessageId>> {
         return service.copyMessage(
             chatId,
             fromChatId,
@@ -234,7 +237,7 @@ internal class ApiClient(
         )
     }
 
-    fun sendPhoto(
+    suspend fun sendPhoto(
         chatId: ChatId,
         photo: TelegramFile,
         caption: String?,
@@ -243,7 +246,7 @@ internal class ApiClient(
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> = when (photo) {
+    ): CallResponse<Response<Message>> = when (photo) {
         is ByFile, is ByByteArray -> service.sendPhoto(
             chatId,
             when (photo) {
@@ -274,7 +277,7 @@ internal class ApiClient(
         )
     }
 
-    fun sendAudio(
+    suspend fun sendAudio(
         chatId: ChatId,
         audio: TelegramFile,
         duration: Int?,
@@ -284,7 +287,7 @@ internal class ApiClient(
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> = when (audio) {
+    ): CallResponse<Response<Message>> = when (audio) {
         is ByFile, is ByByteArray -> service.sendAudio(
             chatId,
             when (audio) {
@@ -317,7 +320,7 @@ internal class ApiClient(
         )
     }
 
-    fun sendDocument(
+    suspend fun sendDocument(
         chatId: ChatId,
         document: TelegramFile,
         caption: String? = null,
@@ -328,12 +331,16 @@ internal class ApiClient(
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
         mimeType: String? = null
-    ): Call<Response<Message>> = when (document) {
+    ): CallResponse<Response<Message>> = when (document) {
         is ByFile, is ByByteArray -> service.sendDocument(
             chatId,
             when (document) {
                 is ByFile -> document.file.toMultipartBodyPart("document", mimeType)
-                is ByByteArray -> document.fileBytes.toMultipartBodyPart("document", document.filename, mimeType)
+                is ByByteArray -> document.fileBytes.toMultipartBodyPart(
+                    "document",
+                    document.filename,
+                    mimeType
+                )
                 else -> throw NotImplementedError() // KT-31622
             },
             if (caption != null) convertString(caption) else null,
@@ -361,7 +368,7 @@ internal class ApiClient(
         )
     }
 
-    fun sendVideo(
+    suspend fun sendVideo(
         chatId: ChatId,
         video: TelegramFile,
         duration: Int?,
@@ -372,7 +379,7 @@ internal class ApiClient(
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> = when (video) {
+    ): CallResponse<Response<Message>> = when (video) {
         is ByFile, is ByByteArray -> service.sendVideo(
             chatId,
             when (video) {
@@ -407,24 +414,26 @@ internal class ApiClient(
         )
     }
 
-    fun sendGame(
+    suspend fun sendGame(
         chatId: ChatId,
         gameShortName: String,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
-    ): TelegramBotResult<Message> = service.sendGame(
-        chatId,
-        gameShortName,
-        disableNotification,
-        replyToMessageId,
-        allowSendingWithoutReply,
-        replyMarkup
-    ).runApiOperation()
+    ): TelegramBotResult<Message> = runApiOperation {
+        service.sendGame(
+            chatId,
+            gameShortName,
+            disableNotification,
+            replyToMessageId,
+            allowSendingWithoutReply,
+            replyMarkup
+        )
+    }
 
     @Deprecated("Use overloaded version instead")
-    fun sendAnimation(
+    suspend fun sendAnimation(
         chatId: ChatId,
         animation: SystemFile,
         duration: Int?,
@@ -436,7 +445,7 @@ internal class ApiClient(
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
+    ): CallResponse<Response<Message>> {
 
         return service.sendAnimation(
             chatId,
@@ -453,7 +462,7 @@ internal class ApiClient(
         )
     }
 
-    fun sendAnimation(
+    suspend fun sendAnimation(
         chatId: ChatId,
         animation: TelegramFile,
         duration: Int?,
@@ -465,12 +474,15 @@ internal class ApiClient(
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> = when (animation) {
+    ): CallResponse<Response<Message>> = when (animation) {
         is ByFile, is ByByteArray -> service.sendAnimation(
             chatId,
             when (animation) {
                 is ByFile -> animation.file.toMultipartBodyPart("video")
-                is ByByteArray -> animation.fileBytes.toMultipartBodyPart("video", animation.filename)
+                is ByByteArray -> animation.fileBytes.toMultipartBodyPart(
+                    "video",
+                    animation.filename
+                )
                 else -> throw NotImplementedError() // KT-31622
             },
             if (duration != null) convertString(duration.toString()) else null,
@@ -502,7 +514,7 @@ internal class ApiClient(
         )
     }
 
-    fun sendVoice(
+    suspend fun sendVoice(
         chatId: ChatId,
         audio: TelegramFile,
         caption: String?,
@@ -513,12 +525,16 @@ internal class ApiClient(
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> = when (audio) {
+    ): CallResponse<Response<Message>> = when (audio) {
         is ByFile, is ByByteArray -> service.sendVoice(
             chatId,
             when (audio) {
                 is ByFile -> audio.file.toMultipartBodyPart("voice", AUDIO_OGG)
-                is ByByteArray -> audio.fileBytes.toMultipartBodyPart("voice", audio.filename, AUDIO_OGG)
+                is ByByteArray -> audio.fileBytes.toMultipartBodyPart(
+                    "voice",
+                    audio.filename,
+                    AUDIO_OGG
+                )
                 else -> throw NotImplementedError() // KT-31622
             },
             if (caption != null) convertString(caption) else null,
@@ -548,7 +564,7 @@ internal class ApiClient(
         )
     }
 
-    fun sendVideoNote(
+    suspend fun sendVideoNote(
         chatId: ChatId,
         videoNote: ByFile,
         duration: Int?,
@@ -557,7 +573,7 @@ internal class ApiClient(
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
+    ): CallResponse<Response<Message>> {
 
         return service.sendVideoNote(
             chatId,
@@ -571,7 +587,7 @@ internal class ApiClient(
         )
     }
 
-    fun sendVideoNote(
+    suspend fun sendVideoNote(
         chatId: ChatId,
         videoNoteId: ByFileId,
         duration: Int?,
@@ -580,7 +596,7 @@ internal class ApiClient(
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
+    ): CallResponse<Response<Message>> {
 
         return service.sendVideoNote(
             chatId,
@@ -594,13 +610,13 @@ internal class ApiClient(
         )
     }
 
-    fun sendMediaGroup(
+    suspend fun sendMediaGroup(
         chatId: ChatId,
         mediaGroup: MediaGroup,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null
-    ): TelegramBotResult<List<Message>> {
+    ): TelegramBotResult<List<Message>> = runApiOperation {
         val sendMediaGroupMultipartBody = multipartBodyFactory.createForSendMediaGroup(
             chatId,
             mediaGroup,
@@ -608,10 +624,10 @@ internal class ApiClient(
             replyToMessageId,
             allowSendingWithoutReply
         )
-        return service.sendMediaGroup(sendMediaGroupMultipartBody).runApiOperation()
+        service.sendMediaGroup(sendMediaGroupMultipartBody)
     }
 
-    fun sendLocation(
+    suspend fun sendLocation(
         chatId: ChatId,
         latitude: Float,
         longitude: Float,
@@ -620,7 +636,7 @@ internal class ApiClient(
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
+    ): CallResponse<Response<Message>> {
 
         return service.sendLocation(
             chatId,
@@ -634,14 +650,14 @@ internal class ApiClient(
         )
     }
 
-    fun editMessageLiveLocation(
+    suspend fun editMessageLiveLocation(
         chatId: ChatId?,
         messageId: Long?,
         inlineMessageId: String?,
         latitude: Float,
         longitude: Float,
         replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
+    ): CallResponse<Response<Message>> {
 
         return service.editMessageLiveLocation(
             chatId,
@@ -653,12 +669,12 @@ internal class ApiClient(
         )
     }
 
-    fun stopMessageLiveLocation(
+    suspend fun stopMessageLiveLocation(
         chatId: ChatId?,
         messageId: Long?,
         inlineMessageId: String?,
         replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
+    ): CallResponse<Response<Message>> {
 
         return service.stopMessageLiveLocation(
             chatId,
@@ -668,7 +684,7 @@ internal class ApiClient(
         )
     }
 
-    fun sendVenue(
+    suspend fun sendVenue(
         chatId: ChatId,
         latitude: Float,
         longitude: Float,
@@ -680,7 +696,7 @@ internal class ApiClient(
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
+    ): CallResponse<Response<Message>> {
 
         return service.sendVenue(
             chatId,
@@ -697,7 +713,7 @@ internal class ApiClient(
         )
     }
 
-    fun sendContact(
+    suspend fun sendContact(
         chatId: ChatId,
         phoneNumber: String,
         firstName: String,
@@ -706,7 +722,7 @@ internal class ApiClient(
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
+    ): CallResponse<Response<Message>> {
 
         return service.sendContact(
             chatId,
@@ -720,7 +736,7 @@ internal class ApiClient(
         )
     }
 
-    fun sendPoll(
+    suspend fun sendPoll(
         chatId: ChatId,
         question: String,
         options: List<String>,
@@ -737,68 +753,75 @@ internal class ApiClient(
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
-    ): TelegramBotResult<Message> = service.sendPoll(
-        chatId,
-        question,
-        gson.toJson(options),
-        isAnonymous,
-        type,
-        allowsMultipleAnswers,
-        correctOptionId,
-        explanation,
-        explanationParseMode,
-        openPeriod,
-        closeDate,
-        isClosed,
-        disableNotification,
-        replyToMessageId,
-        allowSendingWithoutReply,
-        replyMarkup,
-    ).runApiOperation()
+    ): TelegramBotResult<Message> = runApiOperation {
+        service.sendPoll(
+            chatId,
+            question,
+            gson.toJson(options),
+            isAnonymous,
+            type,
+            allowsMultipleAnswers,
+            correctOptionId,
+            explanation,
+            explanationParseMode,
+            openPeriod,
+            closeDate,
+            isClosed,
+            disableNotification,
+            replyToMessageId,
+            allowSendingWithoutReply,
+            replyMarkup,
+        )
+    }
 
-    fun sendChatAction(chatId: ChatId, action: ChatAction): Call<Response<Boolean>> {
+    suspend fun sendChatAction(chatId: ChatId, action: ChatAction): CallResponse<Response<Boolean>> {
         return service.sendChatAction(chatId, action)
     }
 
-    fun getUserProfilePhotos(
+    suspend fun getUserProfilePhotos(
         userId: Long,
         offset: Long?,
         limit: Int?
-    ): Call<Response<UserProfilePhotos>> {
+    ): CallResponse<Response<UserProfilePhotos>> {
 
         return service.getUserProfilePhotos(userId, offset, limit)
     }
 
-    fun getFile(fileId: String): Call<Response<File>> {
+    suspend fun getFile(fileId: String): CallResponse<Response<File>> {
 
         return service.getFile(fileId)
     }
 
-    fun downloadFile(filePath: String): Call<ResponseBody> {
+    suspend fun downloadFile(filePath: String): CallResponse<ResponseBody> {
         return service.downloadFile("${apiUrl}file/bot$token/$filePath")
     }
 
-    fun banChatMember(chatId: ChatId, userId: Long, untilDate: Long? = null): Call<Response<Boolean>> {
-
+    suspend fun banChatMember(
+        chatId: ChatId,
+        userId: Long,
+        untilDate: Long? = null
+    ): CallResponse<Response<Boolean>> {
         return service.banChatMember(chatId, userId, untilDate)
     }
 
-    fun unbanChatMember(
+    suspend fun unbanChatMember(
         chatId: ChatId,
         userId: Long,
         onlyIfBanned: Boolean?,
-    ): TelegramBotResult<Boolean> = service.unbanChatMember(
-        chatId,
-        userId,
-        onlyIfBanned,
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> = runApiOperation {
+        service.unbanChatMember(
+            chatId,
+            userId,
+            onlyIfBanned,
+        )
+    }
 
-    fun restrictChatMember(
+    suspend fun restrictChatMember(
         chatId: ChatId,
         userId: Long,
         chatPermissions: ChatPermissions,
         untilDate: Long? = null
-    ): Call<Response<Boolean>> {
+    ): CallResponse<Response<Boolean>> {
 
         return service.restrictChatMember(
             chatId,
@@ -808,7 +831,7 @@ internal class ApiClient(
         )
     }
 
-    fun promoteChatMember(
+    suspend fun promoteChatMember(
         chatId: ChatId,
         userId: Long,
         isAnonymous: Boolean?,
@@ -820,125 +843,141 @@ internal class ApiClient(
         canRestrictMembers: Boolean?,
         canPinMessages: Boolean?,
         canPromoteMembers: Boolean?
-    ): TelegramBotResult<Boolean> = service.promoteChatMember(
-        chatId,
-        userId,
-        isAnonymous,
-        canChangeInfo,
-        canPostMessages,
-        canEditMessages,
-        canDeleteMessages,
-        canInviteUsers,
-        canRestrictMembers,
-        canPinMessages,
-        canPromoteMembers
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> = runApiOperation {
+        service.promoteChatMember(
+            chatId,
+            userId,
+            isAnonymous,
+            canChangeInfo,
+            canPostMessages,
+            canEditMessages,
+            canDeleteMessages,
+            canInviteUsers,
+            canRestrictMembers,
+            canPinMessages,
+            canPromoteMembers
+        )
+    }
 
-    fun setChatPermissions(chatId: ChatId, permissions: ChatPermissions): Call<Response<Boolean>> {
+    suspend fun setChatPermissions(
+        chatId: ChatId,
+        permissions: ChatPermissions
+    ): CallResponse<Response<Boolean>> {
 
         return service.setChatPermissions(chatId, gson.toJson(permissions))
     }
 
-    fun exportChatInviteLink(chatId: ChatId): Call<Response<String>> {
+    suspend fun exportChatInviteLink(chatId: ChatId): CallResponse<Response<String>> {
 
         return service.exportChatInviteLink(chatId)
     }
 
-    fun setChatPhoto(
+    suspend fun setChatPhoto(
         chatId: ChatId,
         photo: SystemFile
-    ): Call<Response<Boolean>> {
+    ): CallResponse<Response<Boolean>> {
         return service.setChatPhoto(chatId, photo.toMultipartBodyPart("photo"))
     }
 
-    fun deleteChatPhoto(chatId: ChatId): Call<Response<Boolean>> {
+    suspend fun deleteChatPhoto(chatId: ChatId): CallResponse<Response<Boolean>> {
 
         return service.deleteChatPhoto(chatId)
     }
 
-    fun setChatTitle(chatId: ChatId, title: String): Call<Response<Boolean>> {
+    suspend fun setChatTitle(chatId: ChatId, title: String): CallResponse<Response<Boolean>> {
 
         return service.setChatTitle(chatId, title)
     }
 
-    fun setChatDescription(chatId: ChatId, description: String): Call<Response<Boolean>> {
+    suspend fun setChatDescription(chatId: ChatId, description: String): CallResponse<Response<Boolean>> {
 
         return service.setChatDescription(chatId, description)
     }
 
-    fun pinChatMessage(
+    suspend fun pinChatMessage(
         chatId: ChatId,
         messageId: Long,
         disableNotification: Boolean?
-    ): Call<Response<Boolean>> {
+    ): CallResponse<Response<Boolean>> {
 
         return service.pinChatMessage(chatId, messageId, disableNotification)
     }
 
-    fun unpinChatMessage(
+    suspend fun unpinChatMessage(
         chatId: ChatId,
         messageId: Long?
-    ): TelegramBotResult<Boolean> = service.unpinChatMessage(
-        chatId,
-        messageId
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> = runApiOperation {
+        service.unpinChatMessage(
+            chatId,
+            messageId
+        )
+    }
 
-    fun unpinAllChatMessages(
+    suspend fun unpinAllChatMessages(
         chatId: ChatId
-    ): TelegramBotResult<Boolean> = service.unpinAllChatMessages(
-        chatId
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> = runApiOperation {
+        service.unpinAllChatMessages(
+            chatId
+        )
+    }
 
-    fun leaveChat(chatId: ChatId): Call<Response<Boolean>> {
+    suspend fun leaveChat(chatId: ChatId): CallResponse<Response<Boolean>> {
 
         return service.leaveChat(chatId)
     }
 
-    fun getChat(chatId: ChatId): TelegramBotResult<Chat> = service.getChat(chatId).runApiOperation()
+    suspend fun getChat(chatId: ChatId): TelegramBotResult<Chat> =
+        runApiOperation { service.getChat(chatId) }
 
-    fun getChatAdministrators(chatId: ChatId): TelegramBotResult<List<ChatMember>> =
-        service.getChatAdministrators(chatId).runApiOperation()
+    suspend fun getChatAdministrators(chatId: ChatId): TelegramBotResult<List<ChatMember>> =
+        runApiOperation { service.getChatAdministrators(chatId) }
 
-    fun getChatMemberCount(chatId: ChatId): Call<Response<Int>> {
+    suspend fun getChatMemberCount(chatId: ChatId): CallResponse<Response<Int>> {
 
         return service.getChatMemberCount(chatId)
     }
 
-    fun getChatMember(
+    suspend fun getChatMember(
         chatId: ChatId,
         userId: Long,
-    ): TelegramBotResult<ChatMember> = service.getChatMember(
-        chatId,
-        userId,
-    ).runApiOperation()
+    ): TelegramBotResult<ChatMember> = runApiOperation {
+        service.getChatMember(
+            chatId,
+            userId,
+        )
+    }
 
-    fun setChatStickerSet(
+    suspend fun setChatStickerSet(
         chatId: ChatId,
         stickerSetName: String,
-    ): TelegramBotResult<Boolean> = service.setChatStickerSet(
-        chatId,
-        stickerSetName,
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> = runApiOperation {
+        service.setChatStickerSet(
+            chatId,
+            stickerSetName,
+        )
+    }
 
-    fun deleteChatStickerSet(
+    suspend fun deleteChatStickerSet(
         chatId: ChatId
-    ): TelegramBotResult<Boolean> = service.deleteChatStickerSet(chatId).runApiOperation()
+    ): TelegramBotResult<Boolean> = runApiOperation { service.deleteChatStickerSet(chatId) }
 
-    fun answerCallbackQuery(
+    suspend fun answerCallbackQuery(
         callbackQueryId: String,
         text: String?,
         showAlert: Boolean?,
         url: String?,
         cacheTime: Int?
-    ): TelegramBotResult<Boolean> = service.answerCallbackQuery(
-        callbackQueryId,
-        text,
-        showAlert,
-        url,
-        cacheTime
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> = runApiOperation {
+        service.answerCallbackQuery(
+            callbackQueryId,
+            text,
+            showAlert,
+            url,
+            cacheTime
+        )
+    }
 
-    fun logOut(): Call<Response<Boolean>> {
+    suspend fun logOut(): CallResponse<Response<Boolean>> {
 
         return service.logOut()
     }
@@ -947,7 +986,7 @@ internal class ApiClient(
      * Updating messages
      */
 
-    fun editMessageText(
+    suspend fun editMessageText(
         chatId: ChatId?,
         messageId: Long?,
         inlineMessageId: String?,
@@ -955,7 +994,7 @@ internal class ApiClient(
         parseMode: ParseMode?,
         disableWebPagePreview: Boolean?,
         replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
+    ): CallResponse<Response<Message>> {
 
         return service.editMessageText(
             chatId,
@@ -968,14 +1007,14 @@ internal class ApiClient(
         )
     }
 
-    fun editMessageCaption(
+    suspend fun editMessageCaption(
         chatId: ChatId?,
         messageId: Long?,
         inlineMessageId: String?,
         caption: String,
         parseMode: ParseMode?,
         replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
+    ): CallResponse<Response<Message>> {
 
         return service.editMessageCaption(
             chatId,
@@ -987,13 +1026,13 @@ internal class ApiClient(
         )
     }
 
-    fun editMessageMedia(
+    suspend fun editMessageMedia(
         chatId: ChatId?,
         messageId: Long?,
         inlineMessageId: String?,
         media: InputMedia,
         replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
+    ): CallResponse<Response<Message>> {
 
         return service.editMessageMedia(
             chatId,
@@ -1004,12 +1043,12 @@ internal class ApiClient(
         )
     }
 
-    fun editMessageReplyMarkup(
+    suspend fun editMessageReplyMarkup(
         chatId: ChatId?,
         messageId: Long?,
         inlineMessageId: String?,
         replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
+    ): CallResponse<Response<Message>> {
 
         return service.editMessageReplyMarkup(
             chatId,
@@ -1019,25 +1058,29 @@ internal class ApiClient(
         )
     }
 
-    fun stopPoll(
+    suspend fun stopPoll(
         chatId: ChatId,
         messageId: Long,
         replyMarkup: InlineKeyboardMarkup?,
-    ): TelegramBotResult<Poll> = service.stopPoll(
-        chatId,
-        messageId,
-        replyMarkup,
-    ).runApiOperation()
+    ): TelegramBotResult<Poll> = runApiOperation {
+        service.stopPoll(
+            chatId,
+            messageId,
+            replyMarkup,
+        )
+    }
 
-    fun deleteMessage(
+    suspend fun deleteMessage(
         chatId: ChatId,
         messageId: Long,
-    ): TelegramBotResult<Boolean> = service.deleteMessage(
-        chatId,
-        messageId,
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> = runApiOperation {
+        service.deleteMessage(
+            chatId,
+            messageId,
+        )
+    }
 
-    fun sendInvoice(
+    suspend fun sendInvoice(
         chatId: ChatId,
         title: String,
         description: String,
@@ -1062,67 +1105,73 @@ internal class ApiClient(
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: InlineKeyboardMarkup?
-    ): TelegramBotResult<Message> = service.sendInvoice(
-        chatId = chatId,
-        title = title,
-        description = description,
-        payload = payload,
-        providerToken = providerToken,
-        startParameter = startParameter,
-        currency = currency,
-        prices = LabeledPriceList(prices),
-        providerData = providerData,
-        photoHeight = photoHeight,
-        photoSize = photoSize,
-        photoUrl = photoUrl,
-        photoWidth = photoWidth,
-        needEmail = needEmail,
-        needName = needName,
-        needPhoneNumber = needPhoneNumber,
-        needShippingAddress = needShippingAddress,
-        sendPhoneNumberToProvider = sendPhoneNumberToProvider,
-        sendEmailToProvider = sendEmailToProvider,
-        isFlexible = isFlexible,
-        disableNotification = disableNotification,
-        replyMarkup = replyMarkup,
-        replyToMessageId = replyToMessageId,
-        allowSendingWithoutReply = allowSendingWithoutReply
-    ).runApiOperation()
+    ): TelegramBotResult<Message> = runApiOperation {
+        service.sendInvoice(
+            chatId = chatId,
+            title = title,
+            description = description,
+            payload = payload,
+            providerToken = providerToken,
+            startParameter = startParameter,
+            currency = currency,
+            prices = LabeledPriceList(prices),
+            providerData = providerData,
+            photoHeight = photoHeight,
+            photoSize = photoSize,
+            photoUrl = photoUrl,
+            photoWidth = photoWidth,
+            needEmail = needEmail,
+            needName = needName,
+            needPhoneNumber = needPhoneNumber,
+            needShippingAddress = needShippingAddress,
+            sendPhoneNumberToProvider = sendPhoneNumberToProvider,
+            sendEmailToProvider = sendEmailToProvider,
+            isFlexible = isFlexible,
+            disableNotification = disableNotification,
+            replyMarkup = replyMarkup,
+            replyToMessageId = replyToMessageId,
+            allowSendingWithoutReply = allowSendingWithoutReply
+        )
+    }
 
-    fun answerShippingQuery(
+    suspend fun answerShippingQuery(
         shippingQueryId: String,
         ok: Boolean,
         shippingOptions: List<ShippingOption>?,
         errorMessage: String?
-    ): TelegramBotResult<Boolean> = service.answerShippingQuery(
-        shippingQueryId,
-        ok,
-        shippingOptions,
-        errorMessage
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> = runApiOperation {
+        service.answerShippingQuery(
+            shippingQueryId,
+            ok,
+            shippingOptions,
+            errorMessage
+        )
+    }
 
-    fun answerPreCheckoutQuery(
+    suspend fun answerPreCheckoutQuery(
         preCheckoutQueryId: String,
         ok: Boolean,
         errorMessage: String?
-    ): TelegramBotResult<Boolean> = service.answerPreCheckoutQuery(
-        preCheckoutQueryId,
-        ok,
-        errorMessage
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> = runApiOperation {
+        service.answerPreCheckoutQuery(
+            preCheckoutQueryId,
+            ok,
+            errorMessage
+        )
+    }
 
     /***
      * Stickers
      */
 
-    fun sendSticker(
+    suspend fun sendSticker(
         chatId: ChatId,
         sticker: SystemFile,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
+    ): CallResponse<Response<Message>> {
 
         return service.sendSticker(
             chatId,
@@ -1134,14 +1183,14 @@ internal class ApiClient(
         )
     }
 
-    fun sendSticker(
+    suspend fun sendSticker(
         chatId: ChatId,
         sticker: String,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
+    ): CallResponse<Response<Message>> {
 
         return service.sendSticker(
             chatId,
@@ -1153,17 +1202,17 @@ internal class ApiClient(
         )
     }
 
-    fun getStickerSet(
+    suspend fun getStickerSet(
         name: String
-    ): Call<Response<StickerSet>> {
+    ): CallResponse<Response<StickerSet>> {
 
         return service.getStickerSet(name)
     }
 
-    fun uploadStickerFile(
+    suspend fun uploadStickerFile(
         userId: Long,
         pngSticker: SystemFile
-    ): Call<Response<File>> {
+    ): CallResponse<Response<File>> {
 
         return service.uploadStickerFile(
             convertString(userId.toString()),
@@ -1171,7 +1220,7 @@ internal class ApiClient(
         )
     }
 
-    fun createNewStickerSet(
+    suspend fun createNewStickerSet(
         userId: Long,
         name: String,
         title: String,
@@ -1179,7 +1228,7 @@ internal class ApiClient(
         emojis: String,
         containsMasks: Boolean?,
         maskPosition: MaskPosition?
-    ): Call<Response<Boolean>> {
+    ): CallResponse<Response<Boolean>> {
 
         return service.createNewStickerSet(
             convertString(userId.toString()),
@@ -1192,7 +1241,7 @@ internal class ApiClient(
         )
     }
 
-    fun createNewStickerSet(
+    suspend fun createNewStickerSet(
         userId: Long,
         name: String,
         title: String,
@@ -1200,7 +1249,7 @@ internal class ApiClient(
         emojis: String,
         containsMasks: Boolean?,
         maskPosition: MaskPosition?
-    ): Call<Response<Boolean>> {
+    ): CallResponse<Response<Boolean>> {
 
         return service.createNewStickerSet(
             userId,
@@ -1213,13 +1262,13 @@ internal class ApiClient(
         )
     }
 
-    fun addStickerToSet(
+    suspend fun addStickerToSet(
         userId: Long,
         name: String,
         pngSticker: SystemFile,
         emojis: String,
         maskPosition: MaskPosition?
-    ): Call<Response<Boolean>> {
+    ): CallResponse<Response<Boolean>> {
 
         return service.addStickerToSet(
             convertString(userId.toString()),
@@ -1230,13 +1279,13 @@ internal class ApiClient(
         )
     }
 
-    fun addStickerToSet(
+    suspend fun addStickerToSet(
         userId: Long,
         name: String,
         pngSticker: String,
         emojis: String,
         maskPosition: MaskPosition?
-    ): Call<Response<Boolean>> {
+    ): CallResponse<Response<Boolean>> {
 
         return service.addStickerToSet(
             userId,
@@ -1247,10 +1296,10 @@ internal class ApiClient(
         )
     }
 
-    fun setStickerPositionInSet(
+    suspend fun setStickerPositionInSet(
         sticker: String,
         position: Int
-    ): Call<Response<Boolean>> {
+    ): CallResponse<Response<Boolean>> {
 
         return service.setStickerPositionInSet(
             sticker,
@@ -1258,16 +1307,16 @@ internal class ApiClient(
         )
     }
 
-    fun deleteStickerFromSet(
+    suspend fun deleteStickerFromSet(
         sticker: String
-    ): Call<Response<Boolean>> {
+    ): CallResponse<Response<Boolean>> {
 
         return service.deleteStickerFromSet(
             sticker
         )
     }
 
-    fun answerInlineQuery(
+    suspend fun answerInlineQuery(
         inlineQueryId: String,
         inlineQueryResults: List<InlineQueryResult>,
         cacheTime: Int?,
@@ -1275,11 +1324,11 @@ internal class ApiClient(
         nextOffset: String?,
         switchPmText: String?,
         switchPmParameter: String?
-    ): TelegramBotResult<Boolean> {
+    ): TelegramBotResult<Boolean> = runApiOperation {
         val inlineQueryResultsType = object : TypeToken<List<InlineQueryResult>>() {}.type
         val serializedInlineQueryResults = gson.toJson(inlineQueryResults, inlineQueryResultsType)
 
-        return service.answerInlineQuery(
+        service.answerInlineQuery(
             inlineQueryId,
             serializedInlineQueryResults,
             cacheTime,
@@ -1287,48 +1336,55 @@ internal class ApiClient(
             nextOffset,
             switchPmText,
             switchPmParameter
-        ).runApiOperation()
+        )
     }
 
-    fun getMyCommands(): TelegramBotResult<List<BotCommand>> = service.getMyCommands().runApiOperation()
+    suspend fun getMyCommands(): TelegramBotResult<List<BotCommand>> =
+        runApiOperation { service.getMyCommands() }
 
-    fun setMyCommands(
+    suspend fun setMyCommands(
         commands: List<BotCommand>
-    ): TelegramBotResult<Boolean> = service.setMyCommands(
-        gson.toJson(commands)
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> = runApiOperation {
+        service.setMyCommands(
+            gson.toJson(commands)
+        )
+    }
 
-    fun sendDice(
+    suspend fun sendDice(
         chatId: ChatId,
         emoji: DiceEmoji? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
-    ): TelegramBotResult<Message> = service.sendDice(
-        chatId,
-        emoji,
-        disableNotification,
-        replyToMessageId,
-        allowSendingWithoutReply,
-        replyMarkup
-    ).runApiOperation()
+    ): TelegramBotResult<Message> = runApiOperation {
+        service.sendDice(
+            chatId,
+            emoji,
+            disableNotification,
+            replyToMessageId,
+            allowSendingWithoutReply,
+            replyMarkup
+        )
+    }
 
-    fun setChatAdministratorCustomTitle(
+    suspend fun setChatAdministratorCustomTitle(
         chatId: ChatId,
         userId: Long,
         customTitle: String
-    ): TelegramBotResult<Boolean> = service.setChatAdministratorCustomTitle(
-        chatId,
-        userId,
-        customTitle
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> = runApiOperation {
+        service.setChatAdministratorCustomTitle(
+            chatId,
+            userId,
+            customTitle
+        )
+    }
 
-    private fun <T> Call<Response<T>>.runApiOperation(): TelegramBotResult<T> {
+    private suspend inline fun <T> runApiOperation(crossinline block: suspend () -> CallResponse<Response<T>>): TelegramBotResult<T> {
         val apiResponse = try {
-            apiRequestSender.send(this)
-        } catch (exception: Exception) {
-            return TelegramBotResult.Error.Unknown(exception)
+            block()
+        } catch (e: Exception) {
+            return TelegramBotResult.Error.Unknown(e)
         }
 
         return apiResponseMapper.mapToTelegramBotResult(apiResponse)
@@ -1336,7 +1392,7 @@ internal class ApiClient(
 
     /**
      * Transforms a list of strings into a string with the values separated by commas and
-     * the result surrounded by square brackets. Some of the List<String> parameters of the
+     * the result surrounded by square brackets. Some List<String> parameters of the
      * Telegram Bot Api operations require to be serialized in that format and retrofit doesn't
      * know how to properly do that (and can't be configured to do it for query params for example).
      *

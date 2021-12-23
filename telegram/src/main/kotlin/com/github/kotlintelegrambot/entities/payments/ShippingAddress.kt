@@ -13,7 +13,7 @@ import com.google.gson.annotations.SerializedName
  * @property [streetLine2] Second line for the address
  * @property [postCode] Address post code
  */
-data class ShippingAddress(
+public data class ShippingAddress(
     @SerializedName("country_code") val countryCode: String,
     val state: String,
     val city: String,

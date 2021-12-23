@@ -2,11 +2,11 @@ package com.github.kotlintelegrambot.errors
 
 import com.github.kotlintelegrambot.types.DispatchableObject
 
-interface TelegramError : DispatchableObject {
-    enum class Error {
+public interface TelegramError : DispatchableObject {
+    public enum class Error {
         RETRIEVE_UPDATES
     }
 
-    fun getType(): Error
-    fun getErrorMessage(): String
+    public fun getType(): Error
+    public fun getErrorMessage(): String
 }

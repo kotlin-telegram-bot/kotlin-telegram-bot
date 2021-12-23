@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
  * Represents a sticker.
  * https://core.telegram.org/bots/api#sticker
  */
-data class Sticker(
+public data class Sticker(
     @SerializedName(FilesFields.fileId) val fileId: String,
     @SerializedName(FilesFields.fileUniqueId) val fileUniqueId: String,
     @SerializedName(FilesFields.width) val width: Int,

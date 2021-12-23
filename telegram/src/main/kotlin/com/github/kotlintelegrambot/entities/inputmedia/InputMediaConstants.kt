@@ -1,24 +1,24 @@
 package com.github.kotlintelegrambot.entities.inputmedia
 
-object InputMediaTypes {
-    const val PHOTO = "photo"
-    const val VIDEO = "video"
-    const val ANIMATION = "animation"
-    const val AUDIO = "audio"
-    const val DOCUMENT = "document"
+public object InputMediaTypes {
+    public const val PHOTO: String = "photo"
+    public const val VIDEO: String = "video"
+    public const val ANIMATION: String = "animation"
+    public const val AUDIO: String = "audio"
+    public const val DOCUMENT: String = "document"
 }
 
-object InputMediaFields {
-    const val TYPE = "type"
-    const val MEDIA = "media"
-    const val CAPTION = "caption"
-    const val PARSE_MODE = "parse_mode"
-    const val THUMB = "thumb"
-    const val WIDTH = "width"
-    const val HEIGHT = "height"
-    const val DURATION = "duration"
-    const val SUPPORTS_STREAMING = "supports_streaming"
-    const val PERFORMER = "performer"
-    const val TITLE = "title"
-    const val DISABLE_CONTENT_TYPE_DETECTION = "disable_content_type_detection"
+public object InputMediaFields {
+    public const val TYPE: String = "type"
+    public const val MEDIA: String = "media"
+    public const val CAPTION: String = "caption"
+    public const val PARSE_MODE: String = "parse_mode"
+    public const val THUMB: String = "thumb"
+    public const val WIDTH: String = "width"
+    public const val HEIGHT: String = "height"
+    public const val DURATION: String = "duration"
+    public const val SUPPORTS_STREAMING: String = "supports_streaming"
+    public const val PERFORMER: String = "performer"
+    public const val TITLE: String = "title"
+    public const val DISABLE_CONTENT_TYPE_DETECTION: String = "disable_content_type_detection"
 }

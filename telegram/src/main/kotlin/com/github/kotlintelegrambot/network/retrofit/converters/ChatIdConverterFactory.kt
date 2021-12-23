@@ -5,6 +5,7 @@ import com.github.kotlintelegrambot.entities.ChatId.ChannelUsername
 import com.github.kotlintelegrambot.entities.ChatId.Id
 import com.github.kotlintelegrambot.network.PLAIN_TEXT_MIME
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Converter
 import retrofit2.Retrofit
 import java.lang.reflect.Type
@@ -26,7 +27,7 @@ internal class ChatIdConverterFactory : Converter.Factory() {
         if (type !== ChatId::class.java) {
             return null
         }
-        return Converter { chatId -> RequestBody.create(PLAIN_TEXT_MIME, chatIdToString(chatId)) }
+        return Converter { chatId -> chatIdToString(chatId).toRequestBody(PLAIN_TEXT_MIME) }
     }
 
     companion object {

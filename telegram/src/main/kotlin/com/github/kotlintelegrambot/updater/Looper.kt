@@ -1,10 +1,17 @@
 package com.github.kotlintelegrambot.updater
 
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.job
+import kotlinx.coroutines.launch
 import java.util.concurrent.Executor
 
 internal interface Looper {
-    fun loop(loopBody: () -> Unit)
+    fun loop(block: suspend CoroutineScope.() -> Unit)
     fun quit()
+    suspend fun awaitCancellation()
 }
 
 /**
@@ -12,24 +19,25 @@ internal interface Looper {
  * intended to run the loop in a different thread). The loop will stop if the thread running the
  * loop is interrupted or in the next iteration after the [quit] method is called.
  */
-internal class ExecutorLooper(
-    private val loopExecutor: Executor,
+internal class SuspendLooper(
+    coroutineDispatcher: CoroutineDispatcher,
 ) : Looper {
 
-    @Volatile private var isLooping = false
+    private val coroutineScope = CoroutineScope(coroutineDispatcher)
 
-    override fun loop(loopBody: () -> Unit) {
-        isLooping = true
-        loopExecutor.execute { runLoop(loopBody) }
-    }
-
-    private fun runLoop(loopBody: () -> Unit) {
-        while (!Thread.interrupted() && isLooping) {
-            loopBody()
+    override fun loop(block: suspend CoroutineScope.() -> Unit) {
+        coroutineScope.launch {
+            while (isActive) {
+                block()
+            }
         }
     }
 
+    override suspend fun awaitCancellation() {
+        coroutineScope.coroutineContext.job.join()
+    }
+
     override fun quit() {
-        isLooping = false
+        coroutineScope.cancel()
     }
 }

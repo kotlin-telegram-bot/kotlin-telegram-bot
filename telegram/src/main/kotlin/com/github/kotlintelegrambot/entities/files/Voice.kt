@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
  * Represents a voice note.
  * https://core.telegram.org/bots/api#voice
  */
-data class Voice(
+public data class Voice(
     @SerializedName(FilesFields.fileId) val fileId: String,
     @SerializedName(FilesFields.fileUniqueId) val fileUniqueId: String,
     @SerializedName(FilesFields.duration) val duration: Int,

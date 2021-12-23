@@ -2,7 +2,7 @@ package com.github.kotlintelegrambot.entities
 
 import com.google.gson.annotations.SerializedName
 
-data class ChatMember(
+public data class ChatMember(
     @SerializedName("user") val user: User,
     @SerializedName("status") val status: String,
     @SerializedName("custom_title") val customTitle: String? = null,

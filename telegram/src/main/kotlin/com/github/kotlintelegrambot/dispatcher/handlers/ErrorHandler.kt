@@ -3,14 +3,14 @@ package com.github.kotlintelegrambot.dispatcher.handlers
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.errors.TelegramError
 
-data class ErrorHandlerEnvironment(
-    val bot: Bot,
+public data class ErrorHandlerEnvironment(
+    override val bot: Bot,
     val error: TelegramError
-)
+) : HandlerEnvironment
 
-class ErrorHandler(private val handler: HandleError) {
+public class ErrorHandler(private val handler: HandleError) {
 
-    operator fun invoke(bot: Bot, error: TelegramError) {
+    public suspend operator fun invoke(bot: Bot, error: TelegramError) {
         val errorHandlerEnvironment = ErrorHandlerEnvironment(bot, error)
         handler.invoke(errorHandlerEnvironment)
     }

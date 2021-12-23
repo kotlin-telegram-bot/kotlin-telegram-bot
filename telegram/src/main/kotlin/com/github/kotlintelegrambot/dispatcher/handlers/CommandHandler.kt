@@ -4,16 +4,16 @@ import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 
-data class CommandHandlerEnvironment internal constructor(
-    val bot: Bot,
-    val update: Update,
-    val message: Message,
+public data class CommandHandlerEnvironment internal constructor(
+    override val bot: Bot,
+    override val update: Update,
+    override val message: Message,
     val args: List<String>
-)
+) : WithMessageHandlerEnvironment
 
 internal class CommandHandler(
     private val command: String,
-    private val handleCommand: CommandHandlerEnvironment.() -> Unit
+    private val handleCommand: suspend CommandHandlerEnvironment.() -> Unit
 ) : Handler {
 
     override fun checkUpdate(update: Update): Boolean {
@@ -23,7 +23,7 @@ internal class CommandHandler(
             )
     }
 
-    override fun handleUpdate(bot: Bot, update: Update) {
+    override suspend fun handleUpdate(bot: Bot, update: Update) {
         checkNotNull(update.message)
         handleCommand(CommandHandlerEnvironment(bot, update, update.message, update.getCommandArgs()))
     }

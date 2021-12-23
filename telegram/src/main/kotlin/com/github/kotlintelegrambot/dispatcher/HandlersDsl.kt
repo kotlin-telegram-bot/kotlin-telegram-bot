@@ -47,27 +47,27 @@ import com.github.kotlintelegrambot.dispatcher.handlers.media.VoiceHandler
 import com.github.kotlintelegrambot.extensions.filters.Filter
 import com.github.kotlintelegrambot.extensions.filters.Filter.All
 
-fun Dispatcher.message(handleMessage: HandleMessage) {
+public fun Dispatcher.message(handleMessage: HandleMessage) {
     addHandler(MessageHandler(All, handleMessage))
 }
 
-fun Dispatcher.message(filter: Filter, handleMessage: HandleMessage) {
+public fun Dispatcher.message(filter: Filter, handleMessage: HandleMessage) {
     addHandler(MessageHandler(filter, handleMessage))
 }
 
-fun Dispatcher.command(command: String, handleCommand: HandleCommand) {
+public fun Dispatcher.command(command: String, handleCommand: HandleCommand) {
     addHandler(CommandHandler(command, handleCommand))
 }
 
-fun Dispatcher.text(text: String? = null, handleText: HandleText) {
+public fun Dispatcher.text(text: String? = null, handleText: HandleText) {
     addHandler(TextHandler(text, handleText))
 }
 
-fun Dispatcher.callbackQuery(data: String? = null, handleCallbackQuery: HandleCallbackQuery) {
+public fun Dispatcher.callbackQuery(data: String? = null, handleCallbackQuery: HandleCallbackQuery) {
     addHandler(CallbackQueryHandler(callbackData = data, handleCallbackQuery = handleCallbackQuery))
 }
 
-fun Dispatcher.callbackQuery(
+public fun Dispatcher.callbackQuery(
     callbackData: String? = null,
     callbackAnswerText: String? = null,
     callbackAnswerShowAlert: Boolean? = null,
@@ -87,74 +87,74 @@ fun Dispatcher.callbackQuery(
     )
 }
 
-fun Dispatcher.contact(handleContact: HandleContact) {
+public fun Dispatcher.contact(handleContact: HandleContact) {
     addHandler(ContactHandler(handleContact))
 }
 
-fun Dispatcher.location(handleLocation: HandleLocation) {
+public fun Dispatcher.location(handleLocation: HandleLocation) {
     addHandler(LocationHandler(handleLocation))
 }
 
-fun Dispatcher.telegramError(handleError: HandleError) {
+public fun Dispatcher.telegramError(handleError: HandleError) {
     addErrorHandler(ErrorHandler(handleError))
 }
 
-fun Dispatcher.preCheckoutQuery(body: HandlePreCheckoutQuery) {
+public fun Dispatcher.preCheckoutQuery(body: HandlePreCheckoutQuery) {
     addHandler(PreCheckoutQueryHandler(body))
 }
 
-fun Dispatcher.channel(body: HandleChannelPost) {
+public fun Dispatcher.channel(body: HandleChannelPost) {
     addHandler(ChannelHandler(body))
 }
 
-fun Dispatcher.inlineQuery(body: HandleInlineQuery) {
+public fun Dispatcher.inlineQuery(body: HandleInlineQuery) {
     addHandler(InlineQueryHandler(body))
 }
 
-fun Dispatcher.audio(body: HandleAudio) {
+public fun Dispatcher.audio(body: HandleAudio) {
     addHandler(AudioHandler(body))
 }
 
-fun Dispatcher.document(body: HandleDocument) {
+public fun Dispatcher.document(body: HandleDocument) {
     addHandler(DocumentHandler(body))
 }
 
-fun Dispatcher.animation(body: HandleAnimation) {
+public fun Dispatcher.animation(body: HandleAnimation) {
     addHandler(AnimationHandler(body))
 }
 
-fun Dispatcher.game(body: HandleGame) {
+public fun Dispatcher.game(body: HandleGame) {
     addHandler(GameHandler(body))
 }
 
-fun Dispatcher.photos(body: HandlePhotos) {
+public fun Dispatcher.photos(body: HandlePhotos) {
     addHandler(PhotosHandler(body))
 }
 
-fun Dispatcher.sticker(body: HandleSticker) {
+public fun Dispatcher.sticker(body: HandleSticker) {
     addHandler(StickerHandler(body))
 }
 
-fun Dispatcher.video(body: HandleVideo) {
+public fun Dispatcher.video(body: HandleVideo) {
     addHandler(VideoHandler(body))
 }
 
-fun Dispatcher.voice(body: HandleVoice) {
+public fun Dispatcher.voice(body: HandleVoice) {
     addHandler(VoiceHandler(body))
 }
 
-fun Dispatcher.videoNote(body: HandleVideoNote) {
+public fun Dispatcher.videoNote(body: HandleVideoNote) {
     addHandler(VideoNoteHandler(body))
 }
 
-fun Dispatcher.newChatMembers(body: HandleNewChatMembers) {
+public fun Dispatcher.newChatMembers(body: HandleNewChatMembers) {
     addHandler(NewChatMembersHandler(body))
 }
 
-fun Dispatcher.pollAnswer(body: HandlePollAnswer) {
+public fun Dispatcher.pollAnswer(body: HandlePollAnswer) {
     addHandler(PollAnswerHandler(body))
 }
 
-fun Dispatcher.dice(body: HandleDice) {
+public fun Dispatcher.dice(body: HandleDice) {
     addHandler(DiceHandler(body))
 }

@@ -8,7 +8,7 @@ import com.github.kotlintelegrambot.types.ConsumableObject
 import com.github.kotlintelegrambot.types.DispatchableObject
 import com.google.gson.annotations.SerializedName as Name
 
-data class Update constructor(
+public data class Update(
     @Name("update_id") val updateId: Long,
     val message: Message? = null,
     @Name("edited_message") val editedMessage: Message? = null,
@@ -27,9 +27,9 @@ data class Update constructor(
  * Generate list of key-value from start payload.
  * For more info {@link https://core.telegram.org/bots#deep-linking}
  */
-fun Update.getStartPayload(delimiter: String = "-"): List<Pair<String, String>> {
-    return message?.let {
-        val parameters = it.text?.substringAfter("start ", "")
+public fun Update.getStartPayload(delimiter: String = "-"): List<Pair<String, String>> {
+    return message?.let { message ->
+        val parameters = message.text?.substringAfter("start ", "")
         if (parameters == null || parameters.isEmpty()) {
             return emptyList()
         }

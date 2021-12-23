@@ -17,7 +17,7 @@ import java.math.BigInteger
  * @property [orderInfo] Order info provided by the user
  * @see OrderInfo
  */
-data class PreCheckoutQuery(
+public data class PreCheckoutQuery(
     val id: String,
     val from: User,
     val currency: String,

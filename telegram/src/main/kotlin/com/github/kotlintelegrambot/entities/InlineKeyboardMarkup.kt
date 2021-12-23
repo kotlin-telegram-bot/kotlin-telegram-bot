@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName
  * @param inlineKeyboard Array of button rows, each represented by an Array of [InlineKeyboardButton] objects.
  * @see <https://core.telegram.org/bots/api#inlinekeyboardmarkup>
  */
-data class InlineKeyboardMarkup internal constructor(
+public data class InlineKeyboardMarkup internal constructor(
     @SerializedName("inline_keyboard") val inlineKeyboard: List<List<InlineKeyboardButton>>
 ) : ReplyMarkup {
 
@@ -33,14 +33,14 @@ data class InlineKeyboardMarkup internal constructor(
         }
     }
 
-    companion object {
+    public companion object {
         private val GSON = GsonFactory.createForApiClient()
 
-        fun createSingleButton(button: InlineKeyboardButton) = InlineKeyboardMarkup(listOf(listOf(button)))
-        fun createSingleRowKeyboard(buttons: List<InlineKeyboardButton>) = InlineKeyboardMarkup(listOf(buttons))
-        fun createSingleRowKeyboard(vararg button: InlineKeyboardButton) = InlineKeyboardMarkup(listOf(button.toList()))
-        fun create(buttons: List<List<InlineKeyboardButton>>) = InlineKeyboardMarkup(buttons)
-        fun create(vararg buttonsRow: List<InlineKeyboardButton>) = InlineKeyboardMarkup(buttonsRow.toList())
+        public fun createSingleButton(button: InlineKeyboardButton): InlineKeyboardMarkup = InlineKeyboardMarkup(listOf(listOf(button)))
+        public fun createSingleRowKeyboard(buttons: List<InlineKeyboardButton>): InlineKeyboardMarkup = InlineKeyboardMarkup(listOf(buttons))
+        public fun createSingleRowKeyboard(vararg button: InlineKeyboardButton): InlineKeyboardMarkup = InlineKeyboardMarkup(listOf(button.toList()))
+        public fun create(buttons: List<List<InlineKeyboardButton>>): InlineKeyboardMarkup = InlineKeyboardMarkup(buttons)
+        public fun create(vararg buttonsRow: List<InlineKeyboardButton>): InlineKeyboardMarkup = InlineKeyboardMarkup(buttonsRow.toList())
     }
 
     override fun toString(): String = GSON.toJson(this)

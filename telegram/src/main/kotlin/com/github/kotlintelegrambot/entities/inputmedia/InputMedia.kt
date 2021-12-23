@@ -7,28 +7,28 @@ import com.google.gson.annotations.SerializedName
  * Represents the content of a media message to be sent.
  * https://core.telegram.org/bots/api#inputmedia
  */
-sealed class InputMedia {
-    abstract val type: String
-    abstract val media: TelegramFile
-    abstract val caption: String?
-    abstract val parseMode: String?
+public sealed class InputMedia {
+    public abstract val type: String
+    public abstract val media: TelegramFile
+    public abstract val caption: String?
+    public abstract val parseMode: String?
 }
 
 /**
  * Interface to mark all the media types that can be sent within a group of media for
  * operations like `sendMediaGroup`.
  */
-interface GroupableMedia
+public interface GroupableMedia
 
-class MediaGroup private constructor(val medias: Array<out GroupableMedia>) {
+public class MediaGroup private constructor(public val medias: Array<out GroupableMedia>) {
     init {
         if (!(2..10).contains(medias.size)) {
             throw IllegalArgumentException("media groups must include 2-10 items")
         }
     }
 
-    companion object {
-        fun from(vararg media: GroupableMedia): MediaGroup = MediaGroup(media)
+    public companion object {
+        public fun from(vararg media: GroupableMedia): MediaGroup = MediaGroup(media)
     }
 }
 
@@ -36,7 +36,7 @@ class MediaGroup private constructor(val medias: Array<out GroupableMedia>) {
  * Represents a photo to be sent. Can be sent as part of a group of media.
  * https://core.telegram.org/bots/api#inputmediaphoto
  */
-data class InputMediaPhoto(
+public data class InputMediaPhoto(
     @SerializedName(InputMediaFields.MEDIA) override val media: TelegramFile,
     @SerializedName(InputMediaFields.CAPTION) override val caption: String? = null,
     @SerializedName(InputMediaFields.PARSE_MODE) override val parseMode: String? = null
@@ -49,7 +49,7 @@ data class InputMediaPhoto(
  * Represents a video to be sent. Can be sent as part of a group of media.
  * https://core.telegram.org/bots/api#inputmediavideo
  */
-data class InputMediaVideo(
+public data class InputMediaVideo(
     @SerializedName(InputMediaFields.MEDIA) override val media: TelegramFile,
     @SerializedName(InputMediaFields.CAPTION) override val caption: String? = null,
     @SerializedName(InputMediaFields.PARSE_MODE) override val parseMode: String? = null,
@@ -67,7 +67,7 @@ data class InputMediaVideo(
  * Represents an animation file (GIF or H.264/MPEG-4 AVC video without sound) to be sent.
  * https://core.telegram.org/bots/api#inputmediaanimation
  */
-data class InputMediaAnimation(
+public data class InputMediaAnimation(
     @SerializedName(InputMediaFields.MEDIA) override val media: TelegramFile,
     @SerializedName(InputMediaFields.CAPTION) override val caption: String? = null,
     @SerializedName(InputMediaFields.PARSE_MODE) override val parseMode: String? = null,
@@ -84,7 +84,7 @@ data class InputMediaAnimation(
  * Represents an audio file to be treated as music to be sent.
  * https://core.telegram.org/bots/api#inputmediaaudio
  */
-data class InputMediaAudio(
+public data class InputMediaAudio(
     @SerializedName(InputMediaFields.MEDIA) override val media: TelegramFile,
     @SerializedName(InputMediaFields.CAPTION) override val caption: String? = null,
     @SerializedName(InputMediaFields.PARSE_MODE) override val parseMode: String? = null,
@@ -101,7 +101,7 @@ data class InputMediaAudio(
  * Represents a general file to be sent.
  * https://core.telegram.org/bots/api#inputmediadocument
  */
-data class InputMediaDocument(
+public data class InputMediaDocument(
     @SerializedName(InputMediaFields.MEDIA) override val media: TelegramFile,
     @SerializedName(InputMediaFields.CAPTION) override val caption: String? = null,
     @SerializedName(InputMediaFields.PARSE_MODE) override val parseMode: String? = null,

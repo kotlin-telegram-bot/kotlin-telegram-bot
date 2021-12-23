@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * Represents one special entity in a text message. For example, hashtags, usernames, URLs, etc.
  */
-data class MessageEntity(
+public data class MessageEntity(
     @SerializedName("type") val type: Type,
     @SerializedName("offset") val offset: Int,
     @SerializedName("length") val length: Int,
@@ -13,7 +13,7 @@ data class MessageEntity(
     @SerializedName("user") val user: User? = null,
     @SerializedName("language") val language: String? = null
 ) {
-    enum class Type {
+    public enum class Type {
         @SerializedName("mention")
         MENTION,
         @SerializedName("hashtag")

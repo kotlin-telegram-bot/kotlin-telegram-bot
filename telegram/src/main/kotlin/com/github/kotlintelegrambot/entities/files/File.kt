@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName
  * requested by calling getFile.
  * https://core.telegram.org/bots/api#file
  */
-data class File(
+public data class File(
     @SerializedName(FilesFields.fileId) val fileId: String,
     @SerializedName(FilesFields.fileUniqueId) val fileUniqueId: String,
     @SerializedName(FilesFields.fileSize) val fileSize: Int? = null,

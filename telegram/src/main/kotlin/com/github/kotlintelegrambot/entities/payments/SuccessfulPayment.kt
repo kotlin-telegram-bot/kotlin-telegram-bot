@@ -2,7 +2,7 @@ package com.github.kotlintelegrambot.entities.payments
 
 import com.google.gson.annotations.SerializedName as Name
 
-data class SuccessfulPayment(
+public data class SuccessfulPayment(
     val currency: String,
     @Name("total_amount") val totalAmount: Int,
     @Name("invoice_payload") val invoicePayload: String,

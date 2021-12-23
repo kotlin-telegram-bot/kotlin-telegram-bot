@@ -1,8 +1,9 @@
 package com.github.kotlintelegrambot.network.multipart
 
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.nio.file.Files
 
@@ -10,8 +11,8 @@ internal fun File.toMultipartBodyPart(
     partName: String = name,
     mediaType: String? = null
 ): MultipartBody.Part {
-    val mimeType = (mediaType ?: Files.probeContentType(toPath()))?.let { MediaType.parse(it) }
-    val requestBody = RequestBody.create(mimeType, this)
+    val mimeType = (mediaType ?: Files.probeContentType(toPath()))?.toMediaTypeOrNull()
+    val requestBody = this.asRequestBody(mimeType)
 
     return MultipartBody.Part.createFormData(partName, name, requestBody)
 }
@@ -28,8 +29,8 @@ internal fun ByteArray.toMultipartBodyPart(
     filename: String? = partName,
     mediaType: String? = null
 ): MultipartBody.Part {
-    val mimeType = mediaType?.let { MediaType.parse(it) }
-    val requestBody = RequestBody.create(mimeType, this)
+    val mimeType = mediaType?.toMediaTypeOrNull()
+    val requestBody = this.toRequestBody(mimeType)
 
     return MultipartBody.Part.createFormData(partName, filename ?: partName, requestBody)
 }

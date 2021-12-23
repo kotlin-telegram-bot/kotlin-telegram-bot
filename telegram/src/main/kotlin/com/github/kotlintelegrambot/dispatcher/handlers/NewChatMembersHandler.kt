@@ -5,12 +5,12 @@ import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.User
 
-data class NewChatMembersHandlerEnvironment(
-    val bot: Bot,
-    val update: Update,
+public data class NewChatMembersHandlerEnvironment(
+    override val bot: Bot,
+    override val update: Update,
     val message: Message,
     val newChatMembers: List<User>
-)
+) : UpdateHandlerEnvironment
 
 internal class NewChatMembersHandler(
     private val handleNewChatMembers: HandleNewChatMembers
@@ -21,7 +21,7 @@ internal class NewChatMembersHandler(
         return newChatMembers != null && newChatMembers.isNotEmpty()
     }
 
-    override fun handleUpdate(bot: Bot, update: Update) {
+    override suspend fun handleUpdate(bot: Bot, update: Update) {
         val message = update.message
         val newChatMembers = message?.newChatMembers
         checkNotNull(newChatMembers)

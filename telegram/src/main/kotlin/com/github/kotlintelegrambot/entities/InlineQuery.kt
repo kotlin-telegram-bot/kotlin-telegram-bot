@@ -15,7 +15,7 @@ import com.google.gson.annotations.SerializedName
  * be always known for requests sent from official clients and most third-party clients, unless the
  * request was sent from a secret chat.
  */
-data class InlineQuery(
+public data class InlineQuery(
     val id: String,
     val from: User,
     val location: Location? = null,
@@ -24,7 +24,7 @@ data class InlineQuery(
     @SerializedName("chat_type") val chatType: ChatType? = null,
 ) {
 
-    enum class ChatType {
+    public enum class ChatType {
         @SerializedName("sender") SENDER, // private chat with the inline query sender
         @SerializedName("private") PRIVATE,
         @SerializedName("group") GROUP,

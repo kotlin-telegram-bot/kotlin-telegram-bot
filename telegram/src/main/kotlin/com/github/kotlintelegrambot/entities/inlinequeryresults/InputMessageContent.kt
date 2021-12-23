@@ -3,20 +3,20 @@ package com.github.kotlintelegrambot.entities.inlinequeryresults
 import com.github.kotlintelegrambot.entities.ParseMode
 import com.google.gson.annotations.SerializedName
 
-sealed class InputMessageContent {
-    data class Text(
+public sealed class InputMessageContent {
+    public data class Text(
         @SerializedName("message_text") val messageText: String,
         @SerializedName("parse_mode") val parseMode: ParseMode? = null,
         @SerializedName("disable_web_page_preview") val disableWebPagePreview: Boolean? = null
     ) : InputMessageContent()
 
-    data class Location(
+    public data class Location(
         val latitude: Float,
         val longitude: Float,
         @SerializedName("live_period") val livePeriod: Int? = null
     ) : InputMessageContent()
 
-    data class Venue(
+    public data class Venue(
         val latitude: Float,
         val longitude: Float,
         val title: String,
@@ -25,7 +25,7 @@ sealed class InputMessageContent {
         @SerializedName("foursquare_type") val foursquareType: String? = null
     ) : InputMessageContent()
 
-    data class Contact(
+    public data class Contact(
         @SerializedName("phone_number") val phoneNumber: String,
         @SerializedName("first_name") val firstName: String,
         @SerializedName("last_name") val lastName: String? = null,

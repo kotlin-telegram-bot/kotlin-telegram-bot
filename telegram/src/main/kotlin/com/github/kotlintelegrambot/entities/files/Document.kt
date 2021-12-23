@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
  * Represents a general file (as opposed to photos, voice messages and audio files).
  * https://core.telegram.org/bots/api#document
  */
-data class Document(
+public data class Document(
     @SerializedName(FilesFields.fileId) val fileId: String,
     @SerializedName(FilesFields.fileUniqueId) val fileUniqueId: String,
     @SerializedName(FilesFields.thumb) val thumb: PhotoSize? = null,

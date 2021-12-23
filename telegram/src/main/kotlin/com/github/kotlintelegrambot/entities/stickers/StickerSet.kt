@@ -3,7 +3,7 @@ package com.github.kotlintelegrambot.entities.stickers
 import com.github.kotlintelegrambot.entities.files.PhotoSize
 import com.google.gson.annotations.SerializedName as Name
 
-data class StickerSet(
+public data class StickerSet(
     val name: String,
     val title: String,
     @Name("is_animated") val isAnimated: Boolean,

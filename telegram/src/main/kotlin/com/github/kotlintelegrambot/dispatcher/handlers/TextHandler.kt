@@ -4,12 +4,12 @@ import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 
-data class TextHandlerEnvironment(
-    val bot: Bot,
-    val update: Update,
+public data class TextHandlerEnvironment(
+    override val bot: Bot,
+    override val update: Update,
     val message: Message,
     val text: String
-)
+) : UpdateHandlerEnvironment
 
 internal class TextHandler(
     private val text: String? = null,
@@ -24,7 +24,7 @@ internal class TextHandler(
         return false
     }
 
-    override fun handleUpdate(bot: Bot, update: Update) {
+    override suspend fun handleUpdate(bot: Bot, update: Update) {
         checkNotNull(update.message)
         checkNotNull(update.message.text)
         val textHandlerEnv = TextHandlerEnvironment(

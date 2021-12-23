@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
  * Contains information about a poll.
  * https://core.telegram.org/bots/api#poll
  */
-data class Poll(
+public data class Poll(
     @SerializedName(PollFields.ID) val id: Long,
     @SerializedName(PollFields.QUESTION) val question: String,
     @SerializedName(PollFields.OPTIONS) val options: List<PollOption>,

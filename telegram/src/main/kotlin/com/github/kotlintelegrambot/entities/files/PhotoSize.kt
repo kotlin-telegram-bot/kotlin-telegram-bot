@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
  * Represents one size of a photo or a file / sticker thumbnail.
  * https://core.telegram.org/bots/api#photosize
  */
-data class PhotoSize(
+public data class PhotoSize(
     @SerializedName(FilesFields.fileId) val fileId: String,
     @SerializedName(FilesFields.fileUniqueId) val fileUniqueId: String,
     @SerializedName(FilesFields.width) val width: Int,
