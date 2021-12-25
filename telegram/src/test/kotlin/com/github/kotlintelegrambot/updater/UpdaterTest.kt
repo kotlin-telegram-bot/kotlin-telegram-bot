@@ -39,7 +39,7 @@ class UpdaterTest {
         givenGetUpdatesResults(updates1, updates2, updates3, updates4)
 
         looper.loopIterations = 4
-        sut.startPolling()
+        sut.launchPolling()
 
         coVerifyOrder {
             mockApiClient.getUpdates(offset = null, limit = null, timeout = BOT_TIMEOUT, allowedUpdates = null)
@@ -63,7 +63,7 @@ class UpdaterTest {
         )
 
         looper.loopIterations = 5
-        sut.startPolling()
+        sut.launchPolling()
 
         coVerifyOrder {
             mockApiClient.getUpdates(offset = null, limit = null, timeout = BOT_TIMEOUT, allowedUpdates = null)
@@ -89,7 +89,7 @@ class UpdaterTest {
         )
 
         looper.loopIterations = 5
-        sut.startPolling()
+        sut.launchPolling()
 
         coVerifyOrder {
             mockApiClient.getUpdates(offset = null, limit = null, timeout = BOT_TIMEOUT, allowedUpdates = null)
@@ -109,7 +109,7 @@ class UpdaterTest {
         givenGetUpdatesResults(updates1, updates2, updates3, updates4)
 
         looper.loopIterations = 4
-        sut.startPolling()
+        sut.launchPolling()
 
         coVerifyOrder {
             mockUpdatesQueue.send(updates1[0])
@@ -138,7 +138,7 @@ class UpdaterTest {
         )
 
         looper.loopIterations = 5
-        sut.startPolling()
+        sut.launchPolling()
 
         val queuedErrors = mutableListOf<RetrieveUpdatesError>()
         coVerifyOrder {
@@ -168,7 +168,7 @@ class UpdaterTest {
         )
 
         looper.loopIterations = 5
-        sut.startPolling()
+        sut.launchPolling()
 
         val queuedErrors = mutableListOf<RetrieveUpdatesError>()
         coVerify {

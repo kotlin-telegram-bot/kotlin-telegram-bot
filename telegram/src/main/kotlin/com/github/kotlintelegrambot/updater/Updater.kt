@@ -17,8 +17,8 @@ internal class Updater(
 
     private val lastUpdateId = atomic<Long?>(null)
 
-    internal fun startPolling() {
-        looper.loop {
+    internal fun launchPolling() {
+        looper.launchLoop {
             val getUpdatesResult = apiClient.getUpdates(
                 offset = lastUpdateId.value,
                 limit = null,
@@ -37,8 +37,8 @@ internal class Updater(
         looper.awaitCancellation()
     }
 
-    internal fun stopPolling() {
-        looper.quit()
+    internal fun cancelPolling() {
+        looper.cancelLoop()
     }
 
     private suspend fun onUpdatesReceived(updates: List<Update>) {

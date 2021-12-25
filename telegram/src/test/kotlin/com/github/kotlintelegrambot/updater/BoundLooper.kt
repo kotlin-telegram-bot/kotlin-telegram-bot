@@ -10,12 +10,12 @@ class BoundLooper : Looper {
 
     var loopIterations = 0
 
-    override fun loop(block: suspend CoroutineScope.() -> Unit) = runBlocking {
+    override fun launchLoop(block: suspend CoroutineScope.() -> Unit) = runBlocking {
         repeat(loopIterations) {
             block()
         }
     }
 
-    override fun quit() {}
+    override fun cancelLoop() {}
     override suspend fun awaitCancellation() = Unit
 }

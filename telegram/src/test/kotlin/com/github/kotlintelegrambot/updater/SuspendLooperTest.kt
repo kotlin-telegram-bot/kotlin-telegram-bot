@@ -19,11 +19,11 @@ class SuspendLooperTest {
     fun `loops until quit is called`() = runTest {
         var count = 0
 
-        sut.loop {
+        sut.launchLoop {
             count++
 
             if (count == 13) {
-                sut.quit()
+                sut.cancelLoop()
             }
         }
 
@@ -35,7 +35,7 @@ class SuspendLooperTest {
         var count = 0
 
         try {
-            sut.loop {
+            sut.launchLoop {
                 count++
 
                 if (count == 13) {
@@ -52,7 +52,7 @@ class SuspendLooperTest {
         var count = 0
 
         try {
-            sut.loop {
+            sut.launchLoop {
                 count++
 
                 if (count == 13) {

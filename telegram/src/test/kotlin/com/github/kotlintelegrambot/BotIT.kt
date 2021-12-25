@@ -1,15 +1,19 @@
 package com.github.kotlintelegrambot
 
-import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertFalse
-import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class BotIT {
 
     private val mockWebServer = MockWebServer()
@@ -32,7 +36,7 @@ class BotIT {
         val sut = bot { token = ANY_BOT_TOKEN }
 
         val exception = assertThrows<IllegalStateException> {
-            sut.startWebhook()
+            runBlocking { sut.startWebhook() }
         }
 
         assertEquals(
@@ -42,7 +46,7 @@ class BotIT {
     }
 
     @Test
-    internal fun `startWebhook returns false when webhook config has been set up but 'setWebhook' fails`() {
+    internal fun `startWebhook returns false when webhook config has been set up but 'setWebhook' fails`() = runTest {
         val sut = bot {
             token = ANY_BOT_TOKEN
             apiUrl = webServerUrl
@@ -58,7 +62,7 @@ class BotIT {
     }
 
     @Test
-    internal fun `startWebhook returns true when webhook config has been set up and 'setWebhook' succeeds`() {
+    internal fun `startWebhook returns true when webhook config has been set up and 'setWebhook' succeeds`() = runTest {
         val sut = bot {
             token = ANY_BOT_TOKEN
             apiUrl = webServerUrl
@@ -78,7 +82,7 @@ class BotIT {
         val sut = bot { token = ANY_BOT_TOKEN }
 
         val exception = assertThrows<IllegalStateException> {
-            sut.stopWebhook()
+            runBlocking { sut.stopWebhook() }
         }
 
         assertEquals(
@@ -88,7 +92,7 @@ class BotIT {
     }
 
     @Test
-    internal fun `stopWebhook returns false when webhook config has been set up but 'deleteWebhook' fails`() {
+    internal fun `stopWebhook returns false when webhook config has been set up but 'deleteWebhook' fails`() = runTest {
         val sut = bot {
             token = ANY_BOT_TOKEN
             apiUrl = webServerUrl
@@ -104,7 +108,7 @@ class BotIT {
     }
 
     @Test
-    internal fun `stopWebhook returns true when webhook config has been set up and 'deleteWebhook' succeeds`() {
+    internal fun `stopWebhook returns true when webhook config has been set up and 'deleteWebhook' succeeds`() = runTest {
         val sut = bot {
             token = ANY_BOT_TOKEN
             apiUrl = webServerUrl

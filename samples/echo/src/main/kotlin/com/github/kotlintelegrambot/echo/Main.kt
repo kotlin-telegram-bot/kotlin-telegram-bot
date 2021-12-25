@@ -2,8 +2,8 @@ package com.github.kotlintelegrambot.echo
 
 import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.dispatch
+import com.github.kotlintelegrambot.dispatcher.handlers.requireChatId
 import com.github.kotlintelegrambot.dispatcher.text
-import com.github.kotlintelegrambot.entities.ChatId
 
 fun main() {
 
@@ -14,10 +14,10 @@ fun main() {
         dispatch {
 
             text {
-                bot.sendMessage(chatId = ChatId.fromId(message.chat.id), text = text)
+                bot.sendMessage(chatId = requireChatId(), text = text)
             }
         }
     }
 
-    bot.startPolling()
+    bot.startPolling(wait = true)
 }

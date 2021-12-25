@@ -14,6 +14,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 public class Dispatcher internal constructor(
     private val updatesChannel: Channel<DispatchableObject>,
@@ -27,7 +28,7 @@ public class Dispatcher internal constructor(
     private val errorHandlers = mutableListOf<ErrorHandler>()
     private val coroutineScope = CoroutineScope(coroutineDispatcher)
 
-    internal fun startCheckingUpdates() {
+    internal fun launchCheckingUpdates() {
         coroutineScope.launch { checkQueueUpdates() }
     }
 
@@ -90,7 +91,10 @@ public class Dispatcher internal constructor(
         }
     }
 
-    internal fun stopCheckingUpdates() {
+    internal fun cancelCheckingUpdates() {
         coroutineScope.cancel()
+        runBlocking {
+            awaitCancellation()
+        }
     }
 }

@@ -44,6 +44,7 @@ import com.github.kotlintelegrambot.webhook.WebhookConfig
 import com.github.kotlintelegrambot.webhook.WebhookConfigBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.runBlocking
 import okhttp3.ResponseBody
 import java.net.Proxy
 import java.io.File as SystemFile
@@ -114,19 +115,20 @@ public class Bot private constructor(
         }
     }
 
-    public fun launchPolling() {
-        dispatcher.startCheckingUpdates()
-        updater.startPolling()
+    public fun startPolling(wait: Boolean) {
+        dispatcher.launchCheckingUpdates()
+        updater.launchPolling()
+        if (wait) {
+            runBlocking { 
+                dispatcher.awaitCancellation()
+                updater.awaitCancellation()
+            }
+        }
     }
 
-    public suspend fun awaitPollingCancellation() {
-        dispatcher.awaitCancellation()
-        updater.awaitCancellation()
-    }
-
-    public fun cancelPolling() {
-        updater.stopPolling()
-        dispatcher.stopCheckingUpdates()
+    public fun stopPolling() {
+        updater.cancelPolling()
+        dispatcher.cancelCheckingUpdates()
     }
 
     /**
@@ -152,7 +154,7 @@ public class Bot private constructor(
         )
 
         if (webhookSet) {
-            dispatcher.startCheckingUpdates()
+            dispatcher.launchCheckingUpdates()
         }
 
         return webhookSet
@@ -167,7 +169,7 @@ public class Bot private constructor(
             error("To stop a webhook you need to configure it on bot set up. Check the `webhook` builder function")
         }
 
-        dispatcher.stopCheckingUpdates()
+        dispatcher.cancelCheckingUpdates()
 
         val deleteWebhookResult = deleteWebhook()
 

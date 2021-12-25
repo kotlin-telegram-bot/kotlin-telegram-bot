@@ -4,14 +4,17 @@ import com.github.kotlintelegrambot.entities.TelegramFile
 import com.github.kotlintelegrambot.testutils.getFileAsStringFromResources
 import com.github.kotlintelegrambot.testutils.getFileFromResources
 import com.github.kotlintelegrambot.testutils.multipartBoundary
-import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class SetWebhookIT : ApiClientIT() {
 
     @Test
-    internal fun `setWebhook without certificate`() {
+    internal fun `setWebhook without certificate`() = runTest {
         givenAnyMockedResponse()
 
         whenWebhookIsSetWithoutCertificate()
@@ -20,7 +23,7 @@ class SetWebhookIT : ApiClientIT() {
     }
 
     @Test
-    internal fun `setWebhook without certificate but with ip address`() {
+    internal fun `setWebhook without certificate but with ip address`() = runTest {
         givenAnyMockedResponse()
 
         whenWebhookIsSetWithoutCertificateAndWithIpAddress()
@@ -29,7 +32,7 @@ class SetWebhookIT : ApiClientIT() {
     }
 
     @Test
-    internal fun `setWebhook with certificate as file`() {
+    internal fun `setWebhook with certificate as file`() = runTest {
         givenAnyMockedResponse()
 
         whenWebhookIsSetWithCertificateAsFile()
@@ -38,7 +41,7 @@ class SetWebhookIT : ApiClientIT() {
     }
 
     @Test
-    internal fun `setWebhook with certificate as file and with ip address`() {
+    internal fun `setWebhook with certificate as file and with ip address`() = runTest {
         givenAnyMockedResponse()
 
         whenWebhookIsSetWithCertificateAsFileAndWithIpAddress()
@@ -47,7 +50,7 @@ class SetWebhookIT : ApiClientIT() {
     }
 
     @Test
-    internal fun `setWebhook with certificate as file id`() {
+    internal fun `setWebhook with certificate as file id`() = runTest {
         givenAnyMockedResponse()
 
         whenWebhookIsSetWithCertificateAsFileId()
@@ -56,7 +59,7 @@ class SetWebhookIT : ApiClientIT() {
     }
 
     @Test
-    internal fun `setWebhook with certificate as file id and with ip address`() {
+    internal fun `setWebhook with certificate as file id and with ip address`() = runTest {
         givenAnyMockedResponse()
 
         whenWebhookIsSetWithCertificateAsFileIdAndWithIpAddress()
@@ -65,7 +68,7 @@ class SetWebhookIT : ApiClientIT() {
     }
 
     @Test
-    internal fun `setWebhook with certificate as file url`() {
+    internal fun `setWebhook with certificate as file url`() = runTest {
         givenAnyMockedResponse()
 
         whenWebhookIsSetWithCertificateAsFileUrl()
@@ -74,7 +77,7 @@ class SetWebhookIT : ApiClientIT() {
     }
 
     @Test
-    internal fun `setWebhook with certificate as file url and with ip address`() {
+    internal fun `setWebhook with certificate as file url and with ip address`() = runTest {
         givenAnyMockedResponse()
 
         whenWebhookIsSetWithCertificateAsFileUrlAndWithIpAddress()
@@ -94,57 +97,57 @@ class SetWebhookIT : ApiClientIT() {
         mockWebServer.enqueue(mockedResponse)
     }
 
-    private fun whenWebhookIsSetWithoutCertificate() {
-        sut.setWebhook(url = ANY_WEBHOOK_URL).execute()
+    private suspend fun whenWebhookIsSetWithoutCertificate() {
+        sut.setWebhook(url = ANY_WEBHOOK_URL)
     }
 
-    private fun whenWebhookIsSetWithoutCertificateAndWithIpAddress() {
-        sut.setWebhook(url = ANY_WEBHOOK_URL, ipAddress = ANY_IP_ADDRESS).execute()
+    private suspend fun whenWebhookIsSetWithoutCertificateAndWithIpAddress() {
+        sut.setWebhook(url = ANY_WEBHOOK_URL, ipAddress = ANY_IP_ADDRESS)
     }
 
-    private fun whenWebhookIsSetWithCertificateAsFile() {
+    private suspend fun whenWebhookIsSetWithCertificateAsFile() {
         sut.setWebhook(
             url = ANY_WEBHOOK_URL,
             certificate = TelegramFile.ByFile(getFileFromResources<SetWebhookIT>("certificate.pem"))
-        ).execute()
+        )
     }
 
-    private fun whenWebhookIsSetWithCertificateAsFileAndWithIpAddress() {
+    private suspend fun whenWebhookIsSetWithCertificateAsFileAndWithIpAddress() {
         sut.setWebhook(
             url = ANY_WEBHOOK_URL,
             certificate = TelegramFile.ByFile(getFileFromResources<SetWebhookIT>("certificate.pem")),
             ipAddress = ANY_IP_ADDRESS
-        ).execute()
+        )
     }
 
-    private fun whenWebhookIsSetWithCertificateAsFileId() {
+    private suspend fun whenWebhookIsSetWithCertificateAsFileId() {
         sut.setWebhook(
             url = ANY_WEBHOOK_URL,
             certificate = TelegramFile.ByFileId(ANY_FILE_ID)
-        ).execute()
+        )
     }
 
-    private fun whenWebhookIsSetWithCertificateAsFileIdAndWithIpAddress() {
+    private suspend fun whenWebhookIsSetWithCertificateAsFileIdAndWithIpAddress() {
         sut.setWebhook(
             url = ANY_WEBHOOK_URL,
             certificate = TelegramFile.ByFileId(ANY_FILE_ID),
             ipAddress = ANY_IP_ADDRESS
-        ).execute()
+        )
     }
 
-    private fun whenWebhookIsSetWithCertificateAsFileUrl() {
+    private suspend fun whenWebhookIsSetWithCertificateAsFileUrl() {
         sut.setWebhook(
             url = ANY_WEBHOOK_URL,
             certificate = TelegramFile.ByUrl(ANY_FILE_URL)
-        ).execute()
+        )
     }
 
-    private fun whenWebhookIsSetWithCertificateAsFileUrlAndWithIpAddress() {
+    private suspend fun whenWebhookIsSetWithCertificateAsFileUrlAndWithIpAddress() {
         sut.setWebhook(
             url = ANY_WEBHOOK_URL,
             certificate = TelegramFile.ByUrl(ANY_FILE_URL),
             ipAddress = ANY_IP_ADDRESS
-        ).execute()
+        )
     }
 
     private fun thenSetWebhookRequestWithoutCertificateIsCorrect() {
@@ -156,7 +159,10 @@ class SetWebhookIT : ApiClientIT() {
     private fun thenSetWebhookRequestWithoutCertificateAndWithIpAddressIsCorrect() {
         val request = mockWebServer.takeRequest()
         val requestBody = request.body.readUtf8()
-        assertEquals("url=https%3A%2F%2Fwebhook.telegram.io&ip_address=$ANY_IP_ADDRESS", requestBody)
+        assertEquals(
+            "url=https%3A%2F%2Fwebhook.telegram.io&ip_address=$ANY_IP_ADDRESS",
+            requestBody
+        )
     }
 
     private fun thenSetWebhookRequestWithCertificateAsFileIsCorrect() {

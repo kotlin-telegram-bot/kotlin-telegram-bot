@@ -54,7 +54,7 @@ class DispatcherTest {
         coEvery { blockingQueueMock.receive() } returns anyUpdate andThenThrows CancellationException()
 
         try {
-            sut.startCheckingUpdates()
+            sut.launchCheckingUpdates()
         } catch (_: CancellationException) {
         } finally {
             coVerify(exactly = 1) { mockHandler.handleUpdate(botMock, anyUpdate) }
@@ -81,7 +81,7 @@ class DispatcherTest {
 
         coEvery { blockingQueueMock.receive() } returns anyMessageWithText andThenThrows CancellationException()
         try {
-            sut.startCheckingUpdates()
+            sut.launchCheckingUpdates()
         } catch (_: CancellationException) {
         } finally {
             assertTrue(anyMessageWithText.consumed)
@@ -102,7 +102,7 @@ class DispatcherTest {
         coEvery { blockingQueueMock.receive() } returns anyUpdate andThenThrows CancellationException()
 
         try {
-            sut.startCheckingUpdates()
+            sut.launchCheckingUpdates()
         } catch (_: CancellationException) {
         } finally {
             coVerifyOrder {

@@ -2,6 +2,8 @@ package com.github.kotlintelegrambot.dispatcher
 
 import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.dispatch
+import com.github.kotlintelegrambot.dispatcher.handlers.chatId
+import com.github.kotlintelegrambot.dispatcher.handlers.requireChatId
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
 import com.github.kotlintelegrambot.entities.KeyboardReplyMarkup
@@ -18,7 +20,6 @@ import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton
 import com.github.kotlintelegrambot.entities.keyboard.KeyboardButton
 import com.github.kotlintelegrambot.extensions.filters.Filter
 import com.github.kotlintelegrambot.logging.LogLevel
-import com.github.kotlintelegrambot.network.fold
 
 fun main() {
 
@@ -30,7 +31,7 @@ fun main() {
 
         dispatch {
             message(Filter.Sticker) {
-                bot.sendMessage(ChatId.fromId(message.chat.id), text = "You have received an awesome sticker \\o/")
+                bot.sendMessage(chatId, text = "You have received an awesome sticker \\o/")
             }
 
             message(Filter.Reply or Filter.Forward) {
@@ -39,7 +40,7 @@ fun main() {
 
             command("start") {
 
-                val result = bot.sendMessage(chatId = ChatId.fromId(update.message!!.chat.id), text = "Bot started")
+                val result = bot.sendMessage(chatId = requireChatId(), text = "Bot started")
 
                 result.fold(
                     {
@@ -53,7 +54,7 @@ fun main() {
 
             command("hello") {
 
-                val result = bot.sendMessage(chatId = ChatId.fromId(update.message!!.chat.id), text = "Hello, world!")
+                val result = bot.sendMessage(chatId = chatId, text = "Hello, world!")
 
                 result.fold(
                     {
@@ -68,13 +69,13 @@ fun main() {
             command("commandWithArgs") {
                 val joinedArgs = args.joinToString()
                 val response = if (joinedArgs.isNotBlank()) joinedArgs else "There is no text apart from command!"
-                bot.sendMessage(chatId = ChatId.fromId(message.chat.id), text = response)
+                bot.sendMessage(chatId = chatId, text = response)
             }
 
             command("markdown") {
                 val markdownText = "_Cool message_: *Markdown* is `beatiful` :P"
                 bot.sendMessage(
-                    chatId = ChatId.fromId(message.chat.id),
+                    chatId = chatId,
                     text = markdownText,
                     parseMode = MARKDOWN
                 )
@@ -97,7 +98,7 @@ fun main() {
                     ```
                 """.trimIndent()
                 bot.sendMessage(
-                    chatId = ChatId.fromId(message.chat.id),
+                    chatId = chatId,
                     text = markdownV2Text,
                     parseMode = MARKDOWN_V2
                 )
@@ -109,7 +110,7 @@ fun main() {
                     listOf(InlineKeyboardButton.CallbackData(text = "Show alert", callbackData = "showAlert"))
                 )
                 bot.sendMessage(
-                    chatId = ChatId.fromId(message.chat.id),
+                    chatId = chatId,
                     text = "Hello, inline buttons!",
                     replyMarkup = inlineKeyboardMarkup
                 )
@@ -126,7 +127,7 @@ fun main() {
 
             command("mediaGroup") {
                 bot.sendMediaGroup(
-                    chatId = ChatId.fromId(message.chat.id),
+                    chatId = chatId,
                     mediaGroup = MediaGroup.from(
                         InputMediaPhoto(
                             media = ByUrl("https://www.sngular.com/wp-content/uploads/2019/11/Kotlin-Blog-1400x411.png"),
@@ -161,7 +162,7 @@ fun main() {
 
             location {
                 bot.sendMessage(
-                    chatId = ChatId.fromId(message.chat.id),
+                    chatId = chatId,
                     text = "Your location is (${location.latitude}, ${location.longitude})",
                     replyMarkup = ReplyKeyboardRemove()
                 )
@@ -197,17 +198,17 @@ fun main() {
 
             photos {
                 bot.sendMessage(
-                    chatId = ChatId.fromId(message.chat.id),
+                    chatId = requireChatId(),
                     text = "Wowww, awesome photos!!! :P"
                 )
             }
 
             command("diceAsDartboard") {
-                bot.sendDice(ChatId.fromId(message.chat.id), DiceEmoji.Dartboard)
+                bot.sendDice(requireChatId(), DiceEmoji.Dartboard)
             }
 
             dice {
-                bot.sendMessage(ChatId.fromId(message.chat.id), "A dice ${dice.emoji.emojiValue} with value ${dice.value} has been received!")
+                bot.sendMessage(requireChatId(), "A dice ${dice.emoji.emojiValue} with value ${dice.value} has been received!")
             }
 
             telegramError {
@@ -215,8 +216,7 @@ fun main() {
             }
         }
     }
-
-    bot.startPolling()
+    bot.startPolling(wait = true)
 }
 
 fun generateUsersButton(): List<List<KeyboardButton>> {
