@@ -3,12 +3,14 @@ package com.github.kotlintelegrambot.dispatcher.handlers
 import anyInlineQuery
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
-import junit.framework.TestCase.assertFalse
-import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class InlineQueryHandlerTest {
 
     private val handleInlineQueryMock = mockk<HandleInlineQuery>(relaxed = true)
@@ -21,7 +23,7 @@ class InlineQueryHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithInlineQuery)
 
-        assertTrue(checkUpdateResult)
+        Assertions.assertTrue(checkUpdateResult)
     }
 
     @Test
@@ -30,11 +32,11 @@ class InlineQueryHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithoutInlineQuery)
 
-        assertFalse(checkUpdateResult)
+        Assertions.assertFalse(checkUpdateResult)
     }
 
     @Test
-    fun `inline query is properly dispatched to the handler function`() {
+    fun `inline query is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val anyInlineQuery = anyInlineQuery()
         val anyUpdateWithInlineQuery = anyUpdate(inlineQuery = anyInlineQuery)
@@ -46,6 +48,6 @@ class InlineQueryHandlerTest {
             anyUpdateWithInlineQuery,
             anyInlineQuery
         )
-        verify { handleInlineQueryMock.invoke(expectedInlineQueryHandlerEnv) }
+        coVerify { handleInlineQueryMock.invoke(expectedInlineQueryHandlerEnv) }
     }
 }

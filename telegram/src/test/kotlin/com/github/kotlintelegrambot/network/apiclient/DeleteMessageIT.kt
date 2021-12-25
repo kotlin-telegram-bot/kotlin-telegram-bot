@@ -2,15 +2,18 @@ package com.github.kotlintelegrambot.network.apiclient
 
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.testutils.decode
-import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class DeleteMessageIT : ApiClientIT() {
 
     @Test
-    fun `deleteMessage with chat id sends correct request`() {
+    fun `deleteMessage with chat id sends correct request`() = runTest {
         givenDeleteMessageSuccessfulResponse()
 
         sut.deleteMessage(ChatId.fromId(ANY_CHAT_ID), ANY_MESSAGE_ID)
@@ -21,7 +24,7 @@ class DeleteMessageIT : ApiClientIT() {
     }
 
     @Test
-    fun `deleteMessage with channel username sends correct request`() {
+    fun `deleteMessage with channel username sends correct request`() = runTest {
         givenDeleteMessageSuccessfulResponse()
 
         sut.deleteMessage(ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME), ANY_MESSAGE_ID)
@@ -32,7 +35,7 @@ class DeleteMessageIT : ApiClientIT() {
     }
 
     @Test
-    fun `deleteMessage response is returned correctly`() {
+    fun `deleteMessage response is returned correctly`() = runTest {
         givenDeleteMessageSuccessfulResponse()
 
         val deleteMessageResult = sut.deleteMessage(ChatId.fromId(ANY_CHAT_ID), ANY_MESSAGE_ID)

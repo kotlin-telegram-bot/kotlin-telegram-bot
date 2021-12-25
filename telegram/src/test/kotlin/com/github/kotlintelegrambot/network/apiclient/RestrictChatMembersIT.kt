@@ -3,46 +3,51 @@ package com.github.kotlintelegrambot.network.apiclient
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.testutils.decode
-import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class RestrictChatMembersIT : ApiClientIT() {
 
     @Test
-    fun `restrictChatMember with no chat permissions sends the correct request`() {
-        givenRestrictChatMembersSuccessResponse()
+    fun `restrictChatMember with no chat permissions sends the correct request`() =
+        runTest {
+            givenRestrictChatMembersSuccessResponse()
 
-        sut.restrictChatMember(
-            ChatId.fromId(ANY_CHAT_ID),
-            ANY_USER_ID,
-            ChatPermissions()
-        ).execute()
+            sut.restrictChatMember(
+                ChatId.fromId(ANY_CHAT_ID),
+                ANY_USER_ID,
+                ChatPermissions()
+            )
 
-        val request = mockWebServer.takeRequest()
-        val expectedRequestBody = "chat_id=1241242&user_id=32523623&permissions={}"
-        assertEquals(expectedRequestBody, request.body.readUtf8().decode())
-    }
-
-    @Test
-    fun `restrictChatMember with one chat permission sends the correct request`() {
-        givenRestrictChatMembersSuccessResponse()
-
-        sut.restrictChatMember(
-            ChatId.fromId(ANY_CHAT_ID),
-            ANY_USER_ID,
-            ChatPermissions(canSendMessages = false)
-        ).execute()
-
-        val request = mockWebServer.takeRequest()
-        val expectedRequestBody = "chat_id=1241242&" +
-            "user_id=32523623&" +
-            "permissions={\"can_send_messages\":false}"
-        assertEquals(expectedRequestBody, request.body.readUtf8().decode())
-    }
+            val request = mockWebServer.takeRequest()
+            val expectedRequestBody = "chat_id=1241242&user_id=32523623&permissions={}"
+            assertEquals(expectedRequestBody, request.body.readUtf8().decode())
+        }
 
     @Test
-    fun `restrictChatMember with several chat permission sends the correct request`() {
+    fun `restrictChatMember with one chat permission sends the correct request`() =
+        runTest {
+            givenRestrictChatMembersSuccessResponse()
+
+            sut.restrictChatMember(
+                ChatId.fromId(ANY_CHAT_ID),
+                ANY_USER_ID,
+                ChatPermissions(canSendMessages = false)
+            )
+
+            val request = mockWebServer.takeRequest()
+            val expectedRequestBody = "chat_id=1241242&" +
+                "user_id=32523623&" +
+                "permissions={\"can_send_messages\":false}"
+            assertEquals(expectedRequestBody, request.body.readUtf8().decode())
+        }
+
+    @Test
+    fun `restrictChatMember with several chat permission sends the correct request`() = runTest {
         givenRestrictChatMembersSuccessResponse()
 
         sut.restrictChatMember(
@@ -53,7 +58,7 @@ class RestrictChatMembersIT : ApiClientIT() {
                 canSendPolls = true,
                 canAddWebPagePreviews = false
             )
-        ).execute()
+        )
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=1241242&" +
@@ -65,7 +70,7 @@ class RestrictChatMembersIT : ApiClientIT() {
     }
 
     @Test
-    fun `restrictChatMember with until date sends the correct request`() {
+    fun `restrictChatMember with until date sends the correct request`() = runTest {
         givenRestrictChatMembersSuccessResponse()
 
         sut.restrictChatMember(
@@ -73,7 +78,7 @@ class RestrictChatMembersIT : ApiClientIT() {
             ANY_USER_ID,
             ChatPermissions(),
             ANY_TIMESTAMP
-        ).execute()
+        )
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=1241242&" +

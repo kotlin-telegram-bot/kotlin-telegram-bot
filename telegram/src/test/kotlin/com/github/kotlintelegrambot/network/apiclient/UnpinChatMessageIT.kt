@@ -2,14 +2,17 @@ package com.github.kotlintelegrambot.network.apiclient
 
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.testutils.decode
-import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class UnpinChatMessageIT : ApiClientIT() {
 
     @Test
-    fun `correct request on unpinChatMessage with chat id and message id`() {
+    fun `correct request on unpinChatMessage with chat id and message id`() = runTest {
         givenASuccessfulUnpinChatMessageResponse()
 
         sut.unpinChatMessage(ChatId.fromId(ANY_CHAT_ID), ANY_MESSAGE_ID)
@@ -22,7 +25,7 @@ class UnpinChatMessageIT : ApiClientIT() {
     }
 
     @Test
-    fun `correct request on unpinChatMessage with chat id and no message id`() {
+    fun `correct request on unpinChatMessage with chat id and no message id`() = runTest {
         givenASuccessfulUnpinChatMessageResponse()
 
         sut.unpinChatMessage(ChatId.fromId(ANY_CHAT_ID), messageId = null)
@@ -35,7 +38,7 @@ class UnpinChatMessageIT : ApiClientIT() {
     }
 
     @Test
-    fun `correct request on unpinChatMessage with channel username and message id`() {
+    fun `correct request on unpinChatMessage with channel username and message id`() = runTest {
         givenASuccessfulUnpinChatMessageResponse()
 
         sut.unpinChatMessage(ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME), ANY_MESSAGE_ID)
@@ -44,11 +47,14 @@ class UnpinChatMessageIT : ApiClientIT() {
         val requestMethodName = request.path?.split("/")?.lastOrNull()
         val requestBody = request.body.readUtf8().decode()
         assertEquals("unpinChatMessage", requestMethodName)
-        assertEquals("chat_id=$ANY_CHANNEL_USERNAME&message_id=$ANY_MESSAGE_ID", requestBody)
+        assertEquals(
+            "chat_id=$ANY_CHANNEL_USERNAME&message_id=$ANY_MESSAGE_ID",
+            requestBody
+        )
     }
 
     @Test
-    fun `correct request on unpinChatMessage with channel username and no message id`() {
+    fun `correct request on unpinChatMessage with channel username and no message id`() = runTest {
         givenASuccessfulUnpinChatMessageResponse()
 
         sut.unpinChatMessage(ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME), messageId = null)
@@ -61,7 +67,7 @@ class UnpinChatMessageIT : ApiClientIT() {
     }
 
     @Test
-    fun `successful unpinChatMessage response is returned correctly`() {
+    fun `successful unpinChatMessage response is returned correctly`() = runTest {
         givenASuccessfulUnpinChatMessageResponse()
 
         val unpinChatMessageResult = sut.unpinChatMessage(

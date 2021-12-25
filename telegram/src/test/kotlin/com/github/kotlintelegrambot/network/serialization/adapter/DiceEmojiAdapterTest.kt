@@ -3,7 +3,7 @@ package com.github.kotlintelegrambot.network.serialization.adapter
 import com.github.kotlintelegrambot.entities.dice.Dice
 import com.github.kotlintelegrambot.entities.dice.DiceEmoji
 import com.google.gson.GsonBuilder
-import junit.framework.TestCase.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class DiceEmojiAdapterTest {

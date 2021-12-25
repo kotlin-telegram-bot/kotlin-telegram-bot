@@ -3,15 +3,17 @@ package com.github.kotlintelegrambot.dispatcher.handlers
 import anyMessage
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
-import junit.framework.TestCase.assertFalse
-import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class CommandHandlerTest {
 
-    private val handlerFunctionMock = mockk<CommandHandlerEnvironment.() -> Unit>(relaxed = true)
+    private val handlerFunctionMock = mockk<suspend CommandHandlerEnvironment.() -> Unit>(relaxed = true)
 
     private val sut = CommandHandler(ANY_COMMAND_NAME, handlerFunctionMock)
 
@@ -21,7 +23,7 @@ class CommandHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyCommand)
 
-        assertTrue(checkUpdateResult)
+        Assertions.assertTrue(checkUpdateResult)
     }
 
     @Test
@@ -32,7 +34,7 @@ class CommandHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyCommandWithArguments)
 
-        assertTrue(checkUpdateResult)
+        Assertions.assertTrue(checkUpdateResult)
     }
 
     @Test
@@ -41,7 +43,7 @@ class CommandHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyOtherCommand)
 
-        assertFalse(checkUpdateResult)
+        Assertions.assertFalse(checkUpdateResult)
     }
 
     @Test
@@ -50,11 +52,11 @@ class CommandHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyNonCommandUpdate)
 
-        assertFalse(checkUpdateResult)
+        Assertions.assertFalse(checkUpdateResult)
     }
 
     @Test
-    fun `command update is properly dispatched to the handler function`() {
+    fun `command update is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val commandMessage = anyMessage(text = "/$ANY_COMMAND_NAME $ANY_ARG")
         val anyUpdate = anyUpdate(message = commandMessage)
@@ -62,7 +64,7 @@ class CommandHandlerTest {
         sut.handleUpdate(botMock, anyUpdate)
 
         val expectedArgs = CommandHandlerEnvironment(botMock, anyUpdate, commandMessage, listOf(ANY_ARG))
-        verify { handlerFunctionMock.invoke(expectedArgs) }
+        coVerify { handlerFunctionMock.invoke(expectedArgs) }
     }
 
     private companion object {

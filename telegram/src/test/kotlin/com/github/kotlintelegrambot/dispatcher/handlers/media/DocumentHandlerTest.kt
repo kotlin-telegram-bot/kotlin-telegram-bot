@@ -5,12 +5,14 @@ import anyMessage
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleDocument
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
-import junit.framework.TestCase.assertFalse
-import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class DocumentHandlerTest {
 
     private val handleDocumentMock = mockk<HandleDocument>(relaxed = true)
@@ -23,7 +25,7 @@ class DocumentHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithNoDocument)
 
-        assertFalse(checkUpdateResult)
+        Assertions.assertFalse(checkUpdateResult)
     }
 
     @Test
@@ -32,11 +34,11 @@ class DocumentHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithDocument)
 
-        assertTrue(checkUpdateResult)
+        Assertions.assertTrue(checkUpdateResult)
     }
 
     @Test
-    fun `document is properly dispatched to the handler function`() {
+    fun `document is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val anyDocument = anyDocument()
         val anyMessageWithDocument = anyMessage(document = anyDocument)
@@ -50,6 +52,6 @@ class DocumentHandlerTest {
             anyMessageWithDocument,
             anyDocument
         )
-        verify { handleDocumentMock.invoke(expectedDocumentHandlerEnv) }
+        coVerify { handleDocumentMock.invoke(expectedDocumentHandlerEnv) }
     }
 }

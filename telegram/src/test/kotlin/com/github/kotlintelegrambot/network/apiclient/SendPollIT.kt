@@ -9,14 +9,17 @@ import com.github.kotlintelegrambot.entities.polls.Poll
 import com.github.kotlintelegrambot.entities.polls.PollOption
 import com.github.kotlintelegrambot.entities.polls.PollType.REGULAR
 import com.github.kotlintelegrambot.testutils.decode
-import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class SendPollIT : ApiClientIT() {
 
     @Test
-    fun `sendPoll with chat id and only the mandatory parameters is correctly sent`() {
+    fun `sendPoll with chat id and only the mandatory parameters is correctly sent`() = runTest {
         givenAnySendPollResponse()
 
         sut.sendPoll(ChatId.fromId(ANY_CHAT_ID), ANY_QUESTION, ANY_POLL_OPTIONS)
@@ -28,7 +31,7 @@ class SendPollIT : ApiClientIT() {
     }
 
     @Test
-    fun `sendPoll with channel username and only the mandatory parameters is correctly sent`() {
+    fun `sendPoll with channel username and only the mandatory parameters is correctly sent`() = runTest {
         givenAnySendPollResponse()
 
         sut.sendPoll(ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME), ANY_QUESTION, ANY_POLL_OPTIONS)
@@ -40,7 +43,7 @@ class SendPollIT : ApiClientIT() {
     }
 
     @Test
-    fun `sendPoll with the mandatory parameters and some of the optionals is correctly sent`() {
+    fun `sendPoll with the mandatory parameters and some of the optionals is correctly sent`() = runTest {
         givenAnySendPollResponse()
 
         sut.sendPoll(
@@ -62,7 +65,7 @@ class SendPollIT : ApiClientIT() {
     }
 
     @Test
-    fun `sendPoll with all the parameters is correctly sent`() {
+    fun `sendPoll with all the parameters is correctly sent`() = runTest {
         givenAnySendPollResponse()
 
         sut.sendPoll(
@@ -100,7 +103,7 @@ class SendPollIT : ApiClientIT() {
     }
 
     @Test
-    fun `sendPoll response is returned correctly`() {
+    fun `sendPoll response is returned correctly`() = runTest {
         givenAnySendPollResponse()
 
         val sendPollResult = sut.sendPoll(ChatId.fromId(ANY_CHAT_ID), ANY_QUESTION, ANY_POLL_OPTIONS)

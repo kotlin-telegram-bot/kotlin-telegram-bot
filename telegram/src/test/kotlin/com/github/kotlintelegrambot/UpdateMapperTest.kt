@@ -8,7 +8,7 @@ import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.User
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.CallbackData
 import com.github.kotlintelegrambot.network.serialization.GsonFactory
-import junit.framework.TestCase.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class UpdateMapperTest {

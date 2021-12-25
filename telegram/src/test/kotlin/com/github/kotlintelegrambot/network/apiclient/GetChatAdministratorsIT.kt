@@ -5,14 +5,17 @@ import com.github.kotlintelegrambot.entities.ChatMember
 import com.github.kotlintelegrambot.entities.User
 import com.github.kotlintelegrambot.testutils.apiMethodName
 import com.github.kotlintelegrambot.testutils.queryParams
-import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class GetChatAdministratorsIT : ApiClientIT() {
 
     @Test
-    fun `request is properly sent`() {
+    fun `request is properly sent`() = runTest {
         givenASuccessfulGetChatMembersResponse()
 
         sut.getChatAdministrators(ChatId.fromId(ANY_CHAT_ID))
@@ -23,7 +26,7 @@ class GetChatAdministratorsIT : ApiClientIT() {
     }
 
     @Test
-    fun `successful response is returned correctly`() {
+    fun `successful response is returned correctly`() = runTest {
         givenASuccessfulGetChatMembersResponse()
 
         val getChatAdministratorsResult = sut.getChatAdministrators(

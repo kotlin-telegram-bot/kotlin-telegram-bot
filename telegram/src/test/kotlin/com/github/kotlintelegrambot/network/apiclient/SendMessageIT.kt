@@ -8,14 +8,17 @@ import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.ParseMode.MARKDOWN
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton
 import com.github.kotlintelegrambot.testutils.decode
-import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class SendMessageIT : ApiClientIT() {
 
     @Test
-    fun `sendMessage with chat id and mandatory params is properly sent`() {
+    fun `sendMessage with chat id and mandatory params is properly sent`() = runTest {
         givenAnySendMessageResponse()
 
         sut.sendMessage(
@@ -35,7 +38,7 @@ class SendMessageIT : ApiClientIT() {
     }
 
     @Test
-    fun `sendMessage with channel username and mandatory params is properly sent`() {
+    fun `sendMessage with channel username and mandatory params is properly sent`() = runTest {
         givenAnySendMessageResponse()
 
         sut.sendMessage(
@@ -55,7 +58,7 @@ class SendMessageIT : ApiClientIT() {
     }
 
     @Test
-    fun `sendMessage with all the params is properly sent`() {
+    fun `sendMessage with all the params is properly sent`() = runTest {
         givenAnySendMessageResponse()
 
         sut.sendMessage(
@@ -81,7 +84,7 @@ class SendMessageIT : ApiClientIT() {
     }
 
     @Test
-    fun `sendMessage with inline keyboard is properly sent`() {
+    fun `sendMessage with inline keyboard is properly sent`() = runTest {
         givenAnySendMessageResponse()
 
         sut.sendMessage(
@@ -118,7 +121,7 @@ class SendMessageIT : ApiClientIT() {
     }
 
     @Test
-    fun `sendMessage response is returned correctly`() {
+    fun `sendMessage response is returned correctly`() = runTest {
         givenAnySendMessageResponse()
 
         val sendMessageResult = sut.sendMessage(

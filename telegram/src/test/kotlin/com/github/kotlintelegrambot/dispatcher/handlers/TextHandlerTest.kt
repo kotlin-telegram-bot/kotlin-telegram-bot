@@ -3,12 +3,14 @@ package com.github.kotlintelegrambot.dispatcher.handlers
 import anyMessage
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
-import junit.framework.TestCase.assertFalse
-import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class TextHandlerTest {
 
     private val handleTextMock = mockk<HandleText>(relaxed = true)
@@ -20,7 +22,7 @@ class TextHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithNoMessage)
 
-        assertFalse(checkUpdateResult)
+        Assertions.assertFalse(checkUpdateResult)
     }
 
     @Test
@@ -30,7 +32,7 @@ class TextHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyMessageWithNoText)
 
-        assertFalse(checkUpdateResult)
+        Assertions.assertFalse(checkUpdateResult)
     }
 
     @Test
@@ -40,7 +42,7 @@ class TextHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyMessageWithText)
 
-        assertTrue(checkUpdateResult)
+        Assertions.assertTrue(checkUpdateResult)
     }
 
     @Test
@@ -50,7 +52,7 @@ class TextHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyMessageWithText)
 
-        assertFalse(checkUpdateResult)
+        Assertions.assertFalse(checkUpdateResult)
     }
 
     @Test
@@ -60,7 +62,7 @@ class TextHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyMessageWithText)
 
-        assertTrue(checkUpdateResult)
+        Assertions.assertTrue(checkUpdateResult)
     }
 
     @Test
@@ -70,11 +72,11 @@ class TextHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyMessageWithText)
 
-        assertTrue(checkUpdateResult)
+        Assertions.assertTrue(checkUpdateResult)
     }
 
     @Test
-    fun `text is properly dispatched to the handler function`() {
+    fun `text is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val anyMessageWithText = anyMessage(text = ANY_TEXT)
         val anyUpdate = anyUpdate(message = anyMessageWithText)
@@ -88,7 +90,7 @@ class TextHandlerTest {
             anyMessageWithText,
             ANY_TEXT
         )
-        verify { handleTextMock.invoke(expectedTextHandlerEnvironment) }
+        coVerify { handleTextMock.invoke(expectedTextHandlerEnvironment) }
     }
 
     private companion object {

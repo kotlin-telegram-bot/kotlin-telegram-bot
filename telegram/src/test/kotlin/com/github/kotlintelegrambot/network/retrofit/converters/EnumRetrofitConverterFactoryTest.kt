@@ -2,12 +2,11 @@ package com.github.kotlintelegrambot.network.retrofit.converters
 
 import com.google.gson.annotations.SerializedName
 import io.mockk.mockk
-import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertNull
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import retrofit2.Retrofit
-import java.lang.IllegalStateException
 
 class EnumRetrofitConverterFactoryTest {
 

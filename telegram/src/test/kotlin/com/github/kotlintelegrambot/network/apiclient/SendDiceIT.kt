@@ -7,14 +7,17 @@ import com.github.kotlintelegrambot.entities.User
 import com.github.kotlintelegrambot.entities.dice.Dice
 import com.github.kotlintelegrambot.entities.dice.DiceEmoji
 import com.github.kotlintelegrambot.testutils.decode
-import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class SendDiceIT : ApiClientIT() {
 
     @Test
-    fun `sendDice only with mandatory parameters`() {
+    fun `sendDice only with mandatory parameters`() = runTest {
         givenAnySendDiceResponse()
 
         sut.sendDice(ChatId.fromId(ANY_CHAT_ID))
@@ -25,7 +28,7 @@ class SendDiceIT : ApiClientIT() {
     }
 
     @Test
-    fun `sendDice with dice emoji`() {
+    fun `sendDice with dice emoji`() = runTest {
         givenAnySendDiceResponse()
 
         sut.sendDice(ChatId.fromId(ANY_CHAT_ID), emoji = DiceEmoji.Dice)
@@ -36,7 +39,7 @@ class SendDiceIT : ApiClientIT() {
     }
 
     @Test
-    fun `sendDice with dartboard emoji`() {
+    fun `sendDice with dartboard emoji`() = runTest {
         givenAnySendDiceResponse()
 
         sut.sendDice(ChatId.fromId(ANY_CHAT_ID), emoji = DiceEmoji.Dartboard)
@@ -47,7 +50,7 @@ class SendDiceIT : ApiClientIT() {
     }
 
     @Test
-    fun `sendDice with basketball emoji`() {
+    fun `sendDice with basketball emoji`() = runTest {
         givenAnySendDiceResponse()
 
         sut.sendDice(ChatId.fromId(ANY_CHAT_ID), emoji = DiceEmoji.Basketball)
@@ -58,7 +61,7 @@ class SendDiceIT : ApiClientIT() {
     }
 
     @Test
-    fun `sendDice with football emoji`() {
+    fun `sendDice with football emoji`() = runTest {
         givenAnySendDiceResponse()
 
         sut.sendDice(ChatId.fromId(ANY_CHAT_ID), emoji = DiceEmoji.Football)
@@ -69,7 +72,7 @@ class SendDiceIT : ApiClientIT() {
     }
 
     @Test
-    fun `sendDice with slot machine emoji`() {
+    fun `sendDice with slot machine emoji`() = runTest {
         givenAnySendDiceResponse()
 
         sut.sendDice(ChatId.fromId(ANY_CHAT_ID), emoji = DiceEmoji.SlotMachine)
@@ -80,7 +83,7 @@ class SendDiceIT : ApiClientIT() {
     }
 
     @Test
-    fun `sendDice with bowling emoji`() {
+    fun `sendDice with bowling emoji`() = runTest {
         givenAnySendDiceResponse()
 
         sut.sendDice(ChatId.fromId(ANY_CHAT_ID), emoji = DiceEmoji.Bowling)
@@ -91,7 +94,7 @@ class SendDiceIT : ApiClientIT() {
     }
 
     @Test
-    fun `sendDice with all the optional parameters`() {
+    fun `sendDice with all the optional parameters`() = runTest {
         givenAnySendDiceResponse()
 
         sut.sendDice(
@@ -110,7 +113,7 @@ class SendDiceIT : ApiClientIT() {
     }
 
     @Test
-    fun `sendDice response is correctly returned`() {
+    fun `sendDice response is correctly returned`() = runTest {
         givenAnySendDiceResponse()
 
         val sendDiceResult = sut.sendDice(ChatId.fromId(ANY_CHAT_ID), emoji = DiceEmoji.Dartboard)

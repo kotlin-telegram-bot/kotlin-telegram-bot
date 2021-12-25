@@ -3,12 +3,14 @@ package com.github.kotlintelegrambot.dispatcher.handlers
 import anyPreCheckoutQuery
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
-import junit.framework.TestCase.assertFalse
-import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class PreCheckoutQueryHandlerTest {
 
     private val handlePreCheckoutQueryMock = mockk<HandlePreCheckoutQuery>(relaxed = true)
@@ -21,7 +23,7 @@ class PreCheckoutQueryHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithNoPreCheckoutQuery)
 
-        assertFalse(checkUpdateResult)
+        Assertions.assertFalse(checkUpdateResult)
     }
 
     @Test
@@ -30,11 +32,11 @@ class PreCheckoutQueryHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithPreCheckoutQuery)
 
-        assertTrue(checkUpdateResult)
+        Assertions.assertTrue(checkUpdateResult)
     }
 
     @Test
-    fun `pre checkout query is properly dispatched to the handler function`() {
+    fun `pre checkout query is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val anyPreCheckoutQuery = anyPreCheckoutQuery()
         val anyUpdateWithPreCheckoutQuery = anyUpdate(preCheckoutQuery = anyPreCheckoutQuery)
@@ -46,6 +48,6 @@ class PreCheckoutQueryHandlerTest {
             anyUpdateWithPreCheckoutQuery,
             anyPreCheckoutQuery
         )
-        verify { handlePreCheckoutQueryMock.invoke(expectedPreCheckoutQueryHandlerEnv) }
+        coVerify { handlePreCheckoutQueryMock.invoke(expectedPreCheckoutQueryHandlerEnv) }
     }
 }

@@ -1,8 +1,8 @@
 package com.github.kotlintelegrambot.network
 
 import com.github.kotlintelegrambot.types.TelegramBotResult
-import junit.framework.TestCase.assertEquals
 import okhttp3.ResponseBody.Companion.toResponseBody
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class ApiResponseMapperTest {

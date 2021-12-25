@@ -1,14 +1,17 @@
 package com.github.kotlintelegrambot.network.apiclient
 
 import com.github.kotlintelegrambot.entities.User
-import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class GetMeIT : ApiClientIT() {
 
     @Test
-    fun `getMe response is correctly returned`() {
+    fun `getMe response is correctly returned`() = runTest {
         givenAnyGetMeResponse()
 
         val getMeResult = sut.getMe()

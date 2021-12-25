@@ -4,18 +4,21 @@ import com.github.kotlintelegrambot.entities.Chat
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.testutils.decode
-import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 private const val CHAT_ID = 12421434235435L
 private const val FROM_CHAT_ID = -1001367429635L
 private const val MESSAGE_ID = 7L
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class ForwardMessageIT : ApiClientIT() {
 
     @Test
-    fun `request with all parameters`() {
+    fun `request with all parameters`() = runTest {
         givenAnyForwardMessageResponse()
 
         sut.forwardMessage(
@@ -34,7 +37,7 @@ class ForwardMessageIT : ApiClientIT() {
     }
 
     @Test
-    fun `request without disableNotification`() {
+    fun `request without disableNotification`() = runTest {
         givenAnyForwardMessageResponse()
 
         sut.forwardMessage(
@@ -52,7 +55,7 @@ class ForwardMessageIT : ApiClientIT() {
     }
 
     @Test
-    fun `message is properly returned on success`() {
+    fun `message is properly returned on success`() = runTest {
         givenAnyForwardMessageResponse()
 
         val forwardMessageResult = sut.forwardMessage(

@@ -6,19 +6,21 @@ import com.github.kotlintelegrambot.errors.RetrieveUpdatesError
 import com.github.kotlintelegrambot.network.ApiClient
 import com.github.kotlintelegrambot.types.DispatchableObject
 import com.github.kotlintelegrambot.types.TelegramBotResult
-import io.mockk.every
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.coVerifyOrder
 import io.mockk.mockk
-import io.mockk.verify
-import io.mockk.verifyOrder
-import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import java.lang.Exception
-import java.util.concurrent.LinkedBlockingQueue
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class UpdaterTest {
 
     private val looper = BoundLooper()
-    private val mockUpdatesQueue = mockk<LinkedBlockingQueue<DispatchableObject>>(relaxUnitFun = true)
+    private val mockUpdatesQueue = mockk<Channel<DispatchableObject>>(relaxUnitFun = true)
     private val mockApiClient = mockk<ApiClient>()
 
     private val sut = Updater(
@@ -29,7 +31,7 @@ class UpdaterTest {
     )
 
     @Test
-    fun `updates pagination in polling with several successful responses`() {
+    fun `updates pagination in polling with several successful responses`() = runTest {
         val updates1 = (1L until 3).map { anyUpdate(updateId = it) }
         val updates2 = emptyList<Update>()
         val updates3 = (3L until 6).map { anyUpdate(updateId = it) }
@@ -39,7 +41,7 @@ class UpdaterTest {
         looper.loopIterations = 4
         sut.startPolling()
 
-        verifyOrder {
+        coVerifyOrder {
             mockApiClient.getUpdates(offset = null, limit = null, timeout = BOT_TIMEOUT, allowedUpdates = null)
             mockApiClient.getUpdates(offset = 3, limit = null, timeout = BOT_TIMEOUT, allowedUpdates = null)
             mockApiClient.getUpdates(offset = 3, limit = null, timeout = BOT_TIMEOUT, allowedUpdates = null)
@@ -48,7 +50,7 @@ class UpdaterTest {
     }
 
     @Test
-    fun `updates pagination in polling with only errors`() {
+    fun `updates pagination in polling with only errors`() = runTest {
         val error1 = TelegramBotResult.Error.Unknown<List<Update>>(Exception())
         val error2 = TelegramBotResult.Error.HttpError<List<Update>>(400, "Not found")
         val error3 = TelegramBotResult.Error.TelegramApi<List<Update>>(523, "WAT")
@@ -63,7 +65,7 @@ class UpdaterTest {
         looper.loopIterations = 5
         sut.startPolling()
 
-        verifyOrder {
+        coVerifyOrder {
             mockApiClient.getUpdates(offset = null, limit = null, timeout = BOT_TIMEOUT, allowedUpdates = null)
             mockApiClient.getUpdates(offset = null, limit = null, timeout = BOT_TIMEOUT, allowedUpdates = null)
             mockApiClient.getUpdates(offset = null, limit = null, timeout = BOT_TIMEOUT, allowedUpdates = null)
@@ -72,7 +74,7 @@ class UpdaterTest {
     }
 
     @Test
-    fun `updates pagination in polling with mixed successes and errors`() {
+    fun `updates pagination in polling with mixed successes and errors`() = runTest {
         val error1 = TelegramBotResult.Error.Unknown<List<Update>>(Exception())
         val updates1 = (1L until 3).map { anyUpdate(updateId = it) }
         val error2 = TelegramBotResult.Error.HttpError<List<Update>>(400, "Not found")
@@ -89,7 +91,7 @@ class UpdaterTest {
         looper.loopIterations = 5
         sut.startPolling()
 
-        verifyOrder {
+        coVerifyOrder {
             mockApiClient.getUpdates(offset = null, limit = null, timeout = BOT_TIMEOUT, allowedUpdates = null)
             mockApiClient.getUpdates(offset = null, limit = null, timeout = BOT_TIMEOUT, allowedUpdates = null)
             mockApiClient.getUpdates(offset = 3, limit = null, timeout = BOT_TIMEOUT, allowedUpdates = null)
@@ -99,7 +101,7 @@ class UpdaterTest {
     }
 
     @Test
-    fun `queue updates in polling with several successful responses`() {
+    fun `queue updates in polling with several successful responses`() = runTest {
         val updates1 = (1L until 3).map { anyUpdate(updateId = it) }
         val updates2 = emptyList<Update>()
         val updates3 = (3L until 6).map { anyUpdate(updateId = it) }
@@ -109,19 +111,19 @@ class UpdaterTest {
         looper.loopIterations = 4
         sut.startPolling()
 
-        verifyOrder {
-            mockUpdatesQueue.put(updates1[0])
-            mockUpdatesQueue.put(updates1[1])
-            mockUpdatesQueue.put(updates3[0])
-            mockUpdatesQueue.put(updates3[1])
-            mockUpdatesQueue.put(updates3[2])
-            mockUpdatesQueue.put(updates4[0])
-            mockUpdatesQueue.put(updates4[1])
+        coVerifyOrder {
+            mockUpdatesQueue.send(updates1[0])
+            mockUpdatesQueue.send(updates1[1])
+            mockUpdatesQueue.send(updates3[0])
+            mockUpdatesQueue.send(updates3[1])
+            mockUpdatesQueue.send(updates3[2])
+            mockUpdatesQueue.send(updates4[0])
+            mockUpdatesQueue.send(updates4[1])
         }
     }
 
     @Test
-    fun `queue updates and errors in polling with mixed successes and errors`() {
+    fun `queue updates and errors in polling with mixed successes and errors`() = runTest {
         val error1 = TelegramBotResult.Error.Unknown<List<Update>>(Exception("I'm exceptional"))
         val updates1 = (1L until 3).map { anyUpdate(updateId = it) }
         val error2 = TelegramBotResult.Error.HttpError<List<Update>>(400, "Not found")
@@ -139,21 +141,21 @@ class UpdaterTest {
         sut.startPolling()
 
         val queuedErrors = mutableListOf<RetrieveUpdatesError>()
-        verifyOrder {
-            mockUpdatesQueue.put(capture(queuedErrors))
-            mockUpdatesQueue.put(updates1[0])
-            mockUpdatesQueue.put(updates1[1])
-            mockUpdatesQueue.put(capture(queuedErrors))
-            mockUpdatesQueue.put(updates3[0])
-            mockUpdatesQueue.put(updates3[1])
-            mockUpdatesQueue.put(updates3[2])
+        coVerifyOrder {
+            mockUpdatesQueue.send(capture(queuedErrors))
+            mockUpdatesQueue.send(updates1[0])
+            mockUpdatesQueue.send(updates1[1])
+            mockUpdatesQueue.send(capture(queuedErrors))
+            mockUpdatesQueue.send(updates3[0])
+            mockUpdatesQueue.send(updates3[1])
+            mockUpdatesQueue.send(updates3[2])
         }
-        assertEquals("I'm exceptional", queuedErrors.last().getErrorMessage())
-        assertEquals("400 Not found", queuedErrors.first().getErrorMessage())
+        Assertions.assertEquals("I'm exceptional", queuedErrors.last().getErrorMessage())
+        Assertions.assertEquals("400 Not found", queuedErrors.first().getErrorMessage())
     }
 
     @Test
-    fun `queue error in polling with only errors`() {
+    fun `queue error in polling with only errors`() = runTest {
         val error1 = TelegramBotResult.Error.Unknown<List<Update>>(Exception("I'm exceptional"))
         val error2 = TelegramBotResult.Error.HttpError<List<Update>>(400, "Not found")
         val error3 = TelegramBotResult.Error.TelegramApi<List<Update>>(523, "WAT")
@@ -169,20 +171,20 @@ class UpdaterTest {
         sut.startPolling()
 
         val queuedErrors = mutableListOf<RetrieveUpdatesError>()
-        verify {
-            mockUpdatesQueue.put(capture(queuedErrors))
-            mockUpdatesQueue.put(capture(queuedErrors))
-            mockUpdatesQueue.put(capture(queuedErrors))
-            mockUpdatesQueue.put(capture(queuedErrors))
+        coVerify {
+            mockUpdatesQueue.send(capture(queuedErrors))
+            mockUpdatesQueue.send(capture(queuedErrors))
+            mockUpdatesQueue.send(capture(queuedErrors))
+            mockUpdatesQueue.send(capture(queuedErrors))
         }
-        assertEquals("I'm exceptional", queuedErrors[0].getErrorMessage())
-        assertEquals("400 Not found", queuedErrors[1].getErrorMessage())
-        assertEquals("523 WAT", queuedErrors[2].getErrorMessage())
-        assertEquals("521 WUT", queuedErrors[3].getErrorMessage())
+        Assertions.assertEquals("I'm exceptional", queuedErrors[0].getErrorMessage())
+        Assertions.assertEquals("400 Not found", queuedErrors[1].getErrorMessage())
+        Assertions.assertEquals("523 WAT", queuedErrors[2].getErrorMessage())
+        Assertions.assertEquals("521 WUT", queuedErrors[3].getErrorMessage())
     }
 
     private fun givenGetUpdatesResults(vararg result: List<Update>) {
-        every {
+        coEvery {
             mockApiClient.getUpdates(any(), any(), any(), any())
         }.returnsMany(
             result.map { it.asResult() }
@@ -190,7 +192,7 @@ class UpdaterTest {
     }
 
     private fun givenGetUpdatesResults(vararg result: TelegramBotResult<List<Update>>) {
-        every {
+        coEvery {
             mockApiClient.getUpdates(any(), any(), any(), any())
         }.returnsMany(result.toList())
     }

@@ -2,17 +2,20 @@ package com.github.kotlintelegrambot.network.apiclient
 
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.testutils.decode
-import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class BanChatMemberIT : ApiClientIT() {
 
     @Test
-    fun `banChatMember with no until date sends the correct request`() {
+    fun `banChatMember with no until date sends the correct request`() = runTest {
         givenBanChatMemberSuccessResponse()
 
-        sut.banChatMember(ChatId.fromId(ANY_CHAT_ID), ANY_USER_ID).execute()
+        sut.banChatMember(ChatId.fromId(ANY_CHAT_ID), ANY_USER_ID)
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID&user_id=$ANY_USER_ID"
@@ -20,14 +23,14 @@ class BanChatMemberIT : ApiClientIT() {
     }
 
     @Test
-    fun `banChatMember with until date sends the correct request`() {
+    fun `banChatMember with until date sends the correct request`() = runTest {
         givenBanChatMemberSuccessResponse()
 
         sut.banChatMember(
             ChatId.fromId(ANY_CHAT_ID),
             ANY_USER_ID,
             ANY_TIMESTAMP
-        ).execute()
+        )
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID&user_id=$ANY_USER_ID&until_date=$ANY_TIMESTAMP"

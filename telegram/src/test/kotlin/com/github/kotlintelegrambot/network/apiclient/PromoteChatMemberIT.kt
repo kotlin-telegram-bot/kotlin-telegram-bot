@@ -3,14 +3,17 @@ package com.github.kotlintelegrambot.network.apiclient
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.testutils.apiMethodName
 import com.github.kotlintelegrambot.testutils.decodedBody
-import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class PromoteChatMemberIT : ApiClientIT() {
 
     @Test
-    fun `correct request with all mandatory arguments`() {
+    fun `correct request with all mandatory arguments`() = runTest {
         givenPromoteChatMemberSuccessResponse()
 
         sut.promoteChatMember(
@@ -29,14 +32,11 @@ class PromoteChatMemberIT : ApiClientIT() {
 
         val request = mockWebServer.takeRequest()
         assertEquals("promoteChatMember", request.apiMethodName)
-        assertEquals(
-            "chat_id=$ANY_CHAT_ID&user_id=$ANY_USER_ID",
-            request.decodedBody
-        )
+        assertEquals("chat_id=$ANY_CHAT_ID&user_id=$ANY_USER_ID", request.decodedBody)
     }
 
     @Test
-    fun `correct request with all arguments`() {
+    fun `correct request with all arguments`() = runTest {
         givenPromoteChatMemberSuccessResponse()
 
         sut.promoteChatMember(
@@ -66,7 +66,7 @@ class PromoteChatMemberIT : ApiClientIT() {
     }
 
     @Test
-    fun `successful response is returned correctly`() {
+    fun `successful response is returned correctly`() = runTest {
         givenPromoteChatMemberSuccessResponse()
 
         val promoteChatMemberResult = sut.promoteChatMember(

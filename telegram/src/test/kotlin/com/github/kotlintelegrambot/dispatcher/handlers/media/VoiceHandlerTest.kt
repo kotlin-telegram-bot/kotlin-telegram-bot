@@ -5,12 +5,14 @@ import anyUpdate
 import anyVoice
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleVoice
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
-import junit.framework.TestCase.assertFalse
-import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class VoiceHandlerTest {
 
     private val handleVoiceMock = mockk<HandleVoice>(relaxed = true)
@@ -23,7 +25,7 @@ class VoiceHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithNoVoice)
 
-        assertFalse(checkUpdateResult)
+        Assertions.assertFalse(checkUpdateResult)
     }
 
     @Test
@@ -32,11 +34,11 @@ class VoiceHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithVoice)
 
-        assertTrue(checkUpdateResult)
+        Assertions.assertTrue(checkUpdateResult)
     }
 
     @Test
-    fun `voice is properly dispatched to the handler function`() {
+    fun `voice is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val anyVoice = anyVoice()
         val anyMessageWithVoice = anyMessage(voice = anyVoice)
@@ -50,6 +52,6 @@ class VoiceHandlerTest {
             anyMessageWithVoice,
             anyVoice
         )
-        verify { handleVoiceMock.invoke(expectedVoiceHandlerEnv) }
+        coVerify { handleVoiceMock.invoke(expectedVoiceHandlerEnv) }
     }
 }

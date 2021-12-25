@@ -6,8 +6,7 @@ import okhttp3.mockwebserver.RecordedRequest
 val RecordedRequest.multipartBoundary: String
     get() {
         val contentTypeHeader: String = headers["Content-Type"] ?: error("no Content-Type header")
-        val boundary = contentTypeHeader.split(';')[1].split('=')[1]
-        return boundary
+        return contentTypeHeader.split(';')[1].split('=')[1]
     }
 
 val RecordedRequest.apiMethodName: String?

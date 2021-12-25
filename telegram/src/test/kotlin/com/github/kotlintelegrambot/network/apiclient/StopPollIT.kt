@@ -8,14 +8,17 @@ import com.github.kotlintelegrambot.entities.polls.PollOption
 import com.github.kotlintelegrambot.entities.polls.PollType
 import com.github.kotlintelegrambot.testutils.apiMethodName
 import com.github.kotlintelegrambot.testutils.decodedBody
-import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class StopPollIT : ApiClientIT() {
 
     @Test
-    fun `api method name`() {
+    fun `api method name`() = runTest {
         givenStopPollSuccessfulResponse()
 
         sut.stopPoll(
@@ -29,7 +32,7 @@ class StopPollIT : ApiClientIT() {
     }
 
     @Test
-    fun `request body with mandatory parameters`() {
+    fun `request body with mandatory parameters`() = runTest {
         givenStopPollSuccessfulResponse()
 
         sut.stopPoll(
@@ -44,7 +47,7 @@ class StopPollIT : ApiClientIT() {
     }
 
     @Test
-    fun `request body with all parameters`() {
+    fun `request body with all parameters`() = runTest {
         givenStopPollSuccessfulResponse()
 
         sut.stopPoll(
@@ -68,7 +71,7 @@ class StopPollIT : ApiClientIT() {
     }
 
     @Test
-    fun `successful response result`() {
+    fun `successful response result`() = runTest {
         givenStopPollSuccessfulResponse()
 
         val stopPollResult = sut.stopPoll(

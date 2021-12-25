@@ -3,12 +3,14 @@ package com.github.kotlintelegrambot.dispatcher.handlers
 import anyPollAnswer
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
-import junit.framework.TestCase.assertFalse
-import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class PollAnswerHandlerTest {
 
     private val handlePollAnswerMock = mockk<HandlePollAnswer>(relaxed = true)
@@ -21,7 +23,7 @@ class PollAnswerHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithNoPollAnswer)
 
-        assertFalse(checkUpdateResult)
+        Assertions.assertFalse(checkUpdateResult)
     }
 
     @Test
@@ -30,11 +32,11 @@ class PollAnswerHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithPollAnswer)
 
-        assertTrue(checkUpdateResult)
+        Assertions.assertTrue(checkUpdateResult)
     }
 
     @Test
-    fun `poll answer is properly dispatched to the handler function`() {
+    fun `poll answer is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val anyPollAnswer = anyPollAnswer()
         val anyUpdateWithPollAnswer = anyUpdate(pollAnswer = anyPollAnswer)
@@ -46,6 +48,6 @@ class PollAnswerHandlerTest {
             anyUpdateWithPollAnswer,
             anyPollAnswer
         )
-        verify { handlePollAnswerMock.invoke(expectedPollAnswerHandlerEnv) }
+        coVerify { handlePollAnswerMock.invoke(expectedPollAnswerHandlerEnv) }
     }
 }

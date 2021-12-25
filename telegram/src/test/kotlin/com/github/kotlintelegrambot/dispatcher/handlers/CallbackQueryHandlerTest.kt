@@ -3,12 +3,14 @@ package com.github.kotlintelegrambot.dispatcher.handlers
 import anyCallbackQuery
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
-import junit.framework.TestCase.assertFalse
-import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class CallbackQueryHandlerTest {
 
     private val handleCallbackQueryMock = mockk<HandleCallbackQuery>(relaxed = true)
@@ -20,7 +22,7 @@ class CallbackQueryHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithoutCallbackQuery)
 
-        assertFalse(checkUpdateResult)
+        Assertions.assertFalse(checkUpdateResult)
     }
 
     @Test
@@ -33,7 +35,7 @@ class CallbackQueryHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithCallbackQuery)
 
-        assertTrue(checkUpdateResult)
+        Assertions.assertTrue(checkUpdateResult)
     }
 
     @Test
@@ -48,7 +50,7 @@ class CallbackQueryHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithCallbackQuery)
 
-        assertFalse(checkUpdateResult)
+        Assertions.assertFalse(checkUpdateResult)
     }
 
     @Test
@@ -63,7 +65,7 @@ class CallbackQueryHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithCallbackQuery)
 
-        assertTrue(checkUpdateResult)
+        Assertions.assertTrue(checkUpdateResult)
     }
 
     @Test
@@ -78,11 +80,11 @@ class CallbackQueryHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithCallbackQuery)
 
-        assertTrue(checkUpdateResult)
+        Assertions.assertTrue(checkUpdateResult)
     }
 
     @Test
-    fun `callbackQuery is properly dispatched to the handler function`() {
+    fun `callbackQuery is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>(relaxed = true)
         val anyCallbackQuery = anyCallbackQuery(data = ANY_CALLBACK_QUERY_DATA)
         val anyUpdateWithCallbackQuery = anyUpdate(callbackQuery = anyCallbackQuery)
@@ -98,11 +100,11 @@ class CallbackQueryHandlerTest {
             anyUpdateWithCallbackQuery,
             anyCallbackQuery
         )
-        verify { handleCallbackQueryMock.invoke(expectedCallbackQueryHandlerEnvironment) }
+        coVerify { handleCallbackQueryMock.invoke(expectedCallbackQueryHandlerEnvironment) }
     }
 
     @Test
-    fun `callback query is answered when callbackQuery is dispatched to the handler function`() {
+    fun `callback query is answered when callbackQuery is dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>(relaxed = true)
         val anyUpdateWithCallbackQuery = anyUpdate(
             callbackQuery = anyCallbackQuery(
@@ -121,7 +123,7 @@ class CallbackQueryHandlerTest {
 
         sut.handleUpdate(botMock, anyUpdateWithCallbackQuery)
 
-        verify {
+        coVerify {
             botMock.answerCallbackQuery(
                 ANY_CALLBACK_QUERY_ID,
                 ANY_CALLBACK_ANSWER_TEXT,

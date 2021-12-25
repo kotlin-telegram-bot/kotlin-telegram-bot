@@ -1,36 +1,45 @@
 package com.github.kotlintelegrambot.logging
 
-import junit.framework.TestCase.assertEquals
-import okhttp3.logging.HttpLoggingInterceptor
+import com.github.kotlintelegrambot.logging.LogLevel.All
+import com.github.kotlintelegrambot.logging.LogLevel.Error
+import com.github.kotlintelegrambot.logging.LogLevel.Network.Basic
+import com.github.kotlintelegrambot.logging.LogLevel.Network.Body
+import com.github.kotlintelegrambot.logging.LogLevel.Network.Headers
+import com.github.kotlintelegrambot.logging.LogLevel.Network.None
+import okhttp3.logging.HttpLoggingInterceptor.Level.BASIC
+import okhttp3.logging.HttpLoggingInterceptor.Level.BODY
+import okhttp3.logging.HttpLoggingInterceptor.Level.HEADERS
+import okhttp3.logging.HttpLoggingInterceptor.Level.NONE
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class LogLevelTest {
 
     @Test
     fun `log level is properly mapped to ok http's log level`() {
-        assertEquals(HttpLoggingInterceptor.Level.NONE, LogLevel.None.toOkHttpLogLevel())
-        assertEquals(HttpLoggingInterceptor.Level.NONE, LogLevel.Error.toOkHttpLogLevel())
-        assertEquals(HttpLoggingInterceptor.Level.NONE, LogLevel.All(LogLevel.Network.None).toOkHttpLogLevel())
-        assertEquals(HttpLoggingInterceptor.Level.NONE, LogLevel.Network.None.toOkHttpLogLevel())
-        assertEquals(HttpLoggingInterceptor.Level.BASIC, LogLevel.All(LogLevel.Network.Basic).toOkHttpLogLevel())
-        assertEquals(HttpLoggingInterceptor.Level.BASIC, LogLevel.Network.Basic.toOkHttpLogLevel())
-        assertEquals(HttpLoggingInterceptor.Level.HEADERS, LogLevel.All(LogLevel.Network.Headers).toOkHttpLogLevel())
-        assertEquals(HttpLoggingInterceptor.Level.HEADERS, LogLevel.Network.Headers.toOkHttpLogLevel())
-        assertEquals(HttpLoggingInterceptor.Level.BODY, LogLevel.All(LogLevel.Network.Body).toOkHttpLogLevel())
-        assertEquals(HttpLoggingInterceptor.Level.BODY, LogLevel.Network.Body.toOkHttpLogLevel())
+        assertEquals(NONE, LogLevel.None.toOkHttpLogLevel())
+        assertEquals(NONE, Error.toOkHttpLogLevel())
+        assertEquals(NONE, All(None).toOkHttpLogLevel())
+        assertEquals(NONE, None.toOkHttpLogLevel())
+        assertEquals(BASIC, All(Basic).toOkHttpLogLevel())
+        assertEquals(BASIC, Basic.toOkHttpLogLevel())
+        assertEquals(HEADERS, All(Headers).toOkHttpLogLevel())
+        assertEquals(HEADERS, Headers.toOkHttpLogLevel())
+        assertEquals(BODY, All(Body).toOkHttpLogLevel())
+        assertEquals(BODY, Body.toOkHttpLogLevel())
     }
 
     @Test
     fun `should only log errors with All and Error`() {
         assertEquals(false, LogLevel.None.shouldLogErrors())
-        assertEquals(true, LogLevel.Error.shouldLogErrors())
-        assertEquals(true, LogLevel.All(LogLevel.Network.None).shouldLogErrors())
-        assertEquals(false, LogLevel.Network.None.shouldLogErrors())
-        assertEquals(true, LogLevel.All(LogLevel.Network.Basic).shouldLogErrors())
-        assertEquals(false, LogLevel.Network.Basic.shouldLogErrors())
-        assertEquals(true, LogLevel.All(LogLevel.Network.Headers).shouldLogErrors())
-        assertEquals(false, LogLevel.Network.Headers.shouldLogErrors())
-        assertEquals(true, LogLevel.All(LogLevel.Network.Body).shouldLogErrors())
-        assertEquals(false, LogLevel.Network.Body.shouldLogErrors())
+        assertEquals(true, Error.shouldLogErrors())
+        assertEquals(true, All(None).shouldLogErrors())
+        assertEquals(false, None.shouldLogErrors())
+        assertEquals(true, All(Basic).shouldLogErrors())
+        assertEquals(false, Basic.shouldLogErrors())
+        assertEquals(true, All(Headers).shouldLogErrors())
+        assertEquals(false, Headers.shouldLogErrors())
+        assertEquals(true, All(Body).shouldLogErrors())
+        assertEquals(false, Body.shouldLogErrors())
     }
 }

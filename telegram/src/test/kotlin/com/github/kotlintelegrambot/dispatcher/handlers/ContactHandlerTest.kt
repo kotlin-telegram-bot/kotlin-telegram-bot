@@ -4,12 +4,14 @@ import anyContact
 import anyMessage
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
-import junit.framework.TestCase.assertFalse
-import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class ContactHandlerTest {
 
     private val handleContactMock = mockk<HandleContact>(relaxed = true)
@@ -22,7 +24,7 @@ class ContactHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithNoContact)
 
-        assertFalse(checkUpdateResult)
+        Assertions.assertFalse(checkUpdateResult)
     }
 
     @Test
@@ -31,11 +33,11 @@ class ContactHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithContact)
 
-        assertTrue(checkUpdateResult)
+        Assertions.assertTrue(checkUpdateResult)
     }
 
     @Test
-    fun `contact is properly dispatched to the handler function`() {
+    fun `contact is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val anyContact = anyContact()
         val anyMessageWithContact = anyMessage(contact = anyContact)
@@ -49,6 +51,6 @@ class ContactHandlerTest {
             anyMessageWithContact,
             anyContact
         )
-        verify { handleContactMock.invoke(expectedCommandHandlerEnv) }
+        coVerify { handleContactMock.invoke(expectedCommandHandlerEnv) }
     }
 }

@@ -9,14 +9,17 @@ import com.github.kotlintelegrambot.entities.ParseMode.MARKDOWN_V2
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.CallbackData
 import com.github.kotlintelegrambot.testutils.decode
 import com.google.gson.Gson
-import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class CopyMessageIT : ApiClientIT() {
 
     @Test
-    fun `copy message with all parameters`() {
+    fun `copy message with all parameters`() = runTest {
         givenAnyCopyMessageResponse()
 
         sut.copyMessage(
@@ -30,7 +33,7 @@ class CopyMessageIT : ApiClientIT() {
             replyToMessageId = REPLY_TO_MESSAGE_ID,
             allowSendingWithoutReply = true,
             replyMarkup = REPLY_MARKUP
-        ).execute()
+        )
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHANNEL_USERNAME" +
@@ -48,14 +51,14 @@ class CopyMessageIT : ApiClientIT() {
     }
 
     @Test
-    fun `copyMessage response is returned correctly`() {
+    fun `copyMessage response is returned correctly`() = runTest {
         givenAnyCopyMessageResponse()
 
         val copyMessageResponse = sut.copyMessage(
             ChatId.fromId(ANY_CHAT_ID),
             ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME),
             ANY_MESSAGE_ID
-        ).execute()
+        )
 
         val expectedMessageId = MessageId(messageId = ANY_RESULT_MESSAGE_ID)
         assertEquals(expectedMessageId, copyMessageResponse.body()?.result)

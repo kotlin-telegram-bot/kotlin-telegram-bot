@@ -5,12 +5,14 @@ import anyMessage
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleAnimation
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
-import junit.framework.TestCase.assertFalse
-import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class AnimationHandlerTest {
 
     private val handleAnimationMock = mockk<HandleAnimation>(relaxed = true)
@@ -23,7 +25,7 @@ class AnimationHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithNoAnimation)
 
-        assertFalse(checkUpdateResult)
+        Assertions.assertFalse(checkUpdateResult)
     }
 
     @Test
@@ -32,11 +34,11 @@ class AnimationHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithAnimation)
 
-        assertTrue(checkUpdateResult)
+        Assertions.assertTrue(checkUpdateResult)
     }
 
     @Test
-    fun `animation is properly dispatched to the handler function`() {
+    fun `animation is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val anyAnimation = anyAnimation()
         val anyMessageWithAnimation = anyMessage(animation = anyAnimation)
@@ -50,6 +52,6 @@ class AnimationHandlerTest {
             anyMessageWithAnimation,
             anyAnimation
         )
-        verify { handleAnimationMock.invoke(expectedAnimationHandlerEnv) }
+        coVerify { handleAnimationMock.invoke(expectedAnimationHandlerEnv) }
     }
 }

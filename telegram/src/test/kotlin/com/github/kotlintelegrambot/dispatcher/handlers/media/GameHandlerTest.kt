@@ -5,12 +5,14 @@ import anyMessage
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleGame
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
-import junit.framework.TestCase.assertFalse
-import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class GameHandlerTest {
 
     private val handleGameMock = mockk<HandleGame>(relaxed = true)
@@ -23,7 +25,7 @@ class GameHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithNoGame)
 
-        assertFalse(checkUpdateResult)
+        Assertions.assertFalse(checkUpdateResult)
     }
 
     @Test
@@ -32,11 +34,11 @@ class GameHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithGame)
 
-        assertTrue(checkUpdateResult)
+        Assertions.assertTrue(checkUpdateResult)
     }
 
     @Test
-    fun `game is properly dispatched to the handler function`() {
+    fun `game is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val anyGame = anyGame()
         val anyMessageWithGame = anyMessage(game = anyGame)
@@ -50,6 +52,6 @@ class GameHandlerTest {
             anyMessageWithGame,
             anyGame
         )
-        verify { handleGameMock.invoke(expectedGameHandlerEnv) }
+        coVerify { handleGameMock.invoke(expectedGameHandlerEnv) }
     }
 }

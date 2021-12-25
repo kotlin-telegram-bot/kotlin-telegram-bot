@@ -1,14 +1,15 @@
 package com.github.kotlintelegrambot.types
 
-import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertFalse
-import junit.framework.TestCase.assertNull
-import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import java.lang.Exception
-import java.lang.IllegalStateException
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class TelegramBotResultTest {
 
     @Test
@@ -79,11 +80,11 @@ class TelegramBotResultTest {
     }
 
     @Test
-    fun `fold if success`() {
+    fun `fold if success`() = runTest {
         val anyValue = 1
         val success = TelegramBotResult.Success(anyValue)
 
-        val fSuccess: (Int) -> Int = { it + 4 }
+        val fSuccess: suspend (Int) -> Int = { it + 4 }
         val foldResult = success.fold(
             ifSuccess = fSuccess,
             ifError = { }
@@ -93,10 +94,10 @@ class TelegramBotResultTest {
     }
 
     @Test
-    fun `fold if error`() {
+    fun `fold if error`() = runTest {
         val error = TelegramBotResult.Error.HttpError<Int>(400, "WTF")
 
-        val fError: (error: TelegramBotResult.Error<Int>) -> Pair<Int, String?>? = {
+        val fError: suspend (error: TelegramBotResult.Error<Int>) -> Pair<Int, String?>? = {
             if (it is TelegramBotResult.Error.HttpError) {
                 it.httpCode to it.description
             } else {

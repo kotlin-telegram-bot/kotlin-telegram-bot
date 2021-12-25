@@ -14,14 +14,18 @@ import com.github.kotlintelegrambot.entities.inputmedia.anyInputMediaVideo
 import com.github.kotlintelegrambot.testutils.getFileAsStringFromResources
 import com.github.kotlintelegrambot.testutils.getFileFromResources
 import com.github.kotlintelegrambot.testutils.multipartBoundary
-import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class SendMediaGroupIT : ApiClientIT() {
 
     @Test
-    fun `sendMediaGroup with media group composed by a video(fileUrl), a photo(fileId) and all the arguments`() {
+    fun `sendMediaGroup with media group composed by a video(fileUrl), a photo(fileId) and all the arguments`() = runTest {
         givenAnySendMediaGroupResponse()
         val mediaGroup = MediaGroup.from(
             anyInputMediaVideo(media = TelegramFile.ByUrl(ANY_VIDEO_URL)),
@@ -47,7 +51,7 @@ class SendMediaGroupIT : ApiClientIT() {
     }
 
     @Test
-    fun `sendMediaGroup with media group composed by a video(fileUrl), a photo(fileId) and only the mandatory arguments`() {
+    fun `sendMediaGroup with media group composed by a video(fileUrl), a photo(fileId) and only the mandatory arguments`() = runTest {
         givenAnySendMediaGroupResponse()
         val mediaGroup = MediaGroup.from(
             anyInputMediaVideo(media = TelegramFile.ByUrl(ANY_VIDEO_URL)),
@@ -67,7 +71,7 @@ class SendMediaGroupIT : ApiClientIT() {
     }
 
     @Test
-    fun `sendMediaGroup with media group composed by a photo(fileId) and a photo(file)`() {
+    fun `sendMediaGroup with media group composed by a photo(fileId) and a photo(file)`() = runTest {
         givenAnySendMediaGroupResponse()
         val mediaGroup = MediaGroup.from(
             anyInputMediaPhoto(media = TelegramFile.ByFileId(ANY_IMAGE_FILE_ID)),
@@ -87,7 +91,7 @@ class SendMediaGroupIT : ApiClientIT() {
     }
 
     @Test
-    fun `sendMediaGroup with media group composed by a video(url) with thumb and a photo(file)`() {
+    fun `sendMediaGroup with media group composed by a video(url) with thumb and a photo(file)`() = runTest {
         givenAnySendMediaGroupResponse()
         val mediaGroup = MediaGroup.from(
             anyInputMediaVideo(
@@ -110,7 +114,7 @@ class SendMediaGroupIT : ApiClientIT() {
     }
 
     @Test
-    fun `correct request with a document album`() {
+    fun `correct request with a document album`() = runTest {
         givenAnySendMediaGroupResponse()
         val mediaGroup = MediaGroup.from(
             InputMediaDocument(TelegramFile.ByUrl("http://www.test.com/document.pdf")),
@@ -130,7 +134,7 @@ class SendMediaGroupIT : ApiClientIT() {
     }
 
     @Test
-    fun `correct response with a document album`() {
+    fun `correct response with a document album`() = runTest {
         givenADocumentAlbumSendMediaGroupResponse()
         val mediaGroup = MediaGroup.from(
             InputMediaDocument(TelegramFile.ByUrl("http://www.test.com/document.pdf")),
@@ -193,7 +197,7 @@ class SendMediaGroupIT : ApiClientIT() {
     }
 
     @Test
-    fun `correct request with an audio album`() {
+    fun `correct request with an audio album`() = runTest {
         givenAnySendMediaGroupResponse()
         val mediaGroup = MediaGroup.from(
             InputMediaAudio(TelegramFile.ByUrl("http://www.test.com/audio.ogg")),
@@ -213,7 +217,7 @@ class SendMediaGroupIT : ApiClientIT() {
     }
 
     @Test
-    fun `correct response with an audio album`() {
+    fun `correct response with an audio album`() = runTest {
         givenAnAudioAlbumSendMediaGroupResponse()
         val mediaGroup = MediaGroup.from(
             InputMediaAudio(TelegramFile.ByUrl("http://www.test.com/audio.ogg")),

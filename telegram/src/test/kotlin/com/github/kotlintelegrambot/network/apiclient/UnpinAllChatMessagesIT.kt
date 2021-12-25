@@ -3,14 +3,17 @@ package com.github.kotlintelegrambot.network.apiclient
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.testutils.apiMethodName
 import com.github.kotlintelegrambot.testutils.decodedBody
-import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class UnpinAllChatMessagesIT : ApiClientIT() {
 
     @Test
-    fun `correct request on unpinAllChatMessages with chat id`() {
+    fun `correct request on unpinAllChatMessages with chat id`() = runTest {
         givenASuccessfulUnpinAllChatMessagesResponse()
 
         sut.unpinAllChatMessages(ChatId.fromId(ANY_CHAT_ID))
@@ -21,7 +24,7 @@ class UnpinAllChatMessagesIT : ApiClientIT() {
     }
 
     @Test
-    fun `correct request on unpinAllChatMessages with channel username`() {
+    fun `correct request on unpinAllChatMessages with channel username`() = runTest {
         givenASuccessfulUnpinAllChatMessagesResponse()
 
         sut.unpinAllChatMessages(ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME))
@@ -32,7 +35,7 @@ class UnpinAllChatMessagesIT : ApiClientIT() {
     }
 
     @Test
-    fun `successful unpinAllChatMessages response is returned correctly`() {
+    fun `successful unpinAllChatMessages response is returned correctly`() = runTest {
         givenASuccessfulUnpinAllChatMessagesResponse()
 
         val unpinChatMessageResult = sut.unpinAllChatMessages(

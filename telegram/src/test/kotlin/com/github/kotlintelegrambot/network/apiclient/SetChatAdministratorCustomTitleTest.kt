@@ -2,16 +2,18 @@ package com.github.kotlintelegrambot.network.apiclient
 
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.testutils.decode
-import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertNull
-import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class SetChatAdministratorCustomTitleTest : ApiClientIT() {
 
     @Test
-    fun `setChatAdministratorCustomTitle (with chat id) arguments are properly transformed`() {
+    fun `setChatAdministratorCustomTitle (with chat id) arguments are properly transformed`() = runTest {
         givenAnySetChatAdministratorCustomTitleResponse()
 
         sut.setChatAdministratorCustomTitle(
@@ -28,7 +30,7 @@ class SetChatAdministratorCustomTitleTest : ApiClientIT() {
     }
 
     @Test
-    fun `setChatAdministratorCustomTitle (with channel username) arguments are properly transformed`() {
+    fun `setChatAdministratorCustomTitle (with channel username) arguments are properly transformed`() = runTest {
         givenAnySetChatAdministratorCustomTitleResponse()
 
         sut.setChatAdministratorCustomTitle(
@@ -45,7 +47,7 @@ class SetChatAdministratorCustomTitleTest : ApiClientIT() {
     }
 
     @Test
-    fun `setChatAdministratorCustomTitle success`() {
+    fun `setChatAdministratorCustomTitle success`() = runTest {
         givenSetChatAdministratorCustomTitleSuccess()
 
         val setChatAdministratorCustomTitleResponse = sut.setChatAdministratorCustomTitle(
@@ -54,11 +56,11 @@ class SetChatAdministratorCustomTitleTest : ApiClientIT() {
             customTitle = ANY_CUSTOM_TITLE
         )
 
-        assertTrue(setChatAdministratorCustomTitleResponse.get())
+        Assertions.assertTrue(setChatAdministratorCustomTitleResponse.get())
     }
 
     @Test
-    fun `setChatAdministratorCustomTitle error`() {
+    fun `setChatAdministratorCustomTitle error`() = runTest {
         givenSetChatAdministratorCustomTitleError()
 
         val setChatAdministratorCustomTitleResponse = sut.setChatAdministratorCustomTitle(
@@ -67,7 +69,7 @@ class SetChatAdministratorCustomTitleTest : ApiClientIT() {
             customTitle = ANY_CUSTOM_TITLE
         )
 
-        assertNull(setChatAdministratorCustomTitleResponse.getOrNull())
+        Assertions.assertNull(setChatAdministratorCustomTitleResponse.getOrNull())
     }
 
     private fun givenAnySetChatAdministratorCustomTitleResponse() {

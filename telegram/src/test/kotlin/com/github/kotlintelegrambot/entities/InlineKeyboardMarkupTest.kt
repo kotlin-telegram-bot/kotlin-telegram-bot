@@ -1,9 +1,8 @@
 package com.github.kotlintelegrambot.entities
 
-import junit.framework.TestCase.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import java.lang.IllegalArgumentException
 
 class InlineKeyboardMarkupTest {
 

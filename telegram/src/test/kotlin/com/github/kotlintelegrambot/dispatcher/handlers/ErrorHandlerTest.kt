@@ -2,10 +2,13 @@ package com.github.kotlintelegrambot.dispatcher.handlers
 
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.errors.TelegramError
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class ErrorHandlerTest {
 
     private val handleErrorMock = mockk<HandleError>(relaxed = true)
@@ -13,13 +16,13 @@ class ErrorHandlerTest {
     private val sut = ErrorHandler(handleErrorMock)
 
     @Test
-    fun `error is properly dispatched to handler function`() {
+    fun `error is properly dispatched to handler function`() = runTest {
         val botMock = mockk<Bot>()
         val anyTelegramError = mockk<TelegramError>()
 
         sut.invoke(botMock, anyTelegramError)
 
         val expectedErrorHandlerEnv = ErrorHandlerEnvironment(botMock, anyTelegramError)
-        verify { handleErrorMock.invoke(expectedErrorHandlerEnv) }
+        coVerify { handleErrorMock.invoke(expectedErrorHandlerEnv) }
     }
 }

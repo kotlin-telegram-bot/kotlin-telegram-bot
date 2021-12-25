@@ -7,14 +7,17 @@ import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.Location
 import com.github.kotlintelegrambot.testutils.apiMethodName
 import com.github.kotlintelegrambot.testutils.queryParams
-import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class GetChatIT : ApiClientIT() {
 
     @Test
-    fun `correct request`() {
+    fun `correct request`() = runTest {
         givenAnyGetChatSuccessfulResponse()
 
         sut.getChat(ChatId.fromId(ANY_CHAT_ID))
@@ -25,7 +28,7 @@ class GetChatIT : ApiClientIT() {
     }
 
     @Test
-    fun `correct response`() {
+    fun `correct response`() = runTest {
         givenAnyGetChatSuccessfulResponse()
 
         val getChatResult = sut.getChat(ChatId.fromId(ANY_CHAT_ID))

@@ -5,8 +5,8 @@ import com.github.kotlintelegrambot.entities.ChatId.ChannelUsername
 import com.github.kotlintelegrambot.entities.ChatId.Id
 import com.github.kotlintelegrambot.entities.Message
 import io.mockk.mockk
-import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertNull
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import retrofit2.Retrofit
 

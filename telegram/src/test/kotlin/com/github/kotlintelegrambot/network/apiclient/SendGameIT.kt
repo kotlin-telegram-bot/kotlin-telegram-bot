@@ -8,19 +8,21 @@ import anyUser
 import com.github.kotlintelegrambot.entities.CallbackGame
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
-import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton
 import com.github.kotlintelegrambot.network.Response
 import com.github.kotlintelegrambot.testutils.decode
 import com.google.gson.Gson
-import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class SendGameIT : ApiClientIT() {
 
     @Test
-    fun `#sendGame with all parameters creates request correctly`() {
+    fun `#sendGame with all parameters creates request correctly`() = runTest {
         givenAnySendGameResponse()
 
         sut.sendGame(
@@ -44,7 +46,7 @@ class SendGameIT : ApiClientIT() {
     }
 
     @Test
-    fun `#sendGame with required parameters returns response correctly`() {
+    fun `#sendGame with required parameters returns response correctly`() = runTest {
         givenAnySendGameResponse()
 
         val sendGameResponse = sut.sendGame(
@@ -52,11 +54,14 @@ class SendGameIT : ApiClientIT() {
             gameShortName = ANY_GAME_NAME
         )
 
-        assertEquals(anyGameMessage.toString().trim(), sendGameResponse.get().toString().trim())
+        assertEquals(
+            anyGameMessage.toString().trim(),
+            sendGameResponse.get().toString().trim()
+        )
     }
 
     private fun givenAnySendGameResponse() {
-        val sendGameResponse = Response<Message>(
+        val sendGameResponse = Response(
             ok = true,
             result = anyGameMessage
         )

@@ -4,12 +4,14 @@ import anyMessage
 import anyUpdate
 import anyUser
 import com.github.kotlintelegrambot.Bot
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
-import junit.framework.TestCase.assertFalse
-import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class NewChatMembersHandlerTest {
 
     private val handleNewChatMembersHandlerMock = mockk<HandleNewChatMembers>(relaxed = true)
@@ -22,7 +24,7 @@ class NewChatMembersHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithNoMessage)
 
-        assertFalse(checkUpdateResult)
+        Assertions.assertFalse(checkUpdateResult)
     }
 
     @Test
@@ -31,7 +33,7 @@ class NewChatMembersHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithNoChatMembers)
 
-        assertFalse(checkUpdateResult)
+        Assertions.assertFalse(checkUpdateResult)
     }
 
     @Test
@@ -40,7 +42,7 @@ class NewChatMembersHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithEmptyNewChatMembers)
 
-        assertFalse(checkUpdateResult)
+        Assertions.assertFalse(checkUpdateResult)
     }
 
     @Test
@@ -49,11 +51,11 @@ class NewChatMembersHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithNewChatMembers)
 
-        assertTrue(checkUpdateResult)
+        Assertions.assertTrue(checkUpdateResult)
     }
 
     @Test
-    fun `new chat members are properly dispatched to the handler function`() {
+    fun `new chat members are properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val anyNewChatMembers = listOf(anyUser())
         val anyMessageWithNewChatMembers = anyMessage(newChatMembers = anyNewChatMembers)
@@ -67,6 +69,6 @@ class NewChatMembersHandlerTest {
             anyMessageWithNewChatMembers,
             anyNewChatMembers
         )
-        verify { handleNewChatMembersHandlerMock.invoke(expectedNewChatMembersHandlerEnv) }
+        coVerify { handleNewChatMembersHandlerMock.invoke(expectedNewChatMembersHandlerEnv) }
     }
 }

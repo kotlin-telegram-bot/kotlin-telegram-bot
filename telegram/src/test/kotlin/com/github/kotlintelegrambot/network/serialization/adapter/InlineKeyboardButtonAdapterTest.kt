@@ -2,7 +2,7 @@ package com.github.kotlintelegrambot.network.serialization.adapter
 
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton
 import com.google.gson.GsonBuilder
-import junit.framework.TestCase.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class InlineKeyboardButtonAdapterTest {
@@ -81,8 +81,14 @@ class InlineKeyboardButtonAdapterTest {
             switchInlineQueryCurrentChatButton
         )
 
-        assertEquals(switchInlineQueryCurrentChatButton, actualSwitchInlineQueryCurrentChatButton)
-        assertEquals(switchInlineQueryCurrentChatButtonJson, actualSwitchInlineQueryCurrentChatJsonButton)
+        assertEquals(
+            switchInlineQueryCurrentChatButton,
+            actualSwitchInlineQueryCurrentChatButton
+        )
+        assertEquals(
+            switchInlineQueryCurrentChatButtonJson,
+            actualSwitchInlineQueryCurrentChatJsonButton
+        )
     }
 
     @Test

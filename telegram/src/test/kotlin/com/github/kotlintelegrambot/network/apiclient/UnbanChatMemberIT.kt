@@ -3,15 +3,17 @@ package com.github.kotlintelegrambot.network.apiclient
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.testutils.apiMethodName
 import com.github.kotlintelegrambot.testutils.decodedBody
-import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class UnbanChatMemberIT : ApiClientIT() {
 
     @Test
-    fun `correct request with mandatory parameters`() {
+    fun `correct request with mandatory parameters`() = runTest {
         givenASuccessfulResponse()
 
         sut.unbanChatMember(
@@ -21,12 +23,12 @@ class UnbanChatMemberIT : ApiClientIT() {
         )
 
         val request = mockWebServer.takeRequest()
-        assertEquals("unbanChatMember", request.apiMethodName)
-        assertEquals("chat_id=$ANY_CHAT_ID&user_id=$ANY_USER_ID", request.decodedBody)
+        Assertions.assertEquals("unbanChatMember", request.apiMethodName)
+        Assertions.assertEquals("chat_id=$ANY_CHAT_ID&user_id=$ANY_USER_ID", request.decodedBody)
     }
 
     @Test
-    fun `correct request with all parameters`() {
+    fun `correct request with all parameters`() = runTest {
         givenASuccessfulResponse()
 
         sut.unbanChatMember(
@@ -36,15 +38,15 @@ class UnbanChatMemberIT : ApiClientIT() {
         )
 
         val request = mockWebServer.takeRequest()
-        assertEquals("unbanChatMember", request.apiMethodName)
-        assertEquals(
+        Assertions.assertEquals("unbanChatMember", request.apiMethodName)
+        Assertions.assertEquals(
             "chat_id=$ANY_CHAT_ID&user_id=$ANY_USER_ID&only_if_banned=true",
             request.decodedBody
         )
     }
 
     @Test
-    fun `successful response is returned properly`() {
+    fun `successful response is returned properly`() = runTest {
         givenASuccessfulResponse()
 
         val unbanChatMemberResult = sut.unbanChatMember(
@@ -53,7 +55,7 @@ class UnbanChatMemberIT : ApiClientIT() {
             onlyIfBanned = true
         )
 
-        assertTrue(unbanChatMemberResult.get())
+        Assertions.assertTrue(unbanChatMemberResult.get())
     }
 
     private fun givenASuccessfulResponse() {

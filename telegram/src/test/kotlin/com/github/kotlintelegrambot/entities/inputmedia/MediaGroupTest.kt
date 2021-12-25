@@ -1,10 +1,9 @@
 package com.github.kotlintelegrambot.entities.inputmedia
 
-import junit.framework.TestCase.assertEquals
-import org.junit.Assert.assertArrayEquals
+import org.junit.jupiter.api.Assertions.assertArrayEquals
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import java.lang.IllegalArgumentException
 
 class MediaGroupTest {
 
@@ -33,7 +32,10 @@ class MediaGroupTest {
 
         val mediaGroup = MediaGroup.from(anyInputMediaPhoto, anyInputMediaVideo)
 
-        assertArrayEquals(arrayOf(anyInputMediaPhoto, anyInputMediaVideo), mediaGroup.medias)
+        assertArrayEquals(
+            arrayOf(anyInputMediaPhoto, anyInputMediaVideo),
+            mediaGroup.medias
+        )
     }
 
     @Test

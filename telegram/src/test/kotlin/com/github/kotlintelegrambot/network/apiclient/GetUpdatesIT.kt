@@ -10,15 +10,18 @@ import com.github.kotlintelegrambot.entities.User
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton
 import com.github.kotlintelegrambot.testutils.apiMethodName
 import com.github.kotlintelegrambot.testutils.queryParams
-import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertNull
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class GetUpdatesIT : ApiClientIT() {
 
     @Test
-    fun `api method name`() {
+    fun `api method name`() = runTest {
         givenAnyGetUpdatesResponse()
 
         sut.getUpdates(null, null, null, null)
@@ -28,7 +31,7 @@ class GetUpdatesIT : ApiClientIT() {
     }
 
     @Test
-    fun `query parameters when called without parameters`() {
+    fun `query parameters when called without parameters`() = runTest {
         givenAnyGetUpdatesResponse()
 
         sut.getUpdates(null, null, null, null)
@@ -38,7 +41,7 @@ class GetUpdatesIT : ApiClientIT() {
     }
 
     @Test
-    fun `query parameters when called with all the parameters`() {
+    fun `query parameters when called with all the parameters`() = runTest {
         givenAnyGetUpdatesResponse()
 
         sut.getUpdates(
@@ -57,7 +60,7 @@ class GetUpdatesIT : ApiClientIT() {
     }
 
     @Test
-    fun `getUpdates returning an update with callback query containing inline keyboard buttons`() {
+    fun `getUpdates returning an update with callback query containing inline keyboard buttons`() = runTest {
         givenGetUpdatesResponse(
             """
             {
@@ -170,7 +173,7 @@ class GetUpdatesIT : ApiClientIT() {
     }
 
     @Test
-    fun `getUpdates with a channel post containing sender chat`() {
+    fun `getUpdates with a channel post containing sender chat`() = runTest {
         givenGetUpdatesResponse(
             """
                 {
@@ -229,7 +232,7 @@ class GetUpdatesIT : ApiClientIT() {
     }
 
     @Test
-    fun `getUpdates with a message containing a date after 03h14m07s UTC on 19 January 2038`() {
+    fun `getUpdates with a message containing a date after 03h14m07s UTC on 19 January 2038`() = runTest {
         givenGetUpdatesResponse(
             """
                 {
@@ -276,7 +279,7 @@ class GetUpdatesIT : ApiClientIT() {
     }
 
     @Test
-    fun `getUpdates with inline queries`() {
+    fun `getUpdates with inline queries`() = runTest {
         givenGetUpdatesResponse(
             """
 {

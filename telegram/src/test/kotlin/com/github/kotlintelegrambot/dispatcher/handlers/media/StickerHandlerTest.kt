@@ -5,12 +5,14 @@ import anySticker
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleSticker
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
-import junit.framework.TestCase.assertFalse
-import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class StickerHandlerTest {
 
     private val handleStickerMock = mockk<HandleSticker>(relaxed = true)
@@ -23,7 +25,7 @@ class StickerHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithNoSticker)
 
-        assertFalse(checkUpdateResult)
+        Assertions.assertFalse(checkUpdateResult)
     }
 
     @Test
@@ -32,11 +34,11 @@ class StickerHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithSticker)
 
-        assertTrue(checkUpdateResult)
+        Assertions.assertTrue(checkUpdateResult)
     }
 
     @Test
-    fun `sticker is properly dispatched to the handler function`() {
+    fun `sticker is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val anySticker = anySticker()
         val anyMessageWithSticker = anyMessage(sticker = anySticker)
@@ -50,6 +52,6 @@ class StickerHandlerTest {
             anyMessageWithSticker,
             anySticker
         )
-        verify { handleStickerMock.invoke(expectedStickerHandlerEnv) }
+        coVerify { handleStickerMock.invoke(expectedStickerHandlerEnv) }
     }
 }

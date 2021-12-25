@@ -12,15 +12,18 @@ import com.github.kotlintelegrambot.testutils.getFileAsStringFromResources
 import com.github.kotlintelegrambot.testutils.getFileFromResources
 import com.github.kotlintelegrambot.testutils.multipartBoundary
 import com.google.gson.Gson
-import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class SendVoiceIT : ApiClientIT() {
     private fun String.normalizeLineEndings() = this.replace(Regex("\\r\\n?"), "\n")
 
     @Test
-    fun `sendVoice with audioId`() {
+    fun `sendVoice with audioId`() = runTest {
         givenAnySendVoiceResponse()
 
         val sendVoice = sut.sendVoice(
@@ -35,7 +38,7 @@ class SendVoiceIT : ApiClientIT() {
             allowSendingWithoutReply = null,
             replyMarkup = REPLY_MARKUP
         )
-        sendVoice.execute()
+        sendVoice
 
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID" +
             "&voice=$ANY_VOICE_FILE_ID" +
@@ -51,7 +54,7 @@ class SendVoiceIT : ApiClientIT() {
     }
 
     @Test
-    fun `sendVoice with audio from file`() {
+    fun `sendVoice with audio from file`() = runTest {
         givenAnySendVoiceResponse()
 
         val sendVoice = sut.sendVoice(
@@ -66,7 +69,7 @@ class SendVoiceIT : ApiClientIT() {
             allowSendingWithoutReply = null,
             replyMarkup = REPLY_MARKUP
         )
-        sendVoice.execute()
+        sendVoice.body()
 
         val request = mockWebServer.takeRequest()
         val multipartBoundary = request.multipartBoundary
@@ -77,11 +80,14 @@ class SendVoiceIT : ApiClientIT() {
             String(getFileFromResources<SendVoiceIT>(VOICE_FILENAME).readBytes()),
             VOICE_FILENAME
         )
-        assertEquals(expectedRequestBody.normalizeLineEndings(), requestBody.normalizeLineEndings())
+        assertEquals(
+            expectedRequestBody.normalizeLineEndings(),
+            requestBody.normalizeLineEndings()
+        )
     }
 
     @Test
-    fun `sendVoice with audio from ByteArray`() {
+    fun `sendVoice with audio from ByteArray`() = runTest {
         givenAnySendVoiceResponse()
 
         val sendVoice = sut.sendVoice(
@@ -96,7 +102,7 @@ class SendVoiceIT : ApiClientIT() {
             allowSendingWithoutReply = null,
             replyMarkup = REPLY_MARKUP
         )
-        sendVoice.execute()
+        sendVoice.body()
 
         val request = mockWebServer.takeRequest()
         val multipartBoundary = request.multipartBoundary
@@ -107,7 +113,10 @@ class SendVoiceIT : ApiClientIT() {
             String(getFileFromResources<SendVoiceIT>("short.ogg").readBytes()),
             "voice"
         )
-        assertEquals(expectedRequestBody.normalizeLineEndings(), requestBody.normalizeLineEndings())
+        assertEquals(
+            expectedRequestBody.normalizeLineEndings(),
+            requestBody.normalizeLineEndings()
+        )
     }
 
     private fun givenAnySendVoiceResponse() {

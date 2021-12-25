@@ -5,12 +5,14 @@ import anyMessage
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleAudio
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
-import junit.framework.TestCase.assertFalse
-import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class AudioHandlerTest {
 
     private val handleAudioMock = mockk<HandleAudio>(relaxed = true)
@@ -23,7 +25,7 @@ class AudioHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithNoAudio)
 
-        assertFalse(checkUpdateResult)
+        Assertions.assertFalse(checkUpdateResult)
     }
 
     @Test
@@ -32,11 +34,11 @@ class AudioHandlerTest {
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithAudio)
 
-        assertTrue(checkUpdateResult)
+        Assertions.assertTrue(checkUpdateResult)
     }
 
     @Test
-    fun `audio is properly dispatched to the handler function`() {
+    fun `audio is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val anyAudio = anyAudio()
         val anyMessageWithAudio = anyMessage(audio = anyAudio)
@@ -50,6 +52,6 @@ class AudioHandlerTest {
             anyMessageWithAudio,
             anyAudio
         )
-        verify { handleAudioMock.invoke(expectedAudioHandlerEnv) }
+        coVerify { handleAudioMock.invoke(expectedAudioHandlerEnv) }
     }
 }
