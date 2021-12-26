@@ -8,7 +8,7 @@ import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.polls.PollType.QUIZ
 
 fun main() {
-    val bot = bot {
+    bot {
         token = "BOT_API_TOKEN"
         dispatch {
             pollAnswer {
@@ -46,6 +46,5 @@ fun main() {
                 )
             }
         }
-    }
-    bot.startPolling(wait = true)
+    }.startPolling(wait = true)
 }

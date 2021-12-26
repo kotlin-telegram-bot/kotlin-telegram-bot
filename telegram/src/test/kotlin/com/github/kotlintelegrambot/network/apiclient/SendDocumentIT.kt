@@ -6,8 +6,6 @@ import anyMessage
 import anyUser
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
-import com.github.kotlintelegrambot.entities.MessageEntity
-import com.github.kotlintelegrambot.entities.MessageEntity.Type.ITALIC
 import com.github.kotlintelegrambot.entities.ParseMode.MARKDOWN_V2
 import com.github.kotlintelegrambot.entities.TelegramFile
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton
@@ -20,7 +18,6 @@ import com.google.gson.Gson
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -171,7 +168,6 @@ class SendDocumentIT : ApiClientIT() {
         const val REPLY_TO_MESSAGE_ID = 32235235L
         const val CAPTION = "Caption"
         const val ANY_FILE_SIZE = 2897253
-        val CAPTION_ENTITIES = listOf(MessageEntity(ITALIC, 0, 3))
         val REPLY_MARKUP = InlineKeyboardMarkup.create(
             listOf(
                 InlineKeyboardButton.CallbackData(

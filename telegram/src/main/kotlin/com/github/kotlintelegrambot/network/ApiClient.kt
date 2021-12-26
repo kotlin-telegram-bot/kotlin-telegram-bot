@@ -70,7 +70,6 @@ internal class ApiClient(
     proxy: Proxy = Proxy.NO_PROXY,
     private val gson: Gson,
     private val multipartBodyFactory: MultipartBodyFactory = MultipartBodyFactory(GsonFactory.createForMultipartBodyFactory()),
-    private val apiRequestSender: ApiRequestSender = ApiRequestSender(),
     private val apiResponseMapper: ApiResponseMapper = ApiResponseMapper()
 ) {
 

@@ -6,13 +6,16 @@ import com.github.kotlintelegrambot.dispatcher.command
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.TelegramFile
 import com.github.kotlintelegrambot.webhook
-import io.ktor.application.*
-import io.ktor.http.*
-import io.ktor.request.*
-import io.ktor.response.*
-import io.ktor.routing.*
-import io.ktor.server.cio.*
-import io.ktor.server.engine.*
+import io.ktor.application.call
+import io.ktor.http.HttpStatusCode
+import io.ktor.request.receiveText
+import io.ktor.response.respond
+import io.ktor.routing.post
+import io.ktor.routing.routing
+import io.ktor.server.cio.CIO
+import io.ktor.server.engine.applicationEngineEnvironment
+import io.ktor.server.engine.embeddedServer
+import io.ktor.server.engine.sslConnector
 import java.io.File
 
 object MyBotConfig {
@@ -20,7 +23,7 @@ object MyBotConfig {
     const val SERVER_HOSTNAME = "YOUR_HOST_NAME"
 }
 
-suspend fun main() {
+fun main() {
     val bot = bot {
         token = MyBotConfig.API_TOKEN
         webhook {

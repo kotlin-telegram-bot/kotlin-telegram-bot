@@ -9,14 +9,14 @@ plugins {
 apply(plugin = "kotlinx-atomicfu")
 
 group = "com.github.kotlintelegrambot"
-version = "6.0.6"
+version = "7.0.0"
 
 repositories {
     mavenCentral()
 }
 
 kotlin {
-    explicitApi = ExplicitApiMode.Strict 
+    explicitApi = ExplicitApiMode.Strict
 }
 
 dependencies {

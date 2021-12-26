@@ -4,7 +4,6 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -16,7 +15,7 @@ class SuspendLooperTest {
     )
 
     @Test
-    fun `loops until quit is called`() = runTest {
+    fun `loops until quit is called`() {
         var count = 0
 
         sut.launchLoop {
@@ -31,7 +30,7 @@ class SuspendLooperTest {
     }
 
     @Test
-    fun `loops until coroutine is canceled`() = runTest {
+    fun `loops until coroutine is canceled`() {
         var count = 0
 
         try {
@@ -48,7 +47,7 @@ class SuspendLooperTest {
     }
 
     @Test
-    fun `loops until an exception is thrown`() = runTest {
+    fun `loops until an exception is thrown`() {
         var count = 0
 
         try {

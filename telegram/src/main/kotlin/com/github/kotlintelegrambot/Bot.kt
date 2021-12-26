@@ -56,7 +56,7 @@ public fun Bot.Builder.dispatch(body: Dispatcher.() -> Unit) {
 }
 
 public fun Bot.Builder.webhook(
-    body: WebhookConfigBuilder.() -> Unit
+    body: WebhookConfigBuilder.() -> Unit,
 ) {
     val webhookConfigBuilder = WebhookConfigBuilder()
     webhookConfigBuilder.apply(body)
@@ -119,7 +119,7 @@ public class Bot private constructor(
         dispatcher.launchCheckingUpdates()
         updater.launchPolling()
         if (wait) {
-            runBlocking { 
+            runBlocking {
                 dispatcher.awaitCancellation()
                 updater.awaitCancellation()
             }
@@ -136,18 +136,20 @@ public class Bot private constructor(
      * updates if it was successfully set.
      * @return true if the webhook was successfully set or false otherwise
      */
-    public suspend fun startWebhook(): Boolean {
+    public fun startWebhook(): Boolean {
         if (webhookConfig == null) {
             error("To start a webhook you need to configure it on bot set up. Check the `webhook` builder function")
         }
 
-        val setWebhookResult = setWebhook(
-            webhookConfig.url,
-            webhookConfig.certificate,
-            webhookConfig.ipAddress,
-            webhookConfig.maxConnections,
-            webhookConfig.allowedUpdates
-        )
+        val setWebhookResult = runBlocking {
+            setWebhook(
+                webhookConfig.url,
+                webhookConfig.certificate,
+                webhookConfig.ipAddress,
+                webhookConfig.maxConnections,
+                webhookConfig.allowedUpdates
+            )
+        }
         val webhookSet = setWebhookResult.bimap(
             mapResponse = { true },
             mapError = { false }
@@ -220,7 +222,7 @@ public class Bot private constructor(
         certificate: TelegramFile? = null,
         ipAddress: String? = null,
         maxConnections: Int? = null,
-        allowedUpdates: List<String>? = null
+        allowedUpdates: List<String>? = null,
     ): Pair<CallResponse<Response<Boolean>?>?, Exception?> = call {
         apiClient.setWebhook(url, certificate, ipAddress, maxConnections, allowedUpdates)
     }
@@ -272,7 +274,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): TelegramBotResult<Message> = apiClient.sendMessage(
         chatId,
         text,
@@ -293,7 +295,7 @@ public class Bot private constructor(
         chatId: ChatId,
         fromChatId: ChatId,
         messageId: Long,
-        disableNotification: Boolean? = null
+        disableNotification: Boolean? = null,
     ): TelegramBotResult<Message> = apiClient.forwardMessage(
         chatId,
         fromChatId,
@@ -311,7 +313,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<MessageId>?>?, Exception?> = call {
         apiClient.copyMessage(
             chatId,
@@ -339,7 +341,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.sendPhoto(
             chatId,
@@ -365,7 +367,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.sendPhoto(
             chatId,
@@ -392,7 +394,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.sendAudio(
             chatId,
@@ -420,7 +422,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.sendAudio(
             chatId,
@@ -448,7 +450,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.sendDocument(
             chatId,
@@ -478,7 +480,7 @@ public class Bot private constructor(
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
         fileName: String,
-        mimeType: String? = null
+        mimeType: String? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.sendDocument(
             chatId,
@@ -507,7 +509,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.sendDocument(
             chatId,
@@ -536,7 +538,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.sendVideo(
             chatId,
@@ -566,7 +568,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.sendVideo(
             chatId,
@@ -590,7 +592,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.sendPhoto(
             chatId,
@@ -613,7 +615,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.sendAudio(
             chatId,
@@ -638,7 +640,7 @@ public class Bot private constructor(
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
-        mimeType: String? = null
+        mimeType: String? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.sendDocument(
             chatId,
@@ -664,7 +666,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.sendVideo(
             chatId,
@@ -701,7 +703,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): TelegramBotResult<Message> = apiClient.sendGame(
         chatId,
         gameShortName,
@@ -711,6 +713,7 @@ public class Bot private constructor(
         replyMarkup
     )
 
+    @Suppress("DEPRECATION")
     @Deprecated("Use overloaded version instead")
     public suspend fun sendAnimation(
         chatId: ChatId,
@@ -723,7 +726,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.sendAnimation(
             chatId,
@@ -755,7 +758,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.sendAnimation(
             chatId,
@@ -783,7 +786,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.sendAnimation(
             chatId,
@@ -814,7 +817,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.sendVoice(
             chatId,
@@ -844,7 +847,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.sendVoice(
             chatId,
@@ -874,7 +877,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.sendVoice(
             chatId,
@@ -900,7 +903,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.sendVoice(
             chatId,
@@ -928,7 +931,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.sendVideoNote(
             chatId,
@@ -954,7 +957,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.sendVideoNote(
             chatId,
@@ -976,7 +979,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.sendVideoNote(
             chatId,
@@ -998,7 +1001,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.sendVideoNote(
             chatId,
@@ -1045,7 +1048,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.sendLocation(
             chatId,
@@ -1137,7 +1140,7 @@ public class Bot private constructor(
         inlineMessageId: String? = null,
         latitude: Float,
         longitude: Float,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.editMessageLiveLocation(
             chatId,
@@ -1153,7 +1156,7 @@ public class Bot private constructor(
         chatId: ChatId? = null,
         messageId: Long? = null,
         inlineMessageId: String? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.stopMessageLiveLocation(
             chatId,
@@ -1174,7 +1177,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.sendVenue(
             chatId,
@@ -1199,7 +1202,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.sendContact(
             chatId,
@@ -1215,14 +1218,14 @@ public class Bot private constructor(
 
     public suspend fun sendChatAction(
         chatId: ChatId,
-        action: ChatAction
+        action: ChatAction,
     ): Pair<CallResponse<Response<Boolean>?>?, Exception?> =
         call { apiClient.sendChatAction(chatId, action) }
 
     public suspend fun getUserProfilePhotos(
         userId: Long,
         offset: Long? = null,
-        limit: Int? = null
+        limit: Int? = null,
     ): Pair<CallResponse<Response<UserProfilePhotos>?>?, Exception?> =
         call { apiClient.getUserProfilePhotos(userId, offset, limit) }
 
@@ -1245,7 +1248,7 @@ public class Bot private constructor(
     public suspend fun banChatMember(
         chatId: ChatId,
         userId: Long,
-        untilDate: Long? = null // unix time - https://en.wikipedia.org/wiki/Unix_time
+        untilDate: Long? = null, // unix time - https://en.wikipedia.org/wiki/Unix_time
     ): Pair<CallResponse<Response<Boolean>?>?, Exception?> =
         call { apiClient.banChatMember(chatId, userId, untilDate) }
 
@@ -1278,7 +1281,7 @@ public class Bot private constructor(
         chatId: ChatId,
         userId: Long,
         chatPermissions: ChatPermissions,
-        untilDate: Long? = null // unix time - https://en.wikipedia.org/wiki/Unix_time
+        untilDate: Long? = null, // unix time - https://en.wikipedia.org/wiki/Unix_time
     ): Pair<CallResponse<Response<Boolean>?>?, Exception?> = call {
         apiClient.restrictChatMember(
             chatId,
@@ -1324,7 +1327,7 @@ public class Bot private constructor(
         canInviteUsers: Boolean? = null,
         canRestrictMembers: Boolean? = null,
         canPinMessages: Boolean? = null,
-        canPromoteMembers: Boolean? = null
+        canPromoteMembers: Boolean? = null,
     ): TelegramBotResult<Boolean> = apiClient.promoteChatMember(
         chatId,
         userId,
@@ -1341,7 +1344,7 @@ public class Bot private constructor(
 
     public suspend fun setChatPermissions(
         chatId: ChatId,
-        permissions: ChatPermissions
+        permissions: ChatPermissions,
     ): Pair<CallResponse<Response<Boolean>?>?, Exception?> =
         call { apiClient.setChatPermissions(chatId, permissions) }
 
@@ -1350,7 +1353,7 @@ public class Bot private constructor(
 
     public suspend fun setChatPhoto(
         chatId: ChatId,
-        photo: SystemFile
+        photo: SystemFile,
     ): Pair<CallResponse<Response<Boolean>?>?, Exception?> =
         call { apiClient.setChatPhoto(chatId, photo) }
 
@@ -1359,20 +1362,20 @@ public class Bot private constructor(
 
     public suspend fun setChatTitle(
         chatId: ChatId,
-        title: String
+        title: String,
     ): Pair<CallResponse<Response<Boolean>?>?, Exception?> =
         call { apiClient.setChatTitle(chatId, title) }
 
     public suspend fun setChatDescription(
         chatId: ChatId,
-        description: String
+        description: String,
     ): Pair<CallResponse<Response<Boolean>?>?, Exception?> =
         call { apiClient.setChatDescription(chatId, description) }
 
     public suspend fun pinChatMessage(
         chatId: ChatId,
         messageId: Long,
-        disableNotification: Boolean? = null
+        disableNotification: Boolean? = null,
     ): Pair<CallResponse<Response<Boolean>?>?, Exception?> =
         call { apiClient.pinChatMessage(chatId, messageId, disableNotification) }
 
@@ -1391,7 +1394,7 @@ public class Bot private constructor(
      */
     public suspend fun unpinChatMessage(
         chatId: ChatId,
-        messageId: Long? = null
+        messageId: Long? = null,
     ): TelegramBotResult<Boolean> = apiClient.unpinChatMessage(chatId, messageId)
 
     /**
@@ -1406,7 +1409,7 @@ public class Bot private constructor(
      * @return True on success.
      */
     public suspend fun unpinAllChatMessages(
-        chatId: ChatId
+        chatId: ChatId,
     ): TelegramBotResult<Boolean> = apiClient.unpinAllChatMessages(chatId)
 
     public suspend fun leaveChat(chatId: ChatId): Pair<CallResponse<Response<Boolean>?>?, Exception?> =
@@ -1435,7 +1438,7 @@ public class Bot private constructor(
      * administrators except other bots.
      */
     public suspend fun getChatAdministrators(
-        chatId: ChatId
+        chatId: ChatId,
     ): TelegramBotResult<List<ChatMember>> = apiClient.getChatAdministrators(chatId)
 
     public suspend fun getChatMemberCount(chatId: ChatId): Pair<CallResponse<Response<Int>?>?, Exception?> =
@@ -1490,7 +1493,7 @@ public class Bot private constructor(
      * @return True on success.
      */
     public suspend fun deleteChatStickerSet(
-        chatId: ChatId
+        chatId: ChatId,
     ): TelegramBotResult<Boolean> = apiClient.deleteChatStickerSet(chatId)
 
     /**
@@ -1517,7 +1520,7 @@ public class Bot private constructor(
         text: String? = null,
         showAlert: Boolean? = null,
         url: String? = null,
-        cacheTime: Int? = null
+        cacheTime: Int? = null,
     ): TelegramBotResult<Boolean> = apiClient.answerCallbackQuery(
         callbackQueryId,
         text,
@@ -1549,7 +1552,7 @@ public class Bot private constructor(
         text: String,
         parseMode: ParseMode? = null,
         disableWebPagePreview: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.editMessageText(
             chatId,
@@ -1568,7 +1571,7 @@ public class Bot private constructor(
         inlineMessageId: String? = null,
         caption: String,
         parseMode: ParseMode? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.editMessageCaption(
             chatId,
@@ -1585,7 +1588,7 @@ public class Bot private constructor(
         messageId: Long? = null,
         inlineMessageId: String? = null,
         media: InputMedia,
-        replyMarkup: ReplyMarkup?
+        replyMarkup: ReplyMarkup?,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.editMessageMedia(
             chatId,
@@ -1600,7 +1603,7 @@ public class Bot private constructor(
         chatId: ChatId? = null,
         messageId: Long? = null,
         inlineMessageId: String? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.editMessageReplyMarkup(
             chatId,
@@ -1663,7 +1666,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup?
+        replyMarkup: ReplyMarkup?,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.sendSticker(
             chatId,
@@ -1681,7 +1684,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup?
+        replyMarkup: ReplyMarkup?,
     ): Pair<CallResponse<Response<Message>?>?, Exception?> = call {
         apiClient.sendSticker(
             chatId,
@@ -1694,13 +1697,13 @@ public class Bot private constructor(
     }
 
     public suspend fun getStickerSet(
-        name: String
+        name: String,
     ): Pair<CallResponse<Response<StickerSet>?>?, Exception?> =
         call { apiClient.getStickerSet(name) }
 
     public suspend fun uploadStickerFile(
         userId: Long,
-        pngSticker: SystemFile
+        pngSticker: SystemFile,
     ): Pair<CallResponse<Response<File>?>?, Exception?> = call {
         apiClient.uploadStickerFile(
             userId,
@@ -1715,7 +1718,7 @@ public class Bot private constructor(
         pngSticker: SystemFile,
         emojis: String,
         containsMasks: Boolean? = null,
-        maskPosition: MaskPosition?
+        maskPosition: MaskPosition?,
     ): Pair<CallResponse<Response<Boolean>?>?, Exception?> = call {
         apiClient.createNewStickerSet(
             userId,
@@ -1735,7 +1738,7 @@ public class Bot private constructor(
         pngSticker: String,
         emojis: String,
         containsMasks: Boolean? = null,
-        maskPosition: MaskPosition?
+        maskPosition: MaskPosition?,
     ): Pair<CallResponse<Response<Boolean>?>?, Exception?> = call {
         apiClient.createNewStickerSet(
             userId,
@@ -1753,7 +1756,7 @@ public class Bot private constructor(
         name: String,
         pngSticker: SystemFile,
         emojis: String,
-        maskPosition: MaskPosition?
+        maskPosition: MaskPosition?,
     ): Pair<CallResponse<Response<Boolean>?>?, Exception?> = call {
         apiClient.addStickerToSet(
             userId,
@@ -1769,7 +1772,7 @@ public class Bot private constructor(
         name: String,
         pngSticker: String,
         emojis: String,
-        maskPosition: MaskPosition?
+        maskPosition: MaskPosition?,
     ): Pair<CallResponse<Response<Boolean>?>?, Exception?> = call {
         apiClient.addStickerToSet(
             userId,
@@ -1782,7 +1785,7 @@ public class Bot private constructor(
 
     public suspend fun setStickerPositionInSet(
         sticker: String,
-        position: Int
+        position: Int,
     ): Pair<CallResponse<Response<Boolean>?>?, Exception?> = call {
         apiClient.setStickerPositionInSet(
             sticker,
@@ -1791,7 +1794,7 @@ public class Bot private constructor(
     }
 
     public suspend fun deleteStickerFromSet(
-        sticker: String
+        sticker: String,
     ): Pair<CallResponse<Response<Boolean>?>?, Exception?> = call {
         apiClient.deleteStickerFromSet(
             sticker
@@ -1817,7 +1820,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: InlineKeyboardMarkup? = null
+        replyMarkup: InlineKeyboardMarkup? = null,
     ): TelegramBotResult<Message> = apiClient.sendInvoice(
         chatId,
         paymentInvoiceInfo.title,
@@ -1864,7 +1867,7 @@ public class Bot private constructor(
         shippingQueryId: String,
         ok: Boolean,
         shippingOptions: List<ShippingOption>? = null,
-        errorMessage: String? = null
+        errorMessage: String? = null,
     ): TelegramBotResult<Boolean> = apiClient.answerShippingQuery(
         shippingQueryId,
         ok,
@@ -1892,7 +1895,7 @@ public class Bot private constructor(
     public suspend fun answerPreCheckoutQuery(
         preCheckoutQueryId: String,
         ok: Boolean,
-        errorMessage: String? = null
+        errorMessage: String? = null,
     ): TelegramBotResult<Boolean> = apiClient.answerPreCheckoutQuery(
         preCheckoutQueryId,
         ok,
@@ -1931,7 +1934,7 @@ public class Bot private constructor(
         isPersonal: Boolean = false,
         nextOffset: String? = null,
         switchPmText: String? = null,
-        switchPmParameter: String? = null
+        switchPmParameter: String? = null,
     ): TelegramBotResult<Boolean> = answerInlineQuery(
         inlineQueryId,
         inlineQueryResults.toList(),
@@ -1974,7 +1977,7 @@ public class Bot private constructor(
         isPersonal: Boolean = false,
         nextOffset: String? = null,
         switchPmText: String? = null,
-        switchPmParameter: String? = null
+        switchPmParameter: String? = null,
     ): TelegramBotResult<Boolean> = apiClient.answerInlineQuery(
         inlineQueryId,
         inlineQueryResults,
@@ -2002,7 +2005,7 @@ public class Bot private constructor(
      * @return True on success.
      */
     public suspend fun setMyCommands(
-        commands: List<BotCommand>
+        commands: List<BotCommand>,
     ): TelegramBotResult<Boolean> = apiClient.setMyCommands(commands)
 
     /**
@@ -2024,7 +2027,7 @@ public class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): TelegramBotResult<Message> = apiClient.sendDice(
         chatId,
         emoji,
@@ -2046,7 +2049,7 @@ public class Bot private constructor(
     public suspend fun setChatAdministratorCustomTitle(
         chatId: ChatId,
         userId: Long,
-        customTitle: String
+        customTitle: String,
     ): TelegramBotResult<Boolean> = apiClient.setChatAdministratorCustomTitle(
         chatId,
         userId,

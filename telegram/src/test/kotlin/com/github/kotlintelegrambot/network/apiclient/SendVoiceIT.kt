@@ -26,7 +26,7 @@ class SendVoiceIT : ApiClientIT() {
     fun `sendVoice with audioId`() = runTest {
         givenAnySendVoiceResponse()
 
-        val sendVoice = sut.sendVoice(
+        sut.sendVoice(
             ChatId.fromId(ANY_CHAT_ID),
             TelegramFile.ByFileId(ANY_VOICE_FILE_ID),
             caption = CAPTION,
@@ -38,7 +38,6 @@ class SendVoiceIT : ApiClientIT() {
             allowSendingWithoutReply = null,
             replyMarkup = REPLY_MARKUP
         )
-        sendVoice
 
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID" +
             "&voice=$ANY_VOICE_FILE_ID" +
@@ -57,7 +56,7 @@ class SendVoiceIT : ApiClientIT() {
     fun `sendVoice with audio from file`() = runTest {
         givenAnySendVoiceResponse()
 
-        val sendVoice = sut.sendVoice(
+        sut.sendVoice(
             ChatId.fromId(ANY_CHAT_ID),
             TelegramFile.ByFile(getFileFromResources<SendVoiceIT>(VOICE_FILENAME)),
             caption = CAPTION,
@@ -69,7 +68,6 @@ class SendVoiceIT : ApiClientIT() {
             allowSendingWithoutReply = null,
             replyMarkup = REPLY_MARKUP
         )
-        sendVoice.body()
 
         val request = mockWebServer.takeRequest()
         val multipartBoundary = request.multipartBoundary
@@ -90,7 +88,7 @@ class SendVoiceIT : ApiClientIT() {
     fun `sendVoice with audio from ByteArray`() = runTest {
         givenAnySendVoiceResponse()
 
-        val sendVoice = sut.sendVoice(
+        sut.sendVoice(
             ChatId.fromId(ANY_CHAT_ID),
             TelegramFile.ByByteArray(getFileFromResources<SendVoiceIT>("short.ogg").readBytes()),
             caption = CAPTION,
@@ -102,7 +100,6 @@ class SendVoiceIT : ApiClientIT() {
             allowSendingWithoutReply = null,
             replyMarkup = REPLY_MARKUP
         )
-        sendVoice.body()
 
         val request = mockWebServer.takeRequest()
         val multipartBoundary = request.multipartBoundary

@@ -1,9 +1,6 @@
 plugins {
     kotlin("jvm")
 }
-repositories {
-    google()
-}
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
@@ -21,6 +18,6 @@ tasks.jar {
         attributes(mapOf("Main-Class" to "com.github.kotlintelegrambot.MainKt"))
     }
 
-
-    from({ configurations.getByName("compile").map { if (it.isDirectory) it else zipTree(it) } })
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from({ configurations.getByName("compileClasspath").map { if (it.isDirectory) it else zipTree(it) } })
 }

@@ -6,7 +6,6 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 internal interface Looper {
     fun launchLoop(block: suspend CoroutineScope.() -> Unit)
@@ -34,8 +33,5 @@ internal class SuspendLooper(
 
     override fun cancelLoop() {
         coroutineScope.cancel()
-        runBlocking {
-            awaitCancellation()
-        }
     }
 }
