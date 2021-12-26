@@ -8,7 +8,7 @@ plugins {
 
 apply(plugin = "kotlinx-atomicfu")
 
-group = "com.github.kotlintelegrambot"
+group = "com.github.forrestdp.kotlintelegrambot"
 version = "7.0.0"
 
 repositories {

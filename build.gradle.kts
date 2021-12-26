@@ -17,8 +17,8 @@ plugins {
 allprojects {
     apply(from = "$rootDir/ktlint.gradle")
 
-    group = "com.github.kotlintelegrambot"
-    version = "0.3.4"
+    group = "com.github.forrestdp.kotlintelegrambot"
+    version = "7.0.0"
 
     repositories {
         mavenCentral()
