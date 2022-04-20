@@ -8,6 +8,7 @@ import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.Pay
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.SwitchInlineQuery
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.SwitchInlineQueryCurrentChat
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.Url
+import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.WebApp
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
@@ -39,6 +40,7 @@ internal class InlineKeyboardButtonAdapter : JsonSerializer<InlineKeyboardButton
         is SwitchInlineQueryCurrentChat -> context.serialize(src, SwitchInlineQueryCurrentChat::class.java)
         is CallbackGameButtonType -> context.serialize(src, CallbackGameButtonType::class.java)
         is Pay -> context.serialize(src, Pay::class.java)
+        is WebApp -> context.serialize(src, WebApp::class.java)
     }
 
     override fun deserialize(
