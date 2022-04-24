@@ -9,6 +9,7 @@ import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.Switc
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.SwitchInlineQueryCurrentChat
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.Url
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.WebApp
+import com.github.kotlintelegrambot.entities.keyboard.WebAppInfo
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
@@ -26,7 +27,8 @@ internal class InlineKeyboardButtonAdapter : JsonSerializer<InlineKeyboardButton
         @SerializedName("callback_game") val callbackGame: CallbackGame? = null,
         @SerializedName("switch_inline_query") val switchInlineQuery: String? = null,
         @SerializedName("switch_inline_query_current_chat") val switchInlineQueryCurrentChat: String? = null,
-        val pay: Boolean? = null
+        val pay: Boolean? = null,
+        @SerializedName("web_app") val webApp: WebAppInfo? = null
     )
 
     override fun serialize(
@@ -64,6 +66,7 @@ internal class InlineKeyboardButtonAdapter : JsonSerializer<InlineKeyboardButton
                 )
                 callbackGame != null -> CallbackGameButtonType(text, callbackGame)
                 pay != null -> Pay(text)
+                webApp != null -> WebApp(text, webApp)
                 else -> error("unsupported inline keyboard button $inlineKeyboardButtonDto")
             }
         }

@@ -13,7 +13,8 @@ data class KeyboardButton(
     @SerializedName(KeyboardFields.TEXT) val text: String,
     @SerializedName(KeyboardFields.REQUEST_CONTACT) val requestContact: Boolean? = null,
     @SerializedName(KeyboardFields.REQUEST_LOCATION) val requestLocation: Boolean? = null,
-    @SerializedName(KeyboardFields.REQUEST_POLL) val requestPoll: KeyboardButtonPollType? = null
+    @SerializedName(KeyboardFields.REQUEST_POLL) val requestPoll: KeyboardButtonPollType? = null,
+    @SerializedName(KeyboardFields.WEB_APP) val webApp: WebAppInfo? = null
 )
 
 /**
