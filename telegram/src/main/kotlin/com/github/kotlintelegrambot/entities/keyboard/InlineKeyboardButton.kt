@@ -4,6 +4,11 @@ import com.github.kotlintelegrambot.entities.CallbackGame
 import com.google.gson.annotations.SerializedName
 
 /**
+ * Contains information about a Web App.
+ */
+data class WebAppInfo(val url: String)
+
+/**
  * Represents one button of an inline keyboard ([loginUrl] not supported yet).
  * @see <https://core.telegram.org/bots/api#inlinekeyboardbutton>
  */
@@ -62,4 +67,12 @@ sealed class InlineKeyboardButton {
     data class Pay(override val text: String) : InlineKeyboardButton() {
         val pay = true
     }
+
+    /**
+     * To send a web app.
+     */
+    data class WebApp(
+        override val text: String,
+        @SerializedName("web_app") val webApp: WebAppInfo
+    ) : InlineKeyboardButton()
 }

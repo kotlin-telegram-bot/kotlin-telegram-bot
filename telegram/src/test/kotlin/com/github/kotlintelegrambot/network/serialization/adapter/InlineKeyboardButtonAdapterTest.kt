@@ -1,6 +1,7 @@
 package com.github.kotlintelegrambot.network.serialization.adapter
 
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton
+import com.github.kotlintelegrambot.entities.keyboard.WebAppInfo
 import com.google.gson.GsonBuilder
 import junit.framework.TestCase.assertEquals
 import org.junit.jupiter.api.Test
@@ -95,6 +96,27 @@ class InlineKeyboardButtonAdapterTest {
 
         assertEquals(payButton, actualPayButton)
         assertEquals(payButtonJson, actualPayButtonJson)
+    }
+
+    @Test
+    fun `serialize and deserialize inline keyboard web app button`() {
+        val webAppButton = InlineKeyboardButton.WebApp(
+            text = ANY_TEXT,
+            webApp = WebAppInfo(ANY_URL)
+        )
+        val webAppButtonJson =
+            """{"text":"$ANY_TEXT","web_app":{"url":"$ANY_URL"}}"""
+
+        val actualWebAppButton = sut.fromJson(
+            webAppButtonJson,
+            InlineKeyboardButton::class.java
+        )
+        val actualWebAppButtonJson = sut.toJson(
+            webAppButton
+        )
+
+        assertEquals(webAppButton, actualWebAppButton)
+        assertEquals(webAppButtonJson, actualWebAppButtonJson)
     }
 
     private companion object {

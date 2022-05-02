@@ -6,4 +6,5 @@ internal object KeyboardFields {
     const val REQUEST_LOCATION = "request_location"
     const val REQUEST_POLL = "request_poll"
     const val TYPE = "type"
+    const val WEB_APP = "web_app"
 }
