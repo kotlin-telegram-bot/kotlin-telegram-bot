@@ -17,7 +17,7 @@ plugins {
 apply plugin: 'kotlin'
 
 group 'com.github.kotlintelegrambot'
-version '6.0.6'
+version '6.0.7'
 
 repositories {
     mavenCentral()
