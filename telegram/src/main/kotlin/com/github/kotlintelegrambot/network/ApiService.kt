@@ -359,6 +359,7 @@ internal interface ApiService {
         @Field("latitude") latitude: Float,
         @Field("longitude") longitude: Float,
         @Field("live_period") livePeriod: Int?,
+        @Field("heading") heading: Int?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
@@ -373,6 +374,7 @@ internal interface ApiService {
         @Field("inline_message_id") inlineMessageId: String?,
         @Field("latitude") latitude: Float,
         @Field("longitude") longitude: Float,
+        @Field("heading") heading: Int?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
     ): Call<Response<Message>>
 

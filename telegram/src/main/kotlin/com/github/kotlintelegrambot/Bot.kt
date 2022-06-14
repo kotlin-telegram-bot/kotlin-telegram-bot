@@ -973,6 +973,7 @@ class Bot private constructor(
         latitude: Float,
         longitude: Float,
         livePeriod: Int? = null,
+        heading: Int? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
@@ -982,6 +983,7 @@ class Bot private constructor(
         latitude,
         longitude,
         livePeriod,
+        heading,
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
@@ -1066,6 +1068,7 @@ class Bot private constructor(
         inlineMessageId: String? = null,
         latitude: Float,
         longitude: Float,
+        heading: Int? = null,
         replyMarkup: ReplyMarkup? = null
     ) = apiClient.editMessageLiveLocation(
         chatId,
@@ -1073,6 +1076,7 @@ class Bot private constructor(
         inlineMessageId,
         latitude,
         longitude,
+        heading,
         replyMarkup
     ).call()
 
