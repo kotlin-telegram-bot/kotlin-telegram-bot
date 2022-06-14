@@ -616,6 +616,7 @@ internal class ApiClient(
         latitude: Float,
         longitude: Float,
         livePeriod: Int?,
+        heading: Int?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
@@ -627,6 +628,7 @@ internal class ApiClient(
             latitude,
             longitude,
             livePeriod,
+            heading,
             disableNotification,
             replyToMessageId,
             allowSendingWithoutReply,
@@ -640,6 +642,7 @@ internal class ApiClient(
         inlineMessageId: String?,
         latitude: Float,
         longitude: Float,
+        heading: Int?,
         replyMarkup: ReplyMarkup?
     ): Call<Response<Message>> {
 
@@ -649,6 +652,7 @@ internal class ApiClient(
             inlineMessageId,
             latitude,
             longitude,
+            heading,
             replyMarkup
         )
     }
