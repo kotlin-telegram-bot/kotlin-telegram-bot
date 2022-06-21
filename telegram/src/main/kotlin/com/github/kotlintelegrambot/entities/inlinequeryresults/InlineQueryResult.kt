@@ -165,7 +165,8 @@ sealed class InlineQueryResult(
         @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null,
         @SerializedName("thumb_url") val thumbUrl: String? = null,
         @SerializedName("thumb_width") val thumbWidth: Int? = null,
-        @SerializedName("thumb_height") val thumbHeight: Int? = null
+        @SerializedName("thumb_height") val thumbHeight: Int? = null,
+        @SerializedName("horizontal_accuracy") val horizontalAccuracy: Float? = null
     ) : InlineQueryResult(QueryResultTypes.LOCATION)
 
     data class Venue(
