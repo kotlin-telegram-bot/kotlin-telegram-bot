@@ -274,13 +274,16 @@ fun anyVideoNote(
 
 private const val ANY_LONGITUDE = 3.2235423F
 private const val ANY_LATITUDE = 32.1242F
+private const val ANY_HORIZONTAL_ACCURACY = 64.1242F
 
 fun anyLocation(
     longitude: Float = ANY_LONGITUDE,
-    latitude: Float = ANY_LATITUDE
+    latitude: Float = ANY_LATITUDE,
+    horizontalAccuracy: Float = ANY_HORIZONTAL_ACCURACY
 ): Location = Location(
     longitude = longitude,
-    latitude = latitude
+    latitude = latitude,
+    horizontalAccuracy
 )
 
 private const val ANY_PHONE_NUMBER = "+346878344312"

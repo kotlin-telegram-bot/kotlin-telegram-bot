@@ -48,6 +48,7 @@ class GetChatIT : ApiClientIT() {
                 location = Location(
                     latitude = 20.425537f,
                     longitude = -3.604971f,
+                    horizontal_accuracy = 2.3f
                 ),
                 address = "Mordor Street, Madrid, Spain",
             )
@@ -76,7 +77,8 @@ class GetChatIT : ApiClientIT() {
                     "location": {
                         "location": {
                             "latitude": 20.425537,
-                            "longitude": -3.604971
+                            "longitude": -3.604971,
+                            "horizontal_accuracy": 2.3
                         },
                         "address": "Mordor Street, Madrid, Spain"
                     }
