@@ -14,7 +14,8 @@ fun anyInputMediaVideo(
     width = null,
     height = null,
     duration = null,
-    supportsStreaming = null
+    supportsStreaming = null,
+    captionEntities = null
 )
 
 fun anyInputMediaPhoto(
@@ -22,5 +23,6 @@ fun anyInputMediaPhoto(
 ): InputMediaPhoto = InputMediaPhoto(
     media = media,
     caption = null,
-    parseMode = null
+    parseMode = null,
+    captionEntities = null
 )

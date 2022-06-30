@@ -184,7 +184,8 @@ internal class ApiClient(
         disableNotification: Boolean?,
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?
+        replyMarkup: ReplyMarkup?,
+        entities: List<MessageEntity>?
     ): TelegramBotResult<Message> = service.sendMessage(
         chatId,
         text,
@@ -193,7 +194,8 @@ internal class ApiClient(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
+        entities
     ).runApiOperation()
 
     fun forwardMessage(
@@ -242,7 +244,8 @@ internal class ApiClient(
         disableNotification: Boolean?,
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?
+        replyMarkup: ReplyMarkup?,
+        captionEntities: List<MessageEntity>?
     ): Call<Response<Message>> = when (photo) {
         is ByFile, is ByByteArray -> service.sendPhoto(
             chatId,
@@ -256,7 +259,8 @@ internal class ApiClient(
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
-            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
+            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
+            if (captionEntities != null) convertJson(gson.toJson(captionEntities)) else null
         )
         is ByFileId, is ByUrl -> service.sendPhoto(
             chatId,
@@ -270,7 +274,8 @@ internal class ApiClient(
             disableNotification,
             replyToMessageId,
             allowSendingWithoutReply,
-            replyMarkup
+            replyMarkup,
+            captionEntities
         )
     }
 
@@ -283,7 +288,8 @@ internal class ApiClient(
         disableNotification: Boolean?,
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?
+        replyMarkup: ReplyMarkup?,
+        captionEntities: List<MessageEntity>?
     ): Call<Response<Message>> = when (audio) {
         is ByFile, is ByByteArray -> service.sendAudio(
             chatId,
@@ -298,7 +304,8 @@ internal class ApiClient(
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
-            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
+            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
+            if (captionEntities != null) convertJson(gson.toJson(captionEntities)) else null
         )
         is ByFileId, is ByUrl -> service.sendAudio(
             chatId,
@@ -313,7 +320,8 @@ internal class ApiClient(
             disableNotification,
             replyToMessageId,
             allowSendingWithoutReply,
-            replyMarkup
+            replyMarkup,
+            captionEntities
         )
     }
 
@@ -327,7 +335,8 @@ internal class ApiClient(
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
-        mimeType: String? = null
+        mimeType: String? = null,
+        captionEntities: List<MessageEntity>? = null
     ): Call<Response<Message>> = when (document) {
         is ByFile, is ByByteArray -> service.sendDocument(
             chatId,
@@ -342,7 +351,8 @@ internal class ApiClient(
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
-            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
+            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
+            if (captionEntities != null) convertJson(gson.toJson(captionEntities)) else null
         )
         is ByFileId, is ByUrl -> service.sendDocument(
             chatId,
@@ -357,7 +367,8 @@ internal class ApiClient(
             disableNotification,
             replyToMessageId,
             allowSendingWithoutReply,
-            replyMarkup
+            replyMarkup,
+            captionEntities
         )
     }
 
@@ -371,7 +382,8 @@ internal class ApiClient(
         disableNotification: Boolean?,
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?
+        replyMarkup: ReplyMarkup?,
+        captionEntities: List<MessageEntity>?
     ): Call<Response<Message>> = when (video) {
         is ByFile, is ByByteArray -> service.sendVideo(
             chatId,
@@ -387,7 +399,8 @@ internal class ApiClient(
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
-            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
+            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
+            if (captionEntities != null) convertJson(gson.toJson(captionEntities)) else null
         )
         is ByFileId, is ByUrl -> service.sendVideo(
             chatId,
@@ -403,7 +416,8 @@ internal class ApiClient(
             disableNotification,
             replyToMessageId,
             allowSendingWithoutReply,
-            replyMarkup
+            replyMarkup,
+            captionEntities
         )
     }
 
@@ -435,7 +449,8 @@ internal class ApiClient(
         disableNotification: Boolean?,
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?
+        replyMarkup: ReplyMarkup?,
+        captionEntities: List<MessageEntity>?
     ): Call<Response<Message>> {
 
         return service.sendAnimation(
@@ -449,7 +464,8 @@ internal class ApiClient(
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
-            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
+            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
+            if (captionEntities != null) convertJson(gson.toJson(captionEntities)) else null
         )
     }
 
@@ -464,7 +480,8 @@ internal class ApiClient(
         disableNotification: Boolean?,
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?
+        replyMarkup: ReplyMarkup?,
+        captionEntities: List<MessageEntity>?
     ): Call<Response<Message>> = when (animation) {
         is ByFile, is ByByteArray -> service.sendAnimation(
             chatId,
@@ -481,7 +498,8 @@ internal class ApiClient(
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
-            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
+            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
+            if (captionEntities != null) convertJson(gson.toJson(captionEntities)) else null
         )
         is ByFileId, is ByUrl -> service.sendAnimation(
             chatId,
@@ -498,7 +516,8 @@ internal class ApiClient(
             disableNotification,
             replyToMessageId,
             allowSendingWithoutReply,
-            replyMarkup
+            replyMarkup,
+            captionEntities
         )
     }
 
@@ -737,6 +756,7 @@ internal class ApiClient(
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
+        captionEntities: List<MessageEntity>? = null
     ): TelegramBotResult<Message> = service.sendPoll(
         chatId,
         question,
@@ -754,6 +774,7 @@ internal class ApiClient(
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
+        captionEntities
     ).runApiOperation()
 
     fun sendChatAction(chatId: ChatId, action: ChatAction): Call<Response<Boolean>> {
@@ -954,7 +975,8 @@ internal class ApiClient(
         text: String,
         parseMode: ParseMode?,
         disableWebPagePreview: Boolean?,
-        replyMarkup: ReplyMarkup?
+        replyMarkup: ReplyMarkup?,
+        entities: List<MessageEntity>?
     ): Call<Response<Message>> {
 
         return service.editMessageText(
@@ -964,7 +986,8 @@ internal class ApiClient(
             text,
             parseMode,
             disableWebPagePreview,
-            replyMarkup
+            replyMarkup,
+            entities
         )
     }
 
@@ -974,7 +997,8 @@ internal class ApiClient(
         inlineMessageId: String?,
         caption: String,
         parseMode: ParseMode?,
-        replyMarkup: ReplyMarkup?
+        replyMarkup: ReplyMarkup?,
+        caption_entities: List<MessageEntity>?
     ): Call<Response<Message>> {
 
         return service.editMessageCaption(
@@ -983,7 +1007,8 @@ internal class ApiClient(
             inlineMessageId,
             caption,
             parseMode,
-            replyMarkup
+            replyMarkup,
+            caption_entities
         )
     }
 
