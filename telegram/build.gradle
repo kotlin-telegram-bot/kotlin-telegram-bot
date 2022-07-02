@@ -6,7 +6,6 @@ buildscript {
 
     repositories {
         mavenCentral()
-        jcenter()
     }
 }
 
@@ -21,18 +20,14 @@ version '6.0.7'
 
 repositories {
     mavenCentral()
-    jcenter()
 }
 
 dependencies {
-    // Kotlin
-    compile "org.jetbrains.kotlin:kotlin-stdlib"
-
     // Networking
-    compile "com.squareup.retrofit2:retrofit:$retrofit_version"
-    compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
-    compile "com.squareup.okhttp3:logging-interceptor:$logging_interceptor_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$logging_interceptor_version"
 
     // Testing
     testImplementation "org.junit.jupiter:junit-jupiter:$junit_version"
