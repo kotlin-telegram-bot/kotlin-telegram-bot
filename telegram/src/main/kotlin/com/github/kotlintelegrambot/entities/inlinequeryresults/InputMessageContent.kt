@@ -22,7 +22,9 @@ sealed class InputMessageContent {
         val title: String,
         val address: String,
         @SerializedName("foursquare_id") val foursquareId: String? = null,
-        @SerializedName("foursquare_type") val foursquareType: String? = null
+        @SerializedName("foursquare_type") val foursquareType: String? = null,
+        @SerializedName("google_place_id") val googlePlaceId: String? = null,
+        @SerializedName("google_place_type") val googlePlaceType: String? = null
     ) : InputMessageContent()
 
     data class Contact(

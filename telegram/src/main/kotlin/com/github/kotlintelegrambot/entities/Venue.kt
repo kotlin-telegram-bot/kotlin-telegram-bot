@@ -7,5 +7,7 @@ data class Venue(
     val title: String,
     val address: String,
     @Name("foursquare_id") val foursquareId: String? = null,
-    @Name("foursquare_type") val foursquareType: String? = null
+    @Name("foursquare_type") val foursquareType: String? = null,
+    @Name("google_place_id") val googlePlaceId: String? = null,
+    @Name("google_place_type") val googlePlaceType: String? = null
 )

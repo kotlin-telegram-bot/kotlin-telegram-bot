@@ -2,18 +2,17 @@ apply plugin: 'kotlin'
 
 repositories {
     google()
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib"
-    compile "io.ktor:ktor-server-netty:1.2.6"
-    compile project(":telegram")
+    implementation 'io.ktor:ktor-server-netty:1.6.3'
+    implementation project(":telegram")
 }
 
 task runApp(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
-    main = 'com.github.kotlintelegrambot.webhook.MainKt'
+    mainClass.set('com.github.kotlintelegrambot.webhook.MainKt')
 }
 
 jar {
@@ -22,5 +21,7 @@ jar {
     }
 
 
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }

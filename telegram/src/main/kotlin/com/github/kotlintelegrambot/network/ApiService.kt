@@ -407,6 +407,8 @@ internal interface ApiService {
         @Field("address") address: String,
         @Field("foursquare_id") foursquareId: String?,
         @Field("foursquare_type") foursquareType: String?,
+        @Field("google_place_id") googlePlaceId: String?,
+        @Field("google_place_type") googlePlaceType: String?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
