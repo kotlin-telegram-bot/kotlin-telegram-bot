@@ -1,5 +1,6 @@
 package com.github.kotlintelegrambot.entities.inputmedia
 
+import com.github.kotlintelegrambot.entities.MessageEntity
 import com.github.kotlintelegrambot.entities.TelegramFile
 import com.google.gson.annotations.SerializedName
 
@@ -12,6 +13,7 @@ sealed class InputMedia {
     abstract val media: TelegramFile
     abstract val caption: String?
     abstract val parseMode: String?
+    abstract val captionEntities: List<MessageEntity>?
 }
 
 /**
@@ -39,7 +41,8 @@ class MediaGroup private constructor(val medias: Array<out GroupableMedia>) {
 data class InputMediaPhoto(
     @SerializedName(InputMediaFields.MEDIA) override val media: TelegramFile,
     @SerializedName(InputMediaFields.CAPTION) override val caption: String? = null,
-    @SerializedName(InputMediaFields.PARSE_MODE) override val parseMode: String? = null
+    @SerializedName(InputMediaFields.PARSE_MODE) override val parseMode: String? = null,
+    @SerializedName(InputMediaFields.CAPTION_ENTITIES) override val captionEntities: List<MessageEntity>?
 ) : InputMedia(), GroupableMedia {
     @SerializedName(InputMediaFields.TYPE)
     override val type: String = InputMediaTypes.PHOTO
@@ -53,6 +56,7 @@ data class InputMediaVideo(
     @SerializedName(InputMediaFields.MEDIA) override val media: TelegramFile,
     @SerializedName(InputMediaFields.CAPTION) override val caption: String? = null,
     @SerializedName(InputMediaFields.PARSE_MODE) override val parseMode: String? = null,
+    @SerializedName(InputMediaFields.CAPTION_ENTITIES) override val captionEntities: List<MessageEntity>?,
     @SerializedName(InputMediaFields.THUMB) val thumb: TelegramFile.ByFile? = null,
     @SerializedName(InputMediaFields.WIDTH) val width: Int? = null,
     @SerializedName(InputMediaFields.HEIGHT) val height: Int? = null,
@@ -71,6 +75,7 @@ data class InputMediaAnimation(
     @SerializedName(InputMediaFields.MEDIA) override val media: TelegramFile,
     @SerializedName(InputMediaFields.CAPTION) override val caption: String? = null,
     @SerializedName(InputMediaFields.PARSE_MODE) override val parseMode: String? = null,
+    @SerializedName(InputMediaFields.CAPTION_ENTITIES) override val captionEntities: List<MessageEntity>?,
     @SerializedName(InputMediaFields.THUMB) val thumb: TelegramFile.ByFile? = null,
     @SerializedName(InputMediaFields.WIDTH) val width: Int? = null,
     @SerializedName(InputMediaFields.HEIGHT) val height: Int? = null,
@@ -88,6 +93,7 @@ data class InputMediaAudio(
     @SerializedName(InputMediaFields.MEDIA) override val media: TelegramFile,
     @SerializedName(InputMediaFields.CAPTION) override val caption: String? = null,
     @SerializedName(InputMediaFields.PARSE_MODE) override val parseMode: String? = null,
+    @SerializedName(InputMediaFields.CAPTION_ENTITIES) override val captionEntities: List<MessageEntity>?,
     @SerializedName(InputMediaFields.THUMB) val thumb: TelegramFile.ByFile? = null,
     @SerializedName(InputMediaFields.DURATION) val duration: Int? = null,
     @SerializedName(InputMediaFields.PERFORMER) val performer: String? = null,
@@ -105,6 +111,7 @@ data class InputMediaDocument(
     @SerializedName(InputMediaFields.MEDIA) override val media: TelegramFile,
     @SerializedName(InputMediaFields.CAPTION) override val caption: String? = null,
     @SerializedName(InputMediaFields.PARSE_MODE) override val parseMode: String? = null,
+    @SerializedName(InputMediaFields.CAPTION_ENTITIES) override val captionEntities: List<MessageEntity>?,
     @SerializedName(InputMediaFields.THUMB) val thumb: TelegramFile.ByFile? = null,
     @SerializedName(InputMediaFields.DISABLE_CONTENT_TYPE_DETECTION) val disableContentTypeDetection: Boolean? = null
 ) : InputMedia(), GroupableMedia {

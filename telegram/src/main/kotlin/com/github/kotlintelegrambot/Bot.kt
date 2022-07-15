@@ -253,7 +253,8 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
+        entities: List<MessageEntity>? = null
     ): TelegramBotResult<Message> = apiClient.sendMessage(
         chatId,
         text,
@@ -262,7 +263,8 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
+        entities
     )
 
     /**
@@ -318,7 +320,8 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
+        captionEntities: List<MessageEntity>? = null
     ) = apiClient.sendPhoto(
         chatId,
         TelegramFile.ByFile(photo),
@@ -327,7 +330,8 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
+        captionEntities
     ).call()
 
     @Deprecated(
@@ -342,7 +346,8 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
+        captionEntities: List<MessageEntity>? = null
     ) = apiClient.sendPhoto(
         chatId,
         TelegramFile.ByFileId(photo),
@@ -351,7 +356,8 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
+        captionEntities
     ).call()
 
     @Deprecated(
@@ -367,7 +373,8 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
+        captionEntities: List<MessageEntity>? = null
     ) = apiClient.sendAudio(
         chatId,
         TelegramFile.ByFile(audio),
@@ -377,7 +384,8 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
+        captionEntities
     ).call()
 
     @Deprecated(
@@ -393,7 +401,8 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
+        captionEntities: List<MessageEntity>? = null
     ) = apiClient.sendAudio(
         chatId,
         TelegramFile.ByFileId(audio),
@@ -403,7 +412,8 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
+        captionEntities
     ).call()
 
     @Deprecated(
@@ -419,7 +429,8 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
+        captionEntities: List<MessageEntity>? = null
     ) = apiClient.sendDocument(
         chatId,
         TelegramFile.ByFile(document),
@@ -429,7 +440,8 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
+        captionEntities = captionEntities
     ).call()
 
     @Deprecated(
@@ -447,7 +459,8 @@ class Bot private constructor(
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
         fileName: String,
-        mimeType: String? = null
+        mimeType: String? = null,
+        captionEntities: List<MessageEntity>? = null
     ) = apiClient.sendDocument(
         chatId,
         TelegramFile.ByByteArray(fileBytes, fileName),
@@ -458,7 +471,8 @@ class Bot private constructor(
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
-        mimeType
+        mimeType,
+        captionEntities
     ).call()
 
     @Deprecated(
@@ -474,7 +488,8 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
+        captionEntities: List<MessageEntity>? = null
     ) = apiClient.sendDocument(
         chatId,
         TelegramFile.ByFileId(fileId),
@@ -484,7 +499,8 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
+        captionEntities = captionEntities
     ).call()
 
     @Deprecated(
@@ -501,7 +517,8 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
+        captionEntities: List<MessageEntity>? = null
     ) = apiClient.sendVideo(
         chatId,
         TelegramFile.ByFile(video),
@@ -512,7 +529,8 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
+        captionEntities
     ).call()
 
     @Deprecated(
@@ -529,7 +547,8 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
+        captionEntities: List<MessageEntity>? = null
     ) = apiClient.sendVideo(
         chatId,
         TelegramFile.ByFileId(fileId),
@@ -540,7 +559,8 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
+        captionEntities
     ).call()
 
     fun sendPhoto(
@@ -551,7 +571,8 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
+        captionEntities: List<MessageEntity>? = null
     ) = apiClient.sendPhoto(
         chatId,
         photo,
@@ -560,7 +581,8 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
+        captionEntities
     ).call()
 
     fun sendAudio(
@@ -572,7 +594,8 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
+        captionEntities: List<MessageEntity>? = null
     ) = apiClient.sendAudio(
         chatId,
         audio,
@@ -582,7 +605,8 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
+        captionEntities
     ).call()
 
     fun sendDocument(
@@ -595,7 +619,8 @@ class Bot private constructor(
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
-        mimeType: String? = null
+        mimeType: String? = null,
+        captionEntities: List<MessageEntity>? = null
     ) = apiClient.sendDocument(
         chatId,
         document,
@@ -606,7 +631,8 @@ class Bot private constructor(
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
-        mimeType
+        mimeType,
+        captionEntities
     ).call()
 
     fun sendVideo(
@@ -619,7 +645,8 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
+        captionEntities: List<MessageEntity>? = null
     ) = apiClient.sendVideo(
         chatId,
         video,
@@ -630,7 +657,8 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
+        captionEntities
     ).call()
 
     /**
@@ -676,7 +704,8 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
+        captionEntities: List<MessageEntity>? = null
     ) = apiClient.sendAnimation(
         chatId,
         animation,
@@ -688,7 +717,8 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
+        captionEntities
     ).call()
 
     @Deprecated(
@@ -706,7 +736,8 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
+        captionEntities: List<MessageEntity>? = null
     ) = apiClient.sendAnimation(
         chatId,
         TelegramFile.ByFileId(fileId),
@@ -718,7 +749,8 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
+        captionEntities
     ).call()
 
     fun sendAnimation(
@@ -732,7 +764,8 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
+        captionEntities: List<MessageEntity>? = null
     ) = apiClient.sendAnimation(
         chatId,
         animation,
@@ -744,7 +777,8 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
+        captionEntities
     ).call()
 
     @Deprecated(
@@ -761,7 +795,7 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.sendVoice(
         chatId,
         TelegramFile.ByByteArray(audio),
@@ -1041,6 +1075,7 @@ class Bot private constructor(
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
+        captionEntities: List<MessageEntity>? = null
     ): TelegramBotResult<Message> = apiClient.sendPoll(
         chatId,
         question,
@@ -1058,6 +1093,7 @@ class Bot private constructor(
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
+        captionEntities
     )
 
     fun editMessageLiveLocation(
@@ -1443,7 +1479,8 @@ class Bot private constructor(
         text: String,
         parseMode: ParseMode? = null,
         disableWebPagePreview: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
+        entities: List<MessageEntity>? = null
     ) = apiClient.editMessageText(
         chatId,
         messageId,
@@ -1451,7 +1488,8 @@ class Bot private constructor(
         text,
         parseMode,
         disableWebPagePreview,
-        replyMarkup
+        replyMarkup,
+        entities
     ).call()
 
     fun editMessageCaption(
@@ -1460,14 +1498,16 @@ class Bot private constructor(
         inlineMessageId: String? = null,
         caption: String,
         parseMode: ParseMode? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
+        captionEntities: List<MessageEntity>? = null
     ) = apiClient.editMessageCaption(
         chatId,
         messageId,
         inlineMessageId,
         caption,
         parseMode,
-        replyMarkup
+        replyMarkup,
+        captionEntities
     ).call()
 
     fun editMessageMedia(

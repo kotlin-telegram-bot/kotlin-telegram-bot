@@ -113,8 +113,8 @@ class SendMediaGroupIT : ApiClientIT() {
     fun `correct request with a document album`() {
         givenAnySendMediaGroupResponse()
         val mediaGroup = MediaGroup.from(
-            InputMediaDocument(TelegramFile.ByUrl("http://www.test.com/document.pdf")),
-            InputMediaDocument(TelegramFile.ByUrl("http://www.test.com/document.pdf")),
+            InputMediaDocument(TelegramFile.ByUrl("http://www.test.com/document.pdf"), captionEntities = null),
+            InputMediaDocument(TelegramFile.ByUrl("http://www.test.com/document.pdf"), captionEntities = null),
         )
 
         sut.sendMediaGroup(ChatId.fromId(ANY_CHAT_ID), mediaGroup)
@@ -133,8 +133,8 @@ class SendMediaGroupIT : ApiClientIT() {
     fun `correct response with a document album`() {
         givenADocumentAlbumSendMediaGroupResponse()
         val mediaGroup = MediaGroup.from(
-            InputMediaDocument(TelegramFile.ByUrl("http://www.test.com/document.pdf")),
-            InputMediaDocument(TelegramFile.ByUrl("http://www.test.com/document.pdf")),
+            InputMediaDocument(TelegramFile.ByUrl("http://www.test.com/document.pdf"), captionEntities = null),
+            InputMediaDocument(TelegramFile.ByUrl("http://www.test.com/document.pdf"), captionEntities = null),
         )
 
         val sendMediaGroupResult = sut.sendMediaGroup(ChatId.fromId(ANY_CHAT_ID), mediaGroup)
@@ -196,8 +196,8 @@ class SendMediaGroupIT : ApiClientIT() {
     fun `correct request with an audio album`() {
         givenAnySendMediaGroupResponse()
         val mediaGroup = MediaGroup.from(
-            InputMediaAudio(TelegramFile.ByUrl("http://www.test.com/audio.ogg")),
-            InputMediaAudio(TelegramFile.ByUrl("http://www.test.com/audio.ogg")),
+            InputMediaAudio(TelegramFile.ByUrl("http://www.test.com/audio.ogg"), captionEntities = null),
+            InputMediaAudio(TelegramFile.ByUrl("http://www.test.com/audio.ogg"), captionEntities = null),
         )
 
         sut.sendMediaGroup(ChatId.fromId(ANY_CHAT_ID), mediaGroup)
@@ -216,8 +216,8 @@ class SendMediaGroupIT : ApiClientIT() {
     fun `correct response with an audio album`() {
         givenAnAudioAlbumSendMediaGroupResponse()
         val mediaGroup = MediaGroup.from(
-            InputMediaAudio(TelegramFile.ByUrl("http://www.test.com/audio.ogg")),
-            InputMediaAudio(TelegramFile.ByUrl("http://www.test.com/audio.ogg")),
+            InputMediaAudio(TelegramFile.ByUrl("http://www.test.com/audio.ogg"), captionEntities = null),
+            InputMediaAudio(TelegramFile.ByUrl("http://www.test.com/audio.ogg"), captionEntities = null),
         )
 
         val sendMediaGroupResult = sut.sendMediaGroup(ChatId.fromId(ANY_CHAT_ID), mediaGroup)

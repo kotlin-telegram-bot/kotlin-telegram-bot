@@ -26,7 +26,8 @@ class SendMessageIT : ApiClientIT() {
             disableNotification = null,
             replyToMessageId = null,
             allowSendingWithoutReply = null,
-            replyMarkup = null
+            replyMarkup = null,
+            entities = null
         )
 
         val request = mockWebServer.takeRequest()
@@ -46,7 +47,8 @@ class SendMessageIT : ApiClientIT() {
             disableNotification = null,
             replyToMessageId = null,
             allowSendingWithoutReply = null,
-            replyMarkup = null
+            replyMarkup = null,
+            entities = null
         )
 
         val request = mockWebServer.takeRequest()
@@ -66,7 +68,8 @@ class SendMessageIT : ApiClientIT() {
             disableNotification = true,
             replyToMessageId = ANY_MESSAGE_ID,
             allowSendingWithoutReply = null,
-            replyMarkup = ForceReplyMarkup(forceReply = false)
+            replyMarkup = ForceReplyMarkup(forceReply = false),
+            entities = null
         )
 
         val request = mockWebServer.takeRequest()
@@ -101,7 +104,8 @@ class SendMessageIT : ApiClientIT() {
                     InlineKeyboardButton.SwitchInlineQuery(ANY_TEXT, ANY_TEXT),
                     InlineKeyboardButton.SwitchInlineQueryCurrentChat(ANY_TEXT, ANY_TEXT)
                 )
-            )
+            ),
+            entities = null
         )
 
         val request = mockWebServer.takeRequest()
@@ -129,7 +133,8 @@ class SendMessageIT : ApiClientIT() {
             disableNotification = null,
             replyToMessageId = null,
             allowSendingWithoutReply = null,
-            replyMarkup = null
+            replyMarkup = null,
+            entities = null
         )
 
         val expectedMessage = Message(

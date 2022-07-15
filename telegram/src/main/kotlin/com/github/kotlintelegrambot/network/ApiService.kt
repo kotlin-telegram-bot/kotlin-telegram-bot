@@ -6,6 +6,7 @@ import com.github.kotlintelegrambot.entities.ChatAction
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ChatMember
 import com.github.kotlintelegrambot.entities.Message
+import com.github.kotlintelegrambot.entities.MessageEntity
 import com.github.kotlintelegrambot.entities.MessageId
 import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.ReplyMarkup
@@ -110,7 +111,8 @@ internal interface ApiService {
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup?
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup?,
+        @Field("entities") captionEntities: List<MessageEntity>?
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -147,7 +149,8 @@ internal interface ApiService {
         @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
         @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
         @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
-        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null
+        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
+        @Part("caption_entities") captionEntities: RequestBody?
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -160,7 +163,8 @@ internal interface ApiService {
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+        @Field("caption_entities") captionEntities: List<MessageEntity>?
     ): Call<Response<Message>>
 
     @Multipart
@@ -174,7 +178,8 @@ internal interface ApiService {
         @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
         @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
         @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
-        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null
+        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
+        @Part("caption_entities") captionEntities: RequestBody?
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -188,7 +193,8 @@ internal interface ApiService {
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+        @Field("caption_entities") captionEntities: List<MessageEntity>?
     ): Call<Response<Message>>
 
     @POST("sendDocument")
@@ -202,7 +208,8 @@ internal interface ApiService {
         @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
         @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
         @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
-        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null
+        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
+        @Part("caption_entities") captionEntities: RequestBody?
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -216,7 +223,8 @@ internal interface ApiService {
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+        @Field("caption_entities") captionEntities: List<MessageEntity>?
     ): Call<Response<Message>>
 
     @Multipart
@@ -231,7 +239,8 @@ internal interface ApiService {
         @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
         @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
         @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
-        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null
+        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
+        @Part("caption_entities") captionEntities: RequestBody?
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -246,7 +255,8 @@ internal interface ApiService {
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+        @Field("caption_entities") captionEntities: List<MessageEntity>?
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -273,7 +283,8 @@ internal interface ApiService {
         @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
         @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
         @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
-        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null
+        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
+        @Part("caption_entities") captionEntities: RequestBody?
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -289,7 +300,8 @@ internal interface ApiService {
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+        @Field("caption_entities") captionEntities: List<MessageEntity>?
     ): Call<Response<Message>>
 
     @Multipart
@@ -434,7 +446,8 @@ internal interface ApiService {
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+        @Field("explanation_entities") captionEntities: List<MessageEntity>?
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -629,7 +642,8 @@ internal interface ApiService {
         @Field("text") text: String,
         @Field("parse_mode") parseMode: ParseMode?,
         @Field("disable_web_page_preview") disableWebPagePreview: Boolean?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+        @Field("entities") entities: List<MessageEntity>?
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -640,7 +654,8 @@ internal interface ApiService {
         @Field("inline_message_id") inlineMessageId: String?,
         @Field("caption") caption: String,
         @Field("parse_mode") parseMode: ParseMode?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+        @Field("caption_entities") caption_entities: List<MessageEntity>?
     ): Call<Response<Message>>
 
     @FormUrlEncoded
