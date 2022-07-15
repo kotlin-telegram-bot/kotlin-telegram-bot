@@ -208,10 +208,12 @@ class Bot private constructor(
         ipAddress: String? = null,
         maxConnections: Int? = null,
         allowedUpdates: List<String>? = null,
-        dropPendingUpdates: Boolean? =  null
+        dropPendingUpdates: Boolean? = null
     ) = apiClient.setWebhook(url, certificate, ipAddress, maxConnections, allowedUpdates, dropPendingUpdates).call()
 
-    fun deleteWebhook() = apiClient.deleteWebhook().call()
+    fun deleteWebhook(
+        dropPendingUpdates: Boolean? = null
+    ) = apiClient.deleteWebhook(dropPendingUpdates).call()
 
     fun getWebhookInfo() = apiClient.getWebhookInfo().call()
 
