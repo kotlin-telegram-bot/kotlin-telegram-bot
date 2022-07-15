@@ -13,7 +13,8 @@ sealed class InputMessageContent {
     data class Location(
         val latitude: Float,
         val longitude: Float,
-        @SerializedName("live_period") val livePeriod: Int? = null
+        @SerializedName("live_period") val livePeriod: Int? = null,
+        @SerializedName("proximity_alert_radius") val proximityAlertRadius: Int? = null
     ) : InputMessageContent()
 
     data class Venue(
