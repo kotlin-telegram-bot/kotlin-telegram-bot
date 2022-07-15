@@ -1495,7 +1495,7 @@ class Bot private constructor(
         caption: String,
         parseMode: ParseMode? = null,
         replyMarkup: ReplyMarkup? = null,
-        caption_entities: List<MessageEntity>? = null
+        captionEntities: List<MessageEntity>? = null
     ) = apiClient.editMessageCaption(
         chatId,
         messageId,
@@ -1503,7 +1503,7 @@ class Bot private constructor(
         caption,
         parseMode,
         replyMarkup,
-        caption_entities
+        captionEntities
     ).call()
 
     fun editMessageMedia(

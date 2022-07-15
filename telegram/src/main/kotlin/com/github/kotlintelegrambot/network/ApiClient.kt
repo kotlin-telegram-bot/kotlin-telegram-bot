@@ -998,7 +998,7 @@ internal class ApiClient(
         caption: String,
         parseMode: ParseMode?,
         replyMarkup: ReplyMarkup?,
-        caption_entities: List<MessageEntity>?
+        captionEntities: List<MessageEntity>?
     ): Call<Response<Message>> {
 
         return service.editMessageCaption(
@@ -1008,7 +1008,7 @@ internal class ApiClient(
             caption,
             parseMode,
             replyMarkup,
-            caption_entities
+            captionEntities
         )
     }
 
