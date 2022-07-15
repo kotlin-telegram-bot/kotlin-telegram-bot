@@ -174,7 +174,9 @@ internal class ApiClient(
         )
     }
 
-    fun deleteWebhook(): Call<Response<Boolean>> = service.deleteWebhook()
+    fun deleteWebhook(
+        dropPendingUpdates: Boolean? = null
+    ): Call<Response<Boolean>> = service.deleteWebhook(dropPendingUpdates)
 
     fun getWebhookInfo(): Call<Response<WebhookInfo>> = service.getWebhookInfo()
 

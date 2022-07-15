@@ -92,7 +92,9 @@ internal interface ApiService {
     ): Call<Response<Boolean>>
 
     @GET("deleteWebhook")
-    fun deleteWebhook(): Call<Response<Boolean>>
+    fun deleteWebhook(
+        @Query(ApiConstants.SetWebhook.DROP_PENDING_UPDATES) dropPendingUpdates: Boolean? = null
+    ): Call<Response<Boolean>>
 
     @GET("getWebhookInfo")
     fun getWebhookInfo(): Call<Response<WebhookInfo>>
