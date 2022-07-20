@@ -1,0 +1,17 @@
+--%1$s
+Content-Disposition: form-data; name="chat_id"
+Content-Length: 7
+
+3242424
+--%1$s
+Content-Disposition: form-data; name="media"
+Content-Length: 90
+
+[{"media":"attach://doc.txt","type":"document"},{"media":"fweo32r32nruka","type":"photo"}]
+--%1$s
+Content-Disposition: form-data; name="doc.txt"; filename="doc.txt"
+Content-Type: document/*
+Content-Length: 23
+
+This is a test document
+--%1$s--

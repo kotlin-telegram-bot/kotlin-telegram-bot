@@ -3120,6 +3120,7 @@ public final class com/github/kotlintelegrambot/network/LabeledPriceList {
 
 public final class com/github/kotlintelegrambot/network/MediaTypeConstants {
 	public static final field AUDIO_OGG Ljava/lang/String;
+	public static final field DOCUMENT Ljava/lang/String;
 	public static final field IMAGE Ljava/lang/String;
 	public static final field INSTANCE Lcom/github/kotlintelegrambot/network/MediaTypeConstants;
 	public static final field UTF_8_TEXT Ljava/lang/String;
