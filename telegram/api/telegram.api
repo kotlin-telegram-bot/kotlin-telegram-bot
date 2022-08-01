@@ -1009,6 +1009,7 @@ public final class com/github/kotlintelegrambot/entities/MessageEntity$Type : ja
 	public static final field MENTION Lcom/github/kotlintelegrambot/entities/MessageEntity$Type;
 	public static final field PHONE_NUMBER Lcom/github/kotlintelegrambot/entities/MessageEntity$Type;
 	public static final field PRE Lcom/github/kotlintelegrambot/entities/MessageEntity$Type;
+	public static final field SPOILER Lcom/github/kotlintelegrambot/entities/MessageEntity$Type;
 	public static final field STRIKETHROUGH Lcom/github/kotlintelegrambot/entities/MessageEntity$Type;
 	public static final field TEXT_LINK Lcom/github/kotlintelegrambot/entities/MessageEntity$Type;
 	public static final field TEXT_MENTION Lcom/github/kotlintelegrambot/entities/MessageEntity$Type;
