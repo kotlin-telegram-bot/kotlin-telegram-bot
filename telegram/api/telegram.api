@@ -75,7 +75,7 @@ public final class com/github/kotlintelegrambot/Bot {
 	public static synthetic fun sendAudio$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/Integer;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;ILjava/lang/Object;)Lkotlin/Pair;
 	public static synthetic fun sendAudio$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/io/File;Ljava/lang/Integer;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;ILjava/lang/Object;)Lkotlin/Pair;
 	public static synthetic fun sendAudio$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;ILjava/lang/Object;)Lkotlin/Pair;
-	public final fun sendChatAction (Lcom/github/kotlintelegrambot/entities/ChatId;Lcom/github/kotlintelegrambot/entities/ChatAction;)Lkotlin/Pair;
+	public final fun sendChatAction (Lcom/github/kotlintelegrambot/entities/ChatId;Lcom/github/kotlintelegrambot/entities/ChatAction;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public final fun sendContact (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;)Lkotlin/Pair;
 	public static synthetic fun sendContact$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;ILjava/lang/Object;)Lkotlin/Pair;
 	public final fun sendDice (Lcom/github/kotlintelegrambot/entities/ChatId;Lcom/github/kotlintelegrambot/entities/dice/DiceEmoji;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
@@ -539,6 +539,7 @@ public final class com/github/kotlintelegrambot/entities/Chat {
 }
 
 public final class com/github/kotlintelegrambot/entities/ChatAction : java/lang/Enum {
+	public static final field CHOOSE_STICKER Lcom/github/kotlintelegrambot/entities/ChatAction;
 	public static final field FIND_LOCATION Lcom/github/kotlintelegrambot/entities/ChatAction;
 	public static final field RECORD_AUDIO Lcom/github/kotlintelegrambot/entities/ChatAction;
 	public static final field RECORD_VIDEO Lcom/github/kotlintelegrambot/entities/ChatAction;

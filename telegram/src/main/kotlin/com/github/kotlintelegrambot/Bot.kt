@@ -1138,8 +1138,20 @@ class Bot private constructor(
         replyMarkup
     ).call()
 
-    fun sendChatAction(chatId: ChatId, action: ChatAction) =
-        apiClient.sendChatAction(chatId, action).call()
+    /**
+     * Use this method when you need to tell the user that something is happening on the bot's side.
+     * The status is set for 5 seconds or less (when a message arrives from your bot, Telegram
+     * clients clear its typing status).
+     *
+     * @param chatId Unique identifier for the target chat or username of the target channel (in
+     * the format @channelusername).
+     * @param action Type of [ChatAction] to broadcast. Choose one depending on what the user is
+     * about to receive.
+     *
+     * @return True on success.
+     */
+    fun sendChatAction(chatId: ChatId, action: ChatAction): TelegramBotResult<Boolean> =
+        apiClient.sendChatAction(chatId, action)
 
     fun getUserProfilePhotos(userId: Long, offset: Long? = null, limit: Int? = null) =
         apiClient.getUserProfilePhotos(userId, offset, limit).call()
