@@ -760,8 +760,8 @@ internal class ApiClient(
         replyMarkup,
     ).runApiOperation()
 
-    fun sendChatAction(chatId: ChatId, action: ChatAction): Call<Response<Boolean>> {
-        return service.sendChatAction(chatId, action)
+    fun sendChatAction(chatId: ChatId, action: ChatAction): TelegramBotResult<Boolean> {
+        return service.sendChatAction(chatId, action).runApiOperation()
     }
 
     fun getUserProfilePhotos(

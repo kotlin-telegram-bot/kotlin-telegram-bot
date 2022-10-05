@@ -12,5 +12,6 @@ enum class ChatAction {
     @SerializedName("upload_document") UPLOAD_DOCUMENT,
     @SerializedName("find_location") FIND_LOCATION,
     @SerializedName("record_video_note") RECORD_VIDEO_NOTE,
-    @SerializedName("upload_video_note") UPLOAD_VIDEO_NOTE;
+    @SerializedName("upload_video_note") UPLOAD_VIDEO_NOTE,
+    @SerializedName("choose_sticker") CHOOSE_STICKER,
 }
