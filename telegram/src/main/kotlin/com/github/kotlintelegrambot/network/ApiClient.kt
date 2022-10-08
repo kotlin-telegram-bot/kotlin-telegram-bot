@@ -947,6 +947,11 @@ internal class ApiClient(
         return service.logOut()
     }
 
+    fun close(): Call<Response<Boolean>> {
+
+        return service.close()
+    }
+
     /**
      * Updating messages
      */

@@ -616,6 +616,9 @@ internal interface ApiService {
     @GET("logOut")
     fun logOut(): Call<Response<Boolean>>
 
+    @GET("close")
+    fun close(): Call<Response<Boolean>>
+
     /**
      * Updating messages
      */
