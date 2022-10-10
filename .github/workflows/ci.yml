@@ -8,11 +8,14 @@ on:
     branches:
       - main
   workflow_dispatch:
+  issue_comment:
+    types:
+      - created
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    if: contains(github.event.issue.pull_request.comment.body, '/run_ci')
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 1.8
