@@ -18,7 +18,6 @@ import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton
 import com.github.kotlintelegrambot.entities.keyboard.KeyboardButton
 import com.github.kotlintelegrambot.extensions.filters.Filter
 import com.github.kotlintelegrambot.logging.LogLevel
-import com.github.kotlintelegrambot.network.fold
 
 fun main() {
 
@@ -29,11 +28,11 @@ fun main() {
         logLevel = LogLevel.Network.Body
 
         dispatch {
-            message(Filter.Sticker) {
+            message(Filter.Sticker, "message1") {
                 bot.sendMessage(ChatId.fromId(message.chat.id), text = "You have received an awesome sticker \\o/")
             }
 
-            message(Filter.Reply or Filter.Forward) {
+            message(Filter.Reply or Filter.Forward, "message2") {
                 bot.sendMessage(ChatId.fromId(message.chat.id), text = "someone is replying or forwarding messages ...")
             }
 
@@ -49,6 +48,13 @@ fun main() {
                         // do something with the error
                     }
                 )
+            }
+            /**
+             * Testing removing commands
+             */
+            command("remove_this_command") {
+                removeHandler("/remove_this_command")
+                bot.sendMessage(ChatId.fromId(update.message!!.chat.id), "You can no longer use this command")
             }
 
             command("hello") {
@@ -207,7 +213,10 @@ fun main() {
             }
 
             dice {
-                bot.sendMessage(ChatId.fromId(message.chat.id), "A dice ${dice.emoji.emojiValue} with value ${dice.value} has been received!")
+                bot.sendMessage(
+                    ChatId.fromId(message.chat.id),
+                    "A dice ${dice.emoji.emojiValue} with value ${dice.value} has been received!"
+                )
             }
 
             telegramError {

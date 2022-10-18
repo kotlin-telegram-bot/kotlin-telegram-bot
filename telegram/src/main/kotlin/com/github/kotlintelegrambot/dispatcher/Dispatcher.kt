@@ -18,10 +18,11 @@ class Dispatcher internal constructor(
 
     internal lateinit var bot: Bot
 
-    private val commandHandlers = linkedSetOf<Handler>()
+    private val commandHandlers = mutableMapOf<String?, Handler>()
     private val errorHandlers = arrayListOf<ErrorHandler>()
 
-    @Volatile private var stopped = false
+    @Volatile
+    private var stopped = false
 
     internal fun startCheckingUpdates() {
         stopped = false
@@ -30,8 +31,7 @@ class Dispatcher internal constructor(
 
     private fun checkQueueUpdates() {
         while (!Thread.currentThread().isInterrupted && !stopped) {
-            val item = updatesQueue.take()
-            when (item) {
+            when (val item = updatesQueue.take()) {
                 is Update -> handleUpdate(item)
                 is TelegramError -> handleError(item)
                 else -> Unit
@@ -39,31 +39,28 @@ class Dispatcher internal constructor(
         }
     }
 
-    fun addHandler(handler: Handler) {
-        commandHandlers.add(handler)
+    fun addHandler(handler: Handler, name: String? = null) {
+        commandHandlers.forEach {
+            if ((it.key == name) && (handler::class.java.name == it.value::class.java.name)) return
+        }
+        commandHandlers[name] = handler
     }
 
-    fun removeHandler(handler: Handler) {
-        commandHandlers.remove(handler)
-    }
+    fun removeHandler(name: String?) = commandHandlers.remove(name)
 
-    fun addErrorHandler(errorHandler: ErrorHandler) {
-        errorHandlers.add(errorHandler)
-    }
+    fun addErrorHandler(errorHandler: ErrorHandler) = errorHandlers.add(errorHandler)
 
-    fun removeErrorHandler(errorHandler: ErrorHandler) {
-        errorHandlers.remove(errorHandler)
-    }
+    fun removeErrorHandler(errorHandler: ErrorHandler) = errorHandlers.remove(errorHandler)
 
     private fun handleUpdate(update: Update) {
         commandHandlers
-            .filter { it.checkUpdate(update) }
+            .filter { it.value.checkUpdate(update) }
             .forEach {
                 if (update.consumed) {
                     return
                 }
                 try {
-                    it.handleUpdate(bot, update)
+                    it.value.handleUpdate(bot, update)
                 } catch (throwable: Throwable) {
                     if (logLevel.shouldLogErrors()) {
                         throwable.printStackTrace()
@@ -71,6 +68,7 @@ class Dispatcher internal constructor(
                 }
             }
     }
+
 
     private fun handleError(error: TelegramError) {
         errorHandlers.forEach { handleError ->
