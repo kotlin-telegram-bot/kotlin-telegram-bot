@@ -874,9 +874,12 @@ internal class ApiClient(
         chatId: ChatId,
         messageId: Long,
         disableNotification: Boolean?
-    ): Call<Response<Boolean>> {
-
-        return service.pinChatMessage(chatId, messageId, disableNotification)
+    ): TelegramBotResult<Boolean> {
+        return service.pinChatMessage(
+            chatId,
+            messageId,
+            disableNotification,
+        ).runApiOperation()
     }
 
     fun unpinChatMessage(
