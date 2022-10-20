@@ -1282,8 +1282,26 @@ class Bot private constructor(
     fun setChatDescription(chatId: ChatId, description: String) =
         apiClient.setChatDescription(chatId, description).call()
 
-    fun pinChatMessage(chatId: ChatId, messageId: Long, disableNotification: Boolean? = null) =
-        apiClient.pinChatMessage(chatId, messageId, disableNotification).call()
+    /**
+     * Use this method to add a message to the list of pinned messages in a chat. IF the chat is
+     * not a private chat, the bot must be an administrator in the chat for this to work and must
+     * have the `can_pin_messages` administrator right in a supergroup or `can_edit_messages`
+     * administrator right in a channel.
+     *
+     * @param chatId Unique identifier for the target chat or username of the target channel (in
+     * the format @channelusername)
+     * @param messageId Identifier of the message to pin.
+     * @param disableNotification Pass True if it is not necessary to send a notification to all
+     * chat members about the new pinned message. Notifications are always disabled in channels
+     * and private chats.
+     *
+     * @return True on success.
+     */
+    fun pinChatMessage(
+        chatId: ChatId,
+        messageId: Long,
+        disableNotification: Boolean? = null,
+    ): TelegramBotResult<Boolean> = apiClient.pinChatMessage(chatId, messageId, disableNotification)
 
     /**
      * Use this method to remove a message from the list of pinned messages in a chat. If the chat
