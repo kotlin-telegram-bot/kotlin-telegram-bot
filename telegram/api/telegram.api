@@ -54,7 +54,7 @@ public final class com/github/kotlintelegrambot/Bot {
 	public final fun getUserProfilePhotos (JLjava/lang/Long;Ljava/lang/Integer;)Lkotlin/Pair;
 	public static synthetic fun getUserProfilePhotos$default (Lcom/github/kotlintelegrambot/Bot;JLjava/lang/Long;Ljava/lang/Integer;ILjava/lang/Object;)Lkotlin/Pair;
 	public final fun getWebhookInfo ()Lkotlin/Pair;
-	public final fun leaveChat (Lcom/github/kotlintelegrambot/entities/ChatId;)Lkotlin/Pair;
+	public final fun leaveChat (Lcom/github/kotlintelegrambot/entities/ChatId;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public final fun logOut ()Lkotlin/Pair;
 	public final fun pinChatMessage (Lcom/github/kotlintelegrambot/entities/ChatId;JLjava/lang/Boolean;)Lkotlin/Pair;
 	public static synthetic fun pinChatMessage$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;JLjava/lang/Boolean;ILjava/lang/Object;)Lkotlin/Pair;

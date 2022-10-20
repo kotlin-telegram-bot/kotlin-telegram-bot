@@ -893,9 +893,8 @@ internal class ApiClient(
         chatId
     ).runApiOperation()
 
-    fun leaveChat(chatId: ChatId): Call<Response<Boolean>> {
-
-        return service.leaveChat(chatId)
+    fun leaveChat(chatId: ChatId): TelegramBotResult<Boolean> {
+        return service.leaveChat(chatId).runApiOperation()
     }
 
     fun getChat(chatId: ChatId): TelegramBotResult<Chat> = service.getChat(chatId).runApiOperation()

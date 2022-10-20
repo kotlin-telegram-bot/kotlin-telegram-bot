@@ -1318,7 +1318,15 @@ class Bot private constructor(
         chatId: ChatId
     ): TelegramBotResult<Boolean> = apiClient.unpinAllChatMessages(chatId)
 
-    fun leaveChat(chatId: ChatId) = apiClient.leaveChat(chatId).call()
+    /**
+     * Use this method for your bot to leave a group, supergroup or channel.
+     *
+     * @param chatId Unique identifier for the target chat or username of the target supergroup or
+     * channel (in the format @channelusername).
+     *
+     * @return True on success.
+     */
+    fun leaveChat(chatId: ChatId): TelegramBotResult<Boolean> = apiClient.leaveChat(chatId)
 
     /**
      * Use this method to get up to date information about the chat (current name of the user
