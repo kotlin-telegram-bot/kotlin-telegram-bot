@@ -23,39 +23,17 @@ sealed interface GroupableMedia : InputMedia
 class MediaGroup private constructor(val medias: Array<out GroupableMedia>) {
     init {
         require(medias.size in 2..10) { "media groups must include 2-10 items" }
+        require(
+            medias.none { it is InputMediaAudio || it is InputMediaDocument } ||
+                medias.all { it is InputMediaAudio } ||
+                medias.all { it is InputMediaDocument }
+        ) {
+            "Documents and audio files can be only grouped with messages of the same type"
+        }
     }
 
     companion object {
-        fun from(vararg media: GroupableMedia): MediaGroup = MediaGroup(generateUniqueNamesForNamelessByteArrays(media))
-
-        private fun generateUniqueNamesForNamelessByteArrays(media: Array<out GroupableMedia>): Array<GroupableMedia> {
-            val mediaNames = media
-                .map { it.media }
-                .mapNotNull {
-                    when (it) {
-                        is TelegramFile.ByFile -> it.file.name
-                        is TelegramFile.ByByteArray -> it.filename
-                        else -> null
-                    }
-                }
-
-            var counter = 0
-            return media.map {
-                val m = it.media
-                if (m is TelegramFile.ByByteArray && m.filename == null) {
-                    var name = "noname${counter++}"
-                    while (name in mediaNames) { // in case if there already was a file with explicit name "nonameX"
-                        name = "noname${counter++}"
-                    }
-                    when (it) {
-                        is InputMediaAudio -> it.copy(media = m.copy(filename = name))
-                        is InputMediaDocument -> it.copy(media = m.copy(filename = name))
-                        is InputMediaPhoto -> it.copy(media = m.copy(filename = name))
-                        is InputMediaVideo -> it.copy(media = m.copy(filename = name))
-                    }
-                } else it
-            }.toTypedArray()
-        }
+        fun from(vararg media: GroupableMedia): MediaGroup = MediaGroup(media)
     }
 }
 

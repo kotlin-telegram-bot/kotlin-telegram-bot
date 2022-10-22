@@ -86,7 +86,7 @@ class SendVoiceIT : ApiClientIT() {
 
         val sendVoice = sut.sendVoice(
             ChatId.fromId(ANY_CHAT_ID),
-            TelegramFile.ByByteArray(getFileFromResources<SendVoiceIT>("short.ogg").readBytes()),
+            TelegramFile.ByByteArray(getFileFromResources<SendVoiceIT>("short.ogg").readBytes(), "voice"),
             caption = CAPTION,
             parseMode = MARKDOWN_V2,
             captionEntities = CAPTION_ENTITIES,

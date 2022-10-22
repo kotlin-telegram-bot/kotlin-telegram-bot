@@ -4,7 +4,6 @@ import junit.framework.TestCase.assertEquals
 import org.junit.Assert.assertArrayEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import java.lang.IllegalArgumentException
 
 class MediaGroupTest {
 
@@ -14,7 +13,7 @@ class MediaGroupTest {
             MediaGroup.from()
         }
 
-        assertEquals(MEDIA_GROUP_ILLEGAL_ARGUMENTS_MESSAGE, exception.message)
+        assertEquals(MEDIA_GROUP_ILLEGAL_ARGUMENTS_SIZE_MESSAGE, exception.message)
     }
 
     @Test
@@ -23,7 +22,7 @@ class MediaGroupTest {
             MediaGroup.from(anyInputMediaPhoto())
         }
 
-        assertEquals(MEDIA_GROUP_ILLEGAL_ARGUMENTS_MESSAGE, exception.message)
+        assertEquals(MEDIA_GROUP_ILLEGAL_ARGUMENTS_SIZE_MESSAGE, exception.message)
     }
 
     @Test
@@ -109,10 +108,54 @@ class MediaGroupTest {
             )
         }
 
-        assertEquals(MEDIA_GROUP_ILLEGAL_ARGUMENTS_MESSAGE, exception.message)
+        assertEquals(MEDIA_GROUP_ILLEGAL_ARGUMENTS_SIZE_MESSAGE, exception.message)
+    }
+
+    @Test
+    fun `throws IllegalArgumentException when media group is created with document and some other type of media`() {
+        val anyInputMediaPhoto = anyInputMediaPhoto()
+        val anyInputMediaVideo = anyInputMediaVideo()
+        val anyInputMediaDocument = anyInputMediaDocument()
+        val anyInputMediaAudio = anyInputMediaAudio()
+        val exceptions = listOf<IllegalArgumentException>(
+            assertThrows {
+                MediaGroup.from(anyInputMediaDocument, anyInputMediaPhoto)
+            },
+            assertThrows {
+                MediaGroup.from(anyInputMediaDocument, anyInputMediaVideo)
+            },
+            assertThrows {
+                MediaGroup.from(anyInputMediaDocument, anyInputMediaAudio)
+            }
+        )
+
+        exceptions.forEach { assertEquals(MEDIA_GROUP_ILLEGAL_ARGUMENTS_COMBINATION_MESSAGE, it.message) }
+    }
+
+    @Test
+    fun `throws IllegalArgumentException when media group is created with audio and and some other type of media`() {
+        val anyInputMediaPhoto = anyInputMediaPhoto()
+        val anyInputMediaVideo = anyInputMediaVideo()
+        val anyInputMediaDocument = anyInputMediaDocument()
+        val anyInputMediaAudio = anyInputMediaAudio()
+        val exceptions = listOf<IllegalArgumentException>(
+            assertThrows {
+                MediaGroup.from(anyInputMediaAudio, anyInputMediaPhoto)
+            },
+            assertThrows {
+                MediaGroup.from(anyInputMediaAudio, anyInputMediaVideo)
+            },
+            assertThrows {
+                MediaGroup.from(anyInputMediaAudio, anyInputMediaDocument)
+            }
+        )
+
+        exceptions.forEach { assertEquals(MEDIA_GROUP_ILLEGAL_ARGUMENTS_COMBINATION_MESSAGE, it.message) }
     }
 
     private companion object {
-        const val MEDIA_GROUP_ILLEGAL_ARGUMENTS_MESSAGE = "media groups must include 2-10 items"
+        const val MEDIA_GROUP_ILLEGAL_ARGUMENTS_SIZE_MESSAGE = "media groups must include 2-10 items"
+        const val MEDIA_GROUP_ILLEGAL_ARGUMENTS_COMBINATION_MESSAGE =
+            "Documents and audio files can be only grouped with messages of the same type"
     }
 }

@@ -15,6 +15,6 @@ internal class TelegramFileAdapter : JsonSerializer<TelegramFile> {
         is ByFileId -> context.serialize(src.fileId, String::class.java)
         is ByUrl -> context.serialize(src.url, String::class.java)
         is ByFile -> context.serialize("attach://${src.file.name}")
-        is ByByteArray -> context.serialize("attach://${src.filename!!}")
+        is ByByteArray -> context.serialize("attach://${src.filename}")
     }
 }
