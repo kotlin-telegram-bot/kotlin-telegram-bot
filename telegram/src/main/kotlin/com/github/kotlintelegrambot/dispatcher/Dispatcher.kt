@@ -18,7 +18,7 @@ class Dispatcher internal constructor(
 
     internal lateinit var bot: Bot
 
-    private val commandHandlers = mutableMapOf<String?, Handler>()
+    private val commandHandlers = mutableMapOf<Pair<String?, Long?>, Handler>()
     private val errorHandlers = arrayListOf<ErrorHandler>()
 
     @Volatile
@@ -39,14 +39,14 @@ class Dispatcher internal constructor(
         }
     }
 
-    fun addHandler(handler: Handler, name: String? = null) {
+    fun addHandler(handler: Handler, name: String? = null, chatId: Long? = null) {
         commandHandlers.forEach {
-            if ((it.key == name) && (handler::class.java.name == it.value::class.java.name)) return
+            if ((it.key.first == name) && (it.key.second == chatId) && (handler::class.java.name == it.value::class.java.name)) return
         }
-        commandHandlers[name] = handler
+        commandHandlers[Pair(name, chatId)] = handler
     }
 
-    fun removeHandler(name: String?) = commandHandlers.remove(name)
+    fun removeHandler(name: String?, chatId: Long? = null) = commandHandlers.remove(Pair(name, chatId))
 
     fun addErrorHandler(errorHandler: ErrorHandler) = errorHandlers.add(errorHandler)
 
@@ -60,7 +60,11 @@ class Dispatcher internal constructor(
                     return
                 }
                 try {
-                    it.value.handleUpdate(bot, update)
+                    if (it.key.second != null) {
+                        if (update.message?.chat?.id == it.key.second)
+                            it.value.handleUpdate(bot, update)
+                        else println("Handler does not belong to this chat")
+                    } else it.value.handleUpdate(bot, update)
                 } catch (throwable: Throwable) {
                     if (logLevel.shouldLogErrors()) {
                         throwable.printStackTrace()
@@ -68,7 +72,6 @@ class Dispatcher internal constructor(
                 }
             }
     }
-
 
     private fun handleError(error: TelegramError) {
         errorHandlers.forEach { handleError ->

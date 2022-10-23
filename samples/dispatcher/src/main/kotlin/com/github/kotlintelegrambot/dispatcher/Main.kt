@@ -49,12 +49,27 @@ fun main() {
                     }
                 )
             }
+
             /**
              * Testing removing commands
              */
             command("remove_this_command") {
                 removeHandler("/remove_this_command")
                 bot.sendMessage(ChatId.fromId(update.message!!.chat.id), "You can no longer use this command")
+            }
+
+            /**
+             * Add handler only to a specific chat
+             */
+            command("c1" /*chatId = pass chatId here as Long*/) {
+                bot.sendMessage(ChatId.fromId(update.message!!.chat.id), "Only this chat command")
+            }
+
+            /**
+             * If no chatId is passed, the handler is added for all users (globally)
+             */
+            command("c2") {
+                bot.sendMessage(ChatId.fromId(update.message!!.chat.id), "Public command")
             }
 
             command("hello") {

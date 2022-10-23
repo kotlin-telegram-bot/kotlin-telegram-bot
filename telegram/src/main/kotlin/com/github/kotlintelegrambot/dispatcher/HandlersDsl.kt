@@ -47,36 +47,38 @@ import com.github.kotlintelegrambot.dispatcher.handlers.media.VoiceHandler
 import com.github.kotlintelegrambot.extensions.filters.Filter
 import com.github.kotlintelegrambot.extensions.filters.Filter.All
 
-fun Dispatcher.message(handlerName: String? = null, body: HandleMessage) {
-    addHandler(MessageHandler(All, body), handlerName)
+fun Dispatcher.message(handlerName: String? = null, chatId: Long? = null, body: HandleMessage) {
+    addHandler(MessageHandler(All, body), handlerName, chatId)
 }
 
-fun Dispatcher.message(filter: Filter, handlerName: String? = null, body: HandleMessage) {
-    addHandler(MessageHandler(filter, body), handlerName)
+fun Dispatcher.message(filter: Filter, handlerName: String? = null, chatId: Long? = null, body: HandleMessage) {
+    addHandler(MessageHandler(filter, body), handlerName, chatId)
 }
 
-fun Dispatcher.command(command: String, handlerName: String = "/$command", body: HandleCommand) {
-    addHandler(CommandHandler(command, body), handlerName)
+fun Dispatcher.command(command: String, handlerName: String = "/$command", chatId: Long? = null, body: HandleCommand) {
+    addHandler(CommandHandler(command, body), handlerName, chatId)
 }
 
-fun Dispatcher.text(text: String?, handlerName: String? = text, body: HandleText) {
-    addHandler(TextHandler(text, body), handlerName)
+fun Dispatcher.text(text: String? = null, handlerName: String? = text, chatId: Long? = null, body: HandleText) {
+    addHandler(TextHandler(text, body), handlerName, chatId)
 }
 
 fun Dispatcher.callbackQuery(
     callbackData: String? = null,
     handlerName: String? = callbackData,
+    chatId: Long? = null,
     body: HandleCallbackQuery
 ) {
     addHandler(
         CallbackQueryHandler(callbackData = callbackData, handleCallbackQuery = body),
-        handlerName
+        handlerName, chatId
     )
 }
 
 fun Dispatcher.callbackQuery(
     callbackData: String? = null,
     handlerName: String? = callbackData,
+    chatId: Long? = null,
     callbackAnswerText: String? = null,
     callbackAnswerShowAlert: Boolean? = null,
     callbackAnswerUrl: String? = null,
@@ -91,78 +93,79 @@ fun Dispatcher.callbackQuery(
             callbackAnswerUrl = callbackAnswerUrl,
             callbackAnswerCacheTime = callbackAnswerCacheTime,
             handleCallbackQuery = body
-        ), handlerName
+        ),
+        handlerName, chatId
     )
 }
 
-fun Dispatcher.contact(handlerName: String? = null, body: HandleContact) {
-    addHandler(ContactHandler(body), handlerName)
+fun Dispatcher.contact(handlerName: String? = null, chatId: Long? = null, body: HandleContact) {
+    addHandler(ContactHandler(body), handlerName, chatId)
 }
 
-fun Dispatcher.location(handlerName: String? = null, body: HandleLocation) {
-    addHandler(LocationHandler(body), handlerName)
+fun Dispatcher.location(handlerName: String? = null, chatId: Long? = null, body: HandleLocation) {
+    addHandler(LocationHandler(body), handlerName, chatId)
 }
 
 fun Dispatcher.telegramError(body: HandleError) {
     addErrorHandler(ErrorHandler(body))
 }
 
-fun Dispatcher.preCheckoutQuery(handlerName: String? = null, body: HandlePreCheckoutQuery) {
-    addHandler(PreCheckoutQueryHandler(body), handlerName)
+fun Dispatcher.preCheckoutQuery(handlerName: String? = null, chatId: Long? = null, body: HandlePreCheckoutQuery) {
+    addHandler(PreCheckoutQueryHandler(body), handlerName, chatId)
 }
 
-fun Dispatcher.channel(handlerName: String? = null, body: HandleChannelPost) {
-    addHandler(ChannelHandler(body), handlerName)
+fun Dispatcher.channel(handlerName: String? = null, chatId: Long? = null, body: HandleChannelPost) {
+    addHandler(ChannelHandler(body), handlerName, chatId)
 }
 
-fun Dispatcher.inlineQuery(handlerName: String? = null, body: HandleInlineQuery) {
-    addHandler(InlineQueryHandler(body), handlerName)
+fun Dispatcher.inlineQuery(handlerName: String? = null, chatId: Long? = null, body: HandleInlineQuery) {
+    addHandler(InlineQueryHandler(body), handlerName, chatId)
 }
 
-fun Dispatcher.audio(handlerName: String? = null, body: HandleAudio) {
-    addHandler(AudioHandler(body), handlerName)
+fun Dispatcher.audio(handlerName: String? = null, chatId: Long? = null, body: HandleAudio) {
+    addHandler(AudioHandler(body), handlerName, chatId)
 }
 
-fun Dispatcher.document(handlerName: String? = null, body: HandleDocument) {
-    addHandler(DocumentHandler(body), handlerName)
+fun Dispatcher.document(handlerName: String? = null, chatId: Long? = null, body: HandleDocument) {
+    addHandler(DocumentHandler(body), handlerName, chatId)
 }
 
-fun Dispatcher.animation(handlerName: String? = null, body: HandleAnimation) {
-    addHandler(AnimationHandler(body), handlerName)
+fun Dispatcher.animation(handlerName: String? = null, chatId: Long? = null, body: HandleAnimation) {
+    addHandler(AnimationHandler(body), handlerName, chatId)
 }
 
-fun Dispatcher.game(handlerName: String? = null, body: HandleGame) {
-    addHandler(GameHandler(body), handlerName)
+fun Dispatcher.game(handlerName: String? = null, chatId: Long? = null, body: HandleGame) {
+    addHandler(GameHandler(body), handlerName, chatId)
 }
 
-fun Dispatcher.photos(handlerName: String? = null, body: HandlePhotos) {
-    addHandler(PhotosHandler(body), handlerName)
+fun Dispatcher.photos(handlerName: String? = null, chatId: Long? = null, body: HandlePhotos) {
+    addHandler(PhotosHandler(body), handlerName, chatId)
 }
 
-fun Dispatcher.sticker(handlerName: String? = null, body: HandleSticker) {
-    addHandler(StickerHandler(body), handlerName)
+fun Dispatcher.sticker(handlerName: String? = null, chatId: Long? = null, body: HandleSticker) {
+    addHandler(StickerHandler(body), handlerName, chatId)
 }
 
-fun Dispatcher.video(handlerName: String? = null, body: HandleVideo) {
-    addHandler(VideoHandler(body), handlerName)
+fun Dispatcher.video(handlerName: String? = null, chatId: Long? = null, body: HandleVideo) {
+    addHandler(VideoHandler(body), handlerName, chatId)
 }
 
-fun Dispatcher.voice(handlerName: String? = null, body: HandleVoice) {
-    addHandler(VoiceHandler(body), handlerName)
+fun Dispatcher.voice(handlerName: String? = null, chatId: Long? = null, body: HandleVoice) {
+    addHandler(VoiceHandler(body), handlerName, chatId)
 }
 
-fun Dispatcher.videoNote(handlerName: String? = null, body: HandleVideoNote) {
-    addHandler(VideoNoteHandler(body), handlerName)
+fun Dispatcher.videoNote(handlerName: String? = null, chatId: Long? = null, body: HandleVideoNote) {
+    addHandler(VideoNoteHandler(body), handlerName, chatId)
 }
 
-fun Dispatcher.newChatMembers(handlerName: String? = null, body: HandleNewChatMembers) {
-    addHandler(NewChatMembersHandler(body), handlerName)
+fun Dispatcher.newChatMembers(handlerName: String? = null, chatId: Long? = null, body: HandleNewChatMembers) {
+    addHandler(NewChatMembersHandler(body), handlerName, chatId)
 }
 
-fun Dispatcher.pollAnswer(handlerName: String? = null, body: HandlePollAnswer) {
-    addHandler(PollAnswerHandler(body), handlerName)
+fun Dispatcher.pollAnswer(handlerName: String? = null, chatId: Long? = null, body: HandlePollAnswer) {
+    addHandler(PollAnswerHandler(body), handlerName, chatId)
 }
 
-fun Dispatcher.dice(handlerName: String? = null, body: HandleDice) {
-    addHandler(DiceHandler(body), handlerName)
+fun Dispatcher.dice(handlerName: String? = null, chatId: Long? = null, body: HandleDice) {
+    addHandler(DiceHandler(body), handlerName, chatId)
 }
