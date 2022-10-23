@@ -4,6 +4,22 @@
 [![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
 
 A wrapper for the Telegram Bot API written in Kotlin.
+```
+**This fork was modified by @lifestreamy (me) for my own purposes.**
+
+Out of 302 tests from the original repository the following 3 have not been passed (due to the changing of some core behaviour) and thus have been skipped:
+-DispatcherTest. test that handlers from different groups are called in consistent order()
+-SetWebhookIT. setWebhook with certificate as file and with ip address$telegram()
+-SetWebhookIT. setWebhook with certificate as file$telegram()
+
+The main changes introduced to this fork are:
+-You can now add handlers specifying their names to identify them, addHandler(... , handlerName = "some_name" , ...)
+-You can now remove handlers with removeHandler("handler_name")
+-You can now add handlers to specific chats, addHandler(... , chatId = *pass chat id here* , ...)
+
+Be warned: the stability of this fork is not yet guaranteed and is to be tested in actual application
+```
+
 
 ## Usage
 
