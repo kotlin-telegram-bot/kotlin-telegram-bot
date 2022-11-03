@@ -1352,8 +1352,26 @@ class Bot private constructor(
     fun setChatDescription(chatId: ChatId, description: String) =
         apiClient.setChatDescription(chatId, description).call()
 
-    fun pinChatMessage(chatId: ChatId, messageId: Long, disableNotification: Boolean? = null) =
-        apiClient.pinChatMessage(chatId, messageId, disableNotification).call()
+    /**
+     * Use this method to add a message to the list of pinned messages in a chat. IF the chat is
+     * not a private chat, the bot must be an administrator in the chat for this to work and must
+     * have the `can_pin_messages` administrator right in a supergroup or `can_edit_messages`
+     * administrator right in a channel.
+     *
+     * @param chatId Unique identifier for the target chat or username of the target channel (in
+     * the format @channelusername)
+     * @param messageId Identifier of the message to pin.
+     * @param disableNotification Pass True if it is not necessary to send a notification to all
+     * chat members about the new pinned message. Notifications are always disabled in channels
+     * and private chats.
+     *
+     * @return True on success.
+     */
+    fun pinChatMessage(
+        chatId: ChatId,
+        messageId: Long,
+        disableNotification: Boolean? = null,
+    ): TelegramBotResult<Boolean> = apiClient.pinChatMessage(chatId, messageId, disableNotification)
 
     /**
      * Use this method to remove a message from the list of pinned messages in a chat. If the chat
@@ -1388,7 +1406,15 @@ class Bot private constructor(
         chatId: ChatId
     ): TelegramBotResult<Boolean> = apiClient.unpinAllChatMessages(chatId)
 
-    fun leaveChat(chatId: ChatId) = apiClient.leaveChat(chatId).call()
+    /**
+     * Use this method for your bot to leave a group, supergroup or channel.
+     *
+     * @param chatId Unique identifier for the target chat or username of the target supergroup or
+     * channel (in the format @channelusername).
+     *
+     * @return True on success.
+     */
+    fun leaveChat(chatId: ChatId): TelegramBotResult<Boolean> = apiClient.leaveChat(chatId)
 
     /**
      * Use this method to get up to date information about the chat (current name of the user
@@ -1513,6 +1539,16 @@ class Bot private constructor(
      */
 
     fun logOut() = apiClient.logOut().call()
+
+    /**
+     * Use this method to close the bot instance before moving it from one local server to another. You need to delete the webhook
+     * before calling this method to ensure that the bot isn't launched again after server restart. The method will return error
+     * 429 in the first 10 minutes after the bot is launched.
+     *
+     * @return True on success
+     * */
+
+    fun close() = apiClient.close().call()
 
     /**
      * Updating messages

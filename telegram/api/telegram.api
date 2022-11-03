@@ -16,6 +16,7 @@ public final class com/github/kotlintelegrambot/Bot {
 	public static synthetic fun banChatMember$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;JLjava/lang/Long;ILjava/lang/Object;)Lkotlin/Pair;
 	public final fun copyMessage (Lcom/github/kotlintelegrambot/entities/ChatId;Lcom/github/kotlintelegrambot/entities/ChatId;JLjava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Ljava/util/List;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;)Lkotlin/Pair;
 	public static synthetic fun copyMessage$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;Lcom/github/kotlintelegrambot/entities/ChatId;JLjava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Ljava/util/List;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;ILjava/lang/Object;)Lkotlin/Pair;
+	public final fun close ()Lkotlin/Pair;
 	public final fun createNewStickerSet (JLjava/lang/String;Ljava/lang/String;Ljava/io/File;Ljava/lang/String;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/stickers/MaskPosition;)Lkotlin/Pair;
 	public final fun createNewStickerSet (JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/stickers/MaskPosition;)Lkotlin/Pair;
 	public static synthetic fun createNewStickerSet$default (Lcom/github/kotlintelegrambot/Bot;JLjava/lang/String;Ljava/lang/String;Ljava/io/File;Ljava/lang/String;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/stickers/MaskPosition;ILjava/lang/Object;)Lkotlin/Pair;
@@ -53,10 +54,10 @@ public final class com/github/kotlintelegrambot/Bot {
 	public final fun getUserProfilePhotos (JLjava/lang/Long;Ljava/lang/Integer;)Lkotlin/Pair;
 	public static synthetic fun getUserProfilePhotos$default (Lcom/github/kotlintelegrambot/Bot;JLjava/lang/Long;Ljava/lang/Integer;ILjava/lang/Object;)Lkotlin/Pair;
 	public final fun getWebhookInfo ()Lkotlin/Pair;
-	public final fun leaveChat (Lcom/github/kotlintelegrambot/entities/ChatId;)Lkotlin/Pair;
+	public final fun leaveChat (Lcom/github/kotlintelegrambot/entities/ChatId;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public final fun logOut ()Lkotlin/Pair;
-	public final fun pinChatMessage (Lcom/github/kotlintelegrambot/entities/ChatId;JLjava/lang/Boolean;)Lkotlin/Pair;
-	public static synthetic fun pinChatMessage$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;JLjava/lang/Boolean;ILjava/lang/Object;)Lkotlin/Pair;
+	public final fun pinChatMessage (Lcom/github/kotlintelegrambot/entities/ChatId;JLjava/lang/Boolean;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
+	public static synthetic fun pinChatMessage$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;JLjava/lang/Boolean;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public final fun processUpdate (Lcom/github/kotlintelegrambot/entities/Update;)V
 	public final fun processUpdate (Ljava/lang/String;)V
 	public final fun promoteChatMember (Lcom/github/kotlintelegrambot/entities/ChatId;JLjava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
@@ -1009,6 +1010,7 @@ public final class com/github/kotlintelegrambot/entities/MessageEntity$Type : ja
 	public static final field MENTION Lcom/github/kotlintelegrambot/entities/MessageEntity$Type;
 	public static final field PHONE_NUMBER Lcom/github/kotlintelegrambot/entities/MessageEntity$Type;
 	public static final field PRE Lcom/github/kotlintelegrambot/entities/MessageEntity$Type;
+	public static final field SPOILER Lcom/github/kotlintelegrambot/entities/MessageEntity$Type;
 	public static final field STRIKETHROUGH Lcom/github/kotlintelegrambot/entities/MessageEntity$Type;
 	public static final field TEXT_LINK Lcom/github/kotlintelegrambot/entities/MessageEntity$Type;
 	public static final field TEXT_MENTION Lcom/github/kotlintelegrambot/entities/MessageEntity$Type;

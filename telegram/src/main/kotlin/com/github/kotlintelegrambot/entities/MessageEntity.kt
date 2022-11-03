@@ -43,6 +43,8 @@ data class MessageEntity(
         @SerializedName("text_link")
         TEXT_LINK,
         @SerializedName("text_mention")
-        TEXT_MENTION
+        TEXT_MENTION,
+        @SerializedName("spoiler")
+        SPOILER
     }
 }
