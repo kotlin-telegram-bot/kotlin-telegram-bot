@@ -11,6 +11,7 @@ import com.github.kotlintelegrambot.entities.MessageEntity
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.User
 import com.github.kotlintelegrambot.entities.Venue
+import com.github.kotlintelegrambot.entities.WebAppData
 import com.github.kotlintelegrambot.entities.dice.Dice
 import com.github.kotlintelegrambot.entities.dice.DiceEmoji
 import com.github.kotlintelegrambot.entities.files.Animation
@@ -97,7 +98,8 @@ fun anyMessage(
     successfulPayment: SuccessfulPayment? = null,
     dice: Dice? = null,
     animation: Animation? = null,
-    replyMarkup: InlineKeyboardMarkup? = null
+    replyMarkup: InlineKeyboardMarkup? = null,
+    webAppData: WebAppData? = null
 ): Message = Message(
     messageId = messageId,
     from = from,
@@ -137,7 +139,8 @@ fun anyMessage(
     successfulPayment = successfulPayment,
     dice = dice,
     animation = animation,
-    replyMarkup = replyMarkup
+    replyMarkup = replyMarkup,
+    webAppData = webAppData
 )
 
 private const val ANY_CHAT_ID = 243423535L
