@@ -35,6 +35,7 @@ import com.github.kotlintelegrambot.updater.ExecutorLooper
 import com.github.kotlintelegrambot.updater.Updater
 import com.github.kotlintelegrambot.webhook.WebhookConfig
 import com.github.kotlintelegrambot.webhook.WebhookConfigBuilder
+import kotlinx.coroutines.Dispatchers
 import java.net.Proxy
 import java.util.concurrent.BlockingQueue
 import java.util.concurrent.Executors
@@ -86,9 +87,9 @@ class Bot private constructor(
             val apiClient = ApiClient(token, apiUrl, timeout, logLevel, proxy, gson)
             val updater = Updater(looper, updatesQueue, apiClient, timeout)
             val dispatcher = Dispatcher(
-                updatesQueue,
-                updatesExecutor,
-                logLevel,
+                updatesQueue = updatesQueue,
+                logLevel = logLevel,
+                ioDispatcher = Dispatchers.IO,
             ).apply(dispatcherConfiguration)
 
             return Bot(

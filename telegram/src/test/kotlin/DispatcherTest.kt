@@ -4,7 +4,6 @@ import com.github.kotlintelegrambot.dispatcher.handlers.HandleText
 import com.github.kotlintelegrambot.dispatcher.handlers.Handler
 import com.github.kotlintelegrambot.dispatcher.handlers.TextHandler
 import com.github.kotlintelegrambot.logging.LogLevel
-import com.github.kotlintelegrambot.testutils.DirectExecutor
 import com.github.kotlintelegrambot.types.DispatchableObject
 import io.mockk.every
 import io.mockk.just
@@ -12,6 +11,10 @@ import io.mockk.mockk
 import io.mockk.runs
 import io.mockk.verify
 import io.mockk.verifyOrder
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import java.util.concurrent.BlockingQueue
@@ -21,10 +24,10 @@ class DispatcherTest {
     private val botMock = mockk<Bot>()
     private val blockingQueueMock = mockk<BlockingQueue<DispatchableObject>>()
 
-    private val sut = Dispatcher(
+    private fun createDispatcher(coroutineDispatcher: CoroutineDispatcher) = Dispatcher(
         blockingQueueMock,
-        DirectExecutor(),
         LogLevel.None,
+        coroutineDispatcher,
     ).apply {
         bot = botMock
     }
@@ -41,14 +44,16 @@ class DispatcherTest {
     }
 
     @Test
-    fun `updates are dispatched to handlers when updates check starts and there are some updates`() {
+    fun `updates are dispatched to handlers when updates check starts and there are some updates`() = runTest {
         val mockHandler = mockHandler()
+        val sut = createDispatcher(StandardTestDispatcher(testScheduler))
         sut.addHandler(mockHandler)
         val anyUpdate = anyUpdate()
         every { blockingQueueMock.take() } returns anyUpdate andThenThrows InterruptedException()
 
         try {
             sut.startCheckingUpdates()
+            advanceUntilIdle()
         } catch (exception: InterruptedException) {
         } finally {
             verify(exactly = 1) { mockHandler.handleUpdate(botMock, anyUpdate) }
@@ -56,7 +61,8 @@ class DispatcherTest {
     }
 
     @Test
-    fun `handlers are not called after update is consumed`() {
+    fun `handlers are not called after update is consumed`() = runTest {
+        val sut = createDispatcher(StandardTestDispatcher(testScheduler))
         val anyMessageWithText = anyUpdate(message = anyMessage(text = ANY_TEXT))
         val firstHandler = TextHandler(
             text = null,
@@ -76,6 +82,7 @@ class DispatcherTest {
         every { blockingQueueMock.take() } returns anyMessageWithText andThenThrows InterruptedException()
         try {
             sut.startCheckingUpdates()
+            advanceUntilIdle()
         } catch (exception: InterruptedException) {
         } finally {
             assertTrue(anyMessageWithText.consumed)
@@ -84,7 +91,8 @@ class DispatcherTest {
     }
 
     @Test
-    fun `test that handlers from different groups are called in consistent order`() {
+    fun `test that handlers from different groups are called in consistent order`() = runTest {
+        val sut = createDispatcher(StandardTestDispatcher(testScheduler))
         val mockHandler1 = mockHandler()
         val mockHandler2 = mockHandler()
         val mockHandler3 = mockHandler()
@@ -97,6 +105,7 @@ class DispatcherTest {
 
         try {
             sut.startCheckingUpdates()
+            advanceUntilIdle()
         } catch (exception: InterruptedException) {
         } finally {
             verifyOrder {
