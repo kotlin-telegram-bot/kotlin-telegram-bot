@@ -35,8 +35,7 @@ class Dispatcher internal constructor(
 
     private suspend fun checkQueueUpdates() {
         while (true) {
-            val item = updatesQueue.take()
-            when (item) {
+            when (val item = updatesQueue.take()) {
                 is Update -> handleUpdate(item)
                 is TelegramError -> handleError(item)
                 else -> Unit
@@ -61,7 +60,7 @@ class Dispatcher internal constructor(
         errorHandlers.remove(errorHandler)
     }
 
-    private fun handleUpdate(update: Update) {
+    private suspend fun handleUpdate(update: Update) {
         commandHandlers
             .filter { it.checkUpdate(update) }
             .forEach {

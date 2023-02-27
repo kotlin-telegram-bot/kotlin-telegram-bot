@@ -21,7 +21,7 @@ internal class NewChatMembersHandler(
         return newChatMembers != null && newChatMembers.isNotEmpty()
     }
 
-    override fun handleUpdate(bot: Bot, update: Update) {
+    override suspend fun handleUpdate(bot: Bot, update: Update) {
         val message = update.message
         val newChatMembers = message?.newChatMembers
         checkNotNull(newChatMembers)

@@ -5,12 +5,13 @@ import com.github.kotlintelegrambot.dispatcher.handlers.Handler
 import com.github.kotlintelegrambot.dispatcher.handlers.TextHandler
 import com.github.kotlintelegrambot.logging.LogLevel
 import com.github.kotlintelegrambot.types.DispatchableObject
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.coVerifyOrder
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
-import io.mockk.verify
-import io.mockk.verifyOrder
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -32,9 +33,9 @@ class DispatcherTest {
         bot = botMock
     }
 
-    private fun mockHandler(): Handler {
+    private suspend fun mockHandler(): Handler {
         return mockk {
-            every { handleUpdate(any(), any()) } just runs
+            coEvery { handleUpdate(any(), any()) } just runs
             every { checkUpdate(any()) } returns true
         }
     }
@@ -56,7 +57,7 @@ class DispatcherTest {
             advanceUntilIdle()
         } catch (exception: InterruptedException) {
         } finally {
-            verify(exactly = 1) { mockHandler.handleUpdate(botMock, anyUpdate) }
+            coVerify(exactly = 1) { mockHandler.handleUpdate(botMock, anyUpdate) }
         }
     }
 
@@ -86,7 +87,7 @@ class DispatcherTest {
         } catch (exception: InterruptedException) {
         } finally {
             assertTrue(anyMessageWithText.consumed)
-            verify(exactly = 0) { handlerCallbackMock(any()) }
+            coVerify(exactly = 0) { handlerCallbackMock(any()) }
         }
     }
 
@@ -108,7 +109,7 @@ class DispatcherTest {
             advanceUntilIdle()
         } catch (exception: InterruptedException) {
         } finally {
-            verifyOrder {
+            coVerifyOrder {
                 mockHandler1.handleUpdate(botMock, anyUpdate)
                 mockHandler2.handleUpdate(botMock, anyUpdate)
                 mockHandler3.handleUpdate(botMock, anyUpdate)

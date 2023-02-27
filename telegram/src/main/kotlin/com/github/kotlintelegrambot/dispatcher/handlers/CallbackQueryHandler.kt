@@ -28,7 +28,7 @@ internal class CallbackQueryHandler(
         }
     }
 
-    override fun handleUpdate(bot: Bot, update: Update) {
+    override suspend fun handleUpdate(bot: Bot, update: Update) {
         checkNotNull(update.callbackQuery)
         val callbackQueryHandlerEnv = CallbackQueryHandlerEnvironment(
             bot,

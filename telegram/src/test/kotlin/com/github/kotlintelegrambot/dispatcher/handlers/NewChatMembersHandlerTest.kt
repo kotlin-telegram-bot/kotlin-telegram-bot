@@ -4,10 +4,11 @@ import anyMessage
 import anyUpdate
 import anyUser
 import com.github.kotlintelegrambot.Bot
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class NewChatMembersHandlerTest {
@@ -53,7 +54,7 @@ class NewChatMembersHandlerTest {
     }
 
     @Test
-    fun `new chat members are properly dispatched to the handler function`() {
+    fun `new chat members are properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val anyNewChatMembers = listOf(anyUser())
         val anyMessageWithNewChatMembers = anyMessage(newChatMembers = anyNewChatMembers)
@@ -67,6 +68,6 @@ class NewChatMembersHandlerTest {
             anyMessageWithNewChatMembers,
             anyNewChatMembers
         )
-        verify { handleNewChatMembersHandlerMock.invoke(expectedNewChatMembersHandlerEnv) }
+        coVerify { handleNewChatMembersHandlerMock.invoke(expectedNewChatMembersHandlerEnv) }
     }
 }

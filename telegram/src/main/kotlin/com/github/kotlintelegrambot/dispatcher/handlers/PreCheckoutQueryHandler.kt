@@ -18,7 +18,7 @@ internal class PreCheckoutQueryHandler(
         return update.preCheckoutQuery != null
     }
 
-    override fun handleUpdate(bot: Bot, update: Update) {
+    override suspend fun handleUpdate(bot: Bot, update: Update) {
         checkNotNull(update.preCheckoutQuery)
 
         val preCheckoutQueryHandlerEnv = PreCheckoutQueryHandlerEnvironment(

@@ -19,7 +19,7 @@ internal class ChannelHandler(
         return update.channelPost != null || update.editedChannelPost != null
     }
 
-    override fun handleUpdate(bot: Bot, update: Update) {
+    override suspend fun handleUpdate(bot: Bot, update: Update) {
         val channelHandlerEnv = when {
             update.channelPost != null -> ChannelHandlerEnvironment(
                 bot,

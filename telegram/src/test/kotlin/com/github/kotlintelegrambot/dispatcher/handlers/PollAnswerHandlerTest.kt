@@ -3,10 +3,11 @@ package com.github.kotlintelegrambot.dispatcher.handlers
 import anyPollAnswer
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class PollAnswerHandlerTest {
@@ -34,7 +35,7 @@ class PollAnswerHandlerTest {
     }
 
     @Test
-    fun `poll answer is properly dispatched to the handler function`() {
+    fun `poll answer is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val anyPollAnswer = anyPollAnswer()
         val anyUpdateWithPollAnswer = anyUpdate(pollAnswer = anyPollAnswer)
@@ -46,6 +47,6 @@ class PollAnswerHandlerTest {
             anyUpdateWithPollAnswer,
             anyPollAnswer
         )
-        verify { handlePollAnswerMock.invoke(expectedPollAnswerHandlerEnv) }
+        coVerify { handlePollAnswerMock.invoke(expectedPollAnswerHandlerEnv) }
     }
 }
