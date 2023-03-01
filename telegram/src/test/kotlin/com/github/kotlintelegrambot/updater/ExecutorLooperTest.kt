@@ -1,61 +1,35 @@
 package com.github.kotlintelegrambot.updater
 
-import com.github.kotlintelegrambot.testutils.DirectExecutor
 import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
-import java.lang.RuntimeException
+import kotlin.random.Random
 
 class ExecutorLooperTest {
 
-    private val sut = ExecutorLooper(
-        loopExecutor = DirectExecutor(),
-    )
+    private fun createExecutorLooper(coroutineDispatcher: CoroutineDispatcher) =
+        ExecutorLooper(coroutineDispatcher)
 
     @Test
-    fun `loops until quit is called`() {
+    fun `loops until quit is called`() = runTest {
+        val sut = createExecutorLooper(StandardTestDispatcher(testScheduler))
         var count = 0
+        val expectedCount: Int = Random.nextInt(1000)
+
+        println("JcLog: Start test $expectedCount")
 
         sut.loop {
             count++
 
-            if (count == 13) {
+            if (count == expectedCount) {
                 sut.quit()
             }
         }
+        advanceUntilIdle()
 
-        assertEquals(13, count)
-    }
-
-    @Test
-    fun `loops until thread is interrupted`() {
-        var count = 0
-
-        sut.loop {
-            count++
-
-            if (count == 13) {
-                Thread.currentThread().interrupt()
-            }
-        }
-
-        assertEquals(13, count)
-    }
-
-    @Test
-    fun `loops until an exception is thrown`() {
-        var count = 0
-
-        try {
-            sut.loop {
-                count++
-
-                if (count == 13) {
-                    throw RuntimeException("oops")
-                }
-            }
-        } catch (testException: RuntimeException) {
-        } finally {
-            assertEquals(13, count)
-        }
+        assertEquals(expectedCount, count)
     }
 }

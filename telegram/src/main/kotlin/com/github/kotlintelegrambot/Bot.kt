@@ -38,7 +38,6 @@ import com.github.kotlintelegrambot.webhook.WebhookConfigBuilder
 import kotlinx.coroutines.Dispatchers
 import java.net.Proxy
 import java.util.concurrent.BlockingQueue
-import java.util.concurrent.Executors
 import java.util.concurrent.LinkedBlockingQueue
 import java.io.File as SystemFile
 
@@ -81,9 +80,8 @@ class Bot private constructor(
         internal var dispatcherConfiguration: Dispatcher.() -> Unit = { }
 
         fun build(): Bot {
-            val updatesExecutor = Executors.newCachedThreadPool()
             val updatesQueue = LinkedBlockingQueue<DispatchableObject>()
-            val looper = ExecutorLooper(updatesExecutor)
+            val looper = ExecutorLooper(Dispatchers.IO)
             val apiClient = ApiClient(token, apiUrl, timeout, logLevel, proxy, gson)
             val updater = Updater(looper, updatesQueue, apiClient, timeout)
             val dispatcher = Dispatcher(
