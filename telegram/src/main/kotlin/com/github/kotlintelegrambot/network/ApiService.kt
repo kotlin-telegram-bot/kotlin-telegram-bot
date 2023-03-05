@@ -368,7 +368,8 @@ internal interface ApiService {
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+        @Field("proximity_alert_radius") proximityAlertRadius: Int? = null
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -379,7 +380,8 @@ internal interface ApiService {
         @Field("inline_message_id") inlineMessageId: String?,
         @Field("latitude") latitude: Float,
         @Field("longitude") longitude: Float,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+        @Field("proximity_alert_radius") proximityAlertRadius: Int? = null
     ): Call<Response<Message>>
 
     @FormUrlEncoded

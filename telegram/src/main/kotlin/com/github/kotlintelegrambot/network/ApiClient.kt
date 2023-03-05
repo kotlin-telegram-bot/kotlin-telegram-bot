@@ -627,7 +627,8 @@ internal class ApiClient(
         disableNotification: Boolean?,
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?
+        replyMarkup: ReplyMarkup?,
+        proximityAlertRadius: Int?
     ): Call<Response<Message>> {
 
         return service.sendLocation(
@@ -638,7 +639,8 @@ internal class ApiClient(
             disableNotification,
             replyToMessageId,
             allowSendingWithoutReply,
-            replyMarkup
+            replyMarkup,
+            proximityAlertRadius
         )
     }
 
@@ -648,7 +650,8 @@ internal class ApiClient(
         inlineMessageId: String?,
         latitude: Float,
         longitude: Float,
-        replyMarkup: ReplyMarkup?
+        replyMarkup: ReplyMarkup?,
+        proximityAlertRadius: Int?
     ): Call<Response<Message>> {
 
         return service.editMessageLiveLocation(
@@ -657,7 +660,8 @@ internal class ApiClient(
             inlineMessageId,
             latitude,
             longitude,
-            replyMarkup
+            replyMarkup,
+            proximityAlertRadius
         )
     }
 
