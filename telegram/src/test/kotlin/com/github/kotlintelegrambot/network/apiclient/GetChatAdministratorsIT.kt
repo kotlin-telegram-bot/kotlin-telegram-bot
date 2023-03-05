@@ -47,6 +47,7 @@ class GetChatAdministratorsIT : ApiClientIT() {
                 canPinMessages = true,
                 canPromoteMembers = true,
                 isAnonymous = false,
+                canManageChat = true,
             ),
             ChatMember(
                 user = User(
@@ -84,7 +85,8 @@ class GetChatAdministratorsIT : ApiClientIT() {
                         "can_restrict_members": true,
                         "can_pin_messages": true,
                         "can_promote_members": true,
-                        "is_anonymous": false
+                        "is_anonymous": false,
+                        "can_manage_chat": true
                     },
                     {
                         "user": {

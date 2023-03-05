@@ -4,6 +4,7 @@ import com.github.kotlintelegrambot.entities.BotCommand
 import com.github.kotlintelegrambot.entities.Chat
 import com.github.kotlintelegrambot.entities.ChatAction
 import com.github.kotlintelegrambot.entities.ChatId
+import com.github.kotlintelegrambot.entities.ChatInviteLink
 import com.github.kotlintelegrambot.entities.ChatMember
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.MessageId
@@ -511,6 +512,20 @@ internal interface ApiService {
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
+    @POST("approveChatJoinRequest")
+    fun approveChatJoinRequest(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field(ApiConstants.USER_ID) userId: Long,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("declineChatJoinRequest")
+    fun declineChatJoinRequest(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field(ApiConstants.USER_ID) userId: Long,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
     @POST("setChatPermissions")
     fun setChatPermissions(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
@@ -522,6 +537,34 @@ internal interface ApiService {
     fun exportChatInviteLink(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId
     ): Call<Response<String>>
+
+    @FormUrlEncoded
+    @POST("createChatInviteLink")
+    fun createChatInviteLink(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field("name") name: String?,
+        @Field("expire_date") expireDate: Long?,
+        @Field("member_limit") memberLimit: Int?,
+        @Field("creates_join_request") createsJoinRequest: Boolean?,
+    ): Call<Response<ChatInviteLink>>
+
+    @FormUrlEncoded
+    @POST("editChatInviteLink")
+    fun editChatInviteLink(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field("invite_link") inviteLink: String,
+        @Field("name") name: String?,
+        @Field("expire_date") expireDate: Long?,
+        @Field("member_limit") memberLimit: Int?,
+        @Field("creates_join_request") createsJoinRequest: Boolean?,
+    ): Call<Response<ChatInviteLink>>
+
+    @FormUrlEncoded
+    @POST("revokeChatInviteLink")
+    fun revokeChatInviteLink(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field("invite_link") inviteLink: String,
+    ): Call<Response<ChatInviteLink>>
 
     @Multipart
     @POST("setChatPhoto")

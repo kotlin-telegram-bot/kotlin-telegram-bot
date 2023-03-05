@@ -4,6 +4,7 @@ import com.github.kotlintelegrambot.entities.BotCommand
 import com.github.kotlintelegrambot.entities.Chat
 import com.github.kotlintelegrambot.entities.ChatAction
 import com.github.kotlintelegrambot.entities.ChatId
+import com.github.kotlintelegrambot.entities.ChatInviteLink
 import com.github.kotlintelegrambot.entities.ChatMember
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
@@ -850,6 +851,22 @@ internal class ApiClient(
         canPromoteMembers
     ).runApiOperation()
 
+    fun approveChatJoinRequest(
+        chatId: ChatId,
+        messageId: Long,
+    ): TelegramBotResult<Boolean> = service.approveChatJoinRequest(
+        chatId,
+        messageId,
+    ).runApiOperation()
+
+    fun declineChatJoinRequest(
+        chatId: ChatId,
+        messageId: Long,
+    ): TelegramBotResult<Boolean> = service.declineChatJoinRequest(
+        chatId,
+        messageId,
+    ).runApiOperation()
+
     fun setChatPermissions(chatId: ChatId, permissions: ChatPermissions): Call<Response<Boolean>> {
 
         return service.setChatPermissions(chatId, gson.toJson(permissions))
@@ -858,6 +875,47 @@ internal class ApiClient(
     fun exportChatInviteLink(chatId: ChatId): Call<Response<String>> {
 
         return service.exportChatInviteLink(chatId)
+    }
+
+    fun createChatInviteLink(
+        chatId: ChatId,
+        name: String?,
+        expireDate: Long?,
+        memberLimit: Int?,
+        createsJoinRequest: Boolean?,
+    ): Call<Response<ChatInviteLink>> {
+
+        return service.createChatInviteLink(
+            chatId,
+            name,
+            expireDate,
+            memberLimit,
+            createsJoinRequest
+        )
+    }
+
+    fun editChatInviteLink(
+        chatId: ChatId,
+        inviteLink: String,
+        name: String?,
+        expireDate: Long?,
+        memberLimit: Int?,
+        createsJoinRequest: Boolean?,
+    ): Call<Response<ChatInviteLink>> {
+
+        return service.editChatInviteLink(
+            chatId,
+            inviteLink,
+            name,
+            expireDate,
+            memberLimit,
+            createsJoinRequest,
+        )
+    }
+
+    fun revokeChatInviteLink(chatId: ChatId, inviteLink: String): Call<Response<ChatInviteLink>> {
+
+        return service.revokeChatInviteLink(chatId, inviteLink)
     }
 
     fun setChatPhoto(
