@@ -13,20 +13,20 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import java.util.concurrent.BlockingQueue
 
 class DispatcherTest {
 
     private val botMock = mockk<Bot>()
-    private val blockingQueueMock = mockk<BlockingQueue<DispatchableObject>>()
+    private val channelMock = mockk<Channel<DispatchableObject>>()
 
     private fun createDispatcher(coroutineDispatcher: CoroutineDispatcher) = Dispatcher(
-        blockingQueueMock,
+        channelMock,
         LogLevel.None,
         coroutineDispatcher,
     ).apply {
@@ -50,7 +50,7 @@ class DispatcherTest {
         val sut = createDispatcher(StandardTestDispatcher(testScheduler))
         sut.addHandler(mockHandler)
         val anyUpdate = anyUpdate()
-        every { blockingQueueMock.take() } returns anyUpdate andThenThrows InterruptedException()
+        coEvery { channelMock.receive() } returns anyUpdate andThenThrows InterruptedException()
 
         try {
             sut.startCheckingUpdates()
@@ -80,7 +80,7 @@ class DispatcherTest {
         sut.addHandler(firstHandler)
         sut.addHandler(secondHandler)
 
-        every { blockingQueueMock.take() } returns anyMessageWithText andThenThrows InterruptedException()
+        coEvery { channelMock.receive() } returns anyMessageWithText andThenThrows InterruptedException()
         try {
             sut.startCheckingUpdates()
             advanceUntilIdle()
@@ -102,7 +102,7 @@ class DispatcherTest {
         sut.addHandler(mockHandler3)
 
         val anyUpdate = anyUpdate()
-        every { blockingQueueMock.take() } returns anyUpdate andThenThrows InterruptedException()
+        coEvery { channelMock.receive() } returns anyUpdate andThenThrows InterruptedException()
 
         try {
             sut.startCheckingUpdates()

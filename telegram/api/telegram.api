@@ -1,5 +1,5 @@
 public final class com/github/kotlintelegrambot/Bot {
-	public synthetic fun <init> (Lcom/github/kotlintelegrambot/updater/Updater;Lcom/github/kotlintelegrambot/dispatcher/Dispatcher;Ljava/util/concurrent/BlockingQueue;Lcom/github/kotlintelegrambot/UpdateMapper;Lcom/github/kotlintelegrambot/webhook/WebhookConfig;Lcom/github/kotlintelegrambot/network/ApiClient;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lcom/github/kotlintelegrambot/updater/Updater;Lcom/github/kotlintelegrambot/dispatcher/Dispatcher;Lkotlinx/coroutines/channels/Channel;Lcom/github/kotlintelegrambot/UpdateMapper;Lcom/github/kotlintelegrambot/webhook/WebhookConfig;Lcom/github/kotlintelegrambot/network/ApiClient;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun addStickerToSet (JLjava/lang/String;Ljava/io/File;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/stickers/MaskPosition;)Lkotlin/Pair;
 	public final fun addStickerToSet (JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/stickers/MaskPosition;)Lkotlin/Pair;
 	public final fun answerCallbackQuery (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/Integer;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
@@ -59,8 +59,8 @@ public final class com/github/kotlintelegrambot/Bot {
 	public final fun logOut ()Lkotlin/Pair;
 	public final fun pinChatMessage (Lcom/github/kotlintelegrambot/entities/ChatId;JLjava/lang/Boolean;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public static synthetic fun pinChatMessage$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;JLjava/lang/Boolean;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
-	public final fun processUpdate (Lcom/github/kotlintelegrambot/entities/Update;)V
-	public final fun processUpdate (Ljava/lang/String;)V
+	public final fun processUpdate (Lcom/github/kotlintelegrambot/entities/Update;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun processUpdate (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public final fun promoteChatMember (Lcom/github/kotlintelegrambot/entities/ChatId;JLjava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public static synthetic fun promoteChatMember$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;JLjava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public final fun restrictChatMember (Lcom/github/kotlintelegrambot/entities/ChatId;JLcom/github/kotlintelegrambot/entities/ChatPermissions;Ljava/lang/Long;)Lkotlin/Pair;
