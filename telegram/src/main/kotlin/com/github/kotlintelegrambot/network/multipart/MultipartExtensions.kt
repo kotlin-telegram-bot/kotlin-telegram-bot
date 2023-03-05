@@ -25,11 +25,11 @@ internal fun Iterable<String>.toMultipartBodyPart(partName: String): MultipartBo
 
 internal fun ByteArray.toMultipartBodyPart(
     partName: String,
-    filename: String? = partName,
+    filename: String = partName,
     mediaType: String? = null
 ): MultipartBody.Part {
     val mimeType = mediaType?.let { MediaType.parse(it) }
     val requestBody = RequestBody.create(mimeType, this)
 
-    return MultipartBody.Part.createFormData(partName, filename ?: partName, requestBody)
+    return MultipartBody.Part.createFormData(partName, filename, requestBody)
 }

@@ -6,7 +6,7 @@ sealed class TelegramFile {
     data class ByFileId(val fileId: String) : TelegramFile()
     data class ByUrl(val url: String) : TelegramFile()
     data class ByFile(val file: File) : TelegramFile()
-    data class ByByteArray(val fileBytes: ByteArray, val filename: String? = null) : TelegramFile() {
+    data class ByByteArray(val fileBytes: ByteArray, val filename: String = "unnamed") : TelegramFile() {
         override fun equals(other: Any?): Boolean {
             if (this === other) return true
             if (other !is ByByteArray) return false
@@ -19,7 +19,7 @@ sealed class TelegramFile {
 
         override fun hashCode(): Int {
             var result = fileBytes.contentHashCode()
-            result = 31 * result + (filename?.hashCode() ?: 0)
+            result = 31 * result + filename.hashCode()
             return result
         }
     }

@@ -2,6 +2,8 @@ package com.github.kotlintelegrambot.network.multipart
 
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.TelegramFile
+import com.github.kotlintelegrambot.entities.inputmedia.InputMediaAudio
+import com.github.kotlintelegrambot.entities.inputmedia.InputMediaDocument
 import com.github.kotlintelegrambot.entities.inputmedia.InputMediaPhoto
 import com.github.kotlintelegrambot.entities.inputmedia.InputMediaVideo
 import com.github.kotlintelegrambot.entities.inputmedia.MediaGroup
@@ -10,10 +12,8 @@ import com.github.kotlintelegrambot.network.MediaTypeConstants
 import com.github.kotlintelegrambot.network.retrofit.converters.ChatIdConverterFactory
 import com.google.gson.Gson
 import okhttp3.MultipartBody
-import java.io.File
 
 internal class MultipartBodyFactory(private val gson: Gson) {
-
     fun createForSendMediaGroup(
         chatId: ChatId,
         mediaGroup: MediaGroup,
@@ -33,9 +33,7 @@ internal class MultipartBodyFactory(private val gson: Gson) {
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean?
     ): List<MultipartBody.Part> {
-        val filesParts = mediaGroup.takeFiles().map { (file, mediaType) ->
-            file.toMultipartBodyPart(mediaType = mediaType)
-        }
+        val filesParts = mediaGroup.takeFilesParts()
         val mediaGroupPart = gson.toJson(mediaGroup.medias).toMultipartBodyPart(ApiConstants.SendMediaGroup.MEDIA)
         val disableNotificationPart = disableNotification?.toMultipartBodyPart(ApiConstants.DISABLE_NOTIFICATION)
         val replyToMessageIdPart = replyToMessageId?.toMultipartBodyPart(ApiConstants.REPLY_TO_MESSAGE_ID)
@@ -44,22 +42,22 @@ internal class MultipartBodyFactory(private val gson: Gson) {
         return listOfNotNull(chatIdPart, mediaGroupPart, disableNotificationPart, replyToMessageIdPart, allowSendingWithoutReplyPart) + filesParts
     }
 
-    private fun MediaGroup.takeFiles(): List<Pair<File, String>> = medias.flatMap { groupableMedia ->
-        when {
-            groupableMedia is InputMediaPhoto && groupableMedia.media is TelegramFile.ByFile -> listOf(
-                groupableMedia.media.file to MediaTypeConstants.IMAGE
-            )
-            groupableMedia is InputMediaVideo && groupableMedia.media is TelegramFile.ByFile && groupableMedia.thumb != null -> listOf(
-                groupableMedia.media.file to MediaTypeConstants.VIDEO,
-                groupableMedia.thumb.file to MediaTypeConstants.IMAGE
-            )
-            groupableMedia is InputMediaVideo && groupableMedia.media is TelegramFile.ByFile -> listOf(
-                groupableMedia.media.file to MediaTypeConstants.VIDEO
-            )
-            groupableMedia is InputMediaVideo && groupableMedia.thumb != null -> listOf(
-                groupableMedia.thumb.file to MediaTypeConstants.IMAGE
-            )
-            else -> emptyList()
+    private fun MediaGroup.takeFilesParts(): List<MultipartBody.Part> = medias.flatMap { groupableMedia ->
+        val mediaType = when (groupableMedia) {
+            is InputMediaPhoto -> MediaTypeConstants.IMAGE
+            is InputMediaVideo -> MediaTypeConstants.VIDEO
+            is InputMediaAudio -> MediaTypeConstants.AUDIO
+            is InputMediaDocument -> null
         }
+        mutableListOf<MultipartBody.Part>().apply {
+            when (val media = groupableMedia.media) {
+                is TelegramFile.ByFile -> add(media.file.toMultipartBodyPart(mediaType = mediaType))
+                is TelegramFile.ByByteArray -> add(media.fileBytes.toMultipartBodyPart(partName = media.filename, mediaType = mediaType))
+                else -> {}
+            }
+            if (groupableMedia is InputMediaVideo && groupableMedia.thumb != null) {
+                add(groupableMedia.thumb.file.toMultipartBodyPart(mediaType = MediaTypeConstants.IMAGE))
+            }
+        }.toList()
     }
 }
