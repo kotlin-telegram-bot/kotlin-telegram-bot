@@ -30,6 +30,7 @@ class Dispatcher internal constructor(
     private var job: Job? = null
 
     internal fun startCheckingUpdates() {
+        job?.cancel()
         job = scope.launch { checkQueueUpdates() }
     }
 
