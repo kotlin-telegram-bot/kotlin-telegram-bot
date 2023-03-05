@@ -2,6 +2,7 @@ package com.github.kotlintelegrambot.dispatcher
 
 import com.github.kotlintelegrambot.dispatcher.handlers.CallbackQueryHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.ChannelHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.ChatMemberHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.ContactHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.DiceHandler
@@ -28,15 +29,22 @@ import com.github.kotlintelegrambot.dispatcher.handlers.HandleText
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleVideo
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleVideoNote
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleVoice
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleChosenInlineResult
 import com.github.kotlintelegrambot.dispatcher.handlers.InlineQueryHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.ChosenInlineResultHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleChatJoinRequest
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleChatMember
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleMyChatMember
 import com.github.kotlintelegrambot.dispatcher.handlers.LocationHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.MessageHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.MyChatMemberHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.NewChatMembersHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.PollAnswerHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.PreCheckoutQueryHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.TextHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.AnimationHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.AudioHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.media.ChatJoinRequestHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.DocumentHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.GameHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.PhotosHandler
@@ -109,6 +117,22 @@ fun Dispatcher.channel(body: HandleChannelPost) {
 
 fun Dispatcher.inlineQuery(body: HandleInlineQuery) {
     addHandler(InlineQueryHandler(body))
+}
+
+fun Dispatcher.chosenInlineResult(body: HandleChosenInlineResult) {
+    addHandler(ChosenInlineResultHandler(body))
+}
+
+fun Dispatcher.myChatMember(body: HandleMyChatMember) {
+    addHandler(MyChatMemberHandler(body))
+}
+
+fun Dispatcher.chatMember(body: HandleChatMember) {
+    addHandler(ChatMemberHandler(body))
+}
+
+fun Dispatcher.chatJoinRequest(body: HandleChatJoinRequest) {
+    addHandler(ChatJoinRequestHandler(body))
 }
 
 fun Dispatcher.audio(body: HandleAudio) {

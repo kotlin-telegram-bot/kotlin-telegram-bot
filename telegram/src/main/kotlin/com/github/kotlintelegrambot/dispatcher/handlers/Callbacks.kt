@@ -1,6 +1,7 @@
 package com.github.kotlintelegrambot.dispatcher.handlers
 
 import com.github.kotlintelegrambot.Bot
+import com.github.kotlintelegrambot.dispatcher.handlers.media.ChatJoinRequestHandlerEnvironment
 import com.github.kotlintelegrambot.dispatcher.handlers.media.MediaHandlerEnvironment
 import com.github.kotlintelegrambot.entities.Game
 import com.github.kotlintelegrambot.entities.Update
@@ -31,6 +32,8 @@ typealias HandleLocation = LocationHandlerEnvironment.() -> Unit
 
 typealias HandleInlineQuery = InlineQueryHandlerEnvironment.() -> Unit
 
+typealias HandleChosenInlineResult = ChosenInlineResultHandlerEnvironment.() -> Unit
+
 typealias HandleNewChatMembers = NewChatMembersHandlerEnvironment.() -> Unit
 
 typealias HandlePollAnswer = PollAnswerHandlerEnvironment.() -> Unit
@@ -40,6 +43,12 @@ typealias HandleDice = DiceHandlerEnvironment.() -> Unit
 typealias HandleChannelPost = ChannelHandlerEnvironment.() -> Unit
 
 typealias HandlePreCheckoutQuery = PreCheckoutQueryHandlerEnvironment.() -> Unit
+
+typealias HandleMyChatMember = MyChatMemberHandlerEnvironment.() -> Unit
+
+typealias HandleChatMember = ChatMemberHandlerEnvironment.() -> Unit
+
+typealias HandleChatJoinRequest = ChatJoinRequestHandlerEnvironment.() -> Unit
 
 typealias HandleAudio = MediaHandlerEnvironment<Audio>.() -> Unit
 typealias HandleDocument = MediaHandlerEnvironment<Document>.() -> Unit
