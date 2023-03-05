@@ -48,13 +48,15 @@ class MessageHandlerTest {
         val botMock = mockk<Bot>()
         val anyMessage = anyMessage()
         val anyUpdate = anyUpdate(message = anyMessage)
+        val isEdited = false
 
         sut.handleUpdate(botMock, anyUpdate)
 
         val expectedMessageHandlerEnvironment = MessageHandlerEnvironment(
             botMock,
             anyUpdate,
-            anyMessage
+            anyMessage,
+            isEdited
         )
         verify { handlerMock.invoke(expectedMessageHandlerEnvironment) }
     }
