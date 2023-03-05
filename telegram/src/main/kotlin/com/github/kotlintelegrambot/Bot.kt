@@ -37,10 +37,9 @@ import com.github.kotlintelegrambot.webhook.WebhookConfig
 import com.github.kotlintelegrambot.webhook.WebhookConfigBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.channels.Channel
 import java.net.Proxy
-import java.util.concurrent.BlockingQueue
 import java.util.concurrent.Executors
-import java.util.concurrent.LinkedBlockingQueue
 import java.io.File as SystemFile
 
 fun bot(body: Bot.Builder.() -> Unit): Bot = Bot.Builder().build(body)
@@ -60,7 +59,7 @@ fun Bot.Builder.webhook(
 class Bot private constructor(
     private val updater: Updater,
     private val dispatcher: Dispatcher,
-    private val updatesQueue: BlockingQueue<DispatchableObject>,
+    private val updatesChannel: Channel<DispatchableObject>,
     private val updateMapper: UpdateMapper,
     private val webhookConfig: WebhookConfig?,
     private val apiClient: ApiClient,
@@ -82,12 +81,12 @@ class Bot private constructor(
         internal var dispatcherConfiguration: Dispatcher.() -> Unit = { }
 
         fun build(): Bot {
-            val updatesQueue = LinkedBlockingQueue<DispatchableObject>()
+            val updatesQueue = Channel<DispatchableObject>()
             val looper = CoroutineLooper(Dispatchers.IO)
             val apiClient = ApiClient(token, apiUrl, timeout, logLevel, proxy, gson)
             val updater = Updater(looper, updatesQueue, apiClient, timeout)
             val dispatcher = Dispatcher(
-                updatesQueue = updatesQueue,
+                updatesChannel = updatesQueue,
                 logLevel = logLevel,
                 coroutineDispatcher = Executors.newSingleThreadExecutor().asCoroutineDispatcher(),
             ).apply(dispatcherConfiguration)
@@ -218,11 +217,11 @@ class Bot private constructor(
 
     fun getWebhookInfo() = apiClient.getWebhookInfo().call()
 
-    fun processUpdate(update: Update) {
-        updatesQueue.put(update)
+    suspend fun processUpdate(update: Update) {
+        updatesChannel.send(update)
     }
 
-    fun processUpdate(updateJson: String) {
+    suspend fun processUpdate(updateJson: String) {
         val update = updateMapper.jsonToUpdate(updateJson)
         processUpdate(update)
     }

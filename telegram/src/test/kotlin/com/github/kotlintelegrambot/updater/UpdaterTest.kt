@@ -6,26 +6,27 @@ import com.github.kotlintelegrambot.errors.RetrieveUpdatesError
 import com.github.kotlintelegrambot.network.ApiClient
 import com.github.kotlintelegrambot.types.DispatchableObject
 import com.github.kotlintelegrambot.types.TelegramBotResult
+import io.mockk.coVerify
+import io.mockk.coVerifyOrder
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
 import io.mockk.verifyOrder
 import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import java.lang.Exception
-import java.util.concurrent.LinkedBlockingQueue
 
 class UpdaterTest {
 
-    private val mockUpdatesQueue = mockk<LinkedBlockingQueue<DispatchableObject>>(relaxUnitFun = true)
+    private val mockUpdatesQueue = mockk<Channel<DispatchableObject>>(relaxUnitFun = true)
     private val mockApiClient = mockk<ApiClient>()
 
     private fun createUpdater(looper: Looper) = Updater(
         looper = looper,
-        updatesQueue = mockUpdatesQueue,
+        updatesChannel = mockUpdatesQueue,
         apiClient = mockApiClient,
         botTimeout = BOT_TIMEOUT
     )
@@ -123,14 +124,14 @@ class UpdaterTest {
         sut.startPolling()
         advanceUntilIdle()
 
-        verifyOrder {
-            mockUpdatesQueue.put(updates1[0])
-            mockUpdatesQueue.put(updates1[1])
-            mockUpdatesQueue.put(updates3[0])
-            mockUpdatesQueue.put(updates3[1])
-            mockUpdatesQueue.put(updates3[2])
-            mockUpdatesQueue.put(updates4[0])
-            mockUpdatesQueue.put(updates4[1])
+        coVerifyOrder {
+            mockUpdatesQueue.send(updates1[0])
+            mockUpdatesQueue.send(updates1[1])
+            mockUpdatesQueue.send(updates3[0])
+            mockUpdatesQueue.send(updates3[1])
+            mockUpdatesQueue.send(updates3[2])
+            mockUpdatesQueue.send(updates4[0])
+            mockUpdatesQueue.send(updates4[1])
         }
     }
 
@@ -156,14 +157,14 @@ class UpdaterTest {
         advanceUntilIdle()
 
         val queuedErrors = mutableListOf<RetrieveUpdatesError>()
-        verifyOrder {
-            mockUpdatesQueue.put(capture(queuedErrors))
-            mockUpdatesQueue.put(updates1[0])
-            mockUpdatesQueue.put(updates1[1])
-            mockUpdatesQueue.put(capture(queuedErrors))
-            mockUpdatesQueue.put(updates3[0])
-            mockUpdatesQueue.put(updates3[1])
-            mockUpdatesQueue.put(updates3[2])
+        coVerifyOrder {
+            mockUpdatesQueue.send(capture(queuedErrors))
+            mockUpdatesQueue.send(updates1[0])
+            mockUpdatesQueue.send(updates1[1])
+            mockUpdatesQueue.send(capture(queuedErrors))
+            mockUpdatesQueue.send(updates3[0])
+            mockUpdatesQueue.send(updates3[1])
+            mockUpdatesQueue.send(updates3[2])
         }
         assertEquals("I'm exceptional", queuedErrors.last().getErrorMessage())
         assertEquals("400 Not found", queuedErrors.first().getErrorMessage())
@@ -189,11 +190,11 @@ class UpdaterTest {
         advanceUntilIdle()
 
         val queuedErrors = mutableListOf<RetrieveUpdatesError>()
-        verify {
-            mockUpdatesQueue.put(capture(queuedErrors))
-            mockUpdatesQueue.put(capture(queuedErrors))
-            mockUpdatesQueue.put(capture(queuedErrors))
-            mockUpdatesQueue.put(capture(queuedErrors))
+        coVerify {
+            mockUpdatesQueue.send(capture(queuedErrors))
+            mockUpdatesQueue.send(capture(queuedErrors))
+            mockUpdatesQueue.send(capture(queuedErrors))
+            mockUpdatesQueue.send(capture(queuedErrors))
         }
         assertEquals("I'm exceptional", queuedErrors[0].getErrorMessage())
         assertEquals("400 Not found", queuedErrors[1].getErrorMessage())
