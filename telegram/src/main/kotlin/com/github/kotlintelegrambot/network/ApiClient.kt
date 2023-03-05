@@ -124,21 +124,24 @@ internal class ApiClient(
         certificate: TelegramFile? = null,
         ipAddress: String? = null,
         maxConnections: Int? = null,
-        allowedUpdates: List<String>? = null
+        allowedUpdates: List<String>? = null,
+        dropPendingUpdates: Boolean? = null
     ): Call<Response<Boolean>> = when (certificate) {
         is ByFileId -> service.setWebhookWithCertificateAsFileId(
             url = url,
             certificateFileId = certificate.fileId,
             ipAddress = ipAddress,
             maxConnections = maxConnections,
-            allowedUpdates = allowedUpdates
+            allowedUpdates = allowedUpdates,
+            dropPendingUpdates = dropPendingUpdates
         )
         is ByUrl -> service.setWebhookWithCertificateAsFileUrl(
             url = url,
             certificateUrl = certificate.url,
             ipAddress = ipAddress,
             maxConnections = maxConnections,
-            allowedUpdates = allowedUpdates
+            allowedUpdates = allowedUpdates,
+            dropPendingUpdates = dropPendingUpdates
         )
         is ByFile -> service.setWebhookWithCertificateAsFile(
             url = url.toMultipartBodyPart(ApiConstants.SetWebhook.URL),
@@ -148,7 +151,8 @@ internal class ApiClient(
             ),
             ipAddress = ipAddress?.toMultipartBodyPart(ApiConstants.SetWebhook.IP_ADDRESS),
             maxConnections = maxConnections?.toMultipartBodyPart(ApiConstants.SetWebhook.MAX_CONNECTIONS),
-            allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES)
+            allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES),
+            dropPendingUpdates = dropPendingUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.DROP_PENDING_UPDATES)
         )
         is ByByteArray -> service.setWebhookWithCertificateAsFile(
             url = url.toMultipartBodyPart(ApiConstants.SetWebhook.URL),
@@ -158,17 +162,21 @@ internal class ApiClient(
                 mediaType = MediaTypeConstants.UTF_8_TEXT
             ),
             maxConnections = maxConnections?.toMultipartBodyPart(ApiConstants.SetWebhook.MAX_CONNECTIONS),
-            allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES)
+            allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES),
+            dropPendingUpdates = dropPendingUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.DROP_PENDING_UPDATES)
         )
         null -> service.setWebhook(
             url = url,
             ipAddress = ipAddress,
             maxConnections = maxConnections,
-            allowedUpdates = allowedUpdates
+            allowedUpdates = allowedUpdates,
+            dropPendingUpdates = dropPendingUpdates
         )
     }
 
-    fun deleteWebhook(): Call<Response<Boolean>> = service.deleteWebhook()
+    fun deleteWebhook(
+        dropPendingUpdates: Boolean? = null
+    ): Call<Response<Boolean>> = service.deleteWebhook(dropPendingUpdates)
 
     fun getWebhookInfo(): Call<Response<WebhookInfo>> = service.getWebhookInfo()
 

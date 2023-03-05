@@ -132,7 +132,8 @@ class Bot private constructor(
             webhookConfig.certificate,
             webhookConfig.ipAddress,
             webhookConfig.maxConnections,
-            webhookConfig.allowedUpdates
+            webhookConfig.allowedUpdates,
+            webhookConfig.dropPendingUpdates
         )
         val webhookSet = setWebhookResult.bimap(
             mapResponse = { true },
@@ -206,10 +207,13 @@ class Bot private constructor(
         certificate: TelegramFile? = null,
         ipAddress: String? = null,
         maxConnections: Int? = null,
-        allowedUpdates: List<String>? = null
-    ) = apiClient.setWebhook(url, certificate, ipAddress, maxConnections, allowedUpdates).call()
+        allowedUpdates: List<String>? = null,
+        dropPendingUpdates: Boolean? = null
+    ) = apiClient.setWebhook(url, certificate, ipAddress, maxConnections, allowedUpdates, dropPendingUpdates).call()
 
-    fun deleteWebhook() = apiClient.deleteWebhook().call()
+    fun deleteWebhook(
+        dropPendingUpdates: Boolean? = null
+    ) = apiClient.deleteWebhook(dropPendingUpdates).call()
 
     fun getWebhookInfo() = apiClient.getWebhookInfo().call()
 
