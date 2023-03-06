@@ -60,5 +60,6 @@ data class Message(
     @Name("migrate_from_chat_id") val migrateFromChatId: Long? = null,
     val invoice: Invoice? = null,
     @Name("successful_payment") val successfulPayment: SuccessfulPayment? = null,
-    @Name("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null
+    @Name("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
+    @Name("proximity_alert_triggered") val proximityAlertTriggered: ProximityAlertTriggered? = null
 )

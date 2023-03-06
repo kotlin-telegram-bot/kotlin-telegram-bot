@@ -8,6 +8,7 @@ import com.github.kotlintelegrambot.entities.User
 import com.github.kotlintelegrambot.entities.files.Document
 import com.github.kotlintelegrambot.entities.inputmedia.InputMediaAudio
 import com.github.kotlintelegrambot.entities.inputmedia.InputMediaDocument
+import com.github.kotlintelegrambot.entities.inputmedia.InputMediaPhoto
 import com.github.kotlintelegrambot.entities.inputmedia.MediaGroup
 import com.github.kotlintelegrambot.entities.inputmedia.anyInputMediaPhoto
 import com.github.kotlintelegrambot.entities.inputmedia.anyInputMediaVideo
@@ -208,6 +209,26 @@ class SendMediaGroupIT : ApiClientIT() {
         val requestBody = request.body.readUtf8().trimIndent()
         val expectedRequestBody = String.format(
             getFileAsStringFromResources<SendMediaGroupIT>("sendMediaGroupRequestBody6.txt"),
+            multipartBoundary
+        ).trimIndent()
+        assertEquals(expectedRequestBody, requestBody)
+    }
+
+    @Test
+    fun `sendMediaGroup with media group composed by a document(file) with thumb and a photo(fileId)`() {
+        givenAnySendMediaGroupResponse()
+        val mediaGroup = MediaGroup.from(
+            InputMediaDocument(TelegramFile.ByFile(getFileFromResources<SendMediaGroupIT>("doc.txt"))),
+            InputMediaPhoto(TelegramFile.ByUrl(ANY_IMAGE_FILE_ID)),
+        )
+
+        sut.sendMediaGroup(ChatId.fromId(ANY_CHAT_ID), mediaGroup)
+
+        val request = mockWebServer.takeRequest()
+        val multipartBoundary = request.multipartBoundary
+        val requestBody = request.body.readUtf8().trimIndent()
+        val expectedRequestBody = String.format(
+            getFileAsStringFromResources<SendMediaGroupIT>("sendMediaGroupRequestBody7.txt"),
             multipartBoundary
         ).trimIndent()
         assertEquals(expectedRequestBody, requestBody)

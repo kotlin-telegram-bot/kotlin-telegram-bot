@@ -24,6 +24,7 @@ internal object ApiConstants {
         const val IP_ADDRESS = "ip_address"
         const val MAX_CONNECTIONS = "max_connections"
         const val ALLOWED_UPDATES = "allowed_updates"
+        const val DROP_PENDING_UPDATES = "drop_pending_updates"
     }
 
     object SetChatAdministratorCustomTitle {

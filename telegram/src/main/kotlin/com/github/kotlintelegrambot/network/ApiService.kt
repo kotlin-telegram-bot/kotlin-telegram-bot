@@ -54,7 +54,8 @@ internal interface ApiService {
         @Field(ApiConstants.SetWebhook.URL) url: String,
         @Field(ApiConstants.SetWebhook.IP_ADDRESS) ipAddress: String? = null,
         @Field(ApiConstants.SetWebhook.MAX_CONNECTIONS) maxConnections: Int? = null,
-        @Field(ApiConstants.SetWebhook.ALLOWED_UPDATES) allowedUpdates: List<String>? = null
+        @Field(ApiConstants.SetWebhook.ALLOWED_UPDATES) allowedUpdates: List<String>? = null,
+        @Field(ApiConstants.SetWebhook.DROP_PENDING_UPDATES) dropPendingUpdates: Boolean? = null
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
@@ -64,7 +65,8 @@ internal interface ApiService {
         @Field(ApiConstants.SetWebhook.CERTIFICATE) certificateFileId: String,
         @Field(ApiConstants.SetWebhook.IP_ADDRESS) ipAddress: String? = null,
         @Field(ApiConstants.SetWebhook.MAX_CONNECTIONS) maxConnections: Int? = null,
-        @Field(ApiConstants.SetWebhook.ALLOWED_UPDATES) allowedUpdates: List<String>? = null
+        @Field(ApiConstants.SetWebhook.ALLOWED_UPDATES) allowedUpdates: List<String>? = null,
+        @Field(ApiConstants.SetWebhook.DROP_PENDING_UPDATES) dropPendingUpdates: Boolean? = null
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
@@ -74,7 +76,8 @@ internal interface ApiService {
         @Field(ApiConstants.SetWebhook.CERTIFICATE) certificateUrl: String,
         @Field(ApiConstants.SetWebhook.IP_ADDRESS) ipAddress: String? = null,
         @Field(ApiConstants.SetWebhook.MAX_CONNECTIONS) maxConnections: Int? = null,
-        @Field(ApiConstants.SetWebhook.ALLOWED_UPDATES) allowedUpdates: List<String>? = null
+        @Field(ApiConstants.SetWebhook.ALLOWED_UPDATES) allowedUpdates: List<String>? = null,
+        @Field(ApiConstants.SetWebhook.DROP_PENDING_UPDATES) dropPendingUpdates: Boolean? = null
     ): Call<Response<Boolean>>
 
     @Multipart
@@ -84,11 +87,14 @@ internal interface ApiService {
         @Part certificate: MultipartBody.Part,
         @Part ipAddress: MultipartBody.Part? = null,
         @Part maxConnections: MultipartBody.Part? = null,
-        @Part allowedUpdates: MultipartBody.Part? = null
+        @Part allowedUpdates: MultipartBody.Part? = null,
+        @Part dropPendingUpdates: MultipartBody.Part? = null
     ): Call<Response<Boolean>>
 
     @GET("deleteWebhook")
-    fun deleteWebhook(): Call<Response<Boolean>>
+    fun deleteWebhook(
+        @Query(ApiConstants.SetWebhook.DROP_PENDING_UPDATES) dropPendingUpdates: Boolean? = null
+    ): Call<Response<Boolean>>
 
     @GET("getWebhookInfo")
     fun getWebhookInfo(): Call<Response<WebhookInfo>>
@@ -381,7 +387,8 @@ internal interface ApiService {
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+        @Field("proximity_alert_radius") proximityAlertRadius: Int? = null
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -392,7 +399,8 @@ internal interface ApiService {
         @Field("inline_message_id") inlineMessageId: String?,
         @Field("latitude") latitude: Float,
         @Field("longitude") longitude: Float,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+        @Field("proximity_alert_radius") proximityAlertRadius: Int? = null
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -637,6 +645,9 @@ internal interface ApiService {
 
     @GET("logOut")
     fun logOut(): Call<Response<Boolean>>
+
+    @GET("close")
+    fun close(): Call<Response<Boolean>>
 
     /**
      * Updating messages

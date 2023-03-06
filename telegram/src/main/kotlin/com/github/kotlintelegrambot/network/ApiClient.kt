@@ -124,14 +124,16 @@ internal class ApiClient(
         certificate: TelegramFile? = null,
         ipAddress: String? = null,
         maxConnections: Int? = null,
-        allowedUpdates: List<String>? = null
+        allowedUpdates: List<String>? = null,
+        dropPendingUpdates: Boolean? = null
     ): Call<Response<Boolean>> = when (certificate) {
         is ByFileId -> service.setWebhookWithCertificateAsFileId(
             url = url,
             certificateFileId = certificate.fileId,
             ipAddress = ipAddress,
             maxConnections = maxConnections,
-            allowedUpdates = allowedUpdates
+            allowedUpdates = allowedUpdates,
+            dropPendingUpdates = dropPendingUpdates
         )
 
         is ByUrl -> service.setWebhookWithCertificateAsFileUrl(
@@ -139,7 +141,8 @@ internal class ApiClient(
             certificateUrl = certificate.url,
             ipAddress = ipAddress,
             maxConnections = maxConnections,
-            allowedUpdates = allowedUpdates
+            allowedUpdates = allowedUpdates,
+            dropPendingUpdates = dropPendingUpdates
         )
 
         is ByFile -> service.setWebhookWithCertificateAsFile(
@@ -150,7 +153,8 @@ internal class ApiClient(
             ),
             ipAddress = ipAddress?.toMultipartBodyPart(ApiConstants.SetWebhook.IP_ADDRESS),
             maxConnections = maxConnections?.toMultipartBodyPart(ApiConstants.SetWebhook.MAX_CONNECTIONS),
-            allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES)
+            allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES),
+            dropPendingUpdates = dropPendingUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.DROP_PENDING_UPDATES)
         )
 
         is ByByteArray -> service.setWebhookWithCertificateAsFile(
@@ -161,18 +165,22 @@ internal class ApiClient(
                 mediaType = MediaTypeConstants.UTF_8_TEXT
             ),
             maxConnections = maxConnections?.toMultipartBodyPart(ApiConstants.SetWebhook.MAX_CONNECTIONS),
-            allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES)
+            allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES),
+            dropPendingUpdates = dropPendingUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.DROP_PENDING_UPDATES)
         )
 
         null -> service.setWebhook(
             url = url,
             ipAddress = ipAddress,
             maxConnections = maxConnections,
-            allowedUpdates = allowedUpdates
+            allowedUpdates = allowedUpdates,
+            dropPendingUpdates = dropPendingUpdates
         )
     }
 
-    fun deleteWebhook(): Call<Response<Boolean>> = service.deleteWebhook()
+    fun deleteWebhook(
+        dropPendingUpdates: Boolean? = null
+    ): Call<Response<Boolean>> = service.deleteWebhook(dropPendingUpdates)
 
     fun getWebhookInfo(): Call<Response<WebhookInfo>> = service.getWebhookInfo()
 
@@ -664,7 +672,8 @@ internal class ApiClient(
         protectContent: Boolean?,
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?
+        replyMarkup: ReplyMarkup?,
+        proximityAlertRadius: Int?
     ): Call<Response<Message>> {
 
         return service.sendLocation(
@@ -676,7 +685,8 @@ internal class ApiClient(
             protectContent,
             replyToMessageId,
             allowSendingWithoutReply,
-            replyMarkup
+            replyMarkup,
+            proximityAlertRadius
         )
     }
 
@@ -686,7 +696,8 @@ internal class ApiClient(
         inlineMessageId: String?,
         latitude: Float,
         longitude: Float,
-        replyMarkup: ReplyMarkup?
+        replyMarkup: ReplyMarkup?,
+        proximityAlertRadius: Int?
     ): Call<Response<Message>> {
 
         return service.editMessageLiveLocation(
@@ -695,7 +706,8 @@ internal class ApiClient(
             inlineMessageId,
             latitude,
             longitude,
-            replyMarkup
+            replyMarkup,
+            proximityAlertRadius
         )
     }
 
@@ -926,9 +938,12 @@ internal class ApiClient(
         chatId: ChatId,
         messageId: Long,
         disableNotification: Boolean?
-    ): Call<Response<Boolean>> {
-
-        return service.pinChatMessage(chatId, messageId, disableNotification)
+    ): TelegramBotResult<Boolean> {
+        return service.pinChatMessage(
+            chatId,
+            messageId,
+            disableNotification,
+        ).runApiOperation()
     }
 
     fun unpinChatMessage(
@@ -945,9 +960,8 @@ internal class ApiClient(
         chatId
     ).runApiOperation()
 
-    fun leaveChat(chatId: ChatId): Call<Response<Boolean>> {
-
-        return service.leaveChat(chatId)
+    fun leaveChat(chatId: ChatId): TelegramBotResult<Boolean> {
+        return service.leaveChat(chatId).runApiOperation()
     }
 
     fun getChat(chatId: ChatId): TelegramBotResult<Chat> = service.getChat(chatId).runApiOperation()
@@ -997,6 +1011,11 @@ internal class ApiClient(
     fun logOut(): Call<Response<Boolean>> {
 
         return service.logOut()
+    }
+
+    fun close(): Call<Response<Boolean>> {
+
+        return service.close()
     }
 
     /**
