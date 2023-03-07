@@ -19,7 +19,7 @@ internal interface Looper {
 internal class CoroutineLooper(ioDispatcher: CoroutineDispatcher) : Looper {
 
     private val scope: CoroutineScope = CoroutineScope(ioDispatcher)
-    private var job: Job? = null
+    @Volatile private var job: Job? = null
 
     override fun loop(loopBody: suspend () -> Unit) {
         job?.cancel()
