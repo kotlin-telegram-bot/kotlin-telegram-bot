@@ -13,7 +13,7 @@ data class MessageHandlerEnvironment(
 
 internal class MessageHandler(
     private val filter: Filter,
-    private val handleMessage: MessageHandlerEnvironment.() -> Unit
+    private val handleMessage: suspend MessageHandlerEnvironment.() -> Unit
 ) : Handler {
 
     override fun checkUpdate(update: Update): Boolean =
@@ -23,7 +23,7 @@ internal class MessageHandler(
             filter.checkFor(update.message)
         }
 
-    override fun handleUpdate(bot: Bot, update: Update) {
+    override suspend fun handleUpdate(bot: Bot, update: Update) {
         checkNotNull(update.message)
         val messageHandlerEnv = MessageHandlerEnvironment(bot, update, update.message)
         handleMessage(messageHandlerEnv)

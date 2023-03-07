@@ -5,10 +5,11 @@ import anyUpdate
 import anyVideo
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleVideo
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class VideoHandlerTest {
@@ -36,7 +37,7 @@ class VideoHandlerTest {
     }
 
     @Test
-    fun `video is properly dispatched to the handler function`() {
+    fun `video is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val anyVideo = anyVideo()
         val anyMessageWithVideo = anyMessage(video = anyVideo)
@@ -50,6 +51,6 @@ class VideoHandlerTest {
             anyMessageWithVideo,
             anyVideo
         )
-        verify { handleVideoMock.invoke(expectedVideoHandlerEnv) }
+        coVerify { handleVideoMock.invoke(expectedVideoHandlerEnv) }
     }
 }

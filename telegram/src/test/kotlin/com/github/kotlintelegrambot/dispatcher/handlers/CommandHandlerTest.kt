@@ -3,15 +3,16 @@ package com.github.kotlintelegrambot.dispatcher.handlers
 import anyMessage
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class CommandHandlerTest {
 
-    private val handlerFunctionMock = mockk<CommandHandlerEnvironment.() -> Unit>(relaxed = true)
+    private val handlerFunctionMock = mockk<suspend CommandHandlerEnvironment.() -> Unit>(relaxed = true)
 
     private val sut = CommandHandler(ANY_COMMAND_NAME, handlerFunctionMock)
 
@@ -54,7 +55,7 @@ class CommandHandlerTest {
     }
 
     @Test
-    fun `command update is properly dispatched to the handler function`() {
+    fun `command update is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val commandMessage = anyMessage(text = "/$ANY_COMMAND_NAME $ANY_ARG")
         val anyUpdate = anyUpdate(message = commandMessage)
@@ -62,7 +63,7 @@ class CommandHandlerTest {
         sut.handleUpdate(botMock, anyUpdate)
 
         val expectedArgs = CommandHandlerEnvironment(botMock, anyUpdate, commandMessage, listOf(ANY_ARG))
-        verify { handlerFunctionMock.invoke(expectedArgs) }
+        coVerify { handlerFunctionMock.invoke(expectedArgs) }
     }
 
     private companion object {

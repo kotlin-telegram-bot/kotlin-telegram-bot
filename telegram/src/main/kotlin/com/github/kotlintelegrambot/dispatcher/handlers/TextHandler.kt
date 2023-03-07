@@ -24,7 +24,7 @@ internal class TextHandler(
         return false
     }
 
-    override fun handleUpdate(bot: Bot, update: Update) {
+    override suspend fun handleUpdate(bot: Bot, update: Update) {
         checkNotNull(update.message)
         checkNotNull(update.message.text)
         val textHandlerEnv = TextHandlerEnvironment(

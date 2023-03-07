@@ -3,10 +3,11 @@ package com.github.kotlintelegrambot.dispatcher.handlers
 import anyMessage
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class TextHandlerTest {
@@ -74,7 +75,7 @@ class TextHandlerTest {
     }
 
     @Test
-    fun `text is properly dispatched to the handler function`() {
+    fun `text is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val anyMessageWithText = anyMessage(text = ANY_TEXT)
         val anyUpdate = anyUpdate(message = anyMessageWithText)
@@ -88,7 +89,7 @@ class TextHandlerTest {
             anyMessageWithText,
             ANY_TEXT
         )
-        verify { handleTextMock.invoke(expectedTextHandlerEnvironment) }
+        coVerify { handleTextMock.invoke(expectedTextHandlerEnvironment) }
     }
 
     private companion object {

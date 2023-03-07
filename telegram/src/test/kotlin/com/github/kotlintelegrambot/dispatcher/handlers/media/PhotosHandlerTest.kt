@@ -5,10 +5,11 @@ import anyPhotoSize
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.dispatcher.handlers.HandlePhotos
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class PhotosHandlerTest {
@@ -45,7 +46,7 @@ class PhotosHandlerTest {
     }
 
     @Test
-    fun `photos are properly dispatched to the handler function`() {
+    fun `photos are properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val anyPhotos = listOf(anyPhotoSize())
         val anyMessageWithPhotos = anyMessage(photo = anyPhotos)
@@ -59,6 +60,6 @@ class PhotosHandlerTest {
             anyMessageWithPhotos,
             anyPhotos
         )
-        verify { handlePhotosMock.invoke(expectedPhotoHandlerEnv) }
+        coVerify { handlePhotosMock.invoke(expectedPhotoHandlerEnv) }
     }
 }

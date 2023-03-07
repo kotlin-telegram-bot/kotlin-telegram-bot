@@ -3,10 +3,12 @@ package com.github.kotlintelegrambot.dispatcher.handlers
 import anyCallbackQuery
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
+import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.verify
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class CallbackQueryHandlerTest {
@@ -82,7 +84,7 @@ class CallbackQueryHandlerTest {
     }
 
     @Test
-    fun `callbackQuery is properly dispatched to the handler function`() {
+    fun `callbackQuery is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>(relaxed = true)
         val anyCallbackQuery = anyCallbackQuery(data = ANY_CALLBACK_QUERY_DATA)
         val anyUpdateWithCallbackQuery = anyUpdate(callbackQuery = anyCallbackQuery)
@@ -98,11 +100,11 @@ class CallbackQueryHandlerTest {
             anyUpdateWithCallbackQuery,
             anyCallbackQuery
         )
-        verify { handleCallbackQueryMock.invoke(expectedCallbackQueryHandlerEnvironment) }
+        coVerify { handleCallbackQueryMock.invoke(expectedCallbackQueryHandlerEnvironment) }
     }
 
     @Test
-    fun `callback query is answered when callbackQuery is dispatched to the handler function`() {
+    fun `callback query is answered when callbackQuery is dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>(relaxed = true)
         val anyUpdateWithCallbackQuery = anyUpdate(
             callbackQuery = anyCallbackQuery(

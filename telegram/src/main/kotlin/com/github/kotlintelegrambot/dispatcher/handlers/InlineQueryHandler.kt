@@ -16,7 +16,7 @@ internal class InlineQueryHandler(
 
     override fun checkUpdate(update: Update): Boolean = update.inlineQuery != null
 
-    override fun handleUpdate(bot: Bot, update: Update) {
+    override suspend fun handleUpdate(bot: Bot, update: Update) {
         val inlineQuery = update.inlineQuery
         checkNotNull(inlineQuery)
 

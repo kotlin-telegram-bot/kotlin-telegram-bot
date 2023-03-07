@@ -16,7 +16,7 @@ internal class PollAnswerHandler(
 
     override fun checkUpdate(update: Update): Boolean = update.pollAnswer != null
 
-    override fun handleUpdate(bot: Bot, update: Update) {
+    override suspend fun handleUpdate(bot: Bot, update: Update) {
         val pollAnswer = update.pollAnswer
         checkNotNull(pollAnswer)
 

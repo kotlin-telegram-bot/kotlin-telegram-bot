@@ -20,7 +20,7 @@ internal class ContactHandler(
         return update.message?.contact != null
     }
 
-    override fun handleUpdate(bot: Bot, update: Update) {
+    override suspend fun handleUpdate(bot: Bot, update: Update) {
         checkNotNull(update.message)
         checkNotNull(update.message.contact)
 
