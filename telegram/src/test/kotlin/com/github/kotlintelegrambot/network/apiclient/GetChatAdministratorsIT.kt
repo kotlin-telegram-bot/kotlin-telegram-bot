@@ -27,7 +27,7 @@ class GetChatAdministratorsIT : ApiClientIT() {
         givenASuccessfulGetChatMembersResponse()
 
         val getChatAdministratorsResult = sut.getChatAdministrators(
-            chatId = ChatId.fromId(ANY_CHAT_ID)
+            chatId = ChatId.fromId(ANY_CHAT_ID),
         ).getOrNull()
 
         val expectedChatAdministrators = listOf(
@@ -59,7 +59,7 @@ class GetChatAdministratorsIT : ApiClientIT() {
                 ),
                 status = "creator",
                 isAnonymous = false,
-            )
+            ),
         )
         assertEquals(expectedChatAdministrators, getChatAdministratorsResult)
     }
@@ -104,7 +104,7 @@ class GetChatAdministratorsIT : ApiClientIT() {
         mockWebServer.enqueue(
             MockResponse()
                 .setResponseCode(200)
-                .setBody(getChaMembersResponseBody)
+                .setBody(getChaMembersResponseBody),
         )
     }
 

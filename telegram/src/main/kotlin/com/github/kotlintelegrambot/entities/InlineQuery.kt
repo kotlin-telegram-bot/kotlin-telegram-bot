@@ -25,10 +25,18 @@ data class InlineQuery(
 ) {
 
     enum class ChatType {
-        @SerializedName("sender") SENDER, // private chat with the inline query sender
-        @SerializedName("private") PRIVATE,
-        @SerializedName("group") GROUP,
-        @SerializedName("supergroup") SUPERGROUP,
-        @SerializedName("channel") CHANNEL,
+        @SerializedName("sender")
+        SENDER, // private chat with the inline query sender
+        @SerializedName("private")
+        PRIVATE,
+
+        @SerializedName("group")
+        GROUP,
+
+        @SerializedName("supergroup")
+        SUPERGROUP,
+
+        @SerializedName("channel")
+        CHANNEL,
     }
 }

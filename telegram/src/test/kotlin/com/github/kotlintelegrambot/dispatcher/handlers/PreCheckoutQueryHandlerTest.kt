@@ -45,7 +45,7 @@ class PreCheckoutQueryHandlerTest {
         val expectedPreCheckoutQueryHandlerEnv = PreCheckoutQueryHandlerEnvironment(
             botMock,
             anyUpdateWithPreCheckoutQuery,
-            anyPreCheckoutQuery
+            anyPreCheckoutQuery,
         )
         coVerify { handlePreCheckoutQueryMock.invoke(expectedPreCheckoutQueryHandlerEnv) }
     }

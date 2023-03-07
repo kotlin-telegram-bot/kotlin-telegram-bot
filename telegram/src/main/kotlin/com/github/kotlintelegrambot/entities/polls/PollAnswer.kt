@@ -10,5 +10,5 @@ import com.google.gson.annotations.SerializedName
 data class PollAnswer(
     @SerializedName(PollFields.POLL_ID) val pollId: String,
     @SerializedName(PollFields.USER) val user: User,
-    @SerializedName(PollFields.OPTION_IDS) val optionIds: List<Int>
+    @SerializedName(PollFields.OPTION_IDS) val optionIds: List<Int>,
 )

@@ -59,7 +59,7 @@ class MediaGroupTest {
             anyInputMediaVideo2,
             anyInputMediaVideo3,
             anyInputMediaVideo4,
-            anyInputMediaVideo5
+            anyInputMediaVideo5,
         )
 
         assertArrayEquals(
@@ -73,9 +73,9 @@ class MediaGroupTest {
                 anyInputMediaVideo2,
                 anyInputMediaVideo3,
                 anyInputMediaVideo4,
-                anyInputMediaVideo5
+                anyInputMediaVideo5,
             ),
-            mediaGroup.medias
+            mediaGroup.medias,
         )
     }
 
@@ -105,7 +105,7 @@ class MediaGroupTest {
                 anyInputMediaVideo3,
                 anyInputMediaVideo4,
                 anyInputMediaVideo5,
-                anyInputMediaVideo6
+                anyInputMediaVideo6,
             )
         }
 

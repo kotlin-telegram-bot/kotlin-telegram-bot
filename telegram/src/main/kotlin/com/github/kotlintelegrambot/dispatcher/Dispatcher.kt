@@ -26,6 +26,7 @@ class Dispatcher internal constructor(
     private val errorHandlers = arrayListOf<ErrorHandler>()
 
     private val scope: CoroutineScope = CoroutineScope(coroutineDispatcher)
+
     @Volatile private var job: Job? = null
 
     internal fun startCheckingUpdates() {

@@ -86,7 +86,7 @@ class TelegramBotResultTest {
         val fSuccess: (Int) -> Int = { it + 4 }
         val foldResult = success.fold(
             ifSuccess = fSuccess,
-            ifError = { }
+            ifError = { },
         )
 
         assertEquals(fSuccess(anyValue), foldResult)
@@ -105,7 +105,7 @@ class TelegramBotResultTest {
         }
         val foldResult = error.fold(
             ifSuccess = { },
-            ifError = fError
+            ifError = fError,
         )
 
         assertEquals(fError(error), foldResult)

@@ -6,11 +6,11 @@ import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.files.Voice
 
 class VoiceHandler(
-    handleVoice: HandleVoice
+    handleVoice: HandleVoice,
 ) : MediaHandler<Voice>(
     handleVoice,
     VoiceHandlerFunctions::mapMessageToVoice,
-    VoiceHandlerFunctions::isUpdateVoice
+    VoiceHandlerFunctions::isUpdateVoice,
 )
 
 private object VoiceHandlerFunctions {

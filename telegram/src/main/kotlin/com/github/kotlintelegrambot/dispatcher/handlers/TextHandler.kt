@@ -8,17 +8,18 @@ data class TextHandlerEnvironment(
     val bot: Bot,
     val update: Update,
     val message: Message,
-    val text: String
+    val text: String,
 )
 
 class TextHandler(
     private val text: String? = null,
-    private val handleText: HandleText
+    private val handleText: HandleText,
 ) : Handler {
 
     override fun checkUpdate(update: Update): Boolean {
-        if (update.message?.text != null && text == null) return true
-        else if (text != null) {
+        if (update.message?.text != null && text == null) {
+            return true
+        } else if (text != null) {
             return update.message?.text != null && update.message.text.contains(text, ignoreCase = true)
         }
         return false
@@ -31,7 +32,7 @@ class TextHandler(
             bot,
             update,
             update.message,
-            update.message.text
+            update.message.text,
         )
         handleText(textHandlerEnv)
     }

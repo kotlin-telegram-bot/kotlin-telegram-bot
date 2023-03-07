@@ -71,7 +71,7 @@ class DispatcherTest {
                 if (text == ANY_TEXT) {
                     update.consume()
                 }
-            }
+            },
         )
 
         val handlerCallbackMock = mockk<HandleText>(relaxed = true)

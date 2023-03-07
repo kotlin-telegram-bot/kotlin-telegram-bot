@@ -30,7 +30,7 @@ class CallbackQueryHandlerTest {
         val anyUpdateWithCallbackQuery = anyUpdate(callbackQuery = anyCallbackQuery())
         val sut = CallbackQueryHandler(
             callbackData = null,
-            handleCallbackQuery = handleCallbackQueryMock
+            handleCallbackQuery = handleCallbackQueryMock,
         )
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithCallbackQuery)
@@ -41,11 +41,11 @@ class CallbackQueryHandlerTest {
     @Test
     fun `checkUpdate returns false when there is callback query and its data doesn't match the data to match`() {
         val anyUpdateWithCallbackQuery = anyUpdate(
-            callbackQuery = anyCallbackQuery(data = ANY_CALLBACK_QUERY_DATA)
+            callbackQuery = anyCallbackQuery(data = ANY_CALLBACK_QUERY_DATA),
         )
         val sut = CallbackQueryHandler(
             callbackData = ANY_OTHER_CALLBACK_QUERY_DATA,
-            handleCallbackQuery = handleCallbackQueryMock
+            handleCallbackQuery = handleCallbackQueryMock,
         )
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithCallbackQuery)
@@ -56,11 +56,11 @@ class CallbackQueryHandlerTest {
     @Test
     fun `checkUpdate returns true when there is callback query and its data is equal to the data to match`() {
         val anyUpdateWithCallbackQuery = anyUpdate(
-            callbackQuery = anyCallbackQuery(data = ANY_CALLBACK_QUERY_DATA)
+            callbackQuery = anyCallbackQuery(data = ANY_CALLBACK_QUERY_DATA),
         )
         val sut = CallbackQueryHandler(
             callbackData = ANY_CALLBACK_QUERY_DATA,
-            handleCallbackQuery = handleCallbackQueryMock
+            handleCallbackQuery = handleCallbackQueryMock,
         )
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithCallbackQuery)
@@ -71,11 +71,11 @@ class CallbackQueryHandlerTest {
     @Test
     fun `checkUpdate returns true when there is callback query and its data contains the data to match`() {
         val anyUpdateWithCallbackQuery = anyUpdate(
-            callbackQuery = anyCallbackQuery(data = ANY_CALLBACK_QUERY_DATA)
+            callbackQuery = anyCallbackQuery(data = ANY_CALLBACK_QUERY_DATA),
         )
         val sut = CallbackQueryHandler(
             callbackData = ANY_DATA_CONTAINED_IN_ANY_CALLBACK_QUERY_DATA,
-            handleCallbackQuery = handleCallbackQueryMock
+            handleCallbackQuery = handleCallbackQueryMock,
         )
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithCallbackQuery)
@@ -90,7 +90,7 @@ class CallbackQueryHandlerTest {
         val anyUpdateWithCallbackQuery = anyUpdate(callbackQuery = anyCallbackQuery)
         val sut = CallbackQueryHandler(
             callbackData = ANY_CALLBACK_QUERY_DATA,
-            handleCallbackQuery = handleCallbackQueryMock
+            handleCallbackQuery = handleCallbackQueryMock,
         )
 
         sut.handleUpdate(botMock, anyUpdateWithCallbackQuery)
@@ -98,7 +98,7 @@ class CallbackQueryHandlerTest {
         val expectedCallbackQueryHandlerEnvironment = CallbackQueryHandlerEnvironment(
             botMock,
             anyUpdateWithCallbackQuery,
-            anyCallbackQuery
+            anyCallbackQuery,
         )
         coVerify { handleCallbackQueryMock.invoke(expectedCallbackQueryHandlerEnvironment) }
     }
@@ -109,8 +109,8 @@ class CallbackQueryHandlerTest {
         val anyUpdateWithCallbackQuery = anyUpdate(
             callbackQuery = anyCallbackQuery(
                 id = ANY_CALLBACK_QUERY_ID,
-                data = ANY_CALLBACK_QUERY_DATA
-            )
+                data = ANY_CALLBACK_QUERY_DATA,
+            ),
         )
         val sut = CallbackQueryHandler(
             callbackData = ANY_CALLBACK_QUERY_DATA,
@@ -118,7 +118,7 @@ class CallbackQueryHandlerTest {
             callbackAnswerText = ANY_CALLBACK_ANSWER_TEXT,
             callbackAnswerUrl = ANY_ANSWER_CALLBACK_URL,
             callbackAnswerCacheTime = ANY_CALLBACK_ANSWER_CACHE_TIME,
-            callbackAnswerShowAlert = CALLBACK_ANSWER_SHOW_ALERT
+            callbackAnswerShowAlert = CALLBACK_ANSWER_SHOW_ALERT,
         )
 
         sut.handleUpdate(botMock, anyUpdateWithCallbackQuery)
@@ -129,7 +129,7 @@ class CallbackQueryHandlerTest {
                 ANY_CALLBACK_ANSWER_TEXT,
                 CALLBACK_ANSWER_SHOW_ALERT,
                 ANY_ANSWER_CALLBACK_URL,
-                ANY_CALLBACK_ANSWER_CACHE_TIME
+                ANY_CALLBACK_ANSWER_CACHE_TIME,
             )
         }
     }

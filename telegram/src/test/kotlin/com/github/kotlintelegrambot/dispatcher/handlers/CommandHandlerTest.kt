@@ -28,7 +28,7 @@ class CommandHandlerTest {
     @Test
     fun `checkUpdate returns true for the given command with arguments`() {
         val anyCommandWithArguments = anyUpdate(
-            message = anyMessage(text = "/$ANY_COMMAND_NAME a b")
+            message = anyMessage(text = "/$ANY_COMMAND_NAME a b"),
         )
 
         val checkUpdateResult = sut.checkUpdate(anyCommandWithArguments)

@@ -16,13 +16,14 @@ sealed class LogLevel {
     /** Logs network requests, network responses and uncaught exceptions
      * thrown in handlers execution **/
     data class All(
-        val networkLogLevel: LogLevel.Network = Body
+        val networkLogLevel: LogLevel.Network = Body,
     ) : LogLevel()
 
     /** Logs network requests and responses information **/
     sealed class Network : LogLevel() {
         /** No logs **/
         object None : Network()
+
         /**
          * Logs requests and responses lines.
          *
@@ -31,6 +32,7 @@ sealed class LogLevel {
          * <-- 200 OK (29ms, 4-byte body)
          */
         object Basic : Network()
+
         /**
          * Logs requests and responses lines and their respective headers.
          *
@@ -47,6 +49,7 @@ sealed class LogLevel {
          * <-- END HTTP
          */
         object Headers : Network()
+
         /**
          * Logs requests and responses lines and their respective headers and bodies (if present).
          *

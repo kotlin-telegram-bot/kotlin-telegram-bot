@@ -8,13 +8,13 @@ internal class ApiResponseMapper {
         fun invalidResponse() = TelegramBotResult.Error.InvalidResponse(
             apiResponse.code(),
             apiResponse.message(),
-            apiResponse.body()
+            apiResponse.body(),
         )
 
         if (!apiResponse.isSuccessful) {
             return TelegramBotResult.Error.HttpError(
                 apiResponse.code(),
-                apiResponse.errorBody()?.string()
+                apiResponse.errorBody()?.string(),
             )
         }
 
@@ -30,7 +30,7 @@ internal class ApiResponseMapper {
 
             return TelegramBotResult.Error.TelegramApi(
                 errorCode = telegramErrorCode,
-                description = telegramErrorDescription
+                description = telegramErrorDescription,
             )
         }
     }

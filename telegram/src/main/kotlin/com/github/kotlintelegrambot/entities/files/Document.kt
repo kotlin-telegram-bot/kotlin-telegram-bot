@@ -12,5 +12,5 @@ data class Document(
     @SerializedName(FilesFields.thumb) val thumb: PhotoSize? = null,
     @SerializedName(FilesFields.fileName) val fileName: String? = null,
     @SerializedName(FilesFields.mimeType) val mimeType: String? = null,
-    @SerializedName(FilesFields.fileSize) val fileSize: Int? = null
+    @SerializedName(FilesFields.fileSize) val fileSize: Int? = null,
 )

@@ -48,7 +48,7 @@ class LocationHandlerTest {
             botMock,
             anyUpdateWithLocation,
             anyMessageWithLocation,
-            anyLocation
+            anyLocation,
         )
         coVerify { handleLocationMock.invoke(expectedLocationHandlerEnv) }
     }

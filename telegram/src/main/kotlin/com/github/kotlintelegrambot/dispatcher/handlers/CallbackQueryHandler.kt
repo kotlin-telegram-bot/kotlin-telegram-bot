@@ -7,7 +7,7 @@ import com.github.kotlintelegrambot.entities.Update
 data class CallbackQueryHandlerEnvironment(
     val bot: Bot,
     val update: Update,
-    val callbackQuery: CallbackQuery
+    val callbackQuery: CallbackQuery,
 )
 
 internal class CallbackQueryHandler(
@@ -16,7 +16,7 @@ internal class CallbackQueryHandler(
     private val callbackAnswerShowAlert: Boolean? = null,
     private val callbackAnswerUrl: String? = null,
     private val callbackAnswerCacheTime: Int? = null,
-    private val handleCallbackQuery: HandleCallbackQuery
+    private val handleCallbackQuery: HandleCallbackQuery,
 ) : Handler {
 
     override fun checkUpdate(update: Update): Boolean {
@@ -33,7 +33,7 @@ internal class CallbackQueryHandler(
         val callbackQueryHandlerEnv = CallbackQueryHandlerEnvironment(
             bot,
             update,
-            update.callbackQuery
+            update.callbackQuery,
         )
         handleCallbackQuery(callbackQueryHandlerEnv)
 

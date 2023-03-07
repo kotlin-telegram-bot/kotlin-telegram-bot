@@ -61,5 +61,5 @@ data class Message(
     val invoice: Invoice? = null,
     @Name("successful_payment") val successfulPayment: SuccessfulPayment? = null,
     @Name("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
-    @Name("proximity_alert_triggered") val proximityAlertTriggered: ProximityAlertTriggered? = null
+    @Name("proximity_alert_triggered") val proximityAlertTriggered: ProximityAlertTriggered? = null,
 )

@@ -36,7 +36,7 @@ class UnpinAllChatMessagesIT : ApiClientIT() {
         givenASuccessfulUnpinAllChatMessagesResponse()
 
         val unpinChatMessageResult = sut.unpinAllChatMessages(
-            ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME)
+            ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME),
         ).getOrNull()
 
         assertEquals(false, unpinChatMessageResult)
@@ -52,7 +52,7 @@ class UnpinAllChatMessagesIT : ApiClientIT() {
         mockWebServer.enqueue(
             MockResponse()
                 .setResponseCode(200)
-                .setBody(unpinAllChatMessagesResponse)
+                .setBody(unpinAllChatMessagesResponse),
         )
     }
 

@@ -24,5 +24,5 @@ data class PreCheckoutQuery(
     @SerializedName("total_amount") val totalAmount: BigInteger,
     @SerializedName("invoice_payload") val invoicePayload: String,
     @SerializedName("shipping_option_id") val shippingOptionId: String?,
-    @SerializedName("order_info") val orderInfo: OrderInfo?
+    @SerializedName("order_info") val orderInfo: OrderInfo?,
 )

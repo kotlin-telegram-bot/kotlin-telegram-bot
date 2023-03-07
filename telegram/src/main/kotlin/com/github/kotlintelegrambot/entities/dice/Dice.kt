@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
  */
 data class Dice(
     @SerializedName(DiceFields.EMOJI) val emoji: DiceEmoji,
-    @SerializedName(DiceFields.VALUE) val value: Int
+    @SerializedName(DiceFields.VALUE) val value: Int,
 )
 
 sealed class DiceEmoji {

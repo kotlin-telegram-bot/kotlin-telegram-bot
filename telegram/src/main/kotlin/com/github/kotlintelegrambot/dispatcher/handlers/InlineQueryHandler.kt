@@ -7,11 +7,11 @@ import com.github.kotlintelegrambot.entities.Update
 data class InlineQueryHandlerEnvironment(
     val bot: Bot,
     val update: Update,
-    val inlineQuery: InlineQuery
+    val inlineQuery: InlineQuery,
 )
 
 class InlineQueryHandler(
-    private val handleInlineQuery: HandleInlineQuery
+    private val handleInlineQuery: HandleInlineQuery,
 ) : Handler {
 
     override fun checkUpdate(update: Update): Boolean = update.inlineQuery != null

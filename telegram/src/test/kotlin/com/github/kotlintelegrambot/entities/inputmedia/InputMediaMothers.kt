@@ -5,7 +5,7 @@ import com.github.kotlintelegrambot.entities.anyByFileIdTelegramFile
 
 fun anyInputMediaVideo(
     media: TelegramFile = anyByFileIdTelegramFile(),
-    thumb: TelegramFile.ByFile? = null
+    thumb: TelegramFile.ByFile? = null,
 ): InputMediaVideo = InputMediaVideo(
     media = media,
     caption = null,
@@ -14,13 +14,13 @@ fun anyInputMediaVideo(
     width = null,
     height = null,
     duration = null,
-    supportsStreaming = null
+    supportsStreaming = null,
 )
 
 fun anyInputMediaPhoto(
-    media: TelegramFile = anyByFileIdTelegramFile()
+    media: TelegramFile = anyByFileIdTelegramFile(),
 ): InputMediaPhoto = InputMediaPhoto(
     media = media,
     caption = null,
-    parseMode = null
+    parseMode = null,
 )

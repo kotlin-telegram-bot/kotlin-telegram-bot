@@ -55,7 +55,7 @@ class ChannelHandlerTest {
             botMock,
             anyUpdateWithChannelPost,
             anyChannelPost,
-            isEdition = false
+            isEdition = false,
         )
         coVerify { handleChannelPostMock.invoke(expectedChannelHandlerEnv) }
     }
@@ -72,7 +72,7 @@ class ChannelHandlerTest {
             botMock,
             anyUpdateWithEditedChannelPost,
             anyEditedChannelPost,
-            isEdition = true
+            isEdition = true,
         )
         coVerify { handleChannelPostMock.invoke(expectedChannelHandlerEnv) }
     }

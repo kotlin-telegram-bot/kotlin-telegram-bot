@@ -9,11 +9,11 @@ data class ContactHandlerEnvironment(
     val bot: Bot,
     val update: Update,
     val message: Message,
-    val contact: Contact
+    val contact: Contact,
 )
 
 class ContactHandler(
-    private val handleContact: HandleContact
+    private val handleContact: HandleContact,
 ) : Handler {
 
     override fun checkUpdate(update: Update): Boolean {
@@ -28,7 +28,7 @@ class ContactHandler(
             bot,
             update,
             update.message,
-            update.message.contact
+            update.message.contact,
         )
         handleContact(contactHandlerEnv)
     }

@@ -57,7 +57,7 @@ internal class Updater(
         }
 
         val dispatchableError = RetrieveUpdatesError(
-            errorDescription ?: "Error retrieving updates"
+            errorDescription ?: "Error retrieving updates",
         )
         updatesChannel.send(dispatchableError)
     }

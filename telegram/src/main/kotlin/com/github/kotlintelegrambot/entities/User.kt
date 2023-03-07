@@ -14,5 +14,5 @@ data class User(
     @SerializedName("language_code") val languageCode: String? = null,
     @SerializedName("can_join_groups") val canJoinGroups: Boolean? = null,
     @SerializedName("can_read_all_group_messages") val canReadAllGroupMessages: Boolean? = null,
-    @SerializedName("supports_inline_queries") val supportsInlineQueries: Boolean? = null
+    @SerializedName("supports_inline_queries") val supportsInlineQueries: Boolean? = null,
 )

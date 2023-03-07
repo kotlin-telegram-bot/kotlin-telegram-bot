@@ -20,7 +20,7 @@ data class Update constructor(
     @Name("shipping_query") val shippingQuery: ShippingQuery? = null,
     @Name("pre_checkout_query") val preCheckoutQuery: PreCheckoutQuery? = null,
     @Name("poll") val poll: Poll? = null,
-    @Name("poll_answer") val pollAnswer: PollAnswer? = null
+    @Name("poll_answer") val pollAnswer: PollAnswer? = null,
 ) : DispatchableObject, ConsumableObject()
 
 /**

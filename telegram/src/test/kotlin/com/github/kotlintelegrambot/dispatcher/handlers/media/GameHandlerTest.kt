@@ -49,7 +49,7 @@ class GameHandlerTest {
             botMock,
             anyUpdateWithGame,
             anyMessageWithGame,
-            anyGame
+            anyGame,
         )
         coVerify { handleGameMock.invoke(expectedGameHandlerEnv) }
     }

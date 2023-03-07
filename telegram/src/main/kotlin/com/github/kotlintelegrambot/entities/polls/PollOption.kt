@@ -8,5 +8,5 @@ import com.google.gson.annotations.SerializedName
  */
 data class PollOption(
     @SerializedName(PollFields.TEXT) val text: String,
-    @SerializedName(PollFields.VOTER_COUNT) val voterCount: Int
+    @SerializedName(PollFields.VOTER_COUNT) val voterCount: Int,
 )

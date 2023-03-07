@@ -16,7 +16,7 @@ class RestrictChatMembersIT : ApiClientIT() {
         sut.restrictChatMember(
             ChatId.fromId(ANY_CHAT_ID),
             ANY_USER_ID,
-            ChatPermissions()
+            ChatPermissions(),
         ).execute()
 
         val request = mockWebServer.takeRequest()
@@ -31,7 +31,7 @@ class RestrictChatMembersIT : ApiClientIT() {
         sut.restrictChatMember(
             ChatId.fromId(ANY_CHAT_ID),
             ANY_USER_ID,
-            ChatPermissions(canSendMessages = false)
+            ChatPermissions(canSendMessages = false),
         ).execute()
 
         val request = mockWebServer.takeRequest()
@@ -51,8 +51,8 @@ class RestrictChatMembersIT : ApiClientIT() {
             ChatPermissions(
                 canSendMessages = false,
                 canSendPolls = true,
-                canAddWebPagePreviews = false
-            )
+                canAddWebPagePreviews = false,
+            ),
         ).execute()
 
         val request = mockWebServer.takeRequest()
@@ -72,7 +72,7 @@ class RestrictChatMembersIT : ApiClientIT() {
             ChatId.fromId(ANY_CHAT_ID),
             ANY_USER_ID,
             ChatPermissions(),
-            ANY_TIMESTAMP
+            ANY_TIMESTAMP,
         ).execute()
 
         val request = mockWebServer.takeRequest()

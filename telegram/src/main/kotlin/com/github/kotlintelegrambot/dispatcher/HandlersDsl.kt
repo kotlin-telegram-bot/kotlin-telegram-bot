@@ -76,7 +76,7 @@ fun Dispatcher.callbackQuery(
     callbackAnswerShowAlert: Boolean? = null,
     callbackAnswerUrl: String? = null,
     callbackAnswerCacheTime: Int? = null,
-    handleCallbackQuery: HandleCallbackQuery
+    handleCallbackQuery: HandleCallbackQuery,
 ) {
     addHandler(
         CallbackQueryHandler(
@@ -85,8 +85,8 @@ fun Dispatcher.callbackQuery(
             callbackAnswerShowAlert = callbackAnswerShowAlert,
             callbackAnswerUrl = callbackAnswerUrl,
             callbackAnswerCacheTime = callbackAnswerCacheTime,
-            handleCallbackQuery = handleCallbackQuery
-        )
+            handleCallbackQuery = handleCallbackQuery,
+        ),
     )
 }
 

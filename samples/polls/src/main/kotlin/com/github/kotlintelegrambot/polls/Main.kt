@@ -19,7 +19,7 @@ fun main() {
                     chatId = ChatId.fromId(message.chat.id),
                     question = "Pizza with or without pineapple?",
                     options = listOf("With :(", "Without :)"),
-                    isAnonymous = false
+                    isAnonymous = false,
                 )
             }
 
@@ -30,7 +30,7 @@ fun main() {
                     question = "Java or Kotlin?",
                     options = listOf("Java", "Kotlin"),
                     correctOptionId = 1,
-                    isAnonymous = false
+                    isAnonymous = false,
                 )
             }
 
@@ -42,7 +42,7 @@ fun main() {
                     options = listOf("Foo", "Bar", "FooBar"),
                     correctOptionId = 1,
                     isClosed = true,
-                    explanation = "A closed quiz because I can"
+                    explanation = "A closed quiz because I can",
                 )
             }
         }

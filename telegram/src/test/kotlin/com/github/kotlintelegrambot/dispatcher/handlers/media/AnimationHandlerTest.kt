@@ -49,7 +49,7 @@ class AnimationHandlerTest {
             botMock,
             anyUpdateWithAnimation,
             anyMessageWithAnimation,
-            anyAnimation
+            anyAnimation,
         )
         coVerify { handleAnimationMock.invoke(expectedAnimationHandlerEnv) }
     }

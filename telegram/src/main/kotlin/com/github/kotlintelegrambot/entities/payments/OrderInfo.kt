@@ -16,5 +16,5 @@ data class OrderInfo(
     val name: String? = null,
     @Name("phone_number") val phoneNumber: String? = null,
     val email: String? = null,
-    @Name("shipping_address") val shippingAddress: ShippingAddress? = null
+    @Name("shipping_address") val shippingAddress: ShippingAddress? = null,
 )
