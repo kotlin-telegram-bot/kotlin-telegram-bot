@@ -7,5 +7,5 @@ data class Invoice(
     val description: String,
     @Name("start_parameter") val startParameter: String,
     val currency: String,
-    @Name("total_amount") val totalAmount: Int
+    @Name("total_amount") val totalAmount: Int,
 )

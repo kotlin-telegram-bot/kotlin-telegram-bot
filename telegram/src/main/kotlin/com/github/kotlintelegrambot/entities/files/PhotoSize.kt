@@ -11,5 +11,5 @@ data class PhotoSize(
     @SerializedName(FilesFields.fileUniqueId) val fileUniqueId: String,
     @SerializedName(FilesFields.width) val width: Int,
     @SerializedName(FilesFields.height) val height: Int,
-    @SerializedName(FilesFields.fileSize) val fileSize: Int? = null
+    @SerializedName(FilesFields.fileSize) val fileSize: Int? = null,
 )

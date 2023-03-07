@@ -28,7 +28,7 @@ class UpdaterTest {
         looper = looper,
         updatesChannel = mockUpdatesQueue,
         apiClient = mockApiClient,
-        botTimeout = BOT_TIMEOUT
+        botTimeout = BOT_TIMEOUT,
     )
 
     @Test
@@ -149,7 +149,7 @@ class UpdaterTest {
             updates1.asResult(),
             error2,
             updates2.asResult(),
-            updates3.asResult()
+            updates3.asResult(),
         )
 
         looper.loopIterations = 5
@@ -206,7 +206,7 @@ class UpdaterTest {
         every {
             mockApiClient.getUpdates(any(), any(), any(), any())
         }.returnsMany(
-            result.map { it.asResult() }
+            result.map { it.asResult() },
         )
     }
 

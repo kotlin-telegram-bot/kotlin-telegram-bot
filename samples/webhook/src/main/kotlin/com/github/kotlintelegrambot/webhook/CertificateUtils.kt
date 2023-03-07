@@ -12,10 +12,11 @@ object CertificateUtils {
 
     val keyStoreFile: File
         get() = File(keyStorePath).let { file ->
-            if (file.exists() || file.isAbsolute)
+            if (file.exists() || file.isAbsolute) {
                 file
-            else
+            } else {
                 File(".", keyStorePath).absoluteFile
+            }
         }
 
     val keyStore: KeyStore

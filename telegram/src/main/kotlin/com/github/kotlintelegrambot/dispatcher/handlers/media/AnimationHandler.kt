@@ -6,11 +6,11 @@ import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.files.Animation
 
 class AnimationHandler(
-    handleAnimation: HandleAnimation
+    handleAnimation: HandleAnimation,
 ) : MediaHandler<Animation>(
     handleAnimation,
     AnimationHandlerFunctions::mapMessageToAnimation,
-    AnimationHandlerFunctions::updateIsAnimation
+    AnimationHandlerFunctions::updateIsAnimation,
 )
 
 private object AnimationHandlerFunctions {

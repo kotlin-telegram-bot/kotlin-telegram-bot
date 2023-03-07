@@ -45,7 +45,7 @@ class GetUpdatesIT : ApiClientIT() {
             offset = ANY_OFFSET,
             limit = ANY_LIMIT,
             timeout = ANY_TIMEOUT,
-            allowedUpdates = ANY_ALLOWED_UPDATES
+            allowedUpdates = ANY_ALLOWED_UPDATES,
         )
 
         val request = mockWebServer.takeRequest()
@@ -113,7 +113,7 @@ class GetUpdatesIT : ApiClientIT() {
                     }
                 ]
             }
-            """.trimIndent()
+            """.trimIndent(),
         )
 
         val getUpdatesResult = sut.getUpdates(null, null, null, null)
@@ -128,7 +128,7 @@ class GetUpdatesIT : ApiClientIT() {
                         isBot = false,
                         firstName = "TestName",
                         username = "testname",
-                        languageCode = "de"
+                        languageCode = "de",
                     ),
                     message = Message(
                         messageId = 1,
@@ -136,13 +136,13 @@ class GetUpdatesIT : ApiClientIT() {
                             id = 1,
                             isBot = true,
                             firstName = "testbot",
-                            username = "testbot"
+                            username = "testbot",
                         ),
                         chat = Chat(
                             id = 1,
                             firstName = "TestName",
                             username = "testname",
-                            type = "private"
+                            type = "private",
                         ),
                         date = 1606317592,
                         text = "Hello, inline buttons!",
@@ -150,21 +150,21 @@ class GetUpdatesIT : ApiClientIT() {
                             listOf(
                                 InlineKeyboardButton.CallbackData(
                                     text = "Test Inline Button",
-                                    callbackData = "testButton"
-                                )
+                                    callbackData = "testButton",
+                                ),
                             ),
                             listOf(
                                 InlineKeyboardButton.CallbackData(
                                     text = "Show alert",
-                                    callbackData = "showAlert"
-                                )
-                            )
-                        )
+                                    callbackData = "showAlert",
+                                ),
+                            ),
+                        ),
                     ),
                     chatInstance = "1",
-                    data = "showAlert"
-                )
-            )
+                    data = "showAlert",
+                ),
+            ),
         )
         assertEquals(expectedUpdates, getUpdatesResult.getOrNull())
     }
@@ -198,7 +198,7 @@ class GetUpdatesIT : ApiClientIT() {
                         }
                     ]
                 }
-            """.trimIndent()
+            """.trimIndent(),
         )
 
         val getUpdatesResult = sut.getUpdates(null, null, null, null)
@@ -221,9 +221,9 @@ class GetUpdatesIT : ApiClientIT() {
                         type = "channel",
                     ),
                     date = 1612631280,
-                    text = "Test"
-                )
-            )
+                    text = "Test",
+                ),
+            ),
         )
         assertEquals(expectedGetUpdatesResult, getUpdatesResult.getOrNull())
     }
@@ -251,7 +251,7 @@ class GetUpdatesIT : ApiClientIT() {
                         }
                     ]
                 }
-            """.trimIndent()
+            """.trimIndent(),
         )
 
         val getUpdatesResult = sut.getUpdates(null, null, null, null)
@@ -268,9 +268,9 @@ class GetUpdatesIT : ApiClientIT() {
                         type = "channel",
                     ),
                     date = 2147483648,
-                    text = "Test"
-                )
-            )
+                    text = "Test",
+                ),
+            ),
         )
         assertEquals(expectedGetUpdatesResult, getUpdatesResult.get())
     }
@@ -334,7 +334,7 @@ class GetUpdatesIT : ApiClientIT() {
         }
     ]
 }
-            """.trimIndent()
+            """.trimIndent(),
         )
 
         val getUpdatesResult = sut.getUpdates(
@@ -381,7 +381,7 @@ class GetUpdatesIT : ApiClientIT() {
                     query = "hi",
                     offset = "",
                 ),
-            )
+            ),
         )
         assertEquals(expectedGetUpdatesResult, getUpdatesResult.getOrNull())
     }
@@ -403,7 +403,7 @@ class GetUpdatesIT : ApiClientIT() {
         mockWebServer.enqueue(
             MockResponse()
                 .setResponseCode(200)
-                .setBody(responseBody)
+                .setBody(responseBody),
         )
     }
 

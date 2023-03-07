@@ -31,7 +31,7 @@ internal class InlineQueryResultAdapter : JsonSerializer<InlineQueryResult> {
     override fun serialize(
         src: InlineQueryResult,
         typeOfSrc: Type,
-        context: JsonSerializationContext
+        context: JsonSerializationContext,
     ): JsonElement = when (src) {
         is Article -> context.serialize(src, Article::class.java)
         is Photo -> context.serialize(src, Photo::class.java)

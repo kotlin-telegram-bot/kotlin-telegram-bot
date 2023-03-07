@@ -33,7 +33,7 @@ class SendVoiceIT : ApiClientIT() {
             disableNotification = false,
             replyToMessageId = REPLY_TO_MESSAGE_ID,
             allowSendingWithoutReply = null,
-            replyMarkup = REPLY_MARKUP
+            replyMarkup = REPLY_MARKUP,
         )
         sendVoice.execute()
 
@@ -64,7 +64,7 @@ class SendVoiceIT : ApiClientIT() {
             disableNotification = false,
             replyToMessageId = REPLY_TO_MESSAGE_ID,
             allowSendingWithoutReply = null,
-            replyMarkup = REPLY_MARKUP
+            replyMarkup = REPLY_MARKUP,
         )
         sendVoice.execute()
 
@@ -75,7 +75,7 @@ class SendVoiceIT : ApiClientIT() {
             getFileAsStringFromResources<SendVoiceIT>("sendVoiceBody.txt"),
             multipartBoundary,
             String(getFileFromResources<SendVoiceIT>(VOICE_FILENAME).readBytes()),
-            VOICE_FILENAME
+            VOICE_FILENAME,
         )
         assertEquals(expectedRequestBody.normalizeLineEndings(), requestBody.normalizeLineEndings())
     }
@@ -94,7 +94,7 @@ class SendVoiceIT : ApiClientIT() {
             disableNotification = false,
             replyToMessageId = REPLY_TO_MESSAGE_ID,
             allowSendingWithoutReply = null,
-            replyMarkup = REPLY_MARKUP
+            replyMarkup = REPLY_MARKUP,
         )
         sendVoice.execute()
 
@@ -105,7 +105,7 @@ class SendVoiceIT : ApiClientIT() {
             getFileAsStringFromResources<SendVoiceIT>("sendVoiceBody.txt"),
             multipartBoundary,
             String(getFileFromResources<SendVoiceIT>("short.ogg").readBytes()),
-            "voice"
+            "voice",
         )
         assertEquals(expectedRequestBody.normalizeLineEndings(), requestBody.normalizeLineEndings())
     }
@@ -150,7 +150,7 @@ class SendVoiceIT : ApiClientIT() {
                         ]
                       }
                     }
-                """.trimIndent()
+                """.trimIndent(),
             )
         mockWebServer.enqueue(mockedResponse)
     }
@@ -168,9 +168,9 @@ class SendVoiceIT : ApiClientIT() {
             listOf(
                 InlineKeyboardButton.CallbackData(
                     text = "Show alert",
-                    callbackData = "showAlert"
-                )
-            )
+                    callbackData = "showAlert",
+                ),
+            ),
         )
         const val VOICE_FILENAME = "short.ogg"
     }

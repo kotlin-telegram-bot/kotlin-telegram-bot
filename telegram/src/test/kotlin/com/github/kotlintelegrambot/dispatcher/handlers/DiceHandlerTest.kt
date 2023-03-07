@@ -57,7 +57,7 @@ class DiceHandlerTest {
             botMock,
             anyUpdateWithDice,
             anyMessageWithDice,
-            anyDice
+            anyDice,
         )
         coVerify { handleDiceMock.invoke(expectedDiceHandlerEnv) }
     }

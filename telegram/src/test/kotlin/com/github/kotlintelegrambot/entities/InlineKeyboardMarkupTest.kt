@@ -12,7 +12,7 @@ class InlineKeyboardMarkupTest {
         assertThrows<IllegalArgumentException> {
             InlineKeyboardMarkup.create(
                 listOf(anyInlineKeyboardButtonPay()),
-                listOf(anyInlineKeyboardButtonPay())
+                listOf(anyInlineKeyboardButtonPay()),
             )
         }
     }
@@ -22,7 +22,7 @@ class InlineKeyboardMarkupTest {
         assertThrows<IllegalArgumentException> {
             InlineKeyboardMarkup.createSingleRowKeyboard(
                 anyInlineKeyboardButtonUrl(),
-                anyInlineKeyboardButtonPay()
+                anyInlineKeyboardButtonPay(),
             )
         }
     }
@@ -32,7 +32,7 @@ class InlineKeyboardMarkupTest {
         assertThrows<IllegalArgumentException> {
             InlineKeyboardMarkup.create(
                 listOf(anyInlineKeyboardButtonCallbackGameButtonType()),
-                listOf(anyInlineKeyboardButtonCallbackGameButtonType())
+                listOf(anyInlineKeyboardButtonCallbackGameButtonType()),
             )
         }
     }
@@ -42,7 +42,7 @@ class InlineKeyboardMarkupTest {
         assertThrows<IllegalArgumentException> {
             InlineKeyboardMarkup.createSingleRowKeyboard(
                 anyInlineKeyboardButtonUrl(),
-                anyInlineKeyboardButtonCallbackGameButtonType()
+                anyInlineKeyboardButtonCallbackGameButtonType(),
             )
         }
     }

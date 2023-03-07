@@ -6,11 +6,11 @@ import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.stickers.Sticker
 
 class StickerHandler(
-    handleSticker: HandleSticker
+    handleSticker: HandleSticker,
 ) : MediaHandler<Sticker>(
     handleSticker,
     StickerHandlerFunctions::mapMessageToSticker,
-    StickerHandlerFunctions::isUpdateSticker
+    StickerHandlerFunctions::isUpdateSticker,
 )
 
 private object StickerHandlerFunctions {

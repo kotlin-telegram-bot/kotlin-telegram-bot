@@ -8,11 +8,11 @@ data class ChannelHandlerEnvironment(
     val bot: Bot,
     val update: Update,
     val channelPost: Message,
-    val isEdition: Boolean
+    val isEdition: Boolean,
 )
 
 class ChannelHandler(
-    private val handleChannelPost: HandleChannelPost
+    private val handleChannelPost: HandleChannelPost,
 ) : Handler {
 
     override fun checkUpdate(update: Update): Boolean {
@@ -25,13 +25,13 @@ class ChannelHandler(
                 bot,
                 update,
                 update.channelPost,
-                isEdition = false
+                isEdition = false,
             )
             update.editedChannelPost != null -> ChannelHandlerEnvironment(
                 bot,
                 update,
                 update.editedChannelPost,
-                isEdition = true
+                isEdition = true,
             )
             else -> error("This method must only be invoked when there is any type of channel post.")
         }

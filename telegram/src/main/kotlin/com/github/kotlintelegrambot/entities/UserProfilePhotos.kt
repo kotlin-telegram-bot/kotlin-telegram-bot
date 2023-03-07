@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName as Name
 
 data class UserProfilePhotos(
     @Name("total_count") val totalCount: Int,
-    val photos: List<List<PhotoSize>>
+    val photos: List<List<PhotoSize>>,
 )

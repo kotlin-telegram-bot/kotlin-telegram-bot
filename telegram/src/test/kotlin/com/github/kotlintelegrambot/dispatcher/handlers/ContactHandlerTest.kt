@@ -48,7 +48,7 @@ class ContactHandlerTest {
             botMock,
             anyUpdateWithContact,
             anyMessageWithContact,
-            anyContact
+            anyContact,
         )
         coVerify { handleContactMock.invoke(expectedCommandHandlerEnv) }
     }

@@ -49,7 +49,7 @@ class AudioHandlerTest {
             botMock,
             anyUpdateWithAudio,
             anyMessageWithAudio,
-            anyAudio
+            anyAudio,
         )
         coVerify { handleAudioMock.invoke(expectedAudioHandlerEnv) }
     }

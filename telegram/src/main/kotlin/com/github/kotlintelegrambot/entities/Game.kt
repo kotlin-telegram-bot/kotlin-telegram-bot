@@ -10,5 +10,5 @@ data class Game(
     val photo: List<PhotoSize>,
     val text: String? = null,
     @Name("text_entities") val textEntities: List<MessageEntity>? = null,
-    val animation: Animation? = null
+    val animation: Animation? = null,
 )

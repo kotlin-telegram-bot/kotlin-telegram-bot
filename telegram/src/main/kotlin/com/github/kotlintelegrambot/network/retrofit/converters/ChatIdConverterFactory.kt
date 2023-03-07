@@ -21,7 +21,7 @@ internal class ChatIdConverterFactory : Converter.Factory() {
         type: Type,
         parameterAnnotations: Array<out Annotation>,
         methodAnnotations: Array<out Annotation>,
-        retrofit: Retrofit
+        retrofit: Retrofit,
     ): Converter<ChatId, RequestBody>? {
         if (type !== ChatId::class.java) {
             return null

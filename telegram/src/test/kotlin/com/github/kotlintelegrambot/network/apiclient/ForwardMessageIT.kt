@@ -68,7 +68,7 @@ class ForwardMessageIT : ApiClientIT() {
                 id = FROM_CHAT_ID,
                 title = "[Channel] Test Telegram Bot API",
                 username = "testtelegrambotapi",
-                type = "channel"
+                type = "channel",
             ),
             date = 1604158404,
             text = "I'm part of a test :)",

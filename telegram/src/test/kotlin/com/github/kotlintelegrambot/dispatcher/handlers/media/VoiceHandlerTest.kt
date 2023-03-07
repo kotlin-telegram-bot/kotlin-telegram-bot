@@ -49,7 +49,7 @@ class VoiceHandlerTest {
             botMock,
             anyUpdateWithVoice,
             anyMessageWithVoice,
-            anyVoice
+            anyVoice,
         )
         coVerify { handleVoiceMock.invoke(expectedVoiceHandlerEnv) }
     }

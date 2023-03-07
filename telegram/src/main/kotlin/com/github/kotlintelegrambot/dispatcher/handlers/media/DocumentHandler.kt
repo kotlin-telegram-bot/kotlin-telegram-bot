@@ -6,11 +6,11 @@ import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.files.Document
 
 class DocumentHandler(
-    handleDocument: HandleDocument
+    handleDocument: HandleDocument,
 ) : MediaHandler<Document>(
     handleDocument,
     DocumentHandlerFunctions::mapMessageToDocument,
-    DocumentHandlerFunctions::isUpdateDocument
+    DocumentHandlerFunctions::isUpdateDocument,
 )
 
 private object DocumentHandlerFunctions {

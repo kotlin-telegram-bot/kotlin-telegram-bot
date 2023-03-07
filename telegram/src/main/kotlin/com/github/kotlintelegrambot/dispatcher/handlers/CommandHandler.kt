@@ -8,12 +8,12 @@ data class CommandHandlerEnvironment internal constructor(
     val bot: Bot,
     val update: Update,
     val message: Message,
-    val args: List<String>
+    val args: List<String>,
 )
 
 class CommandHandler(
     private val command: String,
-    private val handleCommand: suspend CommandHandlerEnvironment.() -> Unit
+    private val handleCommand: suspend CommandHandlerEnvironment.() -> Unit,
 ) : Handler {
 
     override fun checkUpdate(update: Update): Boolean {

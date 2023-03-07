@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName
  * @see <https://core.telegram.org/bots/api#inlinekeyboardmarkup>
  */
 data class InlineKeyboardMarkup internal constructor(
-    @SerializedName("inline_keyboard") val inlineKeyboard: List<List<InlineKeyboardButton>>
+    @SerializedName("inline_keyboard") val inlineKeyboard: List<List<InlineKeyboardButton>>,
 ) : ReplyMarkup {
 
     init {

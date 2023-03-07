@@ -9,11 +9,11 @@ data class NewChatMembersHandlerEnvironment(
     val bot: Bot,
     val update: Update,
     val message: Message,
-    val newChatMembers: List<User>
+    val newChatMembers: List<User>,
 )
 
 class NewChatMembersHandler(
-    private val handleNewChatMembers: HandleNewChatMembers
+    private val handleNewChatMembers: HandleNewChatMembers,
 ) : Handler {
 
     override fun checkUpdate(update: Update): Boolean {
@@ -30,7 +30,7 @@ class NewChatMembersHandler(
             bot,
             update,
             message,
-            newChatMembers
+            newChatMembers,
         )
         handleNewChatMembers.invoke(newChatMembersHandlerEnv)
     }

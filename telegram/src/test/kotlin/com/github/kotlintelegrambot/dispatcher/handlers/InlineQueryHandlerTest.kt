@@ -45,7 +45,7 @@ class InlineQueryHandlerTest {
         val expectedInlineQueryHandlerEnv = InlineQueryHandlerEnvironment(
             botMock,
             anyUpdateWithInlineQuery,
-            anyInlineQuery
+            anyInlineQuery,
         )
         coVerify { handleInlineQueryMock.invoke(expectedInlineQueryHandlerEnv) }
     }

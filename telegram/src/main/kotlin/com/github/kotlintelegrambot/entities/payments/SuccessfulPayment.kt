@@ -9,5 +9,5 @@ data class SuccessfulPayment(
     @Name("shipping_option_id") val shippingOptionId: String? = null,
     @Name("order_info") val orderInfo: OrderInfo? = null,
     @Name("telegram_payment_charge_id") val telegramPaymentChargeId: String,
-    @Name("provider_payment_charge_id") val providerPaymentChargeId: String
+    @Name("provider_payment_charge_id") val providerPaymentChargeId: String,
 )

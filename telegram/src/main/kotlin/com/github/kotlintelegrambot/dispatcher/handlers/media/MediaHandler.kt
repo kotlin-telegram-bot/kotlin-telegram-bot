@@ -9,13 +9,13 @@ data class MediaHandlerEnvironment<Media>(
     val bot: Bot,
     val update: Update,
     val message: Message,
-    val media: Media
+    val media: Media,
 )
 
 abstract class MediaHandler<Media>(
     private val handleMediaUpdate: suspend MediaHandlerEnvironment<Media>.() -> Unit,
     private val toMedia: Message.() -> Media,
-    private val isUpdateMedia: (Update) -> Boolean
+    private val isUpdateMedia: (Update) -> Boolean,
 ) : Handler {
 
     override fun checkUpdate(update: Update): Boolean = isUpdateMedia(update)

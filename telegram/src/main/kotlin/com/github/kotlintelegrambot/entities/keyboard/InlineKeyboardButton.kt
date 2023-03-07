@@ -20,7 +20,7 @@ sealed class InlineKeyboardButton {
      */
     data class Url(
         override val text: String,
-        val url: String
+        val url: String,
     ) : InlineKeyboardButton()
 
     /**
@@ -28,7 +28,7 @@ sealed class InlineKeyboardButton {
      */
     data class CallbackData(
         override val text: String,
-        @SerializedName("callback_data") val callbackData: String
+        @SerializedName("callback_data") val callbackData: String,
     ) : InlineKeyboardButton()
 
     /**
@@ -38,7 +38,7 @@ sealed class InlineKeyboardButton {
      */
     data class SwitchInlineQuery(
         override val text: String,
-        @SerializedName("switch_inline_query") val switchInlineQuery: String
+        @SerializedName("switch_inline_query") val switchInlineQuery: String,
     ) : InlineKeyboardButton()
 
     /**
@@ -48,7 +48,7 @@ sealed class InlineKeyboardButton {
      */
     data class SwitchInlineQueryCurrentChat(
         override val text: String,
-        @SerializedName("switch_inline_query_current_chat") val switchInlineQueryCurrentChat: String
+        @SerializedName("switch_inline_query_current_chat") val switchInlineQueryCurrentChat: String,
     ) : InlineKeyboardButton()
 
     /**
@@ -57,7 +57,7 @@ sealed class InlineKeyboardButton {
      */
     data class CallbackGameButtonType(
         override val text: String,
-        @SerializedName("callback_game") val callbackGame: CallbackGame?
+        @SerializedName("callback_game") val callbackGame: CallbackGame?,
     ) : InlineKeyboardButton()
 
     /**
@@ -73,6 +73,6 @@ sealed class InlineKeyboardButton {
      */
     data class WebApp(
         override val text: String,
-        @SerializedName("web_app") val webApp: WebAppInfo
+        @SerializedName("web_app") val webApp: WebAppInfo,
     ) : InlineKeyboardButton()
 }

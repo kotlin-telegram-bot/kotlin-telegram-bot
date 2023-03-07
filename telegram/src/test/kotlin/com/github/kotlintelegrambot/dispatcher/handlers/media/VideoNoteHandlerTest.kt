@@ -49,7 +49,7 @@ class VideoNoteHandlerTest {
             botMock,
             anyUpdateWithVideoNote,
             anyMessageWithVideoNote,
-            anyVideoNote
+            anyVideoNote,
         )
         coVerify { handleVideoNoteMock.invoke(expectedVideoNoteHandlerEnv) }
     }

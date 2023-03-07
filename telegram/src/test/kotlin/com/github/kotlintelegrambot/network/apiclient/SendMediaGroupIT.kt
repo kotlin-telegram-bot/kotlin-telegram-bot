@@ -26,7 +26,7 @@ class SendMediaGroupIT : ApiClientIT() {
         givenAnySendMediaGroupResponse()
         val mediaGroup = MediaGroup.from(
             anyInputMediaVideo(media = TelegramFile.ByUrl(ANY_VIDEO_URL)),
-            anyInputMediaPhoto(media = TelegramFile.ByFileId(ANY_IMAGE_FILE_ID))
+            anyInputMediaPhoto(media = TelegramFile.ByFileId(ANY_IMAGE_FILE_ID)),
         )
 
         sut.sendMediaGroup(
@@ -34,7 +34,7 @@ class SendMediaGroupIT : ApiClientIT() {
             mediaGroup,
             DISABLE_NOTIFICATION,
             REPLY_TO_MESSAGE_ID,
-            ALLOW_SENDING_WITHOUT_REPLY
+            ALLOW_SENDING_WITHOUT_REPLY,
         )
 
         val request = mockWebServer.takeRequest()
@@ -42,7 +42,7 @@ class SendMediaGroupIT : ApiClientIT() {
         val requestBody = request.body.readUtf8().trimIndent()
         val expectedRequestBody = String.format(
             getFileAsStringFromResources<SendMediaGroupIT>("sendMediaGroupRequestBody1.txt"),
-            multipartBoundary
+            multipartBoundary,
         ).trimIndent()
         assertEquals(expectedRequestBody, requestBody)
     }
@@ -52,7 +52,7 @@ class SendMediaGroupIT : ApiClientIT() {
         givenAnySendMediaGroupResponse()
         val mediaGroup = MediaGroup.from(
             anyInputMediaVideo(media = TelegramFile.ByUrl(ANY_VIDEO_URL)),
-            anyInputMediaPhoto(media = TelegramFile.ByFileId(ANY_IMAGE_FILE_ID))
+            anyInputMediaPhoto(media = TelegramFile.ByFileId(ANY_IMAGE_FILE_ID)),
         )
 
         sut.sendMediaGroup(ChatId.fromId(ANY_CHAT_ID), mediaGroup)
@@ -62,7 +62,7 @@ class SendMediaGroupIT : ApiClientIT() {
         val requestBody = request.body.readUtf8().trimIndent()
         val expectedRequestBody = String.format(
             getFileAsStringFromResources<SendMediaGroupIT>("sendMediaGroupRequestBody2.txt"),
-            multipartBoundary
+            multipartBoundary,
         ).trimIndent()
         assertEquals(expectedRequestBody, requestBody)
     }
@@ -72,7 +72,7 @@ class SendMediaGroupIT : ApiClientIT() {
         givenAnySendMediaGroupResponse()
         val mediaGroup = MediaGroup.from(
             anyInputMediaPhoto(media = TelegramFile.ByFileId(ANY_IMAGE_FILE_ID)),
-            anyInputMediaPhoto(media = TelegramFile.ByFile(getFileFromResources<SendMediaGroupIT>("image.png")))
+            anyInputMediaPhoto(media = TelegramFile.ByFile(getFileFromResources<SendMediaGroupIT>("image.png"))),
         )
 
         sut.sendMediaGroup(ChatId.fromId(ANY_CHAT_ID), mediaGroup)
@@ -82,7 +82,7 @@ class SendMediaGroupIT : ApiClientIT() {
         val requestBody = request.body.readUtf8().trimIndent()
         val expectedRequestBody = String.format(
             getFileAsStringFromResources<SendMediaGroupIT>("sendMediaGroupRequestBody3.txt"),
-            multipartBoundary
+            multipartBoundary,
         ).trimIndent()
         assertEquals(expectedRequestBody, requestBody)
     }
@@ -93,9 +93,9 @@ class SendMediaGroupIT : ApiClientIT() {
         val mediaGroup = MediaGroup.from(
             anyInputMediaVideo(
                 media = TelegramFile.ByUrl(ANY_VIDEO_URL),
-                thumb = TelegramFile.ByFile(getFileFromResources<SendMediaGroupIT>("thumb.jpeg"))
+                thumb = TelegramFile.ByFile(getFileFromResources<SendMediaGroupIT>("thumb.jpeg")),
             ),
-            anyInputMediaPhoto(media = TelegramFile.ByFile(getFileFromResources<SendMediaGroupIT>("image.png")))
+            anyInputMediaPhoto(media = TelegramFile.ByFile(getFileFromResources<SendMediaGroupIT>("image.png"))),
         )
 
         sut.sendMediaGroup(ChatId.fromId(ANY_CHAT_ID), mediaGroup)
@@ -105,7 +105,7 @@ class SendMediaGroupIT : ApiClientIT() {
         val requestBody = request.body.readUtf8().trimIndent()
         val expectedRequestBody = String.format(
             getFileAsStringFromResources<SendMediaGroupIT>("sendMediaGroupRequestBody4.txt"),
-            multipartBoundary
+            multipartBoundary,
         ).trimIndent()
         assertEquals(expectedRequestBody, requestBody)
     }
@@ -125,7 +125,7 @@ class SendMediaGroupIT : ApiClientIT() {
         val requestBody = request.body.readUtf8().trimIndent()
         val expectedRequestBody = String.format(
             getFileAsStringFromResources<SendMediaGroupIT>("sendMediaGroupRequestBody5.txt"),
-            multipartBoundary
+            multipartBoundary,
         ).trimIndent()
         assertEquals(expectedRequestBody, requestBody)
     }
@@ -163,7 +163,7 @@ class SendMediaGroupIT : ApiClientIT() {
                     mimeType = "application/pdf",
                     fileUniqueId = "AgADsQIAAqDZDFE",
                     fileSize = 88226,
-                )
+                ),
             ),
             Message(
                 messageId = 368,
@@ -187,7 +187,7 @@ class SendMediaGroupIT : ApiClientIT() {
                     mimeType = "application/pdf",
                     fileUniqueId = "AgADsQIAAqDZDFE",
                     fileSize = 88226,
-                )
+                ),
             ),
         )
         assertEquals(expectedSendMediaGroupResult, sendMediaGroupResult.getOrNull())
@@ -208,7 +208,7 @@ class SendMediaGroupIT : ApiClientIT() {
         val requestBody = request.body.readUtf8().trimIndent()
         val expectedRequestBody = String.format(
             getFileAsStringFromResources<SendMediaGroupIT>("sendMediaGroupRequestBody6.txt"),
-            multipartBoundary
+            multipartBoundary,
         ).trimIndent()
         assertEquals(expectedRequestBody, requestBody)
     }
@@ -228,7 +228,7 @@ class SendMediaGroupIT : ApiClientIT() {
         val requestBody = request.body.readUtf8().trimIndent()
         val expectedRequestBody = String.format(
             getFileAsStringFromResources<SendMediaGroupIT>("sendMediaGroupRequestBody7.txt"),
-            multipartBoundary
+            multipartBoundary,
         ).trimIndent()
         assertEquals(expectedRequestBody, requestBody)
     }
@@ -266,7 +266,7 @@ class SendMediaGroupIT : ApiClientIT() {
                     fileId = "BQACAgQAAx0ETLWiZQACAc9gKaNZiKV3XYG0a-D4pinoqu17SAAChqAAAjsdZAdeugzpG_zJth4E",
                     fileUniqueId = "AgADhqAAAjsdZAc",
                     fileSize = 105243,
-                )
+                ),
             ),
             Message(
                 messageId = 464,
@@ -290,7 +290,7 @@ class SendMediaGroupIT : ApiClientIT() {
                     fileId = "BQACAgQAAx0ETLWiZQACAdBgKaNZKeVLxQqsQ7Yyideg_XiiCAAChqAAAjsdZAdeugzpG_zJth4E",
                     fileUniqueId = "AgADhqAAAjsdZAc",
                     fileSize = 105243,
-                )
+                ),
             ),
         )
         assertEquals(expectedSendMediaGroupResult, sendMediaGroupResult.getOrNull())
@@ -354,7 +354,7 @@ class SendMediaGroupIT : ApiClientIT() {
                             }
                         ]
                     }
-                """.trimIndent()
+                """.trimIndent(),
             )
         mockWebServer.enqueue(mockedResponse)
     }
@@ -417,7 +417,7 @@ class SendMediaGroupIT : ApiClientIT() {
                             }
                         ]
                     }
-                """.trimIndent()
+                """.trimIndent(),
             )
         mockWebServer.enqueue(mockedResponse)
     }
@@ -480,7 +480,7 @@ class SendMediaGroupIT : ApiClientIT() {
                         }
                     ]
                 }
-                """.trimIndent()
+                """.trimIndent(),
             )
         mockWebServer.enqueue(mockedResponse)
     }

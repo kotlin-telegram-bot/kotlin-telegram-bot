@@ -55,7 +55,7 @@ class MessageHandlerTest {
         val expectedMessageHandlerEnvironment = MessageHandlerEnvironment(
             botMock,
             anyUpdate,
-            anyMessage
+            anyMessage,
         )
         coVerify { handlerMock.invoke(expectedMessageHandlerEnvironment) }
     }

@@ -41,7 +41,7 @@ fun anyUpdate(
     preCheckoutQuery: PreCheckoutQuery? = null,
     shippingQuery: ShippingQuery? = null,
     inlineQuery: InlineQuery? = null,
-    pollAnswer: PollAnswer? = null
+    pollAnswer: PollAnswer? = null,
 ): Update = Update(
     updateId = updateId,
     message = message,
@@ -52,7 +52,7 @@ fun anyUpdate(
     preCheckoutQuery = preCheckoutQuery,
     shippingQuery = shippingQuery,
     inlineQuery = inlineQuery,
-    pollAnswer = pollAnswer
+    pollAnswer = pollAnswer,
 )
 
 private const val ANY_MESSAGE_ID = 32142353L
@@ -97,7 +97,7 @@ fun anyMessage(
     successfulPayment: SuccessfulPayment? = null,
     dice: Dice? = null,
     animation: Animation? = null,
-    replyMarkup: InlineKeyboardMarkup? = null
+    replyMarkup: InlineKeyboardMarkup? = null,
 ): Message = Message(
     messageId = messageId,
     from = from,
@@ -137,7 +137,7 @@ fun anyMessage(
     successfulPayment = successfulPayment,
     dice = dice,
     animation = animation,
-    replyMarkup = replyMarkup
+    replyMarkup = replyMarkup,
 )
 
 private const val ANY_CHAT_ID = 243423535L
@@ -155,7 +155,7 @@ fun anyChat(
     inviteLink: String? = null,
     pinnedMessage: String? = null,
     stickerSetName: String? = null,
-    canSetStickerSet: Boolean? = null
+    canSetStickerSet: Boolean? = null,
 ): Chat = Chat(
     id = id,
     type = type,
@@ -168,7 +168,7 @@ fun anyChat(
     inviteLink = inviteLink,
     pinnedMessage = pinnedMessage,
     stickerSetName = stickerSetName,
-    canSetStickerSet = canSetStickerSet
+    canSetStickerSet = canSetStickerSet,
 )
 
 private const val ANY_FILE_ID = "fileId:353432q213412sd"
@@ -183,7 +183,7 @@ fun anyAudio(
     title: String? = null,
     mimeType: String? = null,
     fileSize: Int? = null,
-    fileName: String? = null
+    fileName: String? = null,
 ): Audio = Audio(
     fileId = fileId,
     fileUniqueId = fileUniqueId,
@@ -192,7 +192,7 @@ fun anyAudio(
     title = title,
     mimeType = mimeType,
     fileSize = fileSize,
-    fileName = fileName
+    fileName = fileName,
 )
 
 private const val ANY_WIDTH = 23452345
@@ -203,13 +203,13 @@ fun anyPhotoSize(
     fileUniqueId: String = ANY_FILE_UNIQUE_ID,
     width: Int = ANY_WIDTH,
     height: Int = ANY_HEIGHT,
-    fileSize: Int? = null
+    fileSize: Int? = null,
 ): PhotoSize = PhotoSize(
     fileId = fileId,
     fileUniqueId = fileUniqueId,
     width = width,
     height = height,
-    fileSize = fileSize
+    fileSize = fileSize,
 )
 
 fun anySticker(
@@ -220,7 +220,7 @@ fun anySticker(
     isAnimated: Boolean = false,
     thumb: PhotoSize? = null,
     emoji: String? = null,
-    fileSize: Int? = null
+    fileSize: Int? = null,
 ): Sticker = Sticker(
     fileId = fileId,
     fileUniqueId = fileUniqueId,
@@ -229,7 +229,7 @@ fun anySticker(
     isAnimated = isAnimated,
     thumb = thumb,
     emoji = emoji,
-    fileSize = fileSize
+    fileSize = fileSize,
 )
 
 fun anyVideo(
@@ -241,7 +241,7 @@ fun anyVideo(
     mimeType: String? = null,
     fileSize: Int? = null,
     duration: Int = ANY_DURATION,
-    fileName: String? = null
+    fileName: String? = null,
 ): Video = Video(
     fileId = fileId,
     fileUniqueId = fileUniqueId,
@@ -251,7 +251,7 @@ fun anyVideo(
     mimeType = mimeType,
     fileSize = fileSize,
     duration = duration,
-    fileName = fileName
+    fileName = fileName,
 )
 
 private const val ANY_LENGTH = 234234
@@ -262,14 +262,14 @@ fun anyVideoNote(
     thumb: PhotoSize? = null,
     fileSize: Int? = null,
     duration: Int = ANY_DURATION,
-    length: Int = ANY_LENGTH
+    length: Int = ANY_LENGTH,
 ): VideoNote = VideoNote(
     fileId = fileId,
     fileUniqueId = fileUniqueId,
     thumb = thumb,
     fileSize = fileSize,
     duration = duration,
-    length = length
+    length = length,
 )
 
 private const val ANY_LONGITUDE = 3.2235423F
@@ -283,7 +283,7 @@ fun anyLocation(
 ): Location = Location(
     longitude = longitude,
     latitude = latitude,
-    livePeriod = livePeriod
+    livePeriod = livePeriod,
 )
 
 private const val ANY_PHONE_NUMBER = "+346878344312"
@@ -293,12 +293,12 @@ fun anyContact(
     phoneNumber: String = ANY_PHONE_NUMBER,
     firstName: String = ANY_FIRST_NAME,
     lastName: String? = null,
-    userId: Long? = null
+    userId: Long? = null,
 ): Contact = Contact(
     phoneNumber = phoneNumber,
     firstName = firstName,
     lastName = lastName,
-    userId = userId
+    userId = userId,
 )
 
 private const val ANY_TITLE = "invoiceando"
@@ -312,13 +312,13 @@ fun anyInvoice(
     description: String = ANY_DESCRIPTION,
     startParameter: String = ANY_START_PARAMETER,
     currency: String = ANY_CURRENCY,
-    totalAmount: Int = ANY_TOTAL_AMOUNT
+    totalAmount: Int = ANY_TOTAL_AMOUNT,
 ): Invoice = Invoice(
     title = title,
     description = description,
     startParameter = startParameter,
     currency = currency,
-    totalAmount = totalAmount
+    totalAmount = totalAmount,
 )
 
 private const val ANY_USER_ID = 325235L
@@ -330,14 +330,14 @@ fun anyUser(
     firstName: String = ANY_FIRST_NAME,
     lastName: String? = null,
     username: String? = null,
-    languageCode: String? = null
+    languageCode: String? = null,
 ): User = User(
     id = userId,
     isBot = isBot,
     firstName = firstName,
     lastName = lastName,
     username = username,
-    languageCode = languageCode
+    languageCode = languageCode,
 )
 
 fun anyCallbackQuery(
@@ -346,14 +346,14 @@ fun anyCallbackQuery(
     message: Message? = null,
     inlineMessageId: String? = null,
     data: String = "anyData",
-    chatInstance: String = "1"
+    chatInstance: String = "1",
 ): CallbackQuery = CallbackQuery(
     id = id,
     from = from,
     message = message,
     inlineMessageId = inlineMessageId,
     data = data,
-    chatInstance = chatInstance
+    chatInstance = chatInstance,
 )
 
 fun anyInlineQuery(
@@ -361,31 +361,31 @@ fun anyInlineQuery(
     from: User = anyUser(),
     location: Location? = null,
     query: String = "anyQuery",
-    offset: String = "anyOffset"
+    offset: String = "anyOffset",
 ): InlineQuery = InlineQuery(
     id = id,
     from = from,
     location = location,
     query = query,
-    offset = offset
+    offset = offset,
 )
 
 fun anyPollAnswer(
     pollId: String = "anyPollId",
     user: User = anyUser(),
-    optionIds: List<Int> = emptyList()
+    optionIds: List<Int> = emptyList(),
 ): PollAnswer = PollAnswer(
     pollId = pollId,
     user = user,
-    optionIds = optionIds
+    optionIds = optionIds,
 )
 
 fun anyDice(
     diceEmoji: DiceEmoji = DiceEmoji.Dartboard,
-    value: Int = 5
+    value: Int = 5,
 ): Dice = Dice(
     emoji = diceEmoji,
-    value = value
+    value = value,
 )
 
 fun anyAnimation(
@@ -397,7 +397,7 @@ fun anyAnimation(
     thumb: PhotoSize? = null,
     fileName: String? = null,
     mimeType: String? = null,
-    fileSize: Long? = null
+    fileSize: Long? = null,
 ): Animation = Animation(
     fileId = fileId,
     fileUniqueId = fileUniqueId,
@@ -407,7 +407,7 @@ fun anyAnimation(
     thumb = thumb,
     fileName = fileName,
     mimeType = mimeType,
-    fileSize = fileSize
+    fileSize = fileSize,
 )
 
 fun anyDocument(
@@ -416,14 +416,14 @@ fun anyDocument(
     thumb: PhotoSize? = null,
     fileName: String? = null,
     mimeType: String? = null,
-    fileSize: Int? = null
+    fileSize: Int? = null,
 ): Document = Document(
     fileId = fileId,
     fileUniqueId = fileUniqueId,
     thumb = thumb,
     fileName = fileName,
     mimeType = mimeType,
-    fileSize = fileSize
+    fileSize = fileSize,
 )
 
 fun anyGame(
@@ -432,14 +432,14 @@ fun anyGame(
     photos: List<PhotoSize> = emptyList(),
     text: String? = null,
     textEntities: List<MessageEntity>? = null,
-    animation: Animation? = null
+    animation: Animation? = null,
 ): Game = Game(
     title = title,
     description = description,
     photo = photos,
     text = text,
     textEntities = textEntities,
-    animation = animation
+    animation = animation,
 )
 
 fun anyVoice(
@@ -447,13 +447,13 @@ fun anyVoice(
     fileUniqueId: String = "anyUniqueFileId",
     duration: Int = 14124,
     mimeType: String? = null,
-    fileSize: Int? = null
+    fileSize: Int? = null,
 ): Voice = Voice(
     fileId = fileId,
     fileUniqueId = fileUniqueId,
     duration = duration,
     mimeType = mimeType,
-    fileSize = fileSize
+    fileSize = fileSize,
 )
 
 fun anyPreCheckoutQuery(
@@ -463,7 +463,7 @@ fun anyPreCheckoutQuery(
     totalAmount: BigInteger = BigInteger.ONE,
     invoicePayload: String = "anyInvoicePayload",
     shippingOptionId: String? = null,
-    orderInfo: OrderInfo? = null
+    orderInfo: OrderInfo? = null,
 ): PreCheckoutQuery = PreCheckoutQuery(
     id = id,
     from = from,
@@ -471,5 +471,5 @@ fun anyPreCheckoutQuery(
     totalAmount = totalAmount,
     invoicePayload = invoicePayload,
     shippingOptionId = shippingOptionId,
-    orderInfo = orderInfo
+    orderInfo = orderInfo,
 )

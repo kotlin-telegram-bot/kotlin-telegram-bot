@@ -66,7 +66,7 @@ class NewChatMembersHandlerTest {
             botMock,
             anyUpdateWithNewChatMembers,
             anyMessageWithNewChatMembers,
-            anyNewChatMembers
+            anyNewChatMembers,
         )
         coVerify { handleNewChatMembersHandlerMock.invoke(expectedNewChatMembersHandlerEnv) }
     }

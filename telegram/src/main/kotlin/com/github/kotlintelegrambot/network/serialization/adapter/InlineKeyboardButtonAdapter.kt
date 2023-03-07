@@ -28,13 +28,13 @@ internal class InlineKeyboardButtonAdapter : JsonSerializer<InlineKeyboardButton
         @SerializedName("switch_inline_query") val switchInlineQuery: String? = null,
         @SerializedName("switch_inline_query_current_chat") val switchInlineQueryCurrentChat: String? = null,
         val pay: Boolean? = null,
-        @SerializedName("web_app") val webApp: WebAppInfo? = null
+        @SerializedName("web_app") val webApp: WebAppInfo? = null,
     )
 
     override fun serialize(
         src: InlineKeyboardButton,
         typeOfSrc: Type,
-        context: JsonSerializationContext
+        context: JsonSerializationContext,
     ): JsonElement = when (src) {
         is Url -> context.serialize(src, Url::class.java)
         is CallbackData -> context.serialize(src, CallbackData::class.java)
@@ -48,11 +48,11 @@ internal class InlineKeyboardButtonAdapter : JsonSerializer<InlineKeyboardButton
     override fun deserialize(
         json: JsonElement,
         typeOfT: Type,
-        context: JsonDeserializationContext
+        context: JsonDeserializationContext,
     ): InlineKeyboardButton {
         val inlineKeyboardButtonDto = context.deserialize<InlineKeyboardButtonDto>(
             json,
-            InlineKeyboardButtonDto::class.java
+            InlineKeyboardButtonDto::class.java,
         )
 
         return with(inlineKeyboardButtonDto) {
@@ -62,7 +62,7 @@ internal class InlineKeyboardButtonAdapter : JsonSerializer<InlineKeyboardButton
                 switchInlineQuery != null -> SwitchInlineQuery(text, switchInlineQuery)
                 switchInlineQueryCurrentChat != null -> SwitchInlineQueryCurrentChat(
                     text,
-                    switchInlineQueryCurrentChat
+                    switchInlineQueryCurrentChat,
                 )
                 callbackGame != null -> CallbackGameButtonType(text, callbackGame)
                 pay != null -> Pay(text)

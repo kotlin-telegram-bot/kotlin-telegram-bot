@@ -14,7 +14,7 @@ data class KeyboardButton(
     @SerializedName(KeyboardFields.REQUEST_CONTACT) val requestContact: Boolean? = null,
     @SerializedName(KeyboardFields.REQUEST_LOCATION) val requestLocation: Boolean? = null,
     @SerializedName(KeyboardFields.REQUEST_POLL) val requestPoll: KeyboardButtonPollType? = null,
-    @SerializedName(KeyboardFields.WEB_APP) val webApp: WebAppInfo? = null
+    @SerializedName(KeyboardFields.WEB_APP) val webApp: WebAppInfo? = null,
 )
 
 /**
@@ -22,5 +22,5 @@ data class KeyboardButton(
  * https://core.telegram.org/bots/api#keyboardbuttonpolltype
  */
 data class KeyboardButtonPollType(
-    @SerializedName(KeyboardFields.TYPE) val type: PollType? = null
+    @SerializedName(KeyboardFields.TYPE) val type: PollType? = null,
 )

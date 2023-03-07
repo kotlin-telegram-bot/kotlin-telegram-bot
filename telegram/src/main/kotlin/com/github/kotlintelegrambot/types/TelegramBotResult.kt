@@ -57,7 +57,7 @@ sealed class TelegramBotResult<T> {
         data class InvalidResponse<T>(
             val httpCode: Int,
             val httpStatusMessage: String?,
-            val body: Response<T>?
+            val body: Response<T>?,
         ) : Error<T>()
 
         /**
