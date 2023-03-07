@@ -9,7 +9,6 @@ import com.github.kotlintelegrambot.logging.LogLevel
 import com.github.kotlintelegrambot.types.DispatchableObject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.yield
@@ -18,7 +17,7 @@ import java.util.concurrent.BlockingQueue
 class Dispatcher internal constructor(
     private val updatesQueue: BlockingQueue<DispatchableObject>,
     private val logLevel: LogLevel,
-    ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    coroutineDispatcher: CoroutineDispatcher,
 ) {
 
     internal lateinit var bot: Bot
@@ -26,7 +25,7 @@ class Dispatcher internal constructor(
     private val commandHandlers = linkedSetOf<Handler>()
     private val errorHandlers = arrayListOf<ErrorHandler>()
 
-    private val scope: CoroutineScope = CoroutineScope(ioDispatcher)
+    private val scope: CoroutineScope = CoroutineScope(coroutineDispatcher)
     @Volatile private var job: Job? = null
 
     internal fun startCheckingUpdates() {

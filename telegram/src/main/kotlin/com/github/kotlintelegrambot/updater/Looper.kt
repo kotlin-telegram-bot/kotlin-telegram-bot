@@ -16,9 +16,9 @@ internal interface Looper {
  * intended to run the loop in a different coroutine). The loop will stop if the coroutine running the
  * loop is interrupted or in the next iteration after the [quit] method is called.
  */
-internal class CoroutineLooper(ioDispatcher: CoroutineDispatcher) : Looper {
+internal class CoroutineLooper(coroutineDispatcher: CoroutineDispatcher) : Looper {
 
-    private val scope: CoroutineScope = CoroutineScope(ioDispatcher)
+    private val scope: CoroutineScope = CoroutineScope(coroutineDispatcher)
     @Volatile private var job: Job? = null
 
     override fun loop(loopBody: suspend () -> Unit) {

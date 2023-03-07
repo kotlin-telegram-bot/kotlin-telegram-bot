@@ -36,8 +36,10 @@ import com.github.kotlintelegrambot.updater.Updater
 import com.github.kotlintelegrambot.webhook.WebhookConfig
 import com.github.kotlintelegrambot.webhook.WebhookConfigBuilder
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.asCoroutineDispatcher
 import java.net.Proxy
 import java.util.concurrent.BlockingQueue
+import java.util.concurrent.Executors
 import java.util.concurrent.LinkedBlockingQueue
 import java.io.File as SystemFile
 
@@ -87,7 +89,7 @@ class Bot private constructor(
             val dispatcher = Dispatcher(
                 updatesQueue = updatesQueue,
                 logLevel = logLevel,
-                ioDispatcher = Dispatchers.IO,
+                coroutineDispatcher = Executors.newSingleThreadExecutor().asCoroutineDispatcher(),
             ).apply(dispatcherConfiguration)
 
             return Bot(
