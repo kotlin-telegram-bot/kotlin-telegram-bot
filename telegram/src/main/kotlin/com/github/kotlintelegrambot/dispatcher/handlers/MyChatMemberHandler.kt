@@ -11,12 +11,12 @@ data class MyChatMemberHandlerEnvironment(
 )
 
 internal class MyChatMemberHandler(
-    private val newChatMemberStatus: String? = null,
+    private val chatType: String? = null,
     private val handleMyChatMember: HandleMyChatMember,
 ) : Handler {
 
     override fun checkUpdate(update: Update): Boolean {
-        return update.myChatMember != null && (newChatMemberStatus == null || update.myChatMember.newChatMember.status == newChatMemberStatus)
+        return update.myChatMember != null && (chatType == null || update.myChatMember.chat.type == chatType)
     }
 
     override suspend fun handleUpdate(bot: Bot, update: Update) {

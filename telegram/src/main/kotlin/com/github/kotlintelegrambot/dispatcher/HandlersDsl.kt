@@ -161,10 +161,6 @@ fun Dispatcher.dice(body: HandleDice) {
     addHandler(DiceHandler(body))
 }
 
-fun Dispatcher.myChatMember(handleMyChatMember: HandleMyChatMember) {
-    addHandler(MyChatMemberHandler(handleMyChatMember = handleMyChatMember))
-}
-
-fun Dispatcher.myChatMember(newChatMemberStatus: String, handleMyChatMember: HandleMyChatMember) {
-    addHandler(MyChatMemberHandler(newChatMemberStatus = newChatMemberStatus, handleMyChatMember = handleMyChatMember))
+fun Dispatcher.myChatMember(chatType: String? = null, handleMyChatMember: HandleMyChatMember) {
+    addHandler(MyChatMemberHandler(chatType = chatType, handleMyChatMember = handleMyChatMember))
 }

@@ -18,7 +18,6 @@ import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton
 import com.github.kotlintelegrambot.entities.keyboard.KeyboardButton
 import com.github.kotlintelegrambot.extensions.filters.Filter
 import com.github.kotlintelegrambot.logging.LogLevel
-import com.github.kotlintelegrambot.network.fold
 
 fun main() {
 
@@ -212,6 +211,14 @@ fun main() {
 
             telegramError {
                 println(error.getErrorMessage())
+            }
+
+            myChatMember(chatType = "private") {
+                if (chatMemberUpdated.newChatMember.status == "kicked") {
+                    println("You bot has been blocked")
+                } else if (chatMemberUpdated.newChatMember.status == "member") {
+                    println("You bot has been restarted")
+                }
             }
         }
     }

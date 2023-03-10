@@ -1,6 +1,6 @@
 package com.github.kotlintelegrambot.dispatcher.handlers
 
-import anyChatMember
+import anyChat
 import anyMyChatMember
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
@@ -8,11 +8,25 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class MyChatMemberHandlerTest {
 
     private val handleMyChatMemberMock = mockk<HandleMyChatMember>(relaxed = true)
+
+    private lateinit var chatType: String
+    private lateinit var otherChatType: String
+
+    private companion object {
+        private val possibleChatTypes = listOf("private", "group", "supergroup", "channel")
+    }
+
+    @BeforeEach
+    fun regenerateValues() {
+        chatType = possibleChatTypes.random()
+        otherChatType = possibleChatTypes.filterNot { it == chatType }.random()
+    }
 
     @Test
     fun `checkUpdate returns false when there is no my chat member`() {
@@ -27,7 +41,7 @@ class MyChatMemberHandlerTest {
     @Test
     fun `checkUpdate returns true when there is my chat member and no chat status to match`() {
         val anyUpdateWithMyChatMember = anyUpdate(myChatMember = anyMyChatMember())
-        val sut = MyChatMemberHandler(newChatMemberStatus = null, handleMyChatMember = handleMyChatMemberMock)
+        val sut = MyChatMemberHandler(chatType = null, handleMyChatMember = handleMyChatMemberMock)
 
         val checkUpdateResult = sut.checkUpdate(anyUpdateWithMyChatMember)
 
@@ -37,11 +51,11 @@ class MyChatMemberHandlerTest {
     @Test
     fun `checkUpdate returns false when there is my chat member and its status doesn't match the status to match`() {
         val anyUpdateWithMyChatMember = anyUpdate(
-            myChatMember = anyMyChatMember(newChatMember = anyChatMember(status = ANY_CHAT_MEMBER_STATUS))
+            myChatMember = anyMyChatMember(chat = anyChat(type = chatType))
         )
 
         val sut = MyChatMemberHandler(
-            newChatMemberStatus = ANY_OTHER_CHAT_MEMBER_STATUS,
+            chatType = otherChatType,
             handleMyChatMember = handleMyChatMemberMock
         )
 
@@ -53,11 +67,11 @@ class MyChatMemberHandlerTest {
     @Test
     fun `checkUpdate returns true when there is my chat member and its status is equal to the status to match`() {
         val anyUpdateWithMyChatMember = anyUpdate(
-            myChatMember = anyMyChatMember(newChatMember = anyChatMember(status = ANY_CHAT_MEMBER_STATUS))
+            myChatMember = anyMyChatMember(chat = anyChat(type = chatType))
         )
 
         val sut = MyChatMemberHandler(
-            newChatMemberStatus = ANY_CHAT_MEMBER_STATUS,
+            chatType = chatType,
             handleMyChatMember = handleMyChatMemberMock
         )
 
@@ -69,11 +83,11 @@ class MyChatMemberHandlerTest {
     @Test
     fun `myChatMember is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>(relaxed = true)
-        val anyMyChatMember = anyMyChatMember(newChatMember = anyChatMember(status = ANY_CHAT_MEMBER_STATUS))
+        val anyMyChatMember = anyMyChatMember(chat = anyChat(type = chatType))
         val anyUpdateWithMyChatMember = anyUpdate(myChatMember = anyMyChatMember)
 
         val sut = MyChatMemberHandler(
-            newChatMemberStatus = ANY_CHAT_MEMBER_STATUS,
+            chatType = chatType,
             handleMyChatMember = handleMyChatMemberMock
         )
 
@@ -85,11 +99,5 @@ class MyChatMemberHandlerTest {
             anyMyChatMember
         )
         coVerify { handleMyChatMemberMock.invoke(expectedMyChatMemberHandlerEnvironment) }
-    }
-
-    private companion object {
-
-        const val ANY_CHAT_MEMBER_STATUS = "member"
-        const val ANY_OTHER_CHAT_MEMBER_STATUS = "kicked"
     }
 }
