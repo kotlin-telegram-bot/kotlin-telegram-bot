@@ -506,7 +506,6 @@ class GetUpdatesIT : ApiClientIT() {
     }
 
     private companion object {
-
         const val ANY_OFFSET = 234234L
         const val ANY_TIMEOUT = 3244
         const val ANY_LIMIT = 12412
