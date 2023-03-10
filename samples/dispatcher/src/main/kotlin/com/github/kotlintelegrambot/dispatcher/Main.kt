@@ -209,16 +209,16 @@ fun main() {
                 bot.sendMessage(ChatId.fromId(message.chat.id), "A dice ${dice.emoji.emojiValue} with value ${dice.value} has been received!")
             }
 
-            telegramError {
-                println(error.getErrorMessage())
-            }
-
             myChatMember(chatType = "private") {
                 if (chatMemberUpdated.newChatMember.status == "kicked") {
-                    println("You bot has been blocked")
+                    println("Your bot has been blocked")
                 } else if (chatMemberUpdated.newChatMember.status == "member") {
-                    println("You bot has been restarted")
+                    println("Your bot has been restarted")
                 }
+            }
+
+            telegramError {
+                println(error.getErrorMessage())
             }
         }
     }
