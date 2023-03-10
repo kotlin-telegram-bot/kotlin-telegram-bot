@@ -33,3 +33,4 @@ typealias HandleSticker = suspend MediaHandlerEnvironment<Sticker>.() -> Unit
 typealias HandleVideo = suspend MediaHandlerEnvironment<Video>.() -> Unit
 typealias HandleVoice = suspend MediaHandlerEnvironment<Voice>.() -> Unit
 typealias HandleVideoNote = suspend MediaHandlerEnvironment<VideoNote>.() -> Unit
+typealias HandleMyChatMember = suspend MyChatMemberHandlerEnvironment.() -> Unit

@@ -19,6 +19,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.HandleGame
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleInlineQuery
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleLocation
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleMessage
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleMyChatMember
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleNewChatMembers
 import com.github.kotlintelegrambot.dispatcher.handlers.HandlePhotos
 import com.github.kotlintelegrambot.dispatcher.handlers.HandlePollAnswer
@@ -31,6 +32,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.HandleVoice
 import com.github.kotlintelegrambot.dispatcher.handlers.InlineQueryHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.LocationHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.MessageHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.MyChatMemberHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.NewChatMembersHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.PollAnswerHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.PreCheckoutQueryHandler
@@ -157,4 +159,12 @@ fun Dispatcher.pollAnswer(body: HandlePollAnswer) {
 
 fun Dispatcher.dice(body: HandleDice) {
     addHandler(DiceHandler(body))
+}
+
+fun Dispatcher.myChatMember(handleMyChatMember: HandleMyChatMember) {
+    addHandler(MyChatMemberHandler(handleMyChatMember = handleMyChatMember))
+}
+
+fun Dispatcher.myChatMember(newChatMemberStatus: String, handleMyChatMember: HandleMyChatMember) {
+    addHandler(MyChatMemberHandler(newChatMemberStatus = newChatMemberStatus, handleMyChatMember = handleMyChatMember))
 }
