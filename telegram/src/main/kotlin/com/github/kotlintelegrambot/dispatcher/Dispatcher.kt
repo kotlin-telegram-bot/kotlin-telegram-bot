@@ -2,6 +2,7 @@ package com.github.kotlintelegrambot.dispatcher
 
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.dispatcher.handlers.ErrorHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleThrowable
 import com.github.kotlintelegrambot.dispatcher.handlers.Handler
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.errors.TelegramError
@@ -17,7 +18,8 @@ import java.util.concurrent.BlockingQueue
 class Dispatcher internal constructor(
     private val updatesQueue: BlockingQueue<DispatchableObject>,
     private val logLevel: LogLevel,
-    coroutineDispatcher: CoroutineDispatcher,
+    private val commonThrowableHandler: HandleThrowable,
+    coroutineDispatcher: CoroutineDispatcher
 ) {
 
     internal lateinit var bot: Bot
@@ -60,9 +62,8 @@ class Dispatcher internal constructor(
         errorHandlers.remove(errorHandler)
     }
 
-    private suspend fun handleUpdate(update: Update) {
-        commandHandlers
-            .filter { it.checkUpdate(update) }
+    suspend fun handleUpdate(update: Update) {
+        commandHandlers.filter { it.checkUpdate(update) }
             .forEach {
                 if (update.consumed) {
                     return
@@ -72,6 +73,13 @@ class Dispatcher internal constructor(
                 } catch (throwable: Throwable) {
                     if (logLevel.shouldLogErrors()) {
                         throwable.printStackTrace()
+                    }
+                    try {
+                        commonThrowableHandler(throwable, update)
+                    } catch (throwable: Throwable) {
+                        if (logLevel.shouldLogErrors()) {
+                            throwable.printStackTrace()
+                        }
                     }
                 }
             }
