@@ -7,6 +7,7 @@ import com.github.kotlintelegrambot.entities.ChatAction
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ChatMember
 import com.github.kotlintelegrambot.entities.ChatPermissions
+import com.github.kotlintelegrambot.entities.ForumTopic
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.MessageEntity
@@ -245,6 +246,8 @@ class Bot private constructor(
      * @param disableNotification sends the message silently - users will receive a notification
      * with no sound.
      * @param replyToMessageId if the message is a reply, ID of the original message.
+     * @param messageThreadId to send the message to a specific topic. Works only for forum
+     * supergroups.
      * @param replyMarkup additional options - inline keyboard, custom reply keyboard,
      * instructions to remove reply keyboard or to force a reply from the user.
      *
@@ -257,6 +260,7 @@ class Bot private constructor(
         disableWebPagePreview: Boolean? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
+        messageThreadId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null
     ): TelegramBotResult<Message> = apiClient.sendMessage(
@@ -266,6 +270,7 @@ class Bot private constructor(
         disableWebPagePreview,
         disableNotification,
         replyToMessageId,
+        messageThreadId,
         allowSendingWithoutReply,
         replyMarkup
     )
@@ -1434,6 +1439,119 @@ class Bot private constructor(
     fun deleteChatStickerSet(
         chatId: ChatId
     ): TelegramBotResult<Boolean> = apiClient.deleteChatStickerSet(chatId)
+
+    /**
+     * Use this method to create a topic in a forum supergroup chat. The bot must be an
+     * administrator in the chat for this to work and must have the can_manage_topics administrator
+     * rights. Returns information about the created topic as a ForumTopic object.
+     *
+     * @param chatId Unique identifier for the target chat or username of the target supergroup (in
+     * the format @supergroupusername).
+     * @param name Topic name, 1-128 characters.
+     * @param iconColor Color of the topic icon in RGB format. Currently, must be one of 7322096
+     * (0x6FB9F0), 16766590 (0xFFD67E), 13338331 (0xCB86DB), 9367192 (0x8EEE98), 16749490
+     * (0xFF93B2), or 16478047 (0xFB6F5F).
+     * @param iconCustomEmojiId Unique identifier of the custom emoji shown as the topic icon. Use
+     * getForumTopicIconStickers to get all allowed custom emoji identifiers.
+     */
+    fun createForumTopic(
+        chatId: ChatId,
+        name: String,
+        iconColor: Int? = null,
+        iconCustomEmojiId: String? = null,
+    ): TelegramBotResult<ForumTopic> {
+        return apiClient.createForumTopic(
+            chatId,
+            name,
+            iconColor,
+            iconCustomEmojiId,
+        )
+    }
+
+    /**
+     * Use this method to edit name and icon of a topic in a forum supergroup chat. The bot must be
+     * an administrator in the chat for this to work and must have can_manage_topics administrator
+     * rights, unless it is the creator of the topic. Returns True on success.
+     *
+     * @param chatId Unique identifier for the target chat or username of the target supergroup (in
+     * the format @supergroupusername).
+     * @param messageThreadId Unique identifier for the target message thread of the forum topic.
+     * @param name New topic name, 0-128 characters. If not specified or empty, the current name of
+     * the topic will be kept.
+     * @param iconCustomEmojiId New unique identifier of the custom emoji shown as the topic icon.
+     * Use getForumTopicIconStickers to get all allowed custom emoji identifiers. Pass an empty
+     * string to remove the icon. If not specified, the current icon will be kept.
+     */
+    fun editForumTopic(
+        chatId: ChatId,
+        messageThreadId: Long,
+        name: String? = null,
+        iconCustomEmojiId: String? = null,
+    ): TelegramBotResult<Boolean> {
+        return apiClient.editForumTopic(
+            chatId,
+            messageThreadId,
+            name,
+            iconCustomEmojiId,
+        )
+    }
+
+    /**
+     * Use this method to close an open topic in a forum supergroup chat. The bot must be an
+     * administrator in the chat for this to work and must have the can_manage_topics administrator
+     * rights, unless it is the creator of the topic. Returns True on success.
+     *
+     * @param chatId Unique identifier for the target chat or username of the target supergroup (in
+     * the format @supergroupusername).
+     * @param messageThreadId Unique identifier for the target message thread of the forum topic.
+     */
+    fun closeForumTopic(
+        chatId: ChatId,
+        messageThreadId: Long,
+    ): TelegramBotResult<Boolean> {
+        return apiClient.closeForumTopic(
+            chatId,
+            messageThreadId,
+        )
+    }
+
+    /**
+     * Use this method to reopen a closed topic in a forum supergroup chat. The bot must be an
+     * administrator in the chat for this to work and must have the can_manage_topics administrator
+     * rights, unless it is the creator of the topic. Returns True on success.
+     *
+     * @param chatId Unique identifier for the target chat or username of the target supergroup (in
+     * the format @supergroupusername).
+     * @param messageThreadId Unique identifier for the target message thread of the forum topic.
+     */
+    fun reopenForumTopic(
+        chatId: ChatId,
+        messageThreadId: Long,
+    ): TelegramBotResult<Boolean> {
+        return apiClient.reopenForumTopic(
+            chatId,
+            messageThreadId,
+        )
+    }
+
+    /**
+     * Use this method to delete a forum topic along with all its messages in a forum supergroup
+     * chat. The bot must be an administrator in the chat for this to work and must have the
+     * can_delete_messages administrator rights. Returns True on success.
+     *
+     * @param chatId Unique identifier for the target chat or username of the target supergroup (in
+     * the format @supergroupusername).
+     * @param messageThreadId Unique identifier for the target message thread of the forum topic.
+     */
+    fun deleteForumTopic(
+        chatId: ChatId,
+        messageThreadId: Long,
+    ): TelegramBotResult<Boolean> {
+        return apiClient.deleteForumTopic(
+            chatId,
+            messageThreadId,
+        )
+    }
 
     /**
      * Use this method to send answers to callback queries sent from inline keyboards. The answer

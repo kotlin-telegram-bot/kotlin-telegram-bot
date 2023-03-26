@@ -5,6 +5,7 @@ import com.github.kotlintelegrambot.entities.Chat
 import com.github.kotlintelegrambot.entities.ChatAction
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ChatMember
+import com.github.kotlintelegrambot.entities.ForumTopic
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.MessageId
 import com.github.kotlintelegrambot.entities.ParseMode
@@ -115,6 +116,7 @@ internal interface ApiService {
         @Field("disable_web_page_preview") disableWebPagePreview: Boolean?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
+        @Field(ApiConstants.MESSAGE_THREAD_ID) messageThreadId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup?
     ): Call<Response<Message>>
@@ -831,6 +833,49 @@ internal interface ApiService {
         @Field("pre_checkout_query_id") preCheckoutQueryId: String,
         @Field("ok") ok: Boolean,
         @Field("error_message") errorMessage: String? = null
+    ): Call<Response<Boolean>>
+
+    /**
+     * Forum topics
+     */
+
+    @FormUrlEncoded
+    @POST("createForumTopic")
+    fun createForumTopic(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field("name") name: String,
+        @Field("icon_color") iconColor: Int?,
+        @Field("icon_custom_emoji_id") iconCustomEmojiId: String?,
+    ): Call<Response<ForumTopic>>
+
+    @FormUrlEncoded
+    @POST("editForumTopic")
+    fun editForumTopic(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field(ApiConstants.MESSAGE_THREAD_ID) messageThreadId: Long,
+        @Field("name") name: String?,
+        @Field("icon_custom_emoji_id") iconCustomEmojiId: String?,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("closeForumTopic")
+    fun closeForumTopic(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field(ApiConstants.MESSAGE_THREAD_ID) messageThreadId: Long,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("reopenForumTopic")
+    fun reopenForumTopic(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field(ApiConstants.MESSAGE_THREAD_ID) messageThreadId: Long,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("deleteForumTopic")
+    fun deleteForumTopic(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field(ApiConstants.MESSAGE_THREAD_ID) messageThreadId: Long,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded

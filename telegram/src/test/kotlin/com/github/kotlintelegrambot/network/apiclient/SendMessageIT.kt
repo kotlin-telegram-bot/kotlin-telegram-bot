@@ -24,6 +24,7 @@ class SendMessageIT : ApiClientIT() {
             parseMode = null,
             disableWebPagePreview = null,
             disableNotification = null,
+            messageThreadId = null,
             replyToMessageId = null,
             allowSendingWithoutReply = null,
             replyMarkup = null
@@ -44,6 +45,7 @@ class SendMessageIT : ApiClientIT() {
             parseMode = null,
             disableWebPagePreview = null,
             disableNotification = null,
+            messageThreadId = null,
             replyToMessageId = null,
             allowSendingWithoutReply = null,
             replyMarkup = null
@@ -64,6 +66,7 @@ class SendMessageIT : ApiClientIT() {
             parseMode = MARKDOWN,
             disableWebPagePreview = false,
             disableNotification = true,
+            messageThreadId = ANY_MESSAGE_THREAD_ID,
             replyToMessageId = ANY_MESSAGE_ID,
             allowSendingWithoutReply = null,
             replyMarkup = ForceReplyMarkup(forceReply = false)
@@ -76,6 +79,7 @@ class SendMessageIT : ApiClientIT() {
             "&disable_web_page_preview=false" +
             "&disable_notification=true" +
             "&reply_to_message_id=$ANY_MESSAGE_ID" +
+            "&message_thread_id=$ANY_MESSAGE_THREAD_ID" +
             "&reply_markup={\"force_reply\":false}"
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
@@ -90,6 +94,7 @@ class SendMessageIT : ApiClientIT() {
             parseMode = null,
             disableWebPagePreview = null,
             disableNotification = null,
+            messageThreadId = null,
             replyToMessageId = null,
             allowSendingWithoutReply = null,
             replyMarkup = InlineKeyboardMarkup.create(
@@ -127,6 +132,7 @@ class SendMessageIT : ApiClientIT() {
             parseMode = null,
             disableWebPagePreview = null,
             disableNotification = null,
+            messageThreadId = null,
             replyToMessageId = null,
             allowSendingWithoutReply = null,
             replyMarkup = null
@@ -175,6 +181,7 @@ class SendMessageIT : ApiClientIT() {
         const val ANY_CHAT_ID = 235235235L
         const val ANY_CHANNEL_USERNAME = "@testtelegrambotapi"
         const val ANY_MESSAGE_ID = 35235423L
+        const val ANY_MESSAGE_THREAD_ID = 93239843L
         const val ANY_TEXT = "Mucho texto"
         const val ANY_URL = "https://www.github.com/vjgarciag96"
     }

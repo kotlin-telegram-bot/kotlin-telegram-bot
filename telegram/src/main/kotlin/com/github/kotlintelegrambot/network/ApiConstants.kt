@@ -6,6 +6,7 @@ internal object ApiConstants {
     const val DISABLE_CONTENT_TYPE_DETECTION = "disable_content_type_detection"
     const val DISABLE_NOTIFICATION = "disable_notification"
     const val REPLY_TO_MESSAGE_ID = "reply_to_message_id"
+    const val MESSAGE_THREAD_ID = "message_thread_id"
     const val ALLOW_SENDING_WITHOUT_REPLY = "allow_sending_without_reply"
     const val REPLY_MARKUP = "reply_markup"
 
