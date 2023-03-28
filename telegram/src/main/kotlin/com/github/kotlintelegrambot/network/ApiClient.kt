@@ -6,6 +6,7 @@ import com.github.kotlintelegrambot.entities.ChatAction
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ChatMember
 import com.github.kotlintelegrambot.entities.ChatPermissions
+import com.github.kotlintelegrambot.entities.ForumTopic
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.MessageEntity
@@ -191,6 +192,7 @@ internal class ApiClient(
         disableWebPagePreview: Boolean?,
         disableNotification: Boolean?,
         replyToMessageId: Long?,
+        messageThreadId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?
     ): TelegramBotResult<Message> = service.sendMessage(
@@ -200,6 +202,7 @@ internal class ApiClient(
         disableWebPagePreview,
         disableNotification,
         replyToMessageId,
+        messageThreadId,
         allowSendingWithoutReply,
         replyMarkup
     ).runApiOperation()
@@ -1288,6 +1291,68 @@ internal class ApiClient(
         return service.deleteStickerFromSet(
             sticker
         )
+    }
+
+    /**
+     * Forum topics
+     */
+
+    fun createForumTopic(
+        chatId: ChatId,
+        name: String,
+        iconColor: Int? = null,
+        iconCustomEmojiId: String? = null,
+    ): TelegramBotResult<ForumTopic> {
+        return service.createForumTopic(
+            chatId,
+            name,
+            iconColor,
+            iconCustomEmojiId,
+        ).runApiOperation()
+    }
+
+    fun editForumTopic(
+        chatId: ChatId,
+        messageThreadId: Long,
+        name: String? = null,
+        iconCustomEmojiId: String? = null,
+    ): TelegramBotResult<Boolean> {
+        return service.editForumTopic(
+            chatId,
+            messageThreadId,
+            name,
+            iconCustomEmojiId,
+        ).runApiOperation()
+    }
+
+    fun closeForumTopic(
+        chatId: ChatId,
+        messageThreadId: Long,
+    ): TelegramBotResult<Boolean> {
+        return service.closeForumTopic(
+            chatId,
+            messageThreadId,
+        ).runApiOperation()
+    }
+
+    fun reopenForumTopic(
+        chatId: ChatId,
+        messageThreadId: Long,
+    ): TelegramBotResult<Boolean> {
+        return service.reopenForumTopic(
+            chatId,
+            messageThreadId,
+        ).runApiOperation()
+    }
+
+    fun deleteForumTopic(
+        chatId: ChatId,
+        messageThreadId: Long,
+    ): TelegramBotResult<Boolean> {
+        return service.deleteForumTopic(
+            chatId,
+            messageThreadId,
+        ).runApiOperation()
     }
 
     fun answerInlineQuery(
