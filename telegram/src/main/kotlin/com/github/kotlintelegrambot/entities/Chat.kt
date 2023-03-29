@@ -14,6 +14,7 @@ data class Chat(
     @SerializedName("username") val username: String? = null,
     @SerializedName("first_name") val firstName: String? = null,
     @SerializedName("last_name") val lastName: String? = null,
+    @SerializedName("is_forum") val isForum: Boolean? = null,
     @SerializedName("photo") val photo: ChatPhoto? = null,
     @SerializedName("bio") val bio: String? = null,
     @SerializedName("description") val description: String? = null,
