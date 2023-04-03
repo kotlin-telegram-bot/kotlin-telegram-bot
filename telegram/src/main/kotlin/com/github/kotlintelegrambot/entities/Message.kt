@@ -15,7 +15,7 @@ import com.google.gson.annotations.SerializedName as Name
 
 data class Message(
     @Name("message_id") val messageId: Long,
-    @Name("message_thread_id") val messageThreadId: Long?,
+    @Name("message_thread_id") val messageThreadId: Long? = null,
     val from: User? = null,
     @Name("sender_chat") val senderChat: Chat? = null,
     val date: Long,
