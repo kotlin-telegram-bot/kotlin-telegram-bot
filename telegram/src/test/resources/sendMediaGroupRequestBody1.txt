@@ -9,6 +9,11 @@ Content-Length: 104
 
 [{"media":"https://www.ghana.com/burying.mp4","type":"video"},{"media":"fweo32r32nruka","type":"photo"}]
 --%1$s
+Content-Disposition: form-data; name="message_thread_id"
+Content-Length: 8
+
+20398320
+--%1$s
 Content-Disposition: form-data; name="disable_notification"
 Content-Length: 4
 

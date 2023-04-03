@@ -608,6 +608,7 @@ internal class ApiClient(
     fun sendMediaGroup(
         chatId: ChatId,
         mediaGroup: MediaGroup,
+        messageThreadId: Long? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null
@@ -615,6 +616,7 @@ internal class ApiClient(
         val sendMediaGroupMultipartBody = multipartBodyFactory.createForSendMediaGroup(
             chatId,
             mediaGroup,
+            messageThreadId,
             disableNotification,
             replyToMessageId,
             allowSendingWithoutReply

@@ -967,12 +967,14 @@ class Bot private constructor(
     fun sendMediaGroup(
         chatId: ChatId,
         mediaGroup: MediaGroup,
+        messageThreadId: Long? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
     ): TelegramBotResult<List<Message>> = apiClient.sendMediaGroup(
         chatId,
         mediaGroup,
+        messageThreadId,
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply
