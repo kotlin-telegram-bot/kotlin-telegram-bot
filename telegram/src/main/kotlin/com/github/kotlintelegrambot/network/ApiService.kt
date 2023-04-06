@@ -366,6 +366,7 @@ internal interface ApiService {
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("latitude") latitude: Float,
         @Field("longitude") longitude: Float,
+        @Field(ApiConstants.MESSAGE_THREAD_ID) messageThreadId: Long?,
         @Field("live_period") livePeriod: Int?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
