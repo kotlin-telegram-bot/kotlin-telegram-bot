@@ -150,6 +150,7 @@ internal interface ApiService {
     fun sendPhoto(
         @Part(ApiConstants.CHAT_ID) chatId: ChatId,
         @Part photo: MultipartBody.Part,
+        @Part(ApiConstants.MESSAGE_THREAD_ID) messageThreadId: RequestBody?,
         @Part("caption") caption: RequestBody?,
         @Part("parse_mode") parseMode: RequestBody?,
         @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
@@ -163,6 +164,7 @@ internal interface ApiService {
     fun sendPhoto(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("photo") photo: String,
+        @Field(ApiConstants.MESSAGE_THREAD_ID) messageThreadId: Long?,
         @Field("caption") caption: String?,
         @Field("parse_mode") parseMode: ParseMode?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,

@@ -248,6 +248,7 @@ internal class ApiClient(
     fun sendPhoto(
         chatId: ChatId,
         photo: TelegramFile,
+        messageThreadId: Long?,
         caption: String?,
         parseMode: ParseMode?,
         disableNotification: Boolean?,
@@ -262,6 +263,7 @@ internal class ApiClient(
                 is ByByteArray -> photo.fileBytes.toMultipartBodyPart("photo", photo.filename)
                 else -> throw NotImplementedError() // KT-31622
             },
+            if (messageThreadId != null) convertString(messageThreadId.toString()) else null,
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode.modeName) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
@@ -276,6 +278,7 @@ internal class ApiClient(
                 is ByUrl -> photo.url
                 else -> throw NotImplementedError() // KT-31622
             },
+            messageThreadId,
             caption,
             parseMode,
             disableNotification,

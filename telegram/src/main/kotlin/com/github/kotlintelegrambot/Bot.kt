@@ -332,6 +332,7 @@ class Bot private constructor(
     ) = apiClient.sendPhoto(
         chatId,
         TelegramFile.ByFile(photo),
+        null,
         caption,
         parseMode,
         disableNotification,
@@ -356,6 +357,7 @@ class Bot private constructor(
     ) = apiClient.sendPhoto(
         chatId,
         TelegramFile.ByFileId(photo),
+        null,
         caption,
         parseMode,
         disableNotification,
@@ -556,6 +558,7 @@ class Bot private constructor(
     fun sendPhoto(
         chatId: ChatId,
         photo: TelegramFile,
+        messageThreadId: Long? = null,
         caption: String? = null,
         parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
@@ -565,6 +568,7 @@ class Bot private constructor(
     ) = apiClient.sendPhoto(
         chatId,
         photo,
+        messageThreadId,
         caption,
         parseMode,
         disableNotification,
