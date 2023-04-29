@@ -425,6 +425,7 @@ class Bot private constructor(
     fun sendDocument(
         chatId: ChatId,
         document: SystemFile,
+        messageThreadId: Long? = null,
         caption: String? = null,
         parseMode: ParseMode? = null,
         disableContentTypeDetection: Boolean? = null,
@@ -435,6 +436,7 @@ class Bot private constructor(
     ) = apiClient.sendDocument(
         chatId,
         TelegramFile.ByFile(document),
+        messageThreadId,
         caption,
         parseMode,
         disableContentTypeDetection,
@@ -451,6 +453,7 @@ class Bot private constructor(
     fun sendDocument(
         chatId: ChatId,
         fileBytes: ByteArray,
+        messageThreadId: Long? = null,
         caption: String? = null,
         parseMode: ParseMode? = null,
         disableContentTypeDetection: Boolean? = null,
@@ -463,6 +466,7 @@ class Bot private constructor(
     ) = apiClient.sendDocument(
         chatId,
         TelegramFile.ByByteArray(fileBytes, fileName),
+        messageThreadId,
         caption,
         parseMode,
         disableContentTypeDetection,
@@ -480,6 +484,7 @@ class Bot private constructor(
     fun sendDocument(
         chatId: ChatId,
         fileId: String,
+        messageThreadId: Long? = null,
         caption: String? = null,
         parseMode: ParseMode? = null,
         disableContentTypeDetection: Boolean? = null,
@@ -490,6 +495,7 @@ class Bot private constructor(
     ) = apiClient.sendDocument(
         chatId,
         TelegramFile.ByFileId(fileId),
+        messageThreadId,
         caption,
         parseMode,
         disableContentTypeDetection,
@@ -602,6 +608,7 @@ class Bot private constructor(
     fun sendDocument(
         chatId: ChatId,
         document: TelegramFile,
+        messageThreadId: Long?,
         caption: String? = null,
         parseMode: ParseMode? = null,
         disableContentTypeDetection: Boolean? = null,
@@ -613,6 +620,7 @@ class Bot private constructor(
     ) = apiClient.sendDocument(
         chatId,
         document,
+        messageThreadId,
         caption,
         parseMode,
         disableContentTypeDetection,

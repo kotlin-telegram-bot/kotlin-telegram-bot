@@ -334,6 +334,7 @@ internal class ApiClient(
     fun sendDocument(
         chatId: ChatId,
         document: TelegramFile,
+        messageThreadId: Long?,
         caption: String? = null,
         parseMode: ParseMode? = null,
         disableContentTypeDetection: Boolean? = null,
@@ -350,6 +351,7 @@ internal class ApiClient(
                 is ByByteArray -> document.fileBytes.toMultipartBodyPart("document", document.filename, mimeType)
                 else -> throw NotImplementedError() // KT-31622
             },
+            if (messageThreadId != null) convertString(messageThreadId.toString()) else null,
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode.modeName) else null,
             if (disableContentTypeDetection != null) convertString(disableContentTypeDetection.toString()) else null,
@@ -365,6 +367,7 @@ internal class ApiClient(
                 is ByUrl -> document.url
                 else -> throw NotImplementedError() // KT-31622
             },
+            messageThreadId,
             caption,
             parseMode,
             disableContentTypeDetection,

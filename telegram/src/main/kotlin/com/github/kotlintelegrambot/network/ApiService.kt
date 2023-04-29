@@ -206,6 +206,7 @@ internal interface ApiService {
     fun sendDocument(
         @Part(ApiConstants.CHAT_ID) chatId: ChatId,
         @Part document: MultipartBody.Part,
+        @Part(ApiConstants.MESSAGE_THREAD_ID) messageThreadId: RequestBody?,
         @Part("caption") caption: RequestBody?,
         @Part("parse_mode") parseMode: RequestBody?,
         @Part(ApiConstants.DISABLE_CONTENT_TYPE_DETECTION) disableContentTypeDetection: RequestBody?,
@@ -220,6 +221,7 @@ internal interface ApiService {
     fun sendDocument(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("document") document: String,
+        @Field(ApiConstants.MESSAGE_THREAD_ID) messageThreadId: Long?,
         @Field("caption") caption: String?,
         @Field("parse_mode") parseMode: ParseMode?,
         @Field(ApiConstants.DISABLE_CONTENT_TYPE_DETECTION) disableContentTypeDetection: Boolean?,
