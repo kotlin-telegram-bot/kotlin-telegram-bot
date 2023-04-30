@@ -1,5 +1,6 @@
 package com.github.kotlintelegrambot.types
 
+import com.github.kotlintelegrambot.entities.ResponseParameters
 import com.github.kotlintelegrambot.network.Response
 import java.lang.Exception
 
@@ -49,7 +50,11 @@ sealed class TelegramBotResult<T> {
         /**
          * Represents a Telegram Bot Api error response.
          */
-        data class TelegramApi<T>(val errorCode: Int, val description: String) : Error<T>()
+        data class TelegramApi<T>(
+            val errorCode: Int,
+            val description: String,
+            val parameters: ResponseParameters?
+        ) : Error<T>()
 
         /**
          * Represents a response error that can't be mapped to a Telegram Bot Api error response.

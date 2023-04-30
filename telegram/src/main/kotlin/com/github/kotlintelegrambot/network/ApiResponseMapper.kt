@@ -21,7 +21,8 @@ internal class ApiResponseMapper {
         val responseBody = Gson().fromJson(apiResponse.errorBody()!!.charStream(), Response::class.java)
         return TelegramBotResult.Error.TelegramApi(
             errorCode = responseBody.errorCode!!,
-            description = responseBody.errorDescription!!
+            description = responseBody.errorDescription!!,
+            parameters = responseBody.parameters,
         )
     }
 }
