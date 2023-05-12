@@ -19,7 +19,7 @@ data class Chat(
     @SerializedName("bio") val bio: String? = null,
     @SerializedName("description") val description: String? = null,
     @SerializedName("invite_link") val inviteLink: String? = null,
-    @SerializedName("pinned_message") val pinnedMessage: String? = null,
+    @SerializedName("pinned_message") val pinnedMessage: Message? = null,
     @SerializedName("permissions") val permissions: ChatPermissions? = null,
     @SerializedName("slow_mode_delay") val slowModeDelay: Int? = null,
     @SerializedName("sticker_set_name") val stickerSetName: String? = null,
