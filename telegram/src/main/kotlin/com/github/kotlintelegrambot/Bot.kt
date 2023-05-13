@@ -1,6 +1,9 @@
 package com.github.kotlintelegrambot
 
 import com.github.kotlintelegrambot.dispatcher.Dispatcher
+import com.github.kotlintelegrambot.dispatcher.handlers.CommonUpdateHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleThrowable
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleUpdate
 import com.github.kotlintelegrambot.entities.BotCommand
 import com.github.kotlintelegrambot.entities.Chat
 import com.github.kotlintelegrambot.entities.ChatAction
@@ -44,8 +47,14 @@ import java.io.File as SystemFile
 
 fun bot(body: Bot.Builder.() -> Unit): Bot = Bot.Builder().build(body)
 
-fun Bot.Builder.dispatch(body: Dispatcher.() -> Unit) {
+fun Bot.Builder.dispatch(
+    commonThrowableHandler: HandleThrowable = { _, _ -> },
+    commonUpdateHandler: HandleUpdate = { },
+    body: Dispatcher.() -> Unit
+) {
     dispatcherConfiguration = body
+    this.commonThrowableHandler = commonThrowableHandler
+    this.commonUpdateHandler = commonUpdateHandler
 }
 
 fun Bot.Builder.webhook(
@@ -78,6 +87,8 @@ class Bot private constructor(
         var apiUrl: String = "https://api.telegram.org/"
         var logLevel: LogLevel = LogLevel.None
         var proxy: Proxy = Proxy.NO_PROXY
+        internal var commonThrowableHandler: HandleThrowable = { _, _ -> }
+        internal var commonUpdateHandler: HandleUpdate = { }
         internal var dispatcherConfiguration: Dispatcher.() -> Unit = { }
 
         fun build(): Bot {
@@ -89,7 +100,8 @@ class Bot private constructor(
                 updatesChannel = updatesQueue,
                 logLevel = logLevel,
                 coroutineDispatcher = Executors.newSingleThreadExecutor().asCoroutineDispatcher(),
-            ).apply(dispatcherConfiguration)
+                commonThrowableHandler = commonThrowableHandler,
+            ).apply(dispatcherConfiguration).apply {addHandler(CommonUpdateHandler(commonUpdateHandler)) }
 
             return Bot(
                 updater,
@@ -105,6 +117,10 @@ class Bot private constructor(
             body()
             return build()
         }
+    }
+
+    suspend fun handleUpdate(update: Update) {
+        dispatcher.handleUpdate(update)
     }
 
     fun startPolling() {
@@ -1508,7 +1524,7 @@ class Bot private constructor(
         parseMode,
         disableWebPagePreview,
         replyMarkup
-    ).call()
+    )
 
     fun editMessageCaption(
         chatId: ChatId? = null,

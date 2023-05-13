@@ -135,6 +135,7 @@ internal class ApiClient(
             allowedUpdates = allowedUpdates,
             dropPendingUpdates = dropPendingUpdates
         )
+
         is ByUrl -> service.setWebhookWithCertificateAsFileUrl(
             url = url,
             certificateUrl = certificate.url,
@@ -143,6 +144,7 @@ internal class ApiClient(
             allowedUpdates = allowedUpdates,
             dropPendingUpdates = dropPendingUpdates
         )
+
         is ByFile -> service.setWebhookWithCertificateAsFile(
             url = url.toMultipartBodyPart(ApiConstants.SetWebhook.URL),
             certificate = certificate.file.toMultipartBodyPart(
@@ -154,6 +156,7 @@ internal class ApiClient(
             allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES),
             dropPendingUpdates = dropPendingUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.DROP_PENDING_UPDATES)
         )
+
         is ByByteArray -> service.setWebhookWithCertificateAsFile(
             url = url.toMultipartBodyPart(ApiConstants.SetWebhook.URL),
             certificate = certificate.fileBytes.toMultipartBodyPart(
@@ -165,6 +168,7 @@ internal class ApiClient(
             allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES),
             dropPendingUpdates = dropPendingUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.DROP_PENDING_UPDATES)
         )
+
         null -> service.setWebhook(
             url = url,
             ipAddress = ipAddress,
@@ -266,6 +270,7 @@ internal class ApiClient(
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
         )
+
         is ByFileId, is ByUrl -> service.sendPhoto(
             chatId,
             when (photo) {
@@ -308,6 +313,7 @@ internal class ApiClient(
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
         )
+
         is ByFileId, is ByUrl -> service.sendAudio(
             chatId,
             when (audio) {
@@ -352,6 +358,7 @@ internal class ApiClient(
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
         )
+
         is ByFileId, is ByUrl -> service.sendDocument(
             chatId,
             when (document) {
@@ -397,6 +404,7 @@ internal class ApiClient(
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
         )
+
         is ByFileId, is ByUrl -> service.sendVideo(
             chatId,
             when (video) {
@@ -491,6 +499,7 @@ internal class ApiClient(
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
         )
+
         is ByFileId, is ByUrl -> service.sendAnimation(
             chatId,
             when (animation) {
@@ -538,6 +547,7 @@ internal class ApiClient(
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null
         )
+
         is ByFileId, is ByUrl -> service.sendVoice(
             chatId,
             when (audio) {
@@ -978,18 +988,15 @@ internal class ApiClient(
         parseMode: ParseMode?,
         disableWebPagePreview: Boolean?,
         replyMarkup: ReplyMarkup?
-    ): Call<Response<Message>> {
-
-        return service.editMessageText(
-            chatId,
-            messageId,
-            inlineMessageId,
-            text,
-            parseMode,
-            disableWebPagePreview,
-            replyMarkup
-        )
-    }
+    ) = service.editMessageText(
+        chatId,
+        messageId,
+        inlineMessageId,
+        text,
+        parseMode,
+        disableWebPagePreview,
+        replyMarkup
+    ).runApiOperation()
 
     fun editMessageCaption(
         chatId: ChatId?,

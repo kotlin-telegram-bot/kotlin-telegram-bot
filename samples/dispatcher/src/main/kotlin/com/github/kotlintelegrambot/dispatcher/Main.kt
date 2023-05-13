@@ -18,7 +18,6 @@ import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton
 import com.github.kotlintelegrambot.entities.keyboard.KeyboardButton
 import com.github.kotlintelegrambot.extensions.filters.Filter
 import com.github.kotlintelegrambot.logging.LogLevel
-import com.github.kotlintelegrambot.network.fold
 
 fun main() {
 
@@ -208,6 +207,14 @@ fun main() {
 
             dice {
                 bot.sendMessage(ChatId.fromId(message.chat.id), "A dice ${dice.emoji.emojiValue} with value ${dice.value} has been received!")
+            }
+
+            myChatMember(chatType = "private") {
+                if (chatMemberUpdated.newChatMember.status == "kicked") {
+                    println("Your bot has been blocked")
+                } else if (chatMemberUpdated.newChatMember.status == "member") {
+                    println("Your bot has been restarted")
+                }
             }
 
             telegramError {

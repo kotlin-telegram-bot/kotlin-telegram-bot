@@ -15,9 +15,11 @@ import com.github.kotlintelegrambot.network.serialization.adapter.TelegramFileAd
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 
-internal object GsonFactory {
+object GsonFactory {
 
-    fun createForApiClient(): Gson = GsonBuilder()
+    fun createForApiClient(): Gson = GsonBuilder().addApiClientAdapters().create()
+
+    fun GsonBuilder.addApiClientAdapters(): GsonBuilder = this
         .registerTypeAdapter(InlineQueryResult::class.java, InlineQueryResultAdapter())
         .registerTypeAdapter(InlineKeyboardButton::class.java, InlineKeyboardButtonAdapter())
         .registerTypeAdapter(DiceEmoji::class.java, DiceEmojiAdapter())
@@ -25,7 +27,6 @@ internal object GsonFactory {
         .registerTypeAdapter(TelegramFile::class.java, TelegramFileAdapter())
         .registerTypeAdapter(InputMedia::class.java, InputMediaAdapter())
         .registerTypeAdapter(GroupableMedia::class.java, GroupableMediaAdapter(InputMediaAdapter()))
-        .create()
 
     fun createForMultipartBodyFactory(): Gson = GsonBuilder()
         .registerTypeAdapter(TelegramFile.ByFile::class.java, TelegramFileAdapter())

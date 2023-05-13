@@ -24,7 +24,7 @@ internal class CallbackQueryHandler(
         return when {
             data == null -> false
             callbackData == null -> true
-            else -> data.contains(callbackData, ignoreCase = true)
+            else -> data.split(' ').firstOrNull().equals(callbackData, ignoreCase = true)
         }
     }
 
