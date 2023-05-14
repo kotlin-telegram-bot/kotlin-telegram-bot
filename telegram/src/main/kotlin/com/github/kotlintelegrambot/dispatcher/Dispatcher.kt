@@ -62,11 +62,10 @@ class Dispatcher internal constructor(
 
     private suspend fun handleUpdate(update: Update) {
         commandHandlers
+            .asSequence()
+            .filter { !update.consumed }
             .filter { it.checkUpdate(update) }
             .forEach {
-                if (update.consumed) {
-                    return
-                }
                 try {
                     it.handleUpdate(bot, update)
                 } catch (throwable: Throwable) {
