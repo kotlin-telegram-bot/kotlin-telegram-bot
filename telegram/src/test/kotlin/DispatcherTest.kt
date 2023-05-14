@@ -92,6 +92,38 @@ class DispatcherTest {
     }
 
     @Test
+    fun `handlers are not consulted after update is consumed`() = runTest {
+        val sut = createDispatcher(StandardTestDispatcher(testScheduler))
+        val anyMessageWithText = anyUpdate(message = anyMessage(text = ANY_TEXT))
+        val firstHandler = mockHandler()
+
+        val secondHandler = TextHandler(
+            text = null,
+            handleText = {
+                if (text == ANY_TEXT) {
+                    update.consume()
+                }
+            },
+        )
+        val thirdHandler = mockHandler()
+
+        sut.addHandler(firstHandler)
+        sut.addHandler(secondHandler)
+        sut.addHandler(thirdHandler)
+
+        coEvery { channelMock.receive() } returns anyMessageWithText andThenThrows InterruptedException()
+        try {
+            sut.startCheckingUpdates()
+            advanceUntilIdle()
+        } catch (exception: InterruptedException) {
+        } finally {
+            assertTrue(anyMessageWithText.consumed)
+            coVerify(exactly = 1) { firstHandler.checkUpdate(eq(anyMessageWithText)) }
+            coVerify(exactly = 0) { thirdHandler.checkUpdate(any()) }
+        }
+    }
+
+    @Test
     fun `test that handlers from different groups are called in consistent order`() = runTest {
         val sut = createDispatcher(StandardTestDispatcher(testScheduler))
         val mockHandler1 = mockHandler()
