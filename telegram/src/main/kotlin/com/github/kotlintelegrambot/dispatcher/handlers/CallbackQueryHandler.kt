@@ -10,8 +10,8 @@ data class CallbackQueryHandlerEnvironment(
     val callbackQuery: CallbackQuery
 )
 
-internal class CallbackQueryHandler(
-    private val callbackData: String? = null,
+class CallbackQueryHandler(
+    callbackData: String? = null,
     private val callbackAnswerText: String? = null,
     private val callbackAnswerShowAlert: Boolean? = null,
     private val callbackAnswerUrl: String? = null,
@@ -19,12 +19,14 @@ internal class CallbackQueryHandler(
     private val handleCallbackQuery: HandleCallbackQuery
 ) : Handler {
 
+    private val callbackDataRegex = callbackData?.let { Regex(Regex.escape(it) + "\\b.*") }
+
     override fun checkUpdate(update: Update): Boolean {
         val data = update.callbackQuery?.data
         return when {
             data == null -> false
-            callbackData == null -> true
-            else -> data.contains(callbackData, ignoreCase = true)
+            callbackDataRegex == null -> true
+            else -> data.matches(callbackDataRegex)
         }
     }
 

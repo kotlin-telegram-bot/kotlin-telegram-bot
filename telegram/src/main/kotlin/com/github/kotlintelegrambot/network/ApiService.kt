@@ -5,6 +5,7 @@ import com.github.kotlintelegrambot.entities.Chat
 import com.github.kotlintelegrambot.entities.ChatAction
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ChatMember
+import com.github.kotlintelegrambot.entities.ForumTopic
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.MessageId
 import com.github.kotlintelegrambot.entities.ParseMode
@@ -115,6 +116,7 @@ internal interface ApiService {
         @Field("disable_web_page_preview") disableWebPagePreview: Boolean?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
+        @Field(ApiConstants.MESSAGE_THREAD_ID) messageThreadId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup?
     ): Call<Response<Message>>
@@ -148,6 +150,7 @@ internal interface ApiService {
     fun sendPhoto(
         @Part(ApiConstants.CHAT_ID) chatId: ChatId,
         @Part photo: MultipartBody.Part,
+        @Part(ApiConstants.MESSAGE_THREAD_ID) messageThreadId: RequestBody?,
         @Part("caption") caption: RequestBody?,
         @Part("parse_mode") parseMode: RequestBody?,
         @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
@@ -161,6 +164,7 @@ internal interface ApiService {
     fun sendPhoto(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("photo") photo: String,
+        @Field(ApiConstants.MESSAGE_THREAD_ID) messageThreadId: Long?,
         @Field("caption") caption: String?,
         @Field("parse_mode") parseMode: ParseMode?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
@@ -202,6 +206,7 @@ internal interface ApiService {
     fun sendDocument(
         @Part(ApiConstants.CHAT_ID) chatId: ChatId,
         @Part document: MultipartBody.Part,
+        @Part(ApiConstants.MESSAGE_THREAD_ID) messageThreadId: RequestBody?,
         @Part("caption") caption: RequestBody?,
         @Part("parse_mode") parseMode: RequestBody?,
         @Part(ApiConstants.DISABLE_CONTENT_TYPE_DETECTION) disableContentTypeDetection: RequestBody?,
@@ -216,6 +221,7 @@ internal interface ApiService {
     fun sendDocument(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("document") document: String,
+        @Field(ApiConstants.MESSAGE_THREAD_ID) messageThreadId: Long?,
         @Field("caption") caption: String?,
         @Field("parse_mode") parseMode: ParseMode?,
         @Field(ApiConstants.DISABLE_CONTENT_TYPE_DETECTION) disableContentTypeDetection: Boolean?,
@@ -364,6 +370,7 @@ internal interface ApiService {
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("latitude") latitude: Float,
         @Field("longitude") longitude: Float,
+        @Field(ApiConstants.MESSAGE_THREAD_ID) messageThreadId: Long?,
         @Field("live_period") livePeriod: Int?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
@@ -831,6 +838,49 @@ internal interface ApiService {
         @Field("pre_checkout_query_id") preCheckoutQueryId: String,
         @Field("ok") ok: Boolean,
         @Field("error_message") errorMessage: String? = null
+    ): Call<Response<Boolean>>
+
+    /**
+     * Forum topics
+     */
+
+    @FormUrlEncoded
+    @POST("createForumTopic")
+    fun createForumTopic(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field("name") name: String,
+        @Field("icon_color") iconColor: Int?,
+        @Field("icon_custom_emoji_id") iconCustomEmojiId: String?,
+    ): Call<Response<ForumTopic>>
+
+    @FormUrlEncoded
+    @POST("editForumTopic")
+    fun editForumTopic(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field(ApiConstants.MESSAGE_THREAD_ID) messageThreadId: Long,
+        @Field("name") name: String?,
+        @Field("icon_custom_emoji_id") iconCustomEmojiId: String?,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("closeForumTopic")
+    fun closeForumTopic(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field(ApiConstants.MESSAGE_THREAD_ID) messageThreadId: Long,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("reopenForumTopic")
+    fun reopenForumTopic(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field(ApiConstants.MESSAGE_THREAD_ID) messageThreadId: Long,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("deleteForumTopic")
+    fun deleteForumTopic(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field(ApiConstants.MESSAGE_THREAD_ID) messageThreadId: Long,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded

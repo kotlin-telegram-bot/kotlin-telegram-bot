@@ -11,7 +11,7 @@ data class CommandHandlerEnvironment internal constructor(
     val args: List<String>
 )
 
-internal class CommandHandler(
+class CommandHandler(
     private val command: String,
     private val handleCommand: suspend CommandHandlerEnvironment.() -> Unit
 ) : Handler {

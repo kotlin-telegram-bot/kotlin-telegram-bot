@@ -15,7 +15,7 @@ import com.github.kotlintelegrambot.network.serialization.adapter.TelegramFileAd
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 
-internal object GsonFactory {
+object GsonFactory {
 
     fun createForApiClient(): Gson = GsonBuilder()
         .registerTypeAdapter(InlineQueryResult::class.java, InlineQueryResultAdapter())

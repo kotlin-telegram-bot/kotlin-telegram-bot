@@ -32,6 +32,7 @@ class SendMediaGroupIT : ApiClientIT() {
         sut.sendMediaGroup(
             ChatId.fromId(ANY_CHAT_ID),
             mediaGroup,
+            ANY_MESSAGE_THREAD_ID,
             DISABLE_NOTIFICATION,
             REPLY_TO_MESSAGE_ID,
             ALLOW_SENDING_WITHOUT_REPLY
@@ -487,6 +488,7 @@ class SendMediaGroupIT : ApiClientIT() {
 
     private companion object {
         const val ANY_CHAT_ID = 3242424L
+        const val ANY_MESSAGE_THREAD_ID = 20398320L
         const val ANY_VIDEO_URL = "https://www.ghana.com/burying.mp4"
         const val ANY_IMAGE_FILE_ID = "fweo32r32nruka"
         const val DISABLE_NOTIFICATION = true
