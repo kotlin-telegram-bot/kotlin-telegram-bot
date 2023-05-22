@@ -215,6 +215,7 @@ public final class com/github/kotlintelegrambot/dispatcher/HandlersDslKt {
 	public static final fun photos (Lcom/github/kotlintelegrambot/dispatcher/Dispatcher;Lkotlin/jvm/functions/Function2;)V
 	public static final fun pollAnswer (Lcom/github/kotlintelegrambot/dispatcher/Dispatcher;Lkotlin/jvm/functions/Function2;)V
 	public static final fun preCheckoutQuery (Lcom/github/kotlintelegrambot/dispatcher/Dispatcher;Lkotlin/jvm/functions/Function2;)V
+	public static final fun requires (Lcom/github/kotlintelegrambot/dispatcher/handlers/Handler;Lkotlin/jvm/functions/Function1;)Lcom/github/kotlintelegrambot/dispatcher/handlers/Handler;
 	public static final fun sticker (Lcom/github/kotlintelegrambot/dispatcher/Dispatcher;Lkotlin/jvm/functions/Function2;)V
 	public static final fun telegramError (Lcom/github/kotlintelegrambot/dispatcher/Dispatcher;Lkotlin/jvm/functions/Function1;)V
 	public static final fun text (Lcom/github/kotlintelegrambot/dispatcher/Dispatcher;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
