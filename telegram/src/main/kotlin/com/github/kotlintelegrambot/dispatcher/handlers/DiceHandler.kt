@@ -6,11 +6,11 @@ import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.dice.Dice
 
 data class DiceHandlerEnvironment(
-    val bot: Bot,
-    val update: Update,
-    val message: Message,
+    override val bot: Bot,
+    override val update: Update,
+    override val message: Message,
     val dice: Dice
-)
+) : IMessageHandlerEnvironment
 
 internal class DiceHandler(
     private val handleDice: HandleDice

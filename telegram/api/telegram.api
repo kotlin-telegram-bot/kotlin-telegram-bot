@@ -256,7 +256,7 @@ public final class com/github/kotlintelegrambot/dispatcher/handlers/ChannelHandl
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/github/kotlintelegrambot/dispatcher/handlers/CommandHandlerEnvironment {
+public final class com/github/kotlintelegrambot/dispatcher/handlers/CommandHandlerEnvironment : com/github/kotlintelegrambot/dispatcher/handlers/IMessageHandlerEnvironment {
 	public final fun component1 ()Lcom/github/kotlintelegrambot/Bot;
 	public final fun component2 ()Lcom/github/kotlintelegrambot/entities/Update;
 	public final fun component3 ()Lcom/github/kotlintelegrambot/entities/Message;
@@ -265,14 +265,14 @@ public final class com/github/kotlintelegrambot/dispatcher/handlers/CommandHandl
 	public static synthetic fun copy$default (Lcom/github/kotlintelegrambot/dispatcher/handlers/CommandHandlerEnvironment;Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/Message;Ljava/util/List;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/dispatcher/handlers/CommandHandlerEnvironment;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getArgs ()Ljava/util/List;
-	public final fun getBot ()Lcom/github/kotlintelegrambot/Bot;
-	public final fun getMessage ()Lcom/github/kotlintelegrambot/entities/Message;
-	public final fun getUpdate ()Lcom/github/kotlintelegrambot/entities/Update;
+	public fun getBot ()Lcom/github/kotlintelegrambot/Bot;
+	public fun getMessage ()Lcom/github/kotlintelegrambot/entities/Message;
+	public fun getUpdate ()Lcom/github/kotlintelegrambot/entities/Update;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/github/kotlintelegrambot/dispatcher/handlers/ContactHandlerEnvironment {
+public final class com/github/kotlintelegrambot/dispatcher/handlers/ContactHandlerEnvironment : com/github/kotlintelegrambot/dispatcher/handlers/IMessageHandlerEnvironment {
 	public fun <init> (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Contact;)V
 	public final fun component1 ()Lcom/github/kotlintelegrambot/Bot;
 	public final fun component2 ()Lcom/github/kotlintelegrambot/entities/Update;
@@ -281,15 +281,15 @@ public final class com/github/kotlintelegrambot/dispatcher/handlers/ContactHandl
 	public final fun copy (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Contact;)Lcom/github/kotlintelegrambot/dispatcher/handlers/ContactHandlerEnvironment;
 	public static synthetic fun copy$default (Lcom/github/kotlintelegrambot/dispatcher/handlers/ContactHandlerEnvironment;Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Contact;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/dispatcher/handlers/ContactHandlerEnvironment;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getBot ()Lcom/github/kotlintelegrambot/Bot;
+	public fun getBot ()Lcom/github/kotlintelegrambot/Bot;
 	public final fun getContact ()Lcom/github/kotlintelegrambot/entities/Contact;
-	public final fun getMessage ()Lcom/github/kotlintelegrambot/entities/Message;
-	public final fun getUpdate ()Lcom/github/kotlintelegrambot/entities/Update;
+	public fun getMessage ()Lcom/github/kotlintelegrambot/entities/Message;
+	public fun getUpdate ()Lcom/github/kotlintelegrambot/entities/Update;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/github/kotlintelegrambot/dispatcher/handlers/DiceHandlerEnvironment {
+public final class com/github/kotlintelegrambot/dispatcher/handlers/DiceHandlerEnvironment : com/github/kotlintelegrambot/dispatcher/handlers/IMessageHandlerEnvironment {
 	public fun <init> (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/dice/Dice;)V
 	public final fun component1 ()Lcom/github/kotlintelegrambot/Bot;
 	public final fun component2 ()Lcom/github/kotlintelegrambot/entities/Update;
@@ -298,10 +298,10 @@ public final class com/github/kotlintelegrambot/dispatcher/handlers/DiceHandlerE
 	public final fun copy (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/dice/Dice;)Lcom/github/kotlintelegrambot/dispatcher/handlers/DiceHandlerEnvironment;
 	public static synthetic fun copy$default (Lcom/github/kotlintelegrambot/dispatcher/handlers/DiceHandlerEnvironment;Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/dice/Dice;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/dispatcher/handlers/DiceHandlerEnvironment;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getBot ()Lcom/github/kotlintelegrambot/Bot;
+	public fun getBot ()Lcom/github/kotlintelegrambot/Bot;
 	public final fun getDice ()Lcom/github/kotlintelegrambot/entities/dice/Dice;
-	public final fun getMessage ()Lcom/github/kotlintelegrambot/entities/Message;
-	public final fun getUpdate ()Lcom/github/kotlintelegrambot/entities/Update;
+	public fun getMessage ()Lcom/github/kotlintelegrambot/entities/Message;
+	public fun getUpdate ()Lcom/github/kotlintelegrambot/entities/Update;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
@@ -329,6 +329,12 @@ public abstract interface class com/github/kotlintelegrambot/dispatcher/handlers
 	public abstract fun handleUpdate (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
+public abstract interface class com/github/kotlintelegrambot/dispatcher/handlers/IMessageHandlerEnvironment {
+	public abstract fun getBot ()Lcom/github/kotlintelegrambot/Bot;
+	public abstract fun getMessage ()Lcom/github/kotlintelegrambot/entities/Message;
+	public abstract fun getUpdate ()Lcom/github/kotlintelegrambot/entities/Update;
+}
+
 public final class com/github/kotlintelegrambot/dispatcher/handlers/InlineQueryHandlerEnvironment {
 	public fun <init> (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/InlineQuery;)V
 	public final fun component1 ()Lcom/github/kotlintelegrambot/Bot;
@@ -344,7 +350,7 @@ public final class com/github/kotlintelegrambot/dispatcher/handlers/InlineQueryH
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/github/kotlintelegrambot/dispatcher/handlers/LocationHandlerEnvironment {
+public final class com/github/kotlintelegrambot/dispatcher/handlers/LocationHandlerEnvironment : com/github/kotlintelegrambot/dispatcher/handlers/IMessageHandlerEnvironment {
 	public fun <init> (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Location;)V
 	public final fun component1 ()Lcom/github/kotlintelegrambot/Bot;
 	public final fun component2 ()Lcom/github/kotlintelegrambot/entities/Update;
@@ -353,15 +359,15 @@ public final class com/github/kotlintelegrambot/dispatcher/handlers/LocationHand
 	public final fun copy (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Location;)Lcom/github/kotlintelegrambot/dispatcher/handlers/LocationHandlerEnvironment;
 	public static synthetic fun copy$default (Lcom/github/kotlintelegrambot/dispatcher/handlers/LocationHandlerEnvironment;Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Location;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/dispatcher/handlers/LocationHandlerEnvironment;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getBot ()Lcom/github/kotlintelegrambot/Bot;
+	public fun getBot ()Lcom/github/kotlintelegrambot/Bot;
 	public final fun getLocation ()Lcom/github/kotlintelegrambot/entities/Location;
-	public final fun getMessage ()Lcom/github/kotlintelegrambot/entities/Message;
-	public final fun getUpdate ()Lcom/github/kotlintelegrambot/entities/Update;
+	public fun getMessage ()Lcom/github/kotlintelegrambot/entities/Message;
+	public fun getUpdate ()Lcom/github/kotlintelegrambot/entities/Update;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/github/kotlintelegrambot/dispatcher/handlers/MessageHandlerEnvironment {
+public final class com/github/kotlintelegrambot/dispatcher/handlers/MessageHandlerEnvironment : com/github/kotlintelegrambot/dispatcher/handlers/IMessageHandlerEnvironment {
 	public fun <init> (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/Message;)V
 	public final fun component1 ()Lcom/github/kotlintelegrambot/Bot;
 	public final fun component2 ()Lcom/github/kotlintelegrambot/entities/Update;
@@ -369,14 +375,18 @@ public final class com/github/kotlintelegrambot/dispatcher/handlers/MessageHandl
 	public final fun copy (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/Message;)Lcom/github/kotlintelegrambot/dispatcher/handlers/MessageHandlerEnvironment;
 	public static synthetic fun copy$default (Lcom/github/kotlintelegrambot/dispatcher/handlers/MessageHandlerEnvironment;Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/Message;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/dispatcher/handlers/MessageHandlerEnvironment;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getBot ()Lcom/github/kotlintelegrambot/Bot;
-	public final fun getMessage ()Lcom/github/kotlintelegrambot/entities/Message;
-	public final fun getUpdate ()Lcom/github/kotlintelegrambot/entities/Update;
+	public fun getBot ()Lcom/github/kotlintelegrambot/Bot;
+	public fun getMessage ()Lcom/github/kotlintelegrambot/entities/Message;
+	public fun getUpdate ()Lcom/github/kotlintelegrambot/entities/Update;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/github/kotlintelegrambot/dispatcher/handlers/NewChatMembersHandlerEnvironment {
+public final class com/github/kotlintelegrambot/dispatcher/handlers/MessageHandlerEnvironmentExtensionsKt {
+	public static final fun replyToMessage (Lcom/github/kotlintelegrambot/dispatcher/handlers/IMessageHandlerEnvironment;Ljava/lang/String;)V
+}
+
+public final class com/github/kotlintelegrambot/dispatcher/handlers/NewChatMembersHandlerEnvironment : com/github/kotlintelegrambot/dispatcher/handlers/IMessageHandlerEnvironment {
 	public fun <init> (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/Message;Ljava/util/List;)V
 	public final fun component1 ()Lcom/github/kotlintelegrambot/Bot;
 	public final fun component2 ()Lcom/github/kotlintelegrambot/entities/Update;
@@ -385,10 +395,10 @@ public final class com/github/kotlintelegrambot/dispatcher/handlers/NewChatMembe
 	public final fun copy (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/Message;Ljava/util/List;)Lcom/github/kotlintelegrambot/dispatcher/handlers/NewChatMembersHandlerEnvironment;
 	public static synthetic fun copy$default (Lcom/github/kotlintelegrambot/dispatcher/handlers/NewChatMembersHandlerEnvironment;Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/Message;Ljava/util/List;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/dispatcher/handlers/NewChatMembersHandlerEnvironment;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getBot ()Lcom/github/kotlintelegrambot/Bot;
-	public final fun getMessage ()Lcom/github/kotlintelegrambot/entities/Message;
+	public fun getBot ()Lcom/github/kotlintelegrambot/Bot;
+	public fun getMessage ()Lcom/github/kotlintelegrambot/entities/Message;
 	public final fun getNewChatMembers ()Ljava/util/List;
-	public final fun getUpdate ()Lcom/github/kotlintelegrambot/entities/Update;
+	public fun getUpdate ()Lcom/github/kotlintelegrambot/entities/Update;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
@@ -423,7 +433,7 @@ public final class com/github/kotlintelegrambot/dispatcher/handlers/PreCheckoutQ
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/github/kotlintelegrambot/dispatcher/handlers/TextHandlerEnvironment {
+public final class com/github/kotlintelegrambot/dispatcher/handlers/TextHandlerEnvironment : com/github/kotlintelegrambot/dispatcher/handlers/IMessageHandlerEnvironment {
 	public fun <init> (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/Message;Ljava/lang/String;)V
 	public final fun component1 ()Lcom/github/kotlintelegrambot/Bot;
 	public final fun component2 ()Lcom/github/kotlintelegrambot/entities/Update;
@@ -432,10 +442,10 @@ public final class com/github/kotlintelegrambot/dispatcher/handlers/TextHandlerE
 	public final fun copy (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/Message;Ljava/lang/String;)Lcom/github/kotlintelegrambot/dispatcher/handlers/TextHandlerEnvironment;
 	public static synthetic fun copy$default (Lcom/github/kotlintelegrambot/dispatcher/handlers/TextHandlerEnvironment;Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/Message;Ljava/lang/String;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/dispatcher/handlers/TextHandlerEnvironment;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getBot ()Lcom/github/kotlintelegrambot/Bot;
-	public final fun getMessage ()Lcom/github/kotlintelegrambot/entities/Message;
+	public fun getBot ()Lcom/github/kotlintelegrambot/Bot;
+	public fun getMessage ()Lcom/github/kotlintelegrambot/entities/Message;
 	public final fun getText ()Ljava/lang/String;
-	public final fun getUpdate ()Lcom/github/kotlintelegrambot/entities/Update;
+	public fun getUpdate ()Lcom/github/kotlintelegrambot/entities/Update;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
