@@ -10,7 +10,7 @@ data class PreCheckoutQueryHandlerEnvironment(
     val preCheckoutQuery: PreCheckoutQuery
 )
 
-internal class PreCheckoutQueryHandler(
+class PreCheckoutQueryHandler(
     private val handlePreCheckoutQuery: HandlePreCheckoutQuery
 ) : Handler {
 

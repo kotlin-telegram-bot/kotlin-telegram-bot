@@ -10,7 +10,7 @@ data class InlineQueryHandlerEnvironment(
     val inlineQuery: InlineQuery
 )
 
-internal class InlineQueryHandler(
+class InlineQueryHandler(
     private val handleInlineQuery: HandleInlineQuery
 ) : Handler {
 

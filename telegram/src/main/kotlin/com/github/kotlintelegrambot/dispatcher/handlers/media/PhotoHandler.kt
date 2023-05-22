@@ -5,7 +5,7 @@ import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.files.PhotoSize
 
-internal class PhotosHandler(
+class PhotosHandler(
     handlePhotos: HandlePhotos
 ) : MediaHandler<List<PhotoSize>>(
     handlePhotos,

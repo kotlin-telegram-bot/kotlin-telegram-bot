@@ -5,7 +5,7 @@ import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.files.Animation
 
-internal class AnimationHandler(
+class AnimationHandler(
     handleAnimation: HandleAnimation
 ) : MediaHandler<Animation>(
     handleAnimation,

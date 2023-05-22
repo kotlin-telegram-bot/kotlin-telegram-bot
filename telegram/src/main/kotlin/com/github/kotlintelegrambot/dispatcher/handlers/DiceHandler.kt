@@ -12,7 +12,7 @@ data class DiceHandlerEnvironment(
     val dice: Dice
 )
 
-internal class DiceHandler(
+class DiceHandler(
     private val handleDice: HandleDice
 ) : Handler {
 

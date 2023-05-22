@@ -12,7 +12,7 @@ data class MediaHandlerEnvironment<Media>(
     val media: Media
 )
 
-internal abstract class MediaHandler<Media>(
+abstract class MediaHandler<Media>(
     private val handleMediaUpdate: suspend MediaHandlerEnvironment<Media>.() -> Unit,
     private val toMedia: Message.() -> Media,
     private val isUpdateMedia: (Update) -> Boolean

@@ -5,7 +5,7 @@ import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.files.Voice
 
-internal class VoiceHandler(
+class VoiceHandler(
     handleVoice: HandleVoice
 ) : MediaHandler<Voice>(
     handleVoice,
