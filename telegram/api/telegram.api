@@ -348,6 +348,12 @@ public final class com/github/kotlintelegrambot/dispatcher/handlers/ErrorHandler
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/github/kotlintelegrambot/dispatcher/handlers/ExtendedHandler : com/github/kotlintelegrambot/dispatcher/handlers/Handler {
+	public fun <init> (Lcom/github/kotlintelegrambot/dispatcher/handlers/Handler;Lkotlin/jvm/functions/Function1;)V
+	public fun checkUpdate (Lcom/github/kotlintelegrambot/entities/Update;)Z
+	public fun handleUpdate (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
 public abstract interface class com/github/kotlintelegrambot/dispatcher/handlers/Handler {
 	public abstract fun checkUpdate (Lcom/github/kotlintelegrambot/entities/Update;)Z
 	public abstract fun handleUpdate (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
