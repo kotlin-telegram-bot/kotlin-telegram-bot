@@ -6,6 +6,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.ContactHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.DiceHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.ErrorHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.ExtendedHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleAnimation
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleAudio
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleCallbackQuery
@@ -28,6 +29,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.HandleText
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleVideo
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleVideoNote
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleVoice
+import com.github.kotlintelegrambot.dispatcher.handlers.Handler
 import com.github.kotlintelegrambot.dispatcher.handlers.InlineQueryHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.LocationHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.MessageHandler
@@ -44,6 +46,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.media.StickerHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.VideoHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.VideoNoteHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.VoiceHandler
+import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.extensions.filters.Filter
 import com.github.kotlintelegrambot.extensions.filters.Filter.All
 
@@ -157,4 +160,8 @@ fun Dispatcher.pollAnswer(body: HandlePollAnswer) {
 
 fun Dispatcher.dice(body: HandleDice) {
     addHandler(DiceHandler(body))
+}
+
+infix fun Handler.requires(predicate: (Update) -> Boolean): Handler {
+    return ExtendedHandler(this, predicate)
 }
