@@ -239,6 +239,12 @@ public final class com/github/kotlintelegrambot/dispatcher/handlers/CallbackQuer
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/github/kotlintelegrambot/dispatcher/handlers/ChannelHandler : com/github/kotlintelegrambot/dispatcher/handlers/Handler {
+	public fun <init> (Lkotlin/jvm/functions/Function2;)V
+	public fun checkUpdate (Lcom/github/kotlintelegrambot/entities/Update;)Z
+	public fun handleUpdate (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
 public final class com/github/kotlintelegrambot/dispatcher/handlers/ChannelHandlerEnvironment {
 	public fun <init> (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/Message;Z)V
 	public final fun component1 ()Lcom/github/kotlintelegrambot/Bot;
@@ -254,6 +260,12 @@ public final class com/github/kotlintelegrambot/dispatcher/handlers/ChannelHandl
 	public fun hashCode ()I
 	public final fun isEdition ()Z
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/github/kotlintelegrambot/dispatcher/handlers/CommandHandler : com/github/kotlintelegrambot/dispatcher/handlers/Handler {
+	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public fun checkUpdate (Lcom/github/kotlintelegrambot/entities/Update;)Z
+	public fun handleUpdate (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class com/github/kotlintelegrambot/dispatcher/handlers/CommandHandlerEnvironment {
@@ -272,6 +284,12 @@ public final class com/github/kotlintelegrambot/dispatcher/handlers/CommandHandl
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/github/kotlintelegrambot/dispatcher/handlers/ContactHandler : com/github/kotlintelegrambot/dispatcher/handlers/Handler {
+	public fun <init> (Lkotlin/jvm/functions/Function2;)V
+	public fun checkUpdate (Lcom/github/kotlintelegrambot/entities/Update;)Z
+	public fun handleUpdate (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
 public final class com/github/kotlintelegrambot/dispatcher/handlers/ContactHandlerEnvironment {
 	public fun <init> (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Contact;)V
 	public final fun component1 ()Lcom/github/kotlintelegrambot/Bot;
@@ -287,6 +305,12 @@ public final class com/github/kotlintelegrambot/dispatcher/handlers/ContactHandl
 	public final fun getUpdate ()Lcom/github/kotlintelegrambot/entities/Update;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/github/kotlintelegrambot/dispatcher/handlers/DiceHandler : com/github/kotlintelegrambot/dispatcher/handlers/Handler {
+	public fun <init> (Lkotlin/jvm/functions/Function2;)V
+	public fun checkUpdate (Lcom/github/kotlintelegrambot/entities/Update;)Z
+	public fun handleUpdate (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class com/github/kotlintelegrambot/dispatcher/handlers/DiceHandlerEnvironment {
@@ -329,6 +353,12 @@ public abstract interface class com/github/kotlintelegrambot/dispatcher/handlers
 	public abstract fun handleUpdate (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
+public final class com/github/kotlintelegrambot/dispatcher/handlers/InlineQueryHandler : com/github/kotlintelegrambot/dispatcher/handlers/Handler {
+	public fun <init> (Lkotlin/jvm/functions/Function2;)V
+	public fun checkUpdate (Lcom/github/kotlintelegrambot/entities/Update;)Z
+	public fun handleUpdate (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
 public final class com/github/kotlintelegrambot/dispatcher/handlers/InlineQueryHandlerEnvironment {
 	public fun <init> (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/InlineQuery;)V
 	public final fun component1 ()Lcom/github/kotlintelegrambot/Bot;
@@ -342,6 +372,12 @@ public final class com/github/kotlintelegrambot/dispatcher/handlers/InlineQueryH
 	public final fun getUpdate ()Lcom/github/kotlintelegrambot/entities/Update;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/github/kotlintelegrambot/dispatcher/handlers/LocationHandler : com/github/kotlintelegrambot/dispatcher/handlers/Handler {
+	public fun <init> (Lkotlin/jvm/functions/Function2;)V
+	public fun checkUpdate (Lcom/github/kotlintelegrambot/entities/Update;)Z
+	public fun handleUpdate (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class com/github/kotlintelegrambot/dispatcher/handlers/LocationHandlerEnvironment {
@@ -361,6 +397,12 @@ public final class com/github/kotlintelegrambot/dispatcher/handlers/LocationHand
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/github/kotlintelegrambot/dispatcher/handlers/MessageHandler : com/github/kotlintelegrambot/dispatcher/handlers/Handler {
+	public fun <init> (Lcom/github/kotlintelegrambot/extensions/filters/Filter;Lkotlin/jvm/functions/Function2;)V
+	public fun checkUpdate (Lcom/github/kotlintelegrambot/entities/Update;)Z
+	public fun handleUpdate (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
 public final class com/github/kotlintelegrambot/dispatcher/handlers/MessageHandlerEnvironment {
 	public fun <init> (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/Message;)V
 	public final fun component1 ()Lcom/github/kotlintelegrambot/Bot;
@@ -374,6 +416,12 @@ public final class com/github/kotlintelegrambot/dispatcher/handlers/MessageHandl
 	public final fun getUpdate ()Lcom/github/kotlintelegrambot/entities/Update;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/github/kotlintelegrambot/dispatcher/handlers/NewChatMembersHandler : com/github/kotlintelegrambot/dispatcher/handlers/Handler {
+	public fun <init> (Lkotlin/jvm/functions/Function2;)V
+	public fun checkUpdate (Lcom/github/kotlintelegrambot/entities/Update;)Z
+	public fun handleUpdate (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class com/github/kotlintelegrambot/dispatcher/handlers/NewChatMembersHandlerEnvironment {
@@ -393,6 +441,12 @@ public final class com/github/kotlintelegrambot/dispatcher/handlers/NewChatMembe
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/github/kotlintelegrambot/dispatcher/handlers/PollAnswerHandler : com/github/kotlintelegrambot/dispatcher/handlers/Handler {
+	public fun <init> (Lkotlin/jvm/functions/Function2;)V
+	public fun checkUpdate (Lcom/github/kotlintelegrambot/entities/Update;)Z
+	public fun handleUpdate (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
 public final class com/github/kotlintelegrambot/dispatcher/handlers/PollAnswerHandlerEnvironment {
 	public fun <init> (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/polls/PollAnswer;)V
 	public final fun component1 ()Lcom/github/kotlintelegrambot/Bot;
@@ -408,6 +462,12 @@ public final class com/github/kotlintelegrambot/dispatcher/handlers/PollAnswerHa
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/github/kotlintelegrambot/dispatcher/handlers/PreCheckoutQueryHandler : com/github/kotlintelegrambot/dispatcher/handlers/Handler {
+	public fun <init> (Lkotlin/jvm/functions/Function2;)V
+	public fun checkUpdate (Lcom/github/kotlintelegrambot/entities/Update;)Z
+	public fun handleUpdate (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
 public final class com/github/kotlintelegrambot/dispatcher/handlers/PreCheckoutQueryHandlerEnvironment {
 	public fun <init> (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/payments/PreCheckoutQuery;)V
 	public final fun component1 ()Lcom/github/kotlintelegrambot/Bot;
@@ -421,6 +481,13 @@ public final class com/github/kotlintelegrambot/dispatcher/handlers/PreCheckoutQ
 	public final fun getUpdate ()Lcom/github/kotlintelegrambot/entities/Update;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/github/kotlintelegrambot/dispatcher/handlers/TextHandler : com/github/kotlintelegrambot/dispatcher/handlers/Handler {
+	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun checkUpdate (Lcom/github/kotlintelegrambot/entities/Update;)Z
+	public fun handleUpdate (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class com/github/kotlintelegrambot/dispatcher/handlers/TextHandlerEnvironment {
@@ -440,6 +507,28 @@ public final class com/github/kotlintelegrambot/dispatcher/handlers/TextHandlerE
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/github/kotlintelegrambot/dispatcher/handlers/media/AnimationHandler : com/github/kotlintelegrambot/dispatcher/handlers/media/MediaHandler {
+	public fun <init> (Lkotlin/jvm/functions/Function2;)V
+}
+
+public final class com/github/kotlintelegrambot/dispatcher/handlers/media/AudioHandler : com/github/kotlintelegrambot/dispatcher/handlers/media/MediaHandler {
+	public fun <init> (Lkotlin/jvm/functions/Function2;)V
+}
+
+public final class com/github/kotlintelegrambot/dispatcher/handlers/media/DocumentHandler : com/github/kotlintelegrambot/dispatcher/handlers/media/MediaHandler {
+	public fun <init> (Lkotlin/jvm/functions/Function2;)V
+}
+
+public final class com/github/kotlintelegrambot/dispatcher/handlers/media/GameHandler : com/github/kotlintelegrambot/dispatcher/handlers/media/MediaHandler {
+	public fun <init> (Lkotlin/jvm/functions/Function2;)V
+}
+
+public abstract class com/github/kotlintelegrambot/dispatcher/handlers/media/MediaHandler : com/github/kotlintelegrambot/dispatcher/handlers/Handler {
+	public fun <init> (Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V
+	public fun checkUpdate (Lcom/github/kotlintelegrambot/entities/Update;)Z
+	public fun handleUpdate (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
 public final class com/github/kotlintelegrambot/dispatcher/handlers/media/MediaHandlerEnvironment {
 	public fun <init> (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/Message;Ljava/lang/Object;)V
 	public final fun component1 ()Lcom/github/kotlintelegrambot/Bot;
@@ -455,6 +544,26 @@ public final class com/github/kotlintelegrambot/dispatcher/handlers/media/MediaH
 	public final fun getUpdate ()Lcom/github/kotlintelegrambot/entities/Update;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/github/kotlintelegrambot/dispatcher/handlers/media/PhotosHandler : com/github/kotlintelegrambot/dispatcher/handlers/media/MediaHandler {
+	public fun <init> (Lkotlin/jvm/functions/Function2;)V
+}
+
+public final class com/github/kotlintelegrambot/dispatcher/handlers/media/StickerHandler : com/github/kotlintelegrambot/dispatcher/handlers/media/MediaHandler {
+	public fun <init> (Lkotlin/jvm/functions/Function2;)V
+}
+
+public final class com/github/kotlintelegrambot/dispatcher/handlers/media/VideoHandler : com/github/kotlintelegrambot/dispatcher/handlers/media/MediaHandler {
+	public fun <init> (Lkotlin/jvm/functions/Function2;)V
+}
+
+public final class com/github/kotlintelegrambot/dispatcher/handlers/media/VideoNoteHandler : com/github/kotlintelegrambot/dispatcher/handlers/media/MediaHandler {
+	public fun <init> (Lkotlin/jvm/functions/Function2;)V
+}
+
+public final class com/github/kotlintelegrambot/dispatcher/handlers/media/VoiceHandler : com/github/kotlintelegrambot/dispatcher/handlers/media/MediaHandler {
+	public fun <init> (Lkotlin/jvm/functions/Function2;)V
 }
 
 public final class com/github/kotlintelegrambot/entities/BotCommand {

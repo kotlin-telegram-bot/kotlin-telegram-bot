@@ -5,7 +5,7 @@ import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.files.Document
 
-internal class DocumentHandler(
+class DocumentHandler(
     handleDocument: HandleDocument
 ) : MediaHandler<Document>(
     handleDocument,

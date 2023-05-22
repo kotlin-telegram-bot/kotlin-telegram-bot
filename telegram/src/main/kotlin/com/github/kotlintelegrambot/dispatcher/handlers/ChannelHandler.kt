@@ -11,7 +11,7 @@ data class ChannelHandlerEnvironment(
     val isEdition: Boolean
 )
 
-internal class ChannelHandler(
+class ChannelHandler(
     private val handleChannelPost: HandleChannelPost
 ) : Handler {
 

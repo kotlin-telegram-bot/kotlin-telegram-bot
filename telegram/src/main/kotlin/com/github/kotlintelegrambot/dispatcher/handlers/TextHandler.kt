@@ -11,7 +11,7 @@ data class TextHandlerEnvironment(
     val text: String
 )
 
-internal class TextHandler(
+class TextHandler(
     private val text: String? = null,
     private val handleText: HandleText
 ) : Handler {
