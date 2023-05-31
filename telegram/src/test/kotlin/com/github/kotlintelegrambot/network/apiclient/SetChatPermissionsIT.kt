@@ -26,7 +26,7 @@ class SetChatPermissionsIT : ApiClientIT() {
 
         sut.setChatPermissions(
             ChatId.fromId(ANY_CHAT_ID),
-            ChatPermissions(canSendMessages = false)
+            ChatPermissions(canSendMessages = false),
         ).execute()
 
         val request = mockWebServer.takeRequest()
@@ -44,8 +44,8 @@ class SetChatPermissionsIT : ApiClientIT() {
             ChatPermissions(
                 canSendMessages = false,
                 canSendPolls = true,
-                canAddWebPagePreviews = false
-            )
+                canAddWebPagePreviews = false,
+            ),
         ).execute()
 
         val request = mockWebServer.takeRequest()

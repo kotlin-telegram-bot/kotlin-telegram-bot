@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 class ReplyKeyboardRemove constructor(
     @SerializedName("remove_keyboard")
     val removeKeyboard: Boolean = true,
-    val selective: Boolean? = null
+    val selective: Boolean? = null,
 ) : ReplyMarkup {
 
     private companion object {

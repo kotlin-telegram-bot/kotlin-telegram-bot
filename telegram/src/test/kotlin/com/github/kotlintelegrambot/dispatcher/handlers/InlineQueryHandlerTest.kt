@@ -3,10 +3,11 @@ package com.github.kotlintelegrambot.dispatcher.handlers
 import anyInlineQuery
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class InlineQueryHandlerTest {
@@ -34,7 +35,7 @@ class InlineQueryHandlerTest {
     }
 
     @Test
-    fun `inline query is properly dispatched to the handler function`() {
+    fun `inline query is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val anyInlineQuery = anyInlineQuery()
         val anyUpdateWithInlineQuery = anyUpdate(inlineQuery = anyInlineQuery)
@@ -44,8 +45,8 @@ class InlineQueryHandlerTest {
         val expectedInlineQueryHandlerEnv = InlineQueryHandlerEnvironment(
             botMock,
             anyUpdateWithInlineQuery,
-            anyInlineQuery
+            anyInlineQuery,
         )
-        verify { handleInlineQueryMock.invoke(expectedInlineQueryHandlerEnv) }
+        coVerify { handleInlineQueryMock.invoke(expectedInlineQueryHandlerEnv) }
     }
 }

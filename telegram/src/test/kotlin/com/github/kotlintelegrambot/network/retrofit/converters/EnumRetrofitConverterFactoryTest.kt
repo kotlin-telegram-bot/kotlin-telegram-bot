@@ -13,20 +13,20 @@ class EnumRetrofitConverterFactoryTest {
 
     enum class RegularEnumAnnotated {
         @SerializedName("enumA")
-        ENUM_A
+        ENUM_A,
     }
 
     enum class RegularEnum {
-        ENUM_A
+        ENUM_A,
     }
 
     data class TestClass(
-        val testAttr: Int
+        val testAttr: Int,
     ) {
 
         enum class InnerEnum {
             @SerializedName("enumA")
-            ENUM_A
+            ENUM_A,
         }
     }
 

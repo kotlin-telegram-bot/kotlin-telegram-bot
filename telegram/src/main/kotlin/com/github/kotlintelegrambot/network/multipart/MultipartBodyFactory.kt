@@ -21,7 +21,7 @@ internal class MultipartBodyFactory(private val gson: Gson) {
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean?
+        allowSendingWithoutReply: Boolean?,
     ): List<MultipartBody.Part> {
         val chatIdString = ChatIdConverterFactory.chatIdToString(chatId)
         val chatIdPart = chatIdString.toMultipartBodyPart(ApiConstants.CHAT_ID)
@@ -34,7 +34,7 @@ internal class MultipartBodyFactory(private val gson: Gson) {
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean?
+        allowSendingWithoutReply: Boolean?,
     ): List<MultipartBody.Part> {
         val filesParts = mediaGroup.takeFiles().map { (file, mediaType) ->
             file.toMultipartBodyPart(mediaType = mediaType)
@@ -51,20 +51,20 @@ internal class MultipartBodyFactory(private val gson: Gson) {
     private fun MediaGroup.takeFiles(): List<Pair<File, String>> = medias.flatMap { groupableMedia ->
         when {
             groupableMedia is InputMediaDocument && groupableMedia.media is TelegramFile.ByFile -> listOf(
-                groupableMedia.media.file to MediaTypeConstants.DOCUMENT
+                groupableMedia.media.file to MediaTypeConstants.DOCUMENT,
             )
             groupableMedia is InputMediaPhoto && groupableMedia.media is TelegramFile.ByFile -> listOf(
-                groupableMedia.media.file to MediaTypeConstants.IMAGE
+                groupableMedia.media.file to MediaTypeConstants.IMAGE,
             )
             groupableMedia is InputMediaVideo && groupableMedia.media is TelegramFile.ByFile && groupableMedia.thumb != null -> listOf(
                 groupableMedia.media.file to MediaTypeConstants.VIDEO,
-                groupableMedia.thumb.file to MediaTypeConstants.IMAGE
+                groupableMedia.thumb.file to MediaTypeConstants.IMAGE,
             )
             groupableMedia is InputMediaVideo && groupableMedia.media is TelegramFile.ByFile -> listOf(
-                groupableMedia.media.file to MediaTypeConstants.VIDEO
+                groupableMedia.media.file to MediaTypeConstants.VIDEO,
             )
             groupableMedia is InputMediaVideo && groupableMedia.thumb != null -> listOf(
-                groupableMedia.thumb.file to MediaTypeConstants.IMAGE
+                groupableMedia.thumb.file to MediaTypeConstants.IMAGE,
             )
             else -> emptyList()
         }

@@ -7,24 +7,24 @@ import com.github.kotlintelegrambot.entities.payments.PreCheckoutQuery
 data class PreCheckoutQueryHandlerEnvironment(
     val bot: Bot,
     val update: Update,
-    val preCheckoutQuery: PreCheckoutQuery
+    val preCheckoutQuery: PreCheckoutQuery,
 )
 
-internal class PreCheckoutQueryHandler(
-    private val handlePreCheckoutQuery: HandlePreCheckoutQuery
+class PreCheckoutQueryHandler(
+    private val handlePreCheckoutQuery: HandlePreCheckoutQuery,
 ) : Handler {
 
     override fun checkUpdate(update: Update): Boolean {
         return update.preCheckoutQuery != null
     }
 
-    override fun handleUpdate(bot: Bot, update: Update) {
+    override suspend fun handleUpdate(bot: Bot, update: Update) {
         checkNotNull(update.preCheckoutQuery)
 
         val preCheckoutQueryHandlerEnv = PreCheckoutQueryHandlerEnvironment(
             bot,
             update,
-            update.preCheckoutQuery
+            update.preCheckoutQuery,
         )
         handlePreCheckoutQuery(preCheckoutQueryHandlerEnv)
     }

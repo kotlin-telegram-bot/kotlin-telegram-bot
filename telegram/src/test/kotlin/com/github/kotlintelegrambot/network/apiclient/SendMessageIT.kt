@@ -27,7 +27,7 @@ class SendMessageIT : ApiClientIT() {
             protectContent = null,
             replyToMessageId = null,
             allowSendingWithoutReply = null,
-            replyMarkup = null
+            replyMarkup = null,
         )
 
         val request = mockWebServer.takeRequest()
@@ -48,7 +48,7 @@ class SendMessageIT : ApiClientIT() {
             protectContent = null,
             replyToMessageId = null,
             allowSendingWithoutReply = null,
-            replyMarkup = null
+            replyMarkup = null,
         )
 
         val request = mockWebServer.takeRequest()
@@ -69,7 +69,7 @@ class SendMessageIT : ApiClientIT() {
             protectContent = null,
             replyToMessageId = ANY_MESSAGE_ID,
             allowSendingWithoutReply = null,
-            replyMarkup = ForceReplyMarkup(forceReply = false)
+            replyMarkup = ForceReplyMarkup(forceReply = false),
         )
 
         val request = mockWebServer.takeRequest()
@@ -99,13 +99,13 @@ class SendMessageIT : ApiClientIT() {
             replyMarkup = InlineKeyboardMarkup.create(
                 listOf(
                     InlineKeyboardButton.Url(ANY_TEXT, ANY_URL),
-                    InlineKeyboardButton.CallbackData(ANY_TEXT, ANY_TEXT)
+                    InlineKeyboardButton.CallbackData(ANY_TEXT, ANY_TEXT),
                 ),
                 listOf(
                     InlineKeyboardButton.SwitchInlineQuery(ANY_TEXT, ANY_TEXT),
-                    InlineKeyboardButton.SwitchInlineQueryCurrentChat(ANY_TEXT, ANY_TEXT)
-                )
-            )
+                    InlineKeyboardButton.SwitchInlineQueryCurrentChat(ANY_TEXT, ANY_TEXT),
+                ),
+            ),
         )
 
         val request = mockWebServer.takeRequest()
@@ -134,7 +134,7 @@ class SendMessageIT : ApiClientIT() {
             protectContent = null,
             replyToMessageId = null,
             allowSendingWithoutReply = null,
-            replyMarkup = null
+            replyMarkup = null,
         )
 
         val expectedMessage = Message(
@@ -143,7 +143,7 @@ class SendMessageIT : ApiClientIT() {
                 id = -1001367429635,
                 title = "[Channel] Test Telegram Bot API",
                 username = "testtelegrambotapi",
-                type = "channel"
+                type = "channel",
             ),
             date = 1604158404,
             text = "I'm part of a test :)",

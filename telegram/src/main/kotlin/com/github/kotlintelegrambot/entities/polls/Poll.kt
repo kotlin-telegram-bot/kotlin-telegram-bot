@@ -20,5 +20,5 @@ data class Poll(
     @SerializedName(PollFields.EXPLANATION) val explanation: String? = null,
     @SerializedName(PollFields.EXPLANATION_ENTITIES) val explanationEntities: List<MessageEntity>? = null,
     @SerializedName(PollFields.OPEN_PERIOD) val openPeriod: Int? = null,
-    @SerializedName(PollFields.CLOSE_DATE) val closeData: Long? = null
+    @SerializedName(PollFields.CLOSE_DATE) val closeData: Long? = null,
 )

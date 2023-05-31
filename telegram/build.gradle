@@ -4,6 +4,7 @@ buildscript {
     ext.junit_version = "5.5.1"
     ext.logging_interceptor_version = '3.8.0'
     ext.mock_web_server_version = '4.2.1'
+    ext.coroutines_version = '1.6.2'
 
     repositories {
         mavenCentral()
@@ -33,6 +34,8 @@ dependencies {
 
     implementation "com.squareup.okhttp3:logging-interceptor:$logging_interceptor_version"
 
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+
     // Testing
     testImplementation "org.junit.jupiter:junit-jupiter:$junit_version"
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
@@ -41,6 +44,7 @@ dependencies {
     testImplementation "io.mockk:mockk:1.10.2"
     testImplementation "com.squareup.okhttp3:mockwebserver:$mock_web_server_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {

@@ -5,12 +5,12 @@ import com.github.kotlintelegrambot.entities.Game
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 
-internal class GameHandler(
-    handleGame: HandleGame
+class GameHandler(
+    handleGame: HandleGame,
 ) : MediaHandler<Game>(
     handleGame,
     GameHandlerFunctions::mapMessageToGame,
-    GameHandlerFunctions::isUpdateGame
+    GameHandlerFunctions::isUpdateGame,
 )
 
 private object GameHandlerFunctions {

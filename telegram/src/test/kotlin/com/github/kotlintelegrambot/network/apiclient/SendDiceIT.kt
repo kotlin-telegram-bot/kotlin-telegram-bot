@@ -98,7 +98,7 @@ class SendDiceIT : ApiClientIT() {
             ChatId.fromId(ANY_CHAT_ID),
             emoji = DiceEmoji.Dartboard,
             disableNotification = DISABLE_NOTIFICATION,
-            replyToMessageId = ANY_MESSAGE_ID
+            replyToMessageId = ANY_MESSAGE_ID,
         )
 
         val request = mockWebServer.takeRequest()
@@ -121,18 +121,18 @@ class SendDiceIT : ApiClientIT() {
                 id = 482352699,
                 isBot = true,
                 firstName = "foo",
-                username = "bar"
+                username = "bar",
             ),
             chat = Chat(
                 id = -1001287972005,
                 title = "Test Telegram Bot API",
-                type = "supergroup"
+                type = "supergroup",
             ),
             date = 1590313567,
             dice = Dice(
                 emoji = DiceEmoji.Dartboard,
-                value = 6
-            )
+                value = 6,
+            ),
         )
         assertEquals(expectedMessage, sendDiceResult.getOrNull())
     }

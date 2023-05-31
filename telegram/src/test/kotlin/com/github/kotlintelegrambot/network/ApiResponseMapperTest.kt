@@ -13,14 +13,14 @@ class ApiResponseMapperTest {
     fun `error response`() {
         val notSuccessfulResponse = CallResponse.error<Response<Int>>(
             ANY_HTTP_ERROR_CODE,
-            ANY_ERROR_BODY.toResponseBody()
+            ANY_ERROR_BODY.toResponseBody(),
         )
 
         val telegramBotResult = sut.mapToTelegramBotResult(notSuccessfulResponse)
 
         val expectedTelegramBotResult = TelegramBotResult.Error.HttpError<Int>(
             ANY_HTTP_ERROR_CODE,
-            ANY_ERROR_BODY
+            ANY_ERROR_BODY,
         )
         assertEquals(expectedTelegramBotResult, telegramBotResult)
     }
@@ -34,7 +34,7 @@ class ApiResponseMapperTest {
         val expectedTelegramBotResult = TelegramBotResult.Error.InvalidResponse<Int>(
             200,
             "OK",
-            null
+            null,
         )
         assertEquals(expectedTelegramBotResult, telegramBotResult)
     }
@@ -45,20 +45,20 @@ class ApiResponseMapperTest {
             result = null,
             ok = true,
             errorCode = null,
-            errorDescription = null
+            errorDescription = null,
         )
         val successfulResponseWithInvalidSuccessfulTgResponse = CallResponse.success(
-            invalidSuccessfulTgResponse
+            invalidSuccessfulTgResponse,
         )
 
         val telegramBotResult = sut.mapToTelegramBotResult(
-            successfulResponseWithInvalidSuccessfulTgResponse
+            successfulResponseWithInvalidSuccessfulTgResponse,
         )
 
         val expectedTelegramBotResult = TelegramBotResult.Error.InvalidResponse(
             200,
             "OK",
-            invalidSuccessfulTgResponse
+            invalidSuccessfulTgResponse,
         )
         assertEquals(expectedTelegramBotResult, telegramBotResult)
     }
@@ -69,14 +69,14 @@ class ApiResponseMapperTest {
             result = ANY_RESULT,
             ok = true,
             errorCode = null,
-            errorDescription = null
+            errorDescription = null,
         )
         val successfulResponseWithValidSuccessfulTgResponse = CallResponse.success(
-            validSuccessfulTgResponse
+            validSuccessfulTgResponse,
         )
 
         val telegramBotResult = sut.mapToTelegramBotResult(
-            successfulResponseWithValidSuccessfulTgResponse
+            successfulResponseWithValidSuccessfulTgResponse,
         )
 
         val expectedTelegramBotResult = TelegramBotResult.Success(ANY_RESULT)
@@ -89,20 +89,20 @@ class ApiResponseMapperTest {
             result = null,
             ok = false,
             errorCode = null,
-            errorDescription = "any error description"
+            errorDescription = "any error description",
         )
         val successfulResponseWithInvalidErrorTgResponse = CallResponse.success(
-            invalidErrorTgResponse
+            invalidErrorTgResponse,
         )
 
         val telegramBotResult = sut.mapToTelegramBotResult(
-            successfulResponseWithInvalidErrorTgResponse
+            successfulResponseWithInvalidErrorTgResponse,
         )
 
         val expectedTelegramBotResult = TelegramBotResult.Error.InvalidResponse(
             200,
             "OK",
-            invalidErrorTgResponse
+            invalidErrorTgResponse,
         )
         assertEquals(expectedTelegramBotResult, telegramBotResult)
     }
@@ -113,20 +113,20 @@ class ApiResponseMapperTest {
             result = null,
             ok = false,
             errorCode = 403,
-            errorDescription = null
+            errorDescription = null,
         )
         val successfulResponseWithInvalidErrorTgResponse = CallResponse.success(
-            invalidErrorTgResponse
+            invalidErrorTgResponse,
         )
 
         val telegramBotResult = sut.mapToTelegramBotResult(
-            successfulResponseWithInvalidErrorTgResponse
+            successfulResponseWithInvalidErrorTgResponse,
         )
 
         val expectedTelegramBotResult = TelegramBotResult.Error.InvalidResponse(
             200,
             "OK",
-            invalidErrorTgResponse
+            invalidErrorTgResponse,
         )
         assertEquals(expectedTelegramBotResult, telegramBotResult)
     }
@@ -137,19 +137,19 @@ class ApiResponseMapperTest {
             result = null,
             ok = false,
             errorCode = ANY_ERROR_CODE,
-            errorDescription = ANY_ERROR_DESCRIPTION
+            errorDescription = ANY_ERROR_DESCRIPTION,
         )
         val successfulResponseWithValidErrorTgResponse = CallResponse.success(
-            validErrorTgResponse
+            validErrorTgResponse,
         )
 
         val telegramBotResult = sut.mapToTelegramBotResult(
-            successfulResponseWithValidErrorTgResponse
+            successfulResponseWithValidErrorTgResponse,
         )
 
         val expectedTelegramBotResult = TelegramBotResult.Error.TelegramApi<Int>(
             ANY_ERROR_CODE,
-            ANY_ERROR_DESCRIPTION
+            ANY_ERROR_DESCRIPTION,
         )
         assertEquals(expectedTelegramBotResult, telegramBotResult)
     }

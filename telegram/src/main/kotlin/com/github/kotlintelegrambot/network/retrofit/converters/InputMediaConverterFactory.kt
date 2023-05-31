@@ -10,7 +10,7 @@ internal class InputMediaConverterFactory(private val gson: Gson) : Converter.Fa
     override fun stringConverter(
         type: Type,
         annotations: Array<out Annotation>,
-        retrofit: Retrofit
+        retrofit: Retrofit,
     ): Converter<InputMedia, String>? {
         if (type != InputMedia::class.java) {
             return null

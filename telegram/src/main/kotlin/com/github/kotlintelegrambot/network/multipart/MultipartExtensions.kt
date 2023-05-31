@@ -8,7 +8,7 @@ import java.nio.file.Files
 
 internal fun File.toMultipartBodyPart(
     partName: String = name,
-    mediaType: String? = null
+    mediaType: String? = null,
 ): MultipartBody.Part {
     val mimeType = (mediaType ?: Files.probeContentType(toPath()))?.let { MediaType.parse(it) }
     val requestBody = RequestBody.create(mimeType, this)
@@ -26,7 +26,7 @@ internal fun Iterable<String>.toMultipartBodyPart(partName: String): MultipartBo
 internal fun ByteArray.toMultipartBodyPart(
     partName: String,
     filename: String? = partName,
-    mediaType: String? = null
+    mediaType: String? = null,
 ): MultipartBody.Part {
     val mimeType = mediaType?.let { MediaType.parse(it) }
     val requestBody = RequestBody.create(mimeType, this)

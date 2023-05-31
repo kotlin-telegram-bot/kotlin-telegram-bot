@@ -20,7 +20,7 @@ class GetMeIT : ApiClientIT() {
             username = "pickleman",
             canJoinGroups = true,
             canReadAllGroupMessages = false,
-            supportsInlineQueries = false
+            supportsInlineQueries = false,
         )
         assertEquals(expectedUser, getMeResult.getOrNull())
     }

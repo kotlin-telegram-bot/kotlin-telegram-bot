@@ -37,7 +37,7 @@ class BotIT {
 
         assertEquals(
             "To start a webhook you need to configure it on bot set up. Check the `webhook` builder function",
-            exception.message
+            exception.message,
         )
     }
 
@@ -83,7 +83,7 @@ class BotIT {
 
         assertEquals(
             "To stop a webhook you need to configure it on bot set up. Check the `webhook` builder function",
-            exception.message
+            exception.message,
         )
     }
 
@@ -136,7 +136,8 @@ class BotIT {
                 """{
                 |"ok": true,
                 |"result": true
-                |}""".trimMargin()
+                |}
+                """.trimMargin(),
             )
         mockWebServer.enqueue(successResponse)
     }
@@ -148,7 +149,8 @@ class BotIT {
                 """{
                 |"ok": true,
                 |"result": true
-                |}""".trimMargin()
+                |}
+                """.trimMargin(),
             )
         mockWebServer.enqueue(successResponse)
     }

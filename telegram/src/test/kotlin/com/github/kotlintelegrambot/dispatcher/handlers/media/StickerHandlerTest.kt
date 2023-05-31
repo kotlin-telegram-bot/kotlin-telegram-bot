@@ -5,10 +5,11 @@ import anySticker
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleSticker
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class StickerHandlerTest {
@@ -36,7 +37,7 @@ class StickerHandlerTest {
     }
 
     @Test
-    fun `sticker is properly dispatched to the handler function`() {
+    fun `sticker is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val anySticker = anySticker()
         val anyMessageWithSticker = anyMessage(sticker = anySticker)
@@ -48,8 +49,8 @@ class StickerHandlerTest {
             botMock,
             anyUpdateWithSticker,
             anyMessageWithSticker,
-            anySticker
+            anySticker,
         )
-        verify { handleStickerMock.invoke(expectedStickerHandlerEnv) }
+        coVerify { handleStickerMock.invoke(expectedStickerHandlerEnv) }
     }
 }

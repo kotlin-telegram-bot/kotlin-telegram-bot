@@ -6,5 +6,5 @@ data class Location(
     val longitude: Float,
     val latitude: Float,
     @Name("live_period") val livePeriod: Int? = null,
-    @Name("proximity_alert_radius") val proximityAlertRadius: Int? = null
+    @Name("proximity_alert_radius") val proximityAlertRadius: Int? = null,
 )

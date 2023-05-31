@@ -27,5 +27,5 @@ data class PaymentInvoiceInfo(
     val isFlexible: Boolean? = null,
     val providerData: String? = null,
     val invoicePhoto: InvoicePhotoDetail? = null,
-    val invoiceUserDetail: InvoiceUserDetail? = null
+    val invoiceUserDetail: InvoiceUserDetail? = null,
 )

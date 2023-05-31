@@ -12,5 +12,5 @@ data class VideoNote(
     @SerializedName(FilesFields.length) val length: Int,
     @SerializedName(FilesFields.duration) val duration: Int,
     @SerializedName(FilesFields.thumb) val thumb: PhotoSize? = null,
-    @SerializedName(FilesFields.fileSize) val fileSize: Int? = null
+    @SerializedName(FilesFields.fileSize) val fileSize: Int? = null,
 )

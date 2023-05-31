@@ -5,12 +5,12 @@ import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.files.VideoNote
 
-internal class VideoNoteHandler(
-    handleVideoNote: HandleVideoNote
+class VideoNoteHandler(
+    handleVideoNote: HandleVideoNote,
 ) : MediaHandler<VideoNote>(
     handleVideoNote,
     VideoNoteHandlerFunctions::mapMessageToVideoNote,
-    VideoNoteHandlerFunctions::isUpdateVideoNote
+    VideoNoteHandlerFunctions::isUpdateVideoNote,
 )
 
 private object VideoNoteHandlerFunctions {

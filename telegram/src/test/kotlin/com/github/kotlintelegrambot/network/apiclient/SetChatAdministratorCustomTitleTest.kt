@@ -17,7 +17,7 @@ class SetChatAdministratorCustomTitleTest : ApiClientIT() {
         sut.setChatAdministratorCustomTitle(
             chatId = ChatId.fromId(ANY_CHAT_ID),
             userId = ANY_USER_ID,
-            customTitle = ANY_CUSTOM_TITLE
+            customTitle = ANY_CUSTOM_TITLE,
         )
 
         val request = mockWebServer.takeRequest()
@@ -34,7 +34,7 @@ class SetChatAdministratorCustomTitleTest : ApiClientIT() {
         sut.setChatAdministratorCustomTitle(
             chatId = ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME),
             userId = ANY_USER_ID,
-            customTitle = ANY_CUSTOM_TITLE
+            customTitle = ANY_CUSTOM_TITLE,
         )
 
         val request = mockWebServer.takeRequest()
@@ -51,7 +51,7 @@ class SetChatAdministratorCustomTitleTest : ApiClientIT() {
         val setChatAdministratorCustomTitleResponse = sut.setChatAdministratorCustomTitle(
             chatId = ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME),
             userId = ANY_USER_ID,
-            customTitle = ANY_CUSTOM_TITLE
+            customTitle = ANY_CUSTOM_TITLE,
         )
 
         assertTrue(setChatAdministratorCustomTitleResponse.get())
@@ -64,7 +64,7 @@ class SetChatAdministratorCustomTitleTest : ApiClientIT() {
         val setChatAdministratorCustomTitleResponse = sut.setChatAdministratorCustomTitle(
             chatId = ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME),
             userId = ANY_USER_ID,
-            customTitle = ANY_CUSTOM_TITLE
+            customTitle = ANY_CUSTOM_TITLE,
         )
 
         assertNull(setChatAdministratorCustomTitleResponse.getOrNull())

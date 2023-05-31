@@ -55,8 +55,8 @@ class StopPollIT : ApiClientIT() {
                     InlineKeyboardButton.Url(
                         text = ANY_TEXT,
                         url = ANY_URL,
-                    )
-                )
+                    ),
+                ),
             ),
         )
 
@@ -88,7 +88,7 @@ class StopPollIT : ApiClientIT() {
                 PollOption(
                     text = "Without :)",
                     voterCount = 0,
-                )
+                ),
             ),
             totalVoterCount = 0,
             isClosed = true,
@@ -127,7 +127,7 @@ class StopPollIT : ApiClientIT() {
         mockWebServer.enqueue(
             MockResponse()
                 .setResponseCode(200)
-                .setBody(stopPollResponse)
+                .setBody(stopPollResponse),
         )
     }
 

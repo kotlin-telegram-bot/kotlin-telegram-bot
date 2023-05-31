@@ -11,5 +11,5 @@ data class Voice(
     @SerializedName(FilesFields.fileUniqueId) val fileUniqueId: String,
     @SerializedName(FilesFields.duration) val duration: Int,
     @SerializedName(FilesFields.mimeType) val mimeType: String? = null,
-    @SerializedName(FilesFields.fileSize) val fileSize: Int? = null
+    @SerializedName(FilesFields.fileSize) val fileSize: Int? = null,
 )

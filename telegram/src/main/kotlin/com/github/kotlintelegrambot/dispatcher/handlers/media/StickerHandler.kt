@@ -5,12 +5,12 @@ import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.stickers.Sticker
 
-internal class StickerHandler(
-    handleSticker: HandleSticker
+class StickerHandler(
+    handleSticker: HandleSticker,
 ) : MediaHandler<Sticker>(
     handleSticker,
     StickerHandlerFunctions::mapMessageToSticker,
-    StickerHandlerFunctions::isUpdateSticker
+    StickerHandlerFunctions::isUpdateSticker,
 )
 
 private object StickerHandlerFunctions {

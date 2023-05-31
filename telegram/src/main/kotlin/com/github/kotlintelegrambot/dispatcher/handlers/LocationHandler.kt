@@ -9,18 +9,18 @@ data class LocationHandlerEnvironment(
     val bot: Bot,
     val update: Update,
     val message: Message,
-    val location: Location
+    val location: Location,
 )
 
-internal class LocationHandler(
-    private val handleLocation: HandleLocation
+class LocationHandler(
+    private val handleLocation: HandleLocation,
 ) : Handler {
 
     override fun checkUpdate(update: Update): Boolean {
         return update.message?.location != null
     }
 
-    override fun handleUpdate(bot: Bot, update: Update) {
+    override suspend fun handleUpdate(bot: Bot, update: Update) {
         checkNotNull(update.message)
         checkNotNull(update.message.location)
 
@@ -28,7 +28,7 @@ internal class LocationHandler(
             bot,
             update,
             update.message,
-            update.message.location
+            update.message.location,
         )
         handleLocation(locationHandlerEnv)
     }

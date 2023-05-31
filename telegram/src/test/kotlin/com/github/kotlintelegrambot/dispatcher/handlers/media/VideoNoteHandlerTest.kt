@@ -5,10 +5,11 @@ import anyUpdate
 import anyVideoNote
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleVideoNote
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class VideoNoteHandlerTest {
@@ -36,7 +37,7 @@ class VideoNoteHandlerTest {
     }
 
     @Test
-    fun `video note is properly dispatched to the handler function`() {
+    fun `video note is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val anyVideoNote = anyVideoNote()
         val anyMessageWithVideoNote = anyMessage(videoNote = anyVideoNote)
@@ -48,8 +49,8 @@ class VideoNoteHandlerTest {
             botMock,
             anyUpdateWithVideoNote,
             anyMessageWithVideoNote,
-            anyVideoNote
+            anyVideoNote,
         )
-        verify { handleVideoNoteMock.invoke(expectedVideoNoteHandlerEnv) }
+        coVerify { handleVideoNoteMock.invoke(expectedVideoNoteHandlerEnv) }
     }
 }

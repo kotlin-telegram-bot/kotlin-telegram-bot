@@ -4,9 +4,10 @@ import anyMessage
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.extensions.filters.Filter
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -44,7 +45,7 @@ class MessageHandlerTest {
     }
 
     @Test
-    fun `message update is properly dispatched to the handler function`() {
+    fun `message update is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val anyMessage = anyMessage()
         val anyUpdate = anyUpdate(message = anyMessage)
@@ -54,9 +55,9 @@ class MessageHandlerTest {
         val expectedMessageHandlerEnvironment = MessageHandlerEnvironment(
             botMock,
             anyUpdate,
-            anyMessage
+            anyMessage,
         )
-        verify { handlerMock.invoke(expectedMessageHandlerEnvironment) }
+        coVerify { handlerMock.invoke(expectedMessageHandlerEnvironment) }
     }
 
     private fun givenFilterReturns(filterReturnValue: Boolean) {

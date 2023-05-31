@@ -56,7 +56,7 @@ internal interface ApiService {
         @Field(ApiConstants.SetWebhook.IP_ADDRESS) ipAddress: String? = null,
         @Field(ApiConstants.SetWebhook.MAX_CONNECTIONS) maxConnections: Int? = null,
         @Field(ApiConstants.SetWebhook.ALLOWED_UPDATES) allowedUpdates: List<String>? = null,
-        @Field(ApiConstants.SetWebhook.DROP_PENDING_UPDATES) dropPendingUpdates: Boolean? = null
+        @Field(ApiConstants.SetWebhook.DROP_PENDING_UPDATES) dropPendingUpdates: Boolean? = null,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
@@ -67,7 +67,7 @@ internal interface ApiService {
         @Field(ApiConstants.SetWebhook.IP_ADDRESS) ipAddress: String? = null,
         @Field(ApiConstants.SetWebhook.MAX_CONNECTIONS) maxConnections: Int? = null,
         @Field(ApiConstants.SetWebhook.ALLOWED_UPDATES) allowedUpdates: List<String>? = null,
-        @Field(ApiConstants.SetWebhook.DROP_PENDING_UPDATES) dropPendingUpdates: Boolean? = null
+        @Field(ApiConstants.SetWebhook.DROP_PENDING_UPDATES) dropPendingUpdates: Boolean? = null,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
@@ -78,7 +78,7 @@ internal interface ApiService {
         @Field(ApiConstants.SetWebhook.IP_ADDRESS) ipAddress: String? = null,
         @Field(ApiConstants.SetWebhook.MAX_CONNECTIONS) maxConnections: Int? = null,
         @Field(ApiConstants.SetWebhook.ALLOWED_UPDATES) allowedUpdates: List<String>? = null,
-        @Field(ApiConstants.SetWebhook.DROP_PENDING_UPDATES) dropPendingUpdates: Boolean? = null
+        @Field(ApiConstants.SetWebhook.DROP_PENDING_UPDATES) dropPendingUpdates: Boolean? = null,
     ): Call<Response<Boolean>>
 
     @Multipart
@@ -89,12 +89,12 @@ internal interface ApiService {
         @Part ipAddress: MultipartBody.Part? = null,
         @Part maxConnections: MultipartBody.Part? = null,
         @Part allowedUpdates: MultipartBody.Part? = null,
-        @Part dropPendingUpdates: MultipartBody.Part? = null
+        @Part dropPendingUpdates: MultipartBody.Part? = null,
     ): Call<Response<Boolean>>
 
     @GET("deleteWebhook")
     fun deleteWebhook(
-        @Query(ApiConstants.SetWebhook.DROP_PENDING_UPDATES) dropPendingUpdates: Boolean? = null
+        @Query(ApiConstants.SetWebhook.DROP_PENDING_UPDATES) dropPendingUpdates: Boolean? = null,
     ): Call<Response<Boolean>>
 
     @GET("getWebhookInfo")
@@ -118,7 +118,7 @@ internal interface ApiService {
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup?
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup?,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -144,7 +144,7 @@ internal interface ApiService {
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup?
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup?,
     ): Call<Response<MessageId>>
 
     @Multipart
@@ -158,7 +158,7 @@ internal interface ApiService {
         @Part(ApiConstants.PROTECT_CONTENT) protectContent: RequestBody?,
         @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
         @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
-        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null
+        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -172,7 +172,7 @@ internal interface ApiService {
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
     ): Call<Response<Message>>
 
     @Multipart
@@ -187,7 +187,7 @@ internal interface ApiService {
         @Part(ApiConstants.PROTECT_CONTENT) protectContent: RequestBody?,
         @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
         @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
-        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null
+        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -202,7 +202,7 @@ internal interface ApiService {
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
     ): Call<Response<Message>>
 
     @POST("sendDocument")
@@ -217,7 +217,7 @@ internal interface ApiService {
         @Part(ApiConstants.PROTECT_CONTENT) protectContent: RequestBody?,
         @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
         @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
-        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null
+        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -232,7 +232,7 @@ internal interface ApiService {
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
     ): Call<Response<Message>>
 
     @Multipart
@@ -248,7 +248,7 @@ internal interface ApiService {
         @Part(ApiConstants.PROTECT_CONTENT) protectContent: RequestBody?,
         @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
         @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
-        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null
+        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -264,7 +264,7 @@ internal interface ApiService {
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -276,7 +276,7 @@ internal interface ApiService {
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
     ): Call<Response<Message>>
 
     @Multipart
@@ -293,7 +293,7 @@ internal interface ApiService {
         @Part(ApiConstants.PROTECT_CONTENT) protectContent: RequestBody?,
         @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
         @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
-        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null
+        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -310,7 +310,7 @@ internal interface ApiService {
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
     ): Call<Response<Message>>
 
     @Multipart
@@ -326,7 +326,7 @@ internal interface ApiService {
         @Part(ApiConstants.PROTECT_CONTENT) protectContent: RequestBody?,
         @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
         @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
-        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null
+        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -342,7 +342,7 @@ internal interface ApiService {
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
     ): Call<Response<Message>>
 
     @POST("sendVideoNote")
@@ -356,7 +356,7 @@ internal interface ApiService {
         @Part(ApiConstants.PROTECT_CONTENT) protectContent: RequestBody?,
         @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
         @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
-        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null
+        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -370,7 +370,7 @@ internal interface ApiService {
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
     ): Call<Response<Message>>
 
     @Multipart
@@ -389,7 +389,7 @@ internal interface ApiService {
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
-        @Field("proximity_alert_radius") proximityAlertRadius: Int? = null
+        @Field("proximity_alert_radius") proximityAlertRadius: Int? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -401,7 +401,7 @@ internal interface ApiService {
         @Field("latitude") latitude: Float,
         @Field("longitude") longitude: Float,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
-        @Field("proximity_alert_radius") proximityAlertRadius: Int? = null
+        @Field("proximity_alert_radius") proximityAlertRadius: Int? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -410,7 +410,7 @@ internal interface ApiService {
         @Field(ApiConstants.CHAT_ID) chatId: ChatId?,
         @Field("message_id") messageId: Long?,
         @Field("inline_message_id") inlineMessageId: String?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -429,7 +429,7 @@ internal interface ApiService {
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
     ): Call<Response<Message>>
 
     @POST("sendContact")
@@ -443,7 +443,7 @@ internal interface ApiService {
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -465,31 +465,31 @@ internal interface ApiService {
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
     @POST("sendChatAction")
     fun sendChatAction(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
-        @Field("action") action: ChatAction
+        @Field("action") action: ChatAction,
     ): Call<Response<Boolean>>
 
     @GET("getUserProfilePhotos")
     fun getUserProfilePhotos(
         @Query(ApiConstants.USER_ID) userId: Long,
         @Query("offset") offset: Long?,
-        @Query("limit") limit: Int? = null
+        @Query("limit") limit: Int? = null,
     ): Call<Response<UserProfilePhotos>>
 
     @GET("getFile")
     fun getFile(
-        @Query("file_id") fileId: String
+        @Query("file_id") fileId: String,
     ): Call<Response<File>>
 
     @GET
     fun downloadFile(
-        @Url customUrl: String
+        @Url customUrl: String,
     ): Call<ResponseBody>
 
     @FormUrlEncoded
@@ -497,7 +497,7 @@ internal interface ApiService {
     fun banChatMember(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field(ApiConstants.USER_ID) userId: Long,
-        @Field("until_date") untilDate: Long?
+        @Field("until_date") untilDate: Long?,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
@@ -505,7 +505,7 @@ internal interface ApiService {
     fun unbanChatMember(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field(ApiConstants.USER_ID) userId: Long,
-        @Field("only_if_banned") onlyIfBanned: Boolean?
+        @Field("only_if_banned") onlyIfBanned: Boolean?,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
@@ -514,7 +514,7 @@ internal interface ApiService {
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field(ApiConstants.USER_ID) userId: Long,
         @Field("permissions") permissions: String,
-        @Field("until_date") untilDate: Long?
+        @Field("until_date") untilDate: Long?,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
@@ -530,47 +530,47 @@ internal interface ApiService {
         @Field("can_invite_users") canInviteUsers: Boolean?,
         @Field("can_restrict_members") canRestrictMembers: Boolean?,
         @Field("can_pin_messages") canPinMessages: Boolean?,
-        @Field("can_promote_members") canPromoteMembers: Boolean?
+        @Field("can_promote_members") canPromoteMembers: Boolean?,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
     @POST("setChatPermissions")
     fun setChatPermissions(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
-        @Field("permissions") permissions: String
+        @Field("permissions") permissions: String,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
     @POST("exportChatInviteLink")
     fun exportChatInviteLink(
-        @Field(ApiConstants.CHAT_ID) chatId: ChatId
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
     ): Call<Response<String>>
 
     @Multipart
     @POST("setChatPhoto")
     fun setChatPhoto(
         @Part(ApiConstants.CHAT_ID) chatId: ChatId,
-        @Part("photo") photo: MultipartBody.Part
+        @Part("photo") photo: MultipartBody.Part,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
     @POST("deleteChatPhoto")
     fun deleteChatPhoto(
-        @Field(ApiConstants.CHAT_ID) chatId: ChatId
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
     @POST("setChatTitle")
     fun setChatTitle(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
-        @Field("title") title: String
+        @Field("title") title: String,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
     @POST("setChatDescription")
     fun setChatDescription(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
-        @Field("description") description: String
+        @Field("description") description: String,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
@@ -578,60 +578,60 @@ internal interface ApiService {
     fun pinChatMessage(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("message_id") messageId: Long,
-        @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?
+        @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
     @POST("unpinChatMessage")
     fun unpinChatMessage(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
-        @Field("message_id") messageId: Long?
+        @Field("message_id") messageId: Long?,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
     @POST("unpinAllChatMessages")
     fun unpinAllChatMessages(
-        @Field(ApiConstants.CHAT_ID) chatId: ChatId
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
     @POST("leaveChat")
     fun leaveChat(
-        @Field(ApiConstants.CHAT_ID) chatId: ChatId
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
     ): Call<Response<Boolean>>
 
     @GET("getChat")
     fun getChat(
-        @Query(ApiConstants.CHAT_ID) chatId: ChatId
+        @Query(ApiConstants.CHAT_ID) chatId: ChatId,
     ): Call<Response<Chat>>
 
     @GET("getChatAdministrators")
     fun getChatAdministrators(
-        @Query(ApiConstants.CHAT_ID) chatId: ChatId
+        @Query(ApiConstants.CHAT_ID) chatId: ChatId,
     ): Call<Response<List<ChatMember>>>
 
     @GET("getChatMemberCount")
     fun getChatMemberCount(
-        @Query(ApiConstants.CHAT_ID) chatId: ChatId
+        @Query(ApiConstants.CHAT_ID) chatId: ChatId,
     ): Call<Response<Int>>
 
     @GET("getChatMember")
     fun getChatMember(
         @Query(ApiConstants.CHAT_ID) chatId: ChatId,
-        @Query(ApiConstants.USER_ID) userId: Long
+        @Query(ApiConstants.USER_ID) userId: Long,
     ): Call<Response<ChatMember>>
 
     @FormUrlEncoded
     @POST("setChatStickerSet")
     fun setChatStickerSet(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
-        @Field("sticker_set_name") stickerSetName: String
+        @Field("sticker_set_name") stickerSetName: String,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
     @POST("deleteChatStickerSet")
     fun deleteChatStickerSet(
-        @Field(ApiConstants.CHAT_ID) chatId: ChatId
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
@@ -641,7 +641,7 @@ internal interface ApiService {
         @Field("text") text: String?,
         @Field("show_alert") showAlert: Boolean?,
         @Field("url") url: String?,
-        @Field("cache_time") cacheTime: Int?
+        @Field("cache_time") cacheTime: Int?,
     ): Call<Response<Boolean>>
 
     @GET("logOut")
@@ -663,7 +663,7 @@ internal interface ApiService {
         @Field("text") text: String,
         @Field("parse_mode") parseMode: ParseMode?,
         @Field("disable_web_page_preview") disableWebPagePreview: Boolean?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -674,7 +674,7 @@ internal interface ApiService {
         @Field("inline_message_id") inlineMessageId: String?,
         @Field("caption") caption: String,
         @Field("parse_mode") parseMode: ParseMode?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -684,7 +684,7 @@ internal interface ApiService {
         @Field("message_id") messageId: Long?,
         @Field("inline_message_id") inlineMessageId: String?,
         @Field("media") media: InputMedia,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -693,7 +693,7 @@ internal interface ApiService {
         @Field(ApiConstants.CHAT_ID) chatId: ChatId?,
         @Field("message_id") messageId: Long?,
         @Field("inline_message_id") inlineMessageId: String?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -701,14 +701,14 @@ internal interface ApiService {
     fun stopPoll(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId?,
         @Field("message_id") messageId: Long?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
     ): Call<Response<Poll>>
 
     @FormUrlEncoded
     @POST("deleteMessage")
     fun deleteMessage(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
-        @Field("message_id") messageId: Long
+        @Field("message_id") messageId: Long,
     ): Call<Response<Boolean>>
 
     /***
@@ -724,7 +724,7 @@ internal interface ApiService {
         @Part(ApiConstants.PROTECT_CONTENT) protectContent: RequestBody?,
         @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
         @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
-        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null
+        @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -736,19 +736,19 @@ internal interface ApiService {
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
     ): Call<Response<Message>>
 
     @GET("getStickerSet")
     fun getStickerSet(
-        @Query("name") name: String
+        @Query("name") name: String,
     ): Call<Response<StickerSet>>
 
     @Multipart
     @POST("uploadStickerFile")
     fun uploadStickerFile(
         @Part(ApiConstants.USER_ID) userId: RequestBody,
-        @Part("png_sticker") pngSticker: MultipartBody.Part
+        @Part("png_sticker") pngSticker: MultipartBody.Part,
     ): Call<Response<File>>
 
     @Multipart
@@ -760,7 +760,7 @@ internal interface ApiService {
         @Part("png_sticker") pngSticker: MultipartBody.Part,
         @Part("emojis") emojis: RequestBody,
         @Part("contains_masks") containsMasks: RequestBody?,
-        @Part("mask_position") maskPosition: RequestBody?
+        @Part("mask_position") maskPosition: RequestBody?,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
@@ -772,7 +772,7 @@ internal interface ApiService {
         @Field("png_sticker") fileId: String,
         @Field("emojis") emojis: String,
         @Field("contains_masks") containsMasks: Boolean?,
-        @Field("mask_position") maskPosition: MaskPosition?
+        @Field("mask_position") maskPosition: MaskPosition?,
     ): Call<Response<Boolean>>
 
     @Multipart
@@ -782,7 +782,7 @@ internal interface ApiService {
         @Part("name") name: RequestBody,
         @Part("png_sticker") pngSticker: MultipartBody.Part,
         @Part("emojis") emojis: RequestBody,
-        @Part("mask_position") maskPosition: RequestBody?
+        @Part("mask_position") maskPosition: RequestBody?,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
@@ -792,20 +792,20 @@ internal interface ApiService {
         @Field("name") name: String,
         @Field("png_sticker") fileId: String,
         @Field("emojis") emojis: String,
-        @Field("mask_position") maskPosition: MaskPosition?
+        @Field("mask_position") maskPosition: MaskPosition?,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
     @POST("setStickerPositionInSet")
     fun setStickerPositionInSet(
         @Part("sticker") sticker: String,
-        @Part("position") position: Int
+        @Part("position") position: Int,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
     @POST("deleteStickerFromSet")
     fun deleteStickerFromSet(
-        @Part("sticker") sticker: String
+        @Part("sticker") sticker: String,
     ): Call<Response<Boolean>>
 
     /**
@@ -839,7 +839,7 @@ internal interface ApiService {
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -848,7 +848,7 @@ internal interface ApiService {
         @Field("shipping_query_id") shippingQueryId: String,
         @Field("ok") ok: Boolean,
         @Field("shipping_options") shippingOptions: List<ShippingOption>? = null,
-        @Field("error_message") errorMessage: String? = null
+        @Field("error_message") errorMessage: String? = null,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
@@ -856,7 +856,7 @@ internal interface ApiService {
     fun answerPreCheckoutQuery(
         @Field("pre_checkout_query_id") preCheckoutQueryId: String,
         @Field("ok") ok: Boolean,
-        @Field("error_message") errorMessage: String? = null
+        @Field("error_message") errorMessage: String? = null,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
@@ -868,7 +868,7 @@ internal interface ApiService {
         @Field("is_personal") isPersonal: Boolean,
         @Field("next_offset") nextOffset: String?,
         @Field("switch_pm_text") switchPmText: String?,
-        @Field("switch_pm_parameter") switchPmParameter: String?
+        @Field("switch_pm_parameter") switchPmParameter: String?,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
@@ -884,7 +884,7 @@ internal interface ApiService {
     @FormUrlEncoded
     @POST("setMyCommands")
     fun setMyCommands(
-        @Field("commands") commands: String
+        @Field("commands") commands: String,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
@@ -896,7 +896,7 @@ internal interface ApiService {
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long? = null,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
-        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -904,7 +904,7 @@ internal interface ApiService {
     fun setChatAdministratorCustomTitle(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field(ApiConstants.USER_ID) userId: Long,
-        @Field(ApiConstants.SetChatAdministratorCustomTitle.CUSTOM_TITLE) customTitle: String
+        @Field(ApiConstants.SetChatAdministratorCustomTitle.CUSTOM_TITLE) customTitle: String,
     ): Call<Response<Boolean>>
 }
 

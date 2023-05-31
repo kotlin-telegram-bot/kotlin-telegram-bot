@@ -7,5 +7,5 @@ data class ChosenInlineResult(
     val from: User,
     val location: Location? = null,
     @Name("inline_message_id") val inlineMessageId: String? = null,
-    val query: String
+    val query: String,
 )

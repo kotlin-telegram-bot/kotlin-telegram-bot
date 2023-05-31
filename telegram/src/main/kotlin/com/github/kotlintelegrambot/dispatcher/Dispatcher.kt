@@ -7,13 +7,17 @@ import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.errors.TelegramError
 import com.github.kotlintelegrambot.logging.LogLevel
 import com.github.kotlintelegrambot.types.DispatchableObject
-import java.util.concurrent.BlockingQueue
-import java.util.concurrent.Executor
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.yield
 
 class Dispatcher internal constructor(
-    private val updatesQueue: BlockingQueue<DispatchableObject>,
-    private val updatesExecutor: Executor,
+    private val updatesChannel: Channel<DispatchableObject>,
     private val logLevel: LogLevel,
+    coroutineDispatcher: CoroutineDispatcher,
 ) {
 
     internal lateinit var bot: Bot
@@ -21,21 +25,23 @@ class Dispatcher internal constructor(
     private val commandHandlers = linkedSetOf<Handler>()
     private val errorHandlers = arrayListOf<ErrorHandler>()
 
-    @Volatile private var stopped = false
+    private val scope: CoroutineScope = CoroutineScope(coroutineDispatcher)
+
+    @Volatile private var job: Job? = null
 
     internal fun startCheckingUpdates() {
-        stopped = false
-        updatesExecutor.execute { checkQueueUpdates() }
+        job?.cancel()
+        job = scope.launch { checkQueueUpdates() }
     }
 
-    private fun checkQueueUpdates() {
-        while (!Thread.currentThread().isInterrupted && !stopped) {
-            val item = updatesQueue.take()
-            when (item) {
+    private suspend fun checkQueueUpdates() {
+        while (true) {
+            when (val item = updatesChannel.receive()) {
                 is Update -> handleUpdate(item)
                 is TelegramError -> handleError(item)
                 else -> Unit
             }
+            yield()
         }
     }
 
@@ -55,13 +61,12 @@ class Dispatcher internal constructor(
         errorHandlers.remove(errorHandler)
     }
 
-    private fun handleUpdate(update: Update) {
+    private suspend fun handleUpdate(update: Update) {
         commandHandlers
+            .asSequence()
+            .filter { !update.consumed }
             .filter { it.checkUpdate(update) }
             .forEach {
-                if (update.consumed) {
-                    return
-                }
                 try {
                     it.handleUpdate(bot, update)
                 } catch (throwable: Throwable) {
@@ -85,6 +90,6 @@ class Dispatcher internal constructor(
     }
 
     internal fun stopCheckingUpdates() {
-        stopped = true
+        job?.cancel()
     }
 }

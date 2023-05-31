@@ -9,11 +9,11 @@ data class NewChatMembersHandlerEnvironment(
     val bot: Bot,
     val update: Update,
     val message: Message,
-    val newChatMembers: List<User>
+    val newChatMembers: List<User>,
 )
 
-internal class NewChatMembersHandler(
-    private val handleNewChatMembers: HandleNewChatMembers
+class NewChatMembersHandler(
+    private val handleNewChatMembers: HandleNewChatMembers,
 ) : Handler {
 
     override fun checkUpdate(update: Update): Boolean {
@@ -21,7 +21,7 @@ internal class NewChatMembersHandler(
         return newChatMembers != null && newChatMembers.isNotEmpty()
     }
 
-    override fun handleUpdate(bot: Bot, update: Update) {
+    override suspend fun handleUpdate(bot: Bot, update: Update) {
         val message = update.message
         val newChatMembers = message?.newChatMembers
         checkNotNull(newChatMembers)
@@ -30,7 +30,7 @@ internal class NewChatMembersHandler(
             bot,
             update,
             message,
-            newChatMembers
+            newChatMembers,
         )
         handleNewChatMembers.invoke(newChatMembersHandlerEnv)
     }

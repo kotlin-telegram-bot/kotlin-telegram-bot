@@ -10,5 +10,5 @@ data class ChatPermissions(
     @Name("can_add_web_page_previews") val canAddWebPagePreviews: Boolean? = null,
     @Name("can_change_info") val canChangeInfo: Boolean? = null,
     @Name("can_invite_users") val canInviteUsers: Boolean? = null,
-    @Name("can_pin_messages") val canPinMessages: Boolean? = null
+    @Name("can_pin_messages") val canPinMessages: Boolean? = null,
 )

@@ -18,7 +18,7 @@ class SendChatActionIT : ApiClientIT() {
 
         sut.sendChatAction(
             chatId = ChatId.fromId(ANY_CHAT_ID),
-            action = ChatAction.CHOOSE_STICKER
+            action = ChatAction.CHOOSE_STICKER,
         )
 
         val request = mockWebServer.takeRequest()
@@ -32,7 +32,7 @@ class SendChatActionIT : ApiClientIT() {
 
         val sendChatActionResult = sut.sendChatAction(
             chatId = ChatId.fromId(ANY_CHAT_ID),
-            action = ChatAction.CHOOSE_STICKER
+            action = ChatAction.CHOOSE_STICKER,
         ).get()
 
         assertTrue(sendChatActionResult)
@@ -44,7 +44,7 @@ class SendChatActionIT : ApiClientIT() {
 
         val sendChatActionResult = sut.sendChatAction(
             chatId = ChatId.fromId(ANY_CHAT_ID),
-            action = ChatAction.CHOOSE_STICKER
+            action = ChatAction.CHOOSE_STICKER,
         ).get()
 
         assertFalse(sendChatActionResult)
@@ -60,7 +60,7 @@ class SendChatActionIT : ApiClientIT() {
         mockWebServer.enqueue(
             MockResponse()
                 .setResponseCode(200)
-                .setBody(responseBody)
+                .setBody(responseBody),
         )
     }
 
@@ -74,7 +74,7 @@ class SendChatActionIT : ApiClientIT() {
         mockWebServer.enqueue(
             MockResponse()
                 .setResponseCode(200)
-                .setBody(responseBody)
+                .setBody(responseBody),
         )
     }
 

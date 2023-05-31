@@ -4,10 +4,11 @@ import anyContact
 import anyMessage
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class ContactHandlerTest {
@@ -35,7 +36,7 @@ class ContactHandlerTest {
     }
 
     @Test
-    fun `contact is properly dispatched to the handler function`() {
+    fun `contact is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val anyContact = anyContact()
         val anyMessageWithContact = anyMessage(contact = anyContact)
@@ -47,8 +48,8 @@ class ContactHandlerTest {
             botMock,
             anyUpdateWithContact,
             anyMessageWithContact,
-            anyContact
+            anyContact,
         )
-        verify { handleContactMock.invoke(expectedCommandHandlerEnv) }
+        coVerify { handleContactMock.invoke(expectedCommandHandlerEnv) }
     }
 }

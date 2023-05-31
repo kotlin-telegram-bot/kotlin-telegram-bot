@@ -5,10 +5,11 @@ import anyMessage
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleAudio
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class AudioHandlerTest {
@@ -36,7 +37,7 @@ class AudioHandlerTest {
     }
 
     @Test
-    fun `audio is properly dispatched to the handler function`() {
+    fun `audio is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val anyAudio = anyAudio()
         val anyMessageWithAudio = anyMessage(audio = anyAudio)
@@ -48,8 +49,8 @@ class AudioHandlerTest {
             botMock,
             anyUpdateWithAudio,
             anyMessageWithAudio,
-            anyAudio
+            anyAudio,
         )
-        verify { handleAudioMock.invoke(expectedAudioHandlerEnv) }
+        coVerify { handleAudioMock.invoke(expectedAudioHandlerEnv) }
     }
 }

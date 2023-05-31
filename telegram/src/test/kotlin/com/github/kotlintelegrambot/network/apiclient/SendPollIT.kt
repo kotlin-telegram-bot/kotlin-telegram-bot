@@ -48,7 +48,7 @@ class SendPollIT : ApiClientIT() {
             question = ANY_QUESTION,
             options = ANY_POLL_OPTIONS,
             allowsMultipleAnswers = ALLOWS_MULTIPLE_ANSWERS,
-            openPeriod = ANY_OPEN_PERIOD
+            openPeriod = ANY_OPEN_PERIOD,
         )
 
         val request = mockWebServer.takeRequest()
@@ -78,7 +78,7 @@ class SendPollIT : ApiClientIT() {
             openPeriod = ANY_OPEN_PERIOD,
             isClosed = IS_CLOSED,
             disableNotification = DO_NOT_DISABLE_NOTIFICATIONS,
-            replyToMessageId = ANY_MESSAGE_ID
+            replyToMessageId = ANY_MESSAGE_ID,
         )
 
         val request = mockWebServer.takeRequest()
@@ -111,12 +111,12 @@ class SendPollIT : ApiClientIT() {
                 id = 482352699,
                 isBot = true,
                 firstName = "ruka",
-                username = "rukaBot"
+                username = "rukaBot",
             ),
             chat = Chat(
                 id = -1001286972005,
                 title = "Test Telegram Bot API",
-                type = "supergroup"
+                type = "supergroup",
             ),
             date = 1589629064,
             poll = Poll(
@@ -124,14 +124,14 @@ class SendPollIT : ApiClientIT() {
                 question = "World war III, what do you prefer?",
                 options = listOf(
                     PollOption(text = "tabs", voterCount = 0),
-                    PollOption(text = "spaces", voterCount = 1)
+                    PollOption(text = "spaces", voterCount = 1),
                 ),
                 totalVoterCount = 1,
                 isClosed = false,
                 isAnonymous = true,
                 type = REGULAR,
-                allowsMultipleAnswers = false
-            )
+                allowsMultipleAnswers = false,
+            ),
         )
         assertEquals(expectedMessage, sendPollResult.get())
     }

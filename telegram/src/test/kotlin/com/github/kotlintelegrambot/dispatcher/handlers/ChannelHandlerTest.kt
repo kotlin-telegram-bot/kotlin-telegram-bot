@@ -3,10 +3,11 @@ package com.github.kotlintelegrambot.dispatcher.handlers
 import anyMessage
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class ChannelHandlerTest {
@@ -43,7 +44,7 @@ class ChannelHandlerTest {
     }
 
     @Test
-    fun `channel post is properly dispatched to the handler function`() {
+    fun `channel post is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val anyChannelPost = anyMessage()
         val anyUpdateWithChannelPost = anyUpdate(channelPost = anyChannelPost)
@@ -54,13 +55,13 @@ class ChannelHandlerTest {
             botMock,
             anyUpdateWithChannelPost,
             anyChannelPost,
-            isEdition = false
+            isEdition = false,
         )
-        verify { handleChannelPostMock.invoke(expectedChannelHandlerEnv) }
+        coVerify { handleChannelPostMock.invoke(expectedChannelHandlerEnv) }
     }
 
     @Test
-    fun `edited channel post is properly dispatched to the handler function`() {
+    fun `edited channel post is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val anyEditedChannelPost = anyMessage()
         val anyUpdateWithEditedChannelPost = anyUpdate(editedChannelPost = anyEditedChannelPost)
@@ -71,8 +72,8 @@ class ChannelHandlerTest {
             botMock,
             anyUpdateWithEditedChannelPost,
             anyEditedChannelPost,
-            isEdition = true
+            isEdition = true,
         )
-        verify { handleChannelPostMock.invoke(expectedChannelHandlerEnv) }
+        coVerify { handleChannelPostMock.invoke(expectedChannelHandlerEnv) }
     }
 }

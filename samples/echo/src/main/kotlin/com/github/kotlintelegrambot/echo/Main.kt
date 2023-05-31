@@ -6,13 +6,10 @@ import com.github.kotlintelegrambot.dispatcher.text
 import com.github.kotlintelegrambot.entities.ChatId
 
 fun main() {
-
     val bot = bot {
-
-        token = "1850490646:AAFNNJ9YQ8wj6HwGWUNG9sv61g9_cm8Dzfk"
+        token = "YOUR_API_KEY"
 
         dispatch {
-
             text {
                 bot.sendMessage(
                     chatId = ChatId.fromId(message.chat.id), text = text,

@@ -15,7 +15,7 @@ data class InvoiceUserDetail(
     val needEmail: Boolean? = null,
     val needShippingAddress: Boolean? = null,
     val sendPhoneNumberToProvider: Boolean? = null,
-    val sendEmailToProvider: Boolean? = null
+    val sendEmailToProvider: Boolean? = null,
 )
 
 /**
@@ -29,7 +29,7 @@ class InvoicePhotoDetail private constructor(
     val photoUrl: String? = null,
     val photoSize: Int? = null,
     val photoWidth: Int? = null,
-    val photoHeight: Int? = null
+    val photoHeight: Int? = null,
 ) {
 
     /**
@@ -38,7 +38,7 @@ class InvoicePhotoDetail private constructor(
      */
     constructor(
         photoUrl: String,
-        photoSize: Int
+        photoSize: Int,
     ) : this(photoUrl, photoSize, null, null)
 
     /**
@@ -49,6 +49,6 @@ class InvoicePhotoDetail private constructor(
     constructor(
         photoUrl: String,
         photoWidth: Int,
-        photoHeight: Int
+        photoHeight: Int,
     ) : this(photoUrl, null, photoWidth, photoHeight)
 }

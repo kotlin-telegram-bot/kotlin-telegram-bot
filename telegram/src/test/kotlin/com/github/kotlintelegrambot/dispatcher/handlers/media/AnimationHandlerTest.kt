@@ -5,10 +5,11 @@ import anyMessage
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleAnimation
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class AnimationHandlerTest {
@@ -36,7 +37,7 @@ class AnimationHandlerTest {
     }
 
     @Test
-    fun `animation is properly dispatched to the handler function`() {
+    fun `animation is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val anyAnimation = anyAnimation()
         val anyMessageWithAnimation = anyMessage(animation = anyAnimation)
@@ -48,8 +49,8 @@ class AnimationHandlerTest {
             botMock,
             anyUpdateWithAnimation,
             anyMessageWithAnimation,
-            anyAnimation
+            anyAnimation,
         )
-        verify { handleAnimationMock.invoke(expectedAnimationHandlerEnv) }
+        coVerify { handleAnimationMock.invoke(expectedAnimationHandlerEnv) }
     }
 }

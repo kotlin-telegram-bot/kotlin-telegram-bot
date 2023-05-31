@@ -5,12 +5,12 @@ import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.files.Animation
 
-internal class AnimationHandler(
-    handleAnimation: HandleAnimation
+class AnimationHandler(
+    handleAnimation: HandleAnimation,
 ) : MediaHandler<Animation>(
     handleAnimation,
     AnimationHandlerFunctions::mapMessageToAnimation,
-    AnimationHandlerFunctions::updateIsAnimation
+    AnimationHandlerFunctions::updateIsAnimation,
 )
 
 private object AnimationHandlerFunctions {

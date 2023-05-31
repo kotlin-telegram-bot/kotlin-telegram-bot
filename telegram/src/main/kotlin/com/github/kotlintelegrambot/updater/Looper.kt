@@ -1,35 +1,40 @@
 package com.github.kotlintelegrambot.updater
 
-import java.util.concurrent.Executor
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.yield
 
 internal interface Looper {
-    fun loop(loopBody: () -> Unit)
+    fun loop(loopBody: suspend () -> Unit)
     fun quit()
 }
 
 /**
- * [Looper] implementation that runs a given block of code in a loop with an [Executor] (mostly
- * intended to run the loop in a different thread). The loop will stop if the thread running the
+ * [Looper] implementation that runs a given block of code in a loop with an [CoroutineDispatcher] (mostly
+ * intended to run the loop in a different coroutine). The loop will stop if the coroutine running the
  * loop is interrupted or in the next iteration after the [quit] method is called.
  */
-internal class ExecutorLooper(
-    private val loopExecutor: Executor,
-) : Looper {
+internal class CoroutineLooper(coroutineDispatcher: CoroutineDispatcher) : Looper {
 
-    @Volatile private var isLooping = false
+    private val scope: CoroutineScope = CoroutineScope(coroutineDispatcher)
 
-    override fun loop(loopBody: () -> Unit) {
-        isLooping = true
-        loopExecutor.execute { runLoop(loopBody) }
+    @Volatile private var job: Job? = null
+
+    override fun loop(loopBody: suspend () -> Unit) {
+        job?.cancel()
+        job = scope.launch { runLoop(loopBody) }
     }
 
-    private fun runLoop(loopBody: () -> Unit) {
-        while (!Thread.interrupted() && isLooping) {
+    private suspend fun runLoop(loopBody: suspend () -> Unit) {
+        while (true) {
             loopBody()
+            yield()
         }
     }
 
     override fun quit() {
-        isLooping = false
+        job?.cancel()
     }
 }

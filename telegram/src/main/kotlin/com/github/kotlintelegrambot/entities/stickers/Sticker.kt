@@ -18,5 +18,5 @@ data class Sticker(
     @SerializedName(FilesFields.emoji) val emoji: String?,
     @SerializedName(FilesFields.setName)val setName: String? = null,
     @SerializedName(FilesFields.maskPosition) val maskPosition: MaskPosition? = null,
-    @SerializedName(FilesFields.fileSize) val fileSize: Int? = null
+    @SerializedName(FilesFields.fileSize) val fileSize: Int? = null,
 )

@@ -5,7 +5,7 @@ import com.github.kotlintelegrambot.errors.TelegramError
 
 data class ErrorHandlerEnvironment(
     val bot: Bot,
-    val error: TelegramError
+    val error: TelegramError,
 )
 
 class ErrorHandler(private val handler: HandleError) {

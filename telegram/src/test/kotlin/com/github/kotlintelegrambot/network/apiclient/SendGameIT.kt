@@ -30,7 +30,7 @@ class SendGameIT : ApiClientIT() {
             protectContent = false,
             replyToMessageId = REPLY_TO_MESSAGE_ID,
             allowSendingWithoutReply = true,
-            replyMarkup = REPLY_MARKUP_WITH_1ST_BUTTON_LAUNCH
+            replyMarkup = REPLY_MARKUP_WITH_1ST_BUTTON_LAUNCH,
         )
 
         val request = mockWebServer.takeRequest()
@@ -51,7 +51,7 @@ class SendGameIT : ApiClientIT() {
 
         val sendGameResponse = sut.sendGame(
             chatId = ChatId.fromId(ANY_CHAT_ID),
-            gameShortName = ANY_GAME_NAME
+            gameShortName = ANY_GAME_NAME,
         )
 
         assertEquals(anyGameMessage.toString().trim(), sendGameResponse.get().toString().trim())
@@ -60,7 +60,7 @@ class SendGameIT : ApiClientIT() {
     private fun givenAnySendGameResponse() {
         val sendGameResponse = Response<Message>(
             ok = true,
-            result = anyGameMessage
+            result = anyGameMessage,
         )
 
         val mockedResponse = MockResponse()
@@ -78,19 +78,19 @@ class SendGameIT : ApiClientIT() {
         val REPLY_MARKUP_WITH_1ST_BUTTON_LAUNCH = InlineKeyboardMarkup.createSingleButton(
             InlineKeyboardButton.CallbackGameButtonType(
                 text = "Play gameTest",
-                callbackGame = CallbackGame()
-            )
+                callbackGame = CallbackGame(),
+            ),
         )
 
         val anyGameMessage = anyMessage(
             from = anyUser(),
             chat = anyChat(
-                id = ANY_CHAT_ID
+                id = ANY_CHAT_ID,
             ),
             game = anyGame(
-                photos = listOf(anyPhotoSize(), anyPhotoSize())
+                photos = listOf(anyPhotoSize(), anyPhotoSize()),
             ),
-            replyMarkup = REPLY_MARKUP_WITH_1ST_BUTTON_LAUNCH
+            replyMarkup = REPLY_MARKUP_WITH_1ST_BUTTON_LAUNCH,
         )
     }
 }

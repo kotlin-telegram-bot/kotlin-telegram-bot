@@ -4,10 +4,11 @@ import anyDice
 import anyMessage
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class DiceHandlerTest {
@@ -44,7 +45,7 @@ class DiceHandlerTest {
     }
 
     @Test
-    fun `dice is properly dispatched to the handler function`() {
+    fun `dice is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val anyDice = anyDice()
         val anyMessageWithDice = anyMessage(dice = anyDice)
@@ -56,8 +57,8 @@ class DiceHandlerTest {
             botMock,
             anyUpdateWithDice,
             anyMessageWithDice,
-            anyDice
+            anyDice,
         )
-        verify { handleDiceMock.invoke(expectedDiceHandlerEnv) }
+        coVerify { handleDiceMock.invoke(expectedDiceHandlerEnv) }
     }
 }

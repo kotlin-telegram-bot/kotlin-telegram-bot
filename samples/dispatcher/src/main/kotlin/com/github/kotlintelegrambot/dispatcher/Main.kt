@@ -21,9 +21,7 @@ import com.github.kotlintelegrambot.logging.LogLevel
 import com.github.kotlintelegrambot.network.fold
 
 fun main() {
-
     val bot = bot {
-
         token = "YOUR_API_KEY"
         timeout = 30
         logLevel = LogLevel.Network.Body
@@ -38,7 +36,6 @@ fun main() {
             }
 
             command("start") {
-
                 val result = bot.sendMessage(chatId = ChatId.fromId(update.message!!.chat.id), text = "Bot started")
 
                 result.fold(
@@ -47,12 +44,11 @@ fun main() {
                     },
                     {
                         // do something with the error
-                    }
+                    },
                 )
             }
 
             command("hello") {
-
                 val result = bot.sendMessage(chatId = ChatId.fromId(update.message!!.chat.id), text = "Hello, world!")
 
                 result.fold(
@@ -61,7 +57,7 @@ fun main() {
                     },
                     {
                         // do something with the error
-                    }
+                    },
                 )
             }
 
@@ -76,7 +72,7 @@ fun main() {
                 bot.sendMessage(
                     chatId = ChatId.fromId(message.chat.id),
                     text = markdownText,
-                    parseMode = MARKDOWN
+                    parseMode = MARKDOWN,
                 )
             }
 
@@ -99,19 +95,19 @@ fun main() {
                 bot.sendMessage(
                     chatId = ChatId.fromId(message.chat.id),
                     text = markdownV2Text,
-                    parseMode = MARKDOWN_V2
+                    parseMode = MARKDOWN_V2,
                 )
             }
 
             command("inlineButtons") {
                 val inlineKeyboardMarkup = InlineKeyboardMarkup.create(
                     listOf(InlineKeyboardButton.CallbackData(text = "Test Inline Button", callbackData = "testButton")),
-                    listOf(InlineKeyboardButton.CallbackData(text = "Show alert", callbackData = "showAlert"))
+                    listOf(InlineKeyboardButton.CallbackData(text = "Show alert", callbackData = "showAlert")),
                 )
                 bot.sendMessage(
                     chatId = ChatId.fromId(message.chat.id),
                     text = "Hello, inline buttons!",
-                    replyMarkup = inlineKeyboardMarkup
+                    replyMarkup = inlineKeyboardMarkup,
                 )
             }
 
@@ -120,7 +116,7 @@ fun main() {
                 bot.sendMessage(
                     chatId = ChatId.fromId(message.chat.id),
                     text = "Hello, users buttons!",
-                    replyMarkup = keyboardMarkup
+                    replyMarkup = keyboardMarkup,
                 )
             }
 
@@ -130,14 +126,14 @@ fun main() {
                     mediaGroup = MediaGroup.from(
                         InputMediaPhoto(
                             media = ByUrl("https://www.sngular.com/wp-content/uploads/2019/11/Kotlin-Blog-1400x411.png"),
-                            caption = "I come from an url :P"
+                            caption = "I come from an url :P",
                         ),
                         InputMediaPhoto(
                             media = ByUrl("https://www.sngular.com/wp-content/uploads/2019/11/Kotlin-Blog-1400x411.png"),
-                            caption = "Me too!"
-                        )
+                            caption = "Me too!",
+                        ),
                     ),
-                    replyToMessageId = message.messageId
+                    replyToMessageId = message.messageId,
                 )
             }
 
@@ -149,7 +145,7 @@ fun main() {
             callbackQuery(
                 callbackData = "showAlert",
                 callbackAnswerText = "HelloText",
-                callbackAnswerShowAlert = true
+                callbackAnswerShowAlert = true,
             ) {
                 val chatId = callbackQuery.message?.chat?.id ?: return@callbackQuery
                 bot.sendMessage(ChatId.fromId(chatId), callbackQuery.data)
@@ -163,7 +159,7 @@ fun main() {
                 bot.sendMessage(
                     chatId = ChatId.fromId(message.chat.id),
                     text = "Your location is (${location.latitude}, ${location.longitude})",
-                    replyMarkup = ReplyKeyboardRemove()
+                    replyMarkup = ReplyKeyboardRemove(),
                 )
             }
 
@@ -171,7 +167,7 @@ fun main() {
                 bot.sendMessage(
                     chatId = ChatId.fromId(message.chat.id),
                     text = "Hello, ${contact.firstName} ${contact.lastName}",
-                    replyMarkup = ReplyKeyboardRemove()
+                    replyMarkup = ReplyKeyboardRemove(),
                 )
             }
 
@@ -189,7 +185,7 @@ fun main() {
                         id = it.toString(),
                         title = "$it. $queryText",
                         inputMessageContent = InputMessageContent.Text("$it. $queryText"),
-                        description = "Add $it. before you word"
+                        description = "Add $it. before you word",
                     )
                 }
                 bot.answerInlineQuery(inlineQuery.id, inlineResults)
@@ -198,7 +194,7 @@ fun main() {
             photos {
                 bot.sendMessage(
                     chatId = ChatId.fromId(message.chat.id),
-                    text = "Wowww, awesome photos!!! :P"
+                    text = "Wowww, awesome photos!!! :P",
                 )
             }
 
@@ -222,6 +218,6 @@ fun main() {
 fun generateUsersButton(): List<List<KeyboardButton>> {
     return listOf(
         listOf(KeyboardButton("Request location (not supported on desktop)", requestLocation = true)),
-        listOf(KeyboardButton("Request contact", requestContact = true))
+        listOf(KeyboardButton("Request contact", requestContact = true)),
     )
 }

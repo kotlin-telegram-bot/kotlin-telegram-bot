@@ -4,10 +4,11 @@ import anyLocation
 import anyMessage
 import anyUpdate
 import com.github.kotlintelegrambot.Bot
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class LocationHandlerTest {
@@ -35,7 +36,7 @@ class LocationHandlerTest {
     }
 
     @Test
-    fun `location is properly dispatched to the handler function`() {
+    fun `location is properly dispatched to the handler function`() = runTest {
         val botMock = mockk<Bot>()
         val anyLocation = anyLocation()
         val anyMessageWithLocation = anyMessage(location = anyLocation)
@@ -47,8 +48,8 @@ class LocationHandlerTest {
             botMock,
             anyUpdateWithLocation,
             anyMessageWithLocation,
-            anyLocation
+            anyLocation,
         )
-        verify { handleLocationMock.invoke(expectedLocationHandlerEnv) }
+        coVerify { handleLocationMock.invoke(expectedLocationHandlerEnv) }
     }
 }

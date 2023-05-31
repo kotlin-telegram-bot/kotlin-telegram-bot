@@ -29,7 +29,7 @@ class CopyMessageIT : ApiClientIT() {
             disableNotification = true,
             replyToMessageId = REPLY_TO_MESSAGE_ID,
             allowSendingWithoutReply = true,
-            replyMarkup = REPLY_MARKUP
+            replyMarkup = REPLY_MARKUP,
         ).execute()
 
         val request = mockWebServer.takeRequest()
@@ -54,7 +54,7 @@ class CopyMessageIT : ApiClientIT() {
         val copyMessageResponse = sut.copyMessage(
             ChatId.fromId(ANY_CHAT_ID),
             ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME),
-            ANY_MESSAGE_ID
+            ANY_MESSAGE_ID,
         ).execute()
 
         val expectedMessageId = MessageId(messageId = ANY_RESULT_MESSAGE_ID)
