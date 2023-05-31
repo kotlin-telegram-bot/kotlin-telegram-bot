@@ -6,6 +6,7 @@ repositories {
 
 dependencies {
     implementation project(":telegram")
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 
 jar {
@@ -17,4 +18,16 @@ jar {
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
 
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+buildscript {
+    ext.kotlin_version = '1.8.21'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+kotlin {
+    jvmToolchain(11)
 }

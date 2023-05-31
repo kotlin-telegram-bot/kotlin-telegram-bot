@@ -12,6 +12,7 @@ import com.github.kotlintelegrambot.entities.MessageEntity
 import com.github.kotlintelegrambot.entities.MessageId
 import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.ReplyMarkup
+import com.github.kotlintelegrambot.entities.SentWebAppMessage
 import com.github.kotlintelegrambot.entities.TelegramFile
 import com.github.kotlintelegrambot.entities.TelegramFile.ByByteArray
 import com.github.kotlintelegrambot.entities.TelegramFile.ByFile
@@ -1368,6 +1369,19 @@ internal class ApiClient(
             nextOffset,
             switchPmText,
             switchPmParameter
+        ).runApiOperation()
+    }
+
+    fun answerWebAppQuery(
+        webAppQueryId: String,
+        inlineQueryResult: InlineQueryResult
+    ): TelegramBotResult<SentWebAppMessage> {
+        val inlineQueryResultsType = object : TypeToken<InlineQueryResult>() {}.type
+        val serializedInlineQueryResults = gson.toJson(inlineQueryResult, inlineQueryResultsType)
+
+        return service.answerWebAppQuery(
+            webAppQueryId,
+            serializedInlineQueryResults
         ).runApiOperation()
     }
 

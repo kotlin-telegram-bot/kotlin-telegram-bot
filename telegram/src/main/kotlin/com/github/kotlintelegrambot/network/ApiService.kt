@@ -9,6 +9,7 @@ import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.MessageId
 import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.ReplyMarkup
+import com.github.kotlintelegrambot.entities.SentWebAppMessage
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.User
 import com.github.kotlintelegrambot.entities.UserProfilePhotos
@@ -869,6 +870,13 @@ internal interface ApiService {
         @Field("switch_pm_text") switchPmText: String?,
         @Field("switch_pm_parameter") switchPmParameter: String?
     ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("answerWebAppQuery")
+    fun answerWebAppQuery(
+        @Field("web_app_query_id") webAppQueryId: String,
+        @Field("result") inlineQueryResult: String
+    ): Call<Response<SentWebAppMessage>>
 
     @GET("getMyCommands")
     fun getMyCommands(): Call<Response<List<BotCommand>>>

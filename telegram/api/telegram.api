@@ -12,6 +12,7 @@ public final class com/github/kotlintelegrambot/Bot {
 	public static synthetic fun answerPreCheckoutQuery$default (Lcom/github/kotlintelegrambot/Bot;Ljava/lang/String;ZLjava/lang/String;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public final fun answerShippingQuery (Ljava/lang/String;ZLjava/util/List;Ljava/lang/String;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public static synthetic fun answerShippingQuery$default (Lcom/github/kotlintelegrambot/Bot;Ljava/lang/String;ZLjava/util/List;Ljava/lang/String;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
+	public final fun answerWebAppQuery (Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/inlinequeryresults/InlineQueryResult;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public final fun banChatMember (Lcom/github/kotlintelegrambot/entities/ChatId;JLjava/lang/Long;)Lkotlin/Pair;
 	public static synthetic fun banChatMember$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;JLjava/lang/Long;ILjava/lang/Object;)Lkotlin/Pair;
 	public final fun close ()Lkotlin/Pair;
@@ -1104,6 +1105,17 @@ public final class com/github/kotlintelegrambot/entities/ResponseParameters {
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getMigrateToChatId ()Ljava/lang/Long;
 	public final fun getReplyAfter ()Ljava/lang/Long;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/github/kotlintelegrambot/entities/SentWebAppMessage {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lcom/github/kotlintelegrambot/entities/SentWebAppMessage;
+	public static synthetic fun copy$default (Lcom/github/kotlintelegrambot/entities/SentWebAppMessage;Ljava/lang/String;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/entities/SentWebAppMessage;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getInlineMessageId ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }

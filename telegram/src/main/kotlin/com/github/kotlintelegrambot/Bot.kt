@@ -12,6 +12,7 @@ import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.MessageEntity
 import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.ReplyMarkup
+import com.github.kotlintelegrambot.entities.SentWebAppMessage
 import com.github.kotlintelegrambot.entities.TelegramFile
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.User
@@ -1984,6 +1985,21 @@ class Bot private constructor(
         nextOffset,
         switchPmText,
         switchPmParameter
+    )
+
+    /**
+     * Use this method to set the result of an interaction with a Web App and send a corresponding
+     * message on behalf of the user to the chat from which the query originated.
+     * @param webAppQueryId Unique identifier for the query to be answered
+     * @param inlineQueryResult A JSON-serialized object describing the message to be sent
+     * @return On success, a SentWebAppMessage object is returned.
+     */
+    fun answerWebAppQuery(
+        webAppQueryId: String,
+        inlineQueryResult: InlineQueryResult
+    ): TelegramBotResult<SentWebAppMessage> = apiClient.answerWebAppQuery(
+        webAppQueryId,
+        inlineQueryResult
     )
 
     /**
