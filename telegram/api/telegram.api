@@ -225,6 +225,13 @@ public final class com/github/kotlintelegrambot/dispatcher/HandlersDslKt {
 	public static final fun voice (Lcom/github/kotlintelegrambot/dispatcher/Dispatcher;Lkotlin/jvm/functions/Function2;)V
 }
 
+public final class com/github/kotlintelegrambot/dispatcher/handlers/CallbackQueryHandler : com/github/kotlintelegrambot/dispatcher/handlers/Handler {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/Integer;Lkotlin/jvm/functions/Function2;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/Integer;Lkotlin/jvm/functions/Function2;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun checkUpdate (Lcom/github/kotlintelegrambot/entities/Update;)Z
+	public fun handleUpdate (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
 public final class com/github/kotlintelegrambot/dispatcher/handlers/CallbackQueryHandlerEnvironment {
 	public fun <init> (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/CallbackQuery;)V
 	public final fun component1 ()Lcom/github/kotlintelegrambot/Bot;
