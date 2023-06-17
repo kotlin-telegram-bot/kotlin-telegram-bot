@@ -37,3 +37,4 @@ typealias HandleVideoNote = suspend MediaHandlerEnvironment<VideoNote>.() -> Uni
 typealias HandleNewChatJoinRequest = suspend NewChatJoinRequestHandlerEnvironment.() -> Unit
 typealias HandleMyChatMember = suspend MyChatMemberHandlerEnvironment.() -> Unit
 typealias HandleChatMember = suspend ChatMemberHandlerEnvironment.() -> Unit
+typealias HandleInputChain<T> = suspend InputChainHandlerEnvironment<T>.() -> T?
