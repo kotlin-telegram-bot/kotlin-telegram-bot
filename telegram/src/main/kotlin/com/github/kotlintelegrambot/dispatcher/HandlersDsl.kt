@@ -193,8 +193,9 @@ fun Dispatcher.chatMember(handleChatMember: HandleChatMember) {
 }
 
 fun <T> Handler.inputChain(
+    filter: Filter = Filter.Text,
     inputChainIdGen: (previousInputChainId: T?, Update) -> T?,
     handleInputChain: HandleInputChain<T>,
 ): Handler {
-    return InputChainHandler(this, inputChainIdGen, handleInputChain)
+    return InputChainHandler(filter, this, inputChainIdGen, handleInputChain)
 }

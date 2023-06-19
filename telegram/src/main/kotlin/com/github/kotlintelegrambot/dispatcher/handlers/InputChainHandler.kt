@@ -3,6 +3,7 @@ package com.github.kotlintelegrambot.dispatcher.handlers
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
+import com.github.kotlintelegrambot.extensions.filters.Filter
 
 data class InputChainHandlerEnvironment<T>(
     val inputChainIdGen: (previousInputChainId: T?, Update) -> T?,
@@ -10,10 +11,10 @@ data class InputChainHandlerEnvironment<T>(
     val bot: Bot,
     val update: Update,
     val message: Message,
-    val text: String,
 )
 
 class InputChainHandler<T>(
+    private val filter: Filter,
     private val initialHandler: Handler,
     private val inputChainIdGen: (previousInputChainId: T?, Update) -> T?,
     private val handleInputChain: HandleInputChain<T>,
@@ -27,20 +28,15 @@ class InputChainHandler<T>(
         update.message?.let { message ->
             message.from?.id?.let { userId ->
                 chainMap.remove(userId)?.let { inputChainId ->
-                    message.text
-                        ?.takeUnless { it.isBlank() }
-                        ?.let { text ->
-                            handleInputChain(
-                                InputChainHandlerEnvironment(
-                                    inputChainIdGen,
-                                    inputChainId,
-                                    bot,
-                                    update,
-                                    message,
-                                    text,
-                                ),
-                            )?.let { chainMap[userId] = it }
-                        }
+                    handleInputChain(
+                        InputChainHandlerEnvironment(
+                            inputChainIdGen,
+                            inputChainId,
+                            bot,
+                            update,
+                            message,
+                        ),
+                    )?.let { chainMap[userId] = it }
                     Unit
                 }
             }
@@ -52,8 +48,8 @@ class InputChainHandler<T>(
     }
 
     private fun Update.check(): Boolean =
-        !message?.text.isNullOrBlank() &&
-            message?.from?.id?.let(chainMap::get) != null
+        message?.let(filter::checkFor) == true &&
+            message.from?.id?.let(chainMap::get) != null
 
     private fun Update.userId(): Long? =
         message?.from?.id
