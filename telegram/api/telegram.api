@@ -3324,6 +3324,8 @@ public abstract class com/github/kotlintelegrambot/types/TelegramBotResult {
 	public final fun getOrNull ()Ljava/lang/Object;
 	public abstract fun isError ()Z
 	public abstract fun isSuccess ()Z
+	public final fun onError (Lkotlin/jvm/functions/Function1;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
+	public final fun onSuccess (Lkotlin/jvm/functions/Function1;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 }
 
 public abstract class com/github/kotlintelegrambot/types/TelegramBotResult$Error : com/github/kotlintelegrambot/types/TelegramBotResult {

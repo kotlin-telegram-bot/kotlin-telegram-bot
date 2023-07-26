@@ -93,4 +93,38 @@ sealed class TelegramBotResult<T> {
         is Success -> ifSuccess(value)
         is Error -> ifError(this)
     }
+
+    /**
+     * Runs the [successSideEffect] lambda function if the [TelegramBotResult] contains a successful data payload.
+     *
+     * @param successSideEffect A lambda that receives the successful data payload.
+     *
+     * @return The original instance of the [TelegramBotResult].
+     */
+    public inline fun onSuccess(
+        crossinline successSideEffect: (T) -> Unit,
+    ): TelegramBotResult<T> =
+        also {
+            when (it) {
+                is Success -> successSideEffect(it.value)
+                is Error -> Unit
+            }
+        }
+
+    /**
+     * Runs the [errorSideEffect] lambda function if the [TelegramBotResult] contains an error payload.
+     *
+     * @param errorSideEffect A lambda that receives the [Error] payload.
+     *
+     * @return The original instance of the [TelegramBotResult].
+     */
+    public inline fun onError(
+        crossinline errorSideEffect: (Error<T>) -> Unit,
+    ): TelegramBotResult<T> =
+        also {
+            when (it) {
+                is Success -> Unit
+                is Error -> errorSideEffect(it)
+            }
+        }
 }
