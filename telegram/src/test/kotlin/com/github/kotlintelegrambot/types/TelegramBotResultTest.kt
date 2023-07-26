@@ -1,5 +1,7 @@
 package com.github.kotlintelegrambot.types
 
+import io.mockk.mockk
+import io.mockk.verify
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertNull
@@ -10,6 +12,9 @@ import java.lang.Exception
 import java.lang.IllegalStateException
 
 class TelegramBotResultTest {
+
+    private val successSideEfect = mockk<(Int) -> Unit>(relaxed = true)
+    private val errorSideEfect = mockk<(TelegramBotResult.Error<Int>) -> Unit>(relaxed = true)
 
     @Test
     fun `getOrNull with a success`() {
@@ -109,5 +114,43 @@ class TelegramBotResultTest {
         )
 
         assertEquals(fError(error), foldResult)
+    }
+
+    @Test
+    fun `onSuccess should be invoked when it is a success TelegramBotResult`() {
+        val anyValue = 1
+        val success = TelegramBotResult.Success(anyValue)
+
+        success.onSuccess(successSideEfect)
+
+        verify(exactly = 1) { successSideEfect.invoke(anyValue) }
+    }
+
+    @Test
+    fun `onSuccess shouldn't be invoked when it is an error TelegramBotResult`() {
+        val error = TelegramBotResult.Error.HttpError<Int>(400, "WTF")
+
+        error.onSuccess(successSideEfect)
+
+        verify(exactly = 0) { successSideEfect.invoke(any()) }
+    }
+
+    @Test
+    fun `onError shouldn't be invoked when it is a success TelegramBotResult`() {
+        val anyValue = 1
+        val success = TelegramBotResult.Success(anyValue)
+
+        success.onError(errorSideEfect)
+
+        verify(exactly = 0) { errorSideEfect.invoke(any()) }
+    }
+
+    @Test
+    fun `onError should be invoked when it is an error TelegramBotResult`() {
+        val error = TelegramBotResult.Error.HttpError<Int>(400, "WTF")
+
+        error.onError(errorSideEfect)
+
+        verify(exactly = 1) { errorSideEfect.invoke(error) }
     }
 }
