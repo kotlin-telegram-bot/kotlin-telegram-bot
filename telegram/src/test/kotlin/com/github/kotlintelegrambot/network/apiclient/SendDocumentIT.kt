@@ -36,6 +36,7 @@ class SendDocumentIT : ApiClientIT() {
             parseMode = MARKDOWN_V2,
             disableContentTypeDetection = false,
             disableNotification = false,
+            protectContent = false,
             replyToMessageId = REPLY_TO_MESSAGE_ID,
             allowSendingWithoutReply = null,
             replyMarkup = REPLY_MARKUP,
@@ -48,6 +49,7 @@ class SendDocumentIT : ApiClientIT() {
             "&parse_mode=${MARKDOWN_V2.modeName}" +
             "&disable_content_type_detection=false" +
             "&disable_notification=false" +
+            "&protect_content=false" +
             "&reply_to_message_id=$REPLY_TO_MESSAGE_ID" +
             "&reply_markup=${gson.toJson(REPLY_MARKUP)}"
 
@@ -65,6 +67,7 @@ class SendDocumentIT : ApiClientIT() {
             parseMode = MARKDOWN_V2,
             disableContentTypeDetection = false,
             disableNotification = false,
+            protectContent = false,
             replyToMessageId = REPLY_TO_MESSAGE_ID,
             allowSendingWithoutReply = null,
             replyMarkup = REPLY_MARKUP,
@@ -93,6 +96,7 @@ class SendDocumentIT : ApiClientIT() {
             parseMode = MARKDOWN_V2,
             disableContentTypeDetection = false,
             disableNotification = false,
+            protectContent = false,
             replyToMessageId = REPLY_TO_MESSAGE_ID,
             allowSendingWithoutReply = null,
             replyMarkup = REPLY_MARKUP,

@@ -27,6 +27,7 @@ class SendGameIT : ApiClientIT() {
             chatId = ChatId.fromId(ANY_CHAT_ID),
             gameShortName = ANY_GAME_NAME,
             disableNotification = true,
+            protectContent = false,
             replyToMessageId = REPLY_TO_MESSAGE_ID,
             allowSendingWithoutReply = true,
             replyMarkup = REPLY_MARKUP_WITH_1ST_BUTTON_LAUNCH,
@@ -36,6 +37,7 @@ class SendGameIT : ApiClientIT() {
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID" +
             "&game_short_name=$ANY_GAME_NAME" +
             "&disable_notification=true" +
+            "&protect_content=false" +
             "&reply_to_message_id=$REPLY_TO_MESSAGE_ID" +
             "&allow_sending_without_reply=true" +
             "&reply_markup=${gson.toJson(REPLY_MARKUP_WITH_1ST_BUTTON_LAUNCH)}"
