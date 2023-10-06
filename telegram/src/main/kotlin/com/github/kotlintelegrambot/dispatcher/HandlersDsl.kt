@@ -46,6 +46,8 @@ import com.github.kotlintelegrambot.dispatcher.handlers.media.StickerHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.VideoHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.VideoNoteHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.VoiceHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleNewChatJoinRequest
+import com.github.kotlintelegrambot.dispatcher.handlers.NewChatJoinRequestHandler
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.extensions.filters.Filter
 import com.github.kotlintelegrambot.extensions.filters.Filter.All
@@ -108,6 +110,10 @@ fun Dispatcher.preCheckoutQuery(body: HandlePreCheckoutQuery) {
 
 fun Dispatcher.channel(body: HandleChannelPost) {
     addHandler(ChannelHandler(body))
+}
+
+fun Dispatcher.chatJoinRequest(body: HandleNewChatJoinRequest) {
+    addHandler(NewChatJoinRequestHandler(body))
 }
 
 fun Dispatcher.inlineQuery(body: HandleInlineQuery) {

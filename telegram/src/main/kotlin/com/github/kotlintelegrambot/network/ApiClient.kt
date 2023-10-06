@@ -135,6 +135,7 @@ internal class ApiClient(
             allowedUpdates = allowedUpdates,
             dropPendingUpdates = dropPendingUpdates,
         )
+
         is ByUrl -> service.setWebhookWithCertificateAsFileUrl(
             url = url,
             certificateUrl = certificate.url,
@@ -143,6 +144,7 @@ internal class ApiClient(
             allowedUpdates = allowedUpdates,
             dropPendingUpdates = dropPendingUpdates,
         )
+
         is ByFile -> service.setWebhookWithCertificateAsFile(
             url = url.toMultipartBodyPart(ApiConstants.SetWebhook.URL),
             certificate = certificate.file.toMultipartBodyPart(
@@ -154,6 +156,7 @@ internal class ApiClient(
             allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES),
             dropPendingUpdates = dropPendingUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.DROP_PENDING_UPDATES),
         )
+
         is ByByteArray -> service.setWebhookWithCertificateAsFile(
             url = url.toMultipartBodyPart(ApiConstants.SetWebhook.URL),
             certificate = certificate.fileBytes.toMultipartBodyPart(
@@ -165,6 +168,7 @@ internal class ApiClient(
             allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES),
             dropPendingUpdates = dropPendingUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.DROP_PENDING_UPDATES),
         )
+
         null -> service.setWebhook(
             url = url,
             ipAddress = ipAddress,
@@ -266,6 +270,7 @@ internal class ApiClient(
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
         )
+
         is ByFileId, is ByUrl -> service.sendPhoto(
             chatId,
             when (photo) {
@@ -308,6 +313,7 @@ internal class ApiClient(
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
         )
+
         is ByFileId, is ByUrl -> service.sendAudio(
             chatId,
             when (audio) {
@@ -352,6 +358,7 @@ internal class ApiClient(
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
         )
+
         is ByFileId, is ByUrl -> service.sendDocument(
             chatId,
             when (document) {
@@ -397,6 +404,7 @@ internal class ApiClient(
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
         )
+
         is ByFileId, is ByUrl -> service.sendVideo(
             chatId,
             when (video) {
@@ -490,6 +498,7 @@ internal class ApiClient(
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
         )
+
         is ByFileId, is ByUrl -> service.sendAnimation(
             chatId,
             when (animation) {
@@ -537,6 +546,7 @@ internal class ApiClient(
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
         )
+
         is ByFileId, is ByUrl -> service.sendVoice(
             chatId,
             when (audio) {
@@ -786,6 +796,58 @@ internal class ApiClient(
 
     fun banChatMember(chatId: ChatId, userId: Long, untilDate: Long? = null): Call<Response<Boolean>> {
         return service.banChatMember(chatId, userId, untilDate)
+    }
+
+    fun approveChatJoinRequest(chatId: ChatId, userId: Long): Call<Response<Boolean>> {
+        return service.approveChatJoinRequest(chatId, userId)
+    }
+
+    fun declineChatJoinRequest(chatId: ChatId, userId: Long): Call<Response<Boolean>> {
+        return service.declineChatJoinRequest(chatId, userId)
+    }
+
+    fun createChatInviteLink(
+        chatId: ChatId,
+        name: String?,
+        expireDate: Int?,
+        memberLimit: Int?,
+        createsJoinRequest: Boolean?,
+    ): Call<Response<Boolean>> {
+        return service.createChatInviteLink(
+            chatId,
+            name,
+            expireDate,
+            memberLimit,
+            createsJoinRequest
+        )
+    }
+
+    fun editChatInviteLink(
+        chatId: ChatId,
+        inviteLink: String,
+        name: String? = null,
+        expireDate: Int? = null,
+        memberLimit: Int? = null,
+        createsJoinRequest: Boolean? = null,
+    ): Call<Response<Boolean>> {
+        return service.editChatInviteLink(
+            chatId,
+            inviteLink,
+            name,
+            expireDate,
+            memberLimit,
+            createsJoinRequest
+        )
+    }
+
+    fun revokeChatInviteLink(
+        chatId: ChatId,
+        inviteLink: String,
+    ): Call<Response<Boolean>> {
+        return service.revokeChatInviteLink(
+            chatId,
+            inviteLink,
+        )
     }
 
     fun unbanChatMember(
