@@ -788,6 +788,14 @@ internal class ApiClient(
         return service.banChatMember(chatId, userId, untilDate)
     }
 
+    fun approveChatJoinRequest(chatId: ChatId, userId: Long): Call<Response<Boolean>> {
+        return service.approveChatJoinRequest(chatId, userId)
+    }
+
+    fun declineChatJoinRequest(chatId: ChatId, userId: Long): Call<Response<Boolean>> {
+        return service.declineChatJoinRequest(chatId, userId)
+    }
+
     fun unbanChatMember(
         chatId: ChatId,
         userId: Long,

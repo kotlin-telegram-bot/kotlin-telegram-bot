@@ -1184,6 +1184,16 @@ class Bot private constructor(
         untilDate: Long? = null, // unix time - https://en.wikipedia.org/wiki/Unix_time
     ) = apiClient.banChatMember(chatId, userId, untilDate).call()
 
+    fun approveChatJoinRequest(
+        chatId: ChatId,
+        userId: Long,
+    ) = apiClient.approveChatJoinRequest(chatId, userId).call()
+
+    fun declineChatJoinRequest(
+        chatId: ChatId,
+        userId: Long,
+    ) = apiClient.declineChatJoinRequest(chatId, userId).call()
+
     /**
      * Use this method to unban a previously kicked user in a supergroup or channel. The user will
      * not return to the group or channel automatically, but will be able to join via link, etc.

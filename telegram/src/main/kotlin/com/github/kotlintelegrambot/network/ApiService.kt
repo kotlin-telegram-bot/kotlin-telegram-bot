@@ -478,6 +478,19 @@ internal interface ApiService {
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
+    @POST("approveChatJoinRequest")
+    fun approveChatJoinRequest(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field(ApiConstants.USER_ID) userId: Long,
+    ): Call<Response<Boolean>>
+    @FormUrlEncoded
+    @POST("declineChatJoinRequest")
+    fun declineChatJoinRequest(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field(ApiConstants.USER_ID) userId: Long,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
     @POST("unbanChatMember")
     fun unbanChatMember(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
