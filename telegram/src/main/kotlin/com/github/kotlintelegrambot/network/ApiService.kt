@@ -483,11 +483,40 @@ internal interface ApiService {
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field(ApiConstants.USER_ID) userId: Long,
     ): Call<Response<Boolean>>
+
     @FormUrlEncoded
     @POST("declineChatJoinRequest")
     fun declineChatJoinRequest(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field(ApiConstants.USER_ID) userId: Long,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("createChatInviteLink")
+    fun createChatInviteLink(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field("name") name: String?,
+        @Field("expire_date") expireDate: Int?,
+        @Field("member_limit") memberLimit: Int?,
+        @Field("creates_join_request") createsJoinRequest: Boolean?,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("editChatInviteLink")
+    fun editChatInviteLink(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field("invite_link") inviteLink: String?,
+        @Field("name") name: String?,
+        @Field("expire_date") expireDate: Int?,
+        @Field("member_limit") memberLimit: Int?,
+        @Field("creates_join_request") createsJoinRequest: Boolean?,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("revokeChatInviteLink")
+    fun revokeChatInviteLink(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field("invite_link") inviteLink: String?,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
