@@ -20,6 +20,7 @@ typealias HandleContact = suspend ContactHandlerEnvironment.() -> Unit
 typealias HandleLocation = suspend LocationHandlerEnvironment.() -> Unit
 typealias HandleInlineQuery = suspend InlineQueryHandlerEnvironment.() -> Unit
 typealias HandleNewChatMembers = suspend NewChatMembersHandlerEnvironment.() -> Unit
+typealias HandleLeftChatMember = suspend LeftChatMemberHandlerEnvironment.() -> Unit
 typealias HandlePollAnswer = suspend PollAnswerHandlerEnvironment.() -> Unit
 typealias HandleDice = suspend DiceHandlerEnvironment.() -> Unit
 typealias HandleChannelPost = suspend ChannelHandlerEnvironment.() -> Unit
