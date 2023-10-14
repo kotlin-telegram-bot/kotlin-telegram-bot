@@ -18,6 +18,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.HandleDocument
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleError
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleGame
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleInlineQuery
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleLeftChatMember
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleLocation
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleMessage
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleNewChatMembers
@@ -31,6 +32,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.HandleVideoNote
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleVoice
 import com.github.kotlintelegrambot.dispatcher.handlers.Handler
 import com.github.kotlintelegrambot.dispatcher.handlers.InlineQueryHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.LeftChatMemberHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.LocationHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.MessageHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.NewChatMembersHandler
@@ -152,6 +154,10 @@ fun Dispatcher.videoNote(body: HandleVideoNote) {
 
 fun Dispatcher.newChatMembers(body: HandleNewChatMembers) {
     addHandler(NewChatMembersHandler(body))
+}
+
+fun Dispatcher.leftChatMember(body: HandleLeftChatMember) {
+    addHandler(LeftChatMemberHandler(body))
 }
 
 fun Dispatcher.pollAnswer(body: HandlePollAnswer) {
