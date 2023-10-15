@@ -21,6 +21,7 @@ data class Update constructor(
     @Name("pre_checkout_query") val preCheckoutQuery: PreCheckoutQuery? = null,
     @Name("poll") val poll: Poll? = null,
     @Name("poll_answer") val pollAnswer: PollAnswer? = null,
+    @Name("chat_join_request") val chatJoinRequest: ChatJoinRequest? = null,
 ) : DispatchableObject, ConsumableObject()
 
 /**

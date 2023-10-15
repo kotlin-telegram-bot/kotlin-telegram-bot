@@ -21,6 +21,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.HandleInlineQuery
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleLeftChatMember
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleLocation
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleMessage
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleNewChatJoinRequest
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleNewChatMembers
 import com.github.kotlintelegrambot.dispatcher.handlers.HandlePhotos
 import com.github.kotlintelegrambot.dispatcher.handlers.HandlePollAnswer
@@ -35,6 +36,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.InlineQueryHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.LeftChatMemberHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.LocationHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.MessageHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.NewChatJoinRequestHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.NewChatMembersHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.PollAnswerHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.PreCheckoutQueryHandler
@@ -110,6 +112,10 @@ fun Dispatcher.preCheckoutQuery(body: HandlePreCheckoutQuery) {
 
 fun Dispatcher.channel(body: HandleChannelPost) {
     addHandler(ChannelHandler(body))
+}
+
+fun Dispatcher.chatJoinRequest(body: HandleNewChatJoinRequest) {
+    addHandler(NewChatJoinRequestHandler(body))
 }
 
 fun Dispatcher.inlineQuery(body: HandleInlineQuery) {
