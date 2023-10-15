@@ -21,6 +21,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.HandleInlineQuery
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleLeftChatMember
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleLocation
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleMessage
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleNewChatJoinRequest
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleNewChatMembers
 import com.github.kotlintelegrambot.dispatcher.handlers.HandlePhotos
 import com.github.kotlintelegrambot.dispatcher.handlers.HandlePollAnswer
@@ -35,6 +36,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.InlineQueryHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.LeftChatMemberHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.LocationHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.MessageHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.NewChatJoinRequestHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.NewChatMembersHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.PollAnswerHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.PreCheckoutQueryHandler
@@ -48,8 +50,6 @@ import com.github.kotlintelegrambot.dispatcher.handlers.media.StickerHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.VideoHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.VideoNoteHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.VoiceHandler
-import com.github.kotlintelegrambot.dispatcher.handlers.HandleNewChatJoinRequest
-import com.github.kotlintelegrambot.dispatcher.handlers.NewChatJoinRequestHandler
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.extensions.filters.Filter
 import com.github.kotlintelegrambot.extensions.filters.Filter.All

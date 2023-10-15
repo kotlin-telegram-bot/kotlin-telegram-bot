@@ -1205,7 +1205,7 @@ class Bot private constructor(
         name,
         expireDate,
         memberLimit,
-        createsJoinRequest
+        createsJoinRequest,
     ).call()
 
     fun editChatInviteLink(

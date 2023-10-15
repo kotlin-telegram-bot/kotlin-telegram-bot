@@ -7,7 +7,7 @@ import com.github.kotlintelegrambot.entities.Update
 data class NewChatJoinRequestHandlerEnvironment(
     val bot: Bot,
     val update: Update,
-    val chatJoinRequest: ChatJoinRequest
+    val chatJoinRequest: ChatJoinRequest,
 )
 
 class NewChatJoinRequestHandler(

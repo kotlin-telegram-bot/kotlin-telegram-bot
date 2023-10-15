@@ -818,7 +818,7 @@ internal class ApiClient(
             name,
             expireDate,
             memberLimit,
-            createsJoinRequest
+            createsJoinRequest,
         )
     }
 
@@ -836,7 +836,7 @@ internal class ApiClient(
             name,
             expireDate,
             memberLimit,
-            createsJoinRequest
+            createsJoinRequest,
         )
     }
 
