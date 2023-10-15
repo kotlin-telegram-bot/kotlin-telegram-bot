@@ -12,15 +12,19 @@ public final class com/github/kotlintelegrambot/Bot {
 	public static synthetic fun answerPreCheckoutQuery$default (Lcom/github/kotlintelegrambot/Bot;Ljava/lang/String;ZLjava/lang/String;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public final fun answerShippingQuery (Ljava/lang/String;ZLjava/util/List;Ljava/lang/String;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public static synthetic fun answerShippingQuery$default (Lcom/github/kotlintelegrambot/Bot;Ljava/lang/String;ZLjava/util/List;Ljava/lang/String;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
+	public final fun approveChatJoinRequest (Lcom/github/kotlintelegrambot/entities/ChatId;J)Lkotlin/Pair;
 	public final fun banChatMember (Lcom/github/kotlintelegrambot/entities/ChatId;JLjava/lang/Long;)Lkotlin/Pair;
 	public static synthetic fun banChatMember$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;JLjava/lang/Long;ILjava/lang/Object;)Lkotlin/Pair;
 	public final fun close ()Lkotlin/Pair;
 	public final fun copyMessage (Lcom/github/kotlintelegrambot/entities/ChatId;Lcom/github/kotlintelegrambot/entities/ChatId;JLjava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Ljava/util/List;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;)Lkotlin/Pair;
 	public static synthetic fun copyMessage$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;Lcom/github/kotlintelegrambot/entities/ChatId;JLjava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Ljava/util/List;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;ILjava/lang/Object;)Lkotlin/Pair;
+	public final fun createChatInviteLink (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Boolean;)Lkotlin/Pair;
+	public static synthetic fun createChatInviteLink$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Boolean;ILjava/lang/Object;)Lkotlin/Pair;
 	public final fun createNewStickerSet (JLjava/lang/String;Ljava/lang/String;Ljava/io/File;Ljava/lang/String;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/stickers/MaskPosition;)Lkotlin/Pair;
 	public final fun createNewStickerSet (JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/stickers/MaskPosition;)Lkotlin/Pair;
 	public static synthetic fun createNewStickerSet$default (Lcom/github/kotlintelegrambot/Bot;JLjava/lang/String;Ljava/lang/String;Ljava/io/File;Ljava/lang/String;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/stickers/MaskPosition;ILjava/lang/Object;)Lkotlin/Pair;
 	public static synthetic fun createNewStickerSet$default (Lcom/github/kotlintelegrambot/Bot;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/stickers/MaskPosition;ILjava/lang/Object;)Lkotlin/Pair;
+	public final fun declineChatJoinRequest (Lcom/github/kotlintelegrambot/entities/ChatId;J)Lkotlin/Pair;
 	public final fun deleteChatPhoto (Lcom/github/kotlintelegrambot/entities/ChatId;)Lkotlin/Pair;
 	public final fun deleteChatStickerSet (Lcom/github/kotlintelegrambot/entities/ChatId;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public final fun deleteMessage (Lcom/github/kotlintelegrambot/entities/ChatId;J)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
@@ -29,6 +33,8 @@ public final class com/github/kotlintelegrambot/Bot {
 	public static synthetic fun deleteWebhook$default (Lcom/github/kotlintelegrambot/Bot;Ljava/lang/Boolean;ILjava/lang/Object;)Lkotlin/Pair;
 	public final fun downloadFile (Ljava/lang/String;)Lkotlin/Pair;
 	public final fun downloadFileBytes (Ljava/lang/String;)[B
+	public final fun editChatInviteLink (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Boolean;)Lkotlin/Pair;
+	public static synthetic fun editChatInviteLink$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Boolean;ILjava/lang/Object;)Lkotlin/Pair;
 	public final fun editMessageCaption (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;)Lkotlin/Pair;
 	public static synthetic fun editMessageCaption$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;ILjava/lang/Object;)Lkotlin/Pair;
 	public final fun editMessageLiveLocation (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/Long;Ljava/lang/String;FFLcom/github/kotlintelegrambot/entities/ReplyMarkup;Ljava/lang/Integer;)Lkotlin/Pair;
@@ -65,6 +71,7 @@ public final class com/github/kotlintelegrambot/Bot {
 	public static synthetic fun promoteChatMember$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;JLjava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public final fun restrictChatMember (Lcom/github/kotlintelegrambot/entities/ChatId;JLcom/github/kotlintelegrambot/entities/ChatPermissions;Ljava/lang/Long;)Lkotlin/Pair;
 	public static synthetic fun restrictChatMember$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;JLcom/github/kotlintelegrambot/entities/ChatPermissions;Ljava/lang/Long;ILjava/lang/Object;)Lkotlin/Pair;
+	public final fun revokeChatInviteLink (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/String;)Lkotlin/Pair;
 	public final fun sendAnimation (Lcom/github/kotlintelegrambot/entities/ChatId;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;)Lkotlin/Pair;
 	public final fun sendAnimation (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/io/File;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;)Lkotlin/Pair;
 	public final fun sendAnimation (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/ParseMode;Ljava/lang/Boolean;Ljava/lang/Long;Ljava/lang/Boolean;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;)Lkotlin/Pair;
@@ -202,6 +209,7 @@ public final class com/github/kotlintelegrambot/dispatcher/HandlersDslKt {
 	public static synthetic fun callbackQuery$default (Lcom/github/kotlintelegrambot/dispatcher/Dispatcher;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/Integer;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
 	public static synthetic fun callbackQuery$default (Lcom/github/kotlintelegrambot/dispatcher/Dispatcher;Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
 	public static final fun channel (Lcom/github/kotlintelegrambot/dispatcher/Dispatcher;Lkotlin/jvm/functions/Function2;)V
+	public static final fun chatJoinRequest (Lcom/github/kotlintelegrambot/dispatcher/Dispatcher;Lkotlin/jvm/functions/Function2;)V
 	public static final fun command (Lcom/github/kotlintelegrambot/dispatcher/Dispatcher;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public static final fun contact (Lcom/github/kotlintelegrambot/dispatcher/Dispatcher;Lkotlin/jvm/functions/Function2;)V
 	public static final fun dice (Lcom/github/kotlintelegrambot/dispatcher/Dispatcher;Lkotlin/jvm/functions/Function2;)V
@@ -451,6 +459,27 @@ public final class com/github/kotlintelegrambot/dispatcher/handlers/MessageHandl
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBot ()Lcom/github/kotlintelegrambot/Bot;
 	public final fun getMessage ()Lcom/github/kotlintelegrambot/entities/Message;
+	public final fun getUpdate ()Lcom/github/kotlintelegrambot/entities/Update;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/github/kotlintelegrambot/dispatcher/handlers/NewChatJoinRequestHandler : com/github/kotlintelegrambot/dispatcher/handlers/Handler {
+	public fun <init> (Lkotlin/jvm/functions/Function2;)V
+	public fun checkUpdate (Lcom/github/kotlintelegrambot/entities/Update;)Z
+	public fun handleUpdate (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/github/kotlintelegrambot/dispatcher/handlers/NewChatJoinRequestHandlerEnvironment {
+	public fun <init> (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/ChatJoinRequest;)V
+	public final fun component1 ()Lcom/github/kotlintelegrambot/Bot;
+	public final fun component2 ()Lcom/github/kotlintelegrambot/entities/Update;
+	public final fun component3 ()Lcom/github/kotlintelegrambot/entities/ChatJoinRequest;
+	public final fun copy (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/ChatJoinRequest;)Lcom/github/kotlintelegrambot/dispatcher/handlers/NewChatJoinRequestHandlerEnvironment;
+	public static synthetic fun copy$default (Lcom/github/kotlintelegrambot/dispatcher/handlers/NewChatJoinRequestHandlerEnvironment;Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/ChatJoinRequest;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/dispatcher/handlers/NewChatJoinRequestHandlerEnvironment;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBot ()Lcom/github/kotlintelegrambot/Bot;
+	public final fun getChatJoinRequest ()Lcom/github/kotlintelegrambot/entities/ChatJoinRequest;
 	public final fun getUpdate ()Lcom/github/kotlintelegrambot/entities/Update;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
@@ -728,6 +757,33 @@ public final class com/github/kotlintelegrambot/entities/ChatId$Id : com/github/
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/github/kotlintelegrambot/entities/ChatJoinRequest {
+	public fun <init> (Lcom/github/kotlintelegrambot/entities/Chat;Lcom/github/kotlintelegrambot/entities/User;JJLcom/github/kotlintelegrambot/entities/InviteLink;IZZZ)V
+	public final fun component1 ()Lcom/github/kotlintelegrambot/entities/Chat;
+	public final fun component2 ()Lcom/github/kotlintelegrambot/entities/User;
+	public final fun component3 ()J
+	public final fun component4 ()J
+	public final fun component5 ()Lcom/github/kotlintelegrambot/entities/InviteLink;
+	public final fun component6 ()I
+	public final fun component7 ()Z
+	public final fun component8 ()Z
+	public final fun component9 ()Z
+	public final fun copy (Lcom/github/kotlintelegrambot/entities/Chat;Lcom/github/kotlintelegrambot/entities/User;JJLcom/github/kotlintelegrambot/entities/InviteLink;IZZZ)Lcom/github/kotlintelegrambot/entities/ChatJoinRequest;
+	public static synthetic fun copy$default (Lcom/github/kotlintelegrambot/entities/ChatJoinRequest;Lcom/github/kotlintelegrambot/entities/Chat;Lcom/github/kotlintelegrambot/entities/User;JJLcom/github/kotlintelegrambot/entities/InviteLink;IZZZILjava/lang/Object;)Lcom/github/kotlintelegrambot/entities/ChatJoinRequest;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getChat ()Lcom/github/kotlintelegrambot/entities/Chat;
+	public final fun getCreatesJoinRequest ()Z
+	public final fun getDate ()J
+	public final fun getFrom ()Lcom/github/kotlintelegrambot/entities/User;
+	public final fun getInviteLink ()Lcom/github/kotlintelegrambot/entities/InviteLink;
+	public final fun getPendingJoinRequestCount ()I
+	public final fun getUserChatId ()J
+	public fun hashCode ()I
+	public final fun isPrimary ()Z
+	public final fun isRevoked ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
 public final class com/github/kotlintelegrambot/entities/ChatLocation {
 	public fun <init> (Lcom/github/kotlintelegrambot/entities/Location;Ljava/lang/String;)V
 	public final fun component1 ()Lcom/github/kotlintelegrambot/entities/Location;
@@ -957,6 +1013,19 @@ public final class com/github/kotlintelegrambot/entities/InlineQuery$ChatType : 
 	public static final field SUPERGROUP Lcom/github/kotlintelegrambot/entities/InlineQuery$ChatType;
 	public static fun valueOf (Ljava/lang/String;)Lcom/github/kotlintelegrambot/entities/InlineQuery$ChatType;
 	public static fun values ()[Lcom/github/kotlintelegrambot/entities/InlineQuery$ChatType;
+}
+
+public final class com/github/kotlintelegrambot/entities/InviteLink {
+	public fun <init> (Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/User;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Lcom/github/kotlintelegrambot/entities/User;
+	public final fun copy (Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/User;)Lcom/github/kotlintelegrambot/entities/InviteLink;
+	public static synthetic fun copy$default (Lcom/github/kotlintelegrambot/entities/InviteLink;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/User;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/entities/InviteLink;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCreator ()Lcom/github/kotlintelegrambot/entities/User;
+	public final fun getInviteLink ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/github/kotlintelegrambot/entities/Invoice {
@@ -1349,12 +1418,13 @@ public final class com/github/kotlintelegrambot/entities/TelegramFile$ByUrl : co
 }
 
 public final class com/github/kotlintelegrambot/entities/Update : com/github/kotlintelegrambot/types/ConsumableObject, com/github/kotlintelegrambot/types/DispatchableObject {
-	public fun <init> (JLcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/InlineQuery;Lcom/github/kotlintelegrambot/entities/ChosenInlineResult;Lcom/github/kotlintelegrambot/entities/CallbackQuery;Lcom/github/kotlintelegrambot/entities/payments/ShippingQuery;Lcom/github/kotlintelegrambot/entities/payments/PreCheckoutQuery;Lcom/github/kotlintelegrambot/entities/polls/Poll;Lcom/github/kotlintelegrambot/entities/polls/PollAnswer;)V
-	public synthetic fun <init> (JLcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/InlineQuery;Lcom/github/kotlintelegrambot/entities/ChosenInlineResult;Lcom/github/kotlintelegrambot/entities/CallbackQuery;Lcom/github/kotlintelegrambot/entities/payments/ShippingQuery;Lcom/github/kotlintelegrambot/entities/payments/PreCheckoutQuery;Lcom/github/kotlintelegrambot/entities/polls/Poll;Lcom/github/kotlintelegrambot/entities/polls/PollAnswer;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (JLcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/InlineQuery;Lcom/github/kotlintelegrambot/entities/ChosenInlineResult;Lcom/github/kotlintelegrambot/entities/CallbackQuery;Lcom/github/kotlintelegrambot/entities/payments/ShippingQuery;Lcom/github/kotlintelegrambot/entities/payments/PreCheckoutQuery;Lcom/github/kotlintelegrambot/entities/polls/Poll;Lcom/github/kotlintelegrambot/entities/polls/PollAnswer;Lcom/github/kotlintelegrambot/entities/ChatJoinRequest;)V
+	public synthetic fun <init> (JLcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/InlineQuery;Lcom/github/kotlintelegrambot/entities/ChosenInlineResult;Lcom/github/kotlintelegrambot/entities/CallbackQuery;Lcom/github/kotlintelegrambot/entities/payments/ShippingQuery;Lcom/github/kotlintelegrambot/entities/payments/PreCheckoutQuery;Lcom/github/kotlintelegrambot/entities/polls/Poll;Lcom/github/kotlintelegrambot/entities/polls/PollAnswer;Lcom/github/kotlintelegrambot/entities/ChatJoinRequest;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()J
 	public final fun component10 ()Lcom/github/kotlintelegrambot/entities/payments/PreCheckoutQuery;
 	public final fun component11 ()Lcom/github/kotlintelegrambot/entities/polls/Poll;
 	public final fun component12 ()Lcom/github/kotlintelegrambot/entities/polls/PollAnswer;
+	public final fun component13 ()Lcom/github/kotlintelegrambot/entities/ChatJoinRequest;
 	public final fun component2 ()Lcom/github/kotlintelegrambot/entities/Message;
 	public final fun component3 ()Lcom/github/kotlintelegrambot/entities/Message;
 	public final fun component4 ()Lcom/github/kotlintelegrambot/entities/Message;
@@ -1363,11 +1433,12 @@ public final class com/github/kotlintelegrambot/entities/Update : com/github/kot
 	public final fun component7 ()Lcom/github/kotlintelegrambot/entities/ChosenInlineResult;
 	public final fun component8 ()Lcom/github/kotlintelegrambot/entities/CallbackQuery;
 	public final fun component9 ()Lcom/github/kotlintelegrambot/entities/payments/ShippingQuery;
-	public final fun copy (JLcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/InlineQuery;Lcom/github/kotlintelegrambot/entities/ChosenInlineResult;Lcom/github/kotlintelegrambot/entities/CallbackQuery;Lcom/github/kotlintelegrambot/entities/payments/ShippingQuery;Lcom/github/kotlintelegrambot/entities/payments/PreCheckoutQuery;Lcom/github/kotlintelegrambot/entities/polls/Poll;Lcom/github/kotlintelegrambot/entities/polls/PollAnswer;)Lcom/github/kotlintelegrambot/entities/Update;
-	public static synthetic fun copy$default (Lcom/github/kotlintelegrambot/entities/Update;JLcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/InlineQuery;Lcom/github/kotlintelegrambot/entities/ChosenInlineResult;Lcom/github/kotlintelegrambot/entities/CallbackQuery;Lcom/github/kotlintelegrambot/entities/payments/ShippingQuery;Lcom/github/kotlintelegrambot/entities/payments/PreCheckoutQuery;Lcom/github/kotlintelegrambot/entities/polls/Poll;Lcom/github/kotlintelegrambot/entities/polls/PollAnswer;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/entities/Update;
+	public final fun copy (JLcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/InlineQuery;Lcom/github/kotlintelegrambot/entities/ChosenInlineResult;Lcom/github/kotlintelegrambot/entities/CallbackQuery;Lcom/github/kotlintelegrambot/entities/payments/ShippingQuery;Lcom/github/kotlintelegrambot/entities/payments/PreCheckoutQuery;Lcom/github/kotlintelegrambot/entities/polls/Poll;Lcom/github/kotlintelegrambot/entities/polls/PollAnswer;Lcom/github/kotlintelegrambot/entities/ChatJoinRequest;)Lcom/github/kotlintelegrambot/entities/Update;
+	public static synthetic fun copy$default (Lcom/github/kotlintelegrambot/entities/Update;JLcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/Message;Lcom/github/kotlintelegrambot/entities/InlineQuery;Lcom/github/kotlintelegrambot/entities/ChosenInlineResult;Lcom/github/kotlintelegrambot/entities/CallbackQuery;Lcom/github/kotlintelegrambot/entities/payments/ShippingQuery;Lcom/github/kotlintelegrambot/entities/payments/PreCheckoutQuery;Lcom/github/kotlintelegrambot/entities/polls/Poll;Lcom/github/kotlintelegrambot/entities/polls/PollAnswer;Lcom/github/kotlintelegrambot/entities/ChatJoinRequest;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/entities/Update;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCallbackQuery ()Lcom/github/kotlintelegrambot/entities/CallbackQuery;
 	public final fun getChannelPost ()Lcom/github/kotlintelegrambot/entities/Message;
+	public final fun getChatJoinRequest ()Lcom/github/kotlintelegrambot/entities/ChatJoinRequest;
 	public final fun getChosenInlineResult ()Lcom/github/kotlintelegrambot/entities/ChosenInlineResult;
 	public final fun getEditedChannelPost ()Lcom/github/kotlintelegrambot/entities/Message;
 	public final fun getEditedMessage ()Lcom/github/kotlintelegrambot/entities/Message;
