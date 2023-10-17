@@ -2,6 +2,9 @@ package com.github.kotlintelegrambot.network.apiclient
 
 import com.github.kotlintelegrambot.entities.CallbackQuery
 import com.github.kotlintelegrambot.entities.Chat
+import com.github.kotlintelegrambot.entities.ChatInviteLink
+import com.github.kotlintelegrambot.entities.ChatMember
+import com.github.kotlintelegrambot.entities.ChatMemberUpdated
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
 import com.github.kotlintelegrambot.entities.InlineQuery
 import com.github.kotlintelegrambot.entities.Message
@@ -269,6 +272,137 @@ class GetUpdatesIT : ApiClientIT() {
                     ),
                     date = 2147483648,
                     text = "Test",
+                ),
+            ),
+        )
+        assertEquals(expectedGetUpdatesResult, getUpdatesResult.get())
+    }
+
+    @Test
+    fun `getUpdates with a bot ban event`() {
+        givenGetUpdatesResponse(
+            """
+                {
+                    "ok": true,
+                    "result": [
+                        {
+                            "update_id": 93885989,
+                            "my_chat_member": {
+                                "chat": {
+                                    "id": 187395179,
+                                    "first_name": "Sheldon",
+                                    "username": "shelly",
+                                    "type": "private"
+                                },
+                                "from": {
+                                    "id": 187395179,
+                                    "is_bot": false,
+                                    "first_name": "Sheldon",
+                                    "username": "shelly",
+                                    "language_code": "en"
+                                },
+                                "date": 1678450453,
+                                "old_chat_member": {
+                                    "user": {
+                                        "id": 1,
+                                        "is_bot": true,
+                                        "first_name": "testbot",
+                                        "username": "testbot"
+                                    },
+                                    "status": "member"
+                                },
+                                "new_chat_member": {
+                                    "user": {
+                                        "id": 1,
+                                        "is_bot": true,
+                                        "first_name": "testbot",
+                                        "username": "testbot"
+                                    },
+                                    "status": "kicked",
+                                    "until_date": 0
+                                },
+                                "invite_link": {
+                                    "invite_link" : "https://t.me/joincha",
+                                    "creator" : {
+                                        "id": 187395179,
+                                        "is_bot": false,
+                                        "first_name": "Sheldon",
+                                        "username": "shelly",
+                                        "language_code": "en"
+                                    },
+                                    "creates_join_request" : true,
+                                    "is_primary" : true,
+                                    "is_revoked" : true,
+                                    "name" : "some name",
+                                    "expire_date" : 123456789,
+                                    "member_limit" : 100,
+                                    "pending_join_request_count" : 55
+                                },
+                                "via_chat_folder_invite_link": true
+                            }
+                        }
+                    ]
+                }
+            """.trimIndent(),
+        )
+
+        val getUpdatesResult = sut.getUpdates(null, null, null, null)
+
+        val expectedGetUpdatesResult = listOf(
+            Update(
+                updateId = 93885989,
+                myChatMember = ChatMemberUpdated(
+                    chat = Chat(
+                        id = 187395179,
+                        firstName = "Sheldon",
+                        username = "shelly",
+                        type = "private",
+                    ),
+                    from = User(
+                        id = 187395179,
+                        isBot = false,
+                        firstName = "Sheldon",
+                        username = "shelly",
+                        languageCode = "en",
+                    ),
+                    date = 1678450453,
+                    oldChatMember = ChatMember(
+                        user = User(
+                            id = 1,
+                            isBot = true,
+                            firstName = "testbot",
+                            username = "testbot",
+                        ),
+                        status = "member",
+                    ),
+                    newChatMember = ChatMember(
+                        user = User(
+                            id = 1,
+                            isBot = true,
+                            firstName = "testbot",
+                            username = "testbot",
+                        ),
+                        status = "kicked",
+                        untilDate = 0,
+                    ),
+                    inviteLink = ChatInviteLink(
+                        inviteLink = "https://t.me/joincha",
+                        creator = User(
+                            id = 187395179,
+                            isBot = false,
+                            firstName = "Sheldon",
+                            username = "shelly",
+                            languageCode = "en",
+                        ),
+                        createsJoinRequest = true,
+                        isPrimary = true,
+                        isRevoked = true,
+                        name = "some name",
+                        expireDate = 123456789,
+                        memberLimit = 100,
+                        pendingJoinRequestCount = 55,
+                    ),
+                    viaChatFolderInviteLink = true,
                 ),
             ),
         )
