@@ -46,6 +46,7 @@ fun anyUpdate(
     inlineQuery: InlineQuery? = null,
     pollAnswer: PollAnswer? = null,
     myChatMember: ChatMemberUpdated? = null,
+    chatMember: ChatMemberUpdated? = null,
 ): Update = Update(
     updateId = updateId,
     message = message,
@@ -58,6 +59,7 @@ fun anyUpdate(
     inlineQuery = inlineQuery,
     pollAnswer = pollAnswer,
     myChatMember = myChatMember,
+    chatMember = chatMember,
 )
 
 private const val ANY_MESSAGE_ID = 32142353L

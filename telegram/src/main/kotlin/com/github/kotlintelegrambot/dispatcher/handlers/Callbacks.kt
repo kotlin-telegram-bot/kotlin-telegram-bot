@@ -36,3 +36,4 @@ typealias HandleVoice = suspend MediaHandlerEnvironment<Voice>.() -> Unit
 typealias HandleVideoNote = suspend MediaHandlerEnvironment<VideoNote>.() -> Unit
 typealias HandleNewChatJoinRequest = suspend NewChatJoinRequestHandlerEnvironment.() -> Unit
 typealias HandleMyChatMember = suspend MyChatMemberHandlerEnvironment.() -> Unit
+typealias HandleChatMember = suspend ChatMemberHandlerEnvironment.() -> Unit
