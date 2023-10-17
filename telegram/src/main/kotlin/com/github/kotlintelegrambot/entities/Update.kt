@@ -22,6 +22,7 @@ data class Update constructor(
     @Name("poll") val poll: Poll? = null,
     @Name("poll_answer") val pollAnswer: PollAnswer? = null,
     @Name("chat_join_request") val chatJoinRequest: ChatJoinRequest? = null,
+    @Name("my_chat_member") val myChatMember: ChatMemberUpdated? = null,
 ) : DispatchableObject, ConsumableObject()
 
 /**
