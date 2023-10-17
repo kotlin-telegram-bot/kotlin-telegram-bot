@@ -757,6 +757,34 @@ public final class com/github/kotlintelegrambot/entities/ChatId$Id : com/github/
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/github/kotlintelegrambot/entities/ChatInviteLink {
+	public fun <init> (Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/User;ZZZLjava/lang/String;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;)V
+	public synthetic fun <init> (Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/User;ZZZLjava/lang/String;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Lcom/github/kotlintelegrambot/entities/User;
+	public final fun component3 ()Z
+	public final fun component4 ()Z
+	public final fun component5 ()Z
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7 ()Ljava/lang/Integer;
+	public final fun component8 ()Ljava/lang/Integer;
+	public final fun component9 ()Ljava/lang/Integer;
+	public final fun copy (Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/User;ZZZLjava/lang/String;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;)Lcom/github/kotlintelegrambot/entities/ChatInviteLink;
+	public static synthetic fun copy$default (Lcom/github/kotlintelegrambot/entities/ChatInviteLink;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/User;ZZZLjava/lang/String;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/entities/ChatInviteLink;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCreatesJoinRequest ()Z
+	public final fun getCreator ()Lcom/github/kotlintelegrambot/entities/User;
+	public final fun getExpireDate ()Ljava/lang/Integer;
+	public final fun getInviteLink ()Ljava/lang/String;
+	public final fun getMemberLimit ()Ljava/lang/Integer;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getPendingJoinRequestCount ()Ljava/lang/Integer;
+	public fun hashCode ()I
+	public final fun isPrimary ()Z
+	public final fun isRevoked ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
 public final class com/github/kotlintelegrambot/entities/ChatJoinRequest {
 	public fun <init> (Lcom/github/kotlintelegrambot/entities/Chat;Lcom/github/kotlintelegrambot/entities/User;JJLcom/github/kotlintelegrambot/entities/InviteLink;IZZZ)V
 	public final fun component1 ()Lcom/github/kotlintelegrambot/entities/Chat;
