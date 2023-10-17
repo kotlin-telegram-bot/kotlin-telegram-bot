@@ -21,6 +21,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.HandleInlineQuery
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleLeftChatMember
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleLocation
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleMessage
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleMyChatMember
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleNewChatJoinRequest
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleNewChatMembers
 import com.github.kotlintelegrambot.dispatcher.handlers.HandlePhotos
@@ -36,6 +37,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.InlineQueryHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.LeftChatMemberHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.LocationHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.MessageHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.MyChatMemberHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.NewChatJoinRequestHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.NewChatMembersHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.PollAnswerHandler
@@ -176,4 +178,8 @@ fun Dispatcher.dice(body: HandleDice) {
 
 infix fun Handler.requires(predicate: (Update) -> Boolean): Handler {
     return ExtendedHandler(this, predicate)
+}
+
+fun Dispatcher.myChatMember(handleMyChatMember: HandleMyChatMember) {
+    addHandler(MyChatMemberHandler(handleMyChatMember = handleMyChatMember))
 }
