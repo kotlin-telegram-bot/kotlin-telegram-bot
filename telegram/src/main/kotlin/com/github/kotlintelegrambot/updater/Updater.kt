@@ -6,6 +6,7 @@ import com.github.kotlintelegrambot.network.ApiClient
 import com.github.kotlintelegrambot.types.DispatchableObject
 import com.github.kotlintelegrambot.types.TelegramBotResult
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.yield
 
 internal class Updater(
     private val looper: Looper,
@@ -24,7 +25,7 @@ internal class Updater(
                 timeout = botTimeout,
                 allowedUpdates = null,
             )
-
+            yield()
             getUpdatesResult.fold(
                 ifSuccess = { onUpdatesReceived(it) },
                 ifError = { onErrorGettingUpdates(it) },
