@@ -1375,7 +1375,7 @@ internal class ApiClient(
         customTitle,
     ).runApiOperation()
 
-    private fun <T> Call<Response<T>>.runApiOperation(): TelegramBotResult<T> {
+    private fun <T : Any> Call<Response<T>>.runApiOperation(): TelegramBotResult<T> {
         val apiResponse = try {
             apiRequestSender.send(this)
         } catch (exception: Exception) {

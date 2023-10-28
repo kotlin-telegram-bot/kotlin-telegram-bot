@@ -3503,17 +3503,14 @@ public abstract interface class com/github/kotlintelegrambot/types/DispatchableO
 public abstract class com/github/kotlintelegrambot/types/TelegramBotResult {
 	public final fun fold (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
 	public final fun get ()Ljava/lang/Object;
-	public final fun getOrDefault (Ljava/lang/Object;)Ljava/lang/Object;
 	public final fun getOrNull ()Ljava/lang/Object;
-	public abstract fun isError ()Z
-	public abstract fun isSuccess ()Z
+	public final fun isError ()Z
+	public final fun isSuccess ()Z
 	public final fun onError (Lkotlin/jvm/functions/Function1;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public final fun onSuccess (Lkotlin/jvm/functions/Function1;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 }
 
 public abstract class com/github/kotlintelegrambot/types/TelegramBotResult$Error : com/github/kotlintelegrambot/types/TelegramBotResult {
-	public fun isError ()Z
-	public fun isSuccess ()Z
 }
 
 public final class com/github/kotlintelegrambot/types/TelegramBotResult$Error$HttpError : com/github/kotlintelegrambot/types/TelegramBotResult$Error {
@@ -3576,9 +3573,11 @@ public final class com/github/kotlintelegrambot/types/TelegramBotResult$Success 
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getValue ()Ljava/lang/Object;
 	public fun hashCode ()I
-	public fun isError ()Z
-	public fun isSuccess ()Z
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/github/kotlintelegrambot/types/TelegramBotResultKt {
+	public static final fun getOrDefault (Lcom/github/kotlintelegrambot/types/TelegramBotResult;Ljava/lang/Object;)Ljava/lang/Object;
 }
 
 public final class com/github/kotlintelegrambot/webhook/WebhookConfig {

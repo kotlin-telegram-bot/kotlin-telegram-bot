@@ -57,10 +57,10 @@ class UpdaterTest {
     fun `updates pagination in polling with only errors`() = runTest {
         val looper = BoundLooper(StandardTestDispatcher(testScheduler))
         val sut = createUpdater(looper)
-        val error1 = TelegramBotResult.Error.Unknown<List<Update>>(Exception())
-        val error2 = TelegramBotResult.Error.HttpError<List<Update>>(400, "Not found")
-        val error3 = TelegramBotResult.Error.TelegramApi<List<Update>>(523, "WAT")
-        val error4 = TelegramBotResult.Error.InvalidResponse<List<Update>>(521, "WUT", null)
+        val error1 = TelegramBotResult.Error.Unknown(Exception())
+        val error2 = TelegramBotResult.Error.HttpError(400, "Not found")
+        val error3 = TelegramBotResult.Error.TelegramApi(523, "WAT")
+        val error4 = TelegramBotResult.Error.InvalidResponse(521, "WUT", null)
         givenGetUpdatesResults(
             error1,
             error2,
@@ -84,9 +84,9 @@ class UpdaterTest {
     fun `updates pagination in polling with mixed successes and errors`() = runTest {
         val looper = BoundLooper(StandardTestDispatcher(testScheduler))
         val sut = createUpdater(looper)
-        val error1 = TelegramBotResult.Error.Unknown<List<Update>>(Exception())
+        val error1 = TelegramBotResult.Error.Unknown(Exception())
         val updates1 = (1L until 3).map { anyUpdate(updateId = it) }
-        val error2 = TelegramBotResult.Error.HttpError<List<Update>>(400, "Not found")
+        val error2 = TelegramBotResult.Error.HttpError(400, "Not found")
         val updates2 = emptyList<Update>()
         val updates3 = (3L until 6).map { anyUpdate(updateId = it) }
         givenGetUpdatesResults(
@@ -139,9 +139,9 @@ class UpdaterTest {
     fun `queue updates and errors in polling with mixed successes and errors`() = runTest {
         val looper = BoundLooper(StandardTestDispatcher(testScheduler))
         val sut = createUpdater(looper)
-        val error1 = TelegramBotResult.Error.Unknown<List<Update>>(Exception("I'm exceptional"))
+        val error1 = TelegramBotResult.Error.Unknown(Exception("I'm exceptional"))
         val updates1 = (1L until 3).map { anyUpdate(updateId = it) }
-        val error2 = TelegramBotResult.Error.HttpError<List<Update>>(400, "Not found")
+        val error2 = TelegramBotResult.Error.HttpError(400, "Not found")
         val updates2 = emptyList<Update>()
         val updates3 = (3L until 6).map { anyUpdate(updateId = it) }
         givenGetUpdatesResults(
@@ -174,10 +174,10 @@ class UpdaterTest {
     fun `queue error in polling with only errors`() = runTest {
         val looper = BoundLooper(StandardTestDispatcher(testScheduler))
         val sut = createUpdater(looper)
-        val error1 = TelegramBotResult.Error.Unknown<List<Update>>(Exception("I'm exceptional"))
-        val error2 = TelegramBotResult.Error.HttpError<List<Update>>(400, "Not found")
-        val error3 = TelegramBotResult.Error.TelegramApi<List<Update>>(523, "WAT")
-        val error4 = TelegramBotResult.Error.InvalidResponse<List<Update>>(521, "WUT", null)
+        val error1 = TelegramBotResult.Error.Unknown(Exception("I'm exceptional"))
+        val error2 = TelegramBotResult.Error.HttpError(400, "Not found")
+        val error3 = TelegramBotResult.Error.TelegramApi(523, "WAT")
+        val error4 = TelegramBotResult.Error.InvalidResponse(521, "WUT", null)
         givenGetUpdatesResults(
             error1,
             error2,

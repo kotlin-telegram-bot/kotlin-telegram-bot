@@ -18,7 +18,7 @@ class ApiResponseMapperTest {
 
         val telegramBotResult = sut.mapToTelegramBotResult(notSuccessfulResponse)
 
-        val expectedTelegramBotResult = TelegramBotResult.Error.HttpError<Int>(
+        val expectedTelegramBotResult = TelegramBotResult.Error.HttpError(
             ANY_HTTP_ERROR_CODE,
             ANY_ERROR_BODY,
         )
@@ -31,7 +31,7 @@ class ApiResponseMapperTest {
 
         val telegramBotResult = sut.mapToTelegramBotResult(successfulResponseWithNoBody)
 
-        val expectedTelegramBotResult = TelegramBotResult.Error.InvalidResponse<Int>(
+        val expectedTelegramBotResult = TelegramBotResult.Error.InvalidResponse(
             200,
             "OK",
             null,
@@ -147,7 +147,7 @@ class ApiResponseMapperTest {
             successfulResponseWithValidErrorTgResponse,
         )
 
-        val expectedTelegramBotResult = TelegramBotResult.Error.TelegramApi<Int>(
+        val expectedTelegramBotResult = TelegramBotResult.Error.TelegramApi(
             ANY_ERROR_CODE,
             ANY_ERROR_DESCRIPTION,
         )
