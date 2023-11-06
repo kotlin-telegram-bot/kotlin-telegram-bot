@@ -760,6 +760,7 @@ public final class com/github/kotlintelegrambot/entities/ChatAction : java/lang/
 	public static final field UPLOAD_PHOTO Lcom/github/kotlintelegrambot/entities/ChatAction;
 	public static final field UPLOAD_VIDEO Lcom/github/kotlintelegrambot/entities/ChatAction;
 	public static final field UPLOAD_VIDEO_NOTE Lcom/github/kotlintelegrambot/entities/ChatAction;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lcom/github/kotlintelegrambot/entities/ChatAction;
 	public static fun values ()[Lcom/github/kotlintelegrambot/entities/ChatAction;
 }
@@ -1095,6 +1096,7 @@ public final class com/github/kotlintelegrambot/entities/InlineQuery$ChatType : 
 	public static final field PRIVATE Lcom/github/kotlintelegrambot/entities/InlineQuery$ChatType;
 	public static final field SENDER Lcom/github/kotlintelegrambot/entities/InlineQuery$ChatType;
 	public static final field SUPERGROUP Lcom/github/kotlintelegrambot/entities/InlineQuery$ChatType;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lcom/github/kotlintelegrambot/entities/InlineQuery$ChatType;
 	public static fun values ()[Lcom/github/kotlintelegrambot/entities/InlineQuery$ChatType;
 }
@@ -1321,6 +1323,7 @@ public final class com/github/kotlintelegrambot/entities/MessageEntity$Type : ja
 	public static final field TEXT_MENTION Lcom/github/kotlintelegrambot/entities/MessageEntity$Type;
 	public static final field UNDERLINE Lcom/github/kotlintelegrambot/entities/MessageEntity$Type;
 	public static final field URL Lcom/github/kotlintelegrambot/entities/MessageEntity$Type;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lcom/github/kotlintelegrambot/entities/MessageEntity$Type;
 	public static fun values ()[Lcom/github/kotlintelegrambot/entities/MessageEntity$Type;
 }
@@ -1359,6 +1362,7 @@ public final class com/github/kotlintelegrambot/entities/ParseMode : java/lang/E
 	public static final field HTML Lcom/github/kotlintelegrambot/entities/ParseMode;
 	public static final field MARKDOWN Lcom/github/kotlintelegrambot/entities/ParseMode;
 	public static final field MARKDOWN_V2 Lcom/github/kotlintelegrambot/entities/ParseMode;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public final fun getModeName ()Ljava/lang/String;
 	public static fun valueOf (Ljava/lang/String;)Lcom/github/kotlintelegrambot/entities/ParseMode;
 	public static fun values ()[Lcom/github/kotlintelegrambot/entities/ParseMode;
@@ -2561,6 +2565,7 @@ public final class com/github/kotlintelegrambot/entities/inlinequeryresults/Mime
 	public static final field IMAGE_JPEG Lcom/github/kotlintelegrambot/entities/inlinequeryresults/MimeType;
 	public static final field TEXT_HTML Lcom/github/kotlintelegrambot/entities/inlinequeryresults/MimeType;
 	public static final field VIDEO_MP4 Lcom/github/kotlintelegrambot/entities/inlinequeryresults/MimeType;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public final fun getRawName ()Ljava/lang/String;
 	public static fun valueOf (Ljava/lang/String;)Lcom/github/kotlintelegrambot/entities/inlinequeryresults/MimeType;
 	public static fun values ()[Lcom/github/kotlintelegrambot/entities/inlinequeryresults/MimeType;
@@ -3128,6 +3133,7 @@ public final class com/github/kotlintelegrambot/entities/polls/PollOption {
 public final class com/github/kotlintelegrambot/entities/polls/PollType : java/lang/Enum {
 	public static final field QUIZ Lcom/github/kotlintelegrambot/entities/polls/PollType;
 	public static final field REGULAR Lcom/github/kotlintelegrambot/entities/polls/PollType;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lcom/github/kotlintelegrambot/entities/polls/PollType;
 	public static fun values ()[Lcom/github/kotlintelegrambot/entities/polls/PollType;
 }
@@ -3213,6 +3219,7 @@ public abstract interface class com/github/kotlintelegrambot/errors/TelegramErro
 
 public final class com/github/kotlintelegrambot/errors/TelegramError$Error : java/lang/Enum {
 	public static final field RETRIEVE_UPDATES Lcom/github/kotlintelegrambot/errors/TelegramError$Error;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lcom/github/kotlintelegrambot/errors/TelegramError$Error;
 	public static fun values ()[Lcom/github/kotlintelegrambot/errors/TelegramError$Error;
 }
