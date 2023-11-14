@@ -1,4 +1,6 @@
-apply plugin: 'kotlin'
+plugins {
+    alias libs.plugins.kotlin.jvm
+}
 
 repositories {
     google()
@@ -6,7 +8,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'io.ktor:ktor-server-netty:1.6.3'
+    implementation libs.ktor.server.netty
     implementation project(":telegram")
 }
 
