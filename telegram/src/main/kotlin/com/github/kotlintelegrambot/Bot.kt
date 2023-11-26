@@ -35,6 +35,7 @@ import com.github.kotlintelegrambot.updater.CoroutineLooper
 import com.github.kotlintelegrambot.updater.Updater
 import com.github.kotlintelegrambot.webhook.WebhookConfig
 import com.github.kotlintelegrambot.webhook.WebhookConfigBuilder
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.channels.Channel
@@ -78,6 +79,7 @@ class Bot private constructor(
         var apiUrl: String = "https://api.telegram.org/"
         var logLevel: LogLevel = LogLevel.None
         var proxy: Proxy = Proxy.NO_PROXY
+        var coroutineDispatcher: CoroutineDispatcher = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
         internal var dispatcherConfiguration: Dispatcher.() -> Unit = { }
 
         fun build(): Bot {
@@ -88,7 +90,7 @@ class Bot private constructor(
             val dispatcher = Dispatcher(
                 updatesChannel = updatesQueue,
                 logLevel = logLevel,
-                coroutineDispatcher = Executors.newSingleThreadExecutor().asCoroutineDispatcher(),
+                coroutineDispatcher = coroutineDispatcher,
             ).apply(dispatcherConfiguration)
 
             return Bot(
