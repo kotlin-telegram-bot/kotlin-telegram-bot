@@ -10,7 +10,7 @@ data class MyChatMemberHandlerEnvironment(
     val myChatMember: ChatMemberUpdated,
 )
 
-internal class MyChatMemberHandler(
+class MyChatMemberHandler(
     private val handleMyChatMember: HandleMyChatMember,
 ) : Handler {
     override fun checkUpdate(update: Update): Boolean = update.myChatMember != null
