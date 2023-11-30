@@ -283,6 +283,12 @@ public final class com/github/kotlintelegrambot/dispatcher/handlers/ChannelHandl
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/github/kotlintelegrambot/dispatcher/handlers/ChatMemberHandler : com/github/kotlintelegrambot/dispatcher/handlers/Handler {
+	public fun <init> (Lkotlin/jvm/functions/Function2;)V
+	public fun checkUpdate (Lcom/github/kotlintelegrambot/entities/Update;)Z
+	public fun handleUpdate (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
 public final class com/github/kotlintelegrambot/dispatcher/handlers/ChatMemberHandlerEnvironment {
 	public fun <init> (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/ChatMemberUpdated;)V
 	public final fun component1 ()Lcom/github/kotlintelegrambot/Bot;
