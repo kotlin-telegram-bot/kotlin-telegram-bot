@@ -7,17 +7,13 @@ import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.errors.TelegramError
 import com.github.kotlintelegrambot.logging.LogLevel
 import com.github.kotlintelegrambot.types.DispatchableObject
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.yield
 
 class Dispatcher internal constructor(
     private val updatesChannel: Channel<DispatchableObject>,
     private val logLevel: LogLevel,
-    coroutineDispatcher: CoroutineDispatcher,
+    private val coroutineDispatcher: CoroutineDispatcher,
 ) {
 
     internal lateinit var bot: Bot
@@ -62,19 +58,25 @@ class Dispatcher internal constructor(
     }
 
     private suspend fun handleUpdate(update: Update) {
-        commandHandlers
-            .asSequence()
-            .filter { !update.consumed }
-            .filter { it.checkUpdate(update) }
-            .forEach {
-                try {
-                    it.handleUpdate(bot, update)
-                } catch (throwable: Throwable) {
-                    if (logLevel.shouldLogErrors()) {
-                        throwable.printStackTrace()
+        CoroutineScope(coroutineDispatcher).launch {
+            commandHandlers
+                .asSequence()
+                .filter { !update.consumed }
+                .filter { it.checkUpdate(update) }
+                .map {
+                    async {
+                        try {
+                            it.handleUpdate(bot, update)
+                        } catch (throwable: Throwable) {
+                            if (logLevel.shouldLogErrors()) {
+                                throwable.printStackTrace()
+                            }
+                        }
                     }
                 }
-            }
+                .toList()
+                .awaitAll()
+        }
     }
 
     private fun handleError(error: TelegramError) {

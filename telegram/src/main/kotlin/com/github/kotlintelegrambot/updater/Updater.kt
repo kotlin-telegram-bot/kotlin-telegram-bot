@@ -5,8 +5,8 @@ import com.github.kotlintelegrambot.errors.RetrieveUpdatesError
 import com.github.kotlintelegrambot.network.ApiClient
 import com.github.kotlintelegrambot.types.DispatchableObject
 import com.github.kotlintelegrambot.types.TelegramBotResult
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.yield
 
 internal class Updater(
     private val looper: Looper,
@@ -15,16 +15,20 @@ internal class Updater(
     private val botTimeout: Int,
 ) {
 
+
     @Volatile private var lastUpdateId: Long? = null
 
     internal fun startPolling() {
         looper.loop {
-            val getUpdatesResult = apiClient.getUpdates(
-                offset = lastUpdateId,
-                limit = null,
-                timeout = botTimeout,
-                allowedUpdates = null,
-            )
+            val getUpdatesResult = coroutineScope {
+                apiClient.getUpdates(
+                    offset = lastUpdateId,
+                    limit = null,
+                    timeout = botTimeout,
+                    allowedUpdates = null,
+                )
+            }
+
             yield()
             getUpdatesResult.fold(
                 ifSuccess = { onUpdatesReceived(it) },
