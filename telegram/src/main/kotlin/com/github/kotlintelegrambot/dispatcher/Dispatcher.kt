@@ -13,7 +13,7 @@ import kotlinx.coroutines.channels.Channel
 class Dispatcher internal constructor(
     private val updatesChannel: Channel<DispatchableObject>,
     private val logLevel: LogLevel,
-    private val coroutineDispatcher: CoroutineDispatcher,
+    coroutineDispatcher: CoroutineDispatcher,
 ) {
 
     internal lateinit var bot: Bot
@@ -22,8 +22,10 @@ class Dispatcher internal constructor(
     private val errorHandlers = arrayListOf<ErrorHandler>()
 
     private val scope: CoroutineScope = CoroutineScope(coroutineDispatcher)
+    private val updatesScope: CoroutineScope = CoroutineScope(coroutineDispatcher)
 
-    @Volatile private var job: Job? = null
+    @Volatile
+    private var job: Job? = null
 
     internal fun startCheckingUpdates() {
         job?.cancel()
@@ -57,8 +59,8 @@ class Dispatcher internal constructor(
         errorHandlers.remove(errorHandler)
     }
 
-    private suspend fun handleUpdate(update: Update) {
-        CoroutineScope(coroutineDispatcher).launch {
+    private fun handleUpdate(update: Update) {
+        updatesScope.launch {
             commandHandlers
                 .asSequence()
                 .filter { !update.consumed }
@@ -80,14 +82,20 @@ class Dispatcher internal constructor(
     }
 
     private fun handleError(error: TelegramError) {
-        errorHandlers.forEach { handleError ->
-            try {
-                handleError(bot, error)
-            } catch (throwable: Throwable) {
-                if (logLevel.shouldLogErrors()) {
-                    throwable.printStackTrace()
+        updatesScope.launch {
+            errorHandlers.map { handleError ->
+                async {
+                    try {
+                        handleError(bot, error)
+                    } catch (throwable: Throwable) {
+                        if (logLevel.shouldLogErrors()) {
+                            throwable.printStackTrace()
+                        }
+                    }
                 }
             }
+                .toList()
+                .awaitAll()
         }
     }
 
