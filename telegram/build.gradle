@@ -9,6 +9,8 @@ plugins {
     alias libs.plugins.kotlin.jvm
 }
 
+apply plugin: 'maven-publish'
+
 group 'com.github.kotlintelegrambot'
 version '6.1.0'
 
@@ -58,4 +60,17 @@ java {
 
 test {
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'io.github.kotlin-telegram-bot.kotlin-telegram-bot'
+            artifactId = 'telegram'
+            version = '6.1.1'
+
+            from components.kotlin
+            artifact sourcesJar
+        }
+    }
 }
