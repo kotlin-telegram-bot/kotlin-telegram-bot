@@ -65,8 +65,8 @@ test {
 publishing {
     publications {
         maven(MavenPublication) {
-            groupId = 'io.github.kotlin-telegram-bot.kotlin-telegram-bot'
-            artifactId = 'telegram'
+            groupId = 'io.github.artemptushkin'
+            artifactId = 'kotlin-telegram-bot'
             version = '6.1.1'
 
             from components.kotlin
