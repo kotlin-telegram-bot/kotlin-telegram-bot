@@ -26,6 +26,9 @@ data class PaymentInvoiceInfo(
     val prices: List<LabeledPrice>,
     val isFlexible: Boolean? = null,
     val providerData: String? = null,
+    val recurring: Boolean? = null,
+    val maxTipAmount: Long? = null,
+    val suggestedTipAmounts: List<Long>? = null,
     val invoicePhoto: InvoicePhotoDetail? = null,
     val invoiceUserDetail: InvoiceUserDetail? = null,
 )
