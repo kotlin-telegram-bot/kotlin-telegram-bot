@@ -190,6 +190,13 @@ fun main() {
                 bot.answerInlineQuery(inlineQuery.id, inlineResults)
             }
 
+            chosenInlineResult {
+                bot.sendMessage(
+                    ChatId.fromId(chosenInlineResult.from.id),
+                    "User select ${chosenInlineResult.resultId}"
+                )
+            }
+
             photos {
                 bot.sendMessage(
                     chatId = ChatId.fromId(message.chat.id),
