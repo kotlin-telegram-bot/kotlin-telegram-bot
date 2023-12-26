@@ -2,12 +2,9 @@ package com.github.kotlintelegrambot.dispatcher
 
 import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.dispatch
-import com.github.kotlintelegrambot.entities.ChatId
-import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
-import com.github.kotlintelegrambot.entities.KeyboardReplyMarkup
+import com.github.kotlintelegrambot.entities.*
 import com.github.kotlintelegrambot.entities.ParseMode.MARKDOWN
 import com.github.kotlintelegrambot.entities.ParseMode.MARKDOWN_V2
-import com.github.kotlintelegrambot.entities.ReplyKeyboardRemove
 import com.github.kotlintelegrambot.entities.TelegramFile.ByUrl
 import com.github.kotlintelegrambot.entities.dice.DiceEmoji
 import com.github.kotlintelegrambot.entities.inlinequeryresults.InlineQueryResult
@@ -187,6 +184,19 @@ fun main() {
                         description = "Add $it. before you word",
                     )
                 }
+
+                if (queryText.contains("webapp")) {
+                    bot.answerInlineQuery(
+                        inlineQuery.id,
+                        inlineResults,
+                        button = InlineQueryResultsButton(
+                            text = "webapp button",
+                            webApp = WebAppInfo("https://example.com"),
+                        )
+                    )
+                    return@inlineQuery
+                }
+
                 bot.answerInlineQuery(inlineQuery.id, inlineResults)
             }
 
