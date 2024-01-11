@@ -124,10 +124,10 @@ class InlineKeyboardButtonAdapterTest {
     fun `serialize and deserialize inline keyboard login url button`() {
         val loginUrlButton = InlineKeyboardButton.LoginUrlButtonType(
             text = ANY_TEXT,
-            loginUrl = LoginUrl(ANY_TEXT, ANY_BOT_USERNAME, true),
+            loginUrl = LoginUrl(ANY_URL, ANY_TEXT, ANY_BOT_USERNAME, true),
         )
         val loginUrlButtonJson =
-            """{"text":"$ANY_TEXT","login_url":{"forward_text":"$ANY_TEXT","bot_username":"$ANY_BOT_USERNAME","request_write_access":true}}"""
+            """{"text":"$ANY_TEXT","login_url":{"url":"$ANY_URL","forward_text":"$ANY_TEXT","bot_username":"$ANY_BOT_USERNAME","request_write_access":true}}"""
 
         val actualLoginUrlButton = sut.fromJson(
             loginUrlButtonJson,

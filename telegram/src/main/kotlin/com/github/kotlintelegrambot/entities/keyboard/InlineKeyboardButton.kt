@@ -12,6 +12,7 @@ data class WebAppInfo(val url: String)
  * Contains information about a Login Url.
  */
 data class LoginUrl(
+    val url: String,
     @SerializedName("forward_text") val forwardText: String?,
     @SerializedName("bot_username") val botUsername: String?,
     @SerializedName("request_write_access") val requestWriteAccess: Boolean? = false,
