@@ -17,6 +17,7 @@ typealias HandleCommand = suspend CommandHandlerEnvironment.() -> Unit
 typealias HandleText = suspend TextHandlerEnvironment.() -> Unit
 typealias HandleCallbackQuery = suspend CallbackQueryHandlerEnvironment.() -> Unit
 typealias HandleContact = suspend ContactHandlerEnvironment.() -> Unit
+typealias HandleChosenInlineResult = suspend ChosenInlineResultHandlerEnvironment.() -> Unit
 typealias HandleLocation = suspend LocationHandlerEnvironment.() -> Unit
 typealias HandleInlineQuery = suspend InlineQueryHandlerEnvironment.() -> Unit
 typealias HandleNewChatMembers = suspend NewChatMembersHandlerEnvironment.() -> Unit
