@@ -1,12 +1,8 @@
 package com.github.kotlintelegrambot.entities.keyboard
 
 import com.github.kotlintelegrambot.entities.CallbackGame
+import com.github.kotlintelegrambot.entities.WebAppInfo
 import com.google.gson.annotations.SerializedName
-
-/**
- * Contains information about a Web App.
- */
-data class WebAppInfo(val url: String)
 
 /**
  * Represents one button of an inline keyboard ([loginUrl] not supported yet).

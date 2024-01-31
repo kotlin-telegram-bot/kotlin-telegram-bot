@@ -1,26 +1,10 @@
 package com.github.kotlintelegrambot.network
 
-import com.github.kotlintelegrambot.entities.BotCommand
-import com.github.kotlintelegrambot.entities.Chat
-import com.github.kotlintelegrambot.entities.ChatAction
-import com.github.kotlintelegrambot.entities.ChatId
-import com.github.kotlintelegrambot.entities.ChatMember
-import com.github.kotlintelegrambot.entities.ChatPermissions
-import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
-import com.github.kotlintelegrambot.entities.Message
-import com.github.kotlintelegrambot.entities.MessageEntity
-import com.github.kotlintelegrambot.entities.MessageId
-import com.github.kotlintelegrambot.entities.ParseMode
-import com.github.kotlintelegrambot.entities.ReplyMarkup
-import com.github.kotlintelegrambot.entities.TelegramFile
+import com.github.kotlintelegrambot.entities.*
 import com.github.kotlintelegrambot.entities.TelegramFile.ByByteArray
 import com.github.kotlintelegrambot.entities.TelegramFile.ByFile
 import com.github.kotlintelegrambot.entities.TelegramFile.ByFileId
 import com.github.kotlintelegrambot.entities.TelegramFile.ByUrl
-import com.github.kotlintelegrambot.entities.Update
-import com.github.kotlintelegrambot.entities.User
-import com.github.kotlintelegrambot.entities.UserProfilePhotos
-import com.github.kotlintelegrambot.entities.WebhookInfo
 import com.github.kotlintelegrambot.entities.dice.DiceEmoji
 import com.github.kotlintelegrambot.entities.files.File
 import com.github.kotlintelegrambot.entities.inlinequeryresults.InlineQueryResult
@@ -1333,11 +1317,11 @@ internal class ApiClient(
         cacheTime: Int?,
         isPersonal: Boolean,
         nextOffset: String?,
-        switchPmText: String?,
-        switchPmParameter: String?,
+        button: InlineQueryResultsButton?,
     ): TelegramBotResult<Boolean> {
         val inlineQueryResultsType = object : TypeToken<List<InlineQueryResult>>() {}.type
         val serializedInlineQueryResults = gson.toJson(inlineQueryResults, inlineQueryResultsType)
+        val serializedButton = button?.let { gson.toJson(it) }
 
         return service.answerInlineQuery(
             inlineQueryId,
@@ -1345,8 +1329,7 @@ internal class ApiClient(
             cacheTime,
             isPersonal,
             nextOffset,
-            switchPmText,
-            switchPmParameter,
+            serializedButton,
         ).runApiOperation()
     }
 

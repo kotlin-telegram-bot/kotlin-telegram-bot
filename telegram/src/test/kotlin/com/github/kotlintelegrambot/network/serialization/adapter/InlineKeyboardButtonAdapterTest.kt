@@ -1,7 +1,7 @@
 package com.github.kotlintelegrambot.network.serialization.adapter
 
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton
-import com.github.kotlintelegrambot.entities.keyboard.WebAppInfo
+import com.github.kotlintelegrambot.entities.WebAppInfo
 import com.google.gson.GsonBuilder
 import junit.framework.TestCase.assertEquals
 import org.junit.jupiter.api.Test

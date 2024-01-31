@@ -888,8 +888,7 @@ internal interface ApiService {
         @Field("cache_time") cacheTime: Int?,
         @Field("is_personal") isPersonal: Boolean,
         @Field("next_offset") nextOffset: String?,
-        @Field("switch_pm_text") switchPmText: String?,
-        @Field("switch_pm_parameter") switchPmParameter: String?,
+        @Field("button") button: String?,
     ): Call<Response<Boolean>>
 
     @GET("getMyCommands")

@@ -9,7 +9,7 @@ import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.Switc
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.SwitchInlineQueryCurrentChat
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.Url
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.WebApp
-import com.github.kotlintelegrambot.entities.keyboard.WebAppInfo
+import com.github.kotlintelegrambot.entities.WebAppInfo
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
