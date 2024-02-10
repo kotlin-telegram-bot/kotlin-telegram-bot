@@ -9,7 +9,17 @@ import com.google.gson.annotations.SerializedName
 data class WebAppInfo(val url: String)
 
 /**
- * Represents one button of an inline keyboard ([loginUrl] not supported yet).
+ * Contains information about a Login Url.
+ */
+data class LoginUrl(
+    val url: String,
+    @SerializedName("forward_text") val forwardText: String?,
+    @SerializedName("bot_username") val botUsername: String?,
+    @SerializedName("request_write_access") val requestWriteAccess: Boolean? = false,
+)
+
+/**
+ * Represents one button of an inline keyboard.
  * @see <https://core.telegram.org/bots/api#inlinekeyboardbutton>
  */
 sealed class InlineKeyboardButton {
@@ -74,5 +84,13 @@ sealed class InlineKeyboardButton {
     data class WebApp(
         override val text: String,
         @SerializedName("web_app") val webApp: WebAppInfo,
+    ) : InlineKeyboardButton()
+
+    /**
+     * To send a login url.
+     */
+    data class LoginUrlButtonType(
+        override val text: String,
+        @SerializedName("login_url") val loginUrl: LoginUrl,
     ) : InlineKeyboardButton()
 }
