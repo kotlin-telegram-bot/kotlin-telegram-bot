@@ -2775,6 +2775,19 @@ public final class com/github/kotlintelegrambot/entities/keyboard/InlineKeyboard
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/github/kotlintelegrambot/entities/keyboard/InlineKeyboardButton$LoginUrlButtonType : com/github/kotlintelegrambot/entities/keyboard/InlineKeyboardButton {
+	public fun <init> (Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/keyboard/LoginUrl;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Lcom/github/kotlintelegrambot/entities/keyboard/LoginUrl;
+	public final fun copy (Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/keyboard/LoginUrl;)Lcom/github/kotlintelegrambot/entities/keyboard/InlineKeyboardButton$LoginUrlButtonType;
+	public static synthetic fun copy$default (Lcom/github/kotlintelegrambot/entities/keyboard/InlineKeyboardButton$LoginUrlButtonType;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/keyboard/LoginUrl;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/entities/keyboard/InlineKeyboardButton$LoginUrlButtonType;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getLoginUrl ()Lcom/github/kotlintelegrambot/entities/keyboard/LoginUrl;
+	public fun getText ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
 public final class com/github/kotlintelegrambot/entities/keyboard/InlineKeyboardButton$Pay : com/github/kotlintelegrambot/entities/keyboard/InlineKeyboardButton {
 	public fun <init> (Ljava/lang/String;)V
 	public final fun component1 ()Ljava/lang/String;
@@ -2868,6 +2881,24 @@ public final class com/github/kotlintelegrambot/entities/keyboard/KeyboardButton
 	public static synthetic fun copy$default (Lcom/github/kotlintelegrambot/entities/keyboard/KeyboardButtonPollType;Lcom/github/kotlintelegrambot/entities/polls/PollType;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/entities/keyboard/KeyboardButtonPollType;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getType ()Lcom/github/kotlintelegrambot/entities/polls/PollType;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/github/kotlintelegrambot/entities/keyboard/LoginUrl {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/Boolean;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;)Lcom/github/kotlintelegrambot/entities/keyboard/LoginUrl;
+	public static synthetic fun copy$default (Lcom/github/kotlintelegrambot/entities/keyboard/LoginUrl;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/entities/keyboard/LoginUrl;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBotUsername ()Ljava/lang/String;
+	public final fun getForwardText ()Ljava/lang/String;
+	public final fun getRequestWriteAccess ()Ljava/lang/Boolean;
+	public final fun getUrl ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
