@@ -33,21 +33,21 @@ class ApiResponseMapperTest {
             result = null,
             ok = false,
             errorCode = ANY_ERROR_CODE,
-            errorDescription = ANY_ERROR_DESCRIPTION
+            errorDescription = ANY_ERROR_DESCRIPTION,
         )
 
         val errorResponseWithValidErrorTgResponse = CallResponse.error<Response<Int>>(
             ANY_ERROR_CODE,
-            Gson().toJson(validErrorTgResponse).toResponseBody("application/json".toMediaType())
+            Gson().toJson(validErrorTgResponse).toResponseBody("application/json".toMediaType()),
         )
 
         val telegramBotResult = sut.mapToTelegramBotResult(
-            errorResponseWithValidErrorTgResponse
+            errorResponseWithValidErrorTgResponse,
         )
 
         val expectedTelegramBotResult = TelegramBotResult.Error.TelegramApi(
             ANY_ERROR_CODE,
-            ANY_ERROR_DESCRIPTION
+            ANY_ERROR_DESCRIPTION,
         )
         assertEquals(expectedTelegramBotResult, telegramBotResult)
     }
