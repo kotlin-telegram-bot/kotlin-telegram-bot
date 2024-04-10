@@ -1,5 +1,8 @@
 import com.github.kotlintelegrambot.entities.CallbackQuery
 import com.github.kotlintelegrambot.entities.Chat
+import com.github.kotlintelegrambot.entities.ChatInviteLink
+import com.github.kotlintelegrambot.entities.ChatMember
+import com.github.kotlintelegrambot.entities.ChatMemberUpdated
 import com.github.kotlintelegrambot.entities.Contact
 import com.github.kotlintelegrambot.entities.Game
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
@@ -42,6 +45,8 @@ fun anyUpdate(
     shippingQuery: ShippingQuery? = null,
     inlineQuery: InlineQuery? = null,
     pollAnswer: PollAnswer? = null,
+    myChatMember: ChatMemberUpdated? = null,
+    chatMember: ChatMemberUpdated? = null,
 ): Update = Update(
     updateId = updateId,
     message = message,
@@ -53,6 +58,8 @@ fun anyUpdate(
     shippingQuery = shippingQuery,
     inlineQuery = inlineQuery,
     pollAnswer = pollAnswer,
+    myChatMember = myChatMember,
+    chatMember = chatMember,
 )
 
 private const val ANY_MESSAGE_ID = 32142353L
@@ -472,4 +479,64 @@ fun anyPreCheckoutQuery(
     invoicePayload = invoicePayload,
     shippingOptionId = shippingOptionId,
     orderInfo = orderInfo,
+)
+
+fun anyChatMember(
+    user: User = anyUser(),
+    status: String = "member",
+    customTitle: String? = null,
+    isAnonymous: Boolean? = null,
+    forceReply: Int? = null,
+    canBeEdited: Boolean? = null,
+    canPostMessages: Boolean? = null,
+    canEditMessages: Boolean? = null,
+    canDeleteMessages: Boolean? = null,
+    canRestrictMembers: Boolean? = null,
+    canPromoteMembers: Boolean? = null,
+    canChangeInfo: Boolean? = null,
+    canInviteUsers: Boolean? = null,
+    canPinMessages: Boolean? = null,
+    isMember: Boolean? = null,
+    canSendMessages: Boolean? = null,
+    canSendMediaMessages: Boolean? = null,
+    canSendPolls: Boolean? = null,
+    canSendOtherMessages: Boolean? = null,
+    canAddWebPagePreviews: Boolean? = null,
+): ChatMember = ChatMember(
+    user = user,
+    status = status,
+    customTitle = customTitle,
+    isAnonymous = isAnonymous,
+    untilDate = forceReply,
+    canBeEdited = canBeEdited,
+    canPostMessages = canPostMessages,
+    canEditMessages = canEditMessages,
+    canDeleteMessages = canDeleteMessages,
+    canRestrictMembers = canRestrictMembers,
+    canPromoteMembers = canPromoteMembers,
+    canChangeInfo = canChangeInfo,
+    canInviteUsers = canInviteUsers,
+    canPinMessages = canPinMessages,
+    isMember = isMember,
+    canSendMessages = canSendMessages,
+    canSendMediaMessages = canSendMediaMessages,
+    canSendPolls = canSendPolls,
+    canSendOtherMessages = canSendOtherMessages,
+    canAddWebPagePreviews = canAddWebPagePreviews,
+)
+
+fun anyMyChatMember(
+    chat: Chat = anyChat(),
+    from: User = anyUser(),
+    date: Long = ANY_DATE,
+    oldChatMember: ChatMember = anyChatMember(),
+    newChatMember: ChatMember = anyChatMember(),
+    inviteLink: ChatInviteLink? = null,
+): ChatMemberUpdated = ChatMemberUpdated(
+    chat = chat,
+    from = from,
+    date = date,
+    oldChatMember = oldChatMember,
+    newChatMember = newChatMember,
+    inviteLink = inviteLink,
 )

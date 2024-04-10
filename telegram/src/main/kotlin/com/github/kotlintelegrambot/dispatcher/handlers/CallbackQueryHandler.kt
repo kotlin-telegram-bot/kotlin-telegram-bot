@@ -10,7 +10,7 @@ data class CallbackQueryHandlerEnvironment(
     val callbackQuery: CallbackQuery,
 )
 
-internal class CallbackQueryHandler(
+class CallbackQueryHandler(
     private val callbackData: String? = null,
     private val callbackAnswerText: String? = null,
     private val callbackAnswerShowAlert: Boolean? = null,

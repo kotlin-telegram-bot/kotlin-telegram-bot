@@ -36,6 +36,7 @@ import com.github.kotlintelegrambot.updater.CoroutineLooper
 import com.github.kotlintelegrambot.updater.Updater
 import com.github.kotlintelegrambot.webhook.WebhookConfig
 import com.github.kotlintelegrambot.webhook.WebhookConfigBuilder
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.channels.Channel
@@ -79,6 +80,7 @@ class Bot private constructor(
         var apiUrl: String = "https://api.telegram.org/"
         var logLevel: LogLevel = LogLevel.None
         var proxy: Proxy = Proxy.NO_PROXY
+        var coroutineDispatcher: CoroutineDispatcher = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
         internal var dispatcherConfiguration: Dispatcher.() -> Unit = { }
 
         fun build(): Bot {
@@ -89,7 +91,7 @@ class Bot private constructor(
             val dispatcher = Dispatcher(
                 updatesChannel = updatesQueue,
                 logLevel = logLevel,
-                coroutineDispatcher = Executors.newSingleThreadExecutor().asCoroutineDispatcher(),
+                coroutineDispatcher = coroutineDispatcher,
             ).apply(dispatcherConfiguration)
 
             return Bot(
@@ -536,6 +538,7 @@ class Bot private constructor(
         width,
         height,
         caption,
+        null,
         disableNotification,
         protectContent,
         replyToMessageId,
@@ -566,6 +569,7 @@ class Bot private constructor(
         width,
         height,
         caption,
+        null,
         disableNotification,
         protectContent,
         replyToMessageId,
@@ -652,6 +656,7 @@ class Bot private constructor(
         width: Int? = null,
         height: Int? = null,
         caption: String? = null,
+        parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
@@ -664,6 +669,7 @@ class Bot private constructor(
         width,
         height,
         caption,
+        parseMode,
         disableNotification,
         protectContent,
         replyToMessageId,
@@ -1255,6 +1261,51 @@ class Bot private constructor(
         untilDate: Long? = null, // unix time - https://en.wikipedia.org/wiki/Unix_time
     ) = apiClient.banChatMember(chatId, userId, untilDate).call()
 
+    fun approveChatJoinRequest(
+        chatId: ChatId,
+        userId: Long,
+    ) = apiClient.approveChatJoinRequest(chatId, userId).call()
+
+    fun declineChatJoinRequest(
+        chatId: ChatId,
+        userId: Long,
+    ) = apiClient.declineChatJoinRequest(chatId, userId).call()
+
+    fun createChatInviteLink(
+        chatId: ChatId,
+        name: String? = null,
+        expireDate: Int? = null,
+        memberLimit: Int? = null,
+        createsJoinRequest: Boolean? = null,
+    ) = apiClient.createChatInviteLink(
+        chatId,
+        name,
+        expireDate,
+        memberLimit,
+        createsJoinRequest,
+    ).call()
+
+    fun editChatInviteLink(
+        chatId: ChatId,
+        inviteLink: String,
+        name: String? = null,
+        expireDate: Int? = null,
+        memberLimit: Int? = null,
+        createsJoinRequest: Boolean? = null,
+    ) = apiClient.editChatInviteLink(
+        chatId,
+        inviteLink,
+        name,
+        expireDate,
+        memberLimit,
+        createsJoinRequest,
+    ).call()
+
+    fun revokeChatInviteLink(
+        chatId: ChatId,
+        inviteLink: String,
+    ) = apiClient.revokeChatInviteLink(chatId, inviteLink).call()
+
     /**
      * Use this method to unban a previously kicked user in a supergroup or channel. The user will
      * not return to the group or channel automatically, but will be able to join via link, etc.
@@ -1829,6 +1880,9 @@ class Bot private constructor(
         paymentInvoiceInfo.currency,
         paymentInvoiceInfo.prices,
         isFlexible = paymentInvoiceInfo.isFlexible,
+        recurring = paymentInvoiceInfo.recurring,
+        maxTipAmount = paymentInvoiceInfo.maxTipAmount,
+        suggestedTipAmounts = paymentInvoiceInfo.suggestedTipAmounts,
         providerData = paymentInvoiceInfo.providerData,
         needShippingAddress = paymentInvoiceInfo.invoiceUserDetail?.needShippingAddress,
         needPhoneNumber = paymentInvoiceInfo.invoiceUserDetail?.needPhoneNumber,

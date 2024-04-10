@@ -6,6 +6,7 @@ import com.github.kotlintelegrambot.network.ApiClient
 import com.github.kotlintelegrambot.types.DispatchableObject
 import com.github.kotlintelegrambot.types.TelegramBotResult
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.yield
 
 internal class Updater(
     private val looper: Looper,
@@ -24,7 +25,7 @@ internal class Updater(
                 timeout = botTimeout,
                 allowedUpdates = null,
             )
-
+            yield()
             getUpdatesResult.fold(
                 ifSuccess = { onUpdatesReceived(it) },
                 ifError = { onErrorGettingUpdates(it) },
@@ -48,7 +49,7 @@ internal class Updater(
         lastUpdateId = updates.last().updateId + 1
     }
 
-    private suspend fun onErrorGettingUpdates(error: TelegramBotResult.Error<List<Update>>) {
+    private suspend fun onErrorGettingUpdates(error: TelegramBotResult.Error) {
         val errorDescription: String? = when (error) {
             is TelegramBotResult.Error.HttpError -> "${error.httpCode} ${error.description}"
             is TelegramBotResult.Error.TelegramApi -> "${error.errorCode} ${error.description}"

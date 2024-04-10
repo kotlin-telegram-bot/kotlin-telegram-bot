@@ -136,6 +136,7 @@ internal class ApiClient(
             allowedUpdates = allowedUpdates,
             dropPendingUpdates = dropPendingUpdates,
         )
+
         is ByUrl -> service.setWebhookWithCertificateAsFileUrl(
             url = url,
             certificateUrl = certificate.url,
@@ -144,6 +145,7 @@ internal class ApiClient(
             allowedUpdates = allowedUpdates,
             dropPendingUpdates = dropPendingUpdates,
         )
+
         is ByFile -> service.setWebhookWithCertificateAsFile(
             url = url.toMultipartBodyPart(ApiConstants.SetWebhook.URL),
             certificate = certificate.file.toMultipartBodyPart(
@@ -155,6 +157,7 @@ internal class ApiClient(
             allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES),
             dropPendingUpdates = dropPendingUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.DROP_PENDING_UPDATES),
         )
+
         is ByByteArray -> service.setWebhookWithCertificateAsFile(
             url = url.toMultipartBodyPart(ApiConstants.SetWebhook.URL),
             certificate = certificate.fileBytes.toMultipartBodyPart(
@@ -166,6 +169,7 @@ internal class ApiClient(
             allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES),
             dropPendingUpdates = dropPendingUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.DROP_PENDING_UPDATES),
         )
+
         null -> service.setWebhook(
             url = url,
             ipAddress = ipAddress,
@@ -275,6 +279,7 @@ internal class ApiClient(
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
         )
+
         is ByFileId, is ByUrl -> service.sendPhoto(
             chatId,
             when (photo) {
@@ -320,6 +325,7 @@ internal class ApiClient(
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
         )
+
         is ByFileId, is ByUrl -> service.sendAudio(
             chatId,
             when (audio) {
@@ -393,6 +399,7 @@ internal class ApiClient(
         width: Int?,
         height: Int?,
         caption: String?,
+        parseMode: ParseMode?,
         disableNotification: Boolean?,
         protectContent: Boolean?,
         replyToMessageId: Long?,
@@ -410,6 +417,7 @@ internal class ApiClient(
             if (width != null) convertString(width.toString()) else null,
             if (height != null) convertString(height.toString()) else null,
             if (caption != null) convertString(caption) else null,
+            if (parseMode != null) convertString(parseMode.modeName) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (protectContent != null) convertString(protectContent.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
@@ -428,6 +436,7 @@ internal class ApiClient(
             width,
             height,
             caption,
+            parseMode,
             disableNotification,
             protectContent,
             replyToMessageId,
@@ -835,6 +844,58 @@ internal class ApiClient(
         return service.banChatMember(chatId, userId, untilDate)
     }
 
+    fun approveChatJoinRequest(chatId: ChatId, userId: Long): Call<Response<Boolean>> {
+        return service.approveChatJoinRequest(chatId, userId)
+    }
+
+    fun declineChatJoinRequest(chatId: ChatId, userId: Long): Call<Response<Boolean>> {
+        return service.declineChatJoinRequest(chatId, userId)
+    }
+
+    fun createChatInviteLink(
+        chatId: ChatId,
+        name: String?,
+        expireDate: Int?,
+        memberLimit: Int?,
+        createsJoinRequest: Boolean?,
+    ): Call<Response<Boolean>> {
+        return service.createChatInviteLink(
+            chatId,
+            name,
+            expireDate,
+            memberLimit,
+            createsJoinRequest,
+        )
+    }
+
+    fun editChatInviteLink(
+        chatId: ChatId,
+        inviteLink: String,
+        name: String? = null,
+        expireDate: Int? = null,
+        memberLimit: Int? = null,
+        createsJoinRequest: Boolean? = null,
+    ): Call<Response<Boolean>> {
+        return service.editChatInviteLink(
+            chatId,
+            inviteLink,
+            name,
+            expireDate,
+            memberLimit,
+            createsJoinRequest,
+        )
+    }
+
+    fun revokeChatInviteLink(
+        chatId: ChatId,
+        inviteLink: String,
+    ): Call<Response<Boolean>> {
+        return service.revokeChatInviteLink(
+            chatId,
+            inviteLink,
+        )
+    }
+
     fun unbanChatMember(
         chatId: ChatId,
         userId: Long,
@@ -1104,6 +1165,9 @@ internal class ApiClient(
         sendPhoneNumberToProvider: Boolean?,
         sendEmailToProvider: Boolean?,
         isFlexible: Boolean?,
+        recurring: Boolean?,
+        maxTipAmount: Long?,
+        suggestedTipAmounts: List<Long>?,
         disableNotification: Boolean?,
         protectContent: Boolean?,
         replyToMessageId: Long?,
@@ -1130,6 +1194,9 @@ internal class ApiClient(
         sendPhoneNumberToProvider = sendPhoneNumberToProvider,
         sendEmailToProvider = sendEmailToProvider,
         isFlexible = isFlexible,
+        recurring = recurring,
+        maxTipAmount = maxTipAmount,
+        suggestedTipAmounts = suggestedTipAmounts,
         disableNotification = disableNotification,
         protectContent = protectContent,
         replyMarkup = replyMarkup,
@@ -1381,7 +1448,7 @@ internal class ApiClient(
         customTitle,
     ).runApiOperation()
 
-    private fun <T> Call<Response<T>>.runApiOperation(): TelegramBotResult<T> {
+    private fun <T : Any> Call<Response<T>>.runApiOperation(): TelegramBotResult<T> {
         val apiResponse = try {
             apiRequestSender.send(this)
         } catch (exception: Exception) {
