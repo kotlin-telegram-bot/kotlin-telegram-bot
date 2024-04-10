@@ -31,6 +31,7 @@ class SendVoiceIT : ApiClientIT() {
             captionEntities = CAPTION_ENTITIES,
             duration = DURATION,
             disableNotification = false,
+            protectContent = false,
             replyToMessageId = REPLY_TO_MESSAGE_ID,
             allowSendingWithoutReply = null,
             replyMarkup = REPLY_MARKUP,
@@ -44,6 +45,7 @@ class SendVoiceIT : ApiClientIT() {
             "&caption_entities=${gson.toJson(CAPTION_ENTITIES)}" +
             "&duration=$DURATION" +
             "&disable_notification=false" +
+            "&protect_content=false" +
             "&reply_to_message_id=$REPLY_TO_MESSAGE_ID" +
             "&reply_markup=${gson.toJson(REPLY_MARKUP)}"
         val request = mockWebServer.takeRequest()
@@ -62,6 +64,7 @@ class SendVoiceIT : ApiClientIT() {
             captionEntities = CAPTION_ENTITIES,
             duration = DURATION,
             disableNotification = false,
+            protectContent = false,
             replyToMessageId = REPLY_TO_MESSAGE_ID,
             allowSendingWithoutReply = null,
             replyMarkup = REPLY_MARKUP,
@@ -92,6 +95,7 @@ class SendVoiceIT : ApiClientIT() {
             captionEntities = CAPTION_ENTITIES,
             duration = DURATION,
             disableNotification = false,
+            protectContent = false,
             replyToMessageId = REPLY_TO_MESSAGE_ID,
             allowSendingWithoutReply = null,
             replyMarkup = REPLY_MARKUP,

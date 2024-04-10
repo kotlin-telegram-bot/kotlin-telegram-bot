@@ -23,12 +23,14 @@ class ForwardMessageIT : ApiClientIT() {
             fromChatId = ChatId.fromId(FROM_CHAT_ID),
             messageId = MESSAGE_ID,
             disableNotification = false,
+            protectContent = false,
         )
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$CHAT_ID" +
             "&from_chat_id=$FROM_CHAT_ID" +
             "&disable_notification=false" +
+            "&protect_content=false" +
             "&message_id=$MESSAGE_ID"
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
@@ -42,11 +44,13 @@ class ForwardMessageIT : ApiClientIT() {
             fromChatId = ChatId.fromId(FROM_CHAT_ID),
             messageId = MESSAGE_ID,
             disableNotification = null,
+            protectContent = false,
         )
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$CHAT_ID" +
             "&from_chat_id=$FROM_CHAT_ID" +
+            "&protect_content=false" +
             "&message_id=$MESSAGE_ID"
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
@@ -60,6 +64,7 @@ class ForwardMessageIT : ApiClientIT() {
             fromChatId = ChatId.fromId(FROM_CHAT_ID),
             messageId = MESSAGE_ID,
             disableNotification = false,
+            protectContent = false,
         )
 
         val expectedMessage = Message(

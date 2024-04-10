@@ -11,7 +11,12 @@ fun main() {
 
         dispatch {
             text {
-                bot.sendMessage(chatId = ChatId.fromId(message.chat.id), text = text)
+                bot.sendMessage(
+                    chatId = ChatId.fromId(message.chat.id),
+                    text = text,
+                    protectContent = true,
+                    disableNotification = false,
+                )
             }
         }
     }
