@@ -128,7 +128,7 @@ internal interface ApiService {
         @Field("from_chat_id") fromChatId: ChatId,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
-        @Field("message_id") messageId: Long
+        @Field("message_id") messageId: Long,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -922,7 +922,7 @@ internal interface ApiService {
     @POST("answerWebAppQuery")
     fun answerWebAppQuery(
         @Field("web_app_query_id") webAppQueryId: String,
-        @Field("result") inlineQueryResult: String
+        @Field("result") inlineQueryResult: String,
     ): Call<Response<SentWebAppMessage>>
 
     @GET("getMyCommands")

@@ -216,7 +216,7 @@ internal class ApiClient(
         fromChatId: ChatId,
         messageId: Long,
         disableNotification: Boolean?,
-        protectContent: Boolean?
+        protectContent: Boolean?,
     ): TelegramBotResult<Message> = service.forwardMessage(
         chatId,
         fromChatId,
@@ -1401,14 +1401,14 @@ internal class ApiClient(
 
     fun answerWebAppQuery(
         webAppQueryId: String,
-        inlineQueryResult: InlineQueryResult
+        inlineQueryResult: InlineQueryResult,
     ): TelegramBotResult<SentWebAppMessage> {
         val inlineQueryResultsType = object : TypeToken<InlineQueryResult>() {}.type
         val serializedInlineQueryResults = gson.toJson(inlineQueryResult, inlineQueryResultsType)
 
         return service.answerWebAppQuery(
             webAppQueryId,
-            serializedInlineQueryResults
+            serializedInlineQueryResults,
         ).runApiOperation()
     }
 

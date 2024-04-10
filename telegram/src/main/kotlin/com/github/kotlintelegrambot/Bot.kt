@@ -285,13 +285,13 @@ class Bot private constructor(
         fromChatId: ChatId,
         messageId: Long,
         disableNotification: Boolean? = null,
-        protectContent: Boolean? = null
+        protectContent: Boolean? = null,
     ): TelegramBotResult<Message> = apiClient.forwardMessage(
         chatId,
         fromChatId,
         messageId,
         disableNotification,
-        protectContent
+        protectContent,
     )
 
     fun copyMessage(
@@ -2050,10 +2050,10 @@ class Bot private constructor(
      */
     fun answerWebAppQuery(
         webAppQueryId: String,
-        inlineQueryResult: InlineQueryResult
+        inlineQueryResult: InlineQueryResult,
     ): TelegramBotResult<SentWebAppMessage> = apiClient.answerWebAppQuery(
         webAppQueryId,
-        inlineQueryResult
+        inlineQueryResult,
     )
 
     /**
