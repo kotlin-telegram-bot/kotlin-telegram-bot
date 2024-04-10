@@ -5,12 +5,12 @@ import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.files.Audio
 
-internal class AudioHandler(
-    handleAudio: HandleAudio
+class AudioHandler(
+    handleAudio: HandleAudio,
 ) : MediaHandler<Audio>(
     handleAudio,
     AudioHandlerFunctions::mapMessageToAudio,
-    AudioHandlerFunctions::isUpdateAudio
+    AudioHandlerFunctions::isUpdateAudio,
 )
 
 private object AudioHandlerFunctions {

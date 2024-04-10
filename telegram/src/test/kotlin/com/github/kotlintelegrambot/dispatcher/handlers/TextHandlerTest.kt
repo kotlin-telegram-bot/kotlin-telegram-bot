@@ -87,7 +87,7 @@ class TextHandlerTest {
             botMock,
             anyUpdate,
             anyMessageWithText,
-            ANY_TEXT
+            ANY_TEXT,
         )
         coVerify { handleTextMock.invoke(expectedTextHandlerEnvironment) }
     }

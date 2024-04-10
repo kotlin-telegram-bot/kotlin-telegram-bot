@@ -8,12 +8,12 @@ import com.github.kotlintelegrambot.extensions.filters.Filter
 data class MessageHandlerEnvironment(
     val bot: Bot,
     val update: Update,
-    val message: Message
+    val message: Message,
 )
 
-internal class MessageHandler(
+class MessageHandler(
     private val filter: Filter,
-    private val handleMessage: suspend MessageHandlerEnvironment.() -> Unit
+    private val handleMessage: suspend MessageHandlerEnvironment.() -> Unit,
 ) : Handler {
 
     override fun checkUpdate(update: Update): Boolean =

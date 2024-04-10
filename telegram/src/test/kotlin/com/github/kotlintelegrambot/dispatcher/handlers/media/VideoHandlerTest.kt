@@ -49,7 +49,7 @@ class VideoHandlerTest {
             botMock,
             anyUpdateWithVideo,
             anyMessageWithVideo,
-            anyVideo
+            anyVideo,
         )
         coVerify { handleVideoMock.invoke(expectedVideoHandlerEnv) }
     }

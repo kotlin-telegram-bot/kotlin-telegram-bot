@@ -21,7 +21,7 @@ abstract class ApiClientIT {
             token = "",
             apiUrl = webServerUrl.toString(),
             logLevel = LogLevel.None,
-            gson = GsonFactory.createForApiClient()
+            gson = GsonFactory.createForApiClient(),
         )
     }
 

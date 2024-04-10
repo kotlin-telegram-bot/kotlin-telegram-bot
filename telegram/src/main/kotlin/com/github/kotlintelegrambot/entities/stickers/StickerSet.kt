@@ -9,5 +9,5 @@ data class StickerSet(
     @Name("is_animated") val isAnimated: Boolean,
     @Name("contains_masks") val containsMasks: Boolean,
     @Name("stickers") val stickers: List<Sticker>,
-    val thumb: PhotoSize?
+    val thumb: PhotoSize?,
 )

@@ -58,7 +58,7 @@ class PhotosHandlerTest {
             botMock,
             anyUpdateWithPhotos,
             anyMessageWithPhotos,
-            anyPhotos
+            anyPhotos,
         )
         coVerify { handlePhotosMock.invoke(expectedPhotoHandlerEnv) }
     }

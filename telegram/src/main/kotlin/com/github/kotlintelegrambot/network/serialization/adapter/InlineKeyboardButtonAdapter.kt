@@ -4,11 +4,13 @@ import com.github.kotlintelegrambot.entities.CallbackGame
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.CallbackData
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.CallbackGameButtonType
+import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.LoginUrlButtonType
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.Pay
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.SwitchInlineQuery
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.SwitchInlineQueryCurrentChat
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.Url
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.WebApp
+import com.github.kotlintelegrambot.entities.keyboard.LoginUrl
 import com.github.kotlintelegrambot.entities.keyboard.WebAppInfo
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
@@ -28,13 +30,14 @@ internal class InlineKeyboardButtonAdapter : JsonSerializer<InlineKeyboardButton
         @SerializedName("switch_inline_query") val switchInlineQuery: String? = null,
         @SerializedName("switch_inline_query_current_chat") val switchInlineQueryCurrentChat: String? = null,
         val pay: Boolean? = null,
-        @SerializedName("web_app") val webApp: WebAppInfo? = null
+        @SerializedName("web_app") val webApp: WebAppInfo? = null,
+        @SerializedName("login_url") val loginUrl: LoginUrl? = null,
     )
 
     override fun serialize(
         src: InlineKeyboardButton,
         typeOfSrc: Type,
-        context: JsonSerializationContext
+        context: JsonSerializationContext,
     ): JsonElement = when (src) {
         is Url -> context.serialize(src, Url::class.java)
         is CallbackData -> context.serialize(src, CallbackData::class.java)
@@ -43,16 +46,17 @@ internal class InlineKeyboardButtonAdapter : JsonSerializer<InlineKeyboardButton
         is CallbackGameButtonType -> context.serialize(src, CallbackGameButtonType::class.java)
         is Pay -> context.serialize(src, Pay::class.java)
         is WebApp -> context.serialize(src, WebApp::class.java)
+        is LoginUrlButtonType -> context.serialize(src, LoginUrlButtonType::class.java)
     }
 
     override fun deserialize(
         json: JsonElement,
         typeOfT: Type,
-        context: JsonDeserializationContext
+        context: JsonDeserializationContext,
     ): InlineKeyboardButton {
         val inlineKeyboardButtonDto = context.deserialize<InlineKeyboardButtonDto>(
             json,
-            InlineKeyboardButtonDto::class.java
+            InlineKeyboardButtonDto::class.java,
         )
 
         return with(inlineKeyboardButtonDto) {
@@ -62,11 +66,12 @@ internal class InlineKeyboardButtonAdapter : JsonSerializer<InlineKeyboardButton
                 switchInlineQuery != null -> SwitchInlineQuery(text, switchInlineQuery)
                 switchInlineQueryCurrentChat != null -> SwitchInlineQueryCurrentChat(
                     text,
-                    switchInlineQueryCurrentChat
+                    switchInlineQueryCurrentChat,
                 )
                 callbackGame != null -> CallbackGameButtonType(text, callbackGame)
                 pay != null -> Pay(text)
                 webApp != null -> WebApp(text, webApp)
+                loginUrl != null -> LoginUrlButtonType(text, loginUrl)
                 else -> error("unsupported inline keyboard button $inlineKeyboardButtonDto")
             }
         }

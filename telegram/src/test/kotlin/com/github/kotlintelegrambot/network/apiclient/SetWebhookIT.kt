@@ -89,7 +89,8 @@ class SetWebhookIT : ApiClientIT() {
                 """{
                 |"ok": true,
                 |"result": true
-                |}""".trimMargin()
+                |}
+                """.trimMargin(),
             )
         mockWebServer.enqueue(mockedResponse)
     }
@@ -105,7 +106,7 @@ class SetWebhookIT : ApiClientIT() {
     private fun whenWebhookIsSetWithCertificateAsFile() {
         sut.setWebhook(
             url = ANY_WEBHOOK_URL,
-            certificate = TelegramFile.ByFile(getFileFromResources<SetWebhookIT>("certificate.pem"))
+            certificate = TelegramFile.ByFile(getFileFromResources<SetWebhookIT>("certificate.pem")),
         ).execute()
     }
 
@@ -113,14 +114,14 @@ class SetWebhookIT : ApiClientIT() {
         sut.setWebhook(
             url = ANY_WEBHOOK_URL,
             certificate = TelegramFile.ByFile(getFileFromResources<SetWebhookIT>("certificate.pem")),
-            ipAddress = ANY_IP_ADDRESS
+            ipAddress = ANY_IP_ADDRESS,
         ).execute()
     }
 
     private fun whenWebhookIsSetWithCertificateAsFileId() {
         sut.setWebhook(
             url = ANY_WEBHOOK_URL,
-            certificate = TelegramFile.ByFileId(ANY_FILE_ID)
+            certificate = TelegramFile.ByFileId(ANY_FILE_ID),
         ).execute()
     }
 
@@ -128,14 +129,14 @@ class SetWebhookIT : ApiClientIT() {
         sut.setWebhook(
             url = ANY_WEBHOOK_URL,
             certificate = TelegramFile.ByFileId(ANY_FILE_ID),
-            ipAddress = ANY_IP_ADDRESS
+            ipAddress = ANY_IP_ADDRESS,
         ).execute()
     }
 
     private fun whenWebhookIsSetWithCertificateAsFileUrl() {
         sut.setWebhook(
             url = ANY_WEBHOOK_URL,
-            certificate = TelegramFile.ByUrl(ANY_FILE_URL)
+            certificate = TelegramFile.ByUrl(ANY_FILE_URL),
         ).execute()
     }
 
@@ -143,7 +144,7 @@ class SetWebhookIT : ApiClientIT() {
         sut.setWebhook(
             url = ANY_WEBHOOK_URL,
             certificate = TelegramFile.ByUrl(ANY_FILE_URL),
-            ipAddress = ANY_IP_ADDRESS
+            ipAddress = ANY_IP_ADDRESS,
         ).execute()
     }
 
@@ -165,7 +166,7 @@ class SetWebhookIT : ApiClientIT() {
         val requestBody = request.body.readUtf8().trimIndent()
         val expectedRequestBody = String.format(
             getFileAsStringFromResources<SetWebhookIT>("setWebhookMultipartWithCertificateRequestBody.txt"),
-            multipartBoundary
+            multipartBoundary,
         ).trimIndent()
         assertEquals(expectedRequestBody, requestBody)
     }
@@ -177,7 +178,7 @@ class SetWebhookIT : ApiClientIT() {
         val expectedRequestBody = String.format(
             getFileAsStringFromResources<SetWebhookIT>("setWebhookMultipartWithCertificateAndWithIpAddressRequestBody.txt"),
             multipartBoundary,
-            ANY_IP_ADDRESS
+            ANY_IP_ADDRESS,
         ).trimIndent()
         assertEquals(expectedRequestBody, requestBody)
     }
@@ -187,7 +188,7 @@ class SetWebhookIT : ApiClientIT() {
         val requestBody = request.body.readUtf8()
         assertEquals(
             "url=https%3A%2F%2Fwebhook.telegram.io&certificate=rukaFileId1214",
-            requestBody
+            requestBody,
         )
     }
 
@@ -196,7 +197,7 @@ class SetWebhookIT : ApiClientIT() {
         val requestBody = request.body.readUtf8()
         assertEquals(
             "url=https%3A%2F%2Fwebhook.telegram.io&certificate=rukaFileId1214&ip_address=$ANY_IP_ADDRESS",
-            requestBody
+            requestBody,
         )
     }
 
@@ -205,7 +206,7 @@ class SetWebhookIT : ApiClientIT() {
         val requestBody = request.body.readUtf8()
         assertEquals(
             "url=https%3A%2F%2Fwebhook.telegram.io&certificate=https%3A%2F%2Fwww.mycert.es%2Fruka",
-            requestBody
+            requestBody,
         )
     }
 
@@ -214,7 +215,7 @@ class SetWebhookIT : ApiClientIT() {
         val requestBody = request.body.readUtf8()
         assertEquals(
             "url=https%3A%2F%2Fwebhook.telegram.io&certificate=https%3A%2F%2Fwww.mycert.es%2Fruka&ip_address=$ANY_IP_ADDRESS",
-            requestBody
+            requestBody,
         )
     }
 

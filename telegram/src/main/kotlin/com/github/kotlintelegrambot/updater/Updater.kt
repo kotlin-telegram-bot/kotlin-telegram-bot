@@ -5,11 +5,12 @@ import com.github.kotlintelegrambot.errors.RetrieveUpdatesError
 import com.github.kotlintelegrambot.network.ApiClient
 import com.github.kotlintelegrambot.types.DispatchableObject
 import com.github.kotlintelegrambot.types.TelegramBotResult
-import java.util.concurrent.BlockingQueue
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.yield
 
 internal class Updater(
     private val looper: Looper,
-    private val updatesQueue: BlockingQueue<DispatchableObject>,
+    private val updatesChannel: Channel<DispatchableObject>,
     private val apiClient: ApiClient,
     private val botTimeout: Int,
 ) {
@@ -24,10 +25,10 @@ internal class Updater(
                 timeout = botTimeout,
                 allowedUpdates = null,
             )
-
+            yield()
             getUpdatesResult.fold(
-                ifSuccess = ::onUpdatesReceived,
-                ifError = ::onErrorGettingUpdates
+                ifSuccess = { onUpdatesReceived(it) },
+                ifError = { onErrorGettingUpdates(it) },
             )
         }
     }
@@ -36,17 +37,19 @@ internal class Updater(
         looper.quit()
     }
 
-    private fun onUpdatesReceived(updates: List<Update>) {
+    private suspend fun onUpdatesReceived(updates: List<Update>) {
         if (updates.isEmpty()) {
             return
         }
 
-        updates.forEach(updatesQueue::put)
+        updates.forEach {
+            updatesChannel.send(it)
+        }
 
         lastUpdateId = updates.last().updateId + 1
     }
 
-    private fun onErrorGettingUpdates(error: TelegramBotResult.Error<List<Update>>) {
+    private suspend fun onErrorGettingUpdates(error: TelegramBotResult.Error) {
         val errorDescription: String? = when (error) {
             is TelegramBotResult.Error.HttpError -> "${error.httpCode} ${error.description}"
             is TelegramBotResult.Error.TelegramApi -> "${error.errorCode} ${error.description}"
@@ -55,8 +58,8 @@ internal class Updater(
         }
 
         val dispatchableError = RetrieveUpdatesError(
-            errorDescription ?: "Error retrieving updates"
+            errorDescription ?: "Error retrieving updates",
         )
-        updatesQueue.put(dispatchableError)
+        updatesChannel.send(dispatchableError)
     }
 }

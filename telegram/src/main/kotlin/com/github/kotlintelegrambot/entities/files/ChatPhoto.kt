@@ -10,5 +10,5 @@ data class ChatPhoto(
     @SerializedName(FilesFields.smallFileId) val smallFileId: String,
     @SerializedName(FilesFields.smallFileUniqueId) val smallFileUniqueId: String,
     @SerializedName(FilesFields.bigFileId) val bigFileId: String,
-    @SerializedName(FilesFields.bigFileUniqueId) val bigFileUniqueId: String
+    @SerializedName(FilesFields.bigFileUniqueId) val bigFileUniqueId: String,
 )

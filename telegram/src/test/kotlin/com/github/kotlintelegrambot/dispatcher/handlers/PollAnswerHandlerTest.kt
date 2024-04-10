@@ -45,7 +45,7 @@ class PollAnswerHandlerTest {
         val expectedPollAnswerHandlerEnv = PollAnswerHandlerEnvironment(
             botMock,
             anyUpdateWithPollAnswer,
-            anyPollAnswer
+            anyPollAnswer,
         )
         coVerify { handlePollAnswerMock.invoke(expectedPollAnswerHandlerEnv) }
     }

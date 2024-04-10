@@ -17,7 +17,7 @@ class UnbanChatMemberIT : ApiClientIT() {
         sut.unbanChatMember(
             chatId = ChatId.fromId(ANY_CHAT_ID),
             userId = ANY_USER_ID,
-            onlyIfBanned = null
+            onlyIfBanned = null,
         )
 
         val request = mockWebServer.takeRequest()
@@ -32,14 +32,14 @@ class UnbanChatMemberIT : ApiClientIT() {
         sut.unbanChatMember(
             chatId = ChatId.fromId(ANY_CHAT_ID),
             userId = ANY_USER_ID,
-            onlyIfBanned = true
+            onlyIfBanned = true,
         )
 
         val request = mockWebServer.takeRequest()
         assertEquals("unbanChatMember", request.apiMethodName)
         assertEquals(
             "chat_id=$ANY_CHAT_ID&user_id=$ANY_USER_ID&only_if_banned=true",
-            request.decodedBody
+            request.decodedBody,
         )
     }
 
@@ -50,7 +50,7 @@ class UnbanChatMemberIT : ApiClientIT() {
         val unbanChatMemberResult = sut.unbanChatMember(
             chatId = ChatId.fromId(ANY_CHAT_ID),
             userId = ANY_USER_ID,
-            onlyIfBanned = true
+            onlyIfBanned = true,
         )
 
         assertTrue(unbanChatMemberResult.get())
@@ -66,7 +66,7 @@ class UnbanChatMemberIT : ApiClientIT() {
         mockWebServer.enqueue(
             MockResponse()
                 .setResponseCode(200)
-                .setBody(responseBody)
+                .setBody(responseBody),
         )
     }
 

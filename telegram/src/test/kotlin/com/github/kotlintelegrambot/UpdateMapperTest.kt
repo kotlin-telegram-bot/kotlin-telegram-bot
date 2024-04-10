@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test
 class UpdateMapperTest {
 
     private val sut = UpdateMapper(
-        gson = GsonFactory.createForApiClient()
+        gson = GsonFactory.createForApiClient(),
     )
 
     @Test
@@ -81,7 +81,7 @@ class UpdateMapperTest {
                     isBot = false,
                     firstName = "TestName",
                     username = "testname",
-                    languageCode = "de"
+                    languageCode = "de",
                 ),
                 message = Message(
                     messageId = 1,
@@ -89,13 +89,13 @@ class UpdateMapperTest {
                         id = 1,
                         isBot = true,
                         firstName = "testbot",
-                        username = "testbot"
+                        username = "testbot",
                     ),
                     chat = Chat(
                         id = 1,
                         firstName = "TestName",
                         username = "testname",
-                        type = "private"
+                        type = "private",
                     ),
                     date = 1606317592,
                     text = "Hello, inline buttons!",
@@ -103,20 +103,20 @@ class UpdateMapperTest {
                         listOf(
                             CallbackData(
                                 text = "Test Inline Button",
-                                callbackData = "testButton"
-                            )
+                                callbackData = "testButton",
+                            ),
                         ),
                         listOf(
                             CallbackData(
                                 text = "Show alert",
-                                callbackData = "showAlert"
-                            )
-                        )
-                    )
+                                callbackData = "showAlert",
+                            ),
+                        ),
+                    ),
                 ),
                 chatInstance = "1",
-                data = "showAlert"
-            )
+                data = "showAlert",
+            ),
         )
         assertEquals(expectedUpdate, actualUpdate)
     }

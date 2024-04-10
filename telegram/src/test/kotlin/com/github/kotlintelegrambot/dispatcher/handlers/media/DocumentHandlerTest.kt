@@ -49,7 +49,7 @@ class DocumentHandlerTest {
             botMock,
             anyUpdateWithDocument,
             anyMessageWithDocument,
-            anyDocument
+            anyDocument,
         )
         coVerify { handleDocumentMock.invoke(expectedDocumentHandlerEnv) }
     }

@@ -50,7 +50,7 @@ class GetChatIT : ApiClientIT() {
                     longitude = -3.604971f,
                 ),
                 address = "Mordor Street, Madrid, Spain",
-            )
+            ),
         )
         assertEquals(expectedGetChatResult, getChatResult.getOrNull())
     }
@@ -86,7 +86,7 @@ class GetChatIT : ApiClientIT() {
         mockWebServer.enqueue(
             MockResponse()
                 .setResponseCode(200)
-                .setBody(getChatResponse)
+                .setBody(getChatResponse),
         )
     }
 

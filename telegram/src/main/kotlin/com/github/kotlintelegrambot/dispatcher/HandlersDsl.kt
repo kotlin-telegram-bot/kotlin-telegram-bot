@@ -2,14 +2,17 @@ package com.github.kotlintelegrambot.dispatcher
 
 import com.github.kotlintelegrambot.dispatcher.handlers.CallbackQueryHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.ChannelHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.ChatMemberHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.ContactHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.DiceHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.ErrorHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.ExtendedHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleAnimation
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleAudio
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleCallbackQuery
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleChannelPost
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleChatMember
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleCommand
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleContact
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleDice
@@ -17,8 +20,11 @@ import com.github.kotlintelegrambot.dispatcher.handlers.HandleDocument
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleError
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleGame
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleInlineQuery
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleLeftChatMember
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleLocation
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleMessage
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleMyChatMember
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleNewChatJoinRequest
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleNewChatMembers
 import com.github.kotlintelegrambot.dispatcher.handlers.HandlePhotos
 import com.github.kotlintelegrambot.dispatcher.handlers.HandlePollAnswer
@@ -28,9 +34,13 @@ import com.github.kotlintelegrambot.dispatcher.handlers.HandleText
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleVideo
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleVideoNote
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleVoice
+import com.github.kotlintelegrambot.dispatcher.handlers.Handler
 import com.github.kotlintelegrambot.dispatcher.handlers.InlineQueryHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.LeftChatMemberHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.LocationHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.MessageHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.MyChatMemberHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.NewChatJoinRequestHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.NewChatMembersHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.PollAnswerHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.PreCheckoutQueryHandler
@@ -44,6 +54,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.media.StickerHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.VideoHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.VideoNoteHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.VoiceHandler
+import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.extensions.filters.Filter
 import com.github.kotlintelegrambot.extensions.filters.Filter.All
 
@@ -73,7 +84,7 @@ fun Dispatcher.callbackQuery(
     callbackAnswerShowAlert: Boolean? = null,
     callbackAnswerUrl: String? = null,
     callbackAnswerCacheTime: Int? = null,
-    handleCallbackQuery: HandleCallbackQuery
+    handleCallbackQuery: HandleCallbackQuery,
 ) {
     addHandler(
         CallbackQueryHandler(
@@ -82,8 +93,8 @@ fun Dispatcher.callbackQuery(
             callbackAnswerShowAlert = callbackAnswerShowAlert,
             callbackAnswerUrl = callbackAnswerUrl,
             callbackAnswerCacheTime = callbackAnswerCacheTime,
-            handleCallbackQuery = handleCallbackQuery
-        )
+            handleCallbackQuery = handleCallbackQuery,
+        ),
     )
 }
 
@@ -105,6 +116,10 @@ fun Dispatcher.preCheckoutQuery(body: HandlePreCheckoutQuery) {
 
 fun Dispatcher.channel(body: HandleChannelPost) {
     addHandler(ChannelHandler(body))
+}
+
+fun Dispatcher.chatJoinRequest(body: HandleNewChatJoinRequest) {
+    addHandler(NewChatJoinRequestHandler(body))
 }
 
 fun Dispatcher.inlineQuery(body: HandleInlineQuery) {
@@ -151,10 +166,26 @@ fun Dispatcher.newChatMembers(body: HandleNewChatMembers) {
     addHandler(NewChatMembersHandler(body))
 }
 
+fun Dispatcher.leftChatMember(body: HandleLeftChatMember) {
+    addHandler(LeftChatMemberHandler(body))
+}
+
 fun Dispatcher.pollAnswer(body: HandlePollAnswer) {
     addHandler(PollAnswerHandler(body))
 }
 
 fun Dispatcher.dice(body: HandleDice) {
     addHandler(DiceHandler(body))
+}
+
+infix fun Handler.requires(predicate: (Update) -> Boolean): Handler {
+    return ExtendedHandler(this, predicate)
+}
+
+fun Dispatcher.myChatMember(handleMyChatMember: HandleMyChatMember) {
+    addHandler(MyChatMemberHandler(handleMyChatMember = handleMyChatMember))
+}
+
+fun Dispatcher.chatMember(handleChatMember: HandleChatMember) {
+    addHandler(ChatMemberHandler(handleChatMember = handleChatMember))
 }

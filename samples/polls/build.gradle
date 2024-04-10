@@ -1,4 +1,6 @@
-apply plugin: 'kotlin'
+plugins {
+    alias libs.plugins.kotlin.jvm
+}
 
 repositories {
     mavenCentral()
@@ -12,7 +14,6 @@ jar {
     manifest {
         attributes 'Main-Class': 'com.github.kotlintelegrambot.polls.MainKt'
     }
-
 
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
 

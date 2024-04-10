@@ -7,16 +7,21 @@ import com.google.gson.annotations.SerializedName
 enum class MimeType(val rawName: String) {
     @SerializedName("text/html")
     TEXT_HTML("text/html"),
+
     @SerializedName("video/mp4")
     VIDEO_MP4("video/mp4"),
+
     @SerializedName("application/pdf")
     APPLICATION_PDF("application/pdf"),
+
     @SerializedName("application/zip")
     APPLICATION_ZIP("application/zip"),
+
     @SerializedName("image/jpeg")
     IMAGE_JPEG("image/jpeg"),
+
     @SerializedName("image/gif")
-    IMAGE_GIF("image/gif")
+    IMAGE_GIF("image/gif"),
 }
 
 fun String.toMimeType(): MimeType? =
@@ -39,7 +44,7 @@ private object QueryResultTypes {
 }
 
 sealed class InlineQueryResult(
-    val type: String
+    val type: String,
 ) {
     abstract val id: String
     abstract val replyMarkup: InlineKeyboardMarkup?
@@ -54,7 +59,7 @@ sealed class InlineQueryResult(
         val description: String? = null,
         @SerializedName("thumb_url") val thumbUrl: String? = null,
         @SerializedName("thumb_width") val thumbWidth: Int? = null,
-        @SerializedName("thumb_height") val thumbHeight: Int? = null
+        @SerializedName("thumb_height") val thumbHeight: Int? = null,
     ) : InlineQueryResult(QueryResultTypes.ARTICLE)
 
     data class Photo(
@@ -68,7 +73,7 @@ sealed class InlineQueryResult(
         val caption: String? = null,
         @SerializedName("parse_mode") val parseMode: ParseMode? = null,
         @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
-        @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null
+        @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null,
     ) : InlineQueryResult(QueryResultTypes.PHOTO)
 
     data class Gif(
@@ -83,7 +88,7 @@ sealed class InlineQueryResult(
         val caption: String? = null,
         @SerializedName("parse_mode") val parseMode: ParseMode? = null,
         @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
-        @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null
+        @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null,
     ) : InlineQueryResult(QueryResultTypes.GIF)
 
     data class Mpeg4Gif(
@@ -98,7 +103,7 @@ sealed class InlineQueryResult(
         val caption: String? = null,
         @SerializedName("parse_mode") val parseMode: ParseMode? = null,
         @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
-        @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null
+        @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null,
     ) : InlineQueryResult(QueryResultTypes.MPEG4_GIF)
 
     data class Video(
@@ -114,7 +119,7 @@ sealed class InlineQueryResult(
         @SerializedName("video_duration") val videoDuration: Int? = null,
         val description: String? = null,
         @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
-        @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null
+        @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null,
     ) : InlineQueryResult(QueryResultTypes.VIDEO)
 
     data class Audio(
@@ -126,7 +131,7 @@ sealed class InlineQueryResult(
         val performer: String? = null,
         @SerializedName("audio_duration") val audioDuration: Int? = null,
         @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
-        @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null
+        @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null,
     ) : InlineQueryResult(QueryResultTypes.AUDIO)
 
     data class Voice(
@@ -137,7 +142,7 @@ sealed class InlineQueryResult(
         @SerializedName("parse_mode") val parseMode: ParseMode? = null,
         @SerializedName("voice_duration") val voiceDuration: Int? = null,
         @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
-        @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null
+        @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null,
     ) : InlineQueryResult(QueryResultTypes.VOICE)
 
     data class Document(
@@ -152,7 +157,7 @@ sealed class InlineQueryResult(
         @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null,
         @SerializedName("thumb_url") val thumbUrl: String? = null,
         @SerializedName("thumb_width") val thumbWidth: Int? = null,
-        @SerializedName("thumb_height") val thumbHeight: Int? = null
+        @SerializedName("thumb_height") val thumbHeight: Int? = null,
     ) : InlineQueryResult(QueryResultTypes.DOCUMENT)
 
     data class Location(
@@ -166,7 +171,7 @@ sealed class InlineQueryResult(
         @SerializedName("thumb_url") val thumbUrl: String? = null,
         @SerializedName("thumb_width") val thumbWidth: Int? = null,
         @SerializedName("thumb_height") val thumbHeight: Int? = null,
-        @SerializedName("proximity_alert_radius") val proximityAlertRadius: Int? = null
+        @SerializedName("proximity_alert_radius") val proximityAlertRadius: Int? = null,
     ) : InlineQueryResult(QueryResultTypes.LOCATION)
 
     data class Venue(
@@ -183,7 +188,7 @@ sealed class InlineQueryResult(
         @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null,
         @SerializedName("thumb_url") val thumbUrl: String? = null,
         @SerializedName("thumb_width") val thumbWidth: Int? = null,
-        @SerializedName("thumb_height") val thumbHeight: Int? = null
+        @SerializedName("thumb_height") val thumbHeight: Int? = null,
     ) : InlineQueryResult(QueryResultTypes.VENUE)
 
     data class Contact(
@@ -196,13 +201,13 @@ sealed class InlineQueryResult(
         @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null,
         @SerializedName("thumb_url") val thumbUrl: String? = null,
         @SerializedName("thumb_width") val thumbWidth: Int? = null,
-        @SerializedName("thumb_height") val thumbHeight: Int? = null
+        @SerializedName("thumb_height") val thumbHeight: Int? = null,
     ) : InlineQueryResult(QueryResultTypes.CONTACT)
 
     data class Game(
         override val id: String,
         @SerializedName("game_short_name") val gameShortName: String,
-        @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null
+        @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
     ) : InlineQueryResult(QueryResultTypes.GAME)
 
     data class CachedAudio(
@@ -211,7 +216,7 @@ sealed class InlineQueryResult(
         val caption: String? = null,
         @SerializedName("parse_mode") val parseMode: ParseMode? = null,
         @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
-        @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null
+        @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null,
     ) : InlineQueryResult(QueryResultTypes.AUDIO)
 
     data class CachedDocument(
@@ -222,7 +227,7 @@ sealed class InlineQueryResult(
         val caption: String? = null,
         @SerializedName("parse_mode") val parseMode: ParseMode? = null,
         @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
-        @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null
+        @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null,
     ) : InlineQueryResult(QueryResultTypes.DOCUMENT)
 
     data class CachedGif(
@@ -232,7 +237,7 @@ sealed class InlineQueryResult(
         val caption: String? = null,
         @SerializedName("parse_mode") val parseMode: ParseMode? = null,
         @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
-        @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null
+        @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null,
     ) : InlineQueryResult(QueryResultTypes.GIF)
 
     data class CachedMpeg4Gif(
@@ -242,7 +247,7 @@ sealed class InlineQueryResult(
         val caption: String? = null,
         @SerializedName("parse_mode") val parseMode: ParseMode? = null,
         @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
-        @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null
+        @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null,
     ) : InlineQueryResult(QueryResultTypes.MPEG4_GIF)
 
     data class CachedPhoto(
@@ -253,14 +258,14 @@ sealed class InlineQueryResult(
         val caption: String? = null,
         @SerializedName("parse_mode") val parseMode: ParseMode? = null,
         @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
-        @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null
+        @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null,
     ) : InlineQueryResult(QueryResultTypes.PHOTO)
 
     data class CachedSticker(
         override val id: String,
         @SerializedName("sticker_file_id") val stickerFileId: String,
         @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
-        @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null
+        @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null,
     ) : InlineQueryResult(QueryResultTypes.STICKER)
 
     data class CachedVideo(
@@ -271,7 +276,7 @@ sealed class InlineQueryResult(
         val caption: String? = null,
         @SerializedName("parse_mode") val parseMode: ParseMode? = null,
         @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
-        @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null
+        @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null,
     ) : InlineQueryResult(QueryResultTypes.VIDEO)
 
     data class CachedVoice(
@@ -281,6 +286,6 @@ sealed class InlineQueryResult(
         val caption: String? = null,
         @SerializedName("parse_mode") val parseMode: ParseMode? = null,
         @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
-        @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null
+        @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null,
     ) : InlineQueryResult(QueryResultTypes.VOICE)
 }

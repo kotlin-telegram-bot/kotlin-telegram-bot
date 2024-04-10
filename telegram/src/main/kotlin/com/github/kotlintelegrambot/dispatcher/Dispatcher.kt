@@ -10,12 +10,12 @@ import com.github.kotlintelegrambot.types.DispatchableObject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.yield
-import java.util.concurrent.BlockingQueue
 
 class Dispatcher internal constructor(
-    private val updatesQueue: BlockingQueue<DispatchableObject>,
+    private val updatesChannel: Channel<DispatchableObject>,
     private val logLevel: LogLevel,
     coroutineDispatcher: CoroutineDispatcher,
 ) {
@@ -26,6 +26,7 @@ class Dispatcher internal constructor(
     private val errorHandlers = arrayListOf<ErrorHandler>()
 
     private val scope: CoroutineScope = CoroutineScope(coroutineDispatcher)
+
     @Volatile private var job: Job? = null
 
     internal fun startCheckingUpdates() {
@@ -35,7 +36,7 @@ class Dispatcher internal constructor(
 
     private suspend fun checkQueueUpdates() {
         while (true) {
-            when (val item = updatesQueue.take()) {
+            when (val item = updatesChannel.receive()) {
                 is Update -> handleUpdate(item)
                 is TelegramError -> handleError(item)
                 else -> Unit
@@ -62,11 +63,10 @@ class Dispatcher internal constructor(
 
     private suspend fun handleUpdate(update: Update) {
         commandHandlers
+            .asSequence()
+            .filter { !update.consumed }
             .filter { it.checkUpdate(update) }
             .forEach {
-                if (update.consumed) {
-                    return
-                }
                 try {
                     it.handleUpdate(bot, update)
                 } catch (throwable: Throwable) {

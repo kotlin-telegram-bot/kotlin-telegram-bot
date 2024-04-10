@@ -35,12 +35,12 @@ import com.github.kotlintelegrambot.updater.CoroutineLooper
 import com.github.kotlintelegrambot.updater.Updater
 import com.github.kotlintelegrambot.webhook.WebhookConfig
 import com.github.kotlintelegrambot.webhook.WebhookConfigBuilder
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.channels.Channel
 import java.net.Proxy
-import java.util.concurrent.BlockingQueue
 import java.util.concurrent.Executors
-import java.util.concurrent.LinkedBlockingQueue
 import java.io.File as SystemFile
 
 fun bot(body: Bot.Builder.() -> Unit): Bot = Bot.Builder().build(body)
@@ -50,7 +50,7 @@ fun Bot.Builder.dispatch(body: Dispatcher.() -> Unit) {
 }
 
 fun Bot.Builder.webhook(
-    body: WebhookConfigBuilder.() -> Unit
+    body: WebhookConfigBuilder.() -> Unit,
 ) {
     val webhookConfigBuilder = WebhookConfigBuilder()
     webhookConfigBuilder.apply(body)
@@ -60,7 +60,7 @@ fun Bot.Builder.webhook(
 class Bot private constructor(
     private val updater: Updater,
     private val dispatcher: Dispatcher,
-    private val updatesQueue: BlockingQueue<DispatchableObject>,
+    private val updatesChannel: Channel<DispatchableObject>,
     private val updateMapper: UpdateMapper,
     private val webhookConfig: WebhookConfig?,
     private val apiClient: ApiClient,
@@ -79,17 +79,18 @@ class Bot private constructor(
         var apiUrl: String = "https://api.telegram.org/"
         var logLevel: LogLevel = LogLevel.None
         var proxy: Proxy = Proxy.NO_PROXY
+        var coroutineDispatcher: CoroutineDispatcher = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
         internal var dispatcherConfiguration: Dispatcher.() -> Unit = { }
 
         fun build(): Bot {
-            val updatesQueue = LinkedBlockingQueue<DispatchableObject>()
+            val updatesQueue = Channel<DispatchableObject>()
             val looper = CoroutineLooper(Dispatchers.IO)
             val apiClient = ApiClient(token, apiUrl, timeout, logLevel, proxy, gson)
             val updater = Updater(looper, updatesQueue, apiClient, timeout)
             val dispatcher = Dispatcher(
-                updatesQueue = updatesQueue,
+                updatesChannel = updatesQueue,
                 logLevel = logLevel,
-                coroutineDispatcher = Executors.newSingleThreadExecutor().asCoroutineDispatcher(),
+                coroutineDispatcher = coroutineDispatcher,
             ).apply(dispatcherConfiguration)
 
             return Bot(
@@ -134,11 +135,11 @@ class Bot private constructor(
             webhookConfig.ipAddress,
             webhookConfig.maxConnections,
             webhookConfig.allowedUpdates,
-            webhookConfig.dropPendingUpdates
+            webhookConfig.dropPendingUpdates,
         )
         val webhookSet = setWebhookResult.bimap(
             mapResponse = { true },
-            mapError = { false }
+            mapError = { false },
         )
 
         if (webhookSet) {
@@ -163,7 +164,7 @@ class Bot private constructor(
 
         return deleteWebhookResult.bimap(
             mapResponse = { true },
-            mapError = { false }
+            mapError = { false },
         )
     }
 
@@ -209,20 +210,20 @@ class Bot private constructor(
         ipAddress: String? = null,
         maxConnections: Int? = null,
         allowedUpdates: List<String>? = null,
-        dropPendingUpdates: Boolean? = null
+        dropPendingUpdates: Boolean? = null,
     ) = apiClient.setWebhook(url, certificate, ipAddress, maxConnections, allowedUpdates, dropPendingUpdates).call()
 
     fun deleteWebhook(
-        dropPendingUpdates: Boolean? = null
+        dropPendingUpdates: Boolean? = null,
     ) = apiClient.deleteWebhook(dropPendingUpdates).call()
 
     fun getWebhookInfo() = apiClient.getWebhookInfo().call()
 
-    fun processUpdate(update: Update) {
-        updatesQueue.put(update)
+    suspend fun processUpdate(update: Update) {
+        updatesChannel.send(update)
     }
 
-    fun processUpdate(updateJson: String) {
+    suspend fun processUpdate(updateJson: String) {
         val update = updateMapper.jsonToUpdate(updateJson)
         processUpdate(update)
     }
@@ -258,7 +259,7 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): TelegramBotResult<Message> = apiClient.sendMessage(
         chatId,
         text,
@@ -267,7 +268,7 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     )
 
     /**
@@ -279,12 +280,12 @@ class Bot private constructor(
         chatId: ChatId,
         fromChatId: ChatId,
         messageId: Long,
-        disableNotification: Boolean? = null
+        disableNotification: Boolean? = null,
     ): TelegramBotResult<Message> = apiClient.forwardMessage(
         chatId,
         fromChatId,
         messageId,
-        disableNotification
+        disableNotification,
     )
 
     fun copyMessage(
@@ -297,7 +298,7 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.copyMessage(
         chatId,
         fromChatId,
@@ -308,12 +309,12 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     @Deprecated(
         "Use overloaded version instead",
-        ReplaceWith("sendPhoto(chatId, TelegramFile.ByFile(photo), caption, parseMode, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)")
+        ReplaceWith("sendPhoto(chatId, TelegramFile.ByFile(photo), caption, parseMode, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)"),
     )
     fun sendPhoto(
         chatId: ChatId,
@@ -323,7 +324,7 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.sendPhoto(
         chatId,
         TelegramFile.ByFile(photo),
@@ -332,12 +333,12 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     @Deprecated(
         "Use overloaded version instead",
-        ReplaceWith("sendPhoto(chatId, TelegramFile.ByFileId(photo), caption, parseMode, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)")
+        ReplaceWith("sendPhoto(chatId, TelegramFile.ByFileId(photo), caption, parseMode, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)"),
     )
     fun sendPhoto(
         chatId: ChatId,
@@ -347,7 +348,7 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.sendPhoto(
         chatId,
         TelegramFile.ByFileId(photo),
@@ -356,12 +357,12 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     @Deprecated(
         "Use overloaded version instead",
-        ReplaceWith("sendAudio(chatId, TelegramFile.ByFile(audio), duration, performer, title, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)")
+        ReplaceWith("sendAudio(chatId, TelegramFile.ByFile(audio), duration, performer, title, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)"),
     )
     fun sendAudio(
         chatId: ChatId,
@@ -372,7 +373,7 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.sendAudio(
         chatId,
         TelegramFile.ByFile(audio),
@@ -382,12 +383,12 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     @Deprecated(
         "Use overloaded version instead",
-        ReplaceWith("sendAudio(chatId, TelegramFile.ByFileId(audio), duration, performer, title, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)")
+        ReplaceWith("sendAudio(chatId, TelegramFile.ByFileId(audio), duration, performer, title, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)"),
     )
     fun sendAudio(
         chatId: ChatId,
@@ -398,7 +399,7 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.sendAudio(
         chatId,
         TelegramFile.ByFileId(audio),
@@ -408,12 +409,12 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     @Deprecated(
         "Use overloaded version instead",
-        ReplaceWith("sendDocument(chatId, TelegramFile.ByFile(document), caption, parseMode, disableContentTypeDetection, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)")
+        ReplaceWith("sendDocument(chatId, TelegramFile.ByFile(document), caption, parseMode, disableContentTypeDetection, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)"),
     )
     fun sendDocument(
         chatId: ChatId,
@@ -424,7 +425,7 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.sendDocument(
         chatId,
         TelegramFile.ByFile(document),
@@ -434,12 +435,12 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     @Deprecated(
         "Use overloaded version instead",
-        ReplaceWith("sendDocument(chatId, TelegramFile.ByByteArray(fileBytes, fileName), caption, parseMode, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup, mimeType)")
+        ReplaceWith("sendDocument(chatId, TelegramFile.ByByteArray(fileBytes, fileName), caption, parseMode, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup, mimeType)"),
     )
     fun sendDocument(
         chatId: ChatId,
@@ -452,7 +453,7 @@ class Bot private constructor(
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
         fileName: String,
-        mimeType: String? = null
+        mimeType: String? = null,
     ) = apiClient.sendDocument(
         chatId,
         TelegramFile.ByByteArray(fileBytes, fileName),
@@ -463,12 +464,12 @@ class Bot private constructor(
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
-        mimeType
+        mimeType,
     ).call()
 
     @Deprecated(
         "Use overloaded version instead",
-        ReplaceWith("sendDocument(chatId, TelegramFile.ByFileId(fileId), caption, parseMode, disableContentTypeDetection, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)")
+        ReplaceWith("sendDocument(chatId, TelegramFile.ByFileId(fileId), caption, parseMode, disableContentTypeDetection, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)"),
     )
     fun sendDocument(
         chatId: ChatId,
@@ -479,7 +480,7 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.sendDocument(
         chatId,
         TelegramFile.ByFileId(fileId),
@@ -489,12 +490,12 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     @Deprecated(
         "Use overloaded version instead",
-        ReplaceWith("sendVideo(chatId, TelegramFile.ByFile(video), duration, width, height, caption, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)")
+        ReplaceWith("sendVideo(chatId, TelegramFile.ByFile(video), duration, width, height, caption, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)"),
     )
     fun sendVideo(
         chatId: ChatId,
@@ -506,7 +507,7 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.sendVideo(
         chatId,
         TelegramFile.ByFile(video),
@@ -514,15 +515,16 @@ class Bot private constructor(
         width,
         height,
         caption,
+        null,
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     @Deprecated(
         "Use overloaded version instead",
-        ReplaceWith("sendVideo(chatId, TelegramFile.ByFileId(fileId), duration, width, height, caption, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)")
+        ReplaceWith("sendVideo(chatId, TelegramFile.ByFileId(fileId), duration, width, height, caption, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)"),
     )
     fun sendVideo(
         chatId: ChatId,
@@ -534,7 +536,7 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.sendVideo(
         chatId,
         TelegramFile.ByFileId(fileId),
@@ -542,10 +544,11 @@ class Bot private constructor(
         width,
         height,
         caption,
+        null,
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     fun sendPhoto(
@@ -556,7 +559,7 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.sendPhoto(
         chatId,
         photo,
@@ -565,7 +568,7 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     fun sendAudio(
@@ -577,7 +580,7 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.sendAudio(
         chatId,
         audio,
@@ -587,7 +590,7 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     fun sendDocument(
@@ -600,7 +603,7 @@ class Bot private constructor(
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
-        mimeType: String? = null
+        mimeType: String? = null,
     ) = apiClient.sendDocument(
         chatId,
         document,
@@ -611,7 +614,7 @@ class Bot private constructor(
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
-        mimeType
+        mimeType,
     ).call()
 
     fun sendVideo(
@@ -621,10 +624,11 @@ class Bot private constructor(
         width: Int? = null,
         height: Int? = null,
         caption: String? = null,
+        parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.sendVideo(
         chatId,
         video,
@@ -632,10 +636,11 @@ class Bot private constructor(
         width,
         height,
         caption,
+        parseMode,
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     /**
@@ -659,14 +664,14 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): TelegramBotResult<Message> = apiClient.sendGame(
         chatId,
         gameShortName,
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     )
 
     @Deprecated("Use overloaded version instead")
@@ -681,7 +686,7 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.sendAnimation(
         chatId,
         animation,
@@ -693,12 +698,12 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     @Deprecated(
         "Use overloaded version instead",
-        ReplaceWith("sendAnimation(chatId, TelegramFile.ByFileId(fileId), duration, width, height, caption, parseMode, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)")
+        ReplaceWith("sendAnimation(chatId, TelegramFile.ByFileId(fileId), duration, width, height, caption, parseMode, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)"),
     )
     fun sendAnimation(
         chatId: ChatId,
@@ -711,7 +716,7 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.sendAnimation(
         chatId,
         TelegramFile.ByFileId(fileId),
@@ -723,7 +728,7 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     fun sendAnimation(
@@ -737,7 +742,7 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.sendAnimation(
         chatId,
         animation,
@@ -749,12 +754,12 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     @Deprecated(
         "Use overloaded version instead",
-        ReplaceWith("sendVoice(chatId, TelegramFile.ByByteArray(audio), caption, parseMode, captionEntities, duration, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)")
+        ReplaceWith("sendVoice(chatId, TelegramFile.ByByteArray(audio), caption, parseMode, captionEntities, duration, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)"),
     )
     fun sendVoice(
         chatId: ChatId,
@@ -766,7 +771,7 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.sendVoice(
         chatId,
         TelegramFile.ByByteArray(audio),
@@ -777,12 +782,12 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     @Deprecated(
         "Use overloaded version instead",
-        ReplaceWith("sendVoice(chatId, TelegramFile.ByFile(audio), caption, parseMode, captionEntities, duration, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)")
+        ReplaceWith("sendVoice(chatId, TelegramFile.ByFile(audio), caption, parseMode, captionEntities, duration, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)"),
     )
     fun sendVoice(
         chatId: ChatId,
@@ -794,7 +799,7 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.sendVoice(
         chatId,
         TelegramFile.ByFile(audio),
@@ -805,12 +810,12 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     @Deprecated(
         "Use overloaded version instead",
-        ReplaceWith("sendVoice(chatId, TelegramFile.ByFileId(audioId), caption, parseMode, captionEntities, duration, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)")
+        ReplaceWith("sendVoice(chatId, TelegramFile.ByFileId(audioId), caption, parseMode, captionEntities, duration, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)"),
     )
     fun sendVoice(
         chatId: ChatId,
@@ -822,7 +827,7 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.sendVoice(
         chatId,
         TelegramFile.ByFileId(audioId),
@@ -833,7 +838,7 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     fun sendVoice(
@@ -846,7 +851,7 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.sendVoice(
         chatId,
         audio,
@@ -857,12 +862,12 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     @Deprecated(
         "Use overloaded version instead",
-        ReplaceWith("sendVideoNote(chatId, TelegramFile.ByFile(videoNote), duration, length, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)")
+        ReplaceWith("sendVideoNote(chatId, TelegramFile.ByFile(videoNote), duration, length, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)"),
     )
     fun sendVideoNote(
         chatId: ChatId,
@@ -872,7 +877,7 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.sendVideoNote(
         chatId,
         TelegramFile.ByFile(videoNote),
@@ -881,12 +886,12 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     @Deprecated(
         "Use overloaded version instead",
-        ReplaceWith("sendVideoNote(chatId, TelegramFile.ByFileId(videoNoteId), duration, length, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)")
+        ReplaceWith("sendVideoNote(chatId, TelegramFile.ByFileId(videoNoteId), duration, length, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)"),
     )
     fun sendVideoNote(
         chatId: ChatId,
@@ -896,7 +901,7 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.sendVideoNote(
         chatId,
         TelegramFile.ByFileId(videoNoteId),
@@ -905,7 +910,7 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     fun sendVideoNote(
@@ -916,7 +921,7 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.sendVideoNote(
         chatId,
         videoNote,
@@ -925,7 +930,7 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     fun sendVideoNote(
@@ -936,7 +941,7 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.sendVideoNote(
         chatId,
         videoNoteId,
@@ -945,7 +950,7 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     /**
@@ -970,7 +975,7 @@ class Bot private constructor(
         mediaGroup,
         disableNotification,
         replyToMessageId,
-        allowSendingWithoutReply
+        allowSendingWithoutReply,
     )
 
     fun sendLocation(
@@ -982,7 +987,7 @@ class Bot private constructor(
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
-        proximityAlertRadius: Int? = null
+        proximityAlertRadius: Int? = null,
     ) = apiClient.sendLocation(
         chatId,
         latitude,
@@ -992,7 +997,7 @@ class Bot private constructor(
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
-        proximityAlertRadius
+        proximityAlertRadius,
     ).call()
 
     /**
@@ -1074,7 +1079,7 @@ class Bot private constructor(
         latitude: Float,
         longitude: Float,
         replyMarkup: ReplyMarkup? = null,
-        proximityAlertRadius: Int? = null
+        proximityAlertRadius: Int? = null,
     ) = apiClient.editMessageLiveLocation(
         chatId,
         messageId,
@@ -1082,19 +1087,19 @@ class Bot private constructor(
         latitude,
         longitude,
         replyMarkup,
-        proximityAlertRadius
+        proximityAlertRadius,
     ).call()
 
     fun stopMessageLiveLocation(
         chatId: ChatId? = null,
         messageId: Long? = null,
         inlineMessageId: String? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.stopMessageLiveLocation(
         chatId,
         messageId,
         inlineMessageId,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     fun sendVenue(
@@ -1110,7 +1115,7 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.sendVenue(
         chatId,
         latitude,
@@ -1124,7 +1129,7 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     fun sendContact(
@@ -1135,7 +1140,7 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.sendContact(
         chatId,
         phoneNumber,
@@ -1144,7 +1149,7 @@ class Bot private constructor(
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     /**
@@ -1182,8 +1187,53 @@ class Bot private constructor(
     fun banChatMember(
         chatId: ChatId,
         userId: Long,
-        untilDate: Long? = null // unix time - https://en.wikipedia.org/wiki/Unix_time
+        untilDate: Long? = null, // unix time - https://en.wikipedia.org/wiki/Unix_time
     ) = apiClient.banChatMember(chatId, userId, untilDate).call()
+
+    fun approveChatJoinRequest(
+        chatId: ChatId,
+        userId: Long,
+    ) = apiClient.approveChatJoinRequest(chatId, userId).call()
+
+    fun declineChatJoinRequest(
+        chatId: ChatId,
+        userId: Long,
+    ) = apiClient.declineChatJoinRequest(chatId, userId).call()
+
+    fun createChatInviteLink(
+        chatId: ChatId,
+        name: String? = null,
+        expireDate: Int? = null,
+        memberLimit: Int? = null,
+        createsJoinRequest: Boolean? = null,
+    ) = apiClient.createChatInviteLink(
+        chatId,
+        name,
+        expireDate,
+        memberLimit,
+        createsJoinRequest,
+    ).call()
+
+    fun editChatInviteLink(
+        chatId: ChatId,
+        inviteLink: String,
+        name: String? = null,
+        expireDate: Int? = null,
+        memberLimit: Int? = null,
+        createsJoinRequest: Boolean? = null,
+    ) = apiClient.editChatInviteLink(
+        chatId,
+        inviteLink,
+        name,
+        expireDate,
+        memberLimit,
+        createsJoinRequest,
+    ).call()
+
+    fun revokeChatInviteLink(
+        chatId: ChatId,
+        inviteLink: String,
+    ) = apiClient.revokeChatInviteLink(chatId, inviteLink).call()
 
     /**
      * Use this method to unban a previously kicked user in a supergroup or channel. The user will
@@ -1214,12 +1264,12 @@ class Bot private constructor(
         chatId: ChatId,
         userId: Long,
         chatPermissions: ChatPermissions,
-        untilDate: Long? = null // unix time - https://en.wikipedia.org/wiki/Unix_time
+        untilDate: Long? = null, // unix time - https://en.wikipedia.org/wiki/Unix_time
     ) = apiClient.restrictChatMember(
         chatId,
         userId,
         chatPermissions,
-        untilDate
+        untilDate,
     ).call()
 
     /**
@@ -1258,7 +1308,7 @@ class Bot private constructor(
         canInviteUsers: Boolean? = null,
         canRestrictMembers: Boolean? = null,
         canPinMessages: Boolean? = null,
-        canPromoteMembers: Boolean? = null
+        canPromoteMembers: Boolean? = null,
     ): TelegramBotResult<Boolean> = apiClient.promoteChatMember(
         chatId,
         userId,
@@ -1270,7 +1320,7 @@ class Bot private constructor(
         canInviteUsers,
         canRestrictMembers,
         canPinMessages,
-        canPromoteMembers
+        canPromoteMembers,
     )
 
     fun setChatPermissions(chatId: ChatId, permissions: ChatPermissions) =
@@ -1280,7 +1330,7 @@ class Bot private constructor(
 
     fun setChatPhoto(
         chatId: ChatId,
-        photo: SystemFile
+        photo: SystemFile,
     ) =
         apiClient.setChatPhoto(chatId, photo).call()
 
@@ -1327,7 +1377,7 @@ class Bot private constructor(
      */
     fun unpinChatMessage(
         chatId: ChatId,
-        messageId: Long? = null
+        messageId: Long? = null,
     ): TelegramBotResult<Boolean> = apiClient.unpinChatMessage(chatId, messageId)
 
     /**
@@ -1342,7 +1392,7 @@ class Bot private constructor(
      * @return True on success.
      */
     fun unpinAllChatMessages(
-        chatId: ChatId
+        chatId: ChatId,
     ): TelegramBotResult<Boolean> = apiClient.unpinAllChatMessages(chatId)
 
     /**
@@ -1378,7 +1428,7 @@ class Bot private constructor(
      * administrators except other bots.
      */
     fun getChatAdministrators(
-        chatId: ChatId
+        chatId: ChatId,
     ): TelegramBotResult<List<ChatMember>> = apiClient.getChatAdministrators(chatId)
 
     fun getChatMemberCount(chatId: ChatId) = apiClient.getChatMemberCount(chatId).call()
@@ -1432,7 +1482,7 @@ class Bot private constructor(
      * @return True on success.
      */
     fun deleteChatStickerSet(
-        chatId: ChatId
+        chatId: ChatId,
     ): TelegramBotResult<Boolean> = apiClient.deleteChatStickerSet(chatId)
 
     /**
@@ -1459,13 +1509,13 @@ class Bot private constructor(
         text: String? = null,
         showAlert: Boolean? = null,
         url: String? = null,
-        cacheTime: Int? = null
+        cacheTime: Int? = null,
     ): TelegramBotResult<Boolean> = apiClient.answerCallbackQuery(
         callbackQueryId,
         text,
         showAlert,
         url,
-        cacheTime
+        cacheTime,
     )
 
     /**
@@ -1500,7 +1550,7 @@ class Bot private constructor(
         text: String,
         parseMode: ParseMode? = null,
         disableWebPagePreview: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.editMessageText(
         chatId,
         messageId,
@@ -1508,7 +1558,7 @@ class Bot private constructor(
         text,
         parseMode,
         disableWebPagePreview,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     fun editMessageCaption(
@@ -1517,14 +1567,14 @@ class Bot private constructor(
         inlineMessageId: String? = null,
         caption: String,
         parseMode: ParseMode? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.editMessageCaption(
         chatId,
         messageId,
         inlineMessageId,
         caption,
         parseMode,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     fun editMessageMedia(
@@ -1532,25 +1582,25 @@ class Bot private constructor(
         messageId: Long? = null,
         inlineMessageId: String? = null,
         media: InputMedia,
-        replyMarkup: ReplyMarkup?
+        replyMarkup: ReplyMarkup?,
     ) = apiClient.editMessageMedia(
         chatId,
         messageId,
         inlineMessageId,
         media,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     fun editMessageReplyMarkup(
         chatId: ChatId? = null,
         messageId: Long? = null,
         inlineMessageId: String? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ) = apiClient.editMessageReplyMarkup(
         chatId,
         messageId,
         inlineMessageId,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     /**
@@ -1607,14 +1657,14 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup?
+        replyMarkup: ReplyMarkup?,
     ) = apiClient.sendSticker(
         chatId,
         sticker,
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     fun sendSticker(
@@ -1623,26 +1673,26 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup?
+        replyMarkup: ReplyMarkup?,
     ) = apiClient.sendSticker(
         chatId,
         sticker,
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     ).call()
 
     fun getStickerSet(
-        name: String
+        name: String,
     ) = apiClient.getStickerSet(name).call()
 
     fun uploadStickerFile(
         userId: Long,
-        pngSticker: SystemFile
+        pngSticker: SystemFile,
     ) = apiClient.uploadStickerFile(
         userId,
-        pngSticker
+        pngSticker,
     ).call()
 
     fun createNewStickerSet(
@@ -1652,7 +1702,7 @@ class Bot private constructor(
         pngSticker: SystemFile,
         emojis: String,
         containsMasks: Boolean? = null,
-        maskPosition: MaskPosition?
+        maskPosition: MaskPosition?,
     ) = apiClient.createNewStickerSet(
         userId,
         name,
@@ -1660,7 +1710,7 @@ class Bot private constructor(
         pngSticker,
         emojis,
         containsMasks,
-        maskPosition
+        maskPosition,
     ).call()
 
     fun createNewStickerSet(
@@ -1670,7 +1720,7 @@ class Bot private constructor(
         pngSticker: String,
         emojis: String,
         containsMasks: Boolean? = null,
-        maskPosition: MaskPosition?
+        maskPosition: MaskPosition?,
     ) = apiClient.createNewStickerSet(
         userId,
         name,
@@ -1678,7 +1728,7 @@ class Bot private constructor(
         pngSticker,
         emojis,
         containsMasks,
-        maskPosition
+        maskPosition,
     ).call()
 
     fun addStickerToSet(
@@ -1686,13 +1736,13 @@ class Bot private constructor(
         name: String,
         pngSticker: SystemFile,
         emojis: String,
-        maskPosition: MaskPosition?
+        maskPosition: MaskPosition?,
     ) = apiClient.addStickerToSet(
         userId,
         name,
         pngSticker,
         emojis,
-        maskPosition
+        maskPosition,
     ).call()
 
     fun addStickerToSet(
@@ -1700,27 +1750,27 @@ class Bot private constructor(
         name: String,
         pngSticker: String,
         emojis: String,
-        maskPosition: MaskPosition?
+        maskPosition: MaskPosition?,
     ) = apiClient.addStickerToSet(
         userId,
         name,
         pngSticker,
         emojis,
-        maskPosition
+        maskPosition,
     ).call()
 
     fun setStickerPositionInSet(
         sticker: String,
-        position: Int
+        position: Int,
     ) = apiClient.setStickerPositionInSet(
         sticker,
-        position
+        position,
     ).call()
 
     fun deleteStickerFromSet(
-        sticker: String
+        sticker: String,
     ) = apiClient.deleteStickerFromSet(
-        sticker
+        sticker,
     ).call()
 
     /**
@@ -1742,7 +1792,7 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: InlineKeyboardMarkup? = null
+        replyMarkup: InlineKeyboardMarkup? = null,
     ): TelegramBotResult<Message> = apiClient.sendInvoice(
         chatId,
         paymentInvoiceInfo.title,
@@ -1753,6 +1803,9 @@ class Bot private constructor(
         paymentInvoiceInfo.currency,
         paymentInvoiceInfo.prices,
         isFlexible = paymentInvoiceInfo.isFlexible,
+        recurring = paymentInvoiceInfo.recurring,
+        maxTipAmount = paymentInvoiceInfo.maxTipAmount,
+        suggestedTipAmounts = paymentInvoiceInfo.suggestedTipAmounts,
         providerData = paymentInvoiceInfo.providerData,
         needShippingAddress = paymentInvoiceInfo.invoiceUserDetail?.needShippingAddress,
         needPhoneNumber = paymentInvoiceInfo.invoiceUserDetail?.needPhoneNumber,
@@ -1767,7 +1820,7 @@ class Bot private constructor(
         disableNotification = disableNotification,
         replyToMessageId = replyToMessageId,
         allowSendingWithoutReply = allowSendingWithoutReply,
-        replyMarkup = replyMarkup
+        replyMarkup = replyMarkup,
     )
 
     /**
@@ -1789,12 +1842,12 @@ class Bot private constructor(
         shippingQueryId: String,
         ok: Boolean,
         shippingOptions: List<ShippingOption>? = null,
-        errorMessage: String? = null
+        errorMessage: String? = null,
     ): TelegramBotResult<Boolean> = apiClient.answerShippingQuery(
         shippingQueryId,
         ok,
         shippingOptions,
-        errorMessage
+        errorMessage,
     )
 
     /**
@@ -1817,11 +1870,11 @@ class Bot private constructor(
     fun answerPreCheckoutQuery(
         preCheckoutQueryId: String,
         ok: Boolean,
-        errorMessage: String? = null
+        errorMessage: String? = null,
     ): TelegramBotResult<Boolean> = apiClient.answerPreCheckoutQuery(
         preCheckoutQueryId,
         ok,
-        errorMessage
+        errorMessage,
     )
 
     /**
@@ -1856,7 +1909,7 @@ class Bot private constructor(
         isPersonal: Boolean = false,
         nextOffset: String? = null,
         switchPmText: String? = null,
-        switchPmParameter: String? = null
+        switchPmParameter: String? = null,
     ): TelegramBotResult<Boolean> = answerInlineQuery(
         inlineQueryId,
         inlineQueryResults.toList(),
@@ -1864,7 +1917,7 @@ class Bot private constructor(
         isPersonal,
         nextOffset,
         switchPmText,
-        switchPmParameter
+        switchPmParameter,
     )
 
     /**
@@ -1899,7 +1952,7 @@ class Bot private constructor(
         isPersonal: Boolean = false,
         nextOffset: String? = null,
         switchPmText: String? = null,
-        switchPmParameter: String? = null
+        switchPmParameter: String? = null,
     ): TelegramBotResult<Boolean> = apiClient.answerInlineQuery(
         inlineQueryId,
         inlineQueryResults,
@@ -1907,7 +1960,7 @@ class Bot private constructor(
         isPersonal,
         nextOffset,
         switchPmText,
-        switchPmParameter
+        switchPmParameter,
     )
 
     /**
@@ -1926,7 +1979,7 @@ class Bot private constructor(
      * @return True on success.
      */
     fun setMyCommands(
-        commands: List<BotCommand>
+        commands: List<BotCommand>,
     ): TelegramBotResult<Boolean> = apiClient.setMyCommands(commands)
 
     /**
@@ -1948,14 +2001,14 @@ class Bot private constructor(
         disableNotification: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null
+        replyMarkup: ReplyMarkup? = null,
     ): TelegramBotResult<Message> = apiClient.sendDice(
         chatId,
         emoji,
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
-        replyMarkup
+        replyMarkup,
     )
 
     /**
@@ -1970,10 +2023,10 @@ class Bot private constructor(
     fun setChatAdministratorCustomTitle(
         chatId: ChatId,
         userId: Long,
-        customTitle: String
+        customTitle: String,
     ): TelegramBotResult<Boolean> = apiClient.setChatAdministratorCustomTitle(
         chatId,
         userId,
-        customTitle
+        customTitle,
     )
 }

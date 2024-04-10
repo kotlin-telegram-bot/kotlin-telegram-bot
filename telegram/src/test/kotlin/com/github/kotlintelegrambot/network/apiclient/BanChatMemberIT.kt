@@ -26,7 +26,7 @@ class BanChatMemberIT : ApiClientIT() {
         sut.banChatMember(
             ChatId.fromId(ANY_CHAT_ID),
             ANY_USER_ID,
-            ANY_TIMESTAMP
+            ANY_TIMESTAMP,
         ).execute()
 
         val request = mockWebServer.takeRequest()

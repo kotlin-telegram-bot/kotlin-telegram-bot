@@ -38,7 +38,7 @@ class SendDocumentIT : ApiClientIT() {
             disableNotification = false,
             replyToMessageId = REPLY_TO_MESSAGE_ID,
             allowSendingWithoutReply = null,
-            replyMarkup = REPLY_MARKUP
+            replyMarkup = REPLY_MARKUP,
         ).execute()
 
         val request = mockWebServer.takeRequest()
@@ -67,7 +67,7 @@ class SendDocumentIT : ApiClientIT() {
             disableNotification = false,
             replyToMessageId = REPLY_TO_MESSAGE_ID,
             allowSendingWithoutReply = null,
-            replyMarkup = REPLY_MARKUP
+            replyMarkup = REPLY_MARKUP,
         ).execute()
 
         val request = mockWebServer.takeRequest()
@@ -77,7 +77,7 @@ class SendDocumentIT : ApiClientIT() {
             getFileAsStringFromResources<SendDocumentIT>("sendDocumentBody.txt"),
             multipartBoundary,
             String(getFileFromResources<SendDocumentIT>(DOCUMENT_FILE_NAME).readBytes()),
-            DOCUMENT_FILE_NAME
+            DOCUMENT_FILE_NAME,
         )
         assertEquals(expectedRequestBody.normalizeLineEndings(), requestBody.normalizeLineEndings())
     }
@@ -96,7 +96,7 @@ class SendDocumentIT : ApiClientIT() {
             replyToMessageId = REPLY_TO_MESSAGE_ID,
             allowSendingWithoutReply = null,
             replyMarkup = REPLY_MARKUP,
-            mimeType = "application/pdf"
+            mimeType = "application/pdf",
         ).execute()
 
         val request = mockWebServer.takeRequest()
@@ -106,7 +106,7 @@ class SendDocumentIT : ApiClientIT() {
             getFileAsStringFromResources<SendDocumentIT>("sendDocumentBody.txt"),
             multipartBoundary,
             String(getFileFromResources<SendDocumentIT>(DOCUMENT_FILE_NAME).readBytes()),
-            DOCUMENT_FILE_NAME
+            DOCUMENT_FILE_NAME,
         )
         assertEquals(expectedRequestBody.normalizeLineEndings(), requestBody.normalizeLineEndings())
     }
@@ -117,7 +117,7 @@ class SendDocumentIT : ApiClientIT() {
 
         sut.sendDocument(
             ChatId.fromId(ANY_CHAT_ID),
-            TelegramFile.ByFileId(ANY_DOCUMENT_FILE_ID)
+            TelegramFile.ByFileId(ANY_DOCUMENT_FILE_ID),
         ).execute()
 
         val request = mockWebServer.takeRequest()
@@ -133,7 +133,7 @@ class SendDocumentIT : ApiClientIT() {
 
         val sendDocument = sut.sendDocument(
             ChatId.fromId(ANY_CHAT_ID),
-            TelegramFile.ByFileId(ANY_DOCUMENT_FILE_ID)
+            TelegramFile.ByFileId(ANY_DOCUMENT_FILE_ID),
         ).execute()
 
         assertEquals(anyDocumentMessage.toString().trim(), sendDocument.body()?.result.toString().trim())
@@ -142,7 +142,7 @@ class SendDocumentIT : ApiClientIT() {
     private fun givenAnySendDocumentResponse() {
         val sendDocumentResponse = Response<Message>(
             ok = true,
-            result = anyDocumentMessage
+            result = anyDocumentMessage,
         )
 
         val mockedResponse = MockResponse()
@@ -164,22 +164,22 @@ class SendDocumentIT : ApiClientIT() {
             listOf(
                 InlineKeyboardButton.CallbackData(
                     text = "Show alert",
-                    callbackData = "showAlert"
-                )
-            )
+                    callbackData = "showAlert",
+                ),
+            ),
         )
 
         val anyDocumentMessage = anyMessage(
             from = anyUser(),
             chat = anyChat(
-                id = ANY_CHAT_ID
+                id = ANY_CHAT_ID,
             ),
             document = anyDocument(
                 fileId = ANY_DOCUMENT_FILE_ID,
                 fileName = DOCUMENT_FILE_NAME,
                 mimeType = "application/pdf",
-                fileSize = ANY_FILE_SIZE
-            )
+                fileSize = ANY_FILE_SIZE,
+            ),
         )
     }
 }

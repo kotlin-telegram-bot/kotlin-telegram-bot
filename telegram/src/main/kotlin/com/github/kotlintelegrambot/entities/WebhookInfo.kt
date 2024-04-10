@@ -10,5 +10,5 @@ data class WebhookInfo(
     @SerializedName("last_error_date") val lastErrorDate: Long?,
     @SerializedName("last_error_message") val lastErrorMessage: String?,
     @SerializedName("max_connections") val maxConnections: Int?,
-    @SerializedName("allowed_updates") val allowedUpdates: List<String>?
+    @SerializedName("allowed_updates") val allowedUpdates: List<String>?,
 )

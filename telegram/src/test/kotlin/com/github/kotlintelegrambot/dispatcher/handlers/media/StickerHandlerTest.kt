@@ -49,7 +49,7 @@ class StickerHandlerTest {
             botMock,
             anyUpdateWithSticker,
             anyMessageWithSticker,
-            anySticker
+            anySticker,
         )
         coVerify { handleStickerMock.invoke(expectedStickerHandlerEnv) }
     }

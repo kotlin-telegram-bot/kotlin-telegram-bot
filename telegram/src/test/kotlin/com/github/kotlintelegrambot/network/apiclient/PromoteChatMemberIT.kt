@@ -31,7 +31,7 @@ class PromoteChatMemberIT : ApiClientIT() {
         assertEquals("promoteChatMember", request.apiMethodName)
         assertEquals(
             "chat_id=$ANY_CHAT_ID&user_id=$ANY_USER_ID",
-            request.decodedBody
+            request.decodedBody,
         )
     }
 
@@ -61,7 +61,7 @@ class PromoteChatMemberIT : ApiClientIT() {
                 "&can_edit_messages=$CAN_EDIT_MESSAGES&can_delete_messages=$CAN_DELETE_MESSAGES" +
                 "&can_invite_users=$CAN_INVITE_USERS&can_restrict_members=$CAN_RESTRICT_MEMBERS" +
                 "&can_pin_messages=$CAN_PIN_MESSAGES&can_promote_members=$CAN_PROMOTE_MEMBERS",
-            request.decodedBody
+            request.decodedBody,
         )
     }
 
