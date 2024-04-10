@@ -45,7 +45,7 @@ class ApiResponseMapperTest {
             errorResponseWithValidErrorTgResponse
         )
 
-        val expectedTelegramBotResult = TelegramBotResult.Error.TelegramApi<Int>(
+        val expectedTelegramBotResult = TelegramBotResult.Error.TelegramApi(
             ANY_ERROR_CODE,
             ANY_ERROR_DESCRIPTION
         )

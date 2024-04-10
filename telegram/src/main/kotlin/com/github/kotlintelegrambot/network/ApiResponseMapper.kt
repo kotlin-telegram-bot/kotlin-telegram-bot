@@ -7,13 +7,13 @@ import com.google.gson.reflect.TypeToken
 internal class ApiResponseMapper {
 
     fun <T : Any> mapToTelegramBotResult(apiResponse: CallResponse<Response<T>>): TelegramBotResult<T> {
-        fun invalidResponse(): TelegramBotResult.Error<T> = TelegramBotResult.Error.InvalidResponse(
+        fun invalidResponse(): TelegramBotResult.Error = TelegramBotResult.Error.InvalidResponse(
             apiResponse.code(),
             apiResponse.message(),
             apiResponse.body(),
         )
 
-        fun Response<T>.getTelegramErrorOrInvalidResponse(): TelegramBotResult.Error<T> {
+        fun Response<T>.getTelegramErrorOrInvalidResponse(): TelegramBotResult.Error {
             return TelegramBotResult.Error.TelegramApi(
                 errorCode = this.errorCode ?: return invalidResponse(),
                 description = this.errorDescription ?: return invalidResponse(),
