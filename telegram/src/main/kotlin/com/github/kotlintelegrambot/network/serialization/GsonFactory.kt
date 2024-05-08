@@ -6,11 +6,13 @@ import com.github.kotlintelegrambot.entities.inlinequeryresults.InlineQueryResul
 import com.github.kotlintelegrambot.entities.inputmedia.GroupableMedia
 import com.github.kotlintelegrambot.entities.inputmedia.InputMedia
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton
+import com.github.kotlintelegrambot.entities.reaction.ReactionType
 import com.github.kotlintelegrambot.network.serialization.adapter.DiceEmojiAdapter
 import com.github.kotlintelegrambot.network.serialization.adapter.GroupableMediaAdapter
 import com.github.kotlintelegrambot.network.serialization.adapter.InlineKeyboardButtonAdapter
 import com.github.kotlintelegrambot.network.serialization.adapter.InlineQueryResultAdapter
 import com.github.kotlintelegrambot.network.serialization.adapter.InputMediaAdapter
+import com.github.kotlintelegrambot.network.serialization.adapter.ReactionTypeAdapter
 import com.github.kotlintelegrambot.network.serialization.adapter.TelegramFileAdapter
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -25,6 +27,7 @@ internal object GsonFactory {
         .registerTypeAdapter(TelegramFile::class.java, TelegramFileAdapter())
         .registerTypeAdapter(InputMedia::class.java, InputMediaAdapter())
         .registerTypeAdapter(GroupableMedia::class.java, GroupableMediaAdapter(InputMediaAdapter()))
+        .registerTypeAdapter(ReactionType::class.java, ReactionTypeAdapter())
         .create()
 
     fun createForMultipartBodyFactory(): Gson = GsonBuilder()

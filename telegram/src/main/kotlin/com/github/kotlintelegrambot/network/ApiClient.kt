@@ -31,6 +31,7 @@ import com.github.kotlintelegrambot.entities.payments.LabeledPrice
 import com.github.kotlintelegrambot.entities.payments.ShippingOption
 import com.github.kotlintelegrambot.entities.polls.Poll
 import com.github.kotlintelegrambot.entities.polls.PollType
+import com.github.kotlintelegrambot.entities.reaction.ReactionType
 import com.github.kotlintelegrambot.entities.stickers.MaskPosition
 import com.github.kotlintelegrambot.entities.stickers.StickerSet
 import com.github.kotlintelegrambot.logging.LogLevel
@@ -1447,6 +1448,20 @@ internal class ApiClient(
         userId,
         customTitle,
     ).runApiOperation()
+
+    fun setMessageReaction(
+        chatId: ChatId,
+        messageId: Long,
+        reaction: List<ReactionType>,
+        isBig: Boolean,
+    ): TelegramBotResult<Boolean> {
+        return service.setMessageReaction(
+            chatId = chatId,
+            messageId = messageId,
+            reaction = gson.toJson(reaction),
+            isBig = isBig,
+        ).runApiOperation()
+    }
 
     private fun <T : Any> Call<Response<T>>.runApiOperation(): TelegramBotResult<T> {
         val apiResponse = try {
