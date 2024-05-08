@@ -150,6 +150,8 @@ public final class com/github/kotlintelegrambot/Bot {
 	public final fun setChatPhoto (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/io/File;)Lkotlin/Pair;
 	public final fun setChatStickerSet (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/String;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public final fun setChatTitle (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/String;)Lkotlin/Pair;
+	public final fun setMessageReaction (Lcom/github/kotlintelegrambot/entities/ChatId;JLjava/util/List;Z)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
+	public static synthetic fun setMessageReaction$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;JLjava/util/List;ZILjava/lang/Object;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public final fun setMyCommands (Ljava/util/List;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public final fun setStickerPositionInSet (Ljava/lang/String;I)Lkotlin/Pair;
 	public final fun setWebhook (Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/Integer;Ljava/util/List;Ljava/lang/Boolean;)Lkotlin/Pair;
@@ -3216,6 +3218,33 @@ public final class com/github/kotlintelegrambot/entities/polls/PollType : java/l
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lcom/github/kotlintelegrambot/entities/polls/PollType;
 	public static fun values ()[Lcom/github/kotlintelegrambot/entities/polls/PollType;
+}
+
+public abstract class com/github/kotlintelegrambot/entities/reaction/ReactionType {
+	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getType ()Ljava/lang/String;
+}
+
+public final class com/github/kotlintelegrambot/entities/reaction/ReactionType$Custom : com/github/kotlintelegrambot/entities/reaction/ReactionType {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lcom/github/kotlintelegrambot/entities/reaction/ReactionType$Custom;
+	public static synthetic fun copy$default (Lcom/github/kotlintelegrambot/entities/reaction/ReactionType$Custom;Ljava/lang/String;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/entities/reaction/ReactionType$Custom;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCustomEmojiId ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/github/kotlintelegrambot/entities/reaction/ReactionType$Emoji : com/github/kotlintelegrambot/entities/reaction/ReactionType {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lcom/github/kotlintelegrambot/entities/reaction/ReactionType$Emoji;
+	public static synthetic fun copy$default (Lcom/github/kotlintelegrambot/entities/reaction/ReactionType$Emoji;Ljava/lang/String;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/entities/reaction/ReactionType$Emoji;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEmoji ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/github/kotlintelegrambot/entities/stickers/MaskPosition {
