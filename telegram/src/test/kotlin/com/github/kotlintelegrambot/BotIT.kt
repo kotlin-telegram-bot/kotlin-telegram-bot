@@ -64,6 +64,7 @@ class BotIT {
             apiUrl = webServerUrl
             webhook {
                 url = ANY_WEBHOOK_URL
+                secretToken = ANY_SECRET_TOKEN
             }
         }
         givenSetWebhookSucceeds()
@@ -158,5 +159,6 @@ class BotIT {
     private companion object {
         const val ANY_BOT_TOKEN = "1342142:asdad"
         const val ANY_WEBHOOK_URL = "https://ruka.io"
+        const val ANY_SECRET_TOKEN = "secret-token"
     }
 }
