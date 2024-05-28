@@ -67,7 +67,7 @@ publishing {
         maven(MavenPublication) {
             groupId = 'io.github.artemptushkin'
             artifactId = 'kotlin-telegram-bot'
-            version = '6.1.1'
+            version = '6.1.2'
 
             from components.kotlin
             artifact sourcesJar
