@@ -24,5 +24,5 @@ data class WebhookConfig(
     val maxConnections: Int? = null,
     val allowedUpdates: List<String>? = null,
     val dropPendingUpdates: Boolean? = null,
-    val secretToken: String? = null
+    val secretToken: String? = null,
 )

@@ -181,7 +181,7 @@ internal class ApiClient(
             maxConnections = maxConnections,
             allowedUpdates = allowedUpdates,
             dropPendingUpdates = dropPendingUpdates,
-            secretToken = secretToken
+            secretToken = secretToken,
         )
     }
 

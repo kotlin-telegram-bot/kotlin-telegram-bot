@@ -137,7 +137,7 @@ class Bot private constructor(
             webhookConfig.maxConnections,
             webhookConfig.allowedUpdates,
             webhookConfig.dropPendingUpdates,
-            webhookConfig.secretToken
+            webhookConfig.secretToken,
         )
         val webhookSet = setWebhookResult.bimap(
             mapResponse = { true },
