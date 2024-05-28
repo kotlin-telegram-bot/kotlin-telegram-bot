@@ -57,6 +57,7 @@ internal interface ApiService {
         @Field(ApiConstants.SetWebhook.MAX_CONNECTIONS) maxConnections: Int? = null,
         @Field(ApiConstants.SetWebhook.ALLOWED_UPDATES) allowedUpdates: List<String>? = null,
         @Field(ApiConstants.SetWebhook.DROP_PENDING_UPDATES) dropPendingUpdates: Boolean? = null,
+        @Field(ApiConstants.SetWebhook.SECRET_TOKEN) secretToken: String? = null,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
@@ -68,6 +69,7 @@ internal interface ApiService {
         @Field(ApiConstants.SetWebhook.MAX_CONNECTIONS) maxConnections: Int? = null,
         @Field(ApiConstants.SetWebhook.ALLOWED_UPDATES) allowedUpdates: List<String>? = null,
         @Field(ApiConstants.SetWebhook.DROP_PENDING_UPDATES) dropPendingUpdates: Boolean? = null,
+        @Field(ApiConstants.SetWebhook.SECRET_TOKEN) secretToken: String? = null,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
@@ -79,6 +81,7 @@ internal interface ApiService {
         @Field(ApiConstants.SetWebhook.MAX_CONNECTIONS) maxConnections: Int? = null,
         @Field(ApiConstants.SetWebhook.ALLOWED_UPDATES) allowedUpdates: List<String>? = null,
         @Field(ApiConstants.SetWebhook.DROP_PENDING_UPDATES) dropPendingUpdates: Boolean? = null,
+        @Field(ApiConstants.SetWebhook.SECRET_TOKEN) secretToken: String? = null,
     ): Call<Response<Boolean>>
 
     @Multipart
@@ -90,6 +93,7 @@ internal interface ApiService {
         @Part maxConnections: MultipartBody.Part? = null,
         @Part allowedUpdates: MultipartBody.Part? = null,
         @Part dropPendingUpdates: MultipartBody.Part? = null,
+        @Part secretToken: MultipartBody.Part? = null,
     ): Call<Response<Boolean>>
 
     @GET("deleteWebhook")

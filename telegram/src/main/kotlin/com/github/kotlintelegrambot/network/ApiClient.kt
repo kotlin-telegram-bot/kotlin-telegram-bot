@@ -127,6 +127,7 @@ internal class ApiClient(
         maxConnections: Int? = null,
         allowedUpdates: List<String>? = null,
         dropPendingUpdates: Boolean? = null,
+        secretToken: String? = null,
     ): Call<Response<Boolean>> = when (certificate) {
         is ByFileId -> service.setWebhookWithCertificateAsFileId(
             url = url,
@@ -135,6 +136,7 @@ internal class ApiClient(
             maxConnections = maxConnections,
             allowedUpdates = allowedUpdates,
             dropPendingUpdates = dropPendingUpdates,
+            secretToken = secretToken,
         )
 
         is ByUrl -> service.setWebhookWithCertificateAsFileUrl(
@@ -144,6 +146,7 @@ internal class ApiClient(
             maxConnections = maxConnections,
             allowedUpdates = allowedUpdates,
             dropPendingUpdates = dropPendingUpdates,
+            secretToken = secretToken,
         )
 
         is ByFile -> service.setWebhookWithCertificateAsFile(
@@ -156,6 +159,7 @@ internal class ApiClient(
             maxConnections = maxConnections?.toMultipartBodyPart(ApiConstants.SetWebhook.MAX_CONNECTIONS),
             allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES),
             dropPendingUpdates = dropPendingUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.DROP_PENDING_UPDATES),
+            secretToken = secretToken?.toMultipartBodyPart(ApiConstants.SetWebhook.SECRET_TOKEN),
         )
 
         is ByByteArray -> service.setWebhookWithCertificateAsFile(
@@ -168,6 +172,7 @@ internal class ApiClient(
             maxConnections = maxConnections?.toMultipartBodyPart(ApiConstants.SetWebhook.MAX_CONNECTIONS),
             allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES),
             dropPendingUpdates = dropPendingUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.DROP_PENDING_UPDATES),
+            secretToken = secretToken?.toMultipartBodyPart(ApiConstants.SetWebhook.SECRET_TOKEN),
         )
 
         null -> service.setWebhook(
@@ -176,6 +181,7 @@ internal class ApiClient(
             maxConnections = maxConnections,
             allowedUpdates = allowedUpdates,
             dropPendingUpdates = dropPendingUpdates,
+            secretToken = secretToken,
         )
     }
 
