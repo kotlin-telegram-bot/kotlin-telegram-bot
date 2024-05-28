@@ -137,6 +137,7 @@ class Bot private constructor(
             webhookConfig.maxConnections,
             webhookConfig.allowedUpdates,
             webhookConfig.dropPendingUpdates,
+            webhookConfig.secretToken
         )
         val webhookSet = setWebhookResult.bimap(
             mapResponse = { true },
@@ -212,7 +213,8 @@ class Bot private constructor(
         maxConnections: Int? = null,
         allowedUpdates: List<String>? = null,
         dropPendingUpdates: Boolean? = null,
-    ) = apiClient.setWebhook(url, certificate, ipAddress, maxConnections, allowedUpdates, dropPendingUpdates).call()
+        secretToken: String? = null,
+    ) = apiClient.setWebhook(url, certificate, ipAddress, maxConnections, allowedUpdates, dropPendingUpdates, secretToken).call()
 
     fun deleteWebhook(
         dropPendingUpdates: Boolean? = null,
