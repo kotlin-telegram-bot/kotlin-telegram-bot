@@ -46,6 +46,7 @@ import com.github.kotlintelegrambot.network.serialization.GsonFactory
 import com.github.kotlintelegrambot.types.TelegramBotResult
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import okhttp3.Interceptor
 import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
@@ -74,6 +75,7 @@ internal class ApiClient(
     private val multipartBodyFactory: MultipartBodyFactory = MultipartBodyFactory(GsonFactory.createForMultipartBodyFactory()),
     private val apiRequestSender: ApiRequestSender = ApiRequestSender(),
     private val apiResponseMapper: ApiResponseMapper = ApiResponseMapper(),
+    private val httpClientInterceptors: List<Interceptor> = emptyList(),
 ) {
 
     private val service: ApiService
@@ -87,6 +89,7 @@ internal class ApiClient(
             .readTimeout(botTimeout + 10L, TimeUnit.SECONDS)
             .writeTimeout(botTimeout + 10L, TimeUnit.SECONDS)
             .addInterceptor(logging)
+            .also { builder -> httpClientInterceptors.forEach { builder.addInterceptor(it) } }
             .retryOnConnectionFailure(true)
             .proxy(proxy)
             .build()
