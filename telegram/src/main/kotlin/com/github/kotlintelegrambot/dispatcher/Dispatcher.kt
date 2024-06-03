@@ -7,12 +7,8 @@ import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.errors.TelegramError
 import com.github.kotlintelegrambot.logging.LogLevel
 import com.github.kotlintelegrambot.types.DispatchableObject
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.yield
 
 class Dispatcher internal constructor(
     private val updatesChannel: Channel<DispatchableObject>,
@@ -26,8 +22,10 @@ class Dispatcher internal constructor(
     private val errorHandlers = arrayListOf<ErrorHandler>()
 
     private val scope: CoroutineScope = CoroutineScope(coroutineDispatcher)
+    private val updatesScope: CoroutineScope = CoroutineScope(coroutineDispatcher)
 
-    @Volatile private var job: Job? = null
+    @Volatile
+    private var job: Job? = null
 
     internal fun startCheckingUpdates() {
         job?.cancel()
@@ -61,31 +59,43 @@ class Dispatcher internal constructor(
         errorHandlers.remove(errorHandler)
     }
 
-    private suspend fun handleUpdate(update: Update) {
-        commandHandlers
-            .asSequence()
-            .filter { !update.consumed }
-            .filter { it.checkUpdate(update) }
-            .forEach {
-                try {
-                    it.handleUpdate(bot, update)
-                } catch (throwable: Throwable) {
-                    if (logLevel.shouldLogErrors()) {
-                        throwable.printStackTrace()
+    private fun handleUpdate(update: Update) {
+        updatesScope.launch {
+            commandHandlers
+                .asSequence()
+                .filter { !update.consumed }
+                .filter { it.checkUpdate(update) }
+                .map {
+                    async {
+                        try {
+                            it.handleUpdate(bot, update)
+                        } catch (throwable: Throwable) {
+                            if (logLevel.shouldLogErrors()) {
+                                throwable.printStackTrace()
+                            }
+                        }
                     }
                 }
-            }
+                .toList()
+                .awaitAll()
+        }
     }
 
     private fun handleError(error: TelegramError) {
-        errorHandlers.forEach { handleError ->
-            try {
-                handleError(bot, error)
-            } catch (throwable: Throwable) {
-                if (logLevel.shouldLogErrors()) {
-                    throwable.printStackTrace()
+        updatesScope.launch {
+            errorHandlers.map { handleError ->
+                async {
+                    try {
+                        handleError(bot, error)
+                    } catch (throwable: Throwable) {
+                        if (logLevel.shouldLogErrors()) {
+                            throwable.printStackTrace()
+                        }
+                    }
                 }
             }
+                .toList()
+                .awaitAll()
         }
     }
 

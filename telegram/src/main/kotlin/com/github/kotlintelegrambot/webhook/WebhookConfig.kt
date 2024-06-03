@@ -10,10 +10,11 @@ class WebhookConfigBuilder {
     var maxConnections: Int? = null
     var allowedUpdates: List<String>? = null
     var dropPendingUpdates: Boolean? = null
+    var secretToken: String? = null
 
     internal fun build(): WebhookConfig {
         val finalUrl = url ?: error("You must provide a url for the webhook")
-        return WebhookConfig(createOnStart ?: true, finalUrl, certificate, ipAddress, maxConnections, allowedUpdates, dropPendingUpdates)
+        return WebhookConfig(createOnStart ?: true, finalUrl, certificate, ipAddress, maxConnections, allowedUpdates, dropPendingUpdates, secretToken)
     }
 }
 
@@ -25,4 +26,5 @@ data class WebhookConfig(
     val maxConnections: Int? = null,
     val allowedUpdates: List<String>? = null,
     val dropPendingUpdates: Boolean? = null,
+    val secretToken: String? = null,
 )

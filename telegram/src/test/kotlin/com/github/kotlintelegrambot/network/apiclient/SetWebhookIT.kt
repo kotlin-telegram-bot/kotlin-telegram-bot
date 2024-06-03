@@ -82,6 +82,15 @@ class SetWebhookIT : ApiClientIT() {
         thenSetWebhookRequestWithCertificateAsFileUrlAndWithIpAddressIsCorrect()
     }
 
+    @Test
+    internal fun `setWebhook with secret token`() {
+        givenAnyMockedResponse()
+
+        whenWebhookIsSetWithSecretToken()
+
+        thenSetWebhookRequestWithSecretTokenIsCorrect()
+    }
+
     private fun givenAnyMockedResponse() {
         val mockedResponse = MockResponse()
             .setResponseCode(200)
@@ -97,6 +106,10 @@ class SetWebhookIT : ApiClientIT() {
 
     private fun whenWebhookIsSetWithoutCertificate() {
         sut.setWebhook(url = ANY_WEBHOOK_URL).execute()
+    }
+
+    private fun whenWebhookIsSetWithSecretToken() {
+        sut.setWebhook(url = ANY_WEBHOOK_URL, secretToken = ANY_SECRET_TOKEN).execute()
     }
 
     private fun whenWebhookIsSetWithoutCertificateAndWithIpAddress() {
@@ -152,6 +165,12 @@ class SetWebhookIT : ApiClientIT() {
         val request = mockWebServer.takeRequest()
         val requestBody = request.body.readUtf8()
         assertEquals("url=https%3A%2F%2Fwebhook.telegram.io", requestBody)
+    }
+
+    private fun thenSetWebhookRequestWithSecretTokenIsCorrect() {
+        val request = mockWebServer.takeRequest()
+        val requestBody = request.body.readUtf8()
+        assertEquals("url=https%3A%2F%2Fwebhook.telegram.io&secret_token=secret-token", requestBody)
     }
 
     private fun thenSetWebhookRequestWithoutCertificateAndWithIpAddressIsCorrect() {
@@ -224,5 +243,6 @@ class SetWebhookIT : ApiClientIT() {
         const val ANY_FILE_ID = "rukaFileId1214"
         const val ANY_FILE_URL = "https://www.mycert.es/ruka"
         const val ANY_IP_ADDRESS = "214.88.209.113"
+        const val ANY_SECRET_TOKEN = "secret-token"
     }
 }
