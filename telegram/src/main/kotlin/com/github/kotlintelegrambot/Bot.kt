@@ -24,6 +24,7 @@ import com.github.kotlintelegrambot.entities.payments.PaymentInvoiceInfo
 import com.github.kotlintelegrambot.entities.payments.ShippingOption
 import com.github.kotlintelegrambot.entities.polls.Poll
 import com.github.kotlintelegrambot.entities.polls.PollType
+import com.github.kotlintelegrambot.entities.reaction.ReactionType
 import com.github.kotlintelegrambot.entities.stickers.MaskPosition
 import com.github.kotlintelegrambot.logging.LogLevel
 import com.github.kotlintelegrambot.network.ApiClient
@@ -2124,5 +2125,17 @@ class Bot private constructor(
         chatId,
         userId,
         customTitle,
+    )
+
+    fun setMessageReaction(
+        chatId: ChatId,
+        messageId: Long,
+        reaction: List<ReactionType>,
+        isBig: Boolean = false,
+    ): TelegramBotResult<Boolean> = apiClient.setMessageReaction(
+        chatId = chatId,
+        messageId = messageId,
+        reaction = reaction,
+        isBig = isBig,
     )
 }
