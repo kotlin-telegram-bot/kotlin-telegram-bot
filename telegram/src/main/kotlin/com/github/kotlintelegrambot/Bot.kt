@@ -133,24 +133,28 @@ class Bot private constructor(
             error("To start a webhook you need to configure it on bot set up. Check the `webhook` builder function")
         }
 
-        val setWebhookResult = setWebhook(
-            webhookConfig.url,
-            webhookConfig.certificate,
-            webhookConfig.ipAddress,
-            webhookConfig.maxConnections,
-            webhookConfig.allowedUpdates,
-            webhookConfig.dropPendingUpdates,
-        )
-        val webhookSet = setWebhookResult.bimap(
-            mapResponse = { true },
-            mapError = { false },
-        )
+        return if (webhookConfig.createOnStart) {
+            val setWebhookResult = setWebhook(
+                webhookConfig.url,
+                webhookConfig.certificate,
+                webhookConfig.ipAddress,
+                webhookConfig.maxConnections,
+                webhookConfig.allowedUpdates,
+                webhookConfig.dropPendingUpdates,
+            )
+            val webhookSet = setWebhookResult.bimap(
+                mapResponse = { true },
+                mapError = { false },
+            )
 
-        if (webhookSet) {
+            if (webhookSet) {
+                dispatcher.startCheckingUpdates()
+            }
+            webhookSet
+        } else {
             dispatcher.startCheckingUpdates()
+            true
         }
-
-        return webhookSet
     }
 
     /**
