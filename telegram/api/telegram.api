@@ -179,6 +179,7 @@ public final class com/github/kotlintelegrambot/Bot$Builder {
 	public final fun build (Lkotlin/jvm/functions/Function1;)Lcom/github/kotlintelegrambot/Bot;
 	public final fun getApiUrl ()Ljava/lang/String;
 	public final fun getCoroutineDispatcher ()Lkotlinx/coroutines/CoroutineDispatcher;
+	public final fun getHttpClientInterceptors ()Ljava/util/List;
 	public final fun getLogLevel ()Lcom/github/kotlintelegrambot/logging/LogLevel;
 	public final fun getProxy ()Ljava/net/Proxy;
 	public final fun getTimeout ()I
@@ -186,6 +187,7 @@ public final class com/github/kotlintelegrambot/Bot$Builder {
 	public final fun getWebhookConfig ()Lcom/github/kotlintelegrambot/webhook/WebhookConfig;
 	public final fun setApiUrl (Ljava/lang/String;)V
 	public final fun setCoroutineDispatcher (Lkotlinx/coroutines/CoroutineDispatcher;)V
+	public final fun setHttpClientInterceptors (Ljava/util/List;)V
 	public final fun setLogLevel (Lcom/github/kotlintelegrambot/logging/LogLevel;)V
 	public final fun setProxy (Ljava/net/Proxy;)V
 	public final fun setTimeout (I)V
