@@ -154,8 +154,8 @@ public final class com/github/kotlintelegrambot/Bot {
 	public static synthetic fun setMessageReaction$default (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/ChatId;JLjava/util/List;ZILjava/lang/Object;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public final fun setMyCommands (Ljava/util/List;)Lcom/github/kotlintelegrambot/types/TelegramBotResult;
 	public final fun setStickerPositionInSet (Ljava/lang/String;I)Lkotlin/Pair;
-	public final fun setWebhook (Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/Integer;Ljava/util/List;Ljava/lang/Boolean;)Lkotlin/Pair;
-	public static synthetic fun setWebhook$default (Lcom/github/kotlintelegrambot/Bot;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/Integer;Ljava/util/List;Ljava/lang/Boolean;ILjava/lang/Object;)Lkotlin/Pair;
+	public final fun setWebhook (Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/Integer;Ljava/util/List;Ljava/lang/Boolean;Ljava/lang/String;)Lkotlin/Pair;
+	public static synthetic fun setWebhook$default (Lcom/github/kotlintelegrambot/Bot;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/Integer;Ljava/util/List;Ljava/lang/Boolean;Ljava/lang/String;ILjava/lang/Object;)Lkotlin/Pair;
 	public final fun startPolling ()V
 	public final fun startWebhook ()Z
 	public final fun stopMessageLiveLocation (Lcom/github/kotlintelegrambot/entities/ChatId;Ljava/lang/Long;Ljava/lang/String;Lcom/github/kotlintelegrambot/entities/ReplyMarkup;)Lkotlin/Pair;
@@ -3699,8 +3699,8 @@ public final class com/github/kotlintelegrambot/types/TelegramBotResultKt {
 }
 
 public final class com/github/kotlintelegrambot/webhook/WebhookConfig {
-	public fun <init> (ZLjava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/Integer;Ljava/util/List;Ljava/lang/Boolean;)V
-	public synthetic fun <init> (ZLjava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/Integer;Ljava/util/List;Ljava/lang/Boolean;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (ZLjava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/Integer;Ljava/util/List;Ljava/lang/Boolean;Ljava/lang/String;)V
+	public synthetic fun <init> (ZLjava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/Integer;Ljava/util/List;Ljava/lang/Boolean;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Z
 	public final fun component2 ()Ljava/lang/String;
 	public final fun component3 ()Lcom/github/kotlintelegrambot/entities/TelegramFile;
@@ -3708,8 +3708,9 @@ public final class com/github/kotlintelegrambot/webhook/WebhookConfig {
 	public final fun component5 ()Ljava/lang/Integer;
 	public final fun component6 ()Ljava/util/List;
 	public final fun component7 ()Ljava/lang/Boolean;
-	public final fun copy (ZLjava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/Integer;Ljava/util/List;Ljava/lang/Boolean;)Lcom/github/kotlintelegrambot/webhook/WebhookConfig;
-	public static synthetic fun copy$default (Lcom/github/kotlintelegrambot/webhook/WebhookConfig;ZLjava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/Integer;Ljava/util/List;Ljava/lang/Boolean;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/webhook/WebhookConfig;
+	public final fun component8 ()Ljava/lang/String;
+	public final fun copy (ZLjava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/Integer;Ljava/util/List;Ljava/lang/Boolean;Ljava/lang/String;)Lcom/github/kotlintelegrambot/webhook/WebhookConfig;
+	public static synthetic fun copy$default (Lcom/github/kotlintelegrambot/webhook/WebhookConfig;ZLjava/lang/String;Lcom/github/kotlintelegrambot/entities/TelegramFile;Ljava/lang/String;Ljava/lang/Integer;Ljava/util/List;Ljava/lang/Boolean;Ljava/lang/String;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/webhook/WebhookConfig;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAllowedUpdates ()Ljava/util/List;
 	public final fun getCertificate ()Lcom/github/kotlintelegrambot/entities/TelegramFile;
@@ -3717,6 +3718,7 @@ public final class com/github/kotlintelegrambot/webhook/WebhookConfig {
 	public final fun getDropPendingUpdates ()Ljava/lang/Boolean;
 	public final fun getIpAddress ()Ljava/lang/String;
 	public final fun getMaxConnections ()Ljava/lang/Integer;
+	public final fun getSecretToken ()Ljava/lang/String;
 	public final fun getUrl ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
@@ -3730,6 +3732,7 @@ public final class com/github/kotlintelegrambot/webhook/WebhookConfigBuilder {
 	public final fun getDropPendingUpdates ()Ljava/lang/Boolean;
 	public final fun getIpAddress ()Ljava/lang/String;
 	public final fun getMaxConnections ()Ljava/lang/Integer;
+	public final fun getSecretToken ()Ljava/lang/String;
 	public final fun getUrl ()Ljava/lang/String;
 	public final fun setAllowedUpdates (Ljava/util/List;)V
 	public final fun setCertificate (Lcom/github/kotlintelegrambot/entities/TelegramFile;)V
@@ -3737,6 +3740,7 @@ public final class com/github/kotlintelegrambot/webhook/WebhookConfigBuilder {
 	public final fun setDropPendingUpdates (Ljava/lang/Boolean;)V
 	public final fun setIpAddress (Ljava/lang/String;)V
 	public final fun setMaxConnections (Ljava/lang/Integer;)V
+	public final fun setSecretToken (Ljava/lang/String;)V
 	public final fun setUrl (Ljava/lang/String;)V
 }
 
