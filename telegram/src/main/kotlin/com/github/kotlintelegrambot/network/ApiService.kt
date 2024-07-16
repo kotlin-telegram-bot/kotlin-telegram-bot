@@ -957,6 +957,15 @@ internal interface ApiService {
         @Field(ApiConstants.USER_ID) userId: Long,
         @Field(ApiConstants.SetChatAdministratorCustomTitle.CUSTOM_TITLE) customTitle: String,
     ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("setMessageReaction")
+    fun setMessageReaction(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field("message_id") messageId: Long,
+        @Field("reaction") reaction: String?,
+        @Field("is_big") isBig: Boolean?,
+    ): Call<Response<Boolean>>
 }
 
 class LabeledPriceList(private val labeledPrice: List<LabeledPrice>) {

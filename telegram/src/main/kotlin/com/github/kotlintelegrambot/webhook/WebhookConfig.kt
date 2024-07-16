@@ -3,6 +3,7 @@ package com.github.kotlintelegrambot.webhook
 import com.github.kotlintelegrambot.entities.TelegramFile
 
 class WebhookConfigBuilder {
+    var createOnStart: Boolean? = null
     var url: String? = null
     var certificate: TelegramFile? = null
     var ipAddress: String? = null
@@ -13,11 +14,12 @@ class WebhookConfigBuilder {
 
     internal fun build(): WebhookConfig {
         val finalUrl = url ?: error("You must provide a url for the webhook")
-        return WebhookConfig(finalUrl, certificate, ipAddress, maxConnections, allowedUpdates, dropPendingUpdates, secretToken)
+        return WebhookConfig(createOnStart ?: true, finalUrl, certificate, ipAddress, maxConnections, allowedUpdates, dropPendingUpdates, secretToken)
     }
 }
 
 data class WebhookConfig(
+    val createOnStart: Boolean = true,
     val url: String,
     val certificate: TelegramFile? = null,
     val ipAddress: String? = null,

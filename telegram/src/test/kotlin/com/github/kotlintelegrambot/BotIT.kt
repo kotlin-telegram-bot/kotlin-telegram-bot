@@ -75,6 +75,22 @@ class BotIT {
     }
 
     @Test
+    internal fun `startWebhook returns true when webhook set on start is disabled`() {
+        val sut = bot {
+            token = ANY_BOT_TOKEN
+            apiUrl = webServerUrl
+            webhook {
+                createOnStart = false
+                url = ANY_WEBHOOK_URL
+            }
+        }
+
+        val startWebhookResult = sut.startWebhook()
+
+        assertTrue(startWebhookResult)
+    }
+
+    @Test
     internal fun `stopWebhook throws an Exception when webhook config has not been set up`() {
         val sut = bot { token = ANY_BOT_TOKEN }
 

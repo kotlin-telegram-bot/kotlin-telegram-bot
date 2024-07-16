@@ -31,6 +31,7 @@ import com.github.kotlintelegrambot.entities.payments.LabeledPrice
 import com.github.kotlintelegrambot.entities.payments.ShippingOption
 import com.github.kotlintelegrambot.entities.polls.Poll
 import com.github.kotlintelegrambot.entities.polls.PollType
+import com.github.kotlintelegrambot.entities.reaction.ReactionType
 import com.github.kotlintelegrambot.entities.stickers.MaskPosition
 import com.github.kotlintelegrambot.entities.stickers.StickerSet
 import com.github.kotlintelegrambot.logging.LogLevel
@@ -46,6 +47,7 @@ import com.github.kotlintelegrambot.network.serialization.GsonFactory
 import com.github.kotlintelegrambot.types.TelegramBotResult
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import okhttp3.Interceptor
 import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
@@ -74,6 +76,7 @@ internal class ApiClient(
     private val multipartBodyFactory: MultipartBodyFactory = MultipartBodyFactory(GsonFactory.createForMultipartBodyFactory()),
     private val apiRequestSender: ApiRequestSender = ApiRequestSender(),
     private val apiResponseMapper: ApiResponseMapper = ApiResponseMapper(),
+    private val httpClientInterceptors: List<Interceptor> = emptyList(),
 ) {
 
     private val service: ApiService
@@ -87,6 +90,7 @@ internal class ApiClient(
             .readTimeout(botTimeout + 10L, TimeUnit.SECONDS)
             .writeTimeout(botTimeout + 10L, TimeUnit.SECONDS)
             .addInterceptor(logging)
+            .also { builder -> httpClientInterceptors.forEach { builder.addInterceptor(it) } }
             .retryOnConnectionFailure(true)
             .proxy(proxy)
             .build()
@@ -1453,6 +1457,20 @@ internal class ApiClient(
         userId,
         customTitle,
     ).runApiOperation()
+
+    fun setMessageReaction(
+        chatId: ChatId,
+        messageId: Long,
+        reaction: List<ReactionType>,
+        isBig: Boolean,
+    ): TelegramBotResult<Boolean> {
+        return service.setMessageReaction(
+            chatId = chatId,
+            messageId = messageId,
+            reaction = gson.toJson(reaction),
+            isBig = isBig,
+        ).runApiOperation()
+    }
 
     private fun <T : Any> Call<Response<T>>.runApiOperation(): TelegramBotResult<T> {
         val apiResponse = try {
