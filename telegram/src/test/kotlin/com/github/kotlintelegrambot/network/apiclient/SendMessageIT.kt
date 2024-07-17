@@ -28,6 +28,7 @@ class SendMessageIT : ApiClientIT() {
             replyToMessageId = null,
             allowSendingWithoutReply = null,
             replyMarkup = null,
+            messageThreadId = null,
         )
 
         val request = mockWebServer.takeRequest()
@@ -49,6 +50,7 @@ class SendMessageIT : ApiClientIT() {
             replyToMessageId = null,
             allowSendingWithoutReply = null,
             replyMarkup = null,
+            messageThreadId = null,
         )
 
         val request = mockWebServer.takeRequest()
@@ -70,6 +72,7 @@ class SendMessageIT : ApiClientIT() {
             replyToMessageId = ANY_MESSAGE_ID,
             allowSendingWithoutReply = null,
             replyMarkup = ForceReplyMarkup(forceReply = false),
+            messageThreadId = null,
         )
 
         val request = mockWebServer.takeRequest()
@@ -106,6 +109,7 @@ class SendMessageIT : ApiClientIT() {
                     InlineKeyboardButton.SwitchInlineQueryCurrentChat(ANY_TEXT, ANY_TEXT),
                 ),
             ),
+            messageThreadId = null,
         )
 
         val request = mockWebServer.takeRequest()
@@ -135,6 +139,7 @@ class SendMessageIT : ApiClientIT() {
             replyToMessageId = null,
             allowSendingWithoutReply = null,
             replyMarkup = null,
+            messageThreadId = 1,
         )
 
         val expectedMessage = Message(
@@ -145,6 +150,7 @@ class SendMessageIT : ApiClientIT() {
                 username = "testtelegrambotapi",
                 type = "channel",
             ),
+            messageThreadId = 1,
             date = 1604158404,
             text = "I'm part of a test :)",
             authorSignature = "incognito",
@@ -164,6 +170,7 @@ class SendMessageIT : ApiClientIT() {
                         "username": "testtelegrambotapi",
                         "type": "channel"
                     },
+                    "message_thread_id": 1,
                     "date": 1604158404,
                     "text": "I'm part of a test :)",
                     "author_signature": "incognito"

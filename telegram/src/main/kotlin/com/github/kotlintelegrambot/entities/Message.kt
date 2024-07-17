@@ -63,4 +63,5 @@ data class Message(
     @Name("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
     @Name("proximity_alert_triggered") val proximityAlertTriggered: ProximityAlertTriggered? = null,
     @Name("web_app_data") val webAppData: WebAppData? = null,
+    @Name("message_thread_id") val messageThreadId: Long? = null,
 )

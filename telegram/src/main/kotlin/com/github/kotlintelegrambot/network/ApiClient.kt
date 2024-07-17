@@ -209,6 +209,7 @@ internal class ApiClient(
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
+        messageThreadId: Long?,
     ): TelegramBotResult<Message> = service.sendMessage(
         chatId,
         text,
@@ -219,6 +220,7 @@ internal class ApiClient(
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
+        messageThreadId,
     ).runApiOperation()
 
     fun forwardMessage(
