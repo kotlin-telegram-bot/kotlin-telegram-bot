@@ -2,13 +2,12 @@ package com.github.kotlintelegrambot.echo
 
 import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.dispatch
-import com.github.kotlintelegrambot.dispatcher.command
 import com.github.kotlintelegrambot.dispatcher.text
 import com.github.kotlintelegrambot.entities.ChatId
 
 fun main() {
     val bot = bot {
-        token = "1484726123:AAG1sPbyQf47WnnBWEm4wGf4iv7rnEYTep0"
+        token = "YOUR_API_KEY"
 
         dispatch {
             text {
