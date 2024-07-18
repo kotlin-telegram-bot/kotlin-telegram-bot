@@ -272,6 +272,7 @@ class Bot private constructor(
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
+        messageThreadId: Long? = null,
     ): TelegramBotResult<Message> = apiClient.sendMessage(
         chatId,
         text,
@@ -282,6 +283,7 @@ class Bot private constructor(
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
+        messageThreadId,
     )
 
     /**

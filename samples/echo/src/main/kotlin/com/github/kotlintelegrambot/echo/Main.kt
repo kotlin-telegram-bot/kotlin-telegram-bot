@@ -13,6 +13,7 @@ fun main() {
             text {
                 bot.sendMessage(
                     chatId = ChatId.fromId(message.chat.id),
+                    messageThreadId = message.messageThreadId,
                     text = text,
                     protectContent = true,
                     disableNotification = false,
