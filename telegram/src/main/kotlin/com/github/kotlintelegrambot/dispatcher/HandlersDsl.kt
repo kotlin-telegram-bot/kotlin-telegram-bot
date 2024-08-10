@@ -35,6 +35,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.HandleVideo
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleVideoNote
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleVoice
 import com.github.kotlintelegrambot.dispatcher.handlers.Handler
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleChosenInlineResult
 import com.github.kotlintelegrambot.dispatcher.handlers.InlineQueryHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.LeftChatMemberHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.LocationHandler
@@ -45,6 +46,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.NewChatMembersHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.PollAnswerHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.PreCheckoutQueryHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.TextHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.ChosenInlineResultHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.AnimationHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.AudioHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.DocumentHandler
@@ -100,6 +102,10 @@ fun Dispatcher.callbackQuery(
 
 fun Dispatcher.contact(handleContact: HandleContact) {
     addHandler(ContactHandler(handleContact))
+}
+
+fun Dispatcher.chosenInlineResult(handleChosenInlineResult: HandleChosenInlineResult) {
+    addHandler(ChosenInlineResultHandler(handleChosenInlineResult))
 }
 
 fun Dispatcher.location(handleLocation: HandleLocation) {
