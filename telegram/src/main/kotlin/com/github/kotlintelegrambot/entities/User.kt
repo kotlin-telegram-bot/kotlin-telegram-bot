@@ -8,6 +8,7 @@ import com.google.gson.annotations.SerializedName
 data class User(
     @SerializedName("id") val id: Long,
     @SerializedName("is_bot") val isBot: Boolean,
+    @SerializedName("is_premium") val isPremium: Boolean?,
     @SerializedName("first_name") val firstName: String,
     @SerializedName("last_name") val lastName: String? = null,
     @SerializedName("username") val username: String? = null,
