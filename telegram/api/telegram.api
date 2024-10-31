@@ -218,6 +218,7 @@ public final class com/github/kotlintelegrambot/dispatcher/HandlersDslKt {
 	public static final fun channel (Lcom/github/kotlintelegrambot/dispatcher/Dispatcher;Lkotlin/jvm/functions/Function2;)V
 	public static final fun chatJoinRequest (Lcom/github/kotlintelegrambot/dispatcher/Dispatcher;Lkotlin/jvm/functions/Function2;)V
 	public static final fun chatMember (Lcom/github/kotlintelegrambot/dispatcher/Dispatcher;Lkotlin/jvm/functions/Function2;)V
+	public static final fun chosenInlineResult (Lcom/github/kotlintelegrambot/dispatcher/Dispatcher;Lkotlin/jvm/functions/Function2;)V
 	public static final fun command (Lcom/github/kotlintelegrambot/dispatcher/Dispatcher;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public static final fun contact (Lcom/github/kotlintelegrambot/dispatcher/Dispatcher;Lkotlin/jvm/functions/Function2;)V
 	public static final fun dice (Lcom/github/kotlintelegrambot/dispatcher/Dispatcher;Lkotlin/jvm/functions/Function2;)V
@@ -304,6 +305,27 @@ public final class com/github/kotlintelegrambot/dispatcher/handlers/ChatMemberHa
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBot ()Lcom/github/kotlintelegrambot/Bot;
 	public final fun getChatMember ()Lcom/github/kotlintelegrambot/entities/ChatMemberUpdated;
+	public final fun getUpdate ()Lcom/github/kotlintelegrambot/entities/Update;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/github/kotlintelegrambot/dispatcher/handlers/ChosenInlineResultHandler : com/github/kotlintelegrambot/dispatcher/handlers/Handler {
+	public fun <init> (Lkotlin/jvm/functions/Function2;)V
+	public fun checkUpdate (Lcom/github/kotlintelegrambot/entities/Update;)Z
+	public fun handleUpdate (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/github/kotlintelegrambot/dispatcher/handlers/ChosenInlineResultHandlerEnvironment {
+	public fun <init> (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/ChosenInlineResult;)V
+	public final fun component1 ()Lcom/github/kotlintelegrambot/Bot;
+	public final fun component2 ()Lcom/github/kotlintelegrambot/entities/Update;
+	public final fun component3 ()Lcom/github/kotlintelegrambot/entities/ChosenInlineResult;
+	public final fun copy (Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/ChosenInlineResult;)Lcom/github/kotlintelegrambot/dispatcher/handlers/ChosenInlineResultHandlerEnvironment;
+	public static synthetic fun copy$default (Lcom/github/kotlintelegrambot/dispatcher/handlers/ChosenInlineResultHandlerEnvironment;Lcom/github/kotlintelegrambot/Bot;Lcom/github/kotlintelegrambot/entities/Update;Lcom/github/kotlintelegrambot/entities/ChosenInlineResult;ILjava/lang/Object;)Lcom/github/kotlintelegrambot/dispatcher/handlers/ChosenInlineResultHandlerEnvironment;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBot ()Lcom/github/kotlintelegrambot/Bot;
+	public final fun getChosenInlineResult ()Lcom/github/kotlintelegrambot/entities/ChosenInlineResult;
 	public final fun getUpdate ()Lcom/github/kotlintelegrambot/entities/Update;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;

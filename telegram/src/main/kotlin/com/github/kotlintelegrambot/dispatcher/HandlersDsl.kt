@@ -3,6 +3,7 @@ package com.github.kotlintelegrambot.dispatcher
 import com.github.kotlintelegrambot.dispatcher.handlers.CallbackQueryHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.ChannelHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.ChatMemberHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.ChosenInlineResultHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.ContactHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.DiceHandler
@@ -13,6 +14,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.HandleAudio
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleCallbackQuery
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleChannelPost
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleChatMember
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleChosenInlineResult
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleCommand
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleContact
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleDice
@@ -100,6 +102,10 @@ fun Dispatcher.callbackQuery(
 
 fun Dispatcher.contact(handleContact: HandleContact) {
     addHandler(ContactHandler(handleContact))
+}
+
+fun Dispatcher.chosenInlineResult(handleChosenInlineResult: HandleChosenInlineResult) {
+    addHandler(ChosenInlineResultHandler(handleChosenInlineResult))
 }
 
 fun Dispatcher.location(handleLocation: HandleLocation) {
