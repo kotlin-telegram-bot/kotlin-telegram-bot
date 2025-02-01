@@ -6,8 +6,8 @@ kotlinx-binary-compatibility-validator = "0.13.2"
 kotlin-coroutines = "1.6.2"
 ktor = "1.6.3"
 mockk = "1.10.2"
-okhttp3-logging-interceptor = "3.8.0"
-okhttp3-mockwebserver = "4.2.1"
+okhttp3-logging-interceptor = "4.12.0"
+okhttp3-mockwebserver = "4.12.0"
 retrofit = "2.9.0"
 
 [libraries]
