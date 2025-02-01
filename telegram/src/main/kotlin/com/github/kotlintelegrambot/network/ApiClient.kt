@@ -48,7 +48,7 @@ import com.github.kotlintelegrambot.types.TelegramBotResult
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import okhttp3.Interceptor
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -60,8 +60,8 @@ import java.net.Proxy
 import java.util.concurrent.TimeUnit
 import java.io.File as SystemFile
 
-internal val PLAIN_TEXT_MIME = MediaType.parse("text/plain")
-internal val APPLICATION_JSON_MIME = MediaType.parse("application/json")
+internal val PLAIN_TEXT_MIME = "text/plain".toMediaTypeOrNull()
+internal val APPLICATION_JSON_MIME = "application/json".toMediaTypeOrNull()
 
 private fun convertString(text: String) = RequestBody.create(PLAIN_TEXT_MIME, text)
 private fun convertJson(text: String) = RequestBody.create(APPLICATION_JSON_MIME, text)
