@@ -1,4 +1,4 @@
-package com.github.kotlintelegrambot.dispatcher
+package com.github.kotlintelegrambot.dispatcher.router
 
 import com.github.kotlintelegrambot.dispatcher.handlers.CallbackQueryHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.ChannelHandler
@@ -60,27 +60,39 @@ import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.extensions.filters.Filter
 import com.github.kotlintelegrambot.extensions.filters.Filter.All
 
-fun Dispatcher.message(handleMessage: HandleMessage) {
+fun Router.message(handleMessage: HandleMessage) {
     addHandler(MessageHandler(All, handleMessage))
 }
 
-fun Dispatcher.message(filter: Filter, handleMessage: HandleMessage) {
+fun Router.message(
+    filter: Filter,
+    handleMessage: HandleMessage,
+) {
     addHandler(MessageHandler(filter, handleMessage))
 }
 
-fun Dispatcher.command(command: String, handleCommand: HandleCommand) {
+fun Router.command(
+    command: String,
+    handleCommand: HandleCommand,
+) {
     addHandler(CommandHandler(command, handleCommand))
 }
 
-fun Dispatcher.text(text: String? = null, handleText: HandleText) {
+fun Router.text(
+    text: String? = null,
+    handleText: HandleText,
+) {
     addHandler(TextHandler(text, handleText))
 }
 
-fun Dispatcher.callbackQuery(data: String? = null, handleCallbackQuery: HandleCallbackQuery) {
+fun Router.callbackQuery(
+    data: String? = null,
+    handleCallbackQuery: HandleCallbackQuery,
+) {
     addHandler(CallbackQueryHandler(callbackData = data, handleCallbackQuery = handleCallbackQuery))
 }
 
-fun Dispatcher.callbackQuery(
+fun Router.callbackQuery(
     callbackData: String? = null,
     callbackAnswerText: String? = null,
     callbackAnswerShowAlert: Boolean? = null,
@@ -100,98 +112,96 @@ fun Dispatcher.callbackQuery(
     )
 }
 
-fun Dispatcher.contact(handleContact: HandleContact) {
+fun Router.contact(handleContact: HandleContact) {
     addHandler(ContactHandler(handleContact))
 }
 
-fun Dispatcher.chosenInlineResult(handleChosenInlineResult: HandleChosenInlineResult) {
+fun Router.chosenInlineResult(handleChosenInlineResult: HandleChosenInlineResult) {
     addHandler(ChosenInlineResultHandler(handleChosenInlineResult))
 }
 
-fun Dispatcher.location(handleLocation: HandleLocation) {
+fun Router.location(handleLocation: HandleLocation) {
     addHandler(LocationHandler(handleLocation))
 }
 
-fun Dispatcher.telegramError(handleError: HandleError) {
+fun Router.telegramError(handleError: HandleError) {
     addErrorHandler(ErrorHandler(handleError))
 }
 
-fun Dispatcher.preCheckoutQuery(body: HandlePreCheckoutQuery) {
+fun Router.preCheckoutQuery(body: HandlePreCheckoutQuery) {
     addHandler(PreCheckoutQueryHandler(body))
 }
 
-fun Dispatcher.channel(body: HandleChannelPost) {
+fun Router.channel(body: HandleChannelPost) {
     addHandler(ChannelHandler(body))
 }
 
-fun Dispatcher.chatJoinRequest(body: HandleNewChatJoinRequest) {
+fun Router.chatJoinRequest(body: HandleNewChatJoinRequest) {
     addHandler(NewChatJoinRequestHandler(body))
 }
 
-fun Dispatcher.inlineQuery(body: HandleInlineQuery) {
+fun Router.inlineQuery(body: HandleInlineQuery) {
     addHandler(InlineQueryHandler(body))
 }
 
-fun Dispatcher.audio(body: HandleAudio) {
+fun Router.audio(body: HandleAudio) {
     addHandler(AudioHandler(body))
 }
 
-fun Dispatcher.document(body: HandleDocument) {
+fun Router.document(body: HandleDocument) {
     addHandler(DocumentHandler(body))
 }
 
-fun Dispatcher.animation(body: HandleAnimation) {
+fun Router.animation(body: HandleAnimation) {
     addHandler(AnimationHandler(body))
 }
 
-fun Dispatcher.game(body: HandleGame) {
+fun Router.game(body: HandleGame) {
     addHandler(GameHandler(body))
 }
 
-fun Dispatcher.photos(body: HandlePhotos) {
+fun Router.photos(body: HandlePhotos) {
     addHandler(PhotosHandler(body))
 }
 
-fun Dispatcher.sticker(body: HandleSticker) {
+fun Router.sticker(body: HandleSticker) {
     addHandler(StickerHandler(body))
 }
 
-fun Dispatcher.video(body: HandleVideo) {
+fun Router.video(body: HandleVideo) {
     addHandler(VideoHandler(body))
 }
 
-fun Dispatcher.voice(body: HandleVoice) {
+fun Router.voice(body: HandleVoice) {
     addHandler(VoiceHandler(body))
 }
 
-fun Dispatcher.videoNote(body: HandleVideoNote) {
+fun Router.videoNote(body: HandleVideoNote) {
     addHandler(VideoNoteHandler(body))
 }
 
-fun Dispatcher.newChatMembers(body: HandleNewChatMembers) {
+fun Router.newChatMembers(body: HandleNewChatMembers) {
     addHandler(NewChatMembersHandler(body))
 }
 
-fun Dispatcher.leftChatMember(body: HandleLeftChatMember) {
+fun Router.leftChatMember(body: HandleLeftChatMember) {
     addHandler(LeftChatMemberHandler(body))
 }
 
-fun Dispatcher.pollAnswer(body: HandlePollAnswer) {
+fun Router.pollAnswer(body: HandlePollAnswer) {
     addHandler(PollAnswerHandler(body))
 }
 
-fun Dispatcher.dice(body: HandleDice) {
+fun Router.dice(body: HandleDice) {
     addHandler(DiceHandler(body))
 }
 
-infix fun Handler.requires(predicate: (Update) -> Boolean): Handler {
-    return ExtendedHandler(this, predicate)
-}
+infix fun Handler.requires(predicate: (Update) -> Boolean): Handler = ExtendedHandler(this, predicate)
 
-fun Dispatcher.myChatMember(handleMyChatMember: HandleMyChatMember) {
+fun Router.myChatMember(handleMyChatMember: HandleMyChatMember) {
     addHandler(MyChatMemberHandler(handleMyChatMember = handleMyChatMember))
 }
 
-fun Dispatcher.chatMember(handleChatMember: HandleChatMember) {
+fun Router.chatMember(handleChatMember: HandleChatMember) {
     addHandler(ChatMemberHandler(handleChatMember = handleChatMember))
 }
