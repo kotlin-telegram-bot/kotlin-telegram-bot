@@ -22,6 +22,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.HandleDocument
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleError
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleGame
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleInlineQuery
+import com.github.kotlintelegrambot.dispatcher.handlers.HandleInputChain
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleLeftChatMember
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleLocation
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleMessage
@@ -38,6 +39,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.HandleVideoNote
 import com.github.kotlintelegrambot.dispatcher.handlers.HandleVoice
 import com.github.kotlintelegrambot.dispatcher.handlers.Handler
 import com.github.kotlintelegrambot.dispatcher.handlers.InlineQueryHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.InputChainHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.LeftChatMemberHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.LocationHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.MessageHandler
@@ -194,4 +196,12 @@ fun Dispatcher.myChatMember(handleMyChatMember: HandleMyChatMember) {
 
 fun Dispatcher.chatMember(handleChatMember: HandleChatMember) {
     addHandler(ChatMemberHandler(handleChatMember = handleChatMember))
+}
+
+fun <T> Handler.inputChain(
+    filter: Filter = Filter.Text,
+    inputChainIdGen: (previousInputChainId: T?, Update) -> T?,
+    handleInputChain: HandleInputChain<T>,
+): Handler {
+    return InputChainHandler(filter, this, inputChainIdGen, handleInputChain)
 }
