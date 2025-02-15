@@ -18,6 +18,7 @@ import com.github.kotlintelegrambot.testutils.multipartBoundary
 import junit.framework.TestCase.assertEquals
 import okhttp3.mockwebserver.MockResponse
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 class SendMediaGroupIT : ApiClientIT() {
 
@@ -295,6 +296,37 @@ class SendMediaGroupIT : ApiClientIT() {
             ),
         )
         assertEquals(expectedSendMediaGroupResult, sendMediaGroupResult.getOrNull())
+    }
+
+    @Test
+    fun `send byte array file without filename`() {
+        assertThrows<IllegalArgumentException> {
+            val mediaGroup = MediaGroup.from(
+                InputMediaPhoto(TelegramFile.ByByteArray(ByteArray(10))),
+                InputMediaPhoto(TelegramFile.ByByteArray(ByteArray(20))),
+            )
+            sut.sendMediaGroup(ChatId.fromId(ANY_CHAT_ID), mediaGroup)
+        }
+    }
+
+    @Test
+    fun `sendMediaGroup with media group byte array images`() {
+        givenAnySendMediaGroupResponse()
+        val mediaGroup = MediaGroup.from(
+            InputMediaPhoto(TelegramFile.ByByteArray(ByteArray(10), "bytearray_id_1")),
+            InputMediaPhoto(TelegramFile.ByByteArray(ByteArray(20), "bytearray_id_2")),
+        )
+
+        sut.sendMediaGroup(ChatId.fromId(ANY_CHAT_ID), mediaGroup)
+
+        val request = mockWebServer.takeRequest()
+        val multipartBoundary = request.multipartBoundary
+        val requestBody = request.body.readUtf8().trimIndent()
+        val expectedRequestBody = String.format(
+            getFileAsStringFromResources<SendMediaGroupIT>("sendMediaGroupRequestBody8.txt"),
+            multipartBoundary,
+        ).trimIndent()
+        assertEquals(expectedRequestBody, requestBody)
     }
 
     private fun givenAnySendMediaGroupResponse() {
