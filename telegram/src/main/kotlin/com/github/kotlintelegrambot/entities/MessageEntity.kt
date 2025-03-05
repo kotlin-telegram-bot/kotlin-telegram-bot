@@ -61,5 +61,8 @@ data class MessageEntity(
 
         @SerializedName("spoiler")
         SPOILER,
+
+        @SerializedName("blockquote")
+        BLOCKQUOTE
     }
 }

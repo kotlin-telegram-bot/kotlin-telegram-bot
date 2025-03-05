@@ -1352,6 +1352,7 @@ public final class com/github/kotlintelegrambot/entities/MessageEntity {
 }
 
 public final class com/github/kotlintelegrambot/entities/MessageEntity$Type : java/lang/Enum {
+	public static final field BLOCKQUOTE Lcom/github/kotlintelegrambot/entities/MessageEntity$Type;
 	public static final field BOLD Lcom/github/kotlintelegrambot/entities/MessageEntity$Type;
 	public static final field BOT_COMMAND Lcom/github/kotlintelegrambot/entities/MessageEntity$Type;
 	public static final field CASHTAG Lcom/github/kotlintelegrambot/entities/MessageEntity$Type;
