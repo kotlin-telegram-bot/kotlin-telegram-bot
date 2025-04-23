@@ -64,4 +64,5 @@ data class Message(
     @Name("proximity_alert_triggered") val proximityAlertTriggered: ProximityAlertTriggered? = null,
     @Name("web_app_data") val webAppData: WebAppData? = null,
     @Name("message_thread_id") val messageThreadId: Long? = null,
+    @Name("is_topic_message") val isTopicMessage: Boolean? = null,
 )
