@@ -1,0 +1,24 @@
+plugins {
+    alias libs.plugins.kotlin.jvm
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(":telegram")
+    implementation libs.ktor2.client.core
+    implementation libs.ktor2.client.cio
+    implementation libs.retrofit.core // this is required to avoid warning about inaccessible type
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.github.kotlintelegrambot.MainKt'
+    }
+
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}

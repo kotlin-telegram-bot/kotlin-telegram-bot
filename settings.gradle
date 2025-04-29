@@ -1,8 +1,9 @@
 rootProject.name = 'kotlin-telegram-bot'
 
-include ':telegram', ':echo', ':dispatcher', ':polls', ':webhook'
+include ':telegram', ':echo', ':dispatcher', ':polls', ':webhook', ':image-send'
 
 project(':echo').projectDir = new File(rootDir, 'samples/echo')
 project(':dispatcher').projectDir = new File(rootDir, 'samples/dispatcher')
 project(':polls').projectDir = new File(rootDir, 'samples/polls')
 project(':webhook').projectDir = new File(rootDir, 'samples/webhook')
+project(':image-send').projectDir = new File(rootDir, 'samples/image-send')
