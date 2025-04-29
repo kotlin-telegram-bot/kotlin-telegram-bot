@@ -5,6 +5,7 @@ kotlin = "1.9.10"
 kotlinx-binary-compatibility-validator = "0.13.2"
 kotlin-coroutines = "1.6.2"
 ktor = "1.6.3"
+ktor2 = "2.3.13"
 mockk = "1.10.2"
 okhttp3-logging-interceptor = "4.12.0"
 okhttp3-mockwebserver = "4.12.0"
@@ -16,6 +17,9 @@ ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor"
 okhttp3-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp3-logging-interceptor" }
 retrofit-core = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+
+ktor2-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor2" }
+ktor2-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor2" }
 
 # Testing
 assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
