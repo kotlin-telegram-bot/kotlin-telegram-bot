@@ -1,6 +1,8 @@
 package com.github.kotlintelegrambot.entities
 
+import okhttp3.MediaType
 import java.io.File
+import java.io.InputStream
 
 sealed class TelegramFile {
     data class ByFileId(val fileId: String) : TelegramFile()
@@ -23,4 +25,11 @@ sealed class TelegramFile {
             return result
         }
     }
+
+    data class ByInputStream(
+        val stream: InputStream,
+        val filename: String? = null,
+        val contentType: MediaType? = null,
+        val contentLength: Long = -1,
+    ) : TelegramFile()
 }
