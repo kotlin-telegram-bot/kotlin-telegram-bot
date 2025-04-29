@@ -1,8 +1,16 @@
 package com.github.kotlintelegrambot.network
 
+import com.github.kotlintelegrambot.entities.TelegramFile
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
+import okio.BufferedSink
+import okio.source
 import retrofit2.Call
 import retrofit2.Response
+import java.io.InputStream
+import java.net.ProtocolException
 
 fun <T> Call<T>.call(): Pair<Response<T?>?, Exception?> = try {
     Pair(execute(), null)
@@ -27,3 +35,20 @@ fun <T, R> Pair<Response<T?>?, Exception?>.bimap(mapResponse: (T?) -> R, mapErro
     } else {
         mapError(ResponseError(first?.errorBody(), second))
     }
+
+fun InputStream.toRequestBody(
+    contentType: MediaType?,
+    contentLength: Long = -1,
+): RequestBody = object : RequestBody() {
+    override fun contentType(): MediaType? = contentType
+
+    override fun contentLength(): Long = contentLength
+
+    override fun writeTo(sink: BufferedSink) {
+        this@toRequestBody.use {
+            sink.writeAll(it.source())
+        }
+    }
+}
+
+fun TelegramFile.ByInputStream.asMultipartBodyPart(partName: String) = MultipartBody.Part.createFormData(partName, filename ?: partName, stream.toRequestBody(contentType, contentLength))
