@@ -275,6 +275,7 @@ internal class ApiClient(
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
+        messageThreadId: Long?,
     ): Call<Response<Message>> = when (photo) {
         is ByFile, is ByByteArray -> service.sendPhoto(
             chatId,
@@ -290,6 +291,7 @@ internal class ApiClient(
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
+            if (messageThreadId != null) convertJson(messageThreadId.toString()) else null,
         )
 
         is ByFileId, is ByUrl -> service.sendPhoto(

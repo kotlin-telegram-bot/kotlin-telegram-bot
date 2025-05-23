@@ -355,6 +355,7 @@ class Bot private constructor(
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
+        null,
     ).call()
 
     @Deprecated(
@@ -381,6 +382,7 @@ class Bot private constructor(
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
+        null,
     ).call()
 
     @Deprecated(
@@ -598,6 +600,7 @@ class Bot private constructor(
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
+        messageThreadId: Long? = null,
     ) = apiClient.sendPhoto(
         chatId,
         photo,
@@ -608,6 +611,30 @@ class Bot private constructor(
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
+        messageThreadId,
+    ).call()
+
+    fun sendPhoto(
+        chatId: ChatId,
+        photo: TelegramFile,
+        caption: String? = null,
+        parseMode: ParseMode? = null,
+        disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
+        replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
+        replyMarkup: ReplyMarkup? = null,
+    ) = apiClient.sendPhoto(
+        chatId,
+        photo,
+        caption,
+        parseMode,
+        disableNotification,
+        protectContent,
+        replyToMessageId,
+        allowSendingWithoutReply,
+        replyMarkup,
+        null,
     ).call()
 
     fun sendAudio(
