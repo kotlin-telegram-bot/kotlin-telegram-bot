@@ -164,6 +164,7 @@ internal interface ApiService {
         @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
         @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
         @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
+        @Part(ApiConstants.MESSAGE_THREAD_ID) messageThreadId: RequestBody? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
