@@ -64,9 +64,26 @@ class BotIT {
             apiUrl = webServerUrl
             webhook {
                 url = ANY_WEBHOOK_URL
+                secretToken = ANY_SECRET_TOKEN
             }
         }
         givenSetWebhookSucceeds()
+
+        val startWebhookResult = sut.startWebhook()
+
+        assertTrue(startWebhookResult)
+    }
+
+    @Test
+    internal fun `startWebhook returns true when webhook set on start is disabled`() {
+        val sut = bot {
+            token = ANY_BOT_TOKEN
+            apiUrl = webServerUrl
+            webhook {
+                createOnStart = false
+                url = ANY_WEBHOOK_URL
+            }
+        }
 
         val startWebhookResult = sut.startWebhook()
 
@@ -158,5 +175,6 @@ class BotIT {
     private companion object {
         const val ANY_BOT_TOKEN = "1342142:asdad"
         const val ANY_WEBHOOK_URL = "https://ruka.io"
+        const val ANY_SECRET_TOKEN = "secret-token"
     }
 }

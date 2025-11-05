@@ -9,6 +9,7 @@ import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.MessageId
 import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.ReplyMarkup
+import com.github.kotlintelegrambot.entities.SentWebAppMessage
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.User
 import com.github.kotlintelegrambot.entities.UserProfilePhotos
@@ -56,6 +57,7 @@ internal interface ApiService {
         @Field(ApiConstants.SetWebhook.MAX_CONNECTIONS) maxConnections: Int? = null,
         @Field(ApiConstants.SetWebhook.ALLOWED_UPDATES) allowedUpdates: List<String>? = null,
         @Field(ApiConstants.SetWebhook.DROP_PENDING_UPDATES) dropPendingUpdates: Boolean? = null,
+        @Field(ApiConstants.SetWebhook.SECRET_TOKEN) secretToken: String? = null,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
@@ -67,6 +69,7 @@ internal interface ApiService {
         @Field(ApiConstants.SetWebhook.MAX_CONNECTIONS) maxConnections: Int? = null,
         @Field(ApiConstants.SetWebhook.ALLOWED_UPDATES) allowedUpdates: List<String>? = null,
         @Field(ApiConstants.SetWebhook.DROP_PENDING_UPDATES) dropPendingUpdates: Boolean? = null,
+        @Field(ApiConstants.SetWebhook.SECRET_TOKEN) secretToken: String? = null,
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
@@ -78,6 +81,7 @@ internal interface ApiService {
         @Field(ApiConstants.SetWebhook.MAX_CONNECTIONS) maxConnections: Int? = null,
         @Field(ApiConstants.SetWebhook.ALLOWED_UPDATES) allowedUpdates: List<String>? = null,
         @Field(ApiConstants.SetWebhook.DROP_PENDING_UPDATES) dropPendingUpdates: Boolean? = null,
+        @Field(ApiConstants.SetWebhook.SECRET_TOKEN) secretToken: String? = null,
     ): Call<Response<Boolean>>
 
     @Multipart
@@ -89,6 +93,7 @@ internal interface ApiService {
         @Part maxConnections: MultipartBody.Part? = null,
         @Part allowedUpdates: MultipartBody.Part? = null,
         @Part dropPendingUpdates: MultipartBody.Part? = null,
+        @Part secretToken: MultipartBody.Part? = null,
     ): Call<Response<Boolean>>
 
     @GET("deleteWebhook")
@@ -114,9 +119,11 @@ internal interface ApiService {
         @Field("parse_mode") parseMode: ParseMode?,
         @Field("disable_web_page_preview") disableWebPagePreview: Boolean?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup?,
+        @Field(ApiConstants.MESSAGE_THREAD_ID) messageThreadId: Long?,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -125,6 +132,7 @@ internal interface ApiService {
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("from_chat_id") fromChatId: ChatId,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field("message_id") messageId: Long,
     ): Call<Response<Message>>
 
@@ -138,6 +146,7 @@ internal interface ApiService {
         @Field("parse_mode") parseMode: ParseMode?,
         @Field("caption_entities") captionEntities: String?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup?,
@@ -151,9 +160,11 @@ internal interface ApiService {
         @Part("caption") caption: RequestBody?,
         @Part("parse_mode") parseMode: RequestBody?,
         @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
+        @Part(ApiConstants.PROTECT_CONTENT) protectContent: RequestBody?,
         @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
         @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
         @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
+        @Part(ApiConstants.MESSAGE_THREAD_ID) messageThreadId: RequestBody? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -164,6 +175,7 @@ internal interface ApiService {
         @Field("caption") caption: String?,
         @Field("parse_mode") parseMode: ParseMode?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
@@ -178,6 +190,7 @@ internal interface ApiService {
         @Part("performer") performer: RequestBody?,
         @Part("title") title: RequestBody?,
         @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
+        @Part(ApiConstants.PROTECT_CONTENT) protectContent: RequestBody?,
         @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
         @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
         @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
@@ -192,6 +205,7 @@ internal interface ApiService {
         @Field("performer") performer: String?,
         @Field("title") title: String?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
@@ -206,6 +220,7 @@ internal interface ApiService {
         @Part("parse_mode") parseMode: RequestBody?,
         @Part(ApiConstants.DISABLE_CONTENT_TYPE_DETECTION) disableContentTypeDetection: RequestBody?,
         @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
+        @Part(ApiConstants.PROTECT_CONTENT) protectContent: RequestBody?,
         @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
         @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
         @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
@@ -220,6 +235,7 @@ internal interface ApiService {
         @Field("parse_mode") parseMode: ParseMode?,
         @Field(ApiConstants.DISABLE_CONTENT_TYPE_DETECTION) disableContentTypeDetection: Boolean?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
@@ -236,6 +252,7 @@ internal interface ApiService {
         @Part("caption") caption: RequestBody?,
         @Part("parse_mode") parseMode: RequestBody?,
         @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
+        @Part(ApiConstants.PROTECT_CONTENT) protectContent: RequestBody?,
         @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
         @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
         @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
@@ -252,6 +269,7 @@ internal interface ApiService {
         @Field("caption") caption: String?,
         @Field("parse_mode") parseMode: ParseMode?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
@@ -263,6 +281,7 @@ internal interface ApiService {
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field(ApiConstants.SendGame.GAME_SHORT_NAME) gameShortName: String,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
@@ -279,6 +298,7 @@ internal interface ApiService {
         @Part("caption") caption: RequestBody?,
         @Part("parse_mode") parseMode: RequestBody?,
         @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
+        @Part(ApiConstants.PROTECT_CONTENT) protectContent: RequestBody?,
         @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
         @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
         @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
@@ -295,6 +315,7 @@ internal interface ApiService {
         @Field("caption") caption: String?,
         @Field("parse_mode") parseMode: ParseMode?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
@@ -310,6 +331,7 @@ internal interface ApiService {
         @Part("caption_entities") captionEntities: RequestBody?,
         @Part("duration") duration: RequestBody?,
         @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
+        @Part(ApiConstants.PROTECT_CONTENT) protectContent: RequestBody?,
         @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
         @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
         @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
@@ -325,6 +347,7 @@ internal interface ApiService {
         @Field("caption_entities") captionEntities: String?,
         @Field("duration") duration: Int?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
@@ -338,6 +361,7 @@ internal interface ApiService {
         @Part("duration") duration: RequestBody?,
         @Part("length") length: RequestBody?,
         @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
+        @Part(ApiConstants.PROTECT_CONTENT) protectContent: RequestBody?,
         @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
         @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
         @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
@@ -351,6 +375,7 @@ internal interface ApiService {
         @Field("duration") duration: Int?,
         @Field("length") length: Int?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
@@ -368,6 +393,7 @@ internal interface ApiService {
         @Field("longitude") longitude: Float,
         @Field("live_period") livePeriod: Int?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
@@ -408,6 +434,7 @@ internal interface ApiService {
         @Field("google_place_id") googlePlaceId: String?,
         @Field("google_place_type") googlePlaceType: String?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
@@ -421,6 +448,7 @@ internal interface ApiService {
         @Field("first_name") firstName: String,
         @Field("last_name") lastName: String?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
@@ -442,6 +470,7 @@ internal interface ApiService {
         @Field(PollFields.CLOSE_DATE) closeDate: Long? = null,
         @Field(PollFields.IS_CLOSED) isClosed: Boolean? = null,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
@@ -742,6 +771,7 @@ internal interface ApiService {
         @Part(ApiConstants.CHAT_ID) chatId: ChatId,
         @Part("sticker") sticker: MultipartBody.Part,
         @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
+        @Part(ApiConstants.PROTECT_CONTENT) protectContent: RequestBody?,
         @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
         @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
         @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
@@ -753,6 +783,7 @@ internal interface ApiService {
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("sticker") fileId: String,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
@@ -854,7 +885,11 @@ internal interface ApiService {
         @Field("send_phone_number_to_provider") sendPhoneNumberToProvider: Boolean?,
         @Field("send_email_to_provider") sendEmailToProvider: Boolean?,
         @Field("is_flexible") isFlexible: Boolean?,
+        @Field("recurring") recurring: Boolean?,
+        @Field("max_tip_amount") maxTipAmount: Long?,
+        @Field("suggested_tip_amounts") suggestedTipAmounts: List<Long>?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
+        @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
@@ -889,6 +924,13 @@ internal interface ApiService {
         @Field("switch_pm_parameter") switchPmParameter: String?,
     ): Call<Response<Boolean>>
 
+    @FormUrlEncoded
+    @POST("answerWebAppQuery")
+    fun answerWebAppQuery(
+        @Field("web_app_query_id") webAppQueryId: String,
+        @Field("result") inlineQueryResult: String,
+    ): Call<Response<SentWebAppMessage>>
+
     @GET("getMyCommands")
     fun getMyCommands(): Call<Response<List<BotCommand>>>
 
@@ -904,6 +946,7 @@ internal interface ApiService {
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field(DiceFields.EMOJI) emoji: DiceEmoji? = null,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean? = null,
+        @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
         @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long? = null,
         @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
@@ -915,6 +958,15 @@ internal interface ApiService {
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field(ApiConstants.USER_ID) userId: Long,
         @Field(ApiConstants.SetChatAdministratorCustomTitle.CUSTOM_TITLE) customTitle: String,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("setMessageReaction")
+    fun setMessageReaction(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field("message_id") messageId: Long,
+        @Field("reaction") reaction: String?,
+        @Field("is_big") isBig: Boolean?,
     ): Call<Response<Boolean>>
 }
 

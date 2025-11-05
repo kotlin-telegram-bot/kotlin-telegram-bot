@@ -193,7 +193,7 @@ fun main() {
             chosenInlineResult {
                 bot.sendMessage(
                     ChatId.fromId(chosenInlineResult.from.id),
-                    "User selected: ${chosenInlineResult.resultId}"
+                    text = "User selected: ${chosenInlineResult.resultId}",
                 )
             }
 

@@ -12,6 +12,7 @@ import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.MessageEntity
 import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.ReplyMarkup
+import com.github.kotlintelegrambot.entities.SentWebAppMessage
 import com.github.kotlintelegrambot.entities.TelegramFile
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.User
@@ -23,6 +24,7 @@ import com.github.kotlintelegrambot.entities.payments.PaymentInvoiceInfo
 import com.github.kotlintelegrambot.entities.payments.ShippingOption
 import com.github.kotlintelegrambot.entities.polls.Poll
 import com.github.kotlintelegrambot.entities.polls.PollType
+import com.github.kotlintelegrambot.entities.reaction.ReactionType
 import com.github.kotlintelegrambot.entities.stickers.MaskPosition
 import com.github.kotlintelegrambot.logging.LogLevel
 import com.github.kotlintelegrambot.network.ApiClient
@@ -39,6 +41,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.channels.Channel
+import okhttp3.Interceptor
 import java.net.Proxy
 import java.util.concurrent.Executors
 import java.io.File as SystemFile
@@ -80,12 +83,13 @@ class Bot private constructor(
         var logLevel: LogLevel = LogLevel.None
         var proxy: Proxy = Proxy.NO_PROXY
         var coroutineDispatcher: CoroutineDispatcher = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
+        var httpClientInterceptors: List<Interceptor> = emptyList()
         internal var dispatcherConfiguration: Dispatcher.() -> Unit = { }
 
         fun build(): Bot {
             val updatesQueue = Channel<DispatchableObject>()
             val looper = CoroutineLooper(Dispatchers.IO)
-            val apiClient = ApiClient(token, apiUrl, timeout, logLevel, proxy, gson)
+            val apiClient = ApiClient(token, apiUrl, timeout, logLevel, proxy, gson, httpClientInterceptors = httpClientInterceptors)
             val updater = Updater(looper, updatesQueue, apiClient, timeout)
             val dispatcher = Dispatcher(
                 updatesChannel = updatesQueue,
@@ -129,24 +133,29 @@ class Bot private constructor(
             error("To start a webhook you need to configure it on bot set up. Check the `webhook` builder function")
         }
 
-        val setWebhookResult = setWebhook(
-            webhookConfig.url,
-            webhookConfig.certificate,
-            webhookConfig.ipAddress,
-            webhookConfig.maxConnections,
-            webhookConfig.allowedUpdates,
-            webhookConfig.dropPendingUpdates,
-        )
-        val webhookSet = setWebhookResult.bimap(
-            mapResponse = { true },
-            mapError = { false },
-        )
+        return if (webhookConfig.createOnStart) {
+            val setWebhookResult = setWebhook(
+                webhookConfig.url,
+                webhookConfig.certificate,
+                webhookConfig.ipAddress,
+                webhookConfig.maxConnections,
+                webhookConfig.allowedUpdates,
+                webhookConfig.dropPendingUpdates,
+                webhookConfig.secretToken,
+            )
+            val webhookSet = setWebhookResult.bimap(
+                mapResponse = { true },
+                mapError = { false },
+            )
 
-        if (webhookSet) {
+            if (webhookSet) {
+                dispatcher.startCheckingUpdates()
+            }
+            webhookSet
+        } else {
             dispatcher.startCheckingUpdates()
+            true
         }
-
-        return webhookSet
     }
 
     /**
@@ -211,7 +220,8 @@ class Bot private constructor(
         maxConnections: Int? = null,
         allowedUpdates: List<String>? = null,
         dropPendingUpdates: Boolean? = null,
-    ) = apiClient.setWebhook(url, certificate, ipAddress, maxConnections, allowedUpdates, dropPendingUpdates).call()
+        secretToken: String? = null,
+    ) = apiClient.setWebhook(url, certificate, ipAddress, maxConnections, allowedUpdates, dropPendingUpdates, secretToken).call()
 
     fun deleteWebhook(
         dropPendingUpdates: Boolean? = null,
@@ -245,6 +255,7 @@ class Bot private constructor(
      * @param disableWebPagePreview disables link previews for links in this message.
      * @param disableNotification sends the message silently - users will receive a notification
      * with no sound.
+     * @param protectContent protects the contents of the sent message from forwarding and saving
      * @param replyToMessageId if the message is a reply, ID of the original message.
      * @param replyMarkup additional options - inline keyboard, custom reply keyboard,
      * instructions to remove reply keyboard or to force a reply from the user.
@@ -257,18 +268,22 @@ class Bot private constructor(
         parseMode: ParseMode? = null,
         disableWebPagePreview: Boolean? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
+        messageThreadId: Long? = null,
     ): TelegramBotResult<Message> = apiClient.sendMessage(
         chatId,
         text,
         parseMode,
         disableWebPagePreview,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
+        messageThreadId,
     )
 
     /**
@@ -281,11 +296,13 @@ class Bot private constructor(
         fromChatId: ChatId,
         messageId: Long,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
     ): TelegramBotResult<Message> = apiClient.forwardMessage(
         chatId,
         fromChatId,
         messageId,
         disableNotification,
+        protectContent,
     )
 
     fun copyMessage(
@@ -296,6 +313,7 @@ class Bot private constructor(
         parseMode: ParseMode? = null,
         captionEntities: List<MessageEntity>? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -307,6 +325,7 @@ class Bot private constructor(
         parseMode,
         captionEntities,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -322,6 +341,7 @@ class Bot private constructor(
         caption: String? = null,
         parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -331,9 +351,11 @@ class Bot private constructor(
         caption,
         parseMode,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
+        null,
     ).call()
 
     @Deprecated(
@@ -346,6 +368,7 @@ class Bot private constructor(
         caption: String? = null,
         parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -355,9 +378,11 @@ class Bot private constructor(
         caption,
         parseMode,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
+        null,
     ).call()
 
     @Deprecated(
@@ -371,6 +396,7 @@ class Bot private constructor(
         performer: String? = null,
         title: String? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -381,6 +407,7 @@ class Bot private constructor(
         performer,
         title,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -397,6 +424,7 @@ class Bot private constructor(
         performer: String? = null,
         title: String? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -407,6 +435,7 @@ class Bot private constructor(
         performer,
         title,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -423,6 +452,7 @@ class Bot private constructor(
         parseMode: ParseMode? = null,
         disableContentTypeDetection: Boolean? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -433,6 +463,7 @@ class Bot private constructor(
         parseMode,
         disableContentTypeDetection,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -449,6 +480,7 @@ class Bot private constructor(
         parseMode: ParseMode? = null,
         disableContentTypeDetection: Boolean? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -461,6 +493,7 @@ class Bot private constructor(
         parseMode,
         disableContentTypeDetection,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -478,6 +511,7 @@ class Bot private constructor(
         parseMode: ParseMode? = null,
         disableContentTypeDetection: Boolean? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -488,6 +522,7 @@ class Bot private constructor(
         parseMode,
         disableContentTypeDetection,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -505,6 +540,7 @@ class Bot private constructor(
         height: Int? = null,
         caption: String? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -517,6 +553,7 @@ class Bot private constructor(
         caption,
         null,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -534,6 +571,7 @@ class Bot private constructor(
         height: Int? = null,
         caption: String? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -546,6 +584,7 @@ class Bot private constructor(
         caption,
         null,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -557,6 +596,31 @@ class Bot private constructor(
         caption: String? = null,
         parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
+        replyToMessageId: Long? = null,
+        allowSendingWithoutReply: Boolean? = null,
+        replyMarkup: ReplyMarkup? = null,
+        messageThreadId: Long? = null,
+    ) = apiClient.sendPhoto(
+        chatId,
+        photo,
+        caption,
+        parseMode,
+        disableNotification,
+        protectContent,
+        replyToMessageId,
+        allowSendingWithoutReply,
+        replyMarkup,
+        messageThreadId,
+    ).call()
+
+    fun sendPhoto(
+        chatId: ChatId,
+        photo: TelegramFile,
+        caption: String? = null,
+        parseMode: ParseMode? = null,
+        disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -566,9 +630,11 @@ class Bot private constructor(
         caption,
         parseMode,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
+        null,
     ).call()
 
     fun sendAudio(
@@ -578,6 +644,7 @@ class Bot private constructor(
         performer: String? = null,
         title: String? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -588,6 +655,7 @@ class Bot private constructor(
         performer,
         title,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -600,6 +668,7 @@ class Bot private constructor(
         parseMode: ParseMode? = null,
         disableContentTypeDetection: Boolean? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -611,6 +680,7 @@ class Bot private constructor(
         parseMode,
         disableContentTypeDetection,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -626,6 +696,7 @@ class Bot private constructor(
         caption: String? = null,
         parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -638,6 +709,7 @@ class Bot private constructor(
         caption,
         parseMode,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -650,6 +722,7 @@ class Bot private constructor(
      * (in the format @channelusername).
      * @param gameShortName Short name of the game, serves as the unique identifier for the game.
      * @param disableNotification Sends the message silently. Users will receive a notification with no sound.
+     * @param protectContent protects the contents of the sent message from forwarding and saving
      * @param replyToMessageId If the message is a reply, ID of the original message.
      * @param allowSendingWithoutReply Pass True, if the message should be sent even if the specified
      * replied-to message is not found
@@ -662,6 +735,7 @@ class Bot private constructor(
         chatId: ChatId,
         gameShortName: String,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -669,6 +743,7 @@ class Bot private constructor(
         chatId,
         gameShortName,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -684,6 +759,7 @@ class Bot private constructor(
         caption: String? = null,
         parseMode: String? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -696,6 +772,7 @@ class Bot private constructor(
         caption,
         parseMode,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -714,6 +791,7 @@ class Bot private constructor(
         caption: String? = null,
         parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -726,6 +804,7 @@ class Bot private constructor(
         caption,
         parseMode,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -740,6 +819,7 @@ class Bot private constructor(
         caption: String? = null,
         parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -752,6 +832,7 @@ class Bot private constructor(
         caption,
         parseMode,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -769,6 +850,7 @@ class Bot private constructor(
         captionEntities: List<MessageEntity>? = null,
         duration: Int? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -780,6 +862,7 @@ class Bot private constructor(
         captionEntities,
         duration,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -797,6 +880,7 @@ class Bot private constructor(
         captionEntities: List<MessageEntity>? = null,
         duration: Int? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -808,6 +892,7 @@ class Bot private constructor(
         captionEntities,
         duration,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -825,6 +910,7 @@ class Bot private constructor(
         captionEntities: List<MessageEntity>? = null,
         duration: Int? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -836,6 +922,7 @@ class Bot private constructor(
         captionEntities,
         duration,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -849,6 +936,7 @@ class Bot private constructor(
         captionEntities: List<MessageEntity>? = null,
         duration: Int? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -860,6 +948,7 @@ class Bot private constructor(
         captionEntities,
         duration,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -875,6 +964,7 @@ class Bot private constructor(
         duration: Int? = null,
         length: Int? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -884,6 +974,7 @@ class Bot private constructor(
         duration,
         length,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -899,6 +990,7 @@ class Bot private constructor(
         duration: Int? = null,
         length: Int? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -908,6 +1000,7 @@ class Bot private constructor(
         duration,
         length,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -919,6 +1012,7 @@ class Bot private constructor(
         duration: Int? = null,
         length: Int? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -928,6 +1022,7 @@ class Bot private constructor(
         duration,
         length,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -939,6 +1034,7 @@ class Bot private constructor(
         duration: Int? = null,
         length: Int? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -948,6 +1044,7 @@ class Bot private constructor(
         duration,
         length,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -960,6 +1057,7 @@ class Bot private constructor(
      * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername).
      * @param mediaGroup An object describing photos and videos to be sent, must include 2-10 items.
      * @param disableNotification Sends the messages silently. Users will receive a notification with no sound.
+     * @param protectContent protects the contents of the sent message from forwarding and saving
      * @param replyToMessageId If the messages are a reply, ID of the original message.
      *
      * @return a list of the sent Messages.
@@ -968,12 +1066,14 @@ class Bot private constructor(
         chatId: ChatId,
         mediaGroup: MediaGroup,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
     ): TelegramBotResult<List<Message>> = apiClient.sendMediaGroup(
         chatId,
         mediaGroup,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
     )
@@ -984,6 +1084,7 @@ class Bot private constructor(
         longitude: Float,
         livePeriod: Int? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -994,6 +1095,7 @@ class Bot private constructor(
         longitude,
         livePeriod,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -1027,6 +1129,7 @@ class Bot private constructor(
      * for poll preview.
      * @param disableNotification Sends the message silently. Users will receive a notification
      * with no sound.
+     * @param protectContent protects the contents of the sent message from forwarding and saving
      * @param replyToMessageId If the message is a reply, ID of the original message.
      * @param allowSendingWithoutReply Pass True, if the message should be sent even if the
      * specified replied-to message is not found.
@@ -1050,6 +1153,7 @@ class Bot private constructor(
         closeDate: Long? = null,
         isClosed: Boolean? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -1067,6 +1171,7 @@ class Bot private constructor(
         closeDate,
         isClosed,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -1113,6 +1218,7 @@ class Bot private constructor(
         googlePlaceId: String? = null,
         googlePlaceType: String? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -1127,6 +1233,7 @@ class Bot private constructor(
         googlePlaceId,
         googlePlaceType,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -1138,6 +1245,7 @@ class Bot private constructor(
         firstName: String,
         lastName: String? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -1147,6 +1255,7 @@ class Bot private constructor(
         firstName,
         lastName,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -1655,6 +1764,7 @@ class Bot private constructor(
         chatId: ChatId,
         sticker: SystemFile,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup?,
@@ -1662,6 +1772,7 @@ class Bot private constructor(
         chatId,
         sticker,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -1671,6 +1782,7 @@ class Bot private constructor(
         chatId: ChatId,
         sticker: String,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup?,
@@ -1678,6 +1790,7 @@ class Bot private constructor(
         chatId,
         sticker,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -1780,6 +1893,7 @@ class Bot private constructor(
      * @param paymentInvoiceInfo All the payment invoice information.
      * @param disableNotification Sends the message silently. Users will receive a notification
      * with no sound.
+     * @param protectContent protects the contents of the sent message from forwarding and saving
      * @param replyToMessageId If the message is a reply, ID of the original message.
      * @param replyMarkup Additional interface options. An inlineKeyboard. If empty, one 'Pay total
      * price' button will be shown. If not empty, the first button must be a Pay button.
@@ -1790,6 +1904,7 @@ class Bot private constructor(
         chatId: ChatId,
         paymentInvoiceInfo: PaymentInvoiceInfo,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: InlineKeyboardMarkup? = null,
@@ -1803,6 +1918,9 @@ class Bot private constructor(
         paymentInvoiceInfo.currency,
         paymentInvoiceInfo.prices,
         isFlexible = paymentInvoiceInfo.isFlexible,
+        recurring = paymentInvoiceInfo.recurring,
+        maxTipAmount = paymentInvoiceInfo.maxTipAmount,
+        suggestedTipAmounts = paymentInvoiceInfo.suggestedTipAmounts,
         providerData = paymentInvoiceInfo.providerData,
         needShippingAddress = paymentInvoiceInfo.invoiceUserDetail?.needShippingAddress,
         needPhoneNumber = paymentInvoiceInfo.invoiceUserDetail?.needPhoneNumber,
@@ -1815,6 +1933,7 @@ class Bot private constructor(
         photoSize = paymentInvoiceInfo.invoicePhoto?.photoSize,
         photoHeight = paymentInvoiceInfo.invoicePhoto?.photoHeight,
         disableNotification = disableNotification,
+        protectContent = protectContent,
         replyToMessageId = replyToMessageId,
         allowSendingWithoutReply = allowSendingWithoutReply,
         replyMarkup = replyMarkup,
@@ -1961,6 +2080,21 @@ class Bot private constructor(
     )
 
     /**
+     * Use this method to set the result of an interaction with a Web App and send a corresponding
+     * message on behalf of the user to the chat from which the query originated.
+     * @param webAppQueryId Unique identifier for the query to be answered
+     * @param inlineQueryResult A JSON-serialized object describing the message to be sent
+     * @return On success, a SentWebAppMessage object is returned.
+     */
+    fun answerWebAppQuery(
+        webAppQueryId: String,
+        inlineQueryResult: InlineQueryResult,
+    ): TelegramBotResult<SentWebAppMessage> = apiClient.answerWebAppQuery(
+        webAppQueryId,
+        inlineQueryResult,
+    )
+
+    /**
      * Use this method to get the current list of the bot's commands.
      *
      * @return A list of [BotCommand] on success.
@@ -1986,6 +2120,7 @@ class Bot private constructor(
      * @param emoji Emoji on which the dice throw animation is based. Currently, must be one of 🎲, 🎯, 🏀, ⚽, 🎰 or 🎳.
      * Defaults to 🎲.
      * @param disableNotification Sends the message silently. Users will receive a notification with no sound.
+     * @param protectContent protects the contents of the sent message from forwarding and saving
      * @param replyToMessageId If the message is a reply, ID of the original message.
      * @param replyMarkup A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove
      * reply keyboard or to force a reply from the user.
@@ -1996,12 +2131,14 @@ class Bot private constructor(
         chatId: ChatId,
         emoji: DiceEmoji? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
     ): TelegramBotResult<Message> = apiClient.sendDice(
         chatId,
         emoji,
+        protectContent,
         disableNotification,
         replyToMessageId,
         allowSendingWithoutReply,
@@ -2025,5 +2162,17 @@ class Bot private constructor(
         chatId,
         userId,
         customTitle,
+    )
+
+    fun setMessageReaction(
+        chatId: ChatId,
+        messageId: Long,
+        reaction: List<ReactionType>,
+        isBig: Boolean = false,
+    ): TelegramBotResult<Boolean> = apiClient.setMessageReaction(
+        chatId = chatId,
+        messageId = messageId,
+        reaction = reaction,
+        isBig = isBig,
     )
 }

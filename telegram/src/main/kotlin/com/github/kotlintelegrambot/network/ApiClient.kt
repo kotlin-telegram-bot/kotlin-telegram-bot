@@ -12,6 +12,7 @@ import com.github.kotlintelegrambot.entities.MessageEntity
 import com.github.kotlintelegrambot.entities.MessageId
 import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.ReplyMarkup
+import com.github.kotlintelegrambot.entities.SentWebAppMessage
 import com.github.kotlintelegrambot.entities.TelegramFile
 import com.github.kotlintelegrambot.entities.TelegramFile.ByByteArray
 import com.github.kotlintelegrambot.entities.TelegramFile.ByFile
@@ -30,6 +31,7 @@ import com.github.kotlintelegrambot.entities.payments.LabeledPrice
 import com.github.kotlintelegrambot.entities.payments.ShippingOption
 import com.github.kotlintelegrambot.entities.polls.Poll
 import com.github.kotlintelegrambot.entities.polls.PollType
+import com.github.kotlintelegrambot.entities.reaction.ReactionType
 import com.github.kotlintelegrambot.entities.stickers.MaskPosition
 import com.github.kotlintelegrambot.entities.stickers.StickerSet
 import com.github.kotlintelegrambot.logging.LogLevel
@@ -45,7 +47,8 @@ import com.github.kotlintelegrambot.network.serialization.GsonFactory
 import com.github.kotlintelegrambot.types.TelegramBotResult
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import okhttp3.MediaType
+import okhttp3.Interceptor
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -57,8 +60,8 @@ import java.net.Proxy
 import java.util.concurrent.TimeUnit
 import java.io.File as SystemFile
 
-internal val PLAIN_TEXT_MIME = MediaType.parse("text/plain")
-internal val APPLICATION_JSON_MIME = MediaType.parse("application/json")
+internal val PLAIN_TEXT_MIME = "text/plain".toMediaTypeOrNull()
+internal val APPLICATION_JSON_MIME = "application/json".toMediaTypeOrNull()
 
 private fun convertString(text: String) = RequestBody.create(PLAIN_TEXT_MIME, text)
 private fun convertJson(text: String) = RequestBody.create(APPLICATION_JSON_MIME, text)
@@ -73,6 +76,7 @@ internal class ApiClient(
     private val multipartBodyFactory: MultipartBodyFactory = MultipartBodyFactory(GsonFactory.createForMultipartBodyFactory()),
     private val apiRequestSender: ApiRequestSender = ApiRequestSender(),
     private val apiResponseMapper: ApiResponseMapper = ApiResponseMapper(),
+    private val httpClientInterceptors: List<Interceptor> = emptyList(),
 ) {
 
     private val service: ApiService
@@ -86,6 +90,7 @@ internal class ApiClient(
             .readTimeout(botTimeout + 10L, TimeUnit.SECONDS)
             .writeTimeout(botTimeout + 10L, TimeUnit.SECONDS)
             .addInterceptor(logging)
+            .also { builder -> httpClientInterceptors.forEach { builder.addInterceptor(it) } }
             .retryOnConnectionFailure(true)
             .proxy(proxy)
             .build()
@@ -126,6 +131,7 @@ internal class ApiClient(
         maxConnections: Int? = null,
         allowedUpdates: List<String>? = null,
         dropPendingUpdates: Boolean? = null,
+        secretToken: String? = null,
     ): Call<Response<Boolean>> = when (certificate) {
         is ByFileId -> service.setWebhookWithCertificateAsFileId(
             url = url,
@@ -134,6 +140,7 @@ internal class ApiClient(
             maxConnections = maxConnections,
             allowedUpdates = allowedUpdates,
             dropPendingUpdates = dropPendingUpdates,
+            secretToken = secretToken,
         )
 
         is ByUrl -> service.setWebhookWithCertificateAsFileUrl(
@@ -143,6 +150,7 @@ internal class ApiClient(
             maxConnections = maxConnections,
             allowedUpdates = allowedUpdates,
             dropPendingUpdates = dropPendingUpdates,
+            secretToken = secretToken,
         )
 
         is ByFile -> service.setWebhookWithCertificateAsFile(
@@ -155,6 +163,7 @@ internal class ApiClient(
             maxConnections = maxConnections?.toMultipartBodyPart(ApiConstants.SetWebhook.MAX_CONNECTIONS),
             allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES),
             dropPendingUpdates = dropPendingUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.DROP_PENDING_UPDATES),
+            secretToken = secretToken?.toMultipartBodyPart(ApiConstants.SetWebhook.SECRET_TOKEN),
         )
 
         is ByByteArray -> service.setWebhookWithCertificateAsFile(
@@ -167,6 +176,7 @@ internal class ApiClient(
             maxConnections = maxConnections?.toMultipartBodyPart(ApiConstants.SetWebhook.MAX_CONNECTIONS),
             allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES),
             dropPendingUpdates = dropPendingUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.DROP_PENDING_UPDATES),
+            secretToken = secretToken?.toMultipartBodyPart(ApiConstants.SetWebhook.SECRET_TOKEN),
         )
 
         null -> service.setWebhook(
@@ -175,6 +185,7 @@ internal class ApiClient(
             maxConnections = maxConnections,
             allowedUpdates = allowedUpdates,
             dropPendingUpdates = dropPendingUpdates,
+            secretToken = secretToken,
         )
     }
 
@@ -194,18 +205,22 @@ internal class ApiClient(
         parseMode: ParseMode?,
         disableWebPagePreview: Boolean?,
         disableNotification: Boolean?,
+        protectContent: Boolean?,
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
+        messageThreadId: Long?,
     ): TelegramBotResult<Message> = service.sendMessage(
         chatId,
         text,
         parseMode,
         disableWebPagePreview,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
+        messageThreadId,
     ).runApiOperation()
 
     fun forwardMessage(
@@ -213,10 +228,12 @@ internal class ApiClient(
         fromChatId: ChatId,
         messageId: Long,
         disableNotification: Boolean?,
+        protectContent: Boolean?,
     ): TelegramBotResult<Message> = service.forwardMessage(
         chatId,
         fromChatId,
         disableNotification,
+        protectContent,
         messageId,
     ).runApiOperation()
 
@@ -228,6 +245,7 @@ internal class ApiClient(
         parseMode: ParseMode? = null,
         captionEntities: List<MessageEntity>? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -240,6 +258,7 @@ internal class ApiClient(
             parseMode,
             if (captionEntities != null) gson.toJson(captionEntities) else null,
             disableNotification,
+            protectContent,
             replyToMessageId,
             allowSendingWithoutReply,
             replyMarkup,
@@ -252,9 +271,11 @@ internal class ApiClient(
         caption: String?,
         parseMode: ParseMode?,
         disableNotification: Boolean?,
+        protectContent: Boolean?,
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
+        messageThreadId: Long?,
     ): Call<Response<Message>> = when (photo) {
         is ByFile, is ByByteArray -> service.sendPhoto(
             chatId,
@@ -266,9 +287,11 @@ internal class ApiClient(
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode.modeName) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
+            if (protectContent != null) convertString(protectContent.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
+            if (messageThreadId != null) convertJson(messageThreadId.toString()) else null,
         )
 
         is ByFileId, is ByUrl -> service.sendPhoto(
@@ -281,6 +304,7 @@ internal class ApiClient(
             caption,
             parseMode,
             disableNotification,
+            protectContent,
             replyToMessageId,
             allowSendingWithoutReply,
             replyMarkup,
@@ -294,6 +318,7 @@ internal class ApiClient(
         performer: String?,
         title: String?,
         disableNotification: Boolean?,
+        protectContent: Boolean?,
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
@@ -309,6 +334,7 @@ internal class ApiClient(
             if (performer != null) convertString(performer) else null,
             if (title != null) convertString(title) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
+            if (protectContent != null) convertString(protectContent.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
@@ -325,6 +351,7 @@ internal class ApiClient(
             performer,
             title,
             disableNotification,
+            protectContent,
             replyToMessageId,
             allowSendingWithoutReply,
             replyMarkup,
@@ -338,6 +365,7 @@ internal class ApiClient(
         parseMode: ParseMode? = null,
         disableContentTypeDetection: Boolean? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -354,6 +382,7 @@ internal class ApiClient(
             if (parseMode != null) convertString(parseMode.modeName) else null,
             if (disableContentTypeDetection != null) convertString(disableContentTypeDetection.toString()) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
+            if (protectContent != null) convertString(protectContent.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
@@ -370,6 +399,7 @@ internal class ApiClient(
             parseMode,
             disableContentTypeDetection,
             disableNotification,
+            protectContent,
             replyToMessageId,
             allowSendingWithoutReply,
             replyMarkup,
@@ -385,6 +415,7 @@ internal class ApiClient(
         caption: String?,
         parseMode: ParseMode?,
         disableNotification: Boolean?,
+        protectContent: Boolean?,
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
@@ -402,6 +433,7 @@ internal class ApiClient(
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode.modeName) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
+            if (protectContent != null) convertString(protectContent.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
@@ -420,6 +452,7 @@ internal class ApiClient(
             caption,
             parseMode,
             disableNotification,
+            protectContent,
             replyToMessageId,
             allowSendingWithoutReply,
             replyMarkup,
@@ -430,6 +463,7 @@ internal class ApiClient(
         chatId: ChatId,
         gameShortName: String,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -437,6 +471,7 @@ internal class ApiClient(
         chatId,
         gameShortName,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -452,6 +487,7 @@ internal class ApiClient(
         caption: String?,
         parseMode: String?,
         disableNotification: Boolean?,
+        protectContent: Boolean?,
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
@@ -465,6 +501,7 @@ internal class ApiClient(
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
+            if (protectContent != null) convertString(protectContent.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
@@ -480,6 +517,7 @@ internal class ApiClient(
         caption: String?,
         parseMode: ParseMode?,
         disableNotification: Boolean?,
+        protectContent: Boolean?,
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
@@ -497,6 +535,7 @@ internal class ApiClient(
             if (caption != null) convertString(caption) else null,
             if (parseMode != null) convertString(parseMode.modeName) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
+            if (protectContent != null) convertString(protectContent.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
@@ -515,6 +554,7 @@ internal class ApiClient(
             caption,
             parseMode,
             disableNotification,
+            protectContent,
             replyToMessageId,
             allowSendingWithoutReply,
             replyMarkup,
@@ -529,6 +569,7 @@ internal class ApiClient(
         captionEntities: List<MessageEntity>?,
         duration: Int?,
         disableNotification: Boolean?,
+        protectContent: Boolean?,
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
@@ -545,6 +586,7 @@ internal class ApiClient(
             if (captionEntities != null) convertJson(gson.toJson(captionEntities)) else null,
             if (duration != null) convertString(duration.toString()) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
+            if (protectContent != null) convertString(protectContent.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
@@ -562,6 +604,7 @@ internal class ApiClient(
             if (captionEntities != null) gson.toJson(captionEntities) else null,
             duration,
             disableNotification,
+            protectContent,
             replyToMessageId,
             allowSendingWithoutReply,
             replyMarkup,
@@ -574,6 +617,7 @@ internal class ApiClient(
         duration: Int?,
         length: Int?,
         disableNotification: Boolean?,
+        protectContent: Boolean?,
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
@@ -584,6 +628,7 @@ internal class ApiClient(
             if (duration != null) convertString(duration.toString()) else null,
             if (length != null) convertString(length.toString()) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
+            if (protectContent != null) convertString(protectContent.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
@@ -596,6 +641,7 @@ internal class ApiClient(
         duration: Int?,
         length: Int?,
         disableNotification: Boolean?,
+        protectContent: Boolean?,
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
@@ -606,6 +652,7 @@ internal class ApiClient(
             duration,
             length,
             disableNotification,
+            protectContent,
             replyToMessageId,
             allowSendingWithoutReply,
             replyMarkup,
@@ -616,6 +663,7 @@ internal class ApiClient(
         chatId: ChatId,
         mediaGroup: MediaGroup,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
     ): TelegramBotResult<List<Message>> {
@@ -623,6 +671,7 @@ internal class ApiClient(
             chatId,
             mediaGroup,
             disableNotification,
+            protectContent,
             replyToMessageId,
             allowSendingWithoutReply,
         )
@@ -635,6 +684,7 @@ internal class ApiClient(
         longitude: Float,
         livePeriod: Int?,
         disableNotification: Boolean?,
+        protectContent: Boolean?,
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
@@ -646,6 +696,7 @@ internal class ApiClient(
             longitude,
             livePeriod,
             disableNotification,
+            protectContent,
             replyToMessageId,
             allowSendingWithoutReply,
             replyMarkup,
@@ -698,6 +749,7 @@ internal class ApiClient(
         googlePlaceId: String?,
         googlePlaceType: String?,
         disableNotification: Boolean?,
+        protectContent: Boolean?,
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
@@ -713,6 +765,7 @@ internal class ApiClient(
             googlePlaceId,
             googlePlaceType,
             disableNotification,
+            protectContent,
             replyToMessageId,
             allowSendingWithoutReply,
             replyMarkup,
@@ -725,6 +778,7 @@ internal class ApiClient(
         firstName: String,
         lastName: String?,
         disableNotification: Boolean?,
+        protectContent: Boolean?,
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
@@ -735,6 +789,7 @@ internal class ApiClient(
             firstName,
             lastName,
             disableNotification,
+            protectContent,
             replyToMessageId,
             allowSendingWithoutReply,
             replyMarkup,
@@ -755,6 +810,7 @@ internal class ApiClient(
         closeDate: Long? = null,
         isClosed: Boolean? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -772,6 +828,7 @@ internal class ApiClient(
         closeDate,
         isClosed,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -1122,7 +1179,11 @@ internal class ApiClient(
         sendPhoneNumberToProvider: Boolean?,
         sendEmailToProvider: Boolean?,
         isFlexible: Boolean?,
+        recurring: Boolean?,
+        maxTipAmount: Long?,
+        suggestedTipAmounts: List<Long>?,
         disableNotification: Boolean?,
+        protectContent: Boolean?,
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: InlineKeyboardMarkup?,
@@ -1147,7 +1208,11 @@ internal class ApiClient(
         sendPhoneNumberToProvider = sendPhoneNumberToProvider,
         sendEmailToProvider = sendEmailToProvider,
         isFlexible = isFlexible,
+        recurring = recurring,
+        maxTipAmount = maxTipAmount,
+        suggestedTipAmounts = suggestedTipAmounts,
         disableNotification = disableNotification,
+        protectContent = protectContent,
         replyMarkup = replyMarkup,
         replyToMessageId = replyToMessageId,
         allowSendingWithoutReply = allowSendingWithoutReply,
@@ -1183,6 +1248,7 @@ internal class ApiClient(
         chatId: ChatId,
         sticker: SystemFile,
         disableNotification: Boolean?,
+        protectContent: Boolean?,
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
@@ -1191,6 +1257,7 @@ internal class ApiClient(
             chatId,
             sticker.toMultipartBodyPart("photo"),
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
+            if (protectContent != null) convertString(protectContent.toString()) else null,
             if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
             if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
@@ -1201,6 +1268,7 @@ internal class ApiClient(
         chatId: ChatId,
         sticker: String,
         disableNotification: Boolean?,
+        protectContent: Boolean?,
         replyToMessageId: Long?,
         allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
@@ -1209,6 +1277,7 @@ internal class ApiClient(
             chatId,
             sticker,
             disableNotification,
+            protectContent,
             replyToMessageId,
             allowSendingWithoutReply,
             replyMarkup,
@@ -1344,6 +1413,19 @@ internal class ApiClient(
         ).runApiOperation()
     }
 
+    fun answerWebAppQuery(
+        webAppQueryId: String,
+        inlineQueryResult: InlineQueryResult,
+    ): TelegramBotResult<SentWebAppMessage> {
+        val inlineQueryResultsType = object : TypeToken<InlineQueryResult>() {}.type
+        val serializedInlineQueryResults = gson.toJson(inlineQueryResult, inlineQueryResultsType)
+
+        return service.answerWebAppQuery(
+            webAppQueryId,
+            serializedInlineQueryResults,
+        ).runApiOperation()
+    }
+
     fun getMyCommands(): TelegramBotResult<List<BotCommand>> = service.getMyCommands().runApiOperation()
 
     fun setMyCommands(
@@ -1356,6 +1438,7 @@ internal class ApiClient(
         chatId: ChatId,
         emoji: DiceEmoji? = null,
         disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
         replyToMessageId: Long? = null,
         allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
@@ -1363,6 +1446,7 @@ internal class ApiClient(
         chatId,
         emoji,
         disableNotification,
+        protectContent,
         replyToMessageId,
         allowSendingWithoutReply,
         replyMarkup,
@@ -1377,6 +1461,20 @@ internal class ApiClient(
         userId,
         customTitle,
     ).runApiOperation()
+
+    fun setMessageReaction(
+        chatId: ChatId,
+        messageId: Long,
+        reaction: List<ReactionType>,
+        isBig: Boolean,
+    ): TelegramBotResult<Boolean> {
+        return service.setMessageReaction(
+            chatId = chatId,
+            messageId = messageId,
+            reaction = gson.toJson(reaction),
+            isBig = isBig,
+        ).runApiOperation()
+    }
 
     private fun <T : Any> Call<Response<T>>.runApiOperation(): TelegramBotResult<T> {
         val apiResponse = try {

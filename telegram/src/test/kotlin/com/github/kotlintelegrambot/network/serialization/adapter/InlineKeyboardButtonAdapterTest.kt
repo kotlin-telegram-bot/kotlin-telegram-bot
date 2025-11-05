@@ -1,6 +1,7 @@
 package com.github.kotlintelegrambot.network.serialization.adapter
 
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton
+import com.github.kotlintelegrambot.entities.keyboard.LoginUrl
 import com.github.kotlintelegrambot.entities.keyboard.WebAppInfo
 import com.google.gson.GsonBuilder
 import junit.framework.TestCase.assertEquals
@@ -119,10 +120,32 @@ class InlineKeyboardButtonAdapterTest {
         assertEquals(webAppButtonJson, actualWebAppButtonJson)
     }
 
+    @Test
+    fun `serialize and deserialize inline keyboard login url button`() {
+        val loginUrlButton = InlineKeyboardButton.LoginUrlButtonType(
+            text = ANY_TEXT,
+            loginUrl = LoginUrl(ANY_URL, ANY_TEXT, ANY_BOT_USERNAME, true),
+        )
+        val loginUrlButtonJson =
+            """{"text":"$ANY_TEXT","login_url":{"url":"$ANY_URL","forward_text":"$ANY_TEXT","bot_username":"$ANY_BOT_USERNAME","request_write_access":true}}"""
+
+        val actualLoginUrlButton = sut.fromJson(
+            loginUrlButtonJson,
+            InlineKeyboardButton::class.java,
+        )
+        val actualWebAppButtonJson = sut.toJson(
+            loginUrlButton,
+        )
+
+        assertEquals(loginUrlButton, actualLoginUrlButton)
+        assertEquals(loginUrlButtonJson, actualWebAppButtonJson)
+    }
+
     private companion object {
         const val ANY_TEXT = "Button :P"
         const val ANY_URL = "https://www.github.com/vjgarciag96"
         const val ANY_CALLBACK_DATA = "callback_data"
+        const val ANY_BOT_USERNAME = "bot_username"
         const val ANY_SWITCH_INLINE_QUERY = "switch inline query"
     }
 }

@@ -1,7 +1,9 @@
 package com.github.kotlintelegrambot.network
 
 import com.github.kotlintelegrambot.types.TelegramBotResult
+import com.google.gson.Gson
 import junit.framework.TestCase.assertEquals
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.jupiter.api.Test
 
@@ -10,7 +12,7 @@ class ApiResponseMapperTest {
     private val sut = ApiResponseMapper()
 
     @Test
-    fun `error response`() {
+    fun `error response with invalid error Telegram response`() {
         val notSuccessfulResponse = CallResponse.error<Response<Int>>(
             ANY_HTTP_ERROR_CODE,
             ANY_ERROR_BODY.toResponseBody(),
@@ -21,6 +23,31 @@ class ApiResponseMapperTest {
         val expectedTelegramBotResult = TelegramBotResult.Error.HttpError(
             ANY_HTTP_ERROR_CODE,
             ANY_ERROR_BODY,
+        )
+        assertEquals(expectedTelegramBotResult, telegramBotResult)
+    }
+
+    @Test
+    fun `error response with valid error Telegram response`() {
+        val validErrorTgResponse = Response(
+            result = null,
+            ok = false,
+            errorCode = ANY_ERROR_CODE,
+            errorDescription = ANY_ERROR_DESCRIPTION,
+        )
+
+        val errorResponseWithValidErrorTgResponse = CallResponse.error<Response<Int>>(
+            ANY_ERROR_CODE,
+            Gson().toJson(validErrorTgResponse).toResponseBody("application/json".toMediaType()),
+        )
+
+        val telegramBotResult = sut.mapToTelegramBotResult(
+            errorResponseWithValidErrorTgResponse,
+        )
+
+        val expectedTelegramBotResult = TelegramBotResult.Error.TelegramApi(
+            ANY_ERROR_CODE,
+            ANY_ERROR_DESCRIPTION,
         )
         assertEquals(expectedTelegramBotResult, telegramBotResult)
     }
