@@ -48,7 +48,6 @@ import com.github.kotlintelegrambot.dispatcher.handlers.NewChatMembersHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.PollAnswerHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.PreCheckoutQueryHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.TextHandler
-import com.github.kotlintelegrambot.dispatcher.handlers.ChosenInlineResultHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.AnimationHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.AudioHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.DocumentHandler
