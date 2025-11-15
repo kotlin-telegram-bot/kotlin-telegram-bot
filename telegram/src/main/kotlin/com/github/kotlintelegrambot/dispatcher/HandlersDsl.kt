@@ -76,12 +76,23 @@ fun Dispatcher.text(text: String? = null, handleText: HandleText) {
     addHandler(TextHandler(text, handleText))
 }
 
-fun Dispatcher.callbackQuery(data: String? = null, handleCallbackQuery: HandleCallbackQuery) {
-    addHandler(CallbackQueryHandler(callbackData = data, handleCallbackQuery = handleCallbackQuery))
+fun Dispatcher.callbackQuery(
+    data: String? = null,
+    startsWith: String? = null,
+    handleCallbackQuery: HandleCallbackQuery
+) {
+    addHandler(
+        CallbackQueryHandler(
+            callbackData = data,
+            startsWith = startsWith,
+            handleCallbackQuery = handleCallbackQuery
+        )
+    )
 }
 
 fun Dispatcher.callbackQuery(
     callbackData: String? = null,
+    startsWith: String? = null,
     callbackAnswerText: String? = null,
     callbackAnswerShowAlert: Boolean? = null,
     callbackAnswerUrl: String? = null,
@@ -91,6 +102,7 @@ fun Dispatcher.callbackQuery(
     addHandler(
         CallbackQueryHandler(
             callbackData = callbackData,
+            startsWith = startsWith,
             callbackAnswerText = callbackAnswerText,
             callbackAnswerShowAlert = callbackAnswerShowAlert,
             callbackAnswerUrl = callbackAnswerUrl,
