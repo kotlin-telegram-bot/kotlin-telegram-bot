@@ -12,6 +12,7 @@ data class CallbackQueryHandlerEnvironment(
 
 class CallbackQueryHandler(
     private val callbackData: String? = null,
+    private val startsWith: String? = null,
     private val callbackAnswerText: String? = null,
     private val callbackAnswerShowAlert: Boolean? = null,
     private val callbackAnswerUrl: String? = null,
@@ -23,8 +24,9 @@ class CallbackQueryHandler(
         val data = update.callbackQuery?.data
         return when {
             data == null -> false
-            callbackData == null -> true
-            else -> data.contains(callbackData, ignoreCase = true)
+            startsWith != null -> data.startsWith(startsWith, ignoreCase = true)
+            callbackData != null -> data.contains(callbackData, ignoreCase = true)
+            else -> true
         }
     }
 
