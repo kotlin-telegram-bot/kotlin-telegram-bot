@@ -46,6 +46,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.NewChatJoinRequestHandle
 import com.github.kotlintelegrambot.dispatcher.handlers.NewChatMembersHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.PollAnswerHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.PreCheckoutQueryHandler
+import com.github.kotlintelegrambot.dispatcher.handlers.TextEditHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.TextHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.AnimationHandler
 import com.github.kotlintelegrambot.dispatcher.handlers.media.AudioHandler
@@ -74,6 +75,10 @@ fun Dispatcher.command(command: String, handleCommand: HandleCommand) {
 
 fun Dispatcher.text(text: String? = null, handleText: HandleText) {
     addHandler(TextHandler(text, handleText))
+}
+
+fun Dispatcher.textEdit(text: String? = null, handleText: HandleText) {
+    addHandler(TextEditHandler(text, handleText))
 }
 
 fun Dispatcher.callbackQuery(data: String? = null, handleCallbackQuery: HandleCallbackQuery) {
