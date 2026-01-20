@@ -129,6 +129,7 @@ class GetUpdatesIT : ApiClientIT() {
                     from = User(
                         id = 1,
                         isBot = false,
+                        isPremium = null,
                         firstName = "TestName",
                         username = "testname",
                         languageCode = "de",
@@ -138,6 +139,7 @@ class GetUpdatesIT : ApiClientIT() {
                         from = User(
                             id = 1,
                             isBot = true,
+                            isPremium = null,
                             firstName = "testbot",
                             username = "testbot",
                         ),
@@ -361,6 +363,7 @@ class GetUpdatesIT : ApiClientIT() {
                     from = User(
                         id = 187395179,
                         isBot = false,
+                        isPremium = null,
                         firstName = "Sheldon",
                         username = "shelly",
                         languageCode = "en",
@@ -370,6 +373,7 @@ class GetUpdatesIT : ApiClientIT() {
                         user = User(
                             id = 1,
                             isBot = true,
+                            isPremium = null,
                             firstName = "testbot",
                             username = "testbot",
                         ),
@@ -379,6 +383,7 @@ class GetUpdatesIT : ApiClientIT() {
                         user = User(
                             id = 1,
                             isBot = true,
+                            isPremium = null,
                             firstName = "testbot",
                             username = "testbot",
                         ),
@@ -390,6 +395,7 @@ class GetUpdatesIT : ApiClientIT() {
                         creator = User(
                             id = 187395179,
                             isBot = false,
+                            isPremium = null,
                             firstName = "Sheldon",
                             username = "shelly",
                             languageCode = "en",
@@ -481,6 +487,7 @@ class GetUpdatesIT : ApiClientIT() {
         val user = User(
             id = 187395179,
             isBot = false,
+            isPremium = null,
             firstName = "Sheldon",
             lastName = "Cooper",
             username = "shelly",

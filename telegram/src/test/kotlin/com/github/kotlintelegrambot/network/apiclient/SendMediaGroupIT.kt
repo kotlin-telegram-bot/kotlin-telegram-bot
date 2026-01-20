@@ -147,6 +147,7 @@ class SendMediaGroupIT : ApiClientIT() {
                 from = User(
                     id = 482352699,
                     isBot = true,
+                    isPremium = null,
                     firstName = "test",
                     username = "testing",
                 ),
@@ -171,6 +172,7 @@ class SendMediaGroupIT : ApiClientIT() {
                 from = User(
                     id = 482352699,
                     isBot = true,
+                    isPremium = null,
                     firstName = "test",
                     username = "testing",
                 ),
@@ -250,6 +252,7 @@ class SendMediaGroupIT : ApiClientIT() {
                 from = User(
                     id = 482352699,
                     isBot = true,
+                    isPremium = null,
                     firstName = "test",
                     username = "testing",
                 ),
@@ -274,6 +277,7 @@ class SendMediaGroupIT : ApiClientIT() {
                 from = User(
                     id = 482352699,
                     isBot = true,
+                    isPremium = null,
                     firstName = "test",
                     username = "testing",
                 ),

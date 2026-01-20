@@ -63,6 +63,6 @@ data class MessageEntity(
         SPOILER,
 
         @SerializedName("blockquote")
-        BLOCKQUOTE
+        BLOCKQUOTE,
     }
 }

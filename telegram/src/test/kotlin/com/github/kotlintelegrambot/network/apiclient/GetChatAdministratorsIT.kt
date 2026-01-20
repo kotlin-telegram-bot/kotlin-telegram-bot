@@ -35,6 +35,7 @@ class GetChatAdministratorsIT : ApiClientIT() {
                 user = User(
                     id = 482352639,
                     isBot = true,
+                    isPremium = null,
                     firstName = "test",
                     username = "testBot",
                 ),
@@ -52,6 +53,7 @@ class GetChatAdministratorsIT : ApiClientIT() {
                 user = User(
                     id = 187395279,
                     isBot = false,
+                    isPremium = null,
                     firstName = "Tyrion",
                     lastName = "Lannister",
                     username = "dwarfing",

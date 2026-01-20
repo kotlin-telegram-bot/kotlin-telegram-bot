@@ -79,6 +79,7 @@ class UpdateMapperTest {
                 from = User(
                     id = 1,
                     isBot = false,
+                    isPremium = null,
                     firstName = "TestName",
                     username = "testname",
                     languageCode = "de",
@@ -88,6 +89,7 @@ class UpdateMapperTest {
                     from = User(
                         id = 1,
                         isBot = true,
+                        isPremium = null,
                         firstName = "testbot",
                         username = "testbot",
                     ),

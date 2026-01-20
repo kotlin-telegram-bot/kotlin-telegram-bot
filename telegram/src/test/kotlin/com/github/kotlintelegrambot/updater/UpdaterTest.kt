@@ -12,6 +12,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verifyOrder
 import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -19,6 +20,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import java.lang.Exception
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class UpdaterTest {
 
     private val mockUpdatesQueue = mockk<Channel<DispatchableObject>>(relaxUnitFun = true)

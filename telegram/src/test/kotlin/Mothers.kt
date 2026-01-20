@@ -334,6 +334,7 @@ private const val IS_BOT = true
 fun anyUser(
     userId: Long = ANY_USER_ID,
     isBot: Boolean = IS_BOT,
+    isPremium: Boolean? = null,
     firstName: String = ANY_FIRST_NAME,
     lastName: String? = null,
     username: String? = null,
@@ -341,6 +342,7 @@ fun anyUser(
 ): User = User(
     id = userId,
     isBot = isBot,
+    isPremium = isPremium,
     firstName = firstName,
     lastName = lastName,
     username = username,

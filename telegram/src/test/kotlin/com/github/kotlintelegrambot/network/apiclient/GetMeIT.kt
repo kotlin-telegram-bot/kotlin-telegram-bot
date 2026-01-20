@@ -16,6 +16,7 @@ class GetMeIT : ApiClientIT() {
         val expectedUser = User(
             id = 482352699,
             isBot = true,
+            isPremium = null,
             firstName = "Rick",
             username = "pickleman",
             canJoinGroups = true,

@@ -110,6 +110,7 @@ class SendPollIT : ApiClientIT() {
             from = User(
                 id = 482352699,
                 isBot = true,
+                isPremium = null,
                 firstName = "ruka",
                 username = "rukaBot",
             ),

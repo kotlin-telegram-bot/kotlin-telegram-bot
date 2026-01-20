@@ -13,6 +13,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -20,13 +21,15 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class DispatcherTest {
 
     private val botMock = mockk<Bot>()
-    private val channelMock = mockk<Channel<DispatchableObject>>()
-
-    private fun createDispatcher(coroutineDispatcher: CoroutineDispatcher) = Dispatcher(
-        channelMock,
+    private fun createDispatcher(
+        coroutineDispatcher: CoroutineDispatcher,
+        updatesChannel: Channel<DispatchableObject>,
+    ) = Dispatcher(
+        updatesChannel,
         LogLevel.None,
         coroutineDispatcher,
     ).apply {
@@ -47,23 +50,26 @@ class DispatcherTest {
     @Test
     fun `updates are dispatched to handlers when updates check starts and there are some updates`() = runTest {
         val mockHandler = mockHandler()
-        val sut = createDispatcher(StandardTestDispatcher(testScheduler))
+        val updatesChannel = Channel<DispatchableObject>(Channel.UNLIMITED)
+        val sut = createDispatcher(StandardTestDispatcher(testScheduler), updatesChannel)
         sut.addHandler(mockHandler)
         val anyUpdate = anyUpdate()
-        coEvery { channelMock.receive() } returns anyUpdate andThenThrows InterruptedException()
 
         try {
             sut.startCheckingUpdates()
+            updatesChannel.trySend(anyUpdate)
             advanceUntilIdle()
-        } catch (exception: InterruptedException) {
         } finally {
             coVerify(exactly = 1) { mockHandler.handleUpdate(botMock, anyUpdate) }
+            sut.stopCheckingUpdates()
+            updatesChannel.close()
         }
     }
 
     @Test
     fun `handlers are not called after update is consumed`() = runTest {
-        val sut = createDispatcher(StandardTestDispatcher(testScheduler))
+        val updatesChannel = Channel<DispatchableObject>(Channel.UNLIMITED)
+        val sut = createDispatcher(StandardTestDispatcher(testScheduler), updatesChannel)
         val anyMessageWithText = anyUpdate(message = anyMessage(text = ANY_TEXT))
         val firstHandler = TextHandler(
             text = null,
@@ -80,20 +86,22 @@ class DispatcherTest {
         sut.addHandler(firstHandler)
         sut.addHandler(secondHandler)
 
-        coEvery { channelMock.receive() } returns anyMessageWithText andThenThrows InterruptedException()
         try {
             sut.startCheckingUpdates()
+            updatesChannel.trySend(anyMessageWithText)
             advanceUntilIdle()
-        } catch (exception: InterruptedException) {
         } finally {
             assertTrue(anyMessageWithText.consumed)
             coVerify(exactly = 0) { handlerCallbackMock(any()) }
+            sut.stopCheckingUpdates()
+            updatesChannel.close()
         }
     }
 
     @Test
     fun `handlers are not consulted after update is consumed`() = runTest {
-        val sut = createDispatcher(StandardTestDispatcher(testScheduler))
+        val updatesChannel = Channel<DispatchableObject>(Channel.UNLIMITED)
+        val sut = createDispatcher(StandardTestDispatcher(testScheduler), updatesChannel)
         val anyMessageWithText = anyUpdate(message = anyMessage(text = ANY_TEXT))
         val firstHandler = mockHandler()
 
@@ -111,21 +119,23 @@ class DispatcherTest {
         sut.addHandler(secondHandler)
         sut.addHandler(thirdHandler)
 
-        coEvery { channelMock.receive() } returns anyMessageWithText andThenThrows InterruptedException()
         try {
             sut.startCheckingUpdates()
+            updatesChannel.trySend(anyMessageWithText)
             advanceUntilIdle()
-        } catch (exception: InterruptedException) {
         } finally {
             assertTrue(anyMessageWithText.consumed)
             coVerify(exactly = 1) { firstHandler.checkUpdate(eq(anyMessageWithText)) }
             coVerify(exactly = 0) { thirdHandler.checkUpdate(any()) }
+            sut.stopCheckingUpdates()
+            updatesChannel.close()
         }
     }
 
     @Test
     fun `test that handlers from different groups are called in consistent order`() = runTest {
-        val sut = createDispatcher(StandardTestDispatcher(testScheduler))
+        val updatesChannel = Channel<DispatchableObject>(Channel.UNLIMITED)
+        val sut = createDispatcher(StandardTestDispatcher(testScheduler), updatesChannel)
         val mockHandler1 = mockHandler()
         val mockHandler2 = mockHandler()
         val mockHandler3 = mockHandler()
@@ -134,18 +144,18 @@ class DispatcherTest {
         sut.addHandler(mockHandler3)
 
         val anyUpdate = anyUpdate()
-        coEvery { channelMock.receive() } returns anyUpdate andThenThrows InterruptedException()
-
         try {
             sut.startCheckingUpdates()
+            updatesChannel.trySend(anyUpdate)
             advanceUntilIdle()
-        } catch (exception: InterruptedException) {
         } finally {
             coVerifyOrder {
                 mockHandler1.handleUpdate(botMock, anyUpdate)
                 mockHandler2.handleUpdate(botMock, anyUpdate)
                 mockHandler3.handleUpdate(botMock, anyUpdate)
             }
+            sut.stopCheckingUpdates()
+            updatesChannel.close()
         }
     }
 }
