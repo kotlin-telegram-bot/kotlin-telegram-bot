@@ -11,8 +11,12 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.yield
+import java.util.concurrent.CopyOnWriteArrayList
+import java.util.concurrent.CopyOnWriteArraySet
 
 class Dispatcher internal constructor(
     private val updatesChannel: Channel<DispatchableObject>,
@@ -22,8 +26,8 @@ class Dispatcher internal constructor(
 
     internal lateinit var bot: Bot
 
-    private val commandHandlers = linkedSetOf<Handler>()
-    private val errorHandlers = arrayListOf<ErrorHandler>()
+    private val commandHandlers = CopyOnWriteArraySet<Handler>()
+    private val errorHandlers = CopyOnWriteArrayList<ErrorHandler>()
 
     private val scope: CoroutineScope = CoroutineScope(coroutineDispatcher)
 
@@ -35,13 +39,18 @@ class Dispatcher internal constructor(
     }
 
     private suspend fun checkQueueUpdates() {
-        while (true) {
-            when (val item = updatesChannel.receive()) {
-                is Update -> handleUpdate(item)
-                is TelegramError -> handleError(item)
-                else -> Unit
+        coroutineScope {
+            while (isActive) {
+                val item = updatesChannel.receive()
+                launch {
+                    when (item) {
+                        is Update -> handleUpdate(item)
+                        is TelegramError -> handleError(item)
+                        else -> Unit
+                    }
+                    yield()
+                }
             }
-            yield()
         }
     }
 
