@@ -1,9 +1,11 @@
 package com.github.kotlintelegrambot.network.serialization.adapter
 
 import com.github.kotlintelegrambot.entities.CallbackGame
+import com.github.kotlintelegrambot.entities.keyboard.CopyTextButton
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.CallbackData
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.CallbackGameButtonType
+import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.CopyText
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.LoginUrlButtonType
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.Pay
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton.SwitchInlineQuery
@@ -32,6 +34,7 @@ internal class InlineKeyboardButtonAdapter : JsonSerializer<InlineKeyboardButton
         val pay: Boolean? = null,
         @SerializedName("web_app") val webApp: WebAppInfo? = null,
         @SerializedName("login_url") val loginUrl: LoginUrl? = null,
+        @SerializedName("copy_text") val copyText: CopyTextButton? = null,
     )
 
     override fun serialize(
@@ -47,6 +50,7 @@ internal class InlineKeyboardButtonAdapter : JsonSerializer<InlineKeyboardButton
         is Pay -> context.serialize(src, Pay::class.java)
         is WebApp -> context.serialize(src, WebApp::class.java)
         is LoginUrlButtonType -> context.serialize(src, LoginUrlButtonType::class.java)
+        is CopyText -> context.serialize(src, CopyText::class.java)
     }
 
     override fun deserialize(
@@ -72,6 +76,7 @@ internal class InlineKeyboardButtonAdapter : JsonSerializer<InlineKeyboardButton
                 pay != null -> Pay(text)
                 webApp != null -> WebApp(text, webApp)
                 loginUrl != null -> LoginUrlButtonType(text, loginUrl)
+                copyText != null -> CopyText(text, copyText)
                 else -> error("unsupported inline keyboard button $inlineKeyboardButtonDto")
             }
         }
