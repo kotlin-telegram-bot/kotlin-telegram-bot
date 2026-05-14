@@ -1,5 +1,8 @@
 package com.github.kotlintelegrambot.entities
 
+import com.github.kotlintelegrambot.entities.business.BusinessConnection
+import com.github.kotlintelegrambot.entities.business.BusinessMessagesDeleted
+import com.github.kotlintelegrambot.entities.payments.PaidMediaPurchased
 import com.github.kotlintelegrambot.entities.payments.PreCheckoutQuery
 import com.github.kotlintelegrambot.entities.payments.ShippingQuery
 import com.github.kotlintelegrambot.entities.polls.Poll
@@ -24,6 +27,15 @@ data class Update constructor(
     @Name("chat_join_request") val chatJoinRequest: ChatJoinRequest? = null,
     @Name("my_chat_member") val myChatMember: ChatMemberUpdated? = null,
     @Name("chat_member") val chatMember: ChatMemberUpdated? = null,
+    @Name("message_reaction") val messageReaction: MessageReactionUpdated? = null,
+    @Name("message_reaction_count") val messageReactionCount: MessageReactionCountUpdated? = null,
+    @Name("chat_boost") val chatBoost: ChatBoostUpdated? = null,
+    @Name("removed_chat_boost") val removedChatBoost: ChatBoostRemoved? = null,
+    @Name("business_connection") val businessConnection: BusinessConnection? = null,
+    @Name("business_message") val businessMessage: Message? = null,
+    @Name("edited_business_message") val editedBusinessMessage: Message? = null,
+    @Name("deleted_business_messages") val deletedBusinessMessages: BusinessMessagesDeleted? = null,
+    @Name("purchased_paid_media") val purchasedPaidMedia: PaidMediaPurchased? = null,
 ) : DispatchableObject, ConsumableObject()
 
 /**

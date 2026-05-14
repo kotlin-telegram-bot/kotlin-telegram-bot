@@ -37,8 +37,6 @@ class SendDocumentIT : ApiClientIT() {
             disableContentTypeDetection = false,
             disableNotification = false,
             protectContent = false,
-            replyToMessageId = REPLY_TO_MESSAGE_ID,
-            allowSendingWithoutReply = null,
             replyMarkup = REPLY_MARKUP,
         ).execute()
 
@@ -50,7 +48,6 @@ class SendDocumentIT : ApiClientIT() {
             "&disable_content_type_detection=false" +
             "&disable_notification=false" +
             "&protect_content=false" +
-            "&reply_to_message_id=$REPLY_TO_MESSAGE_ID" +
             "&reply_markup=${gson.toJson(REPLY_MARKUP)}"
 
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
@@ -68,8 +65,6 @@ class SendDocumentIT : ApiClientIT() {
             disableContentTypeDetection = false,
             disableNotification = false,
             protectContent = false,
-            replyToMessageId = REPLY_TO_MESSAGE_ID,
-            allowSendingWithoutReply = null,
             replyMarkup = REPLY_MARKUP,
         ).execute()
 
@@ -97,8 +92,6 @@ class SendDocumentIT : ApiClientIT() {
             disableContentTypeDetection = false,
             disableNotification = false,
             protectContent = false,
-            replyToMessageId = REPLY_TO_MESSAGE_ID,
-            allowSendingWithoutReply = null,
             replyMarkup = REPLY_MARKUP,
             mimeType = "application/pdf",
         ).execute()
@@ -160,7 +153,6 @@ class SendDocumentIT : ApiClientIT() {
         const val ANY_CHAT_ID = 3242424L
         const val ANY_DOCUMENT_FILE_ID = "BQACAgEAAxkDAAN8YHey3OuhTvh-at..."
         const val DOCUMENT_FILE_NAME = "document.pdf"
-        const val REPLY_TO_MESSAGE_ID = 32235235L
         const val CAPTION = "Caption"
         const val ANY_FILE_SIZE = 2897253
         val CAPTION_ENTITIES = listOf(MessageEntity(ITALIC, 0, 3))

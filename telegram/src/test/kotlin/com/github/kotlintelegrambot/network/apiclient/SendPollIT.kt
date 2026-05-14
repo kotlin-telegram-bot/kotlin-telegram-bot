@@ -78,7 +78,6 @@ class SendPollIT : ApiClientIT() {
             openPeriod = ANY_OPEN_PERIOD,
             isClosed = IS_CLOSED,
             disableNotification = DO_NOT_DISABLE_NOTIFICATIONS,
-            replyToMessageId = ANY_MESSAGE_ID,
         )
 
         val request = mockWebServer.takeRequest()
@@ -94,8 +93,7 @@ class SendPollIT : ApiClientIT() {
                 "&explanation_parse_mode=Markdown" +
                 "&open_period=$ANY_OPEN_PERIOD" +
                 "&is_closed=$IS_CLOSED" +
-                "&disable_notification=$DO_NOT_DISABLE_NOTIFICATIONS" +
-                "&reply_to_message_id=$ANY_MESSAGE_ID"
+                "&disable_notification=$DO_NOT_DISABLE_NOTIFICATIONS"
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
 
@@ -194,6 +192,5 @@ class SendPollIT : ApiClientIT() {
         const val ANY_EXPLANATION = "Tabs are better than spaces. Because of yes."
         const val IS_CLOSED = true
         const val DO_NOT_DISABLE_NOTIFICATIONS = false
-        const val ANY_MESSAGE_ID = 2314314L
     }
 }

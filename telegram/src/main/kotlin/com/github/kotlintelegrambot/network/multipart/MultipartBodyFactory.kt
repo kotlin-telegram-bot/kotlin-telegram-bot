@@ -19,12 +19,10 @@ internal class MultipartBodyFactory(private val gson: Gson) {
         mediaGroup: MediaGroup,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean?,
     ): List<MultipartBody.Part> {
         val chatIdString = ChatIdConverterFactory.chatIdToString(chatId)
         val chatIdPart = chatIdString.toMultipartBodyPart(ApiConstants.CHAT_ID)
-        return createSendMediaGroupMultipartBody(chatIdPart, mediaGroup, disableNotification, protectContent, replyToMessageId, allowSendingWithoutReply)
+        return createSendMediaGroupMultipartBody(chatIdPart, mediaGroup, disableNotification, protectContent)
     }
 
     private fun createSendMediaGroupMultipartBody(
@@ -32,17 +30,13 @@ internal class MultipartBodyFactory(private val gson: Gson) {
         mediaGroup: MediaGroup,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean?,
     ): List<MultipartBody.Part> {
         val filesParts = mediaGroup.takeAsMultipart()
         val mediaGroupPart = gson.toJson(mediaGroup.medias).toMultipartBodyPart(ApiConstants.SendMediaGroup.MEDIA)
         val disableNotificationPart = disableNotification?.toMultipartBodyPart(ApiConstants.DISABLE_NOTIFICATION)
         val protectContentPart = protectContent?.toMultipartBodyPart(ApiConstants.PROTECT_CONTENT)
-        val replyToMessageIdPart = replyToMessageId?.toMultipartBodyPart(ApiConstants.REPLY_TO_MESSAGE_ID)
-        val allowSendingWithoutReplyPart = allowSendingWithoutReply?.toMultipartBodyPart(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY)
 
-        return listOfNotNull(chatIdPart, mediaGroupPart, disableNotificationPart, protectContentPart, replyToMessageIdPart, allowSendingWithoutReplyPart) + filesParts
+        return listOfNotNull(chatIdPart, mediaGroupPart, disableNotificationPart, protectContentPart) + filesParts
     }
 
     private fun MediaGroup.takeAsMultipart(): List<MultipartBody.Part> = medias.flatMap { groupableMedia ->

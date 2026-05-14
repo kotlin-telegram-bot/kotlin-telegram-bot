@@ -1,17 +1,18 @@
 package com.github.kotlintelegrambot.network
 
 import com.github.kotlintelegrambot.entities.BotCommand
-import com.github.kotlintelegrambot.entities.Chat
 import com.github.kotlintelegrambot.entities.ChatAction
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ChatMember
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
+import com.github.kotlintelegrambot.entities.LinkPreviewOptions
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.MessageEntity
 import com.github.kotlintelegrambot.entities.MessageId
 import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.ReplyMarkup
+import com.github.kotlintelegrambot.entities.ReplyParameters
 import com.github.kotlintelegrambot.entities.SentWebAppMessage
 import com.github.kotlintelegrambot.entities.TelegramFile
 import com.github.kotlintelegrambot.entities.TelegramFile.ByByteArray
@@ -216,27 +217,31 @@ internal class ApiClient(
     fun sendMessage(
         chatId: ChatId,
         text: String,
-        parseMode: ParseMode?,
-        disableWebPagePreview: Boolean?,
-        disableNotification: Boolean?,
-        protectContent: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
-        replyMarkup: ReplyMarkup?,
-        messageThreadId: Long?,
+        parseMode: ParseMode? = null,
+        disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
+        replyMarkup: ReplyMarkup? = null,
+        messageThreadId: Long? = null,
         entities: List<MessageEntity>? = null,
+        linkPreviewOptions: LinkPreviewOptions? = null,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
     ): TelegramBotResult<Message> = service.sendMessage(
         chatId,
         text,
         parseMode,
-        disableWebPagePreview,
         disableNotification,
         protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
         replyMarkup,
         messageThreadId,
         if (entities != null) gson.toJson(entities) else null,
+        if (linkPreviewOptions != null) gson.toJson(linkPreviewOptions) else null,
+        if (replyParameters != null) gson.toJson(replyParameters) else null,
+        businessConnectionId,
+        messageEffectId,
+        allowPaidBroadcast,
     ).runApiOperation()
 
     fun forwardMessage(
@@ -262,9 +267,12 @@ internal class ApiClient(
         captionEntities: List<MessageEntity>? = null,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
+        replyParameters: com.github.kotlintelegrambot.entities.ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
+        showCaptionAboveMedia: Boolean? = null,
     ): Call<Response<MessageId>> {
         return service.copyMessage(
             chatId,
@@ -275,9 +283,12 @@ internal class ApiClient(
             if (captionEntities != null) gson.toJson(captionEntities) else null,
             disableNotification,
             protectContent,
-            replyToMessageId,
-            allowSendingWithoutReply,
             replyMarkup,
+            if (replyParameters != null) gson.toJson(replyParameters) else null,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
+            showCaptionAboveMedia,
         )
     }
 
@@ -288,10 +299,13 @@ internal class ApiClient(
         parseMode: ParseMode?,
         disableNotification: Boolean?,
         protectContent: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
         messageThreadId: Long?,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
+        showCaptionAboveMedia: Boolean? = null,
     ): Call<Response<Message>> = when (photo) {
         is ByFile, is ByByteArray, is ByInputStream -> service.sendPhoto(
             chatId,
@@ -305,10 +319,13 @@ internal class ApiClient(
             if (parseMode != null) convertString(parseMode.modeName) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (protectContent != null) convertString(protectContent.toString()) else null,
-            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
-            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
             if (messageThreadId != null) convertJson(messageThreadId.toString()) else null,
+            if (replyParameters != null) convertJson(gson.toJson(replyParameters)) else null,
+            if (businessConnectionId != null) convertString(businessConnectionId) else null,
+            if (messageEffectId != null) convertString(messageEffectId) else null,
+            if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
+            if (showCaptionAboveMedia != null) convertString(showCaptionAboveMedia.toString()) else null,
         )
 
         is ByFileId, is ByUrl -> service.sendPhoto(
@@ -322,9 +339,12 @@ internal class ApiClient(
             parseMode,
             disableNotification,
             protectContent,
-            replyToMessageId,
-            allowSendingWithoutReply,
             replyMarkup,
+            if (replyParameters != null) gson.toJson(replyParameters) else null,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
+            showCaptionAboveMedia,
         )
     }
 
@@ -336,9 +356,12 @@ internal class ApiClient(
         title: String?,
         disableNotification: Boolean?,
         protectContent: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
+        showCaptionAboveMedia: Boolean? = null,
     ): Call<Response<Message>> = when (audio) {
         is ByFile, is ByByteArray, is ByInputStream -> service.sendAudio(
             chatId,
@@ -353,9 +376,12 @@ internal class ApiClient(
             if (title != null) convertString(title) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (protectContent != null) convertString(protectContent.toString()) else null,
-            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
-            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
+            if (replyParameters != null) convertJson(gson.toJson(replyParameters)) else null,
+            if (businessConnectionId != null) convertString(businessConnectionId) else null,
+            if (messageEffectId != null) convertString(messageEffectId) else null,
+            if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
+            if (showCaptionAboveMedia != null) convertString(showCaptionAboveMedia.toString()) else null,
         )
 
         is ByFileId, is ByUrl -> service.sendAudio(
@@ -370,9 +396,12 @@ internal class ApiClient(
             title,
             disableNotification,
             protectContent,
-            replyToMessageId,
-            allowSendingWithoutReply,
             replyMarkup,
+            if (replyParameters != null) gson.toJson(replyParameters) else null,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
+            showCaptionAboveMedia,
         )
     }
 
@@ -384,10 +413,13 @@ internal class ApiClient(
         disableContentTypeDetection: Boolean? = null,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
         mimeType: String? = null,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
+        showCaptionAboveMedia: Boolean? = null,
     ): Call<Response<Message>> = when (document) {
         is ByFile, is ByByteArray, is ByInputStream -> service.sendDocument(
             chatId,
@@ -402,9 +434,12 @@ internal class ApiClient(
             if (disableContentTypeDetection != null) convertString(disableContentTypeDetection.toString()) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (protectContent != null) convertString(protectContent.toString()) else null,
-            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
-            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
+            if (replyParameters != null) convertJson(gson.toJson(replyParameters)) else null,
+            if (businessConnectionId != null) convertString(businessConnectionId) else null,
+            if (messageEffectId != null) convertString(messageEffectId) else null,
+            if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
+            if (showCaptionAboveMedia != null) convertString(showCaptionAboveMedia.toString()) else null,
         )
 
         is ByFileId, is ByUrl -> service.sendDocument(
@@ -419,9 +454,12 @@ internal class ApiClient(
             disableContentTypeDetection,
             disableNotification,
             protectContent,
-            replyToMessageId,
-            allowSendingWithoutReply,
             replyMarkup,
+            if (replyParameters != null) gson.toJson(replyParameters) else null,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
+            showCaptionAboveMedia,
         )
     }
 
@@ -435,9 +473,12 @@ internal class ApiClient(
         parseMode: ParseMode?,
         disableNotification: Boolean?,
         protectContent: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
+        showCaptionAboveMedia: Boolean? = null,
     ): Call<Response<Message>> = when (video) {
         is ByFile, is ByByteArray, is ByInputStream -> service.sendVideo(
             chatId,
@@ -454,9 +495,12 @@ internal class ApiClient(
             if (parseMode != null) convertString(parseMode.modeName) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (protectContent != null) convertString(protectContent.toString()) else null,
-            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
-            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
+            if (replyParameters != null) convertJson(gson.toJson(replyParameters)) else null,
+            if (businessConnectionId != null) convertString(businessConnectionId) else null,
+            if (messageEffectId != null) convertString(messageEffectId) else null,
+            if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
+            if (showCaptionAboveMedia != null) convertString(showCaptionAboveMedia.toString()) else null,
         )
 
         is ByFileId, is ByUrl -> service.sendVideo(
@@ -473,9 +517,12 @@ internal class ApiClient(
             parseMode,
             disableNotification,
             protectContent,
-            replyToMessageId,
-            allowSendingWithoutReply,
             replyMarkup,
+            if (replyParameters != null) gson.toJson(replyParameters) else null,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
+            showCaptionAboveMedia,
         )
     }
 
@@ -484,17 +531,21 @@ internal class ApiClient(
         gameShortName: String,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
     ): TelegramBotResult<Message> = service.sendGame(
         chatId,
         gameShortName,
         disableNotification,
         protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
         replyMarkup,
+        if (replyParameters != null) gson.toJson(replyParameters) else null,
+        businessConnectionId,
+        messageEffectId,
+        allowPaidBroadcast,
     ).runApiOperation()
 
     @Deprecated("Use overloaded version instead")
@@ -508,8 +559,6 @@ internal class ApiClient(
         parseMode: String?,
         disableNotification: Boolean?,
         protectContent: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
     ): Call<Response<Message>> {
         return service.sendAnimation(
@@ -522,8 +571,6 @@ internal class ApiClient(
             if (parseMode != null) convertString(parseMode) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (protectContent != null) convertString(protectContent.toString()) else null,
-            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
-            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
         )
     }
@@ -538,9 +585,12 @@ internal class ApiClient(
         parseMode: ParseMode?,
         disableNotification: Boolean?,
         protectContent: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
+        showCaptionAboveMedia: Boolean? = null,
     ): Call<Response<Message>> = when (animation) {
         is ByFile, is ByByteArray, is ByInputStream -> service.sendAnimation(
             chatId,
@@ -557,9 +607,12 @@ internal class ApiClient(
             if (parseMode != null) convertString(parseMode.modeName) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (protectContent != null) convertString(protectContent.toString()) else null,
-            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
-            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
+            if (replyParameters != null) convertJson(gson.toJson(replyParameters)) else null,
+            if (businessConnectionId != null) convertString(businessConnectionId) else null,
+            if (messageEffectId != null) convertString(messageEffectId) else null,
+            if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
+            if (showCaptionAboveMedia != null) convertString(showCaptionAboveMedia.toString()) else null,
         )
 
         is ByFileId, is ByUrl -> service.sendAnimation(
@@ -576,9 +629,12 @@ internal class ApiClient(
             parseMode,
             disableNotification,
             protectContent,
-            replyToMessageId,
-            allowSendingWithoutReply,
             replyMarkup,
+            if (replyParameters != null) gson.toJson(replyParameters) else null,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
+            showCaptionAboveMedia,
         )
     }
 
@@ -591,9 +647,12 @@ internal class ApiClient(
         duration: Int?,
         disableNotification: Boolean?,
         protectContent: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
+        showCaptionAboveMedia: Boolean? = null,
     ): Call<Response<Message>> = when (audio) {
         is ByFile, is ByByteArray, is ByInputStream -> service.sendVoice(
             chatId,
@@ -609,9 +668,12 @@ internal class ApiClient(
             if (duration != null) convertString(duration.toString()) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (protectContent != null) convertString(protectContent.toString()) else null,
-            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
-            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
+            if (replyParameters != null) convertJson(gson.toJson(replyParameters)) else null,
+            if (businessConnectionId != null) convertString(businessConnectionId) else null,
+            if (messageEffectId != null) convertString(messageEffectId) else null,
+            if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
+            if (showCaptionAboveMedia != null) convertString(showCaptionAboveMedia.toString()) else null,
         )
 
         is ByFileId, is ByUrl -> service.sendVoice(
@@ -627,9 +689,12 @@ internal class ApiClient(
             duration,
             disableNotification,
             protectContent,
-            replyToMessageId,
-            allowSendingWithoutReply,
             replyMarkup,
+            if (replyParameters != null) gson.toJson(replyParameters) else null,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
+            showCaptionAboveMedia,
         )
     }
 
@@ -640,9 +705,11 @@ internal class ApiClient(
         length: Int?,
         disableNotification: Boolean?,
         protectContent: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
     ): Call<Response<Message>> {
         return service.sendVideoNote(
             chatId,
@@ -651,9 +718,11 @@ internal class ApiClient(
             if (length != null) convertString(length.toString()) else null,
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (protectContent != null) convertString(protectContent.toString()) else null,
-            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
-            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
+            if (replyParameters != null) convertJson(gson.toJson(replyParameters)) else null,
+            if (businessConnectionId != null) convertString(businessConnectionId) else null,
+            if (messageEffectId != null) convertString(messageEffectId) else null,
+            if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
         )
     }
 
@@ -664,9 +733,11 @@ internal class ApiClient(
         length: Int?,
         disableNotification: Boolean?,
         protectContent: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
     ): Call<Response<Message>> {
         return service.sendVideoNote(
             chatId,
@@ -675,9 +746,11 @@ internal class ApiClient(
             length,
             disableNotification,
             protectContent,
-            replyToMessageId,
-            allowSendingWithoutReply,
             replyMarkup,
+            if (replyParameters != null) gson.toJson(replyParameters) else null,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
         )
     }
 
@@ -686,18 +759,24 @@ internal class ApiClient(
         mediaGroup: MediaGroup,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
     ): TelegramBotResult<List<Message>> {
         val sendMediaGroupMultipartBody = multipartBodyFactory.createForSendMediaGroup(
             chatId,
             mediaGroup,
             disableNotification,
             protectContent,
-            replyToMessageId,
-            allowSendingWithoutReply,
         )
-        return service.sendMediaGroup(sendMediaGroupMultipartBody).runApiOperation()
+        val extraParts = listOfNotNull(
+            replyParameters?.let { gson.toJson(it).toMultipartBodyPart("reply_parameters") },
+            businessConnectionId?.toMultipartBodyPart("business_connection_id"),
+            messageEffectId?.toMultipartBodyPart("message_effect_id"),
+            allowPaidBroadcast?.toMultipartBodyPart("allow_paid_broadcast"),
+        )
+        return service.sendMediaGroup(sendMediaGroupMultipartBody + extraParts).runApiOperation()
     }
 
     fun sendLocation(
@@ -707,12 +786,14 @@ internal class ApiClient(
         livePeriod: Int?,
         disableNotification: Boolean?,
         protectContent: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
         proximityAlertRadius: Int?,
         horizontalAccuracy: Float?,
         heading: Int?,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
     ): Call<Response<Message>> {
         return service.sendLocation(
             chatId,
@@ -721,12 +802,14 @@ internal class ApiClient(
             livePeriod,
             disableNotification,
             protectContent,
-            replyToMessageId,
-            allowSendingWithoutReply,
             replyMarkup,
             proximityAlertRadius,
             horizontalAccuracy,
             heading,
+            if (replyParameters != null) gson.toJson(replyParameters) else null,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
         )
     }
 
@@ -740,6 +823,7 @@ internal class ApiClient(
         proximityAlertRadius: Int?,
         horizontalAccuracy: Float?,
         heading: Int?,
+        businessConnectionId: String? = null,
     ): Call<Response<Message>> {
         return service.editMessageLiveLocation(
             chatId,
@@ -751,6 +835,7 @@ internal class ApiClient(
             proximityAlertRadius,
             horizontalAccuracy,
             heading,
+            businessConnectionId,
         )
     }
 
@@ -759,12 +844,14 @@ internal class ApiClient(
         messageId: Long?,
         inlineMessageId: String?,
         replyMarkup: ReplyMarkup?,
+        businessConnectionId: String? = null,
     ): Call<Response<Message>> {
         return service.stopMessageLiveLocation(
             chatId,
             messageId,
             inlineMessageId,
             replyMarkup,
+            businessConnectionId,
         )
     }
 
@@ -780,9 +867,11 @@ internal class ApiClient(
         googlePlaceType: String?,
         disableNotification: Boolean?,
         protectContent: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
     ): Call<Response<Message>> {
         return service.sendVenue(
             chatId,
@@ -796,9 +885,11 @@ internal class ApiClient(
             googlePlaceType,
             disableNotification,
             protectContent,
-            replyToMessageId,
-            allowSendingWithoutReply,
             replyMarkup,
+            if (replyParameters != null) gson.toJson(replyParameters) else null,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
         )
     }
 
@@ -809,9 +900,11 @@ internal class ApiClient(
         lastName: String?,
         disableNotification: Boolean?,
         protectContent: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
     ): Call<Response<Message>> {
         return service.sendContact(
             chatId,
@@ -820,9 +913,11 @@ internal class ApiClient(
             lastName,
             disableNotification,
             protectContent,
-            replyToMessageId,
-            allowSendingWithoutReply,
             replyMarkup,
+            if (replyParameters != null) gson.toJson(replyParameters) else null,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
         )
     }
 
@@ -841,9 +936,11 @@ internal class ApiClient(
         isClosed: Boolean? = null,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
     ): TelegramBotResult<Message> = service.sendPoll(
         chatId,
         question,
@@ -859,13 +956,20 @@ internal class ApiClient(
         isClosed,
         disableNotification,
         protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
         replyMarkup,
+        if (replyParameters != null) gson.toJson(replyParameters) else null,
+        businessConnectionId,
+        messageEffectId,
+        allowPaidBroadcast,
     ).runApiOperation()
 
-    fun sendChatAction(chatId: ChatId, action: ChatAction): TelegramBotResult<Boolean> {
-        return service.sendChatAction(chatId, action).runApiOperation()
+    fun sendChatAction(
+        chatId: ChatId,
+        action: ChatAction,
+        messageThreadId: Long? = null,
+        businessConnectionId: String? = null,
+    ): TelegramBotResult<Boolean> {
+        return service.sendChatAction(chatId, action, messageThreadId, businessConnectionId).runApiOperation()
     }
 
     fun getUserProfilePhotos(
@@ -1043,11 +1147,155 @@ internal class ApiClient(
         chatId,
     ).runApiOperation()
 
+    // --- Forum topics (Bot API 6.3 / 6.4) ---
+
+    fun createForumTopic(
+        chatId: ChatId,
+        name: String,
+        iconColor: Int? = null,
+        iconCustomEmojiId: String? = null,
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.ForumTopic> =
+        service.createForumTopic(chatId, name, iconColor, iconCustomEmojiId).runApiOperation()
+
+    fun editForumTopic(
+        chatId: ChatId,
+        messageThreadId: Long,
+        name: String? = null,
+        iconCustomEmojiId: String? = null,
+    ): TelegramBotResult<Boolean> =
+        service.editForumTopic(chatId, messageThreadId, name, iconCustomEmojiId).runApiOperation()
+
+    fun closeForumTopic(chatId: ChatId, messageThreadId: Long): TelegramBotResult<Boolean> =
+        service.closeForumTopic(chatId, messageThreadId).runApiOperation()
+
+    fun reopenForumTopic(chatId: ChatId, messageThreadId: Long): TelegramBotResult<Boolean> =
+        service.reopenForumTopic(chatId, messageThreadId).runApiOperation()
+
+    fun deleteForumTopic(chatId: ChatId, messageThreadId: Long): TelegramBotResult<Boolean> =
+        service.deleteForumTopic(chatId, messageThreadId).runApiOperation()
+
+    fun unpinAllForumTopicMessages(chatId: ChatId, messageThreadId: Long): TelegramBotResult<Boolean> =
+        service.unpinAllForumTopicMessages(chatId, messageThreadId).runApiOperation()
+
+    fun getForumTopicIconStickers(): TelegramBotResult<List<com.github.kotlintelegrambot.entities.stickers.Sticker>> =
+        service.getForumTopicIconStickers().runApiOperation()
+
+    fun editGeneralForumTopic(chatId: ChatId, name: String): TelegramBotResult<Boolean> =
+        service.editGeneralForumTopic(chatId, name).runApiOperation()
+
+    fun closeGeneralForumTopic(chatId: ChatId): TelegramBotResult<Boolean> =
+        service.closeGeneralForumTopic(chatId).runApiOperation()
+
+    fun reopenGeneralForumTopic(chatId: ChatId): TelegramBotResult<Boolean> =
+        service.reopenGeneralForumTopic(chatId).runApiOperation()
+
+    fun hideGeneralForumTopic(chatId: ChatId): TelegramBotResult<Boolean> =
+        service.hideGeneralForumTopic(chatId).runApiOperation()
+
+    fun unhideGeneralForumTopic(chatId: ChatId): TelegramBotResult<Boolean> =
+        service.unhideGeneralForumTopic(chatId).runApiOperation()
+
+    // --- Batch forward/copy/delete (Bot API 7.0) ---
+
+    fun forwardMessages(
+        chatId: ChatId,
+        fromChatId: ChatId,
+        messageIds: List<Long>,
+        messageThreadId: Long? = null,
+        disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
+    ): TelegramBotResult<List<com.github.kotlintelegrambot.entities.MessageId>> =
+        service.forwardMessages(
+            chatId,
+            fromChatId,
+            gson.toJson(messageIds),
+            messageThreadId,
+            disableNotification,
+            protectContent,
+        ).runApiOperation()
+
+    fun copyMessages(
+        chatId: ChatId,
+        fromChatId: ChatId,
+        messageIds: List<Long>,
+        messageThreadId: Long? = null,
+        disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
+        removeCaption: Boolean? = null,
+    ): TelegramBotResult<List<com.github.kotlintelegrambot.entities.MessageId>> =
+        service.copyMessages(
+            chatId,
+            fromChatId,
+            gson.toJson(messageIds),
+            messageThreadId,
+            disableNotification,
+            protectContent,
+            removeCaption,
+        ).runApiOperation()
+
+    fun deleteMessages(
+        chatId: ChatId,
+        messageIds: List<Long>,
+    ): TelegramBotResult<Boolean> = service.deleteMessages(
+        chatId,
+        gson.toJson(messageIds),
+    ).runApiOperation()
+
+    fun getUserChatBoosts(
+        chatId: ChatId,
+        userId: Long,
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.UserChatBoosts> =
+        service.getUserChatBoosts(chatId, userId).runApiOperation()
+
+    // --- Bot info methods (Bot API 6.6 - 6.7) ---
+
+    fun setMyDescription(description: String? = null, languageCode: String? = null): TelegramBotResult<Boolean> =
+        service.setMyDescription(description, languageCode).runApiOperation()
+
+    fun getMyDescription(languageCode: String? = null): TelegramBotResult<com.github.kotlintelegrambot.entities.BotDescription> =
+        service.getMyDescription(languageCode).runApiOperation()
+
+    fun setMyShortDescription(shortDescription: String? = null, languageCode: String? = null): TelegramBotResult<Boolean> =
+        service.setMyShortDescription(shortDescription, languageCode).runApiOperation()
+
+    fun getMyShortDescription(languageCode: String? = null): TelegramBotResult<com.github.kotlintelegrambot.entities.BotShortDescription> =
+        service.getMyShortDescription(languageCode).runApiOperation()
+
+    fun setMyName(name: String? = null, languageCode: String? = null): TelegramBotResult<Boolean> =
+        service.setMyName(name, languageCode).runApiOperation()
+
+    fun getMyName(languageCode: String? = null): TelegramBotResult<com.github.kotlintelegrambot.entities.BotName> =
+        service.getMyName(languageCode).runApiOperation()
+
+    fun setChatMenuButton(
+        chatId: ChatId? = null,
+        menuButton: com.github.kotlintelegrambot.entities.MenuButton? = null,
+    ): TelegramBotResult<Boolean> = service.setChatMenuButton(
+        chatId,
+        if (menuButton != null) gson.toJson(menuButton) else null,
+    ).runApiOperation()
+
+    fun getChatMenuButton(chatId: ChatId? = null): TelegramBotResult<com.github.kotlintelegrambot.entities.MenuButton> =
+        service.getChatMenuButton(chatId).runApiOperation()
+
+    fun setMyDefaultAdministratorRights(
+        rights: com.github.kotlintelegrambot.entities.ChatAdministratorRights? = null,
+        forChannels: Boolean? = null,
+    ): TelegramBotResult<Boolean> = service.setMyDefaultAdministratorRights(
+        if (rights != null) gson.toJson(rights) else null,
+        forChannels,
+    ).runApiOperation()
+
+    fun getMyDefaultAdministratorRights(forChannels: Boolean? = null):
+        TelegramBotResult<com.github.kotlintelegrambot.entities.ChatAdministratorRights> =
+        service.getMyDefaultAdministratorRights(forChannels).runApiOperation()
+
     fun leaveChat(chatId: ChatId): TelegramBotResult<Boolean> {
         return service.leaveChat(chatId).runApiOperation()
     }
 
-    fun getChat(chatId: ChatId): TelegramBotResult<Chat> = service.getChat(chatId).runApiOperation()
+    fun getChat(chatId: ChatId): TelegramBotResult<com.github.kotlintelegrambot.entities.ChatFullInfo> =
+        service.getChat(chatId).runApiOperation()
 
     fun getChatAdministrators(chatId: ChatId): TelegramBotResult<List<ChatMember>> =
         service.getChatAdministrators(chatId).runApiOperation()
@@ -1108,9 +1356,9 @@ internal class ApiClient(
         inlineMessageId: String?,
         text: String,
         parseMode: ParseMode?,
-        disableWebPagePreview: Boolean?,
         replyMarkup: ReplyMarkup?,
         entities: List<MessageEntity>? = null,
+        businessConnectionId: String? = null,
     ): Call<Response<Message>> {
         return service.editMessageText(
             chatId,
@@ -1118,9 +1366,9 @@ internal class ApiClient(
             inlineMessageId,
             text,
             parseMode,
-            disableWebPagePreview,
             replyMarkup,
             if (entities != null) gson.toJson(entities) else null,
+            businessConnectionId,
         )
     }
 
@@ -1132,6 +1380,8 @@ internal class ApiClient(
         parseMode: ParseMode?,
         replyMarkup: ReplyMarkup?,
         captionEntities: List<MessageEntity>? = null,
+        businessConnectionId: String? = null,
+        showCaptionAboveMedia: Boolean? = null,
     ): Call<Response<Message>> {
         return service.editMessageCaption(
             chatId,
@@ -1141,6 +1391,8 @@ internal class ApiClient(
             parseMode,
             replyMarkup,
             if (captionEntities != null) gson.toJson(captionEntities) else null,
+            businessConnectionId,
+            showCaptionAboveMedia,
         )
     }
 
@@ -1150,6 +1402,8 @@ internal class ApiClient(
         inlineMessageId: String?,
         media: InputMedia,
         replyMarkup: ReplyMarkup?,
+        businessConnectionId: String? = null,
+        showCaptionAboveMedia: Boolean? = null,
     ): Call<Response<Message>> {
         return service.editMessageMedia(
             chatId,
@@ -1157,6 +1411,8 @@ internal class ApiClient(
             inlineMessageId,
             media,
             replyMarkup,
+            businessConnectionId,
+            showCaptionAboveMedia,
         )
     }
 
@@ -1165,12 +1421,14 @@ internal class ApiClient(
         messageId: Long?,
         inlineMessageId: String?,
         replyMarkup: ReplyMarkup?,
+        businessConnectionId: String? = null,
     ): Call<Response<Message>> {
         return service.editMessageReplyMarkup(
             chatId,
             messageId,
             inlineMessageId,
             replyMarkup,
+            businessConnectionId,
         )
     }
 
@@ -1218,9 +1476,11 @@ internal class ApiClient(
         suggestedTipAmounts: List<Long>?,
         disableNotification: Boolean?,
         protectContent: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
         replyMarkup: InlineKeyboardMarkup?,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
     ): TelegramBotResult<Message> = service.sendInvoice(
         chatId = chatId,
         title = title,
@@ -1248,8 +1508,10 @@ internal class ApiClient(
         disableNotification = disableNotification,
         protectContent = protectContent,
         replyMarkup = replyMarkup,
-        replyToMessageId = replyToMessageId,
-        allowSendingWithoutReply = allowSendingWithoutReply,
+        replyParameters = if (replyParameters != null) gson.toJson(replyParameters) else null,
+        businessConnectionId = businessConnectionId,
+        messageEffectId = messageEffectId,
+        allowPaidBroadcast = allowPaidBroadcast,
     ).runApiOperation()
 
     fun answerShippingQuery(
@@ -1291,18 +1553,22 @@ internal class ApiClient(
         sticker: SystemFile,
         disableNotification: Boolean?,
         protectContent: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
     ): Call<Response<Message>> {
         return service.sendSticker(
             chatId,
             sticker.toMultipartBodyPart("photo"),
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (protectContent != null) convertString(protectContent.toString()) else null,
-            if (replyToMessageId != null) convertString(replyToMessageId.toString()) else null,
-            if (allowSendingWithoutReply != null) convertString(allowSendingWithoutReply.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
+            if (replyParameters != null) convertJson(gson.toJson(replyParameters)) else null,
+            if (businessConnectionId != null) convertString(businessConnectionId) else null,
+            if (messageEffectId != null) convertString(messageEffectId) else null,
+            if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
         )
     }
 
@@ -1311,18 +1577,22 @@ internal class ApiClient(
         sticker: String,
         disableNotification: Boolean?,
         protectContent: Boolean?,
-        replyToMessageId: Long?,
-        allowSendingWithoutReply: Boolean?,
         replyMarkup: ReplyMarkup?,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
     ): Call<Response<Message>> {
         return service.sendSticker(
             chatId,
             sticker,
             disableNotification,
             protectContent,
-            replyToMessageId,
-            allowSendingWithoutReply,
             replyMarkup,
+            if (replyParameters != null) gson.toJson(replyParameters) else null,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
         )
     }
 
@@ -1481,17 +1751,21 @@ internal class ApiClient(
         emoji: DiceEmoji? = null,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
     ): TelegramBotResult<Message> = service.sendDice(
         chatId,
         emoji,
         disableNotification,
         protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
         replyMarkup,
+        if (replyParameters != null) gson.toJson(replyParameters) else null,
+        businessConnectionId,
+        messageEffectId,
+        allowPaidBroadcast,
     ).runApiOperation()
 
     fun setChatAdministratorCustomTitle(
@@ -1517,6 +1791,351 @@ internal class ApiClient(
             isBig = isBig,
         ).runApiOperation()
     }
+
+    // --- Bot API 10.0 reaction deletion ---
+
+    fun deleteMessageReaction(
+        chatId: ChatId,
+        messageId: Long,
+        userId: Long? = null,
+    ): TelegramBotResult<Boolean> = service.deleteMessageReaction(chatId, messageId, userId).runApiOperation()
+
+    fun deleteAllMessageReactions(
+        chatId: ChatId,
+        messageId: Long,
+    ): TelegramBotResult<Boolean> = service.deleteAllMessageReactions(chatId, messageId).runApiOperation()
+
+    // --- Bot API 7.5 / 7.6 — Stars + paid media ---
+
+    fun getStarTransactions(
+        offset: Long? = null,
+        limit: Int? = null,
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.payments.StarTransactions> =
+        service.getStarTransactions(offset, limit).runApiOperation()
+
+    fun sendPaidMedia(
+        chatId: ChatId,
+        starCount: Int,
+        media: List<com.github.kotlintelegrambot.entities.payments.InputPaidMedia>,
+        payload: String? = null,
+        caption: String? = null,
+        parseMode: ParseMode? = null,
+        captionEntities: List<MessageEntity>? = null,
+        showCaptionAboveMedia: Boolean? = null,
+        disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
+        replyParameters: com.github.kotlintelegrambot.entities.ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
+    ): TelegramBotResult<Message> = service.sendPaidMedia(
+        chatId,
+        starCount,
+        gson.toJson(media),
+        payload,
+        caption,
+        parseMode,
+        if (captionEntities != null) gson.toJson(captionEntities) else null,
+        showCaptionAboveMedia,
+        disableNotification,
+        protectContent,
+        if (replyParameters != null) gson.toJson(replyParameters) else null,
+        businessConnectionId,
+        allowPaidBroadcast,
+    ).runApiOperation()
+
+    // --- Bot API 8.0 — Gifts ---
+
+    fun getAvailableGifts(): TelegramBotResult<com.github.kotlintelegrambot.entities.gifts.Gifts> =
+        service.getAvailableGifts().runApiOperation()
+
+    fun sendGift(
+        giftId: String,
+        userId: Long? = null,
+        chatId: ChatId? = null,
+        payForUpgrade: Boolean? = null,
+        text: String? = null,
+        textParseMode: ParseMode? = null,
+        textEntities: List<MessageEntity>? = null,
+    ): TelegramBotResult<Boolean> = service.sendGift(
+        userId,
+        chatId,
+        giftId,
+        payForUpgrade,
+        text,
+        textParseMode,
+        if (textEntities != null) gson.toJson(textEntities) else null,
+    ).runApiOperation()
+
+    fun giftPremiumSubscription(
+        userId: Long,
+        monthCount: Int,
+        starCount: Int,
+        text: String? = null,
+        textParseMode: ParseMode? = null,
+        textEntities: List<MessageEntity>? = null,
+    ): TelegramBotResult<Boolean> = service.giftPremiumSubscription(
+        userId,
+        monthCount,
+        starCount,
+        text,
+        textParseMode,
+        if (textEntities != null) gson.toJson(textEntities) else null,
+    ).runApiOperation()
+
+    fun setUserEmojiStatus(
+        userId: Long,
+        emojiStatusCustomEmojiId: String? = null,
+        emojiStatusExpirationDate: Long? = null,
+    ): TelegramBotResult<Boolean> = service.setUserEmojiStatus(
+        userId,
+        emojiStatusCustomEmojiId,
+        emojiStatusExpirationDate,
+    ).runApiOperation()
+
+    fun savePreparedInlineMessage(
+        userId: Long,
+        result: com.github.kotlintelegrambot.entities.inlinequeryresults.InlineQueryResult,
+        allowUserChats: Boolean? = null,
+        allowBotChats: Boolean? = null,
+        allowGroupChats: Boolean? = null,
+        allowChannelChats: Boolean? = null,
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.PreparedInlineMessage> =
+        service.savePreparedInlineMessage(
+            userId,
+            gson.toJson(result),
+            allowUserChats,
+            allowBotChats,
+            allowGroupChats,
+            allowChannelChats,
+        ).runApiOperation()
+
+    // --- Bot API 8.2 — Verification ---
+
+    fun verifyUser(userId: Long, customDescription: String? = null): TelegramBotResult<Boolean> =
+        service.verifyUser(userId, customDescription).runApiOperation()
+
+    fun verifyChat(chatId: ChatId, customDescription: String? = null): TelegramBotResult<Boolean> =
+        service.verifyChat(chatId, customDescription).runApiOperation()
+
+    fun removeUserVerification(userId: Long): TelegramBotResult<Boolean> =
+        service.removeUserVerification(userId).runApiOperation()
+
+    fun removeChatVerification(chatId: ChatId): TelegramBotResult<Boolean> =
+        service.removeChatVerification(chatId).runApiOperation()
+
+    // --- Bot API 9.0 — Business account management ---
+
+    fun readBusinessMessage(
+        businessConnectionId: String,
+        chatId: ChatId,
+        messageId: Long,
+    ): TelegramBotResult<Boolean> =
+        service.readBusinessMessage(businessConnectionId, chatId, messageId).runApiOperation()
+
+    fun deleteBusinessMessages(
+        businessConnectionId: String,
+        messageIds: List<Long>,
+    ): TelegramBotResult<Boolean> =
+        service.deleteBusinessMessages(businessConnectionId, gson.toJson(messageIds)).runApiOperation()
+
+    fun setBusinessAccountName(
+        businessConnectionId: String,
+        firstName: String,
+        lastName: String? = null,
+    ): TelegramBotResult<Boolean> =
+        service.setBusinessAccountName(businessConnectionId, firstName, lastName).runApiOperation()
+
+    fun setBusinessAccountUsername(
+        businessConnectionId: String,
+        username: String? = null,
+    ): TelegramBotResult<Boolean> =
+        service.setBusinessAccountUsername(businessConnectionId, username).runApiOperation()
+
+    fun setBusinessAccountBio(
+        businessConnectionId: String,
+        bio: String? = null,
+    ): TelegramBotResult<Boolean> = service.setBusinessAccountBio(businessConnectionId, bio).runApiOperation()
+
+    fun setBusinessAccountProfilePhoto(
+        businessConnectionId: String,
+        photo: com.github.kotlintelegrambot.entities.InputProfilePhoto,
+        isPublic: Boolean? = null,
+    ): TelegramBotResult<Boolean> =
+        service.setBusinessAccountProfilePhoto(businessConnectionId, gson.toJson(photo), isPublic).runApiOperation()
+
+    fun removeBusinessAccountProfilePhoto(
+        businessConnectionId: String,
+        isPublic: Boolean? = null,
+    ): TelegramBotResult<Boolean> =
+        service.removeBusinessAccountProfilePhoto(businessConnectionId, isPublic).runApiOperation()
+
+    fun setBusinessAccountGiftSettings(
+        businessConnectionId: String,
+        showGiftButton: Boolean,
+        acceptedGiftTypes: com.github.kotlintelegrambot.entities.gifts.AcceptedGiftTypes,
+    ): TelegramBotResult<Boolean> = service.setBusinessAccountGiftSettings(
+        businessConnectionId,
+        showGiftButton,
+        gson.toJson(acceptedGiftTypes),
+    ).runApiOperation()
+
+    fun getBusinessAccountStarBalance(
+        businessConnectionId: String,
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.payments.StarAmount> =
+        service.getBusinessAccountStarBalance(businessConnectionId).runApiOperation()
+
+    fun transferBusinessAccountStars(
+        businessConnectionId: String,
+        starCount: Int,
+    ): TelegramBotResult<Boolean> =
+        service.transferBusinessAccountStars(businessConnectionId, starCount).runApiOperation()
+
+    fun getBusinessAccountGifts(
+        businessConnectionId: String,
+        excludeUnsaved: Boolean? = null,
+        excludeSaved: Boolean? = null,
+        excludeUnlimited: Boolean? = null,
+        excludeLimited: Boolean? = null,
+        excludeUnique: Boolean? = null,
+        sortByPrice: Boolean? = null,
+        offset: String? = null,
+        limit: Int? = null,
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.gifts.OwnedGifts> =
+        service.getBusinessAccountGifts(
+            businessConnectionId, excludeUnsaved, excludeSaved, excludeUnlimited,
+            excludeLimited, excludeUnique, sortByPrice, offset, limit,
+        ).runApiOperation()
+
+    fun convertGiftToStars(
+        businessConnectionId: String,
+        ownedGiftId: String,
+    ): TelegramBotResult<Boolean> =
+        service.convertGiftToStars(businessConnectionId, ownedGiftId).runApiOperation()
+
+    fun upgradeGift(
+        businessConnectionId: String,
+        ownedGiftId: String,
+        keepOriginalDetails: Boolean? = null,
+        starCount: Int? = null,
+    ): TelegramBotResult<Boolean> =
+        service.upgradeGift(businessConnectionId, ownedGiftId, keepOriginalDetails, starCount).runApiOperation()
+
+    fun transferGift(
+        businessConnectionId: String,
+        ownedGiftId: String,
+        newOwnerChatId: Long,
+        starCount: Int? = null,
+    ): TelegramBotResult<Boolean> =
+        service.transferGift(businessConnectionId, ownedGiftId, newOwnerChatId, starCount).runApiOperation()
+
+    fun postStory(
+        businessConnectionId: String,
+        content: com.github.kotlintelegrambot.entities.stories.InputStoryContent,
+        activePeriod: Int,
+        caption: String? = null,
+        parseMode: ParseMode? = null,
+        captionEntities: List<MessageEntity>? = null,
+        areas: List<com.github.kotlintelegrambot.entities.stories.StoryArea>? = null,
+        postToChatPage: Boolean? = null,
+        protectContent: Boolean? = null,
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.Story> = service.postStory(
+        businessConnectionId, gson.toJson(content), activePeriod, caption, parseMode,
+        if (captionEntities != null) gson.toJson(captionEntities) else null,
+        if (areas != null) gson.toJson(areas) else null,
+        postToChatPage, protectContent,
+    ).runApiOperation()
+
+    fun editStory(
+        businessConnectionId: String,
+        storyId: Int,
+        content: com.github.kotlintelegrambot.entities.stories.InputStoryContent,
+        caption: String? = null,
+        parseMode: ParseMode? = null,
+        captionEntities: List<MessageEntity>? = null,
+        areas: List<com.github.kotlintelegrambot.entities.stories.StoryArea>? = null,
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.Story> = service.editStory(
+        businessConnectionId,
+        storyId,
+        gson.toJson(content),
+        caption,
+        parseMode,
+        if (captionEntities != null) gson.toJson(captionEntities) else null,
+        if (areas != null) gson.toJson(areas) else null,
+    ).runApiOperation()
+
+    fun deleteStory(
+        businessConnectionId: String,
+        storyId: Int,
+    ): TelegramBotResult<Boolean> =
+        service.deleteStory(businessConnectionId, storyId).runApiOperation()
+
+    // --- Bot API 9.1 — Checklists ---
+
+    fun sendChecklist(
+        businessConnectionId: String,
+        chatId: ChatId,
+        checklist: com.github.kotlintelegrambot.entities.checklists.InputChecklist,
+        disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
+        messageEffectId: String? = null,
+        replyParameters: com.github.kotlintelegrambot.entities.ReplyParameters? = null,
+        replyMarkup: ReplyMarkup? = null,
+    ): TelegramBotResult<Message> = service.sendChecklist(
+        businessConnectionId,
+        chatId,
+        gson.toJson(checklist),
+        disableNotification,
+        protectContent,
+        messageEffectId,
+        if (replyParameters != null) gson.toJson(replyParameters) else null,
+        replyMarkup,
+    ).runApiOperation()
+
+    fun editMessageChecklist(
+        businessConnectionId: String,
+        chatId: ChatId,
+        messageId: Long,
+        checklist: com.github.kotlintelegrambot.entities.checklists.InputChecklist,
+        replyMarkup: ReplyMarkup? = null,
+    ): TelegramBotResult<Message> = service.editMessageChecklist(
+        businessConnectionId,
+        chatId,
+        messageId,
+        gson.toJson(checklist),
+        replyMarkup,
+    ).runApiOperation()
+
+    fun getMyStarBalance(): TelegramBotResult<com.github.kotlintelegrambot.entities.payments.StarAmount> =
+        service.getMyStarBalance().runApiOperation()
+
+    // --- Bot API 9.2 — Suggested posts ---
+
+    fun approveSuggestedPost(
+        chatId: ChatId,
+        messageId: Long,
+        sendDate: Long? = null,
+    ): TelegramBotResult<Boolean> = service.approveSuggestedPost(chatId, messageId, sendDate).runApiOperation()
+
+    fun declineSuggestedPost(
+        chatId: ChatId,
+        messageId: Long,
+        comment: String? = null,
+    ): TelegramBotResult<Boolean> = service.declineSuggestedPost(chatId, messageId, comment).runApiOperation()
+
+    // --- Bot API 10.0 — Guest mode ---
+
+    fun answerGuestQuery(
+        guestQueryId: String,
+        text: String? = null,
+        parseMode: ParseMode? = null,
+        entities: List<MessageEntity>? = null,
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.guest.SentGuestMessage> =
+        service.answerGuestQuery(
+            guestQueryId,
+            text,
+            parseMode,
+            if (entities != null) gson.toJson(entities) else null,
+        ).runApiOperation()
 
     private fun <T : Any> Call<Response<T>>.runApiOperation(): TelegramBotResult<T> {
         val apiResponse = try {

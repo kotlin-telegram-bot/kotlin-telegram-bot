@@ -98,14 +98,12 @@ class SendDiceIT : ApiClientIT() {
             ChatId.fromId(ANY_CHAT_ID),
             emoji = DiceEmoji.Dartboard,
             disableNotification = DISABLE_NOTIFICATION,
-            replyToMessageId = ANY_MESSAGE_ID,
         )
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID" +
             "&emoji=🎯" +
-            "&disable_notification=$DISABLE_NOTIFICATION" +
-            "&reply_to_message_id=$ANY_MESSAGE_ID"
+            "&disable_notification=$DISABLE_NOTIFICATION"
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
 
@@ -171,6 +169,5 @@ class SendDiceIT : ApiClientIT() {
     private companion object {
         const val ANY_CHAT_ID = 2351353153L
         const val DISABLE_NOTIFICATION = true
-        const val ANY_MESSAGE_ID = 3152321342L
     }
 }

@@ -32,8 +32,6 @@ class SendVoiceIT : ApiClientIT() {
             duration = DURATION,
             disableNotification = false,
             protectContent = false,
-            replyToMessageId = REPLY_TO_MESSAGE_ID,
-            allowSendingWithoutReply = null,
             replyMarkup = REPLY_MARKUP,
         )
         sendVoice.execute()
@@ -46,7 +44,6 @@ class SendVoiceIT : ApiClientIT() {
             "&duration=$DURATION" +
             "&disable_notification=false" +
             "&protect_content=false" +
-            "&reply_to_message_id=$REPLY_TO_MESSAGE_ID" +
             "&reply_markup=${gson.toJson(REPLY_MARKUP)}"
         val request = mockWebServer.takeRequest()
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
@@ -65,8 +62,6 @@ class SendVoiceIT : ApiClientIT() {
             duration = DURATION,
             disableNotification = false,
             protectContent = false,
-            replyToMessageId = REPLY_TO_MESSAGE_ID,
-            allowSendingWithoutReply = null,
             replyMarkup = REPLY_MARKUP,
         )
         sendVoice.execute()
@@ -96,8 +91,6 @@ class SendVoiceIT : ApiClientIT() {
             duration = DURATION,
             disableNotification = false,
             protectContent = false,
-            replyToMessageId = REPLY_TO_MESSAGE_ID,
-            allowSendingWithoutReply = null,
             replyMarkup = REPLY_MARKUP,
         )
         sendVoice.execute()
@@ -162,7 +155,6 @@ class SendVoiceIT : ApiClientIT() {
     private companion object {
         val gson = Gson()
         const val ANY_CHAT_ID = 3242424L
-        const val REPLY_TO_MESSAGE_ID = 32235235L
         const val ANY_VOICE_FILE_ID =
             "AwACAgIAAxkDAAIDTl_XUVAqJaPQkKgo2Vbc7sTvKXuXAALbCwACH7yoSsWrILY2d2TyHgQ"
         const val CAPTION = "You have been rickrolled"

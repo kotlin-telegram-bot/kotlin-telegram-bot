@@ -4,8 +4,10 @@ import com.github.kotlintelegrambot.entities.Chat
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ForceReplyMarkup
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
+import com.github.kotlintelegrambot.entities.LinkPreviewOptions
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.ParseMode.MARKDOWN
+import com.github.kotlintelegrambot.entities.ReplyParameters
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton
 import com.github.kotlintelegrambot.testutils.decode
 import junit.framework.TestCase.assertEquals
@@ -22,11 +24,8 @@ class SendMessageIT : ApiClientIT() {
             chatId = ChatId.fromId(ANY_CHAT_ID),
             text = ANY_TEXT,
             parseMode = null,
-            disableWebPagePreview = null,
             disableNotification = null,
             protectContent = null,
-            replyToMessageId = null,
-            allowSendingWithoutReply = null,
             replyMarkup = null,
             messageThreadId = null,
         )
@@ -44,11 +43,8 @@ class SendMessageIT : ApiClientIT() {
             chatId = ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME),
             text = ANY_TEXT,
             parseMode = null,
-            disableWebPagePreview = null,
             disableNotification = null,
             protectContent = null,
-            replyToMessageId = null,
-            allowSendingWithoutReply = null,
             replyMarkup = null,
             messageThreadId = null,
         )
@@ -66,11 +62,8 @@ class SendMessageIT : ApiClientIT() {
             chatId = ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME),
             text = ANY_TEXT,
             parseMode = MARKDOWN,
-            disableWebPagePreview = false,
             disableNotification = true,
             protectContent = null,
-            replyToMessageId = ANY_MESSAGE_ID,
-            allowSendingWithoutReply = null,
             replyMarkup = ForceReplyMarkup(forceReply = false),
             messageThreadId = null,
         )
@@ -79,9 +72,7 @@ class SendMessageIT : ApiClientIT() {
         val expectedRequestBody = "chat_id=$ANY_CHANNEL_USERNAME" +
             "&text=$ANY_TEXT" +
             "&parse_mode=Markdown" +
-            "&disable_web_page_preview=false" +
             "&disable_notification=true" +
-            "&reply_to_message_id=$ANY_MESSAGE_ID" +
             "&reply_markup={\"force_reply\":false}"
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
@@ -94,11 +85,8 @@ class SendMessageIT : ApiClientIT() {
             chatId = ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME),
             text = ANY_TEXT,
             parseMode = null,
-            disableWebPagePreview = null,
             disableNotification = null,
             protectContent = null,
-            replyToMessageId = null,
-            allowSendingWithoutReply = null,
             replyMarkup = InlineKeyboardMarkup.create(
                 listOf(
                     InlineKeyboardButton.Url(ANY_TEXT, ANY_URL),
@@ -133,11 +121,8 @@ class SendMessageIT : ApiClientIT() {
             chatId = ChatId.fromId(ANY_CHAT_ID),
             text = ANY_TEXT,
             parseMode = null,
-            disableWebPagePreview = null,
             disableNotification = null,
             protectContent = null,
-            replyToMessageId = null,
-            allowSendingWithoutReply = null,
             replyMarkup = null,
             messageThreadId = 1,
         )
@@ -156,6 +141,67 @@ class SendMessageIT : ApiClientIT() {
             authorSignature = "incognito",
         )
         assertEquals(expectedMessage, sendMessageResult.getOrNull())
+    }
+
+    @Test
+    fun `sendMessage with reply_parameters (Bot API 7_0) serializes the JSON wrapper`() {
+        givenAnySendMessageResponse()
+
+        sut.sendMessage(
+            chatId = ChatId.fromId(ANY_CHAT_ID),
+            text = ANY_TEXT,
+            replyParameters = ReplyParameters(
+                messageId = 42L,
+                quote = "the quoted bit",
+            ),
+        )
+
+        val request = mockWebServer.takeRequest()
+        val body = request.body.readUtf8().decode()
+        assertEquals(true, body.contains("reply_parameters="))
+        assertEquals(true, body.contains("\"message_id\":42"))
+        assertEquals(true, body.contains("\"quote\":\"the quoted bit\""))
+    }
+
+    @Test
+    fun `sendMessage with link_preview_options (Bot API 7_0) serializes the JSON wrapper`() {
+        givenAnySendMessageResponse()
+
+        sut.sendMessage(
+            chatId = ChatId.fromId(ANY_CHAT_ID),
+            text = ANY_TEXT,
+            linkPreviewOptions = LinkPreviewOptions(
+                isDisabled = false,
+                url = "https://example.com",
+                showAboveText = true,
+            ),
+        )
+
+        val request = mockWebServer.takeRequest()
+        val body = request.body.readUtf8().decode()
+        assertEquals(true, body.contains("link_preview_options="))
+        assertEquals(true, body.contains("\"is_disabled\":false"))
+        assertEquals(true, body.contains("\"url\":\"https://example.com\""))
+        assertEquals(true, body.contains("\"show_above_text\":true"))
+    }
+
+    @Test
+    fun `sendMessage with business_connection_id and message_effect_id (Bot API 7_2 + 7_4)`() {
+        givenAnySendMessageResponse()
+
+        sut.sendMessage(
+            chatId = ChatId.fromId(ANY_CHAT_ID),
+            text = ANY_TEXT,
+            businessConnectionId = "conn-abc",
+            messageEffectId = "effect-123",
+            allowPaidBroadcast = true,
+        )
+
+        val request = mockWebServer.takeRequest()
+        val body = request.body.readUtf8().decode()
+        assertEquals(true, body.contains("business_connection_id=conn-abc"))
+        assertEquals(true, body.contains("message_effect_id=effect-123"))
+        assertEquals(true, body.contains("allow_paid_broadcast=true"))
     }
 
     private fun givenAnySendMessageResponse() {

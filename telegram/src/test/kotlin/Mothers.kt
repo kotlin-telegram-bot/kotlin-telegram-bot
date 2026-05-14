@@ -18,7 +18,6 @@ import com.github.kotlintelegrambot.entities.dice.Dice
 import com.github.kotlintelegrambot.entities.dice.DiceEmoji
 import com.github.kotlintelegrambot.entities.files.Animation
 import com.github.kotlintelegrambot.entities.files.Audio
-import com.github.kotlintelegrambot.entities.files.ChatPhoto
 import com.github.kotlintelegrambot.entities.files.Document
 import com.github.kotlintelegrambot.entities.files.PhotoSize
 import com.github.kotlintelegrambot.entities.files.Video
@@ -157,12 +156,6 @@ fun anyChat(
     username: String? = null,
     firstName: String? = null,
     lastName: String? = null,
-    photo: ChatPhoto? = null,
-    description: String? = null,
-    inviteLink: String? = null,
-    pinnedMessage: String? = null,
-    stickerSetName: String? = null,
-    canSetStickerSet: Boolean? = null,
 ): Chat = Chat(
     id = id,
     type = type,
@@ -170,12 +163,6 @@ fun anyChat(
     username = username,
     firstName = firstName,
     lastName = lastName,
-    photo = photo,
-    description = description,
-    inviteLink = inviteLink,
-    pinnedMessage = pinnedMessage,
-    stickerSetName = stickerSetName,
-    canSetStickerSet = canSetStickerSet,
 )
 
 private const val ANY_FILE_ID = "fileId:353432q213412sd"

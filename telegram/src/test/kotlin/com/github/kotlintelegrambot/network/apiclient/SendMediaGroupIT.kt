@@ -35,8 +35,6 @@ class SendMediaGroupIT : ApiClientIT() {
             mediaGroup,
             DISABLE_NOTIFICATION,
             PROTECT_CONTENT,
-            REPLY_TO_MESSAGE_ID,
-            ALLOW_SENDING_WITHOUT_REPLY,
         )
 
         val request = mockWebServer.takeRequest()
@@ -524,7 +522,5 @@ class SendMediaGroupIT : ApiClientIT() {
         const val ANY_IMAGE_FILE_ID = "fweo32r32nruka"
         const val DISABLE_NOTIFICATION = true
         const val PROTECT_CONTENT = false
-        const val REPLY_TO_MESSAGE_ID = 32235235L
-        const val ALLOW_SENDING_WITHOUT_REPLY = true
     }
 }

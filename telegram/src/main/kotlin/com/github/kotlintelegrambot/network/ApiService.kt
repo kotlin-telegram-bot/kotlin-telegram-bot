@@ -1,7 +1,6 @@
 package com.github.kotlintelegrambot.network
 
 import com.github.kotlintelegrambot.entities.BotCommand
-import com.github.kotlintelegrambot.entities.Chat
 import com.github.kotlintelegrambot.entities.ChatAction
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ChatMember
@@ -117,14 +116,16 @@ internal interface ApiService {
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("text") text: String,
         @Field("parse_mode") parseMode: ParseMode?,
-        @Field("disable_web_page_preview") disableWebPagePreview: Boolean?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
-        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
-        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup?,
         @Field(ApiConstants.MESSAGE_THREAD_ID) messageThreadId: Long?,
         @Field("entities") entities: String? = null,
+        @Field("link_preview_options") linkPreviewOptions: String? = null,
+        @Field("reply_parameters") replyParameters: String? = null,
+        @Field("business_connection_id") businessConnectionId: String? = null,
+        @Field("message_effect_id") messageEffectId: String? = null,
+        @Field("allow_paid_broadcast") allowPaidBroadcast: Boolean? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -148,9 +149,12 @@ internal interface ApiService {
         @Field("caption_entities") captionEntities: String?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
-        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
-        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup?,
+        @Field("reply_parameters") replyParameters: String? = null,
+        @Field("business_connection_id") businessConnectionId: String? = null,
+        @Field("message_effect_id") messageEffectId: String? = null,
+        @Field("allow_paid_broadcast") allowPaidBroadcast: Boolean? = null,
+        @Field("show_caption_above_media") showCaptionAboveMedia: Boolean? = null,
     ): Call<Response<MessageId>>
 
     @Multipart
@@ -162,10 +166,13 @@ internal interface ApiService {
         @Part("parse_mode") parseMode: RequestBody?,
         @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
         @Part(ApiConstants.PROTECT_CONTENT) protectContent: RequestBody?,
-        @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
-        @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
         @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
         @Part(ApiConstants.MESSAGE_THREAD_ID) messageThreadId: RequestBody? = null,
+        @Part("reply_parameters") replyParameters: RequestBody? = null,
+        @Part("business_connection_id") businessConnectionId: RequestBody? = null,
+        @Part("message_effect_id") messageEffectId: RequestBody? = null,
+        @Part("allow_paid_broadcast") allowPaidBroadcast: RequestBody? = null,
+        @Part("show_caption_above_media") showCaptionAboveMedia: RequestBody? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -177,9 +184,12 @@ internal interface ApiService {
         @Field("parse_mode") parseMode: ParseMode?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
-        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
-        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+        @Field("reply_parameters") replyParameters: String? = null,
+        @Field("business_connection_id") businessConnectionId: String? = null,
+        @Field("message_effect_id") messageEffectId: String? = null,
+        @Field("allow_paid_broadcast") allowPaidBroadcast: Boolean? = null,
+        @Field("show_caption_above_media") showCaptionAboveMedia: Boolean? = null,
     ): Call<Response<Message>>
 
     @Multipart
@@ -192,9 +202,12 @@ internal interface ApiService {
         @Part("title") title: RequestBody?,
         @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
         @Part(ApiConstants.PROTECT_CONTENT) protectContent: RequestBody?,
-        @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
-        @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
         @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
+        @Part("reply_parameters") replyParameters: RequestBody? = null,
+        @Part("business_connection_id") businessConnectionId: RequestBody? = null,
+        @Part("message_effect_id") messageEffectId: RequestBody? = null,
+        @Part("allow_paid_broadcast") allowPaidBroadcast: RequestBody? = null,
+        @Part("show_caption_above_media") showCaptionAboveMedia: RequestBody? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -207,9 +220,12 @@ internal interface ApiService {
         @Field("title") title: String?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
-        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
-        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+        @Field("reply_parameters") replyParameters: String? = null,
+        @Field("business_connection_id") businessConnectionId: String? = null,
+        @Field("message_effect_id") messageEffectId: String? = null,
+        @Field("allow_paid_broadcast") allowPaidBroadcast: Boolean? = null,
+        @Field("show_caption_above_media") showCaptionAboveMedia: Boolean? = null,
     ): Call<Response<Message>>
 
     @POST("sendDocument")
@@ -222,9 +238,12 @@ internal interface ApiService {
         @Part(ApiConstants.DISABLE_CONTENT_TYPE_DETECTION) disableContentTypeDetection: RequestBody?,
         @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
         @Part(ApiConstants.PROTECT_CONTENT) protectContent: RequestBody?,
-        @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
-        @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
         @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
+        @Part("reply_parameters") replyParameters: RequestBody? = null,
+        @Part("business_connection_id") businessConnectionId: RequestBody? = null,
+        @Part("message_effect_id") messageEffectId: RequestBody? = null,
+        @Part("allow_paid_broadcast") allowPaidBroadcast: RequestBody? = null,
+        @Part("show_caption_above_media") showCaptionAboveMedia: RequestBody? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -237,9 +256,12 @@ internal interface ApiService {
         @Field(ApiConstants.DISABLE_CONTENT_TYPE_DETECTION) disableContentTypeDetection: Boolean?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
-        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
-        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+        @Field("reply_parameters") replyParameters: String? = null,
+        @Field("business_connection_id") businessConnectionId: String? = null,
+        @Field("message_effect_id") messageEffectId: String? = null,
+        @Field("allow_paid_broadcast") allowPaidBroadcast: Boolean? = null,
+        @Field("show_caption_above_media") showCaptionAboveMedia: Boolean? = null,
     ): Call<Response<Message>>
 
     @Multipart
@@ -254,9 +276,12 @@ internal interface ApiService {
         @Part("parse_mode") parseMode: RequestBody?,
         @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
         @Part(ApiConstants.PROTECT_CONTENT) protectContent: RequestBody?,
-        @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
-        @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
         @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
+        @Part("reply_parameters") replyParameters: RequestBody? = null,
+        @Part("business_connection_id") businessConnectionId: RequestBody? = null,
+        @Part("message_effect_id") messageEffectId: RequestBody? = null,
+        @Part("allow_paid_broadcast") allowPaidBroadcast: RequestBody? = null,
+        @Part("show_caption_above_media") showCaptionAboveMedia: RequestBody? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -271,9 +296,12 @@ internal interface ApiService {
         @Field("parse_mode") parseMode: ParseMode?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
-        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
-        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+        @Field("reply_parameters") replyParameters: String? = null,
+        @Field("business_connection_id") businessConnectionId: String? = null,
+        @Field("message_effect_id") messageEffectId: String? = null,
+        @Field("allow_paid_broadcast") allowPaidBroadcast: Boolean? = null,
+        @Field("show_caption_above_media") showCaptionAboveMedia: Boolean? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -283,9 +311,11 @@ internal interface ApiService {
         @Field(ApiConstants.SendGame.GAME_SHORT_NAME) gameShortName: String,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
-        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
-        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+        @Field("reply_parameters") replyParameters: String? = null,
+        @Field("business_connection_id") businessConnectionId: String? = null,
+        @Field("message_effect_id") messageEffectId: String? = null,
+        @Field("allow_paid_broadcast") allowPaidBroadcast: Boolean? = null,
     ): Call<Response<Message>>
 
     @Multipart
@@ -300,9 +330,12 @@ internal interface ApiService {
         @Part("parse_mode") parseMode: RequestBody?,
         @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
         @Part(ApiConstants.PROTECT_CONTENT) protectContent: RequestBody?,
-        @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
-        @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
         @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
+        @Part("reply_parameters") replyParameters: RequestBody? = null,
+        @Part("business_connection_id") businessConnectionId: RequestBody? = null,
+        @Part("message_effect_id") messageEffectId: RequestBody? = null,
+        @Part("allow_paid_broadcast") allowPaidBroadcast: RequestBody? = null,
+        @Part("show_caption_above_media") showCaptionAboveMedia: RequestBody? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -317,9 +350,12 @@ internal interface ApiService {
         @Field("parse_mode") parseMode: ParseMode?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
-        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
-        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+        @Field("reply_parameters") replyParameters: String? = null,
+        @Field("business_connection_id") businessConnectionId: String? = null,
+        @Field("message_effect_id") messageEffectId: String? = null,
+        @Field("allow_paid_broadcast") allowPaidBroadcast: Boolean? = null,
+        @Field("show_caption_above_media") showCaptionAboveMedia: Boolean? = null,
     ): Call<Response<Message>>
 
     @Multipart
@@ -333,9 +369,12 @@ internal interface ApiService {
         @Part("duration") duration: RequestBody?,
         @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
         @Part(ApiConstants.PROTECT_CONTENT) protectContent: RequestBody?,
-        @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
-        @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
         @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
+        @Part("reply_parameters") replyParameters: RequestBody? = null,
+        @Part("business_connection_id") businessConnectionId: RequestBody? = null,
+        @Part("message_effect_id") messageEffectId: RequestBody? = null,
+        @Part("allow_paid_broadcast") allowPaidBroadcast: RequestBody? = null,
+        @Part("show_caption_above_media") showCaptionAboveMedia: RequestBody? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -349,9 +388,12 @@ internal interface ApiService {
         @Field("duration") duration: Int?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
-        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
-        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+        @Field("reply_parameters") replyParameters: String? = null,
+        @Field("business_connection_id") businessConnectionId: String? = null,
+        @Field("message_effect_id") messageEffectId: String? = null,
+        @Field("allow_paid_broadcast") allowPaidBroadcast: Boolean? = null,
+        @Field("show_caption_above_media") showCaptionAboveMedia: Boolean? = null,
     ): Call<Response<Message>>
 
     @POST("sendVideoNote")
@@ -363,9 +405,11 @@ internal interface ApiService {
         @Part("length") length: RequestBody?,
         @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
         @Part(ApiConstants.PROTECT_CONTENT) protectContent: RequestBody?,
-        @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
-        @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
         @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
+        @Part("reply_parameters") replyParameters: RequestBody? = null,
+        @Part("business_connection_id") businessConnectionId: RequestBody? = null,
+        @Part("message_effect_id") messageEffectId: RequestBody? = null,
+        @Part("allow_paid_broadcast") allowPaidBroadcast: RequestBody? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -377,9 +421,11 @@ internal interface ApiService {
         @Field("length") length: Int?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
-        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
-        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+        @Field("reply_parameters") replyParameters: String? = null,
+        @Field("business_connection_id") businessConnectionId: String? = null,
+        @Field("message_effect_id") messageEffectId: String? = null,
+        @Field("allow_paid_broadcast") allowPaidBroadcast: Boolean? = null,
     ): Call<Response<Message>>
 
     @Multipart
@@ -395,12 +441,14 @@ internal interface ApiService {
         @Field("live_period") livePeriod: Int?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
-        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
-        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
         @Field("proximity_alert_radius") proximityAlertRadius: Int? = null,
         @Field("horizontal_accuracy") horizontalAccuracy: Float? = null,
         @Field("heading") heading: Int? = null,
+        @Field("reply_parameters") replyParameters: String? = null,
+        @Field("business_connection_id") businessConnectionId: String? = null,
+        @Field("message_effect_id") messageEffectId: String? = null,
+        @Field("allow_paid_broadcast") allowPaidBroadcast: Boolean? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -415,6 +463,7 @@ internal interface ApiService {
         @Field("proximity_alert_radius") proximityAlertRadius: Int? = null,
         @Field("horizontal_accuracy") horizontalAccuracy: Float? = null,
         @Field("heading") heading: Int? = null,
+        @Field("business_connection_id") businessConnectionId: String? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -424,6 +473,7 @@ internal interface ApiService {
         @Field("message_id") messageId: Long?,
         @Field("inline_message_id") inlineMessageId: String?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+        @Field("business_connection_id") businessConnectionId: String? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -440,9 +490,11 @@ internal interface ApiService {
         @Field("google_place_type") googlePlaceType: String?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
-        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
-        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+        @Field("reply_parameters") replyParameters: String? = null,
+        @Field("business_connection_id") businessConnectionId: String? = null,
+        @Field("message_effect_id") messageEffectId: String? = null,
+        @Field("allow_paid_broadcast") allowPaidBroadcast: Boolean? = null,
     ): Call<Response<Message>>
 
     @POST("sendContact")
@@ -454,9 +506,11 @@ internal interface ApiService {
         @Field("last_name") lastName: String?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
-        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
-        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+        @Field("reply_parameters") replyParameters: String? = null,
+        @Field("business_connection_id") businessConnectionId: String? = null,
+        @Field("message_effect_id") messageEffectId: String? = null,
+        @Field("allow_paid_broadcast") allowPaidBroadcast: Boolean? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -476,9 +530,11 @@ internal interface ApiService {
         @Field(PollFields.IS_CLOSED) isClosed: Boolean? = null,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
-        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
-        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+        @Field("reply_parameters") replyParameters: String? = null,
+        @Field("business_connection_id") businessConnectionId: String? = null,
+        @Field("message_effect_id") messageEffectId: String? = null,
+        @Field("allow_paid_broadcast") allowPaidBroadcast: Boolean? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -486,6 +542,8 @@ internal interface ApiService {
     fun sendChatAction(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("action") action: ChatAction,
+        @Field(ApiConstants.MESSAGE_THREAD_ID) messageThreadId: Long? = null,
+        @Field("business_connection_id") businessConnectionId: String? = null,
     ): Call<Response<Boolean>>
 
     @GET("getUserProfilePhotos")
@@ -649,6 +707,192 @@ internal interface ApiService {
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
     ): Call<Response<Boolean>>
 
+    // --- Forum topics (Bot API 6.3) ---
+
+    @FormUrlEncoded
+    @POST("createForumTopic")
+    fun createForumTopic(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field("name") name: String,
+        @Field("icon_color") iconColor: Int? = null,
+        @Field("icon_custom_emoji_id") iconCustomEmojiId: String? = null,
+    ): Call<Response<com.github.kotlintelegrambot.entities.ForumTopic>>
+
+    @FormUrlEncoded
+    @POST("editForumTopic")
+    fun editForumTopic(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field("message_thread_id") messageThreadId: Long,
+        @Field("name") name: String? = null,
+        @Field("icon_custom_emoji_id") iconCustomEmojiId: String? = null,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("closeForumTopic")
+    fun closeForumTopic(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field("message_thread_id") messageThreadId: Long,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("reopenForumTopic")
+    fun reopenForumTopic(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field("message_thread_id") messageThreadId: Long,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("deleteForumTopic")
+    fun deleteForumTopic(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field("message_thread_id") messageThreadId: Long,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("unpinAllForumTopicMessages")
+    fun unpinAllForumTopicMessages(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field("message_thread_id") messageThreadId: Long,
+    ): Call<Response<Boolean>>
+
+    @GET("getForumTopicIconStickers")
+    fun getForumTopicIconStickers(): Call<Response<List<com.github.kotlintelegrambot.entities.stickers.Sticker>>>
+
+    // --- General forum topic (Bot API 6.4) ---
+
+    @FormUrlEncoded
+    @POST("editGeneralForumTopic")
+    fun editGeneralForumTopic(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field("name") name: String,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("closeGeneralForumTopic")
+    fun closeGeneralForumTopic(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("reopenGeneralForumTopic")
+    fun reopenGeneralForumTopic(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("hideGeneralForumTopic")
+    fun hideGeneralForumTopic(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("unhideGeneralForumTopic")
+    fun unhideGeneralForumTopic(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+    ): Call<Response<Boolean>>
+
+    // --- Batch forward/copy/delete (Bot API 7.0) ---
+
+    @FormUrlEncoded
+    @POST("forwardMessages")
+    fun forwardMessages(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field("from_chat_id") fromChatId: ChatId,
+        @Field("message_ids") messageIds: String,
+        @Field(ApiConstants.MESSAGE_THREAD_ID) messageThreadId: Long? = null,
+        @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean? = null,
+        @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean? = null,
+    ): Call<Response<List<com.github.kotlintelegrambot.entities.MessageId>>>
+
+    @FormUrlEncoded
+    @POST("copyMessages")
+    fun copyMessages(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field("from_chat_id") fromChatId: ChatId,
+        @Field("message_ids") messageIds: String,
+        @Field(ApiConstants.MESSAGE_THREAD_ID) messageThreadId: Long? = null,
+        @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean? = null,
+        @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean? = null,
+        @Field("remove_caption") removeCaption: Boolean? = null,
+    ): Call<Response<List<com.github.kotlintelegrambot.entities.MessageId>>>
+
+    @FormUrlEncoded
+    @POST("deleteMessages")
+    fun deleteMessages(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field("message_ids") messageIds: String,
+    ): Call<Response<Boolean>>
+
+    // --- Chat boosts (Bot API 7.0) ---
+
+    @GET("getUserChatBoosts")
+    fun getUserChatBoosts(
+        @Query(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Query("user_id") userId: Long,
+    ): Call<Response<com.github.kotlintelegrambot.entities.UserChatBoosts>>
+
+    // --- Bot info methods (Bot API 6.6 - 6.7) ---
+
+    @FormUrlEncoded
+    @POST("setMyDescription")
+    fun setMyDescription(
+        @Field("description") description: String? = null,
+        @Field("language_code") languageCode: String? = null,
+    ): Call<Response<Boolean>>
+
+    @GET("getMyDescription")
+    fun getMyDescription(
+        @Query("language_code") languageCode: String? = null,
+    ): Call<Response<com.github.kotlintelegrambot.entities.BotDescription>>
+
+    @FormUrlEncoded
+    @POST("setMyShortDescription")
+    fun setMyShortDescription(
+        @Field("short_description") shortDescription: String? = null,
+        @Field("language_code") languageCode: String? = null,
+    ): Call<Response<Boolean>>
+
+    @GET("getMyShortDescription")
+    fun getMyShortDescription(
+        @Query("language_code") languageCode: String? = null,
+    ): Call<Response<com.github.kotlintelegrambot.entities.BotShortDescription>>
+
+    @FormUrlEncoded
+    @POST("setMyName")
+    fun setMyName(
+        @Field("name") name: String? = null,
+        @Field("language_code") languageCode: String? = null,
+    ): Call<Response<Boolean>>
+
+    @GET("getMyName")
+    fun getMyName(
+        @Query("language_code") languageCode: String? = null,
+    ): Call<Response<com.github.kotlintelegrambot.entities.BotName>>
+
+    @FormUrlEncoded
+    @POST("setChatMenuButton")
+    fun setChatMenuButton(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId? = null,
+        @Field("menu_button") menuButton: String? = null,
+    ): Call<Response<Boolean>>
+
+    @GET("getChatMenuButton")
+    fun getChatMenuButton(
+        @Query(ApiConstants.CHAT_ID) chatId: ChatId? = null,
+    ): Call<Response<com.github.kotlintelegrambot.entities.MenuButton>>
+
+    @FormUrlEncoded
+    @POST("setMyDefaultAdministratorRights")
+    fun setMyDefaultAdministratorRights(
+        @Field("rights") rights: String? = null,
+        @Field("for_channels") forChannels: Boolean? = null,
+    ): Call<Response<Boolean>>
+
+    @GET("getMyDefaultAdministratorRights")
+    fun getMyDefaultAdministratorRights(
+        @Query("for_channels") forChannels: Boolean? = null,
+    ): Call<Response<com.github.kotlintelegrambot.entities.ChatAdministratorRights>>
+
     @FormUrlEncoded
     @POST("leaveChat")
     fun leaveChat(
@@ -658,7 +902,7 @@ internal interface ApiService {
     @GET("getChat")
     fun getChat(
         @Query(ApiConstants.CHAT_ID) chatId: ChatId,
-    ): Call<Response<Chat>>
+    ): Call<Response<com.github.kotlintelegrambot.entities.ChatFullInfo>>
 
     @GET("getChatAdministrators")
     fun getChatAdministrators(
@@ -717,9 +961,9 @@ internal interface ApiService {
         @Field("inline_message_id") inlineMessageId: String?,
         @Field("text") text: String,
         @Field("parse_mode") parseMode: ParseMode?,
-        @Field("disable_web_page_preview") disableWebPagePreview: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
         @Field("entities") entities: String? = null,
+        @Field("business_connection_id") businessConnectionId: String? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -732,6 +976,8 @@ internal interface ApiService {
         @Field("parse_mode") parseMode: ParseMode?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
         @Field("caption_entities") captionEntities: String? = null,
+        @Field("business_connection_id") businessConnectionId: String? = null,
+        @Field("show_caption_above_media") showCaptionAboveMedia: Boolean? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -742,6 +988,8 @@ internal interface ApiService {
         @Field("inline_message_id") inlineMessageId: String?,
         @Field("media") media: InputMedia,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+        @Field("business_connection_id") businessConnectionId: String? = null,
+        @Field("show_caption_above_media") showCaptionAboveMedia: Boolean? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -751,6 +999,7 @@ internal interface ApiService {
         @Field("message_id") messageId: Long?,
         @Field("inline_message_id") inlineMessageId: String?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+        @Field("business_connection_id") businessConnectionId: String? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -779,9 +1028,11 @@ internal interface ApiService {
         @Part("sticker") sticker: MultipartBody.Part,
         @Part(ApiConstants.DISABLE_NOTIFICATION) disableNotification: RequestBody?,
         @Part(ApiConstants.PROTECT_CONTENT) protectContent: RequestBody?,
-        @Part(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: RequestBody?,
-        @Part(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: RequestBody?,
         @Part(ApiConstants.REPLY_MARKUP) replyMarkup: RequestBody? = null,
+        @Part("reply_parameters") replyParameters: RequestBody? = null,
+        @Part("business_connection_id") businessConnectionId: RequestBody? = null,
+        @Part("message_effect_id") messageEffectId: RequestBody? = null,
+        @Part("allow_paid_broadcast") allowPaidBroadcast: RequestBody? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -791,9 +1042,11 @@ internal interface ApiService {
         @Field("sticker") fileId: String,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
-        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
-        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+        @Field("reply_parameters") replyParameters: String? = null,
+        @Field("business_connection_id") businessConnectionId: String? = null,
+        @Field("message_effect_id") messageEffectId: String? = null,
+        @Field("allow_paid_broadcast") allowPaidBroadcast: Boolean? = null,
     ): Call<Response<Message>>
 
     @GET("getStickerSet")
@@ -897,9 +1150,11 @@ internal interface ApiService {
         @Field("suggested_tip_amounts") suggestedTipAmounts: List<Long>?,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean?,
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
-        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long?,
-        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+        @Field("reply_parameters") replyParameters: String? = null,
+        @Field("business_connection_id") businessConnectionId: String? = null,
+        @Field("message_effect_id") messageEffectId: String? = null,
+        @Field("allow_paid_broadcast") allowPaidBroadcast: Boolean? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -961,9 +1216,11 @@ internal interface ApiService {
         @Field(DiceFields.EMOJI) emoji: DiceEmoji? = null,
         @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean? = null,
         @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean?,
-        @Field(ApiConstants.REPLY_TO_MESSAGE_ID) replyToMessageId: Long? = null,
-        @Field(ApiConstants.ALLOW_SENDING_WITHOUT_REPLY) allowSendingWithoutReply: Boolean?,
         @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+        @Field("reply_parameters") replyParameters: String? = null,
+        @Field("business_connection_id") businessConnectionId: String? = null,
+        @Field("message_effect_id") messageEffectId: String? = null,
+        @Field("allow_paid_broadcast") allowPaidBroadcast: Boolean? = null,
     ): Call<Response<Message>>
 
     @FormUrlEncoded
@@ -982,6 +1239,330 @@ internal interface ApiService {
         @Field("reaction") reaction: String?,
         @Field("is_big") isBig: Boolean?,
     ): Call<Response<Boolean>>
+
+    // --- Bot API 10.0: deleteMessageReaction / deleteAllMessageReactions ---
+
+    @FormUrlEncoded
+    @POST("deleteMessageReaction")
+    fun deleteMessageReaction(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field("message_id") messageId: Long,
+        @Field("user_id") userId: Long? = null,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("deleteAllMessageReactions")
+    fun deleteAllMessageReactions(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field("message_id") messageId: Long,
+    ): Call<Response<Boolean>>
+
+    // --- Bot API 7.5 / 7.6 — Stars and paid media ---
+
+    @GET("getStarTransactions")
+    fun getStarTransactions(
+        @Query("offset") offset: Long? = null,
+        @Query("limit") limit: Int? = null,
+    ): Call<Response<com.github.kotlintelegrambot.entities.payments.StarTransactions>>
+
+    @FormUrlEncoded
+    @POST("sendPaidMedia")
+    fun sendPaidMedia(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field("star_count") starCount: Int,
+        @Field("media") media: String,
+        @Field("payload") payload: String? = null,
+        @Field("caption") caption: String? = null,
+        @Field("parse_mode") parseMode: ParseMode? = null,
+        @Field("caption_entities") captionEntities: String? = null,
+        @Field("show_caption_above_media") showCaptionAboveMedia: Boolean? = null,
+        @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean? = null,
+        @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean? = null,
+        @Field("reply_parameters") replyParameters: String? = null,
+        @Field("business_connection_id") businessConnectionId: String? = null,
+        @Field("allow_paid_broadcast") allowPaidBroadcast: Boolean? = null,
+    ): Call<Response<Message>>
+
+    // --- Bot API 7.4 / 7.8 — Star payment refunds (refundStarPayment already exists) ---
+
+    // --- Bot API 8.0 — Gifts ---
+
+    @GET("getAvailableGifts")
+    fun getAvailableGifts(): Call<Response<com.github.kotlintelegrambot.entities.gifts.Gifts>>
+
+    @FormUrlEncoded
+    @POST("sendGift")
+    fun sendGift(
+        @Field("user_id") userId: Long? = null,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId? = null,
+        @Field("gift_id") giftId: String,
+        @Field("pay_for_upgrade") payForUpgrade: Boolean? = null,
+        @Field("text") text: String? = null,
+        @Field("text_parse_mode") textParseMode: ParseMode? = null,
+        @Field("text_entities") textEntities: String? = null,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("giftPremiumSubscription")
+    fun giftPremiumSubscription(
+        @Field("user_id") userId: Long,
+        @Field("month_count") monthCount: Int,
+        @Field("star_count") starCount: Int,
+        @Field("text") text: String? = null,
+        @Field("text_parse_mode") textParseMode: ParseMode? = null,
+        @Field("text_entities") textEntities: String? = null,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("setUserEmojiStatus")
+    fun setUserEmojiStatus(
+        @Field("user_id") userId: Long,
+        @Field("emoji_status_custom_emoji_id") emojiStatusCustomEmojiId: String? = null,
+        @Field("emoji_status_expiration_date") emojiStatusExpirationDate: Long? = null,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("savePreparedInlineMessage")
+    fun savePreparedInlineMessage(
+        @Field("user_id") userId: Long,
+        @Field("result") result: String,
+        @Field("allow_user_chats") allowUserChats: Boolean? = null,
+        @Field("allow_bot_chats") allowBotChats: Boolean? = null,
+        @Field("allow_group_chats") allowGroupChats: Boolean? = null,
+        @Field("allow_channel_chats") allowChannelChats: Boolean? = null,
+    ): Call<Response<com.github.kotlintelegrambot.entities.PreparedInlineMessage>>
+
+    // --- Bot API 8.2 — Verification ---
+
+    @FormUrlEncoded
+    @POST("verifyUser")
+    fun verifyUser(
+        @Field("user_id") userId: Long,
+        @Field("custom_description") customDescription: String? = null,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("verifyChat")
+    fun verifyChat(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field("custom_description") customDescription: String? = null,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("removeUserVerification")
+    fun removeUserVerification(
+        @Field("user_id") userId: Long,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("removeChatVerification")
+    fun removeChatVerification(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+    ): Call<Response<Boolean>>
+
+    // --- Bot API 9.0 — Business account management ---
+
+    @FormUrlEncoded
+    @POST("readBusinessMessage")
+    fun readBusinessMessage(
+        @Field("business_connection_id") businessConnectionId: String,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field("message_id") messageId: Long,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("deleteBusinessMessages")
+    fun deleteBusinessMessages(
+        @Field("business_connection_id") businessConnectionId: String,
+        @Field("message_ids") messageIds: String,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("setBusinessAccountName")
+    fun setBusinessAccountName(
+        @Field("business_connection_id") businessConnectionId: String,
+        @Field("first_name") firstName: String,
+        @Field("last_name") lastName: String? = null,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("setBusinessAccountUsername")
+    fun setBusinessAccountUsername(
+        @Field("business_connection_id") businessConnectionId: String,
+        @Field("username") username: String? = null,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("setBusinessAccountBio")
+    fun setBusinessAccountBio(
+        @Field("business_connection_id") businessConnectionId: String,
+        @Field("bio") bio: String? = null,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("setBusinessAccountProfilePhoto")
+    fun setBusinessAccountProfilePhoto(
+        @Field("business_connection_id") businessConnectionId: String,
+        @Field("photo") photo: String,
+        @Field("is_public") isPublic: Boolean? = null,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("removeBusinessAccountProfilePhoto")
+    fun removeBusinessAccountProfilePhoto(
+        @Field("business_connection_id") businessConnectionId: String,
+        @Field("is_public") isPublic: Boolean? = null,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("setBusinessAccountGiftSettings")
+    fun setBusinessAccountGiftSettings(
+        @Field("business_connection_id") businessConnectionId: String,
+        @Field("show_gift_button") showGiftButton: Boolean,
+        @Field("accepted_gift_types") acceptedGiftTypes: String,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("getBusinessAccountStarBalance")
+    fun getBusinessAccountStarBalance(
+        @Field("business_connection_id") businessConnectionId: String,
+    ): Call<Response<com.github.kotlintelegrambot.entities.payments.StarAmount>>
+
+    @FormUrlEncoded
+    @POST("transferBusinessAccountStars")
+    fun transferBusinessAccountStars(
+        @Field("business_connection_id") businessConnectionId: String,
+        @Field("star_count") starCount: Int,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("getBusinessAccountGifts")
+    fun getBusinessAccountGifts(
+        @Field("business_connection_id") businessConnectionId: String,
+        @Field("exclude_unsaved") excludeUnsaved: Boolean? = null,
+        @Field("exclude_saved") excludeSaved: Boolean? = null,
+        @Field("exclude_unlimited") excludeUnlimited: Boolean? = null,
+        @Field("exclude_limited") excludeLimited: Boolean? = null,
+        @Field("exclude_unique") excludeUnique: Boolean? = null,
+        @Field("sort_by_price") sortByPrice: Boolean? = null,
+        @Field("offset") offset: String? = null,
+        @Field("limit") limit: Int? = null,
+    ): Call<Response<com.github.kotlintelegrambot.entities.gifts.OwnedGifts>>
+
+    @FormUrlEncoded
+    @POST("convertGiftToStars")
+    fun convertGiftToStars(
+        @Field("business_connection_id") businessConnectionId: String,
+        @Field("owned_gift_id") ownedGiftId: String,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("upgradeGift")
+    fun upgradeGift(
+        @Field("business_connection_id") businessConnectionId: String,
+        @Field("owned_gift_id") ownedGiftId: String,
+        @Field("keep_original_details") keepOriginalDetails: Boolean? = null,
+        @Field("star_count") starCount: Int? = null,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("transferGift")
+    fun transferGift(
+        @Field("business_connection_id") businessConnectionId: String,
+        @Field("owned_gift_id") ownedGiftId: String,
+        @Field("new_owner_chat_id") newOwnerChatId: Long,
+        @Field("star_count") starCount: Int? = null,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("postStory")
+    fun postStory(
+        @Field("business_connection_id") businessConnectionId: String,
+        @Field("content") content: String,
+        @Field("active_period") activePeriod: Int,
+        @Field("caption") caption: String? = null,
+        @Field("parse_mode") parseMode: ParseMode? = null,
+        @Field("caption_entities") captionEntities: String? = null,
+        @Field("areas") areas: String? = null,
+        @Field("post_to_chat_page") postToChatPage: Boolean? = null,
+        @Field("protect_content") protectContent: Boolean? = null,
+    ): Call<Response<com.github.kotlintelegrambot.entities.Story>>
+
+    @FormUrlEncoded
+    @POST("editStory")
+    fun editStory(
+        @Field("business_connection_id") businessConnectionId: String,
+        @Field("story_id") storyId: Int,
+        @Field("content") content: String,
+        @Field("caption") caption: String? = null,
+        @Field("parse_mode") parseMode: ParseMode? = null,
+        @Field("caption_entities") captionEntities: String? = null,
+        @Field("areas") areas: String? = null,
+    ): Call<Response<com.github.kotlintelegrambot.entities.Story>>
+
+    @FormUrlEncoded
+    @POST("deleteStory")
+    fun deleteStory(
+        @Field("business_connection_id") businessConnectionId: String,
+        @Field("story_id") storyId: Int,
+    ): Call<Response<Boolean>>
+
+    // --- Bot API 9.1 — Checklists ---
+
+    @FormUrlEncoded
+    @POST("sendChecklist")
+    fun sendChecklist(
+        @Field("business_connection_id") businessConnectionId: String,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field("checklist") checklist: String,
+        @Field(ApiConstants.DISABLE_NOTIFICATION) disableNotification: Boolean? = null,
+        @Field(ApiConstants.PROTECT_CONTENT) protectContent: Boolean? = null,
+        @Field("message_effect_id") messageEffectId: String? = null,
+        @Field("reply_parameters") replyParameters: String? = null,
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+    ): Call<Response<Message>>
+
+    @FormUrlEncoded
+    @POST("editMessageChecklist")
+    fun editMessageChecklist(
+        @Field("business_connection_id") businessConnectionId: String,
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field("message_id") messageId: Long,
+        @Field("checklist") checklist: String,
+        @Field(ApiConstants.REPLY_MARKUP) replyMarkup: ReplyMarkup? = null,
+    ): Call<Response<Message>>
+
+    @GET("getMyStarBalance")
+    fun getMyStarBalance(): Call<Response<com.github.kotlintelegrambot.entities.payments.StarAmount>>
+
+    // --- Bot API 9.2 — Suggested posts ---
+
+    @FormUrlEncoded
+    @POST("approveSuggestedPost")
+    fun approveSuggestedPost(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field("message_id") messageId: Long,
+        @Field("send_date") sendDate: Long? = null,
+    ): Call<Response<Boolean>>
+
+    @FormUrlEncoded
+    @POST("declineSuggestedPost")
+    fun declineSuggestedPost(
+        @Field(ApiConstants.CHAT_ID) chatId: ChatId,
+        @Field("message_id") messageId: Long,
+        @Field("comment") comment: String? = null,
+    ): Call<Response<Boolean>>
+
+    // --- Bot API 10.0 — Guest mode ---
+
+    @FormUrlEncoded
+    @POST("answerGuestQuery")
+    fun answerGuestQuery(
+        @Field("guest_query_id") guestQueryId: String,
+        @Field("text") text: String? = null,
+        @Field("parse_mode") parseMode: ParseMode? = null,
+        @Field("entities") entities: String? = null,
+    ): Call<Response<com.github.kotlintelegrambot.entities.guest.SentGuestMessage>>
 }
 
 class LabeledPriceList(private val labeledPrice: List<LabeledPrice>) {

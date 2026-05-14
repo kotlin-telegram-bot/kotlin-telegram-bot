@@ -1,10 +1,11 @@
 package com.github.kotlintelegrambot.network.apiclient
 
-import com.github.kotlintelegrambot.entities.Chat
+import com.github.kotlintelegrambot.entities.ChatFullInfo
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ChatLocation
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.Location
+import com.github.kotlintelegrambot.entities.gifts.AcceptedGiftTypes
 import com.github.kotlintelegrambot.testutils.apiMethodName
 import com.github.kotlintelegrambot.testutils.queryParams
 import junit.framework.TestCase.assertEquals
@@ -30,10 +31,18 @@ class GetChatIT : ApiClientIT() {
 
         val getChatResult = sut.getChat(ChatId.fromId(ANY_CHAT_ID))
 
-        val expectedGetChatResult = Chat(
+        val expectedGetChatResult = ChatFullInfo(
             id = -1001342283806,
-            title = "[Local Group] Test Telegram Bot Api",
             type = "supergroup",
+            accentColorId = 0,
+            maxReactionCount = 11,
+            acceptedGiftTypes = AcceptedGiftTypes(
+                unlimitedGifts = true,
+                limitedGifts = true,
+                uniqueGifts = true,
+                premiumSubscription = false,
+            ),
+            title = "[Local Group] Test Telegram Bot Api",
             permissions = ChatPermissions(
                 canSendMessages = true,
                 canSendMediaMessages = true,
@@ -63,6 +72,14 @@ class GetChatIT : ApiClientIT() {
                     "id": -1001342283806,
                     "title": "[Local Group] Test Telegram Bot Api",
                     "type": "supergroup",
+                    "accent_color_id": 0,
+                    "max_reaction_count": 11,
+                    "accepted_gift_types": {
+                        "unlimited_gifts": true,
+                        "limited_gifts": true,
+                        "unique_gifts": true,
+                        "premium_subscription": false
+                    },
                     "permissions": {
                         "can_send_messages": true,
                         "can_send_media_messages": true,

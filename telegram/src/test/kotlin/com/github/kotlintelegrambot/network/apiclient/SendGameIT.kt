@@ -28,8 +28,6 @@ class SendGameIT : ApiClientIT() {
             gameShortName = ANY_GAME_NAME,
             disableNotification = true,
             protectContent = false,
-            replyToMessageId = REPLY_TO_MESSAGE_ID,
-            allowSendingWithoutReply = true,
             replyMarkup = REPLY_MARKUP_WITH_1ST_BUTTON_LAUNCH,
         )
 
@@ -38,8 +36,6 @@ class SendGameIT : ApiClientIT() {
             "&game_short_name=$ANY_GAME_NAME" +
             "&disable_notification=true" +
             "&protect_content=false" +
-            "&reply_to_message_id=$REPLY_TO_MESSAGE_ID" +
-            "&allow_sending_without_reply=true" +
             "&reply_markup=${gson.toJson(REPLY_MARKUP_WITH_1ST_BUTTON_LAUNCH)}"
 
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
@@ -73,7 +69,6 @@ class SendGameIT : ApiClientIT() {
         val gson = Gson()
         const val ANY_CHAT_ID = 2351353153L
         const val ANY_GAME_NAME = "game_name"
-        const val REPLY_TO_MESSAGE_ID = 32235235L
 
         val REPLY_MARKUP_WITH_1ST_BUTTON_LAUNCH = InlineKeyboardMarkup.createSingleButton(
             InlineKeyboardButton.CallbackGameButtonType(

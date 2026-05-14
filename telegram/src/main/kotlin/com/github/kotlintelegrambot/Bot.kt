@@ -2,16 +2,17 @@ package com.github.kotlintelegrambot
 
 import com.github.kotlintelegrambot.dispatcher.Dispatcher
 import com.github.kotlintelegrambot.entities.BotCommand
-import com.github.kotlintelegrambot.entities.Chat
 import com.github.kotlintelegrambot.entities.ChatAction
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ChatMember
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
+import com.github.kotlintelegrambot.entities.LinkPreviewOptions
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.MessageEntity
 import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.ReplyMarkup
+import com.github.kotlintelegrambot.entities.ReplyParameters
 import com.github.kotlintelegrambot.entities.SentWebAppMessage
 import com.github.kotlintelegrambot.entities.TelegramFile
 import com.github.kotlintelegrambot.entities.Update
@@ -252,11 +253,9 @@ class Bot private constructor(
      * the format @channelusername).
      * @param text text of the message to be sent, 1-4096 characters after entities parsing.
      * @param parseMode mode for parsing entities in the message text.
-     * @param disableWebPagePreview disables link previews for links in this message.
      * @param disableNotification sends the message silently - users will receive a notification
      * with no sound.
      * @param protectContent protects the contents of the sent message from forwarding and saving
-     * @param replyToMessageId if the message is a reply, ID of the original message.
      * @param replyMarkup additional options - inline keyboard, custom reply keyboard,
      * instructions to remove reply keyboard or to force a reply from the user.
      *
@@ -266,26 +265,30 @@ class Bot private constructor(
         chatId: ChatId,
         text: String,
         parseMode: ParseMode? = null,
-        disableWebPagePreview: Boolean? = null,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
         messageThreadId: Long? = null,
         entities: List<MessageEntity>? = null,
+        linkPreviewOptions: LinkPreviewOptions? = null,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
     ): TelegramBotResult<Message> = apiClient.sendMessage(
         chatId,
         text,
         parseMode,
-        disableWebPagePreview,
         disableNotification,
         protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
         replyMarkup,
         messageThreadId,
         entities,
+        linkPreviewOptions,
+        replyParameters,
+        businessConnectionId,
+        messageEffectId,
+        allowPaidBroadcast,
     )
 
     /**
@@ -316,9 +319,12 @@ class Bot private constructor(
         captionEntities: List<MessageEntity>? = null,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
+        showCaptionAboveMedia: Boolean? = null,
     ) = apiClient.copyMessage(
         chatId,
         fromChatId,
@@ -328,268 +334,12 @@ class Bot private constructor(
         captionEntities,
         disableNotification,
         protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
         replyMarkup,
-    ).call()
-
-    @Deprecated(
-        "Use overloaded version instead",
-        ReplaceWith("sendPhoto(chatId, TelegramFile.ByFile(photo), caption, parseMode, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)"),
-    )
-    fun sendPhoto(
-        chatId: ChatId,
-        photo: SystemFile,
-        caption: String? = null,
-        parseMode: ParseMode? = null,
-        disableNotification: Boolean? = null,
-        protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null,
-    ) = apiClient.sendPhoto(
-        chatId,
-        TelegramFile.ByFile(photo),
-        caption,
-        parseMode,
-        disableNotification,
-        protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
-        replyMarkup,
-        null,
-    ).call()
-
-    @Deprecated(
-        "Use overloaded version instead",
-        ReplaceWith("sendPhoto(chatId, TelegramFile.ByFileId(photo), caption, parseMode, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)"),
-    )
-    fun sendPhoto(
-        chatId: ChatId,
-        photo: String,
-        caption: String? = null,
-        parseMode: ParseMode? = null,
-        disableNotification: Boolean? = null,
-        protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null,
-    ) = apiClient.sendPhoto(
-        chatId,
-        TelegramFile.ByFileId(photo),
-        caption,
-        parseMode,
-        disableNotification,
-        protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
-        replyMarkup,
-        null,
-    ).call()
-
-    @Deprecated(
-        "Use overloaded version instead",
-        ReplaceWith("sendAudio(chatId, TelegramFile.ByFile(audio), duration, performer, title, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)"),
-    )
-    fun sendAudio(
-        chatId: ChatId,
-        audio: SystemFile,
-        duration: Int? = null,
-        performer: String? = null,
-        title: String? = null,
-        disableNotification: Boolean? = null,
-        protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null,
-    ) = apiClient.sendAudio(
-        chatId,
-        TelegramFile.ByFile(audio),
-        duration,
-        performer,
-        title,
-        disableNotification,
-        protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
-        replyMarkup,
-    ).call()
-
-    @Deprecated(
-        "Use overloaded version instead",
-        ReplaceWith("sendAudio(chatId, TelegramFile.ByFileId(audio), duration, performer, title, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)"),
-    )
-    fun sendAudio(
-        chatId: ChatId,
-        audio: String,
-        duration: Int? = null,
-        performer: String? = null,
-        title: String? = null,
-        disableNotification: Boolean? = null,
-        protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null,
-    ) = apiClient.sendAudio(
-        chatId,
-        TelegramFile.ByFileId(audio),
-        duration,
-        performer,
-        title,
-        disableNotification,
-        protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
-        replyMarkup,
-    ).call()
-
-    @Deprecated(
-        "Use overloaded version instead",
-        ReplaceWith("sendDocument(chatId, TelegramFile.ByFile(document), caption, parseMode, disableContentTypeDetection, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)"),
-    )
-    fun sendDocument(
-        chatId: ChatId,
-        document: SystemFile,
-        caption: String? = null,
-        parseMode: ParseMode? = null,
-        disableContentTypeDetection: Boolean? = null,
-        disableNotification: Boolean? = null,
-        protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null,
-    ) = apiClient.sendDocument(
-        chatId,
-        TelegramFile.ByFile(document),
-        caption,
-        parseMode,
-        disableContentTypeDetection,
-        disableNotification,
-        protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
-        replyMarkup,
-    ).call()
-
-    @Deprecated(
-        "Use overloaded version instead",
-        ReplaceWith("sendDocument(chatId, TelegramFile.ByByteArray(fileBytes, fileName), caption, parseMode, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup, mimeType)"),
-    )
-    fun sendDocument(
-        chatId: ChatId,
-        fileBytes: ByteArray,
-        caption: String? = null,
-        parseMode: ParseMode? = null,
-        disableContentTypeDetection: Boolean? = null,
-        disableNotification: Boolean? = null,
-        protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null,
-        fileName: String,
-        mimeType: String? = null,
-    ) = apiClient.sendDocument(
-        chatId,
-        TelegramFile.ByByteArray(fileBytes, fileName),
-        caption,
-        parseMode,
-        disableContentTypeDetection,
-        disableNotification,
-        protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
-        replyMarkup,
-        mimeType,
-    ).call()
-
-    @Deprecated(
-        "Use overloaded version instead",
-        ReplaceWith("sendDocument(chatId, TelegramFile.ByFileId(fileId), caption, parseMode, disableContentTypeDetection, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)"),
-    )
-    fun sendDocument(
-        chatId: ChatId,
-        fileId: String,
-        caption: String? = null,
-        parseMode: ParseMode? = null,
-        disableContentTypeDetection: Boolean? = null,
-        disableNotification: Boolean? = null,
-        protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null,
-    ) = apiClient.sendDocument(
-        chatId,
-        TelegramFile.ByFileId(fileId),
-        caption,
-        parseMode,
-        disableContentTypeDetection,
-        disableNotification,
-        protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
-        replyMarkup,
-    ).call()
-
-    @Deprecated(
-        "Use overloaded version instead",
-        ReplaceWith("sendVideo(chatId, TelegramFile.ByFile(video), duration, width, height, caption, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)"),
-    )
-    fun sendVideo(
-        chatId: ChatId,
-        video: SystemFile,
-        duration: Int? = null,
-        width: Int? = null,
-        height: Int? = null,
-        caption: String? = null,
-        disableNotification: Boolean? = null,
-        protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null,
-    ) = apiClient.sendVideo(
-        chatId,
-        TelegramFile.ByFile(video),
-        duration,
-        width,
-        height,
-        caption,
-        null,
-        disableNotification,
-        protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
-        replyMarkup,
-    ).call()
-
-    @Deprecated(
-        "Use overloaded version instead",
-        ReplaceWith("sendVideo(chatId, TelegramFile.ByFileId(fileId), duration, width, height, caption, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)"),
-    )
-    fun sendVideo(
-        chatId: ChatId,
-        fileId: String,
-        duration: Int? = null,
-        width: Int? = null,
-        height: Int? = null,
-        caption: String? = null,
-        disableNotification: Boolean? = null,
-        protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null,
-    ) = apiClient.sendVideo(
-        chatId,
-        TelegramFile.ByFileId(fileId),
-        duration,
-        width,
-        height,
-        caption,
-        null,
-        disableNotification,
-        protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
-        replyMarkup,
+        replyParameters,
+        businessConnectionId,
+        messageEffectId,
+        allowPaidBroadcast,
+        showCaptionAboveMedia,
     ).call()
 
     fun sendPhoto(
@@ -599,10 +349,13 @@ class Bot private constructor(
         parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
         messageThreadId: Long? = null,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
+        showCaptionAboveMedia: Boolean? = null,
     ) = apiClient.sendPhoto(
         chatId,
         photo,
@@ -610,10 +363,13 @@ class Bot private constructor(
         parseMode,
         disableNotification,
         protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
         replyMarkup,
         messageThreadId,
+        replyParameters,
+        businessConnectionId,
+        messageEffectId,
+        allowPaidBroadcast,
+        showCaptionAboveMedia,
     ).call()
 
     fun sendPhoto(
@@ -623,9 +379,12 @@ class Bot private constructor(
         parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
+        showCaptionAboveMedia: Boolean? = null,
     ) = apiClient.sendPhoto(
         chatId,
         photo,
@@ -633,10 +392,13 @@ class Bot private constructor(
         parseMode,
         disableNotification,
         protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
         replyMarkup,
         null,
+        replyParameters,
+        businessConnectionId,
+        messageEffectId,
+        allowPaidBroadcast,
+        showCaptionAboveMedia,
     ).call()
 
     fun sendAudio(
@@ -647,9 +409,12 @@ class Bot private constructor(
         title: String? = null,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
+        showCaptionAboveMedia: Boolean? = null,
     ) = apiClient.sendAudio(
         chatId,
         audio,
@@ -658,9 +423,12 @@ class Bot private constructor(
         title,
         disableNotification,
         protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
         replyMarkup,
+        replyParameters,
+        businessConnectionId,
+        messageEffectId,
+        allowPaidBroadcast,
+        showCaptionAboveMedia,
     ).call()
 
     fun sendDocument(
@@ -671,10 +439,13 @@ class Bot private constructor(
         disableContentTypeDetection: Boolean? = null,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
         mimeType: String? = null,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
+        showCaptionAboveMedia: Boolean? = null,
     ) = apiClient.sendDocument(
         chatId,
         document,
@@ -683,10 +454,13 @@ class Bot private constructor(
         disableContentTypeDetection,
         disableNotification,
         protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
         replyMarkup,
         mimeType,
+        replyParameters,
+        businessConnectionId,
+        messageEffectId,
+        allowPaidBroadcast,
+        showCaptionAboveMedia,
     ).call()
 
     fun sendVideo(
@@ -699,9 +473,12 @@ class Bot private constructor(
         parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
+        showCaptionAboveMedia: Boolean? = null,
     ) = apiClient.sendVideo(
         chatId,
         video,
@@ -712,9 +489,12 @@ class Bot private constructor(
         parseMode,
         disableNotification,
         protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
         replyMarkup,
+        replyParameters,
+        businessConnectionId,
+        messageEffectId,
+        allowPaidBroadcast,
+        showCaptionAboveMedia,
     ).call()
 
     /**
@@ -725,9 +505,6 @@ class Bot private constructor(
      * @param gameShortName Short name of the game, serves as the unique identifier for the game.
      * @param disableNotification Sends the message silently. Users will receive a notification with no sound.
      * @param protectContent protects the contents of the sent message from forwarding and saving
-     * @param replyToMessageId If the message is a reply, ID of the original message.
-     * @param allowSendingWithoutReply Pass True, if the message should be sent even if the specified
-     * replied-to message is not found
      * @param replyMarkup A JSON-serialized object for an inline keyboard. If empty, one 'Play game_title'
      * button will be shown. If not empty, the first button must launch the game.
      *
@@ -738,79 +515,22 @@ class Bot private constructor(
         gameShortName: String,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
     ): TelegramBotResult<Message> = apiClient.sendGame(
         chatId,
         gameShortName,
         disableNotification,
         protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
         replyMarkup,
+        replyParameters,
+        businessConnectionId,
+        messageEffectId,
+        allowPaidBroadcast,
     )
-
-    @Deprecated("Use overloaded version instead")
-    fun sendAnimation(
-        chatId: ChatId,
-        animation: SystemFile,
-        duration: Int? = null,
-        width: Int? = null,
-        height: Int? = null,
-        caption: String? = null,
-        parseMode: String? = null,
-        disableNotification: Boolean? = null,
-        protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null,
-    ) = apiClient.sendAnimation(
-        chatId,
-        animation,
-        duration,
-        width,
-        height,
-        caption,
-        parseMode,
-        disableNotification,
-        protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
-        replyMarkup,
-    ).call()
-
-    @Deprecated(
-        "Use overloaded version instead",
-        ReplaceWith("sendAnimation(chatId, TelegramFile.ByFileId(fileId), duration, width, height, caption, parseMode, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)"),
-    )
-    fun sendAnimation(
-        chatId: ChatId,
-        fileId: String,
-        duration: Int? = null,
-        width: Int? = null,
-        height: Int? = null,
-        caption: String? = null,
-        parseMode: ParseMode? = null,
-        disableNotification: Boolean? = null,
-        protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null,
-    ) = apiClient.sendAnimation(
-        chatId,
-        TelegramFile.ByFileId(fileId),
-        duration,
-        width,
-        height,
-        caption,
-        parseMode,
-        disableNotification,
-        protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
-        replyMarkup,
-    ).call()
 
     fun sendAnimation(
         chatId: ChatId,
@@ -822,9 +542,12 @@ class Bot private constructor(
         parseMode: ParseMode? = null,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
+        showCaptionAboveMedia: Boolean? = null,
     ) = apiClient.sendAnimation(
         chatId,
         animation,
@@ -835,99 +558,12 @@ class Bot private constructor(
         parseMode,
         disableNotification,
         protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
         replyMarkup,
-    ).call()
-
-    @Deprecated(
-        "Use overloaded version instead",
-        ReplaceWith("sendVoice(chatId, TelegramFile.ByByteArray(audio), caption, parseMode, captionEntities, duration, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)"),
-    )
-    fun sendVoice(
-        chatId: ChatId,
-        audio: ByteArray,
-        caption: String? = null,
-        parseMode: ParseMode? = null,
-        captionEntities: List<MessageEntity>? = null,
-        duration: Int? = null,
-        disableNotification: Boolean? = null,
-        protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null,
-    ) = apiClient.sendVoice(
-        chatId,
-        TelegramFile.ByByteArray(audio),
-        caption,
-        parseMode,
-        captionEntities,
-        duration,
-        disableNotification,
-        protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
-        replyMarkup,
-    ).call()
-
-    @Deprecated(
-        "Use overloaded version instead",
-        ReplaceWith("sendVoice(chatId, TelegramFile.ByFile(audio), caption, parseMode, captionEntities, duration, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)"),
-    )
-    fun sendVoice(
-        chatId: ChatId,
-        audio: SystemFile,
-        caption: String? = null,
-        parseMode: ParseMode? = null,
-        captionEntities: List<MessageEntity>? = null,
-        duration: Int? = null,
-        disableNotification: Boolean? = null,
-        protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null,
-    ) = apiClient.sendVoice(
-        chatId,
-        TelegramFile.ByFile(audio),
-        caption,
-        parseMode,
-        captionEntities,
-        duration,
-        disableNotification,
-        protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
-        replyMarkup,
-    ).call()
-
-    @Deprecated(
-        "Use overloaded version instead",
-        ReplaceWith("sendVoice(chatId, TelegramFile.ByFileId(audioId), caption, parseMode, captionEntities, duration, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)"),
-    )
-    fun sendVoice(
-        chatId: ChatId,
-        audioId: String,
-        caption: String? = null,
-        parseMode: ParseMode? = null,
-        captionEntities: List<MessageEntity>? = null,
-        duration: Int? = null,
-        disableNotification: Boolean? = null,
-        protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null,
-    ) = apiClient.sendVoice(
-        chatId,
-        TelegramFile.ByFileId(audioId),
-        caption,
-        parseMode,
-        captionEntities,
-        duration,
-        disableNotification,
-        protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
-        replyMarkup,
+        replyParameters,
+        businessConnectionId,
+        messageEffectId,
+        allowPaidBroadcast,
+        showCaptionAboveMedia,
     ).call()
 
     fun sendVoice(
@@ -939,9 +575,12 @@ class Bot private constructor(
         duration: Int? = null,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
+        showCaptionAboveMedia: Boolean? = null,
     ) = apiClient.sendVoice(
         chatId,
         audio,
@@ -951,61 +590,12 @@ class Bot private constructor(
         duration,
         disableNotification,
         protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
         replyMarkup,
-    ).call()
-
-    @Deprecated(
-        "Use overloaded version instead",
-        ReplaceWith("sendVideoNote(chatId, TelegramFile.ByFile(videoNote), duration, length, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)"),
-    )
-    fun sendVideoNote(
-        chatId: ChatId,
-        videoNote: SystemFile,
-        duration: Int? = null,
-        length: Int? = null,
-        disableNotification: Boolean? = null,
-        protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null,
-    ) = apiClient.sendVideoNote(
-        chatId,
-        TelegramFile.ByFile(videoNote),
-        duration,
-        length,
-        disableNotification,
-        protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
-        replyMarkup,
-    ).call()
-
-    @Deprecated(
-        "Use overloaded version instead",
-        ReplaceWith("sendVideoNote(chatId, TelegramFile.ByFileId(videoNoteId), duration, length, disableNotification, replyToMessageId, allowSendingWithoutReply, replyMarkup)"),
-    )
-    fun sendVideoNote(
-        chatId: ChatId,
-        videoNoteId: String,
-        duration: Int? = null,
-        length: Int? = null,
-        disableNotification: Boolean? = null,
-        protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
-        replyMarkup: ReplyMarkup? = null,
-    ) = apiClient.sendVideoNote(
-        chatId,
-        TelegramFile.ByFileId(videoNoteId),
-        duration,
-        length,
-        disableNotification,
-        protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
-        replyMarkup,
+        replyParameters,
+        businessConnectionId,
+        messageEffectId,
+        allowPaidBroadcast,
+        showCaptionAboveMedia,
     ).call()
 
     fun sendVideoNote(
@@ -1015,9 +605,11 @@ class Bot private constructor(
         length: Int? = null,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
     ) = apiClient.sendVideoNote(
         chatId,
         videoNote,
@@ -1025,9 +617,11 @@ class Bot private constructor(
         length,
         disableNotification,
         protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
         replyMarkup,
+        replyParameters,
+        businessConnectionId,
+        messageEffectId,
+        allowPaidBroadcast,
     ).call()
 
     fun sendVideoNote(
@@ -1037,9 +631,11 @@ class Bot private constructor(
         length: Int? = null,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
     ) = apiClient.sendVideoNote(
         chatId,
         videoNoteId,
@@ -1047,9 +643,11 @@ class Bot private constructor(
         length,
         disableNotification,
         protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
         replyMarkup,
+        replyParameters,
+        businessConnectionId,
+        messageEffectId,
+        allowPaidBroadcast,
     ).call()
 
     /**
@@ -1060,7 +658,6 @@ class Bot private constructor(
      * @param mediaGroup An object describing photos and videos to be sent, must include 2-10 items.
      * @param disableNotification Sends the messages silently. Users will receive a notification with no sound.
      * @param protectContent protects the contents of the sent message from forwarding and saving
-     * @param replyToMessageId If the messages are a reply, ID of the original message.
      *
      * @return a list of the sent Messages.
      */
@@ -1069,15 +666,19 @@ class Bot private constructor(
         mediaGroup: MediaGroup,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
     ): TelegramBotResult<List<Message>> = apiClient.sendMediaGroup(
         chatId,
         mediaGroup,
         disableNotification,
         protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
+        replyParameters,
+        businessConnectionId,
+        messageEffectId,
+        allowPaidBroadcast,
     )
 
     fun sendLocation(
@@ -1087,12 +688,14 @@ class Bot private constructor(
         livePeriod: Int? = null,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
         proximityAlertRadius: Int? = null,
         horizontalAccuracy: Float? = null,
         heading: Int? = null,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
     ) = apiClient.sendLocation(
         chatId,
         latitude,
@@ -1100,12 +703,14 @@ class Bot private constructor(
         livePeriod,
         disableNotification,
         protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
         replyMarkup,
         proximityAlertRadius,
         horizontalAccuracy,
         heading,
+        replyParameters,
+        businessConnectionId,
+        messageEffectId,
+        allowPaidBroadcast,
     ).call()
 
     /**
@@ -1136,9 +741,6 @@ class Bot private constructor(
      * @param disableNotification Sends the message silently. Users will receive a notification
      * with no sound.
      * @param protectContent protects the contents of the sent message from forwarding and saving
-     * @param replyToMessageId If the message is a reply, ID of the original message.
-     * @param allowSendingWithoutReply Pass True, if the message should be sent even if the
-     * specified replied-to message is not found.
      * @param replyMarkup Additional interface options. A JSON-serialized object for an inline
      * keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply
      * from the user.
@@ -1160,9 +762,11 @@ class Bot private constructor(
         isClosed: Boolean? = null,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
     ): TelegramBotResult<Message> = apiClient.sendPoll(
         chatId,
         question,
@@ -1178,9 +782,11 @@ class Bot private constructor(
         isClosed,
         disableNotification,
         protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
         replyMarkup,
+        replyParameters,
+        businessConnectionId,
+        messageEffectId,
+        allowPaidBroadcast,
     )
 
     fun editMessageLiveLocation(
@@ -1193,6 +799,7 @@ class Bot private constructor(
         proximityAlertRadius: Int? = null,
         horizontalAccuracy: Float? = null,
         heading: Int? = null,
+        businessConnectionId: String? = null,
     ) = apiClient.editMessageLiveLocation(
         chatId,
         messageId,
@@ -1203,6 +810,7 @@ class Bot private constructor(
         proximityAlertRadius,
         horizontalAccuracy,
         heading,
+        businessConnectionId,
     ).call()
 
     fun stopMessageLiveLocation(
@@ -1210,11 +818,13 @@ class Bot private constructor(
         messageId: Long? = null,
         inlineMessageId: String? = null,
         replyMarkup: ReplyMarkup? = null,
+        businessConnectionId: String? = null,
     ) = apiClient.stopMessageLiveLocation(
         chatId,
         messageId,
         inlineMessageId,
         replyMarkup,
+        businessConnectionId,
     ).call()
 
     fun sendVenue(
@@ -1229,9 +839,11 @@ class Bot private constructor(
         googlePlaceType: String? = null,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
     ) = apiClient.sendVenue(
         chatId,
         latitude,
@@ -1244,9 +856,11 @@ class Bot private constructor(
         googlePlaceType,
         disableNotification,
         protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
         replyMarkup,
+        replyParameters,
+        businessConnectionId,
+        messageEffectId,
+        allowPaidBroadcast,
     ).call()
 
     fun sendContact(
@@ -1256,9 +870,11 @@ class Bot private constructor(
         lastName: String? = null,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
     ) = apiClient.sendContact(
         chatId,
         phoneNumber,
@@ -1266,9 +882,11 @@ class Bot private constructor(
         lastName,
         disableNotification,
         protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
         replyMarkup,
+        replyParameters,
+        businessConnectionId,
+        messageEffectId,
+        allowPaidBroadcast,
     ).call()
 
     /**
@@ -1283,8 +901,13 @@ class Bot private constructor(
      *
      * @return True on success.
      */
-    fun sendChatAction(chatId: ChatId, action: ChatAction): TelegramBotResult<Boolean> =
-        apiClient.sendChatAction(chatId, action)
+    fun sendChatAction(
+        chatId: ChatId,
+        action: ChatAction,
+        messageThreadId: Long? = null,
+        businessConnectionId: String? = null,
+    ): TelegramBotResult<Boolean> =
+        apiClient.sendChatAction(chatId, action, messageThreadId, businessConnectionId)
 
     fun getUserProfilePhotos(userId: Long, offset: Long? = null, limit: Int? = null) =
         apiClient.getUserProfilePhotos(userId, offset, limit).call()
@@ -1514,6 +1137,181 @@ class Bot private constructor(
         chatId: ChatId,
     ): TelegramBotResult<Boolean> = apiClient.unpinAllChatMessages(chatId)
 
+    // --- Forum topics (Bot API 6.3 / 6.4) ---
+
+    /**
+     * Use this method to create a topic in a forum supergroup chat. The bot must be an
+     * administrator in the chat for this to work and must have the `can_manage_topics`
+     * administrator right. Returns information about the created topic.
+     */
+    fun createForumTopic(
+        chatId: ChatId,
+        name: String,
+        iconColor: Int? = null,
+        iconCustomEmojiId: String? = null,
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.ForumTopic> =
+        apiClient.createForumTopic(chatId, name, iconColor, iconCustomEmojiId)
+
+    /**
+     * Use this method to edit name and icon of a topic in a forum supergroup chat. Returns True on success.
+     */
+    fun editForumTopic(
+        chatId: ChatId,
+        messageThreadId: Long,
+        name: String? = null,
+        iconCustomEmojiId: String? = null,
+    ): TelegramBotResult<Boolean> =
+        apiClient.editForumTopic(chatId, messageThreadId, name, iconCustomEmojiId)
+
+    /** Closes an open topic in a forum supergroup chat. Returns True on success. */
+    fun closeForumTopic(chatId: ChatId, messageThreadId: Long): TelegramBotResult<Boolean> =
+        apiClient.closeForumTopic(chatId, messageThreadId)
+
+    /** Reopens a closed topic in a forum supergroup chat. Returns True on success. */
+    fun reopenForumTopic(chatId: ChatId, messageThreadId: Long): TelegramBotResult<Boolean> =
+        apiClient.reopenForumTopic(chatId, messageThreadId)
+
+    /** Deletes a topic in a forum supergroup chat. Returns True on success. */
+    fun deleteForumTopic(chatId: ChatId, messageThreadId: Long): TelegramBotResult<Boolean> =
+        apiClient.deleteForumTopic(chatId, messageThreadId)
+
+    /** Clears the list of pinned messages in a forum topic. Returns True on success. */
+    fun unpinAllForumTopicMessages(chatId: ChatId, messageThreadId: Long): TelegramBotResult<Boolean> =
+        apiClient.unpinAllForumTopicMessages(chatId, messageThreadId)
+
+    /** Returns the custom emoji stickers that can be used as a forum topic icon by any user. */
+    fun getForumTopicIconStickers(): TelegramBotResult<List<com.github.kotlintelegrambot.entities.stickers.Sticker>> =
+        apiClient.getForumTopicIconStickers()
+
+    /** Edits the name of the 'General' topic in a forum supergroup chat. Returns True on success. */
+    fun editGeneralForumTopic(chatId: ChatId, name: String): TelegramBotResult<Boolean> =
+        apiClient.editGeneralForumTopic(chatId, name)
+
+    /** Closes the 'General' topic in a forum supergroup chat. Returns True on success. */
+    fun closeGeneralForumTopic(chatId: ChatId): TelegramBotResult<Boolean> =
+        apiClient.closeGeneralForumTopic(chatId)
+
+    /** Reopens the 'General' topic in a forum supergroup chat. Returns True on success. */
+    fun reopenGeneralForumTopic(chatId: ChatId): TelegramBotResult<Boolean> =
+        apiClient.reopenGeneralForumTopic(chatId)
+
+    /** Hides the 'General' topic in a forum supergroup chat. Returns True on success. */
+    fun hideGeneralForumTopic(chatId: ChatId): TelegramBotResult<Boolean> =
+        apiClient.hideGeneralForumTopic(chatId)
+
+    /** Unhides the 'General' topic in a forum supergroup chat. Returns True on success. */
+    fun unhideGeneralForumTopic(chatId: ChatId): TelegramBotResult<Boolean> =
+        apiClient.unhideGeneralForumTopic(chatId)
+
+    // --- Batch forward/copy/delete (Bot API 7.0) ---
+
+    /**
+     * Forwards multiple messages of any kind. If some of the specified messages can't be found or
+     * forwarded, they are skipped. Service messages and messages with protected content can't be
+     * forwarded. Album grouping is kept for forwarded messages.
+     */
+    fun forwardMessages(
+        chatId: ChatId,
+        fromChatId: ChatId,
+        messageIds: List<Long>,
+        messageThreadId: Long? = null,
+        disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
+    ): TelegramBotResult<List<com.github.kotlintelegrambot.entities.MessageId>> =
+        apiClient.forwardMessages(
+            chatId,
+            fromChatId,
+            messageIds,
+            messageThreadId,
+            disableNotification,
+            protectContent,
+        )
+
+    /**
+     * Copies messages of any kind. If some of the specified messages can't be found or copied,
+     * they are skipped. Service messages, paid media messages, giveaway messages, giveaway-winners
+     * messages, and invoice messages can't be copied.
+     */
+    fun copyMessages(
+        chatId: ChatId,
+        fromChatId: ChatId,
+        messageIds: List<Long>,
+        messageThreadId: Long? = null,
+        disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
+        removeCaption: Boolean? = null,
+    ): TelegramBotResult<List<com.github.kotlintelegrambot.entities.MessageId>> =
+        apiClient.copyMessages(
+            chatId,
+            fromChatId,
+            messageIds,
+            messageThreadId,
+            disableNotification,
+            protectContent,
+            removeCaption,
+        )
+
+    /**
+     * Deletes multiple messages simultaneously. If some of the specified messages can't be found,
+     * they are skipped. Returns True on success.
+     */
+    fun deleteMessages(chatId: ChatId, messageIds: List<Long>): TelegramBotResult<Boolean> =
+        apiClient.deleteMessages(chatId, messageIds)
+
+    /** Returns the list of boosts added to a chat by a user. */
+    fun getUserChatBoosts(
+        chatId: ChatId,
+        userId: Long,
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.UserChatBoosts> =
+        apiClient.getUserChatBoosts(chatId, userId)
+
+    // --- Bot info methods (Bot API 6.6 - 6.7) ---
+
+    /** Changes the bot's description, which is shown in the chat with the bot if the chat is empty. */
+    fun setMyDescription(description: String? = null, languageCode: String? = null): TelegramBotResult<Boolean> =
+        apiClient.setMyDescription(description, languageCode)
+
+    /** Gets the current bot description for the given user language. */
+    fun getMyDescription(languageCode: String? = null): TelegramBotResult<com.github.kotlintelegrambot.entities.BotDescription> =
+        apiClient.getMyDescription(languageCode)
+
+    /** Changes the bot's short description, which is shown on the bot's profile page. */
+    fun setMyShortDescription(shortDescription: String? = null, languageCode: String? = null): TelegramBotResult<Boolean> =
+        apiClient.setMyShortDescription(shortDescription, languageCode)
+
+    /** Gets the current bot short description for the given user language. */
+    fun getMyShortDescription(languageCode: String? = null): TelegramBotResult<com.github.kotlintelegrambot.entities.BotShortDescription> =
+        apiClient.getMyShortDescription(languageCode)
+
+    /** Changes the bot's name. */
+    fun setMyName(name: String? = null, languageCode: String? = null): TelegramBotResult<Boolean> =
+        apiClient.setMyName(name, languageCode)
+
+    /** Gets the current bot name for the given user language. */
+    fun getMyName(languageCode: String? = null): TelegramBotResult<com.github.kotlintelegrambot.entities.BotName> =
+        apiClient.getMyName(languageCode)
+
+    /** Changes the bot's menu button in a private chat, or the default menu button. */
+    fun setChatMenuButton(
+        chatId: ChatId? = null,
+        menuButton: com.github.kotlintelegrambot.entities.MenuButton? = null,
+    ): TelegramBotResult<Boolean> = apiClient.setChatMenuButton(chatId, menuButton)
+
+    /** Gets the current value of the bot's menu button in a private chat, or the default menu button. */
+    fun getChatMenuButton(chatId: ChatId? = null): TelegramBotResult<com.github.kotlintelegrambot.entities.MenuButton> =
+        apiClient.getChatMenuButton(chatId)
+
+    /** Changes the default administrator rights requested by the bot when it's added as an admin to groups or channels. */
+    fun setMyDefaultAdministratorRights(
+        rights: com.github.kotlintelegrambot.entities.ChatAdministratorRights? = null,
+        forChannels: Boolean? = null,
+    ): TelegramBotResult<Boolean> = apiClient.setMyDefaultAdministratorRights(rights, forChannels)
+
+    /** Gets the default administrator rights requested by the bot for groups (or channels). */
+    fun getMyDefaultAdministratorRights(forChannels: Boolean? = null):
+        TelegramBotResult<com.github.kotlintelegrambot.entities.ChatAdministratorRights> =
+        apiClient.getMyDefaultAdministratorRights(forChannels)
+
     /**
      * Use this method for your bot to leave a group, supergroup or channel.
      *
@@ -1533,7 +1331,8 @@ class Bot private constructor(
      *
      * @return a Chat object on success.
      */
-    fun getChat(chatId: ChatId): TelegramBotResult<Chat> = apiClient.getChat(chatId)
+    fun getChat(chatId: ChatId): TelegramBotResult<com.github.kotlintelegrambot.entities.ChatFullInfo> =
+        apiClient.getChat(chatId)
 
     /**
      * Use this method to get a list of administrators in a chat. If the chat is a
@@ -1668,18 +1467,18 @@ class Bot private constructor(
         inlineMessageId: String? = null,
         text: String,
         parseMode: ParseMode? = null,
-        disableWebPagePreview: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
         entities: List<MessageEntity>? = null,
+        businessConnectionId: String? = null,
     ) = apiClient.editMessageText(
         chatId,
         messageId,
         inlineMessageId,
         text,
         parseMode,
-        disableWebPagePreview,
         replyMarkup,
         entities,
+        businessConnectionId,
     ).call()
 
     fun editMessageCaption(
@@ -1690,6 +1489,8 @@ class Bot private constructor(
         parseMode: ParseMode? = null,
         replyMarkup: ReplyMarkup? = null,
         captionEntities: List<MessageEntity>? = null,
+        businessConnectionId: String? = null,
+        showCaptionAboveMedia: Boolean? = null,
     ) = apiClient.editMessageCaption(
         chatId,
         messageId,
@@ -1698,6 +1499,8 @@ class Bot private constructor(
         parseMode,
         replyMarkup,
         captionEntities,
+        businessConnectionId,
+        showCaptionAboveMedia,
     ).call()
 
     fun editMessageMedia(
@@ -1706,12 +1509,16 @@ class Bot private constructor(
         inlineMessageId: String? = null,
         media: InputMedia,
         replyMarkup: ReplyMarkup?,
+        businessConnectionId: String? = null,
+        showCaptionAboveMedia: Boolean? = null,
     ) = apiClient.editMessageMedia(
         chatId,
         messageId,
         inlineMessageId,
         media,
         replyMarkup,
+        businessConnectionId,
+        showCaptionAboveMedia,
     ).call()
 
     fun editMessageReplyMarkup(
@@ -1719,11 +1526,13 @@ class Bot private constructor(
         messageId: Long? = null,
         inlineMessageId: String? = null,
         replyMarkup: ReplyMarkup? = null,
+        businessConnectionId: String? = null,
     ) = apiClient.editMessageReplyMarkup(
         chatId,
         messageId,
         inlineMessageId,
         replyMarkup,
+        businessConnectionId,
     ).call()
 
     /**
@@ -1779,17 +1588,21 @@ class Bot private constructor(
         sticker: SystemFile,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup?,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
     ) = apiClient.sendSticker(
         chatId,
         sticker,
         disableNotification,
         protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
         replyMarkup,
+        replyParameters,
+        businessConnectionId,
+        messageEffectId,
+        allowPaidBroadcast,
     ).call()
 
     fun sendSticker(
@@ -1797,17 +1610,21 @@ class Bot private constructor(
         sticker: String,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup?,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
     ) = apiClient.sendSticker(
         chatId,
         sticker,
         disableNotification,
         protectContent,
-        replyToMessageId,
-        allowSendingWithoutReply,
         replyMarkup,
+        replyParameters,
+        businessConnectionId,
+        messageEffectId,
+        allowPaidBroadcast,
     ).call()
 
     fun getStickerSet(
@@ -1908,7 +1725,6 @@ class Bot private constructor(
      * @param disableNotification Sends the message silently. Users will receive a notification
      * with no sound.
      * @param protectContent protects the contents of the sent message from forwarding and saving
-     * @param replyToMessageId If the message is a reply, ID of the original message.
      * @param replyMarkup Additional interface options. An inlineKeyboard. If empty, one 'Pay total
      * price' button will be shown. If not empty, the first button must be a Pay button.
      *
@@ -1919,9 +1735,11 @@ class Bot private constructor(
         paymentInvoiceInfo: PaymentInvoiceInfo,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: InlineKeyboardMarkup? = null,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
     ): TelegramBotResult<Message> = apiClient.sendInvoice(
         chatId,
         paymentInvoiceInfo.title,
@@ -1948,9 +1766,11 @@ class Bot private constructor(
         photoHeight = paymentInvoiceInfo.invoicePhoto?.photoHeight,
         disableNotification = disableNotification,
         protectContent = protectContent,
-        replyToMessageId = replyToMessageId,
-        allowSendingWithoutReply = allowSendingWithoutReply,
         replyMarkup = replyMarkup,
+        replyParameters = replyParameters,
+        businessConnectionId = businessConnectionId,
+        messageEffectId = messageEffectId,
+        allowPaidBroadcast = allowPaidBroadcast,
     )
 
     /**
@@ -2151,7 +1971,6 @@ class Bot private constructor(
      * Defaults to 🎲.
      * @param disableNotification Sends the message silently. Users will receive a notification with no sound.
      * @param protectContent protects the contents of the sent message from forwarding and saving
-     * @param replyToMessageId If the message is a reply, ID of the original message.
      * @param replyMarkup A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove
      * reply keyboard or to force a reply from the user.
      *
@@ -2162,17 +1981,21 @@ class Bot private constructor(
         emoji: DiceEmoji? = null,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-        replyToMessageId: Long? = null,
-        allowSendingWithoutReply: Boolean? = null,
         replyMarkup: ReplyMarkup? = null,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        messageEffectId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
     ): TelegramBotResult<Message> = apiClient.sendDice(
         chatId,
         emoji,
         protectContent,
         disableNotification,
-        replyToMessageId,
-        allowSendingWithoutReply,
         replyMarkup,
+        replyParameters,
+        businessConnectionId,
+        messageEffectId,
+        allowPaidBroadcast,
     )
 
     /**
@@ -2205,4 +2028,329 @@ class Bot private constructor(
         reaction = reaction,
         isBig = isBig,
     )
+
+    // --- Bot API 10.0 reaction deletion ---
+
+    /** Removes the bot's reaction (or another user's, if specified) from a specific message. */
+    fun deleteMessageReaction(chatId: ChatId, messageId: Long, userId: Long? = null): TelegramBotResult<Boolean> =
+        apiClient.deleteMessageReaction(chatId, messageId, userId)
+
+    /** Removes every reaction from a message. Requires `can_manage_chat`. */
+    fun deleteAllMessageReactions(chatId: ChatId, messageId: Long): TelegramBotResult<Boolean> =
+        apiClient.deleteAllMessageReactions(chatId, messageId)
+
+    // --- Bot API 7.5 / 7.6 — Stars + paid media ---
+
+    /** Returns the bot's Telegram Star transactions in chronological order (Bot API 7.5). */
+    fun getStarTransactions(
+        offset: Long? = null,
+        limit: Int? = null,
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.payments.StarTransactions> =
+        apiClient.getStarTransactions(offset, limit)
+
+    /** Sends paid media to the chat (Bot API 7.6). */
+    fun sendPaidMedia(
+        chatId: ChatId,
+        starCount: Int,
+        media: List<com.github.kotlintelegrambot.entities.payments.InputPaidMedia>,
+        payload: String? = null,
+        caption: String? = null,
+        parseMode: ParseMode? = null,
+        captionEntities: List<MessageEntity>? = null,
+        showCaptionAboveMedia: Boolean? = null,
+        disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
+        replyParameters: ReplyParameters? = null,
+        businessConnectionId: String? = null,
+        allowPaidBroadcast: Boolean? = null,
+    ): TelegramBotResult<Message> = apiClient.sendPaidMedia(
+        chatId, starCount, media, payload, caption, parseMode, captionEntities,
+        showCaptionAboveMedia, disableNotification, protectContent, replyParameters,
+        businessConnectionId, allowPaidBroadcast,
+    )
+
+    // --- Bot API 8.0 — Gifts ---
+
+    /** Returns the list of gifts that can be sent by the bot to users and channel chats (Bot API 8.0). */
+    fun getAvailableGifts(): TelegramBotResult<com.github.kotlintelegrambot.entities.gifts.Gifts> =
+        apiClient.getAvailableGifts()
+
+    /** Sends a gift to the given user or channel chat. */
+    fun sendGift(
+        giftId: String,
+        userId: Long? = null,
+        chatId: ChatId? = null,
+        payForUpgrade: Boolean? = null,
+        text: String? = null,
+        textParseMode: ParseMode? = null,
+        textEntities: List<MessageEntity>? = null,
+    ): TelegramBotResult<Boolean> =
+        apiClient.sendGift(giftId, userId, chatId, payForUpgrade, text, textParseMode, textEntities)
+
+    /** Gifts a Telegram Premium subscription to the given user. */
+    fun giftPremiumSubscription(
+        userId: Long,
+        monthCount: Int,
+        starCount: Int,
+        text: String? = null,
+        textParseMode: ParseMode? = null,
+        textEntities: List<MessageEntity>? = null,
+    ): TelegramBotResult<Boolean> = apiClient.giftPremiumSubscription(
+        userId,
+        monthCount,
+        starCount,
+        text,
+        textParseMode,
+        textEntities,
+    )
+
+    /** Changes the emoji status for a user previously authorised to use the bot. */
+    fun setUserEmojiStatus(
+        userId: Long,
+        emojiStatusCustomEmojiId: String? = null,
+        emojiStatusExpirationDate: Long? = null,
+    ): TelegramBotResult<Boolean> = apiClient.setUserEmojiStatus(
+        userId,
+        emojiStatusCustomEmojiId,
+        emojiStatusExpirationDate,
+    )
+
+    /** Stores a message that can be sent by a user of a Mini App. */
+    fun savePreparedInlineMessage(
+        userId: Long,
+        result: com.github.kotlintelegrambot.entities.inlinequeryresults.InlineQueryResult,
+        allowUserChats: Boolean? = null,
+        allowBotChats: Boolean? = null,
+        allowGroupChats: Boolean? = null,
+        allowChannelChats: Boolean? = null,
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.PreparedInlineMessage> =
+        apiClient.savePreparedInlineMessage(
+            userId,
+            result,
+            allowUserChats,
+            allowBotChats,
+            allowGroupChats,
+            allowChannelChats,
+        )
+
+    // --- Bot API 8.2 — Verification ---
+
+    /** Verifies a user on behalf of the organisation which is represented by the bot. */
+    fun verifyUser(userId: Long, customDescription: String? = null): TelegramBotResult<Boolean> =
+        apiClient.verifyUser(userId, customDescription)
+
+    /** Verifies a chat on behalf of the organisation which is represented by the bot. */
+    fun verifyChat(chatId: ChatId, customDescription: String? = null): TelegramBotResult<Boolean> =
+        apiClient.verifyChat(chatId, customDescription)
+
+    /** Removes verification from a user. */
+    fun removeUserVerification(userId: Long): TelegramBotResult<Boolean> =
+        apiClient.removeUserVerification(userId)
+
+    /** Removes verification from a chat. */
+    fun removeChatVerification(chatId: ChatId): TelegramBotResult<Boolean> =
+        apiClient.removeChatVerification(chatId)
+
+    // --- Bot API 9.0 — Business account management ---
+
+    fun readBusinessMessage(
+        businessConnectionId: String,
+        chatId: ChatId,
+        messageId: Long,
+    ): TelegramBotResult<Boolean> = apiClient.readBusinessMessage(businessConnectionId, chatId, messageId)
+
+    fun deleteBusinessMessages(
+        businessConnectionId: String,
+        messageIds: List<Long>,
+    ): TelegramBotResult<Boolean> = apiClient.deleteBusinessMessages(businessConnectionId, messageIds)
+
+    fun setBusinessAccountName(
+        businessConnectionId: String,
+        firstName: String,
+        lastName: String? = null,
+    ): TelegramBotResult<Boolean> = apiClient.setBusinessAccountName(businessConnectionId, firstName, lastName)
+
+    fun setBusinessAccountUsername(
+        businessConnectionId: String,
+        username: String? = null,
+    ): TelegramBotResult<Boolean> = apiClient.setBusinessAccountUsername(businessConnectionId, username)
+
+    fun setBusinessAccountBio(
+        businessConnectionId: String,
+        bio: String? = null,
+    ): TelegramBotResult<Boolean> = apiClient.setBusinessAccountBio(businessConnectionId, bio)
+
+    fun setBusinessAccountProfilePhoto(
+        businessConnectionId: String,
+        photo: com.github.kotlintelegrambot.entities.InputProfilePhoto,
+        isPublic: Boolean? = null,
+    ): TelegramBotResult<Boolean> =
+        apiClient.setBusinessAccountProfilePhoto(businessConnectionId, photo, isPublic)
+
+    fun removeBusinessAccountProfilePhoto(
+        businessConnectionId: String,
+        isPublic: Boolean? = null,
+    ): TelegramBotResult<Boolean> =
+        apiClient.removeBusinessAccountProfilePhoto(businessConnectionId, isPublic)
+
+    fun setBusinessAccountGiftSettings(
+        businessConnectionId: String,
+        showGiftButton: Boolean,
+        acceptedGiftTypes: com.github.kotlintelegrambot.entities.gifts.AcceptedGiftTypes,
+    ): TelegramBotResult<Boolean> = apiClient.setBusinessAccountGiftSettings(
+        businessConnectionId,
+        showGiftButton,
+        acceptedGiftTypes,
+    )
+
+    fun getBusinessAccountStarBalance(
+        businessConnectionId: String,
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.payments.StarAmount> =
+        apiClient.getBusinessAccountStarBalance(businessConnectionId)
+
+    fun transferBusinessAccountStars(
+        businessConnectionId: String,
+        starCount: Int,
+    ): TelegramBotResult<Boolean> = apiClient.transferBusinessAccountStars(businessConnectionId, starCount)
+
+    fun getBusinessAccountGifts(
+        businessConnectionId: String,
+        excludeUnsaved: Boolean? = null,
+        excludeSaved: Boolean? = null,
+        excludeUnlimited: Boolean? = null,
+        excludeLimited: Boolean? = null,
+        excludeUnique: Boolean? = null,
+        sortByPrice: Boolean? = null,
+        offset: String? = null,
+        limit: Int? = null,
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.gifts.OwnedGifts> =
+        apiClient.getBusinessAccountGifts(
+            businessConnectionId, excludeUnsaved, excludeSaved, excludeUnlimited,
+            excludeLimited, excludeUnique, sortByPrice, offset, limit,
+        )
+
+    fun convertGiftToStars(
+        businessConnectionId: String,
+        ownedGiftId: String,
+    ): TelegramBotResult<Boolean> = apiClient.convertGiftToStars(businessConnectionId, ownedGiftId)
+
+    fun upgradeGift(
+        businessConnectionId: String,
+        ownedGiftId: String,
+        keepOriginalDetails: Boolean? = null,
+        starCount: Int? = null,
+    ): TelegramBotResult<Boolean> =
+        apiClient.upgradeGift(businessConnectionId, ownedGiftId, keepOriginalDetails, starCount)
+
+    fun transferGift(
+        businessConnectionId: String,
+        ownedGiftId: String,
+        newOwnerChatId: Long,
+        starCount: Int? = null,
+    ): TelegramBotResult<Boolean> =
+        apiClient.transferGift(businessConnectionId, ownedGiftId, newOwnerChatId, starCount)
+
+    fun postStory(
+        businessConnectionId: String,
+        content: com.github.kotlintelegrambot.entities.stories.InputStoryContent,
+        activePeriod: Int,
+        caption: String? = null,
+        parseMode: ParseMode? = null,
+        captionEntities: List<MessageEntity>? = null,
+        areas: List<com.github.kotlintelegrambot.entities.stories.StoryArea>? = null,
+        postToChatPage: Boolean? = null,
+        protectContent: Boolean? = null,
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.Story> = apiClient.postStory(
+        businessConnectionId, content, activePeriod, caption, parseMode, captionEntities,
+        areas, postToChatPage, protectContent,
+    )
+
+    fun editStory(
+        businessConnectionId: String,
+        storyId: Int,
+        content: com.github.kotlintelegrambot.entities.stories.InputStoryContent,
+        caption: String? = null,
+        parseMode: ParseMode? = null,
+        captionEntities: List<MessageEntity>? = null,
+        areas: List<com.github.kotlintelegrambot.entities.stories.StoryArea>? = null,
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.Story> = apiClient.editStory(
+        businessConnectionId,
+        storyId,
+        content,
+        caption,
+        parseMode,
+        captionEntities,
+        areas,
+    )
+
+    fun deleteStory(
+        businessConnectionId: String,
+        storyId: Int,
+    ): TelegramBotResult<Boolean> = apiClient.deleteStory(businessConnectionId, storyId)
+
+    // --- Bot API 9.1 — Checklists ---
+
+    /** Sends a checklist on behalf of a connected business account (Bot API 9.1). */
+    fun sendChecklist(
+        businessConnectionId: String,
+        chatId: ChatId,
+        checklist: com.github.kotlintelegrambot.entities.checklists.InputChecklist,
+        disableNotification: Boolean? = null,
+        protectContent: Boolean? = null,
+        messageEffectId: String? = null,
+        replyParameters: ReplyParameters? = null,
+        replyMarkup: ReplyMarkup? = null,
+    ): TelegramBotResult<Message> = apiClient.sendChecklist(
+        businessConnectionId,
+        chatId,
+        checklist,
+        disableNotification,
+        protectContent,
+        messageEffectId,
+        replyParameters,
+        replyMarkup,
+    )
+
+    /** Edits a checklist on behalf of a connected business account. */
+    fun editMessageChecklist(
+        businessConnectionId: String,
+        chatId: ChatId,
+        messageId: Long,
+        checklist: com.github.kotlintelegrambot.entities.checklists.InputChecklist,
+        replyMarkup: ReplyMarkup? = null,
+    ): TelegramBotResult<Message> = apiClient.editMessageChecklist(
+        businessConnectionId,
+        chatId,
+        messageId,
+        checklist,
+        replyMarkup,
+    )
+
+    /** Returns the current Telegram Star balance of the bot (Bot API 9.1). */
+    fun getMyStarBalance(): TelegramBotResult<com.github.kotlintelegrambot.entities.payments.StarAmount> =
+        apiClient.getMyStarBalance()
+
+    // --- Bot API 9.2 — Suggested posts ---
+
+    fun approveSuggestedPost(
+        chatId: ChatId,
+        messageId: Long,
+        sendDate: Long? = null,
+    ): TelegramBotResult<Boolean> = apiClient.approveSuggestedPost(chatId, messageId, sendDate)
+
+    fun declineSuggestedPost(
+        chatId: ChatId,
+        messageId: Long,
+        comment: String? = null,
+    ): TelegramBotResult<Boolean> = apiClient.declineSuggestedPost(chatId, messageId, comment)
+
+    // --- Bot API 10.0 — Guest mode ---
+
+    fun answerGuestQuery(
+        guestQueryId: String,
+        text: String? = null,
+        parseMode: ParseMode? = null,
+        entities: List<MessageEntity>? = null,
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.guest.SentGuestMessage> =
+        apiClient.answerGuestQuery(guestQueryId, text, parseMode, entities)
 }

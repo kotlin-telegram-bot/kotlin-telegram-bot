@@ -27,8 +27,6 @@ class CopyMessageIT : ApiClientIT() {
             parseMode = MARKDOWN_V2,
             captionEntities = CAPTION_ENTITIES,
             disableNotification = true,
-            replyToMessageId = REPLY_TO_MESSAGE_ID,
-            allowSendingWithoutReply = true,
             replyMarkup = REPLY_MARKUP,
         ).execute()
 
@@ -40,8 +38,6 @@ class CopyMessageIT : ApiClientIT() {
             "&parse_mode=${MARKDOWN_V2.modeName}" +
             "&caption_entities=${gson.toJson(CAPTION_ENTITIES)}" +
             "&disable_notification=true" +
-            "&reply_to_message_id=$REPLY_TO_MESSAGE_ID" +
-            "&allow_sending_without_reply=true" +
             "&reply_markup=${gson.toJson(REPLY_MARKUP)}"
 
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
@@ -76,7 +72,6 @@ class CopyMessageIT : ApiClientIT() {
         const val ANY_CHAT_ID = 12412342L
         const val ANY_CHANNEL_USERNAME = "@polly"
         const val ANY_CAPTION = "was geht ab?"
-        const val REPLY_TO_MESSAGE_ID = 32235235L
         const val ANY_MESSAGE_ID = 2314314L
         const val ANY_RESULT_MESSAGE_ID = 123L
         val CAPTION_ENTITIES = arrayListOf(MessageEntity(ITALIC, 0, 10))
