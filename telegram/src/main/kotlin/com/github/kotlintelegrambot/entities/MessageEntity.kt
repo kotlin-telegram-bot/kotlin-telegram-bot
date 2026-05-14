@@ -64,5 +64,9 @@ data class MessageEntity(
 
         @SerializedName("blockquote")
         BLOCKQUOTE,
+
+        /** Collapsed-block quotation, Bot API 7.4. */
+        @SerializedName("expandable_blockquote")
+        EXPANDABLE_BLOCKQUOTE,
     }
 }

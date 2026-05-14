@@ -1,0 +1,62 @@
+package com.github.kotlintelegrambot.entities
+
+import com.google.gson.annotations.SerializedName as Name
+
+/**
+ * Contains full information about a chat. Return type of `getChat` since Bot API 7.3.
+ *
+ * https://core.telegram.org/bots/api#chatfullinfo
+ */
+data class ChatFullInfo(
+    @Name("id") val id: Long,
+    @Name("type") val type: String,
+    @Name("accent_color_id") val accentColorId: Int,
+    @Name("max_reaction_count") val maxReactionCount: Int,
+    @Name("accepted_gift_types") val acceptedGiftTypes: com.github.kotlintelegrambot.entities.gifts.AcceptedGiftTypes,
+    @Name("title") val title: String? = null,
+    @Name("username") val username: String? = null,
+    @Name("first_name") val firstName: String? = null,
+    @Name("last_name") val lastName: String? = null,
+    @Name("is_forum") val isForum: Boolean? = null,
+    @Name("is_direct_messages") val isDirectMessages: Boolean? = null,
+    @Name("photo") val photo: com.github.kotlintelegrambot.entities.files.ChatPhoto? = null,
+    @Name("active_usernames") val activeUsernames: List<String>? = null,
+    @Name("birthdate") val birthdate: Birthdate? = null,
+    @Name("business_intro") val businessIntro: com.github.kotlintelegrambot.entities.business.BusinessIntro? = null,
+    @Name("business_location") val businessLocation: com.github.kotlintelegrambot.entities.business.BusinessLocation? = null,
+    @Name("business_opening_hours") val businessOpeningHours: com.github.kotlintelegrambot.entities.business.BusinessOpeningHours? = null,
+    @Name("personal_chat") val personalChat: Chat? = null,
+    @Name("available_reactions") val availableReactions: List<com.github.kotlintelegrambot.entities.reaction.ReactionType>? = null,
+    @Name("background_custom_emoji_id") val backgroundCustomEmojiId: String? = null,
+    @Name("profile_accent_color_id") val profileAccentColorId: Int? = null,
+    @Name("profile_background_custom_emoji_id") val profileBackgroundCustomEmojiId: String? = null,
+    @Name("emoji_status_custom_emoji_id") val emojiStatusCustomEmojiId: String? = null,
+    @Name("emoji_status_expiration_date") val emojiStatusExpirationDate: Long? = null,
+    @Name("bio") val bio: String? = null,
+    @Name("has_private_forwards") val hasPrivateForwards: Boolean? = null,
+    @Name("has_restricted_voice_and_video_messages") val hasRestrictedVoiceAndVideoMessages: Boolean? = null,
+    @Name("join_to_send_messages") val joinToSendMessages: Boolean? = null,
+    @Name("join_by_request") val joinByRequest: Boolean? = null,
+    @Name("description") val description: String? = null,
+    @Name("invite_link") val inviteLink: String? = null,
+    @Name("pinned_message") val pinnedMessage: Message? = null,
+    @Name("permissions") val permissions: ChatPermissions? = null,
+    @Name("can_send_paid_media") val canSendPaidMedia: Boolean? = null,
+    @Name("slow_mode_delay") val slowModeDelay: Int? = null,
+    @Name("unrestrict_boost_count") val unrestrictBoostCount: Int? = null,
+    @Name("message_auto_delete_time") val messageAutoDeleteTime: Int? = null,
+    @Name("has_aggressive_anti_spam_enabled") val hasAggressiveAntiSpamEnabled: Boolean? = null,
+    @Name("has_hidden_members") val hasHiddenMembers: Boolean? = null,
+    @Name("has_protected_content") val hasProtectedContent: Boolean? = null,
+    @Name("has_visible_history") val hasVisibleHistory: Boolean? = null,
+    @Name("sticker_set_name") val stickerSetName: String? = null,
+    @Name("can_set_sticker_set") val canSetStickerSet: Boolean? = null,
+    @Name("custom_emoji_sticker_set_name") val customEmojiStickerSetName: String? = null,
+    @Name("linked_chat_id") val linkedChatId: Long? = null,
+    @Name("location") val location: ChatLocation? = null,
+    @Name("parent_chat") val parentChat: Chat? = null,
+    @Name("rating") val rating: com.github.kotlintelegrambot.entities.UserRating? = null,
+    @Name("first_profile_audio") val firstProfileAudio: com.github.kotlintelegrambot.entities.files.Audio? = null,
+    @Name("unique_gift_colors") val uniqueGiftColors: com.github.kotlintelegrambot.entities.gifts.UniqueGiftColors? = null,
+    @Name("paid_message_star_count") val paidMessageStarCount: Int? = null,
+)
