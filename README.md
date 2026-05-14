@@ -80,13 +80,44 @@ dependencies {
 }
 ```
 
+## Upgrading from 6.x
+
+The current line (`10.x`) is up to date with Bot API 10.0 and includes the breaking changes Telegram introduced between 6.3 and 10.0. If you're coming from 6.2.0 or earlier, read [`docs/MIGRATION_10.md`](docs/MIGRATION_10.md) before bumping — most code will keep compiling, but `getChat` now returns `ChatFullInfo` (not `Chat`), the legacy reply / forward / preview parameters have richer replacements, and the duplicate `entities.SuccessfulPayment` was removed.
+
 ## Detailed documentation
 
-1. [Getting updates](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/tree/main/docs/gettingUpdates.md)
-2. [Polls](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/tree/main/docs/polls.md)
-3. [Dice](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/tree/main/docs/dice.md)
-4. [Logging](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/tree/main/docs/logging.md)
-5. [Games](https://github.com/kotlin-telegram-bot/kotlin-telegram-bot/tree/main/docs/games.md)
+**Core**
+
+- [Getting updates](docs/gettingUpdates.md) — polling, webhooks, allowed update types.
+- [Webhooks](docs/webhooks.md) — `webhook { }` DSL, `secretToken`, manual `processUpdate`.
+- [Error handling](docs/errorHandling.md) — `TelegramBotResult` and `telegramError { }`.
+- [Logging](docs/logging.md).
+- [File uploads](docs/fileUploads.md) — `TelegramFile.ByFile` / `ByByteArray` / `ByInputStream` / `ByUrl` / `ByFileId`.
+
+**Chat and messages**
+
+- [Chat and ChatFullInfo](docs/chat.md) — the 7.3 split.
+- [Reply parameters](docs/replyParameters.md) — quoting, cross-chat replies.
+- [Link preview options](docs/linkPreviewOptions.md) — custom URL, size, position.
+- [Forum topics](docs/forumTopics.md) — create / edit / close / delete; General topic.
+- [Reactions](docs/reactions.md) — set, delete, paid reactions.
+
+**Built-in content**
+
+- [Polls](docs/polls.md).
+- [Dice](docs/dice.md).
+- [Games](docs/games.md).
+
+**Telegram Stars and monetisation**
+
+- [Telegram Stars](docs/telegramStars.md) — invoices, refunds, transactions.
+- [Paid media](docs/paidMedia.md) — `sendPaidMedia`, purchases.
+- [Gifts](docs/gifts.md) — sending and managing.
+
+**Business bots**
+
+- [Business connection](docs/businessConnection.md) — connecting, sending on behalf, account management.
+- [Stories](docs/stories.md) — `postStory`, `editStory`, `deleteStory`, clickable areas.
 
 ## Contributing
 
