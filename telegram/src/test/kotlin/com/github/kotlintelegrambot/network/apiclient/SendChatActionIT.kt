@@ -27,6 +27,24 @@ class SendChatActionIT : ApiClientIT() {
     }
 
     @Test
+    fun `send chat action request with message thread id`() {
+        givenSuccessfulResponse()
+
+        sut.sendChatAction(
+            chatId = ChatId.fromId(ANY_CHAT_ID),
+            action = ChatAction.CHOOSE_STICKER,
+            messageThreadId = ANY_MESSAGE_THREAD_ID,
+        )
+
+        val request = mockWebServer.takeRequest()
+        assertEquals("sendChatAction", request.apiMethodName)
+        assertEquals(
+            "chat_id=$ANY_CHAT_ID&action=choose_sticker&message_thread_id=$ANY_MESSAGE_THREAD_ID",
+            request.decodedBody,
+        )
+    }
+
+    @Test
     fun `send choose sticker chat action success`() {
         givenSuccessfulResponse()
 
@@ -80,5 +98,6 @@ class SendChatActionIT : ApiClientIT() {
 
     private companion object {
         private const val ANY_CHAT_ID = 35123523L
+        private const val ANY_MESSAGE_THREAD_ID = 42L
     }
 }

@@ -486,6 +486,7 @@ internal interface ApiService {
     fun sendChatAction(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("action") action: ChatAction,
+        @Field(ApiConstants.MESSAGE_THREAD_ID) messageThreadId: Long? = null,
     ): Call<Response<Boolean>>
 
     @GET("getUserProfilePhotos")
