@@ -5,14 +5,14 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class ForumTopicTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
     fun `deserializes ForumTopic with all fields`() {
-        val json = """
+        val json =
+            """
             {"message_thread_id":12345,"name":"General Discussion","icon_color":7322096,"icon_custom_emoji_id":"5312536423851630001"}
-        """.trimIndent()
+            """.trimIndent()
 
         val topic = gson.fromJson(json, ForumTopic::class.java)
 
@@ -36,9 +36,10 @@ class ForumTopicTest {
 
     @Test
     fun `deserializes ForumTopicCreated`() {
-        val json = """
+        val json =
+            """
             {"name":"My Topic","icon_color":9367192,"icon_custom_emoji_id":"emoji-1"}
-        """.trimIndent()
+            """.trimIndent()
 
         val created = gson.fromJson(json, ForumTopicCreated::class.java)
 
@@ -114,9 +115,10 @@ class ForumTopicTest {
 
     @Test
     fun `deserializes WriteAccessAllowed with all fields`() {
-        val json = """
+        val json =
+            """
             {"from_request":true,"web_app_name":"My Web App","from_attachment_menu":false}
-        """.trimIndent()
+            """.trimIndent()
 
         val allowed = gson.fromJson(json, WriteAccessAllowed::class.java)
 

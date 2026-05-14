@@ -23,10 +23,11 @@ data class InlineQuery(
     val offset: String,
     @SerializedName("chat_type") val chatType: ChatType? = null,
 ) {
-
     enum class ChatType {
         @SerializedName("sender")
-        SENDER, // private chat with the inline query sender
+        SENDER,
+
+        // private chat with the inline query sender
         @SerializedName("private")
         PRIVATE,
 

@@ -8,10 +8,10 @@ import com.github.kotlintelegrambot.entities.files.PhotoSize
 class PhotosHandler(
     handlePhotos: HandlePhotos,
 ) : MediaHandler<List<PhotoSize>>(
-    handlePhotos,
-    ::mapMessageToPhotos,
-    ::isUpdatePhotos,
-) {
+        handlePhotos,
+        ::mapMessageToPhotos,
+        ::isUpdatePhotos,
+    ) {
     private companion object {
         private fun mapMessageToPhotos(message: Message): List<PhotoSize> {
             val photos = message.photo

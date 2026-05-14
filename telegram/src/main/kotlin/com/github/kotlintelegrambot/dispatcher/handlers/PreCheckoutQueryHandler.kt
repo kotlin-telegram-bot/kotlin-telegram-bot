@@ -13,19 +13,20 @@ data class PreCheckoutQueryHandlerEnvironment(
 class PreCheckoutQueryHandler(
     private val handlePreCheckoutQuery: HandlePreCheckoutQuery,
 ) : Handler {
+    override fun checkUpdate(update: Update): Boolean = update.preCheckoutQuery != null
 
-    override fun checkUpdate(update: Update): Boolean {
-        return update.preCheckoutQuery != null
-    }
-
-    override suspend fun handleUpdate(bot: Bot, update: Update) {
+    override suspend fun handleUpdate(
+        bot: Bot,
+        update: Update,
+    ) {
         checkNotNull(update.preCheckoutQuery)
 
-        val preCheckoutQueryHandlerEnv = PreCheckoutQueryHandlerEnvironment(
-            bot,
-            update,
-            update.preCheckoutQuery,
-        )
+        val preCheckoutQueryHandlerEnv =
+            PreCheckoutQueryHandlerEnvironment(
+                bot,
+                update,
+                update.preCheckoutQuery,
+            )
         handlePreCheckoutQuery(preCheckoutQueryHandlerEnv)
     }
 }

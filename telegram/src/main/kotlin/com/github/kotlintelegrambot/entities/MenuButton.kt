@@ -9,7 +9,6 @@ import com.google.gson.annotations.SerializedName as Name
  * See https://core.telegram.org/bots/api#menubutton
  */
 sealed class MenuButton {
-
     /** Discriminator value sent on the wire as the `type` field. */
     abstract val type: String
 

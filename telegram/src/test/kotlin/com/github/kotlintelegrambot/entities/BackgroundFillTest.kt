@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class BackgroundFillTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
@@ -21,9 +20,10 @@ class BackgroundFillTest {
 
     @Test
     fun `deserializes BackgroundFillGradient by 'gradient' discriminator`() {
-        val json = """
+        val json =
+            """
             {"type":"gradient","top_color":16711680,"bottom_color":255,"rotation_angle":45}
-        """.trimIndent()
+            """.trimIndent()
 
         val fill = gson.fromJson(json, BackgroundFill::class.java)
 

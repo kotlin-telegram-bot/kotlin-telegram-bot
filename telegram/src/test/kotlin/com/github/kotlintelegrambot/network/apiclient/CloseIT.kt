@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class CloseIT : ApiClientIT() {
-
     @Test
     fun `close response is correctly returned when true`() {
         givenTrueResponse()
@@ -25,30 +24,33 @@ class CloseIT : ApiClientIT() {
     }
 
     private fun givenTrueResponse() {
-        val trueResponse = """
+        val trueResponse =
+            """
             {
                 "ok": true,
                 "result": true
             }
-        """.trimIndent()
+            """.trimIndent()
 
         mockResponse(trueResponse)
     }
 
     private fun givenFalseResponse() {
-        val falseResponse = """
+        val falseResponse =
+            """
             {
                 "ok": true,
                 "result": false
             }
-        """.trimIndent()
+            """.trimIndent()
         mockResponse(falseResponse)
     }
 
     private fun mockResponse(response: String) {
-        val mockedResponse = MockResponse()
-            .setResponseCode(200)
-            .setBody(response)
+        val mockedResponse =
+            MockResponse()
+                .setResponseCode(200)
+                .setBody(response)
         mockWebServer.enqueue(mockedResponse)
     }
 }

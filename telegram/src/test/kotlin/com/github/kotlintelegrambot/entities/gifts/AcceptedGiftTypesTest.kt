@@ -5,19 +5,19 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class AcceptedGiftTypesTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
     fun `deserializes AcceptedGiftTypes`() {
-        val json = """
+        val json =
+            """
             {
               "unlimited_gifts":true,
               "limited_gifts":false,
               "unique_gifts":true,
               "premium_subscription":false
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val types = gson.fromJson(json, AcceptedGiftTypes::class.java)
 

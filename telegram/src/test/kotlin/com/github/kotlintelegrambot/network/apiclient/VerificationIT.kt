@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test
  * Wire-format coverage for Bot API 8.2 verification methods.
  */
 class VerificationIT : ApiClientIT() {
-
     @Test
     fun `verifyUser posts user_id and custom_description`() {
         mockWebServer.enqueue(MockResponse().setResponseCode(200).setBody("""{"ok":true,"result":true}"""))

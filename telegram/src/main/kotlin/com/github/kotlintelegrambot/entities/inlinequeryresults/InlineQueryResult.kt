@@ -4,7 +4,9 @@ import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
 import com.github.kotlintelegrambot.entities.ParseMode
 import com.google.gson.annotations.SerializedName
 
-enum class MimeType(val rawName: String) {
+enum class MimeType(
+    val rawName: String,
+) {
     @SerializedName("text/html")
     TEXT_HTML("text/html"),
 
@@ -24,8 +26,7 @@ enum class MimeType(val rawName: String) {
     IMAGE_GIF("image/gif"),
 }
 
-fun String.toMimeType(): MimeType? =
-    MimeType.values().firstOrNull { type -> this == type.rawName }
+fun String.toMimeType(): MimeType? = MimeType.values().firstOrNull { type -> this == type.rawName }
 
 private object QueryResultTypes {
     const val ARTICLE = "article"

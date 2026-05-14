@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 class PinChatMessageIT : ApiClientIT() {
-
     @Test
     fun `pin chat message request with mandatory parameters`() {
         givenASuccessfulResponse()
@@ -46,25 +45,28 @@ class PinChatMessageIT : ApiClientIT() {
     fun `pin chat message response`() {
         givenASuccessfulResponse()
 
-        val pinChatMessageResult = sut.pinChatMessage(
-            chatId = ChatId.fromId(1L),
-            messageId = 2L,
-            disableNotification = true,
-        )
+        val pinChatMessageResult =
+            sut.pinChatMessage(
+                chatId = ChatId.fromId(1L),
+                messageId = 2L,
+                disableNotification = true,
+            )
 
         assertTrue(pinChatMessageResult.get())
     }
 
     private fun givenASuccessfulResponse() {
-        val response = """
+        val response =
+            """
             {
                 "ok": true,
                 "result": true
             }
-        """.trimIndent()
-        val mockedResponse = MockResponse()
-            .setResponseCode(200)
-            .setBody(response)
+            """.trimIndent()
+        val mockedResponse =
+            MockResponse()
+                .setResponseCode(200)
+                .setBody(response)
         mockWebServer.enqueue(mockedResponse)
     }
 }

@@ -15,7 +15,6 @@ import okhttp3.mockwebserver.MockResponse
 import org.junit.jupiter.api.Test
 
 class SendMessageIT : ApiClientIT() {
-
     @Test
     fun `sendMessage with chat id and mandatory params is properly sent`() {
         givenAnySendMessageResponse()
@@ -69,11 +68,12 @@ class SendMessageIT : ApiClientIT() {
         )
 
         val request = mockWebServer.takeRequest()
-        val expectedRequestBody = "chat_id=$ANY_CHANNEL_USERNAME" +
-            "&text=$ANY_TEXT" +
-            "&parse_mode=Markdown" +
-            "&disable_notification=true" +
-            "&reply_markup={\"force_reply\":false}"
+        val expectedRequestBody =
+            "chat_id=$ANY_CHANNEL_USERNAME" +
+                "&text=$ANY_TEXT" +
+                "&parse_mode=Markdown" +
+                "&disable_notification=true" +
+                "&reply_markup={\"force_reply\":false}"
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
 
@@ -87,29 +87,31 @@ class SendMessageIT : ApiClientIT() {
             parseMode = null,
             disableNotification = null,
             protectContent = null,
-            replyMarkup = InlineKeyboardMarkup.create(
-                listOf(
-                    InlineKeyboardButton.Url(ANY_TEXT, ANY_URL),
-                    InlineKeyboardButton.CallbackData(ANY_TEXT, ANY_TEXT),
+            replyMarkup =
+                InlineKeyboardMarkup.create(
+                    listOf(
+                        InlineKeyboardButton.Url(ANY_TEXT, ANY_URL),
+                        InlineKeyboardButton.CallbackData(ANY_TEXT, ANY_TEXT),
+                    ),
+                    listOf(
+                        InlineKeyboardButton.SwitchInlineQuery(ANY_TEXT, ANY_TEXT),
+                        InlineKeyboardButton.SwitchInlineQueryCurrentChat(ANY_TEXT, ANY_TEXT),
+                    ),
                 ),
-                listOf(
-                    InlineKeyboardButton.SwitchInlineQuery(ANY_TEXT, ANY_TEXT),
-                    InlineKeyboardButton.SwitchInlineQueryCurrentChat(ANY_TEXT, ANY_TEXT),
-                ),
-            ),
             messageThreadId = null,
         )
 
         val request = mockWebServer.takeRequest()
-        val expectedRequestBody = "chat_id=$ANY_CHANNEL_USERNAME" +
-            "&text=$ANY_TEXT" +
-            "&reply_markup={\"inline_keyboard\":[[" +
-            "{\"text\":\"Mucho texto\",\"url\":\"https://www.github.com/vjgarciag96\"}," +
-            "{\"text\":\"Mucho texto\",\"callback_data\":\"Mucho texto\"}" +
-            "],[" +
-            "{\"text\":\"Mucho texto\",\"switch_inline_query\":\"Mucho texto\"}," +
-            "{\"text\":\"Mucho texto\",\"switch_inline_query_current_chat\":\"Mucho texto\"}" +
-            "]]}"
+        val expectedRequestBody =
+            "chat_id=$ANY_CHANNEL_USERNAME" +
+                "&text=$ANY_TEXT" +
+                "&reply_markup={\"inline_keyboard\":[[" +
+                "{\"text\":\"Mucho texto\",\"url\":\"https://www.github.com/vjgarciag96\"}," +
+                "{\"text\":\"Mucho texto\",\"callback_data\":\"Mucho texto\"}" +
+                "],[" +
+                "{\"text\":\"Mucho texto\",\"switch_inline_query\":\"Mucho texto\"}," +
+                "{\"text\":\"Mucho texto\",\"switch_inline_query_current_chat\":\"Mucho texto\"}" +
+                "]]}"
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
 
@@ -117,29 +119,32 @@ class SendMessageIT : ApiClientIT() {
     fun `sendMessage response is returned correctly`() {
         givenAnySendMessageResponse()
 
-        val sendMessageResult = sut.sendMessage(
-            chatId = ChatId.fromId(ANY_CHAT_ID),
-            text = ANY_TEXT,
-            parseMode = null,
-            disableNotification = null,
-            protectContent = null,
-            replyMarkup = null,
-            messageThreadId = 1,
-        )
+        val sendMessageResult =
+            sut.sendMessage(
+                chatId = ChatId.fromId(ANY_CHAT_ID),
+                text = ANY_TEXT,
+                parseMode = null,
+                disableNotification = null,
+                protectContent = null,
+                replyMarkup = null,
+                messageThreadId = 1,
+            )
 
-        val expectedMessage = Message(
-            messageId = 7,
-            chat = Chat(
-                id = -1001367429635,
-                title = "[Channel] Test Telegram Bot API",
-                username = "testtelegrambotapi",
-                type = "channel",
-            ),
-            messageThreadId = 1,
-            date = 1604158404,
-            text = "I'm part of a test :)",
-            authorSignature = "incognito",
-        )
+        val expectedMessage =
+            Message(
+                messageId = 7,
+                chat =
+                    Chat(
+                        id = -1001367429635,
+                        title = "[Channel] Test Telegram Bot API",
+                        username = "testtelegrambotapi",
+                        type = "channel",
+                    ),
+                messageThreadId = 1,
+                date = 1604158404,
+                text = "I'm part of a test :)",
+                authorSignature = "incognito",
+            )
         assertEquals(expectedMessage, sendMessageResult.getOrNull())
     }
 
@@ -150,10 +155,11 @@ class SendMessageIT : ApiClientIT() {
         sut.sendMessage(
             chatId = ChatId.fromId(ANY_CHAT_ID),
             text = ANY_TEXT,
-            replyParameters = ReplyParameters(
-                messageId = 42L,
-                quote = "the quoted bit",
-            ),
+            replyParameters =
+                ReplyParameters(
+                    messageId = 42L,
+                    quote = "the quoted bit",
+                ),
         )
 
         val request = mockWebServer.takeRequest()
@@ -170,11 +176,12 @@ class SendMessageIT : ApiClientIT() {
         sut.sendMessage(
             chatId = ChatId.fromId(ANY_CHAT_ID),
             text = ANY_TEXT,
-            linkPreviewOptions = LinkPreviewOptions(
-                isDisabled = false,
-                url = "https://example.com",
-                showAboveText = true,
-            ),
+            linkPreviewOptions =
+                LinkPreviewOptions(
+                    isDisabled = false,
+                    url = "https://example.com",
+                    showAboveText = true,
+                ),
         )
 
         val request = mockWebServer.takeRequest()
@@ -205,7 +212,8 @@ class SendMessageIT : ApiClientIT() {
     }
 
     private fun givenAnySendMessageResponse() {
-        val sendMessageResponse = """
+        val sendMessageResponse =
+            """
             {
                 "ok": true,
                 "result": {
@@ -222,10 +230,11 @@ class SendMessageIT : ApiClientIT() {
                     "author_signature": "incognito"
                 }
             }
-        """.trimIndent()
-        val mockedResponse = MockResponse()
-            .setResponseCode(200)
-            .setBody(sendMessageResponse)
+            """.trimIndent()
+        val mockedResponse =
+            MockResponse()
+                .setResponseCode(200)
+                .setBody(sendMessageResponse)
         mockWebServer.enqueue(mockedResponse)
     }
 

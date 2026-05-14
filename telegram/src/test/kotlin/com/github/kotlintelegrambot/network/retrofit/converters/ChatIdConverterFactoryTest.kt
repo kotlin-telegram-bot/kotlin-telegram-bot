@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test
 import retrofit2.Retrofit
 
 class ChatIdConverterFactoryTest {
-
     private val retrofitMock = mockk<Retrofit>()
     private val sut = ChatIdConverterFactory()
 

@@ -11,45 +11,45 @@ import kotlin.random.Random
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class CoroutineLooperTest {
-
-    private fun createCoroutineLooper(coroutineDispatcher: CoroutineDispatcher) =
-        CoroutineLooper(coroutineDispatcher)
+    private fun createCoroutineLooper(coroutineDispatcher: CoroutineDispatcher) = CoroutineLooper(coroutineDispatcher)
 
     @Test
-    fun `loops until quit is called`() = runTest {
-        val sut = createCoroutineLooper(StandardTestDispatcher(testScheduler))
-        var count = 0
-        val expectedCount: Int = Random.nextInt(1000)
+    fun `loops until quit is called`() =
+        runTest {
+            val sut = createCoroutineLooper(StandardTestDispatcher(testScheduler))
+            var count = 0
+            val expectedCount: Int = Random.nextInt(1000)
 
-        sut.loop {
-            count++
+            sut.loop {
+                count++
 
-            if (count == expectedCount) {
-                sut.quit()
+                if (count == expectedCount) {
+                    sut.quit()
+                }
             }
-        }
-        advanceUntilIdle()
-
-        assertEquals(expectedCount, count)
-    }
-
-    @Test
-    fun `loops until an exception is thrown`() = runTest {
-        val sut = createCoroutineLooper(StandardTestDispatcher(testScheduler))
-        var count = 0
-        val expectedCount: Int = Random.nextInt(1000)
-
-        sut.loop {
-            count++
-
-            if (count == expectedCount) {
-                throw RuntimeException("oops")
-            }
-        }
-        try {
             advanceUntilIdle()
-        } catch (testException: RuntimeException) {
+
+            assertEquals(expectedCount, count)
         }
-        assertEquals(expectedCount, count)
-    }
+
+    @Test
+    fun `loops until an exception is thrown`() =
+        runTest {
+            val sut = createCoroutineLooper(StandardTestDispatcher(testScheduler))
+            var count = 0
+            val expectedCount: Int = Random.nextInt(1000)
+
+            sut.loop {
+                count++
+
+                if (count == expectedCount) {
+                    throw RuntimeException("oops")
+                }
+            }
+            try {
+                advanceUntilIdle()
+            } catch (testException: RuntimeException) {
+            }
+            assertEquals(expectedCount, count)
+        }
 }

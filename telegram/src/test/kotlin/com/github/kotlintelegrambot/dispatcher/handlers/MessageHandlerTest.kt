@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 class MessageHandlerTest {
-
     private val handlerMock = mockk<HandleMessage>(relaxed = true)
     private val filterMock = mockk<Filter>()
 
@@ -45,20 +44,22 @@ class MessageHandlerTest {
     }
 
     @Test
-    fun `message update is properly dispatched to the handler function`() = runTest {
-        val botMock = mockk<Bot>()
-        val anyMessage = anyMessage()
-        val anyUpdate = anyUpdate(message = anyMessage)
+    fun `message update is properly dispatched to the handler function`() =
+        runTest {
+            val botMock = mockk<Bot>()
+            val anyMessage = anyMessage()
+            val anyUpdate = anyUpdate(message = anyMessage)
 
-        sut.handleUpdate(botMock, anyUpdate)
+            sut.handleUpdate(botMock, anyUpdate)
 
-        val expectedMessageHandlerEnvironment = MessageHandlerEnvironment(
-            botMock,
-            anyUpdate,
-            anyMessage,
-        )
-        coVerify { handlerMock.invoke(expectedMessageHandlerEnvironment) }
-    }
+            val expectedMessageHandlerEnvironment =
+                MessageHandlerEnvironment(
+                    botMock,
+                    anyUpdate,
+                    anyMessage,
+                )
+            coVerify { handlerMock.invoke(expectedMessageHandlerEnvironment) }
+        }
 
     private fun givenFilterReturns(filterReturnValue: Boolean) {
         every { filterMock.checkFor(any()) } returns filterReturnValue

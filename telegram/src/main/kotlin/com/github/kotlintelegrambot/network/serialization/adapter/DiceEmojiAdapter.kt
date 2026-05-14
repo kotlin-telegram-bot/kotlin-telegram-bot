@@ -7,6 +7,9 @@ import com.google.gson.JsonElement
 import java.lang.reflect.Type
 
 internal class DiceEmojiAdapter : JsonDeserializer<DiceEmoji> {
-    override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext?): DiceEmoji =
-        DiceEmoji.fromString(json.asString)
+    override fun deserialize(
+        json: JsonElement,
+        typeOfT: Type,
+        context: JsonDeserializationContext?,
+    ): DiceEmoji = DiceEmoji.fromString(json.asString)
 }

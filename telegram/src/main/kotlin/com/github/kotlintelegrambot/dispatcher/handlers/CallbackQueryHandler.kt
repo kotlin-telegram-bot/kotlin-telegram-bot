@@ -18,7 +18,6 @@ class CallbackQueryHandler(
     private val callbackAnswerCacheTime: Int? = null,
     private val handleCallbackQuery: HandleCallbackQuery,
 ) : Handler {
-
     override fun checkUpdate(update: Update): Boolean {
         val data = update.callbackQuery?.data
         return when {
@@ -28,13 +27,17 @@ class CallbackQueryHandler(
         }
     }
 
-    override suspend fun handleUpdate(bot: Bot, update: Update) {
+    override suspend fun handleUpdate(
+        bot: Bot,
+        update: Update,
+    ) {
         checkNotNull(update.callbackQuery)
-        val callbackQueryHandlerEnv = CallbackQueryHandlerEnvironment(
-            bot,
-            update,
-            update.callbackQuery,
-        )
+        val callbackQueryHandlerEnv =
+            CallbackQueryHandlerEnvironment(
+                bot,
+                update,
+                update.callbackQuery,
+            )
         handleCallbackQuery(callbackQueryHandlerEnv)
 
         val callbackQueryId = update.callbackQuery.id

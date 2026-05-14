@@ -5,12 +5,12 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class GiftTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
     fun `deserializes Gift with full fields`() {
-        val json = """
+        val json =
+            """
             {
               "id":"gift_1",
               "sticker":{
@@ -26,7 +26,7 @@ class GiftTest {
               "total_count":10000,
               "remaining_count":50
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val gift = gson.fromJson(json, Gift::class.java)
 
@@ -40,13 +40,14 @@ class GiftTest {
 
     @Test
     fun `deserializes Gift with only required fields`() {
-        val json = """
+        val json =
+            """
             {
               "id":"g2",
               "sticker":{"file_id":"f2","file_unique_id":"u2","width":1,"height":1,"is_animated":false,"emoji":null},
               "star_count":10
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val gift = gson.fromJson(json, Gift::class.java)
 

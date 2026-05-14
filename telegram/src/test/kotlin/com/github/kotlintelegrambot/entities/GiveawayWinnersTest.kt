@@ -5,12 +5,12 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class GiveawayWinnersTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
     fun `deserializes GiveawayWinners from JSON`() {
-        val json = """
+        val json =
+            """
             {
               "chat":{"id":-1,"type":"channel"},
               "giveaway_message_id":99,
@@ -28,7 +28,7 @@ class GiveawayWinnersTest {
               "was_refunded":false,
               "prize_description":"prize"
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val winners = gson.fromJson(json, GiveawayWinners::class.java)
 

@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class InputPaidMediaTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
@@ -21,16 +20,17 @@ class InputPaidMediaTest {
 
     @Test
     fun `serializes and deserializes InputPaidMediaVideo with optional fields`() {
-        val video = InputPaidMedia.Video(
-            media = "attach://video1",
-            thumbnail = "attach://thumb",
-            cover = "attach://cover",
-            startTimestamp = 5,
-            width = 1280,
-            height = 720,
-            duration = 30,
-            supportsStreaming = true,
-        )
+        val video =
+            InputPaidMedia.Video(
+                media = "attach://video1",
+                thumbnail = "attach://thumb",
+                cover = "attach://cover",
+                startTimestamp = 5,
+                width = 1280,
+                height = 720,
+                duration = 30,
+                supportsStreaming = true,
+            )
 
         val json = gson.toJson(video)
         val parsed = gson.fromJson(json, InputPaidMedia.Video::class.java)

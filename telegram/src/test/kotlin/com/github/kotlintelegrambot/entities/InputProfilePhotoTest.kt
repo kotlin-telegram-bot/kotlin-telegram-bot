@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class InputProfilePhotoTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test

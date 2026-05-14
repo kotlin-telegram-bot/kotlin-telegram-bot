@@ -5,14 +5,14 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class UniqueGiftInfoTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
     fun `deserializes UniqueGiftInfo`() {
         val stickerJson =
             """{"file_id":"f","file_unique_id":"u","width":1,"height":1,"is_animated":false,"emoji":"🎁"}"""
-        val json = """
+        val json =
+            """
             {
               "gift":{
                 "base_name":"Dragon","name":"Dragon-7","number":7,
@@ -25,7 +25,7 @@ class UniqueGiftInfoTest {
               "transfer_star_count":100,
               "next_transfer_date":1700001000
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val info = gson.fromJson(json, UniqueGiftInfo::class.java)
 

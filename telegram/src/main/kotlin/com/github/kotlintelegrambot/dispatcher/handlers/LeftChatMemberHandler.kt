@@ -15,10 +15,12 @@ data class LeftChatMemberHandlerEnvironment(
 class LeftChatMemberHandler(
     private val handleLeftChatMember: HandleLeftChatMember,
 ) : Handler {
-
     override fun checkUpdate(update: Update): Boolean = update.message?.leftChatMember != null
 
-    override suspend fun handleUpdate(bot: Bot, update: Update) {
+    override suspend fun handleUpdate(
+        bot: Bot,
+        update: Update,
+    ) {
         val message = update.message
         val leftChatMember = message?.leftChatMember
         checkNotNull(leftChatMember)

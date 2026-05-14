@@ -29,26 +29,28 @@ class SendDocumentIT : ApiClientIT() {
     fun `#sendDocument using all params with documentId creates request correctly`() {
         givenAnySendDocumentResponse()
 
-        sut.sendDocument(
-            ChatId.fromId(ANY_CHAT_ID),
-            TelegramFile.ByFileId(ANY_DOCUMENT_FILE_ID),
-            caption = CAPTION,
-            parseMode = MARKDOWN_V2,
-            disableContentTypeDetection = false,
-            disableNotification = false,
-            protectContent = false,
-            replyMarkup = REPLY_MARKUP,
-        ).execute()
+        sut
+            .sendDocument(
+                ChatId.fromId(ANY_CHAT_ID),
+                TelegramFile.ByFileId(ANY_DOCUMENT_FILE_ID),
+                caption = CAPTION,
+                parseMode = MARKDOWN_V2,
+                disableContentTypeDetection = false,
+                disableNotification = false,
+                protectContent = false,
+                replyMarkup = REPLY_MARKUP,
+            ).execute()
 
         val request = mockWebServer.takeRequest()
-        val expectedRequestBody = "chat_id=$ANY_CHAT_ID" +
-            "&document=$ANY_DOCUMENT_FILE_ID" +
-            "&caption=$CAPTION" +
-            "&parse_mode=${MARKDOWN_V2.modeName}" +
-            "&disable_content_type_detection=false" +
-            "&disable_notification=false" +
-            "&protect_content=false" +
-            "&reply_markup=${gson.toJson(REPLY_MARKUP)}"
+        val expectedRequestBody =
+            "chat_id=$ANY_CHAT_ID" +
+                "&document=$ANY_DOCUMENT_FILE_ID" +
+                "&caption=$CAPTION" +
+                "&parse_mode=${MARKDOWN_V2.modeName}" +
+                "&disable_content_type_detection=false" +
+                "&disable_notification=false" +
+                "&protect_content=false" +
+                "&reply_markup=${gson.toJson(REPLY_MARKUP)}"
 
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
@@ -57,26 +59,28 @@ class SendDocumentIT : ApiClientIT() {
     fun `#sendDocument using all params with document file creates request correctly`() {
         givenAnySendDocumentResponse()
 
-        sut.sendDocument(
-            ChatId.fromId(ANY_CHAT_ID),
-            TelegramFile.ByFile(getFileFromResources<SendDocumentIT>(DOCUMENT_FILE_NAME)),
-            caption = CAPTION,
-            parseMode = MARKDOWN_V2,
-            disableContentTypeDetection = false,
-            disableNotification = false,
-            protectContent = false,
-            replyMarkup = REPLY_MARKUP,
-        ).execute()
+        sut
+            .sendDocument(
+                ChatId.fromId(ANY_CHAT_ID),
+                TelegramFile.ByFile(getFileFromResources<SendDocumentIT>(DOCUMENT_FILE_NAME)),
+                caption = CAPTION,
+                parseMode = MARKDOWN_V2,
+                disableContentTypeDetection = false,
+                disableNotification = false,
+                protectContent = false,
+                replyMarkup = REPLY_MARKUP,
+            ).execute()
 
         val request = mockWebServer.takeRequest()
         val multipartBoundary = request.multipartBoundary
         val requestBody = request.body.readUtf8().trimIndent()
-        val expectedRequestBody = String.format(
-            getFileAsStringFromResources<SendDocumentIT>("sendDocumentBody.txt"),
-            multipartBoundary,
-            String(getFileFromResources<SendDocumentIT>(DOCUMENT_FILE_NAME).readBytes()),
-            DOCUMENT_FILE_NAME,
-        )
+        val expectedRequestBody =
+            String.format(
+                getFileAsStringFromResources<SendDocumentIT>("sendDocumentBody.txt"),
+                multipartBoundary,
+                String(getFileFromResources<SendDocumentIT>(DOCUMENT_FILE_NAME).readBytes()),
+                DOCUMENT_FILE_NAME,
+            )
         assertEquals(expectedRequestBody.normalizeLineEndings(), requestBody.normalizeLineEndings())
     }
 
@@ -84,27 +88,29 @@ class SendDocumentIT : ApiClientIT() {
     fun `#sendDocument using all params with document from ByteArray creates request correctly`() {
         givenAnySendDocumentResponse()
 
-        sut.sendDocument(
-            ChatId.fromId(ANY_CHAT_ID),
-            TelegramFile.ByByteArray(getFileFromResources<SendDocumentIT>(DOCUMENT_FILE_NAME).readBytes(), DOCUMENT_FILE_NAME),
-            caption = CAPTION,
-            parseMode = MARKDOWN_V2,
-            disableContentTypeDetection = false,
-            disableNotification = false,
-            protectContent = false,
-            replyMarkup = REPLY_MARKUP,
-            mimeType = "application/pdf",
-        ).execute()
+        sut
+            .sendDocument(
+                ChatId.fromId(ANY_CHAT_ID),
+                TelegramFile.ByByteArray(getFileFromResources<SendDocumentIT>(DOCUMENT_FILE_NAME).readBytes(), DOCUMENT_FILE_NAME),
+                caption = CAPTION,
+                parseMode = MARKDOWN_V2,
+                disableContentTypeDetection = false,
+                disableNotification = false,
+                protectContent = false,
+                replyMarkup = REPLY_MARKUP,
+                mimeType = "application/pdf",
+            ).execute()
 
         val request = mockWebServer.takeRequest()
         val multipartBoundary = request.multipartBoundary
         val requestBody = request.body.readUtf8().trimIndent()
-        val expectedRequestBody = String.format(
-            getFileAsStringFromResources<SendDocumentIT>("sendDocumentBody.txt"),
-            multipartBoundary,
-            String(getFileFromResources<SendDocumentIT>(DOCUMENT_FILE_NAME).readBytes()),
-            DOCUMENT_FILE_NAME,
-        )
+        val expectedRequestBody =
+            String.format(
+                getFileAsStringFromResources<SendDocumentIT>("sendDocumentBody.txt"),
+                multipartBoundary,
+                String(getFileFromResources<SendDocumentIT>(DOCUMENT_FILE_NAME).readBytes()),
+                DOCUMENT_FILE_NAME,
+            )
         assertEquals(expectedRequestBody.normalizeLineEndings(), requestBody.normalizeLineEndings())
     }
 
@@ -112,14 +118,16 @@ class SendDocumentIT : ApiClientIT() {
     fun `#sendDocument using required params only with documentId creates request correctly`() {
         givenAnySendDocumentResponse()
 
-        sut.sendDocument(
-            ChatId.fromId(ANY_CHAT_ID),
-            TelegramFile.ByFileId(ANY_DOCUMENT_FILE_ID),
-        ).execute()
+        sut
+            .sendDocument(
+                ChatId.fromId(ANY_CHAT_ID),
+                TelegramFile.ByFileId(ANY_DOCUMENT_FILE_ID),
+            ).execute()
 
         val request = mockWebServer.takeRequest()
-        val expectedRequestBody = "chat_id=$ANY_CHAT_ID" +
-            "&document=$ANY_DOCUMENT_FILE_ID"
+        val expectedRequestBody =
+            "chat_id=$ANY_CHAT_ID" +
+                "&document=$ANY_DOCUMENT_FILE_ID"
 
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
@@ -128,23 +136,34 @@ class SendDocumentIT : ApiClientIT() {
     fun `#sendDocument with required parameters returns response correctly`() {
         givenAnySendDocumentResponse()
 
-        val sendDocument = sut.sendDocument(
-            ChatId.fromId(ANY_CHAT_ID),
-            TelegramFile.ByFileId(ANY_DOCUMENT_FILE_ID),
-        ).execute()
+        val sendDocument =
+            sut
+                .sendDocument(
+                    ChatId.fromId(ANY_CHAT_ID),
+                    TelegramFile.ByFileId(ANY_DOCUMENT_FILE_ID),
+                ).execute()
 
-        assertEquals(anyDocumentMessage.toString().trim(), sendDocument.body()?.result.toString().trim())
+        assertEquals(
+            anyDocumentMessage.toString().trim(),
+            sendDocument
+                .body()
+                ?.result
+                .toString()
+                .trim(),
+        )
     }
 
     private fun givenAnySendDocumentResponse() {
-        val sendDocumentResponse = Response<Message>(
-            ok = true,
-            result = anyDocumentMessage,
-        )
+        val sendDocumentResponse =
+            Response<Message>(
+                ok = true,
+                result = anyDocumentMessage,
+            )
 
-        val mockedResponse = MockResponse()
-            .setResponseCode(200)
-            .setBody(gson.toJson(sendDocumentResponse))
+        val mockedResponse =
+            MockResponse()
+                .setResponseCode(200)
+                .setBody(gson.toJson(sendDocumentResponse))
         mockWebServer.enqueue(mockedResponse)
     }
 
@@ -156,26 +175,30 @@ class SendDocumentIT : ApiClientIT() {
         const val CAPTION = "Caption"
         const val ANY_FILE_SIZE = 2897253
         val CAPTION_ENTITIES = listOf(MessageEntity(ITALIC, 0, 3))
-        val REPLY_MARKUP = InlineKeyboardMarkup.create(
-            listOf(
-                InlineKeyboardButton.CallbackData(
-                    text = "Show alert",
-                    callbackData = "showAlert",
+        val REPLY_MARKUP =
+            InlineKeyboardMarkup.create(
+                listOf(
+                    InlineKeyboardButton.CallbackData(
+                        text = "Show alert",
+                        callbackData = "showAlert",
+                    ),
                 ),
-            ),
-        )
+            )
 
-        val anyDocumentMessage = anyMessage(
-            from = anyUser(),
-            chat = anyChat(
-                id = ANY_CHAT_ID,
-            ),
-            document = anyDocument(
-                fileId = ANY_DOCUMENT_FILE_ID,
-                fileName = DOCUMENT_FILE_NAME,
-                mimeType = "application/pdf",
-                fileSize = ANY_FILE_SIZE,
-            ),
-        )
+        val anyDocumentMessage =
+            anyMessage(
+                from = anyUser(),
+                chat =
+                    anyChat(
+                        id = ANY_CHAT_ID,
+                    ),
+                document =
+                    anyDocument(
+                        fileId = ANY_DOCUMENT_FILE_ID,
+                        fileName = DOCUMENT_FILE_NAME,
+                        mimeType = "application/pdf",
+                        fileSize = ANY_FILE_SIZE,
+                    ),
+            )
     }
 }

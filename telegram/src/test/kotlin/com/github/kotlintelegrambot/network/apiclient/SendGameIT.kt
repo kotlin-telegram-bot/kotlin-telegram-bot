@@ -18,7 +18,6 @@ import okhttp3.mockwebserver.MockResponse
 import org.junit.jupiter.api.Test
 
 class SendGameIT : ApiClientIT() {
-
     @Test
     fun `#sendGame with all parameters creates request correctly`() {
         givenAnySendGameResponse()
@@ -32,11 +31,12 @@ class SendGameIT : ApiClientIT() {
         )
 
         val request = mockWebServer.takeRequest()
-        val expectedRequestBody = "chat_id=$ANY_CHAT_ID" +
-            "&game_short_name=$ANY_GAME_NAME" +
-            "&disable_notification=true" +
-            "&protect_content=false" +
-            "&reply_markup=${gson.toJson(REPLY_MARKUP_WITH_1ST_BUTTON_LAUNCH)}"
+        val expectedRequestBody =
+            "chat_id=$ANY_CHAT_ID" +
+                "&game_short_name=$ANY_GAME_NAME" +
+                "&disable_notification=true" +
+                "&protect_content=false" +
+                "&reply_markup=${gson.toJson(REPLY_MARKUP_WITH_1ST_BUTTON_LAUNCH)}"
 
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
@@ -45,23 +45,26 @@ class SendGameIT : ApiClientIT() {
     fun `#sendGame with required parameters returns response correctly`() {
         givenAnySendGameResponse()
 
-        val sendGameResponse = sut.sendGame(
-            chatId = ChatId.fromId(ANY_CHAT_ID),
-            gameShortName = ANY_GAME_NAME,
-        )
+        val sendGameResponse =
+            sut.sendGame(
+                chatId = ChatId.fromId(ANY_CHAT_ID),
+                gameShortName = ANY_GAME_NAME,
+            )
 
         assertEquals(anyGameMessage.toString().trim(), sendGameResponse.get().toString().trim())
     }
 
     private fun givenAnySendGameResponse() {
-        val sendGameResponse = Response<Message>(
-            ok = true,
-            result = anyGameMessage,
-        )
+        val sendGameResponse =
+            Response<Message>(
+                ok = true,
+                result = anyGameMessage,
+            )
 
-        val mockedResponse = MockResponse()
-            .setResponseCode(200)
-            .setBody(gson.toJson(sendGameResponse))
+        val mockedResponse =
+            MockResponse()
+                .setResponseCode(200)
+                .setBody(gson.toJson(sendGameResponse))
         mockWebServer.enqueue(mockedResponse)
     }
 
@@ -70,22 +73,26 @@ class SendGameIT : ApiClientIT() {
         const val ANY_CHAT_ID = 2351353153L
         const val ANY_GAME_NAME = "game_name"
 
-        val REPLY_MARKUP_WITH_1ST_BUTTON_LAUNCH = InlineKeyboardMarkup.createSingleButton(
-            InlineKeyboardButton.CallbackGameButtonType(
-                text = "Play gameTest",
-                callbackGame = CallbackGame(),
-            ),
-        )
+        val REPLY_MARKUP_WITH_1ST_BUTTON_LAUNCH =
+            InlineKeyboardMarkup.createSingleButton(
+                InlineKeyboardButton.CallbackGameButtonType(
+                    text = "Play gameTest",
+                    callbackGame = CallbackGame(),
+                ),
+            )
 
-        val anyGameMessage = anyMessage(
-            from = anyUser(),
-            chat = anyChat(
-                id = ANY_CHAT_ID,
-            ),
-            game = anyGame(
-                photos = listOf(anyPhotoSize(), anyPhotoSize()),
-            ),
-            replyMarkup = REPLY_MARKUP_WITH_1ST_BUTTON_LAUNCH,
-        )
+        val anyGameMessage =
+            anyMessage(
+                from = anyUser(),
+                chat =
+                    anyChat(
+                        id = ANY_CHAT_ID,
+                    ),
+                game =
+                    anyGame(
+                        photos = listOf(anyPhotoSize(), anyPhotoSize()),
+                    ),
+                replyMarkup = REPLY_MARKUP_WITH_1ST_BUTTON_LAUNCH,
+            )
     }
 }

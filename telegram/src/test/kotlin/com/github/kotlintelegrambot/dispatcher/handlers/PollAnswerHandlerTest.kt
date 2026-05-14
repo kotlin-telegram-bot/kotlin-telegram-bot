@@ -11,7 +11,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class PollAnswerHandlerTest {
-
     private val handlePollAnswerMock = mockk<HandlePollAnswer>(relaxed = true)
 
     private val sut = PollAnswerHandler(handlePollAnswerMock)
@@ -35,18 +34,20 @@ class PollAnswerHandlerTest {
     }
 
     @Test
-    fun `poll answer is properly dispatched to the handler function`() = runTest {
-        val botMock = mockk<Bot>()
-        val anyPollAnswer = anyPollAnswer()
-        val anyUpdateWithPollAnswer = anyUpdate(pollAnswer = anyPollAnswer)
+    fun `poll answer is properly dispatched to the handler function`() =
+        runTest {
+            val botMock = mockk<Bot>()
+            val anyPollAnswer = anyPollAnswer()
+            val anyUpdateWithPollAnswer = anyUpdate(pollAnswer = anyPollAnswer)
 
-        sut.handleUpdate(botMock, anyUpdateWithPollAnswer)
+            sut.handleUpdate(botMock, anyUpdateWithPollAnswer)
 
-        val expectedPollAnswerHandlerEnv = PollAnswerHandlerEnvironment(
-            botMock,
-            anyUpdateWithPollAnswer,
-            anyPollAnswer,
-        )
-        coVerify { handlePollAnswerMock.invoke(expectedPollAnswerHandlerEnv) }
-    }
+            val expectedPollAnswerHandlerEnv =
+                PollAnswerHandlerEnvironment(
+                    botMock,
+                    anyUpdateWithPollAnswer,
+                    anyPollAnswer,
+                )
+            coVerify { handlePollAnswerMock.invoke(expectedPollAnswerHandlerEnv) }
+        }
 }

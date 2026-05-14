@@ -10,7 +10,6 @@ import com.google.gson.annotations.SerializedName
  * See https://core.telegram.org/bots/api#paidmedia
  */
 sealed class PaidMedia {
-
     abstract val type: String
 
     /** The paid media isn't available before the payment. */

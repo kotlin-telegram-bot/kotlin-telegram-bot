@@ -24,47 +24,49 @@ object MyBotConfig {
 }
 
 fun main() {
-    val bot = bot {
-        token = MyBotConfig.API_TOKEN
-        webhook {
-            url = "${MyBotConfig.SERVER_HOSTNAME}/${MyBotConfig.API_TOKEN}"
+    val bot =
+        bot {
+            token = MyBotConfig.API_TOKEN
+            webhook {
+                url = "${MyBotConfig.SERVER_HOSTNAME}/${MyBotConfig.API_TOKEN}"
             /* This certificate argument is only needed when you want Telegram to trust your
-            * self-signed certificates. If you have a CA trusted certificate you can omit it.
-            * More info -> https://core.telegram.org/bots/webhooks */
-            certificate = TelegramFile.ByFile(File(CertificateUtils.certPath))
-            maxConnections = 50
-            allowedUpdates = listOf("message")
-        }
-        dispatch {
-            command("hello") {
-                bot.sendMessage(ChatId.fromId(message.chat.id), "Hey bruh!")
+             * self-signed certificates. If you have a CA trusted certificate you can omit it.
+             * More info -> https://core.telegram.org/bots/webhooks */
+                certificate = TelegramFile.ByFile(File(CertificateUtils.certPath))
+                maxConnections = 50
+                allowedUpdates = listOf("message")
             }
-        }
-    }
-    bot.startWebhook()
-
-    val env = applicationEngineEnvironment {
-        module {
-            routing {
-                post("/${MyBotConfig.API_TOKEN}") {
-                    val response = call.receiveText()
-                    bot.processUpdate(response)
-                    call.respond(HttpStatusCode.OK)
+            dispatch {
+                command("hello") {
+                    bot.sendMessage(ChatId.fromId(message.chat.id), "Hey bruh!")
                 }
             }
         }
+    bot.startWebhook()
 
-        sslConnector(
-            keyStore = CertificateUtils.keyStore,
-            keyAlias = CertificateUtils.keyAlias,
-            keyStorePassword = { CertificateUtils.keyStorePassword },
-            privateKeyPassword = { CertificateUtils.privateKeyPassword },
-        ) {
-            port = 443
-            keyStorePath = CertificateUtils.keyStoreFile.absoluteFile
-            host = "0.0.0.0"
+    val env =
+        applicationEngineEnvironment {
+            module {
+                routing {
+                    post("/${MyBotConfig.API_TOKEN}") {
+                        val response = call.receiveText()
+                        bot.processUpdate(response)
+                        call.respond(HttpStatusCode.OK)
+                    }
+                }
+            }
+
+            sslConnector(
+                keyStore = CertificateUtils.keyStore,
+                keyAlias = CertificateUtils.keyAlias,
+                keyStorePassword = { CertificateUtils.keyStorePassword },
+                privateKeyPassword = { CertificateUtils.privateKeyPassword },
+            ) {
+                port = 443
+                keyStorePath = CertificateUtils.keyStoreFile.absoluteFile
+                host = "0.0.0.0"
+            }
         }
-    }
 
     embeddedServer(Netty, env).start(wait = true)
 }

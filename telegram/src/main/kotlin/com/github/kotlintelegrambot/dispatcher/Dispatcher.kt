@@ -19,7 +19,6 @@ class Dispatcher internal constructor(
     private val logLevel: LogLevel,
     coroutineDispatcher: CoroutineDispatcher,
 ) {
-
     internal lateinit var bot: Bot
 
     private val commandHandlers = linkedSetOf<Handler>()

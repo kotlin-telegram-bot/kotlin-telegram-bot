@@ -10,7 +10,6 @@ import com.google.gson.annotations.SerializedName
  * See https://core.telegram.org/bots/api#ownedgift
  */
 sealed class OwnedGift {
-
     /** Discriminator value sent on the wire as the `type` field. */
     abstract val type: String
 

@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
 class ChatMemberHandlerTest {
-
     private val handleChatMemberMock = mockk<HandleChatMember>(relaxed = true)
 
     @Test
@@ -35,20 +34,22 @@ class ChatMemberHandlerTest {
     }
 
     @Test
-    fun `myChatMember is properly dispatched to the handler function`() = runTest {
-        val botMock = mockk<Bot>(relaxed = true)
-        val anyChatMember = anyMyChatMember(chat = anyChat())
-        val anyUpdateWithMyChatMember = anyUpdate(chatMember = anyChatMember)
+    fun `myChatMember is properly dispatched to the handler function`() =
+        runTest {
+            val botMock = mockk<Bot>(relaxed = true)
+            val anyChatMember = anyMyChatMember(chat = anyChat())
+            val anyUpdateWithMyChatMember = anyUpdate(chatMember = anyChatMember)
 
-        val sut = ChatMemberHandler(handleChatMember = handleChatMemberMock)
+            val sut = ChatMemberHandler(handleChatMember = handleChatMemberMock)
 
-        sut.handleUpdate(botMock, anyUpdateWithMyChatMember)
+            sut.handleUpdate(botMock, anyUpdateWithMyChatMember)
 
-        val expectedChatMemberHandlerEnvironment = ChatMemberHandlerEnvironment(
-            botMock,
-            anyUpdateWithMyChatMember,
-            anyChatMember,
-        )
-        coVerify { handleChatMemberMock.invoke(expectedChatMemberHandlerEnvironment) }
-    }
+            val expectedChatMemberHandlerEnvironment =
+                ChatMemberHandlerEnvironment(
+                    botMock,
+                    anyUpdateWithMyChatMember,
+                    anyChatMember,
+                )
+            coVerify { handleChatMemberMock.invoke(expectedChatMemberHandlerEnvironment) }
+        }
 }

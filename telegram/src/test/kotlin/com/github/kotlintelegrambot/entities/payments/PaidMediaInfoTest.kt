@@ -5,18 +5,18 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class PaidMediaInfoTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
     fun `deserializes PaidMediaInfo with star count and paid media list`() {
-        val json = """
+        val json =
+            """
             {"star_count":99,
              "paid_media":[
                {"type":"preview","width":100,"height":200,"duration":10},
                {"type":"photo","photo":[{"file_id":"A","file_unique_id":"u","width":1,"height":1}]}
              ]}
-        """.trimIndent()
+            """.trimIndent()
 
         val info = gson.fromJson(json, PaidMediaInfo::class.java)
 

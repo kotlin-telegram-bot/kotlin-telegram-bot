@@ -8,47 +8,52 @@ import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.jupiter.api.Test
 
 class ApiResponseMapperTest {
-
     private val sut = ApiResponseMapper()
 
     @Test
     fun `error response with invalid error Telegram response`() {
-        val notSuccessfulResponse = CallResponse.error<Response<Int>>(
-            ANY_HTTP_ERROR_CODE,
-            ANY_ERROR_BODY.toResponseBody(),
-        )
+        val notSuccessfulResponse =
+            CallResponse.error<Response<Int>>(
+                ANY_HTTP_ERROR_CODE,
+                ANY_ERROR_BODY.toResponseBody(),
+            )
 
         val telegramBotResult = sut.mapToTelegramBotResult(notSuccessfulResponse)
 
-        val expectedTelegramBotResult = TelegramBotResult.Error.HttpError(
-            ANY_HTTP_ERROR_CODE,
-            ANY_ERROR_BODY,
-        )
+        val expectedTelegramBotResult =
+            TelegramBotResult.Error.HttpError(
+                ANY_HTTP_ERROR_CODE,
+                ANY_ERROR_BODY,
+            )
         assertEquals(expectedTelegramBotResult, telegramBotResult)
     }
 
     @Test
     fun `error response with valid error Telegram response`() {
-        val validErrorTgResponse = Response(
-            result = null,
-            ok = false,
-            errorCode = ANY_ERROR_CODE,
-            errorDescription = ANY_ERROR_DESCRIPTION,
-        )
+        val validErrorTgResponse =
+            Response(
+                result = null,
+                ok = false,
+                errorCode = ANY_ERROR_CODE,
+                errorDescription = ANY_ERROR_DESCRIPTION,
+            )
 
-        val errorResponseWithValidErrorTgResponse = CallResponse.error<Response<Int>>(
-            ANY_ERROR_CODE,
-            Gson().toJson(validErrorTgResponse).toResponseBody("application/json".toMediaType()),
-        )
+        val errorResponseWithValidErrorTgResponse =
+            CallResponse.error<Response<Int>>(
+                ANY_ERROR_CODE,
+                Gson().toJson(validErrorTgResponse).toResponseBody("application/json".toMediaType()),
+            )
 
-        val telegramBotResult = sut.mapToTelegramBotResult(
-            errorResponseWithValidErrorTgResponse,
-        )
+        val telegramBotResult =
+            sut.mapToTelegramBotResult(
+                errorResponseWithValidErrorTgResponse,
+            )
 
-        val expectedTelegramBotResult = TelegramBotResult.Error.TelegramApi(
-            ANY_ERROR_CODE,
-            ANY_ERROR_DESCRIPTION,
-        )
+        val expectedTelegramBotResult =
+            TelegramBotResult.Error.TelegramApi(
+                ANY_ERROR_CODE,
+                ANY_ERROR_DESCRIPTION,
+            )
         assertEquals(expectedTelegramBotResult, telegramBotResult)
     }
 
@@ -58,53 +63,61 @@ class ApiResponseMapperTest {
 
         val telegramBotResult = sut.mapToTelegramBotResult(successfulResponseWithNoBody)
 
-        val expectedTelegramBotResult = TelegramBotResult.Error.InvalidResponse(
-            200,
-            "OK",
-            null,
-        )
+        val expectedTelegramBotResult =
+            TelegramBotResult.Error.InvalidResponse(
+                200,
+                "OK",
+                null,
+            )
         assertEquals(expectedTelegramBotResult, telegramBotResult)
     }
 
     @Test
     fun `successful response with invalid successful Telegram response`() {
-        val invalidSuccessfulTgResponse = Response<Int>(
-            result = null,
-            ok = true,
-            errorCode = null,
-            errorDescription = null,
-        )
-        val successfulResponseWithInvalidSuccessfulTgResponse = CallResponse.success(
-            invalidSuccessfulTgResponse,
-        )
+        val invalidSuccessfulTgResponse =
+            Response<Int>(
+                result = null,
+                ok = true,
+                errorCode = null,
+                errorDescription = null,
+            )
+        val successfulResponseWithInvalidSuccessfulTgResponse =
+            CallResponse.success(
+                invalidSuccessfulTgResponse,
+            )
 
-        val telegramBotResult = sut.mapToTelegramBotResult(
-            successfulResponseWithInvalidSuccessfulTgResponse,
-        )
+        val telegramBotResult =
+            sut.mapToTelegramBotResult(
+                successfulResponseWithInvalidSuccessfulTgResponse,
+            )
 
-        val expectedTelegramBotResult = TelegramBotResult.Error.InvalidResponse(
-            200,
-            "OK",
-            invalidSuccessfulTgResponse,
-        )
+        val expectedTelegramBotResult =
+            TelegramBotResult.Error.InvalidResponse(
+                200,
+                "OK",
+                invalidSuccessfulTgResponse,
+            )
         assertEquals(expectedTelegramBotResult, telegramBotResult)
     }
 
     @Test
     fun `successful response with valid successful Telegram response`() {
-        val validSuccessfulTgResponse = Response(
-            result = ANY_RESULT,
-            ok = true,
-            errorCode = null,
-            errorDescription = null,
-        )
-        val successfulResponseWithValidSuccessfulTgResponse = CallResponse.success(
-            validSuccessfulTgResponse,
-        )
+        val validSuccessfulTgResponse =
+            Response(
+                result = ANY_RESULT,
+                ok = true,
+                errorCode = null,
+                errorDescription = null,
+            )
+        val successfulResponseWithValidSuccessfulTgResponse =
+            CallResponse.success(
+                validSuccessfulTgResponse,
+            )
 
-        val telegramBotResult = sut.mapToTelegramBotResult(
-            successfulResponseWithValidSuccessfulTgResponse,
-        )
+        val telegramBotResult =
+            sut.mapToTelegramBotResult(
+                successfulResponseWithValidSuccessfulTgResponse,
+            )
 
         val expectedTelegramBotResult = TelegramBotResult.Success(ANY_RESULT)
         assertEquals(expectedTelegramBotResult, telegramBotResult)
@@ -112,72 +125,84 @@ class ApiResponseMapperTest {
 
     @Test
     fun `successful response with invalid error Telegram response in error code`() {
-        val invalidErrorTgResponse = Response(
-            result = null,
-            ok = false,
-            errorCode = null,
-            errorDescription = "any error description",
-        )
-        val successfulResponseWithInvalidErrorTgResponse = CallResponse.success(
-            invalidErrorTgResponse,
-        )
+        val invalidErrorTgResponse =
+            Response(
+                result = null,
+                ok = false,
+                errorCode = null,
+                errorDescription = "any error description",
+            )
+        val successfulResponseWithInvalidErrorTgResponse =
+            CallResponse.success(
+                invalidErrorTgResponse,
+            )
 
-        val telegramBotResult = sut.mapToTelegramBotResult(
-            successfulResponseWithInvalidErrorTgResponse,
-        )
+        val telegramBotResult =
+            sut.mapToTelegramBotResult(
+                successfulResponseWithInvalidErrorTgResponse,
+            )
 
-        val expectedTelegramBotResult = TelegramBotResult.Error.InvalidResponse(
-            200,
-            "OK",
-            invalidErrorTgResponse,
-        )
+        val expectedTelegramBotResult =
+            TelegramBotResult.Error.InvalidResponse(
+                200,
+                "OK",
+                invalidErrorTgResponse,
+            )
         assertEquals(expectedTelegramBotResult, telegramBotResult)
     }
 
     @Test
     fun `successful response with invalid error Telegram response in error description`() {
-        val invalidErrorTgResponse = Response(
-            result = null,
-            ok = false,
-            errorCode = 403,
-            errorDescription = null,
-        )
-        val successfulResponseWithInvalidErrorTgResponse = CallResponse.success(
-            invalidErrorTgResponse,
-        )
+        val invalidErrorTgResponse =
+            Response(
+                result = null,
+                ok = false,
+                errorCode = 403,
+                errorDescription = null,
+            )
+        val successfulResponseWithInvalidErrorTgResponse =
+            CallResponse.success(
+                invalidErrorTgResponse,
+            )
 
-        val telegramBotResult = sut.mapToTelegramBotResult(
-            successfulResponseWithInvalidErrorTgResponse,
-        )
+        val telegramBotResult =
+            sut.mapToTelegramBotResult(
+                successfulResponseWithInvalidErrorTgResponse,
+            )
 
-        val expectedTelegramBotResult = TelegramBotResult.Error.InvalidResponse(
-            200,
-            "OK",
-            invalidErrorTgResponse,
-        )
+        val expectedTelegramBotResult =
+            TelegramBotResult.Error.InvalidResponse(
+                200,
+                "OK",
+                invalidErrorTgResponse,
+            )
         assertEquals(expectedTelegramBotResult, telegramBotResult)
     }
 
     @Test
     fun `successful response with valid error Telegram response`() {
-        val validErrorTgResponse = Response(
-            result = null,
-            ok = false,
-            errorCode = ANY_ERROR_CODE,
-            errorDescription = ANY_ERROR_DESCRIPTION,
-        )
-        val successfulResponseWithValidErrorTgResponse = CallResponse.success(
-            validErrorTgResponse,
-        )
+        val validErrorTgResponse =
+            Response(
+                result = null,
+                ok = false,
+                errorCode = ANY_ERROR_CODE,
+                errorDescription = ANY_ERROR_DESCRIPTION,
+            )
+        val successfulResponseWithValidErrorTgResponse =
+            CallResponse.success(
+                validErrorTgResponse,
+            )
 
-        val telegramBotResult = sut.mapToTelegramBotResult(
-            successfulResponseWithValidErrorTgResponse,
-        )
+        val telegramBotResult =
+            sut.mapToTelegramBotResult(
+                successfulResponseWithValidErrorTgResponse,
+            )
 
-        val expectedTelegramBotResult = TelegramBotResult.Error.TelegramApi(
-            ANY_ERROR_CODE,
-            ANY_ERROR_DESCRIPTION,
-        )
+        val expectedTelegramBotResult =
+            TelegramBotResult.Error.TelegramApi(
+                ANY_ERROR_CODE,
+                ANY_ERROR_DESCRIPTION,
+            )
         assertEquals(expectedTelegramBotResult, telegramBotResult)
     }
 

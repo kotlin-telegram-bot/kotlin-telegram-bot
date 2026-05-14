@@ -8,13 +8,12 @@ import com.github.kotlintelegrambot.entities.Update
 class GameHandler(
     handleGame: HandleGame,
 ) : MediaHandler<Game>(
-    handleGame,
-    GameHandlerFunctions::mapMessageToGame,
-    GameHandlerFunctions::isUpdateGame,
-)
+        handleGame,
+        GameHandlerFunctions::mapMessageToGame,
+        GameHandlerFunctions::isUpdateGame,
+    )
 
 private object GameHandlerFunctions {
-
     fun mapMessageToGame(message: Message): Game {
         val game = message.game
         checkNotNull(game)

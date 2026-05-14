@@ -14,7 +14,6 @@ import okhttp3.mockwebserver.MockResponse
 import org.junit.jupiter.api.Test
 
 class SendPollIT : ApiClientIT() {
-
     @Test
     fun `sendPoll with chat id and only the mandatory parameters is correctly sent`() {
         givenAnySendPollResponse()
@@ -103,39 +102,45 @@ class SendPollIT : ApiClientIT() {
 
         val sendPollResult = sut.sendPoll(ChatId.fromId(ANY_CHAT_ID), ANY_QUESTION, ANY_POLL_OPTIONS)
 
-        val expectedMessage = Message(
-            messageId = 9,
-            from = User(
-                id = 482352699,
-                isBot = true,
-                firstName = "ruka",
-                username = "rukaBot",
-            ),
-            chat = Chat(
-                id = -1001286972005,
-                title = "Test Telegram Bot API",
-                type = "supergroup",
-            ),
-            date = 1589629064,
-            poll = Poll(
-                id = 5906677791281119236,
-                question = "World war III, what do you prefer?",
-                options = listOf(
-                    PollOption(text = "tabs", voterCount = 0),
-                    PollOption(text = "spaces", voterCount = 1),
-                ),
-                totalVoterCount = 1,
-                isClosed = false,
-                isAnonymous = true,
-                type = REGULAR,
-                allowsMultipleAnswers = false,
-            ),
-        )
+        val expectedMessage =
+            Message(
+                messageId = 9,
+                from =
+                    User(
+                        id = 482352699,
+                        isBot = true,
+                        firstName = "ruka",
+                        username = "rukaBot",
+                    ),
+                chat =
+                    Chat(
+                        id = -1001286972005,
+                        title = "Test Telegram Bot API",
+                        type = "supergroup",
+                    ),
+                date = 1589629064,
+                poll =
+                    Poll(
+                        id = 5906677791281119236,
+                        question = "World war III, what do you prefer?",
+                        options =
+                            listOf(
+                                PollOption(text = "tabs", voterCount = 0),
+                                PollOption(text = "spaces", voterCount = 1),
+                            ),
+                        totalVoterCount = 1,
+                        isClosed = false,
+                        isAnonymous = true,
+                        type = REGULAR,
+                        allowsMultipleAnswers = false,
+                    ),
+            )
         assertEquals(expectedMessage, sendPollResult.get())
     }
 
     private fun givenAnySendPollResponse() {
-        val sendPollResponse = """
+        val sendPollResponse =
+            """
             {
                 "ok": true,
                 "result": {
@@ -173,10 +178,11 @@ class SendPollIT : ApiClientIT() {
                     }
                 }
             }
-        """.trimIndent()
-        val mockedResponse = MockResponse()
-            .setResponseCode(200)
-            .setBody(sendPollResponse)
+            """.trimIndent()
+        val mockedResponse =
+            MockResponse()
+                .setResponseCode(200)
+                .setBody(sendPollResponse)
         mockWebServer.enqueue(mockedResponse)
     }
 

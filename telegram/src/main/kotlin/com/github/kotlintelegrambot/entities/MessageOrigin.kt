@@ -11,7 +11,6 @@ import com.google.gson.annotations.SerializedName
  * See https://core.telegram.org/bots/api#messageorigin
  */
 sealed class MessageOrigin {
-
     /** Discriminator value sent on the wire as the `type` field. */
     abstract val type: String
 

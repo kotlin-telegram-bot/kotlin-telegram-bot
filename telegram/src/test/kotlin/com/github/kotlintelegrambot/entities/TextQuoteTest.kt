@@ -5,14 +5,14 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class TextQuoteTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
     fun `deserializes TextQuote from JSON`() {
-        val json = """
+        val json =
+            """
             {"text":"hello world","position":0,"is_manual":true,"entities":[{"type":"bold","offset":0,"length":5}]}
-        """.trimIndent()
+            """.trimIndent()
 
         val quote = gson.fromJson(json, TextQuote::class.java)
 

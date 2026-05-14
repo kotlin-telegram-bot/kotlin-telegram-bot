@@ -5,7 +5,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.junit.jupiter.api.Test
 
 class LogLevelTest {
-
     @Test
     fun `log level is properly mapped to ok http's log level`() {
         assertEquals(HttpLoggingInterceptor.Level.NONE, LogLevel.None.toOkHttpLogLevel())

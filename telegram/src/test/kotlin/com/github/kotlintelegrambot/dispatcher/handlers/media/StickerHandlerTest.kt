@@ -13,7 +13,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class StickerHandlerTest {
-
     private val handleStickerMock = mockk<HandleSticker>(relaxed = true)
 
     private val sut = StickerHandler(handleStickerMock)
@@ -37,20 +36,22 @@ class StickerHandlerTest {
     }
 
     @Test
-    fun `sticker is properly dispatched to the handler function`() = runTest {
-        val botMock = mockk<Bot>()
-        val anySticker = anySticker()
-        val anyMessageWithSticker = anyMessage(sticker = anySticker)
-        val anyUpdateWithSticker = anyUpdate(message = anyMessageWithSticker)
+    fun `sticker is properly dispatched to the handler function`() =
+        runTest {
+            val botMock = mockk<Bot>()
+            val anySticker = anySticker()
+            val anyMessageWithSticker = anyMessage(sticker = anySticker)
+            val anyUpdateWithSticker = anyUpdate(message = anyMessageWithSticker)
 
-        sut.handleUpdate(botMock, anyUpdateWithSticker)
+            sut.handleUpdate(botMock, anyUpdateWithSticker)
 
-        val expectedStickerHandlerEnv = MediaHandlerEnvironment(
-            botMock,
-            anyUpdateWithSticker,
-            anyMessageWithSticker,
-            anySticker,
-        )
-        coVerify { handleStickerMock.invoke(expectedStickerHandlerEnv) }
-    }
+            val expectedStickerHandlerEnv =
+                MediaHandlerEnvironment(
+                    botMock,
+                    anyUpdateWithSticker,
+                    anyMessageWithSticker,
+                    anySticker,
+                )
+            coVerify { handleStickerMock.invoke(expectedStickerHandlerEnv) }
+        }
 }

@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test
  * Wire-format coverage for Bot API 8.0 gift methods.
  */
 class GiftsIT : ApiClientIT() {
-
     @Test
     fun `getAvailableGifts issues a GET`() {
         mockWebServer.enqueue(MockResponse().setResponseCode(200).setBody("""{"ok":true,"result":{"gifts":[]}}"""))
@@ -74,11 +73,12 @@ class GiftsIT : ApiClientIT() {
 
         sut.savePreparedInlineMessage(
             userId = 42L,
-            result = InlineQueryResult.Article(
-                id = "1",
-                title = "Hi",
-                inputMessageContent = InputMessageContent.Text(messageText = "body"),
-            ),
+            result =
+                InlineQueryResult.Article(
+                    id = "1",
+                    title = "Hi",
+                    inputMessageContent = InputMessageContent.Text(messageText = "body"),
+                ),
             allowUserChats = true,
         )
 

@@ -14,17 +14,17 @@ internal class Updater(
     private val apiClient: ApiClient,
     private val botTimeout: Int,
 ) {
-
     @Volatile private var lastUpdateId: Long? = null
 
     internal fun startPolling() {
         looper.loop {
-            val getUpdatesResult = apiClient.getUpdates(
-                offset = lastUpdateId,
-                limit = null,
-                timeout = botTimeout,
-                allowedUpdates = null,
-            )
+            val getUpdatesResult =
+                apiClient.getUpdates(
+                    offset = lastUpdateId,
+                    limit = null,
+                    timeout = botTimeout,
+                    allowedUpdates = null,
+                )
             yield()
             getUpdatesResult.fold(
                 ifSuccess = { onUpdatesReceived(it) },
@@ -50,16 +50,18 @@ internal class Updater(
     }
 
     private suspend fun onErrorGettingUpdates(error: TelegramBotResult.Error) {
-        val errorDescription: String? = when (error) {
-            is TelegramBotResult.Error.HttpError -> "${error.httpCode} ${error.description}"
-            is TelegramBotResult.Error.TelegramApi -> "${error.errorCode} ${error.description}"
-            is TelegramBotResult.Error.InvalidResponse -> "${error.httpCode} ${error.httpStatusMessage}"
-            is TelegramBotResult.Error.Unknown -> error.exception.message
-        }
+        val errorDescription: String? =
+            when (error) {
+                is TelegramBotResult.Error.HttpError -> "${error.httpCode} ${error.description}"
+                is TelegramBotResult.Error.TelegramApi -> "${error.errorCode} ${error.description}"
+                is TelegramBotResult.Error.InvalidResponse -> "${error.httpCode} ${error.httpStatusMessage}"
+                is TelegramBotResult.Error.Unknown -> error.exception.message
+            }
 
-        val dispatchableError = RetrieveUpdatesError(
-            errorDescription ?: "Error retrieving updates",
-        )
+        val dispatchableError =
+            RetrieveUpdatesError(
+                errorDescription ?: "Error retrieving updates",
+            )
         updatesChannel.send(dispatchableError)
     }
 }

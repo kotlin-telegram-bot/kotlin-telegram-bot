@@ -25,5 +25,8 @@ interface Handler {
      * @param bot Instance of the Telegram bot that received the update.
      * @param update The update to be processed.
      */
-    suspend fun handleUpdate(bot: Bot, update: Update)
+    suspend fun handleUpdate(
+        bot: Bot,
+        update: Update,
+    )
 }

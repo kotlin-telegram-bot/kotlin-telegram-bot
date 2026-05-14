@@ -5,12 +5,12 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class StoryAreaTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
     fun `deserializes StoryAreaPosition`() {
-        val json = """
+        val json =
+            """
             {
               "x_percentage":50.0,
               "y_percentage":25.0,
@@ -19,7 +19,7 @@ class StoryAreaTest {
               "rotation_angle":0.0,
               "corner_radius_percentage":12.5
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val position = gson.fromJson(json, StoryAreaPosition::class.java)
 

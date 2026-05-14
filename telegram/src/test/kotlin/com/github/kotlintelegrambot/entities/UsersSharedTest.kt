@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test
 
 @Suppress("DEPRECATION")
 class UsersSharedTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
@@ -32,7 +31,8 @@ class UsersSharedTest {
 
     @Test
     fun `deserializes UsersShared with users array of SharedUser (7_2 shape)`() {
-        val json = """
+        val json =
+            """
             {
               "request_id": 11,
               "users": [
@@ -48,7 +48,7 @@ class UsersSharedTest {
                 { "user_id": 200 }
               ]
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val parsed = gson.fromJson(json, UsersShared::class.java)
 

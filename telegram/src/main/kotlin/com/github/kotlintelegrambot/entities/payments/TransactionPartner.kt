@@ -9,7 +9,6 @@ import com.google.gson.annotations.SerializedName
  * See https://core.telegram.org/bots/api#transactionpartner
  */
 sealed class TransactionPartner {
-
     abstract val type: String
 
     /** Describes a transaction with a user. */

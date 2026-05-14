@@ -4,13 +4,13 @@ import com.github.kotlintelegrambot.types.TelegramBotResult
 import com.google.gson.Gson
 
 internal class ApiResponseMapper {
-
     fun <T : Any> mapToTelegramBotResult(apiResponse: CallResponse<Response<T>>): TelegramBotResult<T> {
-        fun invalidResponse(): TelegramBotResult.Error = TelegramBotResult.Error.InvalidResponse(
-            apiResponse.code(),
-            apiResponse.message(),
-            apiResponse.body(),
-        )
+        fun invalidResponse(): TelegramBotResult.Error =
+            TelegramBotResult.Error.InvalidResponse(
+                apiResponse.code(),
+                apiResponse.message(),
+                apiResponse.body(),
+            )
 
         fun Response<T>.getTelegramErrorOrInvalidResponse(): TelegramBotResult.Error {
             return TelegramBotResult.Error.TelegramApi(
@@ -37,14 +37,15 @@ internal class ApiResponseMapper {
         // TypeToken<Response<T>> when T is a method type variable, which is why we use the
         // raw class here and cast.
         @Suppress("UNCHECKED_CAST")
-        val responseBody = try {
-            Gson().fromJson(responseBodyString, Response::class.java) as Response<T>
-        } catch (e: Exception) {
-            return TelegramBotResult.Error.HttpError(
-                apiResponse.code(),
-                responseBodyString,
-            )
-        }
+        val responseBody =
+            try {
+                Gson().fromJson(responseBodyString, Response::class.java) as Response<T>
+            } catch (e: Exception) {
+                return TelegramBotResult.Error.HttpError(
+                    apiResponse.code(),
+                    responseBodyString,
+                )
+            }
 
         if (responseBody.ok) return invalidResponse()
 

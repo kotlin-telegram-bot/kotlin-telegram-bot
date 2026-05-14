@@ -8,13 +8,12 @@ import com.github.kotlintelegrambot.entities.files.Voice
 class VoiceHandler(
     handleVoice: HandleVoice,
 ) : MediaHandler<Voice>(
-    handleVoice,
-    VoiceHandlerFunctions::mapMessageToVoice,
-    VoiceHandlerFunctions::isUpdateVoice,
-)
+        handleVoice,
+        VoiceHandlerFunctions::mapMessageToVoice,
+        VoiceHandlerFunctions::isUpdateVoice,
+    )
 
 private object VoiceHandlerFunctions {
-
     fun mapMessageToVoice(message: Message): Voice {
         val voice = message.voice
         checkNotNull(voice)

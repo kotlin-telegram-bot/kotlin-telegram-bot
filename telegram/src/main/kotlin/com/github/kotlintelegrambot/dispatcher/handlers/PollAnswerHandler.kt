@@ -13,10 +13,12 @@ data class PollAnswerHandlerEnvironment(
 class PollAnswerHandler(
     private val handlePollAnswer: HandlePollAnswer,
 ) : Handler {
-
     override fun checkUpdate(update: Update): Boolean = update.pollAnswer != null
 
-    override suspend fun handleUpdate(bot: Bot, update: Update) {
+    override suspend fun handleUpdate(
+        bot: Bot,
+        update: Update,
+    ) {
         val pollAnswer = update.pollAnswer
         checkNotNull(pollAnswer)
 

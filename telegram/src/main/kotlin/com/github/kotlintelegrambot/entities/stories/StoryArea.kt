@@ -34,7 +34,6 @@ data class StoryAreaPosition(
  * See https://core.telegram.org/bots/api#storyareatype
  */
 sealed class StoryAreaType {
-
     abstract val type: String
 
     /** Story area pointing to a location. */

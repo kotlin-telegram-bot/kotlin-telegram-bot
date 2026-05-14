@@ -7,8 +7,9 @@ import kotlinx.coroutines.launch
 /**
  * Looper implementation for testing purposes. It will loop [loopIterations] times and then stop.
  */
-class BoundLooper(coroutineDispatcher: CoroutineDispatcher) : Looper {
-
+class BoundLooper(
+    coroutineDispatcher: CoroutineDispatcher,
+) : Looper {
     private val scope: CoroutineScope = CoroutineScope(coroutineDispatcher)
     var loopIterations = 0
 

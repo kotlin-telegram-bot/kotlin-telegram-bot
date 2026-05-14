@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test
  * Wire-format coverage for Bot API 10.0 guest-mode methods.
  */
 class GuestModeIT : ApiClientIT() {
-
     @Test
     fun `answerGuestQuery posts guest_query_id and optional text`() {
         mockWebServer.enqueue(

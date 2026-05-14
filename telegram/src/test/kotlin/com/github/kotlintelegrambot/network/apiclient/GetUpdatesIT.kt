@@ -19,7 +19,6 @@ import okhttp3.mockwebserver.MockResponse
 import org.junit.jupiter.api.Test
 
 class GetUpdatesIT : ApiClientIT() {
-
     @Test
     fun `api method name`() {
         givenAnyGetUpdatesResponse()
@@ -52,10 +51,11 @@ class GetUpdatesIT : ApiClientIT() {
         )
 
         val request = mockWebServer.takeRequest()
-        val expectedQueryParameters = "offset=$ANY_OFFSET" +
-            "&limit=$ANY_LIMIT" +
-            "&timeout=$ANY_TIMEOUT" +
-            "&allowed_updates=%5B%22message%22%2C%22edited_channel_post%22%2C%22callback_query%22%5D"
+        val expectedQueryParameters =
+            "offset=$ANY_OFFSET" +
+                "&limit=$ANY_LIMIT" +
+                "&timeout=$ANY_TIMEOUT" +
+                "&allowed_updates=%5B%22message%22%2C%22edited_channel_post%22%2C%22callback_query%22%5D"
         assertEquals(expectedQueryParameters, request.queryParams)
     }
 
@@ -121,54 +121,61 @@ class GetUpdatesIT : ApiClientIT() {
 
         val getUpdatesResult = sut.getUpdates(null, null, null, null)
 
-        val expectedUpdates = listOf(
-            Update(
-                updateId = 1,
-                callbackQuery = CallbackQuery(
-                    id = "1",
-                    from = User(
-                        id = 1,
-                        isBot = false,
-                        firstName = "TestName",
-                        username = "testname",
-                        languageCode = "de",
-                    ),
-                    message = Message(
-                        messageId = 1,
-                        from = User(
-                            id = 1,
-                            isBot = true,
-                            firstName = "testbot",
-                            username = "testbot",
-                        ),
-                        chat = Chat(
-                            id = 1,
-                            firstName = "TestName",
-                            username = "testname",
-                            type = "private",
-                        ),
-                        date = 1606317592,
-                        text = "Hello, inline buttons!",
-                        replyMarkup = InlineKeyboardMarkup.create(
-                            listOf(
-                                InlineKeyboardButton.CallbackData(
-                                    text = "Test Inline Button",
-                                    callbackData = "testButton",
+        val expectedUpdates =
+            listOf(
+                Update(
+                    updateId = 1,
+                    callbackQuery =
+                        CallbackQuery(
+                            id = "1",
+                            from =
+                                User(
+                                    id = 1,
+                                    isBot = false,
+                                    firstName = "TestName",
+                                    username = "testname",
+                                    languageCode = "de",
                                 ),
-                            ),
-                            listOf(
-                                InlineKeyboardButton.CallbackData(
-                                    text = "Show alert",
-                                    callbackData = "showAlert",
+                            message =
+                                Message(
+                                    messageId = 1,
+                                    from =
+                                        User(
+                                            id = 1,
+                                            isBot = true,
+                                            firstName = "testbot",
+                                            username = "testbot",
+                                        ),
+                                    chat =
+                                        Chat(
+                                            id = 1,
+                                            firstName = "TestName",
+                                            username = "testname",
+                                            type = "private",
+                                        ),
+                                    date = 1606317592,
+                                    text = "Hello, inline buttons!",
+                                    replyMarkup =
+                                        InlineKeyboardMarkup.create(
+                                            listOf(
+                                                InlineKeyboardButton.CallbackData(
+                                                    text = "Test Inline Button",
+                                                    callbackData = "testButton",
+                                                ),
+                                            ),
+                                            listOf(
+                                                InlineKeyboardButton.CallbackData(
+                                                    text = "Show alert",
+                                                    callbackData = "showAlert",
+                                                ),
+                                            ),
+                                        ),
                                 ),
-                            ),
+                            chatInstance = "1",
+                            data = "showAlert",
                         ),
-                    ),
-                    chatInstance = "1",
-                    data = "showAlert",
                 ),
-            ),
-        )
+            )
         assertEquals(expectedUpdates, getUpdatesResult.getOrNull())
     }
 
@@ -176,58 +183,62 @@ class GetUpdatesIT : ApiClientIT() {
     fun `getUpdates with a channel post containing sender chat`() {
         givenGetUpdatesResponse(
             """
-                {
-                    "ok": true,
-                    "result": [
-                        {
-                            "update_id": 132059007,
-                            "channel_post": {
-                                "message_id": 18,
-                                "sender_chat": {
-                                    "id": -1001367429635,
-                                    "title": "[Channel] Test Telegram Bot",
-                                    "username": "testtelegrambotapi",
-                                    "type": "channel"
-                                },
-                                "chat": {
-                                    "id": -1001367429635,
-                                    "title": "[Channel] Test Telegram Bot",
-                                    "username": "testtelegrambotapi",
-                                    "type": "channel"
-                                },
-                                "date": 1612631280,
-                                "text": "Test"
-                            }
+            {
+                "ok": true,
+                "result": [
+                    {
+                        "update_id": 132059007,
+                        "channel_post": {
+                            "message_id": 18,
+                            "sender_chat": {
+                                "id": -1001367429635,
+                                "title": "[Channel] Test Telegram Bot",
+                                "username": "testtelegrambotapi",
+                                "type": "channel"
+                            },
+                            "chat": {
+                                "id": -1001367429635,
+                                "title": "[Channel] Test Telegram Bot",
+                                "username": "testtelegrambotapi",
+                                "type": "channel"
+                            },
+                            "date": 1612631280,
+                            "text": "Test"
                         }
-                    ]
-                }
+                    }
+                ]
+            }
             """.trimIndent(),
         )
 
         val getUpdatesResult = sut.getUpdates(null, null, null, null)
 
-        val expectedGetUpdatesResult = listOf(
-            Update(
-                updateId = 132059007,
-                channelPost = Message(
-                    messageId = 18,
-                    senderChat = Chat(
-                        id = -1001367429635,
-                        title = "[Channel] Test Telegram Bot",
-                        username = "testtelegrambotapi",
-                        type = "channel",
-                    ),
-                    chat = Chat(
-                        id = -1001367429635,
-                        title = "[Channel] Test Telegram Bot",
-                        username = "testtelegrambotapi",
-                        type = "channel",
-                    ),
-                    date = 1612631280,
-                    text = "Test",
+        val expectedGetUpdatesResult =
+            listOf(
+                Update(
+                    updateId = 132059007,
+                    channelPost =
+                        Message(
+                            messageId = 18,
+                            senderChat =
+                                Chat(
+                                    id = -1001367429635,
+                                    title = "[Channel] Test Telegram Bot",
+                                    username = "testtelegrambotapi",
+                                    type = "channel",
+                                ),
+                            chat =
+                                Chat(
+                                    id = -1001367429635,
+                                    title = "[Channel] Test Telegram Bot",
+                                    username = "testtelegrambotapi",
+                                    type = "channel",
+                                ),
+                            date = 1612631280,
+                            text = "Test",
+                        ),
                 ),
-            ),
-        )
+            )
         assertEquals(expectedGetUpdatesResult, getUpdatesResult.getOrNull())
     }
 
@@ -235,46 +246,49 @@ class GetUpdatesIT : ApiClientIT() {
     fun `getUpdates with a message containing a date after 03h14m07s UTC on 19 January 2038`() {
         givenGetUpdatesResponse(
             """
-                {
-                    "ok": true,
-                    "result": [
-                        {
-                            "update_id": 132059007,
-                            "message": {
-                                "message_id": 18,
-                                "chat": {
-                                    "id": -1001367429635,
-                                    "title": "[Channel] Test Telegram Bot",
-                                    "username": "testtelegrambotapi",
-                                    "type": "channel"
-                                },
-                                "date": 2147483648,
-                                "text": "Test"
-                            }
+            {
+                "ok": true,
+                "result": [
+                    {
+                        "update_id": 132059007,
+                        "message": {
+                            "message_id": 18,
+                            "chat": {
+                                "id": -1001367429635,
+                                "title": "[Channel] Test Telegram Bot",
+                                "username": "testtelegrambotapi",
+                                "type": "channel"
+                            },
+                            "date": 2147483648,
+                            "text": "Test"
                         }
-                    ]
-                }
+                    }
+                ]
+            }
             """.trimIndent(),
         )
 
         val getUpdatesResult = sut.getUpdates(null, null, null, null)
 
-        val expectedGetUpdatesResult = listOf(
-            Update(
-                updateId = 132059007,
-                message = Message(
-                    messageId = 18,
-                    chat = Chat(
-                        id = -1001367429635,
-                        title = "[Channel] Test Telegram Bot",
-                        username = "testtelegrambotapi",
-                        type = "channel",
-                    ),
-                    date = 2147483648,
-                    text = "Test",
+        val expectedGetUpdatesResult =
+            listOf(
+                Update(
+                    updateId = 132059007,
+                    message =
+                        Message(
+                            messageId = 18,
+                            chat =
+                                Chat(
+                                    id = -1001367429635,
+                                    title = "[Channel] Test Telegram Bot",
+                                    username = "testtelegrambotapi",
+                                    type = "channel",
+                                ),
+                            date = 2147483648,
+                            text = "Test",
+                        ),
                 ),
-            ),
-        )
+            )
         assertEquals(expectedGetUpdatesResult, getUpdatesResult.get())
     }
 
@@ -282,130 +296,140 @@ class GetUpdatesIT : ApiClientIT() {
     fun `getUpdates with a bot ban event`() {
         givenGetUpdatesResponse(
             """
-                {
-                    "ok": true,
-                    "result": [
-                        {
-                            "update_id": 93885989,
-                            "my_chat_member": {
-                                "chat": {
-                                    "id": 187395179,
-                                    "first_name": "Sheldon",
-                                    "username": "shelly",
-                                    "type": "private"
+            {
+                "ok": true,
+                "result": [
+                    {
+                        "update_id": 93885989,
+                        "my_chat_member": {
+                            "chat": {
+                                "id": 187395179,
+                                "first_name": "Sheldon",
+                                "username": "shelly",
+                                "type": "private"
+                            },
+                            "from": {
+                                "id": 187395179,
+                                "is_bot": false,
+                                "first_name": "Sheldon",
+                                "username": "shelly",
+                                "language_code": "en"
+                            },
+                            "date": 1678450453,
+                            "old_chat_member": {
+                                "user": {
+                                    "id": 1,
+                                    "is_bot": true,
+                                    "first_name": "testbot",
+                                    "username": "testbot"
                                 },
-                                "from": {
+                                "status": "member"
+                            },
+                            "new_chat_member": {
+                                "user": {
+                                    "id": 1,
+                                    "is_bot": true,
+                                    "first_name": "testbot",
+                                    "username": "testbot"
+                                },
+                                "status": "kicked",
+                                "until_date": 0
+                            },
+                            "invite_link": {
+                                "invite_link" : "https://t.me/joincha",
+                                "creator" : {
                                     "id": 187395179,
                                     "is_bot": false,
                                     "first_name": "Sheldon",
                                     "username": "shelly",
                                     "language_code": "en"
                                 },
-                                "date": 1678450453,
-                                "old_chat_member": {
-                                    "user": {
-                                        "id": 1,
-                                        "is_bot": true,
-                                        "first_name": "testbot",
-                                        "username": "testbot"
-                                    },
-                                    "status": "member"
-                                },
-                                "new_chat_member": {
-                                    "user": {
-                                        "id": 1,
-                                        "is_bot": true,
-                                        "first_name": "testbot",
-                                        "username": "testbot"
-                                    },
-                                    "status": "kicked",
-                                    "until_date": 0
-                                },
-                                "invite_link": {
-                                    "invite_link" : "https://t.me/joincha",
-                                    "creator" : {
-                                        "id": 187395179,
-                                        "is_bot": false,
-                                        "first_name": "Sheldon",
-                                        "username": "shelly",
-                                        "language_code": "en"
-                                    },
-                                    "creates_join_request" : true,
-                                    "is_primary" : true,
-                                    "is_revoked" : true,
-                                    "name" : "some name",
-                                    "expire_date" : 123456789,
-                                    "member_limit" : 100,
-                                    "pending_join_request_count" : 55
-                                },
-                                "via_chat_folder_invite_link": true
-                            }
+                                "creates_join_request" : true,
+                                "is_primary" : true,
+                                "is_revoked" : true,
+                                "name" : "some name",
+                                "expire_date" : 123456789,
+                                "member_limit" : 100,
+                                "pending_join_request_count" : 55
+                            },
+                            "via_chat_folder_invite_link": true
                         }
-                    ]
-                }
+                    }
+                ]
+            }
             """.trimIndent(),
         )
 
         val getUpdatesResult = sut.getUpdates(null, null, null, null)
 
-        val expectedGetUpdatesResult = listOf(
-            Update(
-                updateId = 93885989,
-                myChatMember = ChatMemberUpdated(
-                    chat = Chat(
-                        id = 187395179,
-                        firstName = "Sheldon",
-                        username = "shelly",
-                        type = "private",
-                    ),
-                    from = User(
-                        id = 187395179,
-                        isBot = false,
-                        firstName = "Sheldon",
-                        username = "shelly",
-                        languageCode = "en",
-                    ),
-                    date = 1678450453,
-                    oldChatMember = ChatMember(
-                        user = User(
-                            id = 1,
-                            isBot = true,
-                            firstName = "testbot",
-                            username = "testbot",
+        val expectedGetUpdatesResult =
+            listOf(
+                Update(
+                    updateId = 93885989,
+                    myChatMember =
+                        ChatMemberUpdated(
+                            chat =
+                                Chat(
+                                    id = 187395179,
+                                    firstName = "Sheldon",
+                                    username = "shelly",
+                                    type = "private",
+                                ),
+                            from =
+                                User(
+                                    id = 187395179,
+                                    isBot = false,
+                                    firstName = "Sheldon",
+                                    username = "shelly",
+                                    languageCode = "en",
+                                ),
+                            date = 1678450453,
+                            oldChatMember =
+                                ChatMember(
+                                    user =
+                                        User(
+                                            id = 1,
+                                            isBot = true,
+                                            firstName = "testbot",
+                                            username = "testbot",
+                                        ),
+                                    status = "member",
+                                ),
+                            newChatMember =
+                                ChatMember(
+                                    user =
+                                        User(
+                                            id = 1,
+                                            isBot = true,
+                                            firstName = "testbot",
+                                            username = "testbot",
+                                        ),
+                                    status = "kicked",
+                                    untilDate = 0,
+                                ),
+                            inviteLink =
+                                ChatInviteLink(
+                                    inviteLink = "https://t.me/joincha",
+                                    creator =
+                                        User(
+                                            id = 187395179,
+                                            isBot = false,
+                                            firstName = "Sheldon",
+                                            username = "shelly",
+                                            languageCode = "en",
+                                        ),
+                                    createsJoinRequest = true,
+                                    isPrimary = true,
+                                    isRevoked = true,
+                                    name = "some name",
+                                    expireDate = 123456789,
+                                    memberLimit = 100,
+                                    pendingJoinRequestCount = 55,
+                                ),
+                            viaChatFolderInviteLink = true,
                         ),
-                        status = "member",
-                    ),
-                    newChatMember = ChatMember(
-                        user = User(
-                            id = 1,
-                            isBot = true,
-                            firstName = "testbot",
-                            username = "testbot",
-                        ),
-                        status = "kicked",
-                        untilDate = 0,
-                    ),
-                    inviteLink = ChatInviteLink(
-                        inviteLink = "https://t.me/joincha",
-                        creator = User(
-                            id = 187395179,
-                            isBot = false,
-                            firstName = "Sheldon",
-                            username = "shelly",
-                            languageCode = "en",
-                        ),
-                        createsJoinRequest = true,
-                        isPrimary = true,
-                        isRevoked = true,
-                        name = "some name",
-                        expireDate = 123456789,
-                        memberLimit = 100,
-                        pendingJoinRequestCount = 55,
-                    ),
-                    viaChatFolderInviteLink = true,
                 ),
-            ),
-        )
+            )
         assertEquals(expectedGetUpdatesResult, getUpdatesResult.get())
     }
 
@@ -471,69 +495,77 @@ class GetUpdatesIT : ApiClientIT() {
             """.trimIndent(),
         )
 
-        val getUpdatesResult = sut.getUpdates(
-            offset = null,
-            limit = null,
-            timeout = null,
-            allowedUpdates = null,
-        )
+        val getUpdatesResult =
+            sut.getUpdates(
+                offset = null,
+                limit = null,
+                timeout = null,
+                allowedUpdates = null,
+            )
 
-        val user = User(
-            id = 187395179,
-            isBot = false,
-            firstName = "Sheldon",
-            lastName = "Cooper",
-            username = "shelly",
-            languageCode = "en",
-        )
-        val expectedGetUpdatesResult = listOf(
-            Update(
-                updateId = 917440351,
-                inlineQuery = InlineQuery(
-                    id = "804856167979007700",
-                    from = user,
-                    chatType = InlineQuery.ChatType.SENDER,
-                    query = "",
-                    offset = "",
+        val user =
+            User(
+                id = 187395179,
+                isBot = false,
+                firstName = "Sheldon",
+                lastName = "Cooper",
+                username = "shelly",
+                languageCode = "en",
+            )
+        val expectedGetUpdatesResult =
+            listOf(
+                Update(
+                    updateId = 917440351,
+                    inlineQuery =
+                        InlineQuery(
+                            id = "804856167979007700",
+                            from = user,
+                            chatType = InlineQuery.ChatType.SENDER,
+                            query = "",
+                            offset = "",
+                        ),
                 ),
-            ),
-            Update(
-                updateId = 917440352,
-                inlineQuery = InlineQuery(
-                    id = "804856169188869353",
-                    from = user,
-                    chatType = InlineQuery.ChatType.SUPERGROUP,
-                    query = "h",
-                    offset = "",
+                Update(
+                    updateId = 917440352,
+                    inlineQuery =
+                        InlineQuery(
+                            id = "804856169188869353",
+                            from = user,
+                            chatType = InlineQuery.ChatType.SUPERGROUP,
+                            query = "h",
+                            offset = "",
+                        ),
                 ),
-            ),
-            Update(
-                updateId = 917440353,
-                inlineQuery = InlineQuery(
-                    id = "804856169188869354",
-                    from = user,
-                    query = "hi",
-                    offset = "",
+                Update(
+                    updateId = 917440353,
+                    inlineQuery =
+                        InlineQuery(
+                            id = "804856169188869354",
+                            from = user,
+                            query = "hi",
+                            offset = "",
+                        ),
                 ),
-            ),
-        )
+            )
         assertEquals(expectedGetUpdatesResult, getUpdatesResult.getOrNull())
     }
 
     private fun givenGetUpdatesResponse(getUpdatesResponseJson: String) {
-        val mockedResponse = MockResponse()
-            .setResponseCode(200)
-            .setBody(getUpdatesResponseJson)
+        val mockedResponse =
+            MockResponse()
+                .setResponseCode(200)
+                .setBody(getUpdatesResponseJson)
         mockWebServer.enqueue(mockedResponse)
     }
 
     private fun givenAnyGetUpdatesResponse() {
-        val responseBody = """
+        val responseBody =
+            """
             {
                 "ok": true,
                 "result": []
             }
-        """.trimIndent()
+            """.trimIndent()
         mockWebServer.enqueue(
             MockResponse()
                 .setResponseCode(200)

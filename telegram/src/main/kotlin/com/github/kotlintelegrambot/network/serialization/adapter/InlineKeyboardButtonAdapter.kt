@@ -22,8 +22,9 @@ import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
 import java.lang.reflect.Type
 
-internal class InlineKeyboardButtonAdapter : JsonSerializer<InlineKeyboardButton>, JsonDeserializer<InlineKeyboardButton> {
-
+internal class InlineKeyboardButtonAdapter :
+    JsonSerializer<InlineKeyboardButton>,
+    JsonDeserializer<InlineKeyboardButton> {
     private class InlineKeyboardButtonDto(
         val text: String,
         val url: String? = null,
@@ -41,37 +42,40 @@ internal class InlineKeyboardButtonAdapter : JsonSerializer<InlineKeyboardButton
         src: InlineKeyboardButton,
         typeOfSrc: Type,
         context: JsonSerializationContext,
-    ): JsonElement = when (src) {
-        is Url -> context.serialize(src, Url::class.java)
-        is CallbackData -> context.serialize(src, CallbackData::class.java)
-        is SwitchInlineQuery -> context.serialize(src, SwitchInlineQuery::class.java)
-        is SwitchInlineQueryCurrentChat -> context.serialize(src, SwitchInlineQueryCurrentChat::class.java)
-        is CallbackGameButtonType -> context.serialize(src, CallbackGameButtonType::class.java)
-        is Pay -> context.serialize(src, Pay::class.java)
-        is WebApp -> context.serialize(src, WebApp::class.java)
-        is LoginUrlButtonType -> context.serialize(src, LoginUrlButtonType::class.java)
-        is CopyText -> context.serialize(src, CopyText::class.java)
-    }
+    ): JsonElement =
+        when (src) {
+            is Url -> context.serialize(src, Url::class.java)
+            is CallbackData -> context.serialize(src, CallbackData::class.java)
+            is SwitchInlineQuery -> context.serialize(src, SwitchInlineQuery::class.java)
+            is SwitchInlineQueryCurrentChat -> context.serialize(src, SwitchInlineQueryCurrentChat::class.java)
+            is CallbackGameButtonType -> context.serialize(src, CallbackGameButtonType::class.java)
+            is Pay -> context.serialize(src, Pay::class.java)
+            is WebApp -> context.serialize(src, WebApp::class.java)
+            is LoginUrlButtonType -> context.serialize(src, LoginUrlButtonType::class.java)
+            is CopyText -> context.serialize(src, CopyText::class.java)
+        }
 
     override fun deserialize(
         json: JsonElement,
         typeOfT: Type,
         context: JsonDeserializationContext,
     ): InlineKeyboardButton {
-        val inlineKeyboardButtonDto = context.deserialize<InlineKeyboardButtonDto>(
-            json,
-            InlineKeyboardButtonDto::class.java,
-        )
+        val inlineKeyboardButtonDto =
+            context.deserialize<InlineKeyboardButtonDto>(
+                json,
+                InlineKeyboardButtonDto::class.java,
+            )
 
         return with(inlineKeyboardButtonDto) {
             when {
                 url != null -> Url(text, url)
                 callbackData != null -> CallbackData(text, callbackData)
                 switchInlineQuery != null -> SwitchInlineQuery(text, switchInlineQuery)
-                switchInlineQueryCurrentChat != null -> SwitchInlineQueryCurrentChat(
-                    text,
-                    switchInlineQueryCurrentChat,
-                )
+                switchInlineQueryCurrentChat != null ->
+                    SwitchInlineQueryCurrentChat(
+                        text,
+                        switchInlineQueryCurrentChat,
+                    )
                 callbackGame != null -> CallbackGameButtonType(text, callbackGame)
                 pay != null -> Pay(text)
                 webApp != null -> WebApp(text, webApp)

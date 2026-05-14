@@ -12,7 +12,6 @@ import java.lang.Exception
 import java.lang.IllegalStateException
 
 class TelegramBotResultTest {
-
     private val successSideEfect = mockk<(Int) -> Unit>(relaxed = true)
     private val errorSideEfect = mockk<(TelegramBotResult.Error) -> Unit>(relaxed = true)
 
@@ -89,10 +88,11 @@ class TelegramBotResultTest {
         val success = TelegramBotResult.Success(anyValue)
 
         val fSuccess: (Int) -> Int = { it + 4 }
-        val foldResult = success.fold(
-            ifSuccess = fSuccess,
-            ifError = { },
-        )
+        val foldResult =
+            success.fold(
+                ifSuccess = fSuccess,
+                ifError = { },
+            )
 
         assertEquals(fSuccess(anyValue), foldResult)
     }
@@ -108,10 +108,11 @@ class TelegramBotResultTest {
                 null
             }
         }
-        val foldResult = error.fold(
-            ifSuccess = { },
-            ifError = fError,
-        )
+        val foldResult =
+            error.fold(
+                ifSuccess = { },
+                ifError = fError,
+            )
 
         assertEquals(fError(error), foldResult)
     }

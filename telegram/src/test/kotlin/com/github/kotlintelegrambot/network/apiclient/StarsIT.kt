@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test
  * Wire-format coverage for the Telegram Stars query methods (Bot API 7.5 / 9.1).
  */
 class StarsIT : ApiClientIT() {
-
     @Test
     fun `getStarTransactions issues a GET with offset and limit`() {
         mockWebServer.enqueue(

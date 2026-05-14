@@ -46,17 +46,20 @@ sealed class DiceEmoji {
 
     // Currently not supported, adding it just in case Telegram Bot API
     // starts supporting new emojis for the dice in the future
-    data class Other(override val emojiValue: String) : DiceEmoji()
+    data class Other(
+        override val emojiValue: String,
+    ) : DiceEmoji()
 
     companion object {
-        fun fromString(emoji: String): DiceEmoji = when (emoji) {
-            Dice.emojiValue -> Dice
-            Dartboard.emojiValue -> Dartboard
-            Basketball.emojiValue -> Basketball
-            Football.emojiValue -> Football
-            SlotMachine.emojiValue -> SlotMachine
-            Bowling.emojiValue -> Bowling
-            else -> Other(emoji)
-        }
+        fun fromString(emoji: String): DiceEmoji =
+            when (emoji) {
+                Dice.emojiValue -> Dice
+                Dartboard.emojiValue -> Dartboard
+                Basketball.emojiValue -> Basketball
+                Football.emojiValue -> Football
+                SlotMachine.emojiValue -> SlotMachine
+                Bowling.emojiValue -> Bowling
+                else -> Other(emoji)
+            }
     }
 }

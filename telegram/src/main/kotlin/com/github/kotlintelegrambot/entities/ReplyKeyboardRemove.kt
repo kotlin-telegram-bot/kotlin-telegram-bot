@@ -8,7 +8,6 @@ class ReplyKeyboardRemove constructor(
     val removeKeyboard: Boolean = true,
     val selective: Boolean? = null,
 ) : ReplyMarkup {
-
     private companion object {
         val GSON = Gson()
     }

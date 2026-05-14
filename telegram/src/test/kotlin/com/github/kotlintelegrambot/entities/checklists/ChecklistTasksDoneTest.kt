@@ -5,14 +5,14 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class ChecklistTasksDoneTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
     fun `deserializes ChecklistTasksDone with ids and message`() {
-        val json = """
+        val json =
+            """
             {"marked_as_done_task_ids":[1,2,3],"marked_as_not_done_task_ids":[4]}
-        """.trimIndent()
+            """.trimIndent()
 
         val done = gson.fromJson(json, ChecklistTasksDone::class.java)
 

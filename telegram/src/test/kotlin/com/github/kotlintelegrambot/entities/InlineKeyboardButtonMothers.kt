@@ -25,18 +25,20 @@ fun anyInlineKeyboardButtonSwitchInlineQuery(
 fun anyInlineKeyboardButtonSwitchInlineQueryCurrentChat(
     text: String = ANY_TEXT,
     switchInlineQueryCurrentChat: String = ANY_INLINE_QUERY,
-): InlineKeyboardButton.SwitchInlineQueryCurrentChat = InlineKeyboardButton.SwitchInlineQueryCurrentChat(
-    text,
-    switchInlineQueryCurrentChat,
-)
+): InlineKeyboardButton.SwitchInlineQueryCurrentChat =
+    InlineKeyboardButton.SwitchInlineQueryCurrentChat(
+        text,
+        switchInlineQueryCurrentChat,
+    )
 
 fun anyInlineKeyboardButtonCallbackGameButtonType(
     text: String = ANY_TEXT,
     callbackGame: CallbackGame = CallbackGame(),
-): InlineKeyboardButton.CallbackGameButtonType = InlineKeyboardButton.CallbackGameButtonType(
-    text,
-    callbackGame,
-)
+): InlineKeyboardButton.CallbackGameButtonType =
+    InlineKeyboardButton.CallbackGameButtonType(
+        text,
+        callbackGame,
+    )
 
 fun anyInlineKeyboardButtonPay(
     text: String = ANY_TEXT,

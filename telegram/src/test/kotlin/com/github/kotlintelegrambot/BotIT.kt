@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
 class BotIT {
-
     private val mockWebServer = MockWebServer()
 
     private lateinit var webServerUrl: String
@@ -31,9 +30,10 @@ class BotIT {
     internal fun `startWebhook throws an Exception when webhook config has not been set up`() {
         val sut = bot { token = ANY_BOT_TOKEN }
 
-        val exception = assertThrows<IllegalStateException> {
-            sut.startWebhook()
-        }
+        val exception =
+            assertThrows<IllegalStateException> {
+                sut.startWebhook()
+            }
 
         assertEquals(
             "To start a webhook you need to configure it on bot set up. Check the `webhook` builder function",
@@ -43,13 +43,14 @@ class BotIT {
 
     @Test
     internal fun `startWebhook returns false when webhook config has been set up but 'setWebhook' fails`() {
-        val sut = bot {
-            token = ANY_BOT_TOKEN
-            apiUrl = webServerUrl
-            webhook {
-                url = ANY_WEBHOOK_URL
+        val sut =
+            bot {
+                token = ANY_BOT_TOKEN
+                apiUrl = webServerUrl
+                webhook {
+                    url = ANY_WEBHOOK_URL
+                }
             }
-        }
         givenSetWebhookFails()
 
         val startWebhookResult = sut.startWebhook()
@@ -59,14 +60,15 @@ class BotIT {
 
     @Test
     internal fun `startWebhook returns true when webhook config has been set up and 'setWebhook' succeeds`() {
-        val sut = bot {
-            token = ANY_BOT_TOKEN
-            apiUrl = webServerUrl
-            webhook {
-                url = ANY_WEBHOOK_URL
-                secretToken = ANY_SECRET_TOKEN
+        val sut =
+            bot {
+                token = ANY_BOT_TOKEN
+                apiUrl = webServerUrl
+                webhook {
+                    url = ANY_WEBHOOK_URL
+                    secretToken = ANY_SECRET_TOKEN
+                }
             }
-        }
         givenSetWebhookSucceeds()
 
         val startWebhookResult = sut.startWebhook()
@@ -76,14 +78,15 @@ class BotIT {
 
     @Test
     internal fun `startWebhook returns true when webhook set on start is disabled`() {
-        val sut = bot {
-            token = ANY_BOT_TOKEN
-            apiUrl = webServerUrl
-            webhook {
-                createOnStart = false
-                url = ANY_WEBHOOK_URL
+        val sut =
+            bot {
+                token = ANY_BOT_TOKEN
+                apiUrl = webServerUrl
+                webhook {
+                    createOnStart = false
+                    url = ANY_WEBHOOK_URL
+                }
             }
-        }
 
         val startWebhookResult = sut.startWebhook()
 
@@ -94,9 +97,10 @@ class BotIT {
     internal fun `stopWebhook throws an Exception when webhook config has not been set up`() {
         val sut = bot { token = ANY_BOT_TOKEN }
 
-        val exception = assertThrows<IllegalStateException> {
-            sut.stopWebhook()
-        }
+        val exception =
+            assertThrows<IllegalStateException> {
+                sut.stopWebhook()
+            }
 
         assertEquals(
             "To stop a webhook you need to configure it on bot set up. Check the `webhook` builder function",
@@ -106,13 +110,14 @@ class BotIT {
 
     @Test
     internal fun `stopWebhook returns false when webhook config has been set up but 'deleteWebhook' fails`() {
-        val sut = bot {
-            token = ANY_BOT_TOKEN
-            apiUrl = webServerUrl
-            webhook {
-                url = ANY_WEBHOOK_URL
+        val sut =
+            bot {
+                token = ANY_BOT_TOKEN
+                apiUrl = webServerUrl
+                webhook {
+                    url = ANY_WEBHOOK_URL
+                }
             }
-        }
         givenDeleteWebhookFails()
 
         val stopWebhookResult = sut.stopWebhook()
@@ -122,13 +127,14 @@ class BotIT {
 
     @Test
     internal fun `stopWebhook returns true when webhook config has been set up and 'deleteWebhook' succeeds`() {
-        val sut = bot {
-            token = ANY_BOT_TOKEN
-            apiUrl = webServerUrl
-            webhook {
-                url = ANY_WEBHOOK_URL
+        val sut =
+            bot {
+                token = ANY_BOT_TOKEN
+                apiUrl = webServerUrl
+                webhook {
+                    url = ANY_WEBHOOK_URL
+                }
             }
-        }
         givenDeleteWebhookSucceeds()
 
         val stopWebhookResult = sut.stopWebhook()
@@ -147,28 +153,30 @@ class BotIT {
     }
 
     private fun givenSetWebhookSucceeds() {
-        val successResponse = MockResponse()
-            .setResponseCode(200)
-            .setBody(
-                """{
+        val successResponse =
+            MockResponse()
+                .setResponseCode(200)
+                .setBody(
+                    """{
                 |"ok": true,
                 |"result": true
                 |}
-                """.trimMargin(),
-            )
+                    """.trimMargin(),
+                )
         mockWebServer.enqueue(successResponse)
     }
 
     private fun givenDeleteWebhookSucceeds() {
-        val successResponse = MockResponse()
-            .setResponseCode(200)
-            .setBody(
-                """{
+        val successResponse =
+            MockResponse()
+                .setResponseCode(200)
+                .setBody(
+                    """{
                 |"ok": true,
                 |"result": true
                 |}
-                """.trimMargin(),
-            )
+                    """.trimMargin(),
+                )
         mockWebServer.enqueue(successResponse)
     }
 

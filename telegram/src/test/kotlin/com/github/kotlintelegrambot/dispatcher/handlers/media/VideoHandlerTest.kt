@@ -13,7 +13,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class VideoHandlerTest {
-
     private val handleVideoMock = mockk<HandleVideo>(relaxed = true)
 
     private val sut = VideoHandler(handleVideoMock)
@@ -37,20 +36,22 @@ class VideoHandlerTest {
     }
 
     @Test
-    fun `video is properly dispatched to the handler function`() = runTest {
-        val botMock = mockk<Bot>()
-        val anyVideo = anyVideo()
-        val anyMessageWithVideo = anyMessage(video = anyVideo)
-        val anyUpdateWithVideo = anyUpdate(message = anyMessageWithVideo)
+    fun `video is properly dispatched to the handler function`() =
+        runTest {
+            val botMock = mockk<Bot>()
+            val anyVideo = anyVideo()
+            val anyMessageWithVideo = anyMessage(video = anyVideo)
+            val anyUpdateWithVideo = anyUpdate(message = anyMessageWithVideo)
 
-        sut.handleUpdate(botMock, anyUpdateWithVideo)
+            sut.handleUpdate(botMock, anyUpdateWithVideo)
 
-        val expectedVideoHandlerEnv = MediaHandlerEnvironment(
-            botMock,
-            anyUpdateWithVideo,
-            anyMessageWithVideo,
-            anyVideo,
-        )
-        coVerify { handleVideoMock.invoke(expectedVideoHandlerEnv) }
-    }
+            val expectedVideoHandlerEnv =
+                MediaHandlerEnvironment(
+                    botMock,
+                    anyUpdateWithVideo,
+                    anyMessageWithVideo,
+                    anyVideo,
+                )
+            coVerify { handleVideoMock.invoke(expectedVideoHandlerEnv) }
+        }
 }

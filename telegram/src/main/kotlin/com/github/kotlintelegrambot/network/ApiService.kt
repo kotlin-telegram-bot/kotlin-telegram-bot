@@ -39,7 +39,6 @@ import retrofit2.http.Query
 import retrofit2.http.Url
 
 internal interface ApiService {
-
     @GET("getUpdates")
     fun getUpdates(
         @Query("offset") offset: Long?,
@@ -430,7 +429,9 @@ internal interface ApiService {
 
     @Multipart
     @POST("sendMediaGroup")
-    fun sendMediaGroup(@Part body: List<MultipartBody.Part>): Call<Response<List<Message>>>
+    fun sendMediaGroup(
+        @Part body: List<MultipartBody.Part>,
+    ): Call<Response<List<Message>>>
 
     @FormUrlEncoded
     @POST("sendLocation")
@@ -1565,13 +1566,12 @@ internal interface ApiService {
     ): Call<Response<com.github.kotlintelegrambot.entities.guest.SentGuestMessage>>
 }
 
-class LabeledPriceList(private val labeledPrice: List<LabeledPrice>) {
-
+class LabeledPriceList(
+    private val labeledPrice: List<LabeledPrice>,
+) {
     private companion object {
         val GSON = Gson()
     }
 
-    override fun toString(): String {
-        return GSON.toJson(labeledPrice)
-    }
+    override fun toString(): String = GSON.toJson(labeledPrice)
 }

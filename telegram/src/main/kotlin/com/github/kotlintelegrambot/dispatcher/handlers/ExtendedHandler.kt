@@ -6,7 +6,5 @@ class ExtendedHandler(
     private val delegateHandler: Handler,
     private val predicate: (Update) -> Boolean,
 ) : Handler by delegateHandler {
-
-    override fun checkUpdate(update: Update): Boolean =
-        delegateHandler.checkUpdate(update) && predicate(update)
+    override fun checkUpdate(update: Update): Boolean = delegateHandler.checkUpdate(update) && predicate(update)
 }

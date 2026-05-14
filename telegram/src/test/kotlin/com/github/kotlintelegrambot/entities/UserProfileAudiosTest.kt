@@ -5,18 +5,18 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class UserProfileAudiosTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
     fun `deserializes UserProfileAudios with audios`() {
-        val json = """
+        val json =
+            """
             {"total_count":2,
              "audios":[
                {"file_id":"a1","file_unique_id":"u1","duration":30},
                {"file_id":"a2","file_unique_id":"u2","duration":60,"performer":"Alice"}
              ]}
-        """.trimIndent()
+            """.trimIndent()
 
         val audios = gson.fromJson(json, UserProfileAudios::class.java)
 

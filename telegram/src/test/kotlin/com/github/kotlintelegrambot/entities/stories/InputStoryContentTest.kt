@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class InputStoryContentTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
@@ -20,9 +19,10 @@ class InputStoryContentTest {
 
     @Test
     fun `deserializes Video InputStoryContent via sealed adapter`() {
-        val json = """
+        val json =
+            """
             {"type":"video","video":"attach://v.mp4","duration":42.5,"cover_frame_timestamp":2.0,"is_animation":true}
-        """.trimIndent()
+            """.trimIndent()
 
         val result = gson.fromJson(json, InputStoryContent::class.java)
 

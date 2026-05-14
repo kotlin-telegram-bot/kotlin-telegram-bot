@@ -12,7 +12,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class NewChatMembersHandlerTest {
-
     private val handleNewChatMembersHandlerMock = mockk<HandleNewChatMembers>(relaxed = true)
 
     private val sut = NewChatMembersHandler(handleNewChatMembersHandlerMock)
@@ -54,20 +53,22 @@ class NewChatMembersHandlerTest {
     }
 
     @Test
-    fun `new chat members are properly dispatched to the handler function`() = runTest {
-        val botMock = mockk<Bot>()
-        val anyNewChatMembers = listOf(anyUser())
-        val anyMessageWithNewChatMembers = anyMessage(newChatMembers = anyNewChatMembers)
-        val anyUpdateWithNewChatMembers = anyUpdate(message = anyMessageWithNewChatMembers)
+    fun `new chat members are properly dispatched to the handler function`() =
+        runTest {
+            val botMock = mockk<Bot>()
+            val anyNewChatMembers = listOf(anyUser())
+            val anyMessageWithNewChatMembers = anyMessage(newChatMembers = anyNewChatMembers)
+            val anyUpdateWithNewChatMembers = anyUpdate(message = anyMessageWithNewChatMembers)
 
-        sut.handleUpdate(botMock, anyUpdateWithNewChatMembers)
+            sut.handleUpdate(botMock, anyUpdateWithNewChatMembers)
 
-        val expectedNewChatMembersHandlerEnv = NewChatMembersHandlerEnvironment(
-            botMock,
-            anyUpdateWithNewChatMembers,
-            anyMessageWithNewChatMembers,
-            anyNewChatMembers,
-        )
-        coVerify { handleNewChatMembersHandlerMock.invoke(expectedNewChatMembersHandlerEnv) }
-    }
+            val expectedNewChatMembersHandlerEnv =
+                NewChatMembersHandlerEnvironment(
+                    botMock,
+                    anyUpdateWithNewChatMembers,
+                    anyMessageWithNewChatMembers,
+                    anyNewChatMembers,
+                )
+            coVerify { handleNewChatMembersHandlerMock.invoke(expectedNewChatMembersHandlerEnv) }
+        }
 }

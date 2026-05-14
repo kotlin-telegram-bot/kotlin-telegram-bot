@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 class SendChatActionIT : ApiClientIT() {
-
     @Test
     fun `send choose sticker chat action request`() {
         givenSuccessfulResponse()
@@ -30,10 +29,12 @@ class SendChatActionIT : ApiClientIT() {
     fun `send choose sticker chat action success`() {
         givenSuccessfulResponse()
 
-        val sendChatActionResult = sut.sendChatAction(
-            chatId = ChatId.fromId(ANY_CHAT_ID),
-            action = ChatAction.CHOOSE_STICKER,
-        ).get()
+        val sendChatActionResult =
+            sut
+                .sendChatAction(
+                    chatId = ChatId.fromId(ANY_CHAT_ID),
+                    action = ChatAction.CHOOSE_STICKER,
+                ).get()
 
         assertTrue(sendChatActionResult)
     }
@@ -42,21 +43,24 @@ class SendChatActionIT : ApiClientIT() {
     fun `send choose sticker chat action failure`() {
         givenFailureResponse()
 
-        val sendChatActionResult = sut.sendChatAction(
-            chatId = ChatId.fromId(ANY_CHAT_ID),
-            action = ChatAction.CHOOSE_STICKER,
-        ).get()
+        val sendChatActionResult =
+            sut
+                .sendChatAction(
+                    chatId = ChatId.fromId(ANY_CHAT_ID),
+                    action = ChatAction.CHOOSE_STICKER,
+                ).get()
 
         assertFalse(sendChatActionResult)
     }
 
     private fun givenSuccessfulResponse() {
-        val responseBody = """
+        val responseBody =
+            """
             {
                 "ok": true,
                 "result": true 
             }
-        """.trimIndent()
+            """.trimIndent()
         mockWebServer.enqueue(
             MockResponse()
                 .setResponseCode(200)
@@ -65,12 +69,13 @@ class SendChatActionIT : ApiClientIT() {
     }
 
     private fun givenFailureResponse() {
-        val responseBody = """
+        val responseBody =
+            """
             {
                 "ok": true,
                 "result": false 
             }
-        """.trimIndent()
+            """.trimIndent()
         mockWebServer.enqueue(
             MockResponse()
                 .setResponseCode(200)

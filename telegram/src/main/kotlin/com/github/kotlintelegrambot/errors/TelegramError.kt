@@ -8,5 +8,6 @@ interface TelegramError : DispatchableObject {
     }
 
     fun getType(): Error
+
     fun getErrorMessage(): String
 }

@@ -8,7 +8,6 @@ import okhttp3.mockwebserver.MockResponse
 import org.junit.jupiter.api.Test
 
 class UnpinAllChatMessagesIT : ApiClientIT() {
-
     @Test
     fun `correct request on unpinAllChatMessages with chat id`() {
         givenASuccessfulUnpinAllChatMessagesResponse()
@@ -35,20 +34,23 @@ class UnpinAllChatMessagesIT : ApiClientIT() {
     fun `successful unpinAllChatMessages response is returned correctly`() {
         givenASuccessfulUnpinAllChatMessagesResponse()
 
-        val unpinChatMessageResult = sut.unpinAllChatMessages(
-            ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME),
-        ).getOrNull()
+        val unpinChatMessageResult =
+            sut
+                .unpinAllChatMessages(
+                    ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME),
+                ).getOrNull()
 
         assertEquals(false, unpinChatMessageResult)
     }
 
     private fun givenASuccessfulUnpinAllChatMessagesResponse() {
-        val unpinAllChatMessagesResponse = """
+        val unpinAllChatMessagesResponse =
+            """
             {
                 "ok": true,
                 "result": false
             }
-        """.trimIndent()
+            """.trimIndent()
         mockWebServer.enqueue(
             MockResponse()
                 .setResponseCode(200)

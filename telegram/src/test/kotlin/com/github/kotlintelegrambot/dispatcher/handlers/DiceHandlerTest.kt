@@ -12,7 +12,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class DiceHandlerTest {
-
     private val handleDiceMock = mockk<HandleDice>(relaxed = true)
 
     private val sut = DiceHandler(handleDiceMock)
@@ -45,20 +44,22 @@ class DiceHandlerTest {
     }
 
     @Test
-    fun `dice is properly dispatched to the handler function`() = runTest {
-        val botMock = mockk<Bot>()
-        val anyDice = anyDice()
-        val anyMessageWithDice = anyMessage(dice = anyDice)
-        val anyUpdateWithDice = anyUpdate(message = anyMessageWithDice)
+    fun `dice is properly dispatched to the handler function`() =
+        runTest {
+            val botMock = mockk<Bot>()
+            val anyDice = anyDice()
+            val anyMessageWithDice = anyMessage(dice = anyDice)
+            val anyUpdateWithDice = anyUpdate(message = anyMessageWithDice)
 
-        sut.handleUpdate(botMock, anyUpdateWithDice)
+            sut.handleUpdate(botMock, anyUpdateWithDice)
 
-        val expectedDiceHandlerEnv = DiceHandlerEnvironment(
-            botMock,
-            anyUpdateWithDice,
-            anyMessageWithDice,
-            anyDice,
-        )
-        coVerify { handleDiceMock.invoke(expectedDiceHandlerEnv) }
-    }
+            val expectedDiceHandlerEnv =
+                DiceHandlerEnvironment(
+                    botMock,
+                    anyUpdateWithDice,
+                    anyMessageWithDice,
+                    anyDice,
+                )
+            coVerify { handleDiceMock.invoke(expectedDiceHandlerEnv) }
+        }
 }

@@ -6,7 +6,6 @@ import org.junit.jupiter.api.assertThrows
 import java.lang.IllegalArgumentException
 
 class InlineKeyboardMarkupTest {
-
     @Test
     fun `can't create an inline keyboard with two pay buttons`() {
         assertThrows<IllegalArgumentException> {

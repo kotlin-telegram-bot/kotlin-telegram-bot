@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class ChatBoostSourceTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
@@ -32,9 +31,10 @@ class ChatBoostSourceTest {
 
     @Test
     fun `deserializes ChatBoostSourceGiveaway by 'giveaway' discriminator`() {
-        val json = """
+        val json =
+            """
             {"source":"giveaway","giveaway_message_id":77,"user":{"id":3,"is_bot":false,"first_name":"Carol"},"prize_star_count":50,"is_unclaimed":true}
-        """.trimIndent()
+            """.trimIndent()
 
         val src = gson.fromJson(json, ChatBoostSource::class.java)
 

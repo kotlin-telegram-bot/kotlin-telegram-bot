@@ -6,15 +6,15 @@ import org.assertj.core.data.Offset
 import org.junit.jupiter.api.Test
 
 class InputMediaLocationTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
     fun `deserializes InputMediaLocation with all fields`() {
-        val json = """
+        val json =
+            """
             {"type":"location","latitude":41.39,"longitude":2.16,
              "horizontal_accuracy":12.5,"live_period":600,"heading":90,"proximity_alert_radius":500}
-        """.trimIndent()
+            """.trimIndent()
 
         val loc = gson.fromJson(json, InputMediaLocation::class.java)
 

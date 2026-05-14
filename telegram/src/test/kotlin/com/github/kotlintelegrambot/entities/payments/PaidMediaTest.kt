@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class PaidMediaTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
@@ -23,13 +22,14 @@ class PaidMediaTest {
 
     @Test
     fun `deserializes PaidMediaPhoto with photo size list`() {
-        val json = """
+        val json =
+            """
             {"type":"photo",
              "photo":[
                {"file_id":"AAA","file_unique_id":"u1","width":90,"height":90,"file_size":1000},
                {"file_id":"BBB","file_unique_id":"u2","width":320,"height":320}
              ]}
-        """.trimIndent()
+            """.trimIndent()
 
         val media = gson.fromJson(json, PaidMedia::class.java)
 
@@ -42,10 +42,11 @@ class PaidMediaTest {
 
     @Test
     fun `deserializes PaidMediaVideo`() {
-        val json = """
+        val json =
+            """
             {"type":"video",
              "video":{"file_id":"V","file_unique_id":"u","width":1280,"height":720,"duration":30}}
-        """.trimIndent()
+            """.trimIndent()
 
         val media = gson.fromJson(json, PaidMedia::class.java)
 

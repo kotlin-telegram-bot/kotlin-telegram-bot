@@ -5,12 +5,12 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class ChatAdministratorRightsTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
     fun `deserializes minimal payload with only mandatory boolean rights`() {
-        val json = """
+        val json =
+            """
             {
               "is_anonymous": false,
               "can_manage_chat": true,
@@ -21,7 +21,7 @@ class ChatAdministratorRightsTest {
               "can_change_info": true,
               "can_invite_users": true
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val rights = gson.fromJson(json, ChatAdministratorRights::class.java)
 
@@ -40,7 +40,8 @@ class ChatAdministratorRightsTest {
 
     @Test
     fun `deserializes channel + supergroup + stories rights`() {
-        val json = """
+        val json =
+            """
             {
               "is_anonymous": true,
               "can_manage_chat": true,
@@ -58,7 +59,7 @@ class ChatAdministratorRightsTest {
               "can_edit_stories": true,
               "can_delete_stories": false
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val rights = gson.fromJson(json, ChatAdministratorRights::class.java)
 

@@ -22,10 +22,12 @@ internal class PolymorphicTypeAdapter<T : Any>(
         typeOfT: Type,
         context: JsonDeserializationContext,
     ): T {
-        val value = json.asJsonObject.get(discriminator)?.asString
-            ?: throw JsonParseException("Missing discriminator '$discriminator' on $json")
-        val concrete = variants[value]
-            ?: throw JsonParseException("Unknown discriminator value '$value' for $discriminator")
+        val value =
+            json.asJsonObject.get(discriminator)?.asString
+                ?: throw JsonParseException("Missing discriminator '$discriminator' on $json")
+        val concrete =
+            variants[value]
+                ?: throw JsonParseException("Unknown discriminator value '$value' for $discriminator")
         return context.deserialize(json, concrete)
     }
 }

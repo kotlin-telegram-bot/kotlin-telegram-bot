@@ -13,7 +13,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class PhotosHandlerTest {
-
     private val handlePhotosMock = mockk<HandlePhotos>(relaxed = true)
 
     private val sut = PhotosHandler(handlePhotosMock)
@@ -46,20 +45,22 @@ class PhotosHandlerTest {
     }
 
     @Test
-    fun `photos are properly dispatched to the handler function`() = runTest {
-        val botMock = mockk<Bot>()
-        val anyPhotos = listOf(anyPhotoSize())
-        val anyMessageWithPhotos = anyMessage(photo = anyPhotos)
-        val anyUpdateWithPhotos = anyUpdate(message = anyMessage(photo = anyPhotos))
+    fun `photos are properly dispatched to the handler function`() =
+        runTest {
+            val botMock = mockk<Bot>()
+            val anyPhotos = listOf(anyPhotoSize())
+            val anyMessageWithPhotos = anyMessage(photo = anyPhotos)
+            val anyUpdateWithPhotos = anyUpdate(message = anyMessage(photo = anyPhotos))
 
-        sut.handleUpdate(botMock, anyUpdateWithPhotos)
+            sut.handleUpdate(botMock, anyUpdateWithPhotos)
 
-        val expectedPhotoHandlerEnv = MediaHandlerEnvironment(
-            botMock,
-            anyUpdateWithPhotos,
-            anyMessageWithPhotos,
-            anyPhotos,
-        )
-        coVerify { handlePhotosMock.invoke(expectedPhotoHandlerEnv) }
-    }
+            val expectedPhotoHandlerEnv =
+                MediaHandlerEnvironment(
+                    botMock,
+                    anyUpdateWithPhotos,
+                    anyMessageWithPhotos,
+                    anyPhotos,
+                )
+            coVerify { handlePhotosMock.invoke(expectedPhotoHandlerEnv) }
+        }
 }

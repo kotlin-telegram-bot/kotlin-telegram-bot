@@ -20,8 +20,7 @@ internal fun String.toMultipartBodyPart(partName: String): MultipartBody.Part = 
 
 internal fun <T> T.toMultipartBodyPart(partName: String): MultipartBody.Part = toString().toMultipartBodyPart(partName)
 
-internal fun Iterable<String>.toMultipartBodyPart(partName: String): MultipartBody.Part =
-    joinToString(separator = ",", prefix = "[", postfix = "]").toMultipartBodyPart(partName)
+internal fun Iterable<String>.toMultipartBodyPart(partName: String): MultipartBody.Part = joinToString(separator = ",", prefix = "[", postfix = "]").toMultipartBodyPart(partName)
 
 internal fun ByteArray.toMultipartBodyPart(
     partName: String,

@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class ChatBackgroundTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
@@ -20,9 +19,10 @@ class ChatBackgroundTest {
 
     @Test
     fun `deserializes ChatBackground with fill BackgroundType`() {
-        val json = """
+        val json =
+            """
             {"type":{"type":"fill","fill":{"type":"solid","color":12345},"dark_theme_dimming":20}}
-        """.trimIndent()
+            """.trimIndent()
 
         val chatBackground = gson.fromJson(json, ChatBackground::class.java)
 

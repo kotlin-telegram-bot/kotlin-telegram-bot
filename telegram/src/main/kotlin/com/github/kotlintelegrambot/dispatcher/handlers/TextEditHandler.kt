@@ -7,7 +7,6 @@ class TextEditHandler(
     private val text: String? = null,
     private val handleText: HandleText,
 ) : Handler {
-
     override fun checkUpdate(update: Update): Boolean {
         if (update.editedMessage?.text != null && text == null) {
             return true
@@ -17,15 +16,19 @@ class TextEditHandler(
         return false
     }
 
-    override suspend fun handleUpdate(bot: Bot, update: Update) {
+    override suspend fun handleUpdate(
+        bot: Bot,
+        update: Update,
+    ) {
         checkNotNull(update.editedMessage)
         checkNotNull(update.editedMessage.text)
-        val textHandlerEnv = TextHandlerEnvironment(
-            bot,
-            update,
-            update.editedMessage,
-            update.editedMessage.text,
-        )
+        val textHandlerEnv =
+            TextHandlerEnvironment(
+                bot,
+                update,
+                update.editedMessage,
+                update.editedMessage.text,
+            )
         handleText(textHandlerEnv)
     }
 }

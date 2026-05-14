@@ -12,7 +12,6 @@ import okhttp3.mockwebserver.MockResponse
 import org.junit.jupiter.api.Test
 
 class SendDiceIT : ApiClientIT() {
-
     @Test
     fun `sendDice only with mandatory parameters`() {
         givenAnySendDiceResponse()
@@ -101,9 +100,10 @@ class SendDiceIT : ApiClientIT() {
         )
 
         val request = mockWebServer.takeRequest()
-        val expectedRequestBody = "chat_id=$ANY_CHAT_ID" +
-            "&emoji=🎯" +
-            "&disable_notification=$DISABLE_NOTIFICATION"
+        val expectedRequestBody =
+            "chat_id=$ANY_CHAT_ID" +
+                "&emoji=🎯" +
+                "&disable_notification=$DISABLE_NOTIFICATION"
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
 
@@ -113,30 +113,35 @@ class SendDiceIT : ApiClientIT() {
 
         val sendDiceResult = sut.sendDice(ChatId.fromId(ANY_CHAT_ID), emoji = DiceEmoji.Dartboard)
 
-        val expectedMessage = Message(
-            messageId = 56,
-            from = User(
-                id = 482352699,
-                isBot = true,
-                firstName = "foo",
-                username = "bar",
-            ),
-            chat = Chat(
-                id = -1001287972005,
-                title = "Test Telegram Bot API",
-                type = "supergroup",
-            ),
-            date = 1590313567,
-            dice = Dice(
-                emoji = DiceEmoji.Dartboard,
-                value = 6,
-            ),
-        )
+        val expectedMessage =
+            Message(
+                messageId = 56,
+                from =
+                    User(
+                        id = 482352699,
+                        isBot = true,
+                        firstName = "foo",
+                        username = "bar",
+                    ),
+                chat =
+                    Chat(
+                        id = -1001287972005,
+                        title = "Test Telegram Bot API",
+                        type = "supergroup",
+                    ),
+                date = 1590313567,
+                dice =
+                    Dice(
+                        emoji = DiceEmoji.Dartboard,
+                        value = 6,
+                    ),
+            )
         assertEquals(expectedMessage, sendDiceResult.getOrNull())
     }
 
     private fun givenAnySendDiceResponse() {
-        val sendDiceResponse = """
+        val sendDiceResponse =
+            """
             {
                 "ok": true,
                 "result": {
@@ -159,10 +164,11 @@ class SendDiceIT : ApiClientIT() {
                     }
                 }
             }
-        """.trimIndent()
-        val mockedResponse = MockResponse()
-            .setResponseCode(200)
-            .setBody(sendDiceResponse)
+            """.trimIndent()
+        val mockedResponse =
+            MockResponse()
+                .setResponseCode(200)
+                .setBody(sendDiceResponse)
         mockWebServer.enqueue(mockedResponse)
     }
 

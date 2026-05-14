@@ -9,7 +9,6 @@ import okhttp3.mockwebserver.MockResponse
 import org.junit.jupiter.api.Test
 
 class SetChatAdministratorCustomTitleTest : ApiClientIT() {
-
     @Test
     fun `setChatAdministratorCustomTitle (with chat id) arguments are properly transformed`() {
         givenAnySetChatAdministratorCustomTitleResponse()
@@ -21,9 +20,10 @@ class SetChatAdministratorCustomTitleTest : ApiClientIT() {
         )
 
         val request = mockWebServer.takeRequest()
-        val expectedRequestBody = "chat_id=$ANY_CHAT_ID&" +
-            "user_id=$ANY_USER_ID&" +
-            "custom_title=$ANY_CUSTOM_TITLE"
+        val expectedRequestBody =
+            "chat_id=$ANY_CHAT_ID&" +
+                "user_id=$ANY_USER_ID&" +
+                "custom_title=$ANY_CUSTOM_TITLE"
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
 
@@ -38,9 +38,10 @@ class SetChatAdministratorCustomTitleTest : ApiClientIT() {
         )
 
         val request = mockWebServer.takeRequest()
-        val expectedRequestBody = "chat_id=$ANY_CHANNEL_USERNAME&" +
-            "user_id=$ANY_USER_ID&" +
-            "custom_title=$ANY_CUSTOM_TITLE"
+        val expectedRequestBody =
+            "chat_id=$ANY_CHANNEL_USERNAME&" +
+                "user_id=$ANY_USER_ID&" +
+                "custom_title=$ANY_CUSTOM_TITLE"
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
 
@@ -48,11 +49,12 @@ class SetChatAdministratorCustomTitleTest : ApiClientIT() {
     fun `setChatAdministratorCustomTitle success`() {
         givenSetChatAdministratorCustomTitleSuccess()
 
-        val setChatAdministratorCustomTitleResponse = sut.setChatAdministratorCustomTitle(
-            chatId = ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME),
-            userId = ANY_USER_ID,
-            customTitle = ANY_CUSTOM_TITLE,
-        )
+        val setChatAdministratorCustomTitleResponse =
+            sut.setChatAdministratorCustomTitle(
+                chatId = ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME),
+                userId = ANY_USER_ID,
+                customTitle = ANY_CUSTOM_TITLE,
+            )
 
         assertTrue(setChatAdministratorCustomTitleResponse.get())
     }
@@ -61,11 +63,12 @@ class SetChatAdministratorCustomTitleTest : ApiClientIT() {
     fun `setChatAdministratorCustomTitle error`() {
         givenSetChatAdministratorCustomTitleError()
 
-        val setChatAdministratorCustomTitleResponse = sut.setChatAdministratorCustomTitle(
-            chatId = ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME),
-            userId = ANY_USER_ID,
-            customTitle = ANY_CUSTOM_TITLE,
-        )
+        val setChatAdministratorCustomTitleResponse =
+            sut.setChatAdministratorCustomTitle(
+                chatId = ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME),
+                userId = ANY_USER_ID,
+                customTitle = ANY_CUSTOM_TITLE,
+            )
 
         assertNull(setChatAdministratorCustomTitleResponse.getOrNull())
     }
@@ -75,29 +78,33 @@ class SetChatAdministratorCustomTitleTest : ApiClientIT() {
     }
 
     private fun givenSetChatAdministratorCustomTitleSuccess() {
-        val setChatAdministratorCustomTitleResponse = """
+        val setChatAdministratorCustomTitleResponse =
+            """
             {
                 "ok": true,
                 "result": true 
             }
-        """.trimIndent()
+            """.trimIndent()
 
-        val mockedResponse = MockResponse()
-            .setResponseCode(200)
-            .setBody(setChatAdministratorCustomTitleResponse)
+        val mockedResponse =
+            MockResponse()
+                .setResponseCode(200)
+                .setBody(setChatAdministratorCustomTitleResponse)
         mockWebServer.enqueue(mockedResponse)
     }
 
     private fun givenSetChatAdministratorCustomTitleError() {
-        val setChatAdministratorCustomTitleResponse = """
+        val setChatAdministratorCustomTitleResponse =
+            """
             {
                 "ok": false
             }
-        """.trimIndent()
+            """.trimIndent()
 
-        val mockedResponse = MockResponse()
-            .setResponseCode(200)
-            .setBody(setChatAdministratorCustomTitleResponse)
+        val mockedResponse =
+            MockResponse()
+                .setResponseCode(200)
+                .setBody(setChatAdministratorCustomTitleResponse)
         mockWebServer.enqueue(mockedResponse)
     }
 

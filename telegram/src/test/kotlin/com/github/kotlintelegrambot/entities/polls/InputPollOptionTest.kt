@@ -6,7 +6,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class InputPollOptionTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
@@ -41,9 +40,10 @@ class InputPollOptionTest {
 
     @Test
     fun `deserializes InputPollOption with text_entities`() {
-        val json = """
+        val json =
+            """
             {"text":"hello","text_entities":[{"type":"bold","offset":0,"length":5}]}
-        """.trimIndent()
+            """.trimIndent()
 
         val option = gson.fromJson(json, InputPollOption::class.java)
 

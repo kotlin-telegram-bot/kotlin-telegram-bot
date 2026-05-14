@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test
  * Wire-format coverage for the Bot API 6.3 / 6.4 forum-topic methods.
  */
 class ForumTopicIT : ApiClientIT() {
-
     @Test
     fun `createForumTopic posts chat_id, name and icon_color`() {
         mockWebServer.enqueue(
@@ -19,11 +18,12 @@ class ForumTopicIT : ApiClientIT() {
             ),
         )
 
-        val result = sut.createForumTopic(
-            chatId = ChatId.fromId(ANY_CHAT_ID),
-            name = "Bugs",
-            iconColor = 7322096,
-        )
+        val result =
+            sut.createForumTopic(
+                chatId = ChatId.fromId(ANY_CHAT_ID),
+                name = "Bugs",
+                iconColor = 7322096,
+            )
 
         val request = mockWebServer.takeRequest()
         val body = request.body.readUtf8().decode()

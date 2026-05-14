@@ -10,7 +10,6 @@ data class KeyboardReplyMarkup(
     @Name("one_time_keyboard") val oneTimeKeyboard: Boolean = false,
     val selective: Boolean? = null,
 ) : ReplyMarkup {
-
     constructor(
         vararg keyboard: KeyboardButton,
         resizeKeyboard: Boolean = false,
@@ -26,9 +25,7 @@ data class KeyboardReplyMarkup(
             resizeKeyboard: Boolean = true,
             oneTimeKeyboard: Boolean = false,
             selective: Boolean? = null,
-        ): KeyboardReplyMarkup {
-            return KeyboardReplyMarkup(keyboard.map { it.map { KeyboardButton(text = it) } }, resizeKeyboard, oneTimeKeyboard, selective)
-        }
+        ): KeyboardReplyMarkup = KeyboardReplyMarkup(keyboard.map { it.map { KeyboardButton(text = it) } }, resizeKeyboard, oneTimeKeyboard, selective)
     }
 
     override fun toString(): String = GSON.toJson(this)

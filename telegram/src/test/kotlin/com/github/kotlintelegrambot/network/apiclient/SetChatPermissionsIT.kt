@@ -8,7 +8,6 @@ import okhttp3.mockwebserver.MockResponse
 import org.junit.jupiter.api.Test
 
 class SetChatPermissionsIT : ApiClientIT() {
-
     @Test
     fun `setChatPermissions with no chat permissions sends the correct request`() {
         givenSetChatPermissionsSuccessResponse()
@@ -24,14 +23,16 @@ class SetChatPermissionsIT : ApiClientIT() {
     fun `setChatPermissions with one chat permission sends the correct request`() {
         givenSetChatPermissionsSuccessResponse()
 
-        sut.setChatPermissions(
-            ChatId.fromId(ANY_CHAT_ID),
-            ChatPermissions(canSendMessages = false),
-        ).execute()
+        sut
+            .setChatPermissions(
+                ChatId.fromId(ANY_CHAT_ID),
+                ChatPermissions(canSendMessages = false),
+            ).execute()
 
         val request = mockWebServer.takeRequest()
-        val expectedRequestBody = "chat_id=1241242&" +
-            "permissions={\"can_send_messages\":false}"
+        val expectedRequestBody =
+            "chat_id=1241242&" +
+                "permissions={\"can_send_messages\":false}"
         TestCase.assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
 
@@ -39,33 +40,37 @@ class SetChatPermissionsIT : ApiClientIT() {
     fun `setChatPermissions with several chat permission sends the correct request`() {
         givenSetChatPermissionsSuccessResponse()
 
-        sut.setChatPermissions(
-            ChatId.fromId(ANY_CHAT_ID),
-            ChatPermissions(
-                canSendMessages = false,
-                canSendPolls = true,
-                canAddWebPagePreviews = false,
-            ),
-        ).execute()
+        sut
+            .setChatPermissions(
+                ChatId.fromId(ANY_CHAT_ID),
+                ChatPermissions(
+                    canSendMessages = false,
+                    canSendPolls = true,
+                    canAddWebPagePreviews = false,
+                ),
+            ).execute()
 
         val request = mockWebServer.takeRequest()
-        val expectedRequestBody = "chat_id=1241242&" +
-            "permissions={\"can_send_messages\":false," +
-            "\"can_send_polls\":true," +
-            "\"can_add_web_page_previews\":false}"
+        val expectedRequestBody =
+            "chat_id=1241242&" +
+                "permissions={\"can_send_messages\":false," +
+                "\"can_send_polls\":true," +
+                "\"can_add_web_page_previews\":false}"
         TestCase.assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
 
     private fun givenSetChatPermissionsSuccessResponse() {
-        val setChatPermissionsResponseBody = """
+        val setChatPermissionsResponseBody =
+            """
             {
                 "ok": true,
                 "result": true 
             }
-        """.trimIndent()
-        val mockedSuccessResponse = MockResponse()
-            .setResponseCode(200)
-            .setBody(setChatPermissionsResponseBody)
+            """.trimIndent()
+        val mockedSuccessResponse =
+            MockResponse()
+                .setResponseCode(200)
+                .setBody(setChatPermissionsResponseBody)
         mockWebServer.enqueue(mockedSuccessResponse)
     }
 

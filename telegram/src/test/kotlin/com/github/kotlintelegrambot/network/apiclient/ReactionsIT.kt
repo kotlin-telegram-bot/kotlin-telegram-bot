@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test
  * Wire-format coverage for Bot API 7.0 / 10.0 message-reaction methods.
  */
 class ReactionsIT : ApiClientIT() {
-
     @Test
     fun `setMessageReaction posts chat_id, message_id, serialized reaction and is_big`() {
         mockWebServer.enqueue(MockResponse().setResponseCode(200).setBody("""{"ok":true,"result":true}"""))

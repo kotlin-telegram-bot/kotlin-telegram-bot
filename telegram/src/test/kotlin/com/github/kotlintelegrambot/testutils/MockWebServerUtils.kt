@@ -11,7 +11,12 @@ val RecordedRequest.multipartBoundary: String
     }
 
 val RecordedRequest.apiMethodName: String?
-    get() = path?.split("/")?.lastOrNull()?.split("?")?.firstOrNull()
+    get() =
+        path
+            ?.split("/")
+            ?.lastOrNull()
+            ?.split("?")
+            ?.firstOrNull()
 
 val RecordedRequest.queryParams: String?
     get() {

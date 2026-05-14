@@ -5,15 +5,15 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class PaidMediaPurchasedTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
     fun `deserializes PaidMediaPurchased payload`() {
-        val json = """
+        val json =
+            """
             {"from":{"id":42,"is_bot":false,"first_name":"Alice"},
              "paid_media_payload":"sku-7"}
-        """.trimIndent()
+            """.trimIndent()
 
         val purchased = gson.fromJson(json, PaidMediaPurchased::class.java)
 

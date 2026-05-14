@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class OwnedGiftTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     private val stickerJson =
@@ -13,7 +12,8 @@ class OwnedGiftTest {
 
     @Test
     fun `deserializes Regular OwnedGift via sealed adapter`() {
-        val json = """
+        val json =
+            """
             {
               "type":"regular",
               "gift":{"id":"g","sticker":$stickerJson,"star_count":10},
@@ -27,7 +27,7 @@ class OwnedGiftTest {
               "convert_star_count":7,
               "prepaid_upgrade_star_count":3
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val owned = gson.fromJson(json, OwnedGift::class.java)
 
@@ -46,7 +46,8 @@ class OwnedGiftTest {
 
     @Test
     fun `deserializes Unique OwnedGift via sealed adapter`() {
-        val json = """
+        val json =
+            """
             {
               "type":"unique",
               "gift":{
@@ -63,7 +64,7 @@ class OwnedGiftTest {
               "transfer_star_count":25,
               "next_transfer_date":1700001000
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val owned = gson.fromJson(json, OwnedGift::class.java)
 

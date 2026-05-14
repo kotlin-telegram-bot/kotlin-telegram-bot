@@ -13,7 +13,6 @@ private const val FROM_CHAT_ID = -1001367429635L
 private const val MESSAGE_ID = 7L
 
 class ForwardMessageIT : ApiClientIT() {
-
     @Test
     fun `request with all parameters`() {
         givenAnyForwardMessageResponse()
@@ -27,11 +26,12 @@ class ForwardMessageIT : ApiClientIT() {
         )
 
         val request = mockWebServer.takeRequest()
-        val expectedRequestBody = "chat_id=$CHAT_ID" +
-            "&from_chat_id=$FROM_CHAT_ID" +
-            "&disable_notification=false" +
-            "&protect_content=false" +
-            "&message_id=$MESSAGE_ID"
+        val expectedRequestBody =
+            "chat_id=$CHAT_ID" +
+                "&from_chat_id=$FROM_CHAT_ID" +
+                "&disable_notification=false" +
+                "&protect_content=false" +
+                "&message_id=$MESSAGE_ID"
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
 
@@ -48,10 +48,11 @@ class ForwardMessageIT : ApiClientIT() {
         )
 
         val request = mockWebServer.takeRequest()
-        val expectedRequestBody = "chat_id=$CHAT_ID" +
-            "&from_chat_id=$FROM_CHAT_ID" +
-            "&protect_content=false" +
-            "&message_id=$MESSAGE_ID"
+        val expectedRequestBody =
+            "chat_id=$CHAT_ID" +
+                "&from_chat_id=$FROM_CHAT_ID" +
+                "&protect_content=false" +
+                "&message_id=$MESSAGE_ID"
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
 
@@ -59,31 +60,35 @@ class ForwardMessageIT : ApiClientIT() {
     fun `message is properly returned on success`() {
         givenAnyForwardMessageResponse()
 
-        val forwardMessageResult = sut.forwardMessage(
-            chatId = ChatId.fromId(CHAT_ID),
-            fromChatId = ChatId.fromId(FROM_CHAT_ID),
-            messageId = MESSAGE_ID,
-            disableNotification = false,
-            protectContent = false,
-        )
+        val forwardMessageResult =
+            sut.forwardMessage(
+                chatId = ChatId.fromId(CHAT_ID),
+                fromChatId = ChatId.fromId(FROM_CHAT_ID),
+                messageId = MESSAGE_ID,
+                disableNotification = false,
+                protectContent = false,
+            )
 
-        val expectedMessage = Message(
-            messageId = MESSAGE_ID,
-            chat = Chat(
-                id = FROM_CHAT_ID,
-                title = "[Channel] Test Telegram Bot API",
-                username = "testtelegrambotapi",
-                type = "channel",
-            ),
-            date = 1604158404,
-            text = "I'm part of a test :)",
-            authorSignature = "incognito",
-        )
+        val expectedMessage =
+            Message(
+                messageId = MESSAGE_ID,
+                chat =
+                    Chat(
+                        id = FROM_CHAT_ID,
+                        title = "[Channel] Test Telegram Bot API",
+                        username = "testtelegrambotapi",
+                        type = "channel",
+                    ),
+                date = 1604158404,
+                text = "I'm part of a test :)",
+                authorSignature = "incognito",
+            )
         assertEquals(expectedMessage, forwardMessageResult.getOrNull())
     }
 
     private fun givenAnyForwardMessageResponse() {
-        val forwardMessageResponse = """
+        val forwardMessageResponse =
+            """
             {
                 "ok": true,
                 "result": {
@@ -99,10 +104,11 @@ class ForwardMessageIT : ApiClientIT() {
                     "author_signature": "incognito"
                 }
             }
-        """.trimIndent()
-        val mockedResponse = MockResponse()
-            .setResponseCode(200)
-            .setBody(forwardMessageResponse)
+            """.trimIndent()
+        val mockedResponse =
+            MockResponse()
+                .setResponseCode(200)
+                .setBody(forwardMessageResponse)
         mockWebServer.enqueue(mockedResponse)
     }
 }

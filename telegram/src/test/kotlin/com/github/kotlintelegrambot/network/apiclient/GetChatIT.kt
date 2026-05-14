@@ -13,7 +13,6 @@ import okhttp3.mockwebserver.MockResponse
 import org.junit.jupiter.api.Test
 
 class GetChatIT : ApiClientIT() {
-
     @Test
     fun `correct request`() {
         givenAnyGetChatSuccessfulResponse()
@@ -31,41 +30,47 @@ class GetChatIT : ApiClientIT() {
 
         val getChatResult = sut.getChat(ChatId.fromId(ANY_CHAT_ID))
 
-        val expectedGetChatResult = ChatFullInfo(
-            id = -1001342283806,
-            type = "supergroup",
-            accentColorId = 0,
-            maxReactionCount = 11,
-            acceptedGiftTypes = AcceptedGiftTypes(
-                unlimitedGifts = true,
-                limitedGifts = true,
-                uniqueGifts = true,
-                premiumSubscription = false,
-            ),
-            title = "[Local Group] Test Telegram Bot Api",
-            permissions = ChatPermissions(
-                canSendMessages = true,
-                canSendMediaMessages = true,
-                canSendPolls = true,
-                canSendOtherMessages = true,
-                canAddWebPagePreviews = true,
-                canChangeInfo = false,
-                canInviteUsers = false,
-                canPinMessages = false,
-            ),
-            location = ChatLocation(
-                location = Location(
-                    latitude = 20.425537f,
-                    longitude = -3.604971f,
-                ),
-                address = "Mordor Street, Madrid, Spain",
-            ),
-        )
+        val expectedGetChatResult =
+            ChatFullInfo(
+                id = -1001342283806,
+                type = "supergroup",
+                accentColorId = 0,
+                maxReactionCount = 11,
+                acceptedGiftTypes =
+                    AcceptedGiftTypes(
+                        unlimitedGifts = true,
+                        limitedGifts = true,
+                        uniqueGifts = true,
+                        premiumSubscription = false,
+                    ),
+                title = "[Local Group] Test Telegram Bot Api",
+                permissions =
+                    ChatPermissions(
+                        canSendMessages = true,
+                        canSendMediaMessages = true,
+                        canSendPolls = true,
+                        canSendOtherMessages = true,
+                        canAddWebPagePreviews = true,
+                        canChangeInfo = false,
+                        canInviteUsers = false,
+                        canPinMessages = false,
+                    ),
+                location =
+                    ChatLocation(
+                        location =
+                            Location(
+                                latitude = 20.425537f,
+                                longitude = -3.604971f,
+                            ),
+                        address = "Mordor Street, Madrid, Spain",
+                    ),
+            )
         assertEquals(expectedGetChatResult, getChatResult.getOrNull())
     }
 
     private fun givenAnyGetChatSuccessfulResponse() {
-        val getChatResponse = """
+        val getChatResponse =
+            """
             {
                 "ok": true,
                 "result": {
@@ -99,7 +104,7 @@ class GetChatIT : ApiClientIT() {
                     }
                 }
             }
-        """.trimIndent()
+            """.trimIndent()
         mockWebServer.enqueue(
             MockResponse()
                 .setResponseCode(200)

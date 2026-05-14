@@ -8,16 +8,16 @@ import okhttp3.mockwebserver.MockResponse
 import org.junit.jupiter.api.Test
 
 class RestrictChatMembersIT : ApiClientIT() {
-
     @Test
     fun `restrictChatMember with no chat permissions sends the correct request`() {
         givenRestrictChatMembersSuccessResponse()
 
-        sut.restrictChatMember(
-            ChatId.fromId(ANY_CHAT_ID),
-            ANY_USER_ID,
-            ChatPermissions(),
-        ).execute()
+        sut
+            .restrictChatMember(
+                ChatId.fromId(ANY_CHAT_ID),
+                ANY_USER_ID,
+                ChatPermissions(),
+            ).execute()
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=1241242&user_id=32523623&permissions={}"
@@ -28,16 +28,18 @@ class RestrictChatMembersIT : ApiClientIT() {
     fun `restrictChatMember with one chat permission sends the correct request`() {
         givenRestrictChatMembersSuccessResponse()
 
-        sut.restrictChatMember(
-            ChatId.fromId(ANY_CHAT_ID),
-            ANY_USER_ID,
-            ChatPermissions(canSendMessages = false),
-        ).execute()
+        sut
+            .restrictChatMember(
+                ChatId.fromId(ANY_CHAT_ID),
+                ANY_USER_ID,
+                ChatPermissions(canSendMessages = false),
+            ).execute()
 
         val request = mockWebServer.takeRequest()
-        val expectedRequestBody = "chat_id=1241242&" +
-            "user_id=32523623&" +
-            "permissions={\"can_send_messages\":false}"
+        val expectedRequestBody =
+            "chat_id=1241242&" +
+                "user_id=32523623&" +
+                "permissions={\"can_send_messages\":false}"
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
 
@@ -45,22 +47,24 @@ class RestrictChatMembersIT : ApiClientIT() {
     fun `restrictChatMember with several chat permission sends the correct request`() {
         givenRestrictChatMembersSuccessResponse()
 
-        sut.restrictChatMember(
-            ChatId.fromId(ANY_CHAT_ID),
-            ANY_USER_ID,
-            ChatPermissions(
-                canSendMessages = false,
-                canSendPolls = true,
-                canAddWebPagePreviews = false,
-            ),
-        ).execute()
+        sut
+            .restrictChatMember(
+                ChatId.fromId(ANY_CHAT_ID),
+                ANY_USER_ID,
+                ChatPermissions(
+                    canSendMessages = false,
+                    canSendPolls = true,
+                    canAddWebPagePreviews = false,
+                ),
+            ).execute()
 
         val request = mockWebServer.takeRequest()
-        val expectedRequestBody = "chat_id=1241242&" +
-            "user_id=32523623&" +
-            "permissions={\"can_send_messages\":false," +
-            "\"can_send_polls\":true," +
-            "\"can_add_web_page_previews\":false}"
+        val expectedRequestBody =
+            "chat_id=1241242&" +
+                "user_id=32523623&" +
+                "permissions={\"can_send_messages\":false," +
+                "\"can_send_polls\":true," +
+                "\"can_add_web_page_previews\":false}"
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
 
@@ -68,30 +72,34 @@ class RestrictChatMembersIT : ApiClientIT() {
     fun `restrictChatMember with until date sends the correct request`() {
         givenRestrictChatMembersSuccessResponse()
 
-        sut.restrictChatMember(
-            ChatId.fromId(ANY_CHAT_ID),
-            ANY_USER_ID,
-            ChatPermissions(),
-            ANY_TIMESTAMP,
-        ).execute()
+        sut
+            .restrictChatMember(
+                ChatId.fromId(ANY_CHAT_ID),
+                ANY_USER_ID,
+                ChatPermissions(),
+                ANY_TIMESTAMP,
+            ).execute()
 
         val request = mockWebServer.takeRequest()
-        val expectedRequestBody = "chat_id=1241242&" +
-            "user_id=32523623&permissions={}&" +
-            "until_date=132523523"
+        val expectedRequestBody =
+            "chat_id=1241242&" +
+                "user_id=32523623&permissions={}&" +
+                "until_date=132523523"
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
 
     private fun givenRestrictChatMembersSuccessResponse() {
-        val restrictChatMembersResponseBody = """
+        val restrictChatMembersResponseBody =
+            """
             {
                 "ok": true,
                 "result": true 
             }
-        """.trimIndent()
-        val mockedSuccessResponse = MockResponse()
-            .setResponseCode(200)
-            .setBody(restrictChatMembersResponseBody)
+            """.trimIndent()
+        val mockedSuccessResponse =
+            MockResponse()
+                .setResponseCode(200)
+                .setBody(restrictChatMembersResponseBody)
         mockWebServer.enqueue(mockedSuccessResponse)
     }
 

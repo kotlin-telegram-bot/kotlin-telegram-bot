@@ -8,7 +8,6 @@ import okhttp3.mockwebserver.MockResponse
 import org.junit.jupiter.api.Test
 
 class PromoteChatMemberIT : ApiClientIT() {
-
     @Test
     fun `correct request with all mandatory arguments`() {
         givenPromoteChatMemberSuccessResponse()
@@ -69,33 +68,36 @@ class PromoteChatMemberIT : ApiClientIT() {
     fun `successful response is returned correctly`() {
         givenPromoteChatMemberSuccessResponse()
 
-        val promoteChatMemberResult = sut.promoteChatMember(
-            chatId = ChatId.fromId(ANY_CHAT_ID),
-            userId = ANY_USER_ID,
-            isAnonymous = null,
-            canChangeInfo = null,
-            canPostMessages = null,
-            canEditMessages = null,
-            canDeleteMessages = null,
-            canInviteUsers = null,
-            canRestrictMembers = null,
-            canPinMessages = null,
-            canPromoteMembers = null,
-        )
+        val promoteChatMemberResult =
+            sut.promoteChatMember(
+                chatId = ChatId.fromId(ANY_CHAT_ID),
+                userId = ANY_USER_ID,
+                isAnonymous = null,
+                canChangeInfo = null,
+                canPostMessages = null,
+                canEditMessages = null,
+                canDeleteMessages = null,
+                canInviteUsers = null,
+                canRestrictMembers = null,
+                canPinMessages = null,
+                canPromoteMembers = null,
+            )
 
         assertEquals(true, promoteChatMemberResult.getOrNull())
     }
 
     private fun givenPromoteChatMemberSuccessResponse() {
-        val promoteChatMemberResponseBody = """
+        val promoteChatMemberResponseBody =
+            """
             {
                 "ok": true,
                 "result": true 
             }
-        """.trimIndent()
-        val mockedSuccessResponse = MockResponse()
-            .setResponseCode(200)
-            .setBody(promoteChatMemberResponseBody)
+            """.trimIndent()
+        val mockedSuccessResponse =
+            MockResponse()
+                .setResponseCode(200)
+                .setBody(promoteChatMemberResponseBody)
         mockWebServer.enqueue(mockedSuccessResponse)
     }
 

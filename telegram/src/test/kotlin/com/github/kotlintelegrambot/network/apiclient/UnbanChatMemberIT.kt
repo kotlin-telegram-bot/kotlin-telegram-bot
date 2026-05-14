@@ -9,7 +9,6 @@ import okhttp3.mockwebserver.MockResponse
 import org.junit.jupiter.api.Test
 
 class UnbanChatMemberIT : ApiClientIT() {
-
     @Test
     fun `correct request with mandatory parameters`() {
         givenASuccessfulResponse()
@@ -47,22 +46,24 @@ class UnbanChatMemberIT : ApiClientIT() {
     fun `successful response is returned properly`() {
         givenASuccessfulResponse()
 
-        val unbanChatMemberResult = sut.unbanChatMember(
-            chatId = ChatId.fromId(ANY_CHAT_ID),
-            userId = ANY_USER_ID,
-            onlyIfBanned = true,
-        )
+        val unbanChatMemberResult =
+            sut.unbanChatMember(
+                chatId = ChatId.fromId(ANY_CHAT_ID),
+                userId = ANY_USER_ID,
+                onlyIfBanned = true,
+            )
 
         assertTrue(unbanChatMemberResult.get())
     }
 
     private fun givenASuccessfulResponse() {
-        val responseBody = """
+        val responseBody =
+            """
             {
                 "ok": true,
                 "result": true
             }
-        """.trimIndent()
+            """.trimIndent()
         mockWebServer.enqueue(
             MockResponse()
                 .setResponseCode(200)

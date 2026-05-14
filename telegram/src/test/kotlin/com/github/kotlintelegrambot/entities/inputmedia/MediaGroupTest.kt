@@ -7,21 +7,22 @@ import org.junit.jupiter.api.assertThrows
 import java.lang.IllegalArgumentException
 
 class MediaGroupTest {
-
     @Test
     fun `throws IllegalArgumentException when media group is created with zero medias`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            MediaGroup.from()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                MediaGroup.from()
+            }
 
         assertEquals(MEDIA_GROUP_ILLEGAL_ARGUMENTS_MESSAGE, exception.message)
     }
 
     @Test
     fun `throws IllegalArgumentException when media group is created with one media`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            MediaGroup.from(anyInputMediaPhoto())
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                MediaGroup.from(anyInputMediaPhoto())
+            }
 
         assertEquals(MEDIA_GROUP_ILLEGAL_ARGUMENTS_MESSAGE, exception.message)
     }
@@ -49,18 +50,19 @@ class MediaGroupTest {
         val anyInputMediaVideo4 = anyInputMediaVideo()
         val anyInputMediaVideo5 = anyInputMediaVideo()
 
-        val mediaGroup = MediaGroup.from(
-            anyInputMediaPhoto1,
-            anyInputMediaPhoto2,
-            anyInputMediaPhoto3,
-            anyInputMediaPhoto4,
-            anyInputMediaPhoto5,
-            anyInputMediaVideo1,
-            anyInputMediaVideo2,
-            anyInputMediaVideo3,
-            anyInputMediaVideo4,
-            anyInputMediaVideo5,
-        )
+        val mediaGroup =
+            MediaGroup.from(
+                anyInputMediaPhoto1,
+                anyInputMediaPhoto2,
+                anyInputMediaPhoto3,
+                anyInputMediaPhoto4,
+                anyInputMediaPhoto5,
+                anyInputMediaVideo1,
+                anyInputMediaVideo2,
+                anyInputMediaVideo3,
+                anyInputMediaVideo4,
+                anyInputMediaVideo5,
+            )
 
         assertArrayEquals(
             arrayOf<GroupableMedia>(
@@ -93,21 +95,22 @@ class MediaGroupTest {
         val anyInputMediaVideo5 = anyInputMediaVideo()
         val anyInputMediaVideo6 = anyInputMediaVideo()
 
-        val exception = assertThrows<IllegalArgumentException> {
-            MediaGroup.from(
-                anyInputMediaPhoto1,
-                anyInputMediaPhoto2,
-                anyInputMediaPhoto3,
-                anyInputMediaPhoto4,
-                anyInputMediaPhoto5,
-                anyInputMediaVideo1,
-                anyInputMediaVideo2,
-                anyInputMediaVideo3,
-                anyInputMediaVideo4,
-                anyInputMediaVideo5,
-                anyInputMediaVideo6,
-            )
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                MediaGroup.from(
+                    anyInputMediaPhoto1,
+                    anyInputMediaPhoto2,
+                    anyInputMediaPhoto3,
+                    anyInputMediaPhoto4,
+                    anyInputMediaPhoto5,
+                    anyInputMediaVideo1,
+                    anyInputMediaVideo2,
+                    anyInputMediaVideo3,
+                    anyInputMediaVideo4,
+                    anyInputMediaVideo5,
+                    anyInputMediaVideo6,
+                )
+            }
 
         assertEquals(MEDIA_GROUP_ILLEGAL_ARGUMENTS_MESSAGE, exception.message)
     }

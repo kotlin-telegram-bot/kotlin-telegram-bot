@@ -8,13 +8,12 @@ import com.github.kotlintelegrambot.entities.files.Audio
 class AudioHandler(
     handleAudio: HandleAudio,
 ) : MediaHandler<Audio>(
-    handleAudio,
-    AudioHandlerFunctions::mapMessageToAudio,
-    AudioHandlerFunctions::isUpdateAudio,
-)
+        handleAudio,
+        AudioHandlerFunctions::mapMessageToAudio,
+        AudioHandlerFunctions::isUpdateAudio,
+    )
 
 private object AudioHandlerFunctions {
-
     fun mapMessageToAudio(message: Message): Audio {
         val audio = message.audio
         checkNotNull(audio)

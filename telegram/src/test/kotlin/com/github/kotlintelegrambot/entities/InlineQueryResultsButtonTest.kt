@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class InlineQueryResultsButtonTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
@@ -32,10 +31,11 @@ class InlineQueryResultsButtonTest {
 
     @Test
     fun `serializes button using snake_case fields`() {
-        val button = InlineQueryResultsButton(
-            text = "Go",
-            startParameter = "payload",
-        )
+        val button =
+            InlineQueryResultsButton(
+                text = "Go",
+                startParameter = "payload",
+            )
 
         val json = gson.toJson(button)
 

@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test
 import retrofit2.Retrofit
 
 class DiceEmojiConverterFactoryTest {
-
     private val retrofitMock = mockk<Retrofit>()
     private val sut = DiceEmojiConverterFactory()
 

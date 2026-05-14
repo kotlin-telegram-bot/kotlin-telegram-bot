@@ -13,7 +13,6 @@ import okhttp3.mockwebserver.MockResponse
 import org.junit.jupiter.api.Test
 
 class StopPollIT : ApiClientIT() {
-
     @Test
     fun `api method name`() {
         givenStopPollSuccessfulResponse()
@@ -50,20 +49,22 @@ class StopPollIT : ApiClientIT() {
         sut.stopPoll(
             chatId = ANY_CHAT_ID,
             messageId = ANY_MESSAGE_ID,
-            replyMarkup = InlineKeyboardMarkup.create(
-                listOf(
-                    InlineKeyboardButton.Url(
-                        text = ANY_TEXT,
-                        url = ANY_URL,
+            replyMarkup =
+                InlineKeyboardMarkup.create(
+                    listOf(
+                        InlineKeyboardButton.Url(
+                            text = ANY_TEXT,
+                            url = ANY_URL,
+                        ),
                     ),
                 ),
-            ),
         )
 
         val request = mockWebServer.takeRequest()
-        val expectedRequestBody = "chat_id=${ANY_CHAT_ID.id}" +
-            "&message_id=$ANY_MESSAGE_ID" +
-            "&reply_markup={\"inline_keyboard\":[[{\"text\":\"$ANY_TEXT\",\"url\":\"$ANY_URL\"}]]}"
+        val expectedRequestBody =
+            "chat_id=${ANY_CHAT_ID.id}" +
+                "&message_id=$ANY_MESSAGE_ID" +
+                "&reply_markup={\"inline_keyboard\":[[{\"text\":\"$ANY_TEXT\",\"url\":\"$ANY_URL\"}]]}"
         assertEquals(expectedRequestBody, request.decodedBody)
     }
 
@@ -71,36 +72,40 @@ class StopPollIT : ApiClientIT() {
     fun `successful response result`() {
         givenStopPollSuccessfulResponse()
 
-        val stopPollResult = sut.stopPoll(
-            chatId = ANY_CHAT_ID,
-            messageId = ANY_MESSAGE_ID,
-            replyMarkup = null,
-        )
+        val stopPollResult =
+            sut.stopPoll(
+                chatId = ANY_CHAT_ID,
+                messageId = ANY_MESSAGE_ID,
+                replyMarkup = null,
+            )
 
-        val expectedStopPollResult = Poll(
-            id = 5920442882291925002,
-            question = "Pizza with or without pineapple?",
-            options = listOf(
-                PollOption(
-                    text = "With :(",
-                    voterCount = 0,
-                ),
-                PollOption(
-                    text = "Without :)",
-                    voterCount = 0,
-                ),
-            ),
-            totalVoterCount = 0,
-            isClosed = true,
-            isAnonymous = false,
-            type = PollType.REGULAR,
-            allowsMultipleAnswers = false,
-        )
+        val expectedStopPollResult =
+            Poll(
+                id = 5920442882291925002,
+                question = "Pizza with or without pineapple?",
+                options =
+                    listOf(
+                        PollOption(
+                            text = "With :(",
+                            voterCount = 0,
+                        ),
+                        PollOption(
+                            text = "Without :)",
+                            voterCount = 0,
+                        ),
+                    ),
+                totalVoterCount = 0,
+                isClosed = true,
+                isAnonymous = false,
+                type = PollType.REGULAR,
+                allowsMultipleAnswers = false,
+            )
         assertEquals(expectedStopPollResult, stopPollResult.get())
     }
 
     private fun givenStopPollSuccessfulResponse() {
-        val stopPollResponse = """
+        val stopPollResponse =
+            """
             {
                 "ok": true,
                 "result": {
@@ -123,7 +128,7 @@ class StopPollIT : ApiClientIT() {
                     "allows_multiple_answers": false
                 }
             }
-        """.trimIndent()
+            """.trimIndent()
         mockWebServer.enqueue(
             MockResponse()
                 .setResponseCode(200)

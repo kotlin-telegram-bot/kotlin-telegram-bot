@@ -5,14 +5,14 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class MessageOriginTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
     fun `deserializes MessageOriginUser by 'user' discriminator`() {
-        val json = """
+        val json =
+            """
             {"type":"user","date":1700000000,"sender_user":{"id":42,"is_bot":false,"first_name":"Alice"}}
-        """.trimIndent()
+            """.trimIndent()
 
         val origin = gson.fromJson(json, MessageOrigin::class.java)
 
@@ -36,9 +36,10 @@ class MessageOriginTest {
 
     @Test
     fun `deserializes MessageOriginChat by 'chat' discriminator`() {
-        val json = """
+        val json =
+            """
             {"type":"chat","date":1700000000,"sender_chat":{"id":-100,"type":"supergroup"},"author_signature":"Admin"}
-        """.trimIndent()
+            """.trimIndent()
 
         val origin = gson.fromJson(json, MessageOrigin::class.java)
 
@@ -50,9 +51,10 @@ class MessageOriginTest {
 
     @Test
     fun `deserializes MessageOriginChannel by 'channel' discriminator`() {
-        val json = """
+        val json =
+            """
             {"type":"channel","date":1700000000,"chat":{"id":-200,"type":"channel"},"message_id":7}
-        """.trimIndent()
+            """.trimIndent()
 
         val origin = gson.fromJson(json, MessageOrigin::class.java)
 

@@ -14,31 +14,32 @@ import okhttp3.mockwebserver.MockResponse
 import org.junit.jupiter.api.Test
 
 class CopyMessageIT : ApiClientIT() {
-
     @Test
     fun `copy message with all parameters`() {
         givenAnyCopyMessageResponse()
 
-        sut.copyMessage(
-            ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME),
-            ChatId.fromId(ANY_CHAT_ID),
-            messageId = ANY_MESSAGE_ID,
-            caption = ANY_CAPTION,
-            parseMode = MARKDOWN_V2,
-            captionEntities = CAPTION_ENTITIES,
-            disableNotification = true,
-            replyMarkup = REPLY_MARKUP,
-        ).execute()
+        sut
+            .copyMessage(
+                ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME),
+                ChatId.fromId(ANY_CHAT_ID),
+                messageId = ANY_MESSAGE_ID,
+                caption = ANY_CAPTION,
+                parseMode = MARKDOWN_V2,
+                captionEntities = CAPTION_ENTITIES,
+                disableNotification = true,
+                replyMarkup = REPLY_MARKUP,
+            ).execute()
 
         val request = mockWebServer.takeRequest()
-        val expectedRequestBody = "chat_id=$ANY_CHANNEL_USERNAME" +
-            "&from_chat_id=$ANY_CHAT_ID" +
-            "&message_id=$ANY_MESSAGE_ID" +
-            "&caption=$ANY_CAPTION" +
-            "&parse_mode=${MARKDOWN_V2.modeName}" +
-            "&caption_entities=${gson.toJson(CAPTION_ENTITIES)}" +
-            "&disable_notification=true" +
-            "&reply_markup=${gson.toJson(REPLY_MARKUP)}"
+        val expectedRequestBody =
+            "chat_id=$ANY_CHANNEL_USERNAME" +
+                "&from_chat_id=$ANY_CHAT_ID" +
+                "&message_id=$ANY_MESSAGE_ID" +
+                "&caption=$ANY_CAPTION" +
+                "&parse_mode=${MARKDOWN_V2.modeName}" +
+                "&caption_entities=${gson.toJson(CAPTION_ENTITIES)}" +
+                "&disable_notification=true" +
+                "&reply_markup=${gson.toJson(REPLY_MARKUP)}"
 
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
@@ -47,23 +48,27 @@ class CopyMessageIT : ApiClientIT() {
     fun `copyMessage response is returned correctly`() {
         givenAnyCopyMessageResponse()
 
-        val copyMessageResponse = sut.copyMessage(
-            ChatId.fromId(ANY_CHAT_ID),
-            ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME),
-            ANY_MESSAGE_ID,
-        ).execute()
+        val copyMessageResponse =
+            sut
+                .copyMessage(
+                    ChatId.fromId(ANY_CHAT_ID),
+                    ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME),
+                    ANY_MESSAGE_ID,
+                ).execute()
 
         val expectedMessageId = MessageId(messageId = ANY_RESULT_MESSAGE_ID)
         assertEquals(expectedMessageId, copyMessageResponse.body()?.result)
     }
 
     private fun givenAnyCopyMessageResponse() {
-        val copyMessageResponse = """
+        val copyMessageResponse =
+            """
             {"ok":true,"result":{"message_id":$ANY_RESULT_MESSAGE_ID}}
-        """.trimIndent()
-        val mockedResponse = MockResponse()
-            .setResponseCode(200)
-            .setBody(copyMessageResponse)
+            """.trimIndent()
+        val mockedResponse =
+            MockResponse()
+                .setResponseCode(200)
+                .setBody(copyMessageResponse)
         mockWebServer.enqueue(mockedResponse)
     }
 

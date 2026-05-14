@@ -12,7 +12,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class LeftChatMemberHandlerTest {
-
     private val handleLeftChatMemberHandlerMock = mockk<HandleLeftChatMember>(relaxed = true)
 
     private val sut = LeftChatMemberHandler(handleLeftChatMemberHandlerMock)
@@ -45,20 +44,22 @@ class LeftChatMemberHandlerTest {
     }
 
     @Test
-    fun `new chat members are properly dispatched to the handler function`() = runTest {
-        val botMock = mockk<Bot>()
-        val anyLeftChatMember = anyUser()
-        val anyMessageWithNewChatMember = anyMessage(leftChatMember = anyLeftChatMember)
-        val anyUpdateWithLeftChatMember = anyUpdate(message = anyMessageWithNewChatMember)
+    fun `new chat members are properly dispatched to the handler function`() =
+        runTest {
+            val botMock = mockk<Bot>()
+            val anyLeftChatMember = anyUser()
+            val anyMessageWithNewChatMember = anyMessage(leftChatMember = anyLeftChatMember)
+            val anyUpdateWithLeftChatMember = anyUpdate(message = anyMessageWithNewChatMember)
 
-        sut.handleUpdate(botMock, anyUpdateWithLeftChatMember)
+            sut.handleUpdate(botMock, anyUpdateWithLeftChatMember)
 
-        val expectedLeftChatMemberHandlerEnv = LeftChatMemberHandlerEnvironment(
-            botMock,
-            anyUpdateWithLeftChatMember,
-            anyMessageWithNewChatMember,
-            anyLeftChatMember,
-        )
-        coVerify { handleLeftChatMemberHandlerMock.invoke(expectedLeftChatMemberHandlerEnv) }
-    }
+            val expectedLeftChatMemberHandlerEnv =
+                LeftChatMemberHandlerEnvironment(
+                    botMock,
+                    anyUpdateWithLeftChatMember,
+                    anyMessageWithNewChatMember,
+                    anyLeftChatMember,
+                )
+            coVerify { handleLeftChatMemberHandlerMock.invoke(expectedLeftChatMemberHandlerEnv) }
+        }
 }

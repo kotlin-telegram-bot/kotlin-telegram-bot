@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test
  * Wire-format coverage for the Bot API 6.6 / 6.7 bot-info methods.
  */
 class BotInfoIT : ApiClientIT() {
-
     @Test
     fun `setMyDescription posts description and language_code`() {
         mockWebServer.enqueue(MockResponse().setResponseCode(200).setBody("""{"ok":true,"result":true}"""))
@@ -124,16 +123,17 @@ class BotInfoIT : ApiClientIT() {
         mockWebServer.enqueue(MockResponse().setResponseCode(200).setBody("""{"ok":true,"result":true}"""))
 
         sut.setMyDefaultAdministratorRights(
-            rights = ChatAdministratorRights(
-                isAnonymous = false,
-                canManageChat = true,
-                canDeleteMessages = true,
-                canManageVideoChats = false,
-                canRestrictMembers = true,
-                canPromoteMembers = false,
-                canChangeInfo = false,
-                canInviteUsers = true,
-            ),
+            rights =
+                ChatAdministratorRights(
+                    isAnonymous = false,
+                    canManageChat = true,
+                    canDeleteMessages = true,
+                    canManageVideoChats = false,
+                    canRestrictMembers = true,
+                    canPromoteMembers = false,
+                    canChangeInfo = false,
+                    canInviteUsers = true,
+                ),
             forChannels = false,
         )
 

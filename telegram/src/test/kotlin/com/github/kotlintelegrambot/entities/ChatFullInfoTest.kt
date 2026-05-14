@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class ChatFullInfoTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
@@ -23,7 +22,8 @@ class ChatFullInfoTest {
 
     @Test
     fun `deserializes ChatFullInfo with birthdate and business fields`() {
-        val json = """
+        val json =
+            """
             {
               "id": -100,
               "type": "private",
@@ -36,7 +36,7 @@ class ChatFullInfoTest {
               "unrestrict_boost_count": 5,
               "custom_emoji_sticker_set_name": "CustomEmojiSet"
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val info = gson.fromJson(json, ChatFullInfo::class.java)
 
@@ -52,7 +52,8 @@ class ChatFullInfoTest {
 
     @Test
     fun `deserializes ChatFullInfo with permissions and location`() {
-        val json = """
+        val json =
+            """
             {
               "id": 5,
               "type": "supergroup",
@@ -61,7 +62,7 @@ class ChatFullInfoTest {
               "location": {"location": {"longitude": 1.0, "latitude": 2.0}, "address": "addr"},
               "can_send_paid_media": true
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val info = gson.fromJson(json, ChatFullInfo::class.java)
 

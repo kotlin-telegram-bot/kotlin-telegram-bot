@@ -15,7 +15,6 @@ class MessageHandler(
     private val filter: Filter,
     private val handleMessage: suspend MessageHandlerEnvironment.() -> Unit,
 ) : Handler {
-
     override fun checkUpdate(update: Update): Boolean =
         if (update.message == null) {
             false
@@ -23,7 +22,10 @@ class MessageHandler(
             filter.checkFor(update.message)
         }
 
-    override suspend fun handleUpdate(bot: Bot, update: Update) {
+    override suspend fun handleUpdate(
+        bot: Bot,
+        update: Update,
+    ) {
         checkNotNull(update.message)
         val messageHandlerEnv = MessageHandlerEnvironment(bot, update, update.message)
         handleMessage(messageHandlerEnv)

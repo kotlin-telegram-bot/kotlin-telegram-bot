@@ -5,14 +5,14 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class BackgroundTypeTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
     fun `deserializes BackgroundTypeFill by 'fill' discriminator`() {
-        val json = """
+        val json =
+            """
             {"type":"fill","fill":{"type":"solid","color":255},"dark_theme_dimming":30}
-        """.trimIndent()
+            """.trimIndent()
 
         val background = gson.fromJson(json, BackgroundType::class.java)
 
@@ -25,9 +25,10 @@ class BackgroundTypeTest {
 
     @Test
     fun `deserializes BackgroundTypeWallpaper by 'wallpaper' discriminator`() {
-        val json = """
+        val json =
+            """
             {"type":"wallpaper","document":{"file_id":"abc","file_unique_id":"uniq"},"dark_theme_dimming":10,"is_blurred":true,"is_moving":false}
-        """.trimIndent()
+            """.trimIndent()
 
         val background = gson.fromJson(json, BackgroundType::class.java)
 
@@ -42,9 +43,10 @@ class BackgroundTypeTest {
 
     @Test
     fun `deserializes BackgroundTypePattern by 'pattern' discriminator`() {
-        val json = """
+        val json =
+            """
             {"type":"pattern","document":{"file_id":"pid","file_unique_id":"puniq"},"fill":{"type":"gradient","top_color":1,"bottom_color":2,"rotation_angle":90},"intensity":50,"is_inverted":true}
-        """.trimIndent()
+            """.trimIndent()
 
         val background = gson.fromJson(json, BackgroundType::class.java)
 

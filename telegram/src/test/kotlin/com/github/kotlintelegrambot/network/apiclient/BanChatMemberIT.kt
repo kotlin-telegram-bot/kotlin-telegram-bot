@@ -7,7 +7,6 @@ import okhttp3.mockwebserver.MockResponse
 import org.junit.jupiter.api.Test
 
 class BanChatMemberIT : ApiClientIT() {
-
     @Test
     fun `banChatMember with no until date sends the correct request`() {
         givenBanChatMemberSuccessResponse()
@@ -23,11 +22,12 @@ class BanChatMemberIT : ApiClientIT() {
     fun `banChatMember with until date sends the correct request`() {
         givenBanChatMemberSuccessResponse()
 
-        sut.banChatMember(
-            ChatId.fromId(ANY_CHAT_ID),
-            ANY_USER_ID,
-            ANY_TIMESTAMP,
-        ).execute()
+        sut
+            .banChatMember(
+                ChatId.fromId(ANY_CHAT_ID),
+                ANY_USER_ID,
+                ANY_TIMESTAMP,
+            ).execute()
 
         val request = mockWebServer.takeRequest()
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID&user_id=$ANY_USER_ID&until_date=$ANY_TIMESTAMP"
@@ -35,15 +35,17 @@ class BanChatMemberIT : ApiClientIT() {
     }
 
     private fun givenBanChatMemberSuccessResponse() {
-        val banChatMemberResponseBody = """
+        val banChatMemberResponseBody =
+            """
             {
                 "ok": true,
                 "result": true 
             }
-        """.trimIndent()
-        val mockedSuccessResponse = MockResponse()
-            .setResponseCode(200)
-            .setBody(banChatMemberResponseBody)
+            """.trimIndent()
+        val mockedSuccessResponse =
+            MockResponse()
+                .setResponseCode(200)
+                .setBody(banChatMemberResponseBody)
         mockWebServer.enqueue(mockedSuccessResponse)
     }
 

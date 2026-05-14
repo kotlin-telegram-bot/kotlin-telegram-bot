@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class SuggestedPostApprovalFailedTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test

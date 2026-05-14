@@ -5,19 +5,19 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class ChatBoostRemovedTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
     fun `deserializes ChatBoostRemoved from JSON`() {
-        val json = """
+        val json =
+            """
             {
               "chat":{"id":-1,"type":"channel"},
               "boost_id":"b1",
               "remove_date":1700000000,
               "source":{"source":"giveaway","giveaway_message_id":99}
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val removed = gson.fromJson(json, ChatBoostRemoved::class.java)
 

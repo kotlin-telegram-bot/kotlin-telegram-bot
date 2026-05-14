@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test
  * Bot API 7.0 batch methods: forwardMessages, copyMessages, deleteMessages.
  */
 class BatchMessageIT : ApiClientIT() {
-
     @Test
     fun `forwardMessages serializes message_ids as a JSON array`() {
         mockWebServer.enqueue(

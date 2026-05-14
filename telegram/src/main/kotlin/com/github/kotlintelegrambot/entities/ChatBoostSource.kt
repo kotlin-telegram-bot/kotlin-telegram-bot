@@ -8,7 +8,6 @@ import com.google.gson.annotations.SerializedName
  * See https://core.telegram.org/bots/api#chatboostsource
  */
 sealed class ChatBoostSource {
-
     /** Discriminator value sent on the wire as the `source` field. */
     abstract val source: String
 

@@ -67,6 +67,7 @@ internal val PLAIN_TEXT_MIME = "text/plain".toMediaTypeOrNull()
 internal val APPLICATION_JSON_MIME = "application/json".toMediaTypeOrNull()
 
 private fun convertString(text: String) = RequestBody.create(PLAIN_TEXT_MIME, text)
+
 private fun convertJson(text: String) = RequestBody.create(APPLICATION_JSON_MIME, text)
 
 internal class ApiClient(
@@ -81,36 +82,39 @@ internal class ApiClient(
     private val apiResponseMapper: ApiResponseMapper = ApiResponseMapper(),
     private val httpClientInterceptors: List<Interceptor> = emptyList(),
 ) {
-
     private val service: ApiService
 
     // TODO check if init is the best approach for this
     init {
         val logging = HttpLoggingInterceptor().apply { level = logLevel.toOkHttpLogLevel() }
 
-        val httpClient = OkHttpClient.Builder()
-            .connectTimeout(botTimeout + 10L, TimeUnit.SECONDS)
-            .readTimeout(botTimeout + 10L, TimeUnit.SECONDS)
-            .writeTimeout(botTimeout + 10L, TimeUnit.SECONDS)
-            .addInterceptor(logging)
-            .also { builder -> httpClientInterceptors.forEach { builder.addInterceptor(it) } }
-            .retryOnConnectionFailure(true)
-            .proxy(proxy)
-            .build()
+        val httpClient =
+            OkHttpClient
+                .Builder()
+                .connectTimeout(botTimeout + 10L, TimeUnit.SECONDS)
+                .readTimeout(botTimeout + 10L, TimeUnit.SECONDS)
+                .writeTimeout(botTimeout + 10L, TimeUnit.SECONDS)
+                .addInterceptor(logging)
+                .also { builder -> httpClientInterceptors.forEach { builder.addInterceptor(it) } }
+                .retryOnConnectionFailure(true)
+                .proxy(proxy)
+                .build()
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl("${apiUrl}bot$token/")
-            .client(httpClient)
-            .addConverterFactory(ChatIdConverterFactory())
-            // In retrofit, Gson is used only for response/request decoding/encoding, but not for @Query/@Url/@Path etc...
-            // For them, Retrofit uses Converter.Factory classes to convert any type to String. By default, enums are transformed
-            // with BuiltInConverters.ToStringConverter which just calls to the toString() method of a given object.
-            // Is needed to provide a special Converter.Factory if a custom transformation is wanted for them.
-            .addConverterFactory(EnumRetrofitConverterFactory())
-            .addConverterFactory(DiceEmojiConverterFactory())
-            .addConverterFactory(InputMediaConverterFactory(gson))
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .build()
+        val retrofit =
+            Retrofit
+                .Builder()
+                .baseUrl("${apiUrl}bot$token/")
+                .client(httpClient)
+                .addConverterFactory(ChatIdConverterFactory())
+                // In retrofit, Gson is used only for response/request decoding/encoding, but not for @Query/@Url/@Path etc...
+                // For them, Retrofit uses Converter.Factory classes to convert any type to String. By default, enums are transformed
+                // with BuiltInConverters.ToStringConverter which just calls to the toString() method of a given object.
+                // Is needed to provide a special Converter.Factory if a custom transformation is wanted for them.
+                .addConverterFactory(EnumRetrofitConverterFactory())
+                .addConverterFactory(DiceEmojiConverterFactory())
+                .addConverterFactory(InputMediaConverterFactory(gson))
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build()
 
         service = retrofit.create(ApiService::class.java)
     }
@@ -120,12 +124,14 @@ internal class ApiClient(
         limit: Int?,
         timeout: Int?,
         allowedUpdates: List<String>?,
-    ): TelegramBotResult<List<Update>> = service.getUpdates(
-        offset,
-        limit,
-        timeout,
-        allowedUpdates?.serialize(),
-    ).runApiOperation()
+    ): TelegramBotResult<List<Update>> =
+        service
+            .getUpdates(
+                offset,
+                limit,
+                timeout,
+                allowedUpdates?.serialize(),
+            ).runApiOperation()
 
     fun setWebhook(
         url: String,
@@ -135,74 +141,84 @@ internal class ApiClient(
         allowedUpdates: List<String>? = null,
         dropPendingUpdates: Boolean? = null,
         secretToken: String? = null,
-    ): Call<Response<Boolean>> = when (certificate) {
-        is ByFileId -> service.setWebhookWithCertificateAsFileId(
-            url = url,
-            certificateFileId = certificate.fileId,
-            ipAddress = ipAddress,
-            maxConnections = maxConnections,
-            allowedUpdates = allowedUpdates,
-            dropPendingUpdates = dropPendingUpdates,
-            secretToken = secretToken,
-        )
+    ): Call<Response<Boolean>> =
+        when (certificate) {
+            is ByFileId ->
+                service.setWebhookWithCertificateAsFileId(
+                    url = url,
+                    certificateFileId = certificate.fileId,
+                    ipAddress = ipAddress,
+                    maxConnections = maxConnections,
+                    allowedUpdates = allowedUpdates,
+                    dropPendingUpdates = dropPendingUpdates,
+                    secretToken = secretToken,
+                )
 
-        is ByUrl -> service.setWebhookWithCertificateAsFileUrl(
-            url = url,
-            certificateUrl = certificate.url,
-            ipAddress = ipAddress,
-            maxConnections = maxConnections,
-            allowedUpdates = allowedUpdates,
-            dropPendingUpdates = dropPendingUpdates,
-            secretToken = secretToken,
-        )
+            is ByUrl ->
+                service.setWebhookWithCertificateAsFileUrl(
+                    url = url,
+                    certificateUrl = certificate.url,
+                    ipAddress = ipAddress,
+                    maxConnections = maxConnections,
+                    allowedUpdates = allowedUpdates,
+                    dropPendingUpdates = dropPendingUpdates,
+                    secretToken = secretToken,
+                )
 
-        is ByFile -> service.setWebhookWithCertificateAsFile(
-            url = url.toMultipartBodyPart(ApiConstants.SetWebhook.URL),
-            certificate = certificate.file.toMultipartBodyPart(
-                partName = ApiConstants.SetWebhook.CERTIFICATE,
-                mediaType = MediaTypeConstants.UTF_8_TEXT,
-            ),
-            ipAddress = ipAddress?.toMultipartBodyPart(ApiConstants.SetWebhook.IP_ADDRESS),
-            maxConnections = maxConnections?.toMultipartBodyPart(ApiConstants.SetWebhook.MAX_CONNECTIONS),
-            allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES),
-            dropPendingUpdates = dropPendingUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.DROP_PENDING_UPDATES),
-            secretToken = secretToken?.toMultipartBodyPart(ApiConstants.SetWebhook.SECRET_TOKEN),
-        )
+            is ByFile ->
+                service.setWebhookWithCertificateAsFile(
+                    url = url.toMultipartBodyPart(ApiConstants.SetWebhook.URL),
+                    certificate =
+                        certificate.file.toMultipartBodyPart(
+                            partName = ApiConstants.SetWebhook.CERTIFICATE,
+                            mediaType = MediaTypeConstants.UTF_8_TEXT,
+                        ),
+                    ipAddress = ipAddress?.toMultipartBodyPart(ApiConstants.SetWebhook.IP_ADDRESS),
+                    maxConnections = maxConnections?.toMultipartBodyPart(ApiConstants.SetWebhook.MAX_CONNECTIONS),
+                    allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES),
+                    dropPendingUpdates = dropPendingUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.DROP_PENDING_UPDATES),
+                    secretToken = secretToken?.toMultipartBodyPart(ApiConstants.SetWebhook.SECRET_TOKEN),
+                )
 
-        is ByByteArray -> service.setWebhookWithCertificateAsFile(
-            url = url.toMultipartBodyPart(ApiConstants.SetWebhook.URL),
-            certificate = certificate.fileBytes.toMultipartBodyPart(
-                partName = ApiConstants.SetWebhook.CERTIFICATE,
-                filename = certificate.filename,
-                mediaType = MediaTypeConstants.UTF_8_TEXT,
-            ),
-            maxConnections = maxConnections?.toMultipartBodyPart(ApiConstants.SetWebhook.MAX_CONNECTIONS),
-            allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES),
-            dropPendingUpdates = dropPendingUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.DROP_PENDING_UPDATES),
-            secretToken = secretToken?.toMultipartBodyPart(ApiConstants.SetWebhook.SECRET_TOKEN),
-        )
+            is ByByteArray ->
+                service.setWebhookWithCertificateAsFile(
+                    url = url.toMultipartBodyPart(ApiConstants.SetWebhook.URL),
+                    certificate =
+                        certificate.fileBytes.toMultipartBodyPart(
+                            partName = ApiConstants.SetWebhook.CERTIFICATE,
+                            filename = certificate.filename,
+                            mediaType = MediaTypeConstants.UTF_8_TEXT,
+                        ),
+                    maxConnections = maxConnections?.toMultipartBodyPart(ApiConstants.SetWebhook.MAX_CONNECTIONS),
+                    allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES),
+                    dropPendingUpdates = dropPendingUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.DROP_PENDING_UPDATES),
+                    secretToken = secretToken?.toMultipartBodyPart(ApiConstants.SetWebhook.SECRET_TOKEN),
+                )
 
-        is ByInputStream -> service.setWebhookWithCertificateAsFile(
-            url = url.toMultipartBodyPart(ApiConstants.SetWebhook.URL),
-            certificate = certificate
-                .let { if (it.contentType != null) it else it.copy(contentType = MediaTypeConstants.UTF_8_TEXT.toMediaType()) }
-                .asMultipartBodyPart(ApiConstants.SetWebhook.CERTIFICATE),
-            ipAddress = ipAddress?.toMultipartBodyPart(ApiConstants.SetWebhook.IP_ADDRESS),
-            maxConnections = maxConnections?.toMultipartBodyPart(ApiConstants.SetWebhook.MAX_CONNECTIONS),
-            allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES),
-            dropPendingUpdates = dropPendingUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.DROP_PENDING_UPDATES),
-            secretToken = secretToken?.toMultipartBodyPart(ApiConstants.SetWebhook.SECRET_TOKEN),
-        )
+            is ByInputStream ->
+                service.setWebhookWithCertificateAsFile(
+                    url = url.toMultipartBodyPart(ApiConstants.SetWebhook.URL),
+                    certificate =
+                        certificate
+                            .let { if (it.contentType != null) it else it.copy(contentType = MediaTypeConstants.UTF_8_TEXT.toMediaType()) }
+                            .asMultipartBodyPart(ApiConstants.SetWebhook.CERTIFICATE),
+                    ipAddress = ipAddress?.toMultipartBodyPart(ApiConstants.SetWebhook.IP_ADDRESS),
+                    maxConnections = maxConnections?.toMultipartBodyPart(ApiConstants.SetWebhook.MAX_CONNECTIONS),
+                    allowedUpdates = allowedUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.ALLOWED_UPDATES),
+                    dropPendingUpdates = dropPendingUpdates?.toMultipartBodyPart(ApiConstants.SetWebhook.DROP_PENDING_UPDATES),
+                    secretToken = secretToken?.toMultipartBodyPart(ApiConstants.SetWebhook.SECRET_TOKEN),
+                )
 
-        null -> service.setWebhook(
-            url = url,
-            ipAddress = ipAddress,
-            maxConnections = maxConnections,
-            allowedUpdates = allowedUpdates,
-            dropPendingUpdates = dropPendingUpdates,
-            secretToken = secretToken,
-        )
-    }
+            null ->
+                service.setWebhook(
+                    url = url,
+                    ipAddress = ipAddress,
+                    maxConnections = maxConnections,
+                    allowedUpdates = allowedUpdates,
+                    dropPendingUpdates = dropPendingUpdates,
+                    secretToken = secretToken,
+                )
+        }
 
     fun deleteWebhook(
         dropPendingUpdates: Boolean? = null,
@@ -210,9 +226,7 @@ internal class ApiClient(
 
     fun getWebhookInfo(): Call<Response<WebhookInfo>> = service.getWebhookInfo()
 
-    fun getMe(): TelegramBotResult<User> {
-        return service.getMe().runApiOperation()
-    }
+    fun getMe(): TelegramBotResult<User> = service.getMe().runApiOperation()
 
     fun sendMessage(
         chatId: ChatId,
@@ -228,21 +242,23 @@ internal class ApiClient(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ): TelegramBotResult<Message> = service.sendMessage(
-        chatId,
-        text,
-        parseMode,
-        disableNotification,
-        protectContent,
-        replyMarkup,
-        messageThreadId,
-        if (entities != null) gson.toJson(entities) else null,
-        if (linkPreviewOptions != null) gson.toJson(linkPreviewOptions) else null,
-        if (replyParameters != null) gson.toJson(replyParameters) else null,
-        businessConnectionId,
-        messageEffectId,
-        allowPaidBroadcast,
-    ).runApiOperation()
+    ): TelegramBotResult<Message> =
+        service
+            .sendMessage(
+                chatId,
+                text,
+                parseMode,
+                disableNotification,
+                protectContent,
+                replyMarkup,
+                messageThreadId,
+                if (entities != null) gson.toJson(entities) else null,
+                if (linkPreviewOptions != null) gson.toJson(linkPreviewOptions) else null,
+                if (replyParameters != null) gson.toJson(replyParameters) else null,
+                businessConnectionId,
+                messageEffectId,
+                allowPaidBroadcast,
+            ).runApiOperation()
 
     fun forwardMessage(
         chatId: ChatId,
@@ -250,13 +266,15 @@ internal class ApiClient(
         messageId: Long,
         disableNotification: Boolean?,
         protectContent: Boolean?,
-    ): TelegramBotResult<Message> = service.forwardMessage(
-        chatId,
-        fromChatId,
-        disableNotification,
-        protectContent,
-        messageId,
-    ).runApiOperation()
+    ): TelegramBotResult<Message> =
+        service
+            .forwardMessage(
+                chatId,
+                fromChatId,
+                disableNotification,
+                protectContent,
+                messageId,
+            ).runApiOperation()
 
     fun copyMessage(
         chatId: ChatId,
@@ -273,8 +291,8 @@ internal class ApiClient(
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
         showCaptionAboveMedia: Boolean? = null,
-    ): Call<Response<MessageId>> {
-        return service.copyMessage(
+    ): Call<Response<MessageId>> =
+        service.copyMessage(
             chatId,
             fromChatId,
             messageId,
@@ -290,7 +308,6 @@ internal class ApiClient(
             allowPaidBroadcast,
             showCaptionAboveMedia,
         )
-    }
 
     fun sendPhoto(
         chatId: ChatId,
@@ -306,47 +323,50 @@ internal class ApiClient(
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
         showCaptionAboveMedia: Boolean? = null,
-    ): Call<Response<Message>> = when (photo) {
-        is ByFile, is ByByteArray, is ByInputStream -> service.sendPhoto(
-            chatId,
-            when (photo) {
-                is ByFile -> photo.file.toMultipartBodyPart("photo")
-                is ByByteArray -> photo.fileBytes.toMultipartBodyPart("photo", photo.filename)
-                is ByInputStream -> photo.asMultipartBodyPart("photo")
-                else -> throw NotImplementedError() // KT-31622
-            },
-            if (caption != null) convertString(caption) else null,
-            if (parseMode != null) convertString(parseMode.modeName) else null,
-            if (disableNotification != null) convertString(disableNotification.toString()) else null,
-            if (protectContent != null) convertString(protectContent.toString()) else null,
-            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
-            if (messageThreadId != null) convertJson(messageThreadId.toString()) else null,
-            if (replyParameters != null) convertJson(gson.toJson(replyParameters)) else null,
-            if (businessConnectionId != null) convertString(businessConnectionId) else null,
-            if (messageEffectId != null) convertString(messageEffectId) else null,
-            if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
-            if (showCaptionAboveMedia != null) convertString(showCaptionAboveMedia.toString()) else null,
-        )
+    ): Call<Response<Message>> =
+        when (photo) {
+            is ByFile, is ByByteArray, is ByInputStream ->
+                service.sendPhoto(
+                    chatId,
+                    when (photo) {
+                        is ByFile -> photo.file.toMultipartBodyPart("photo")
+                        is ByByteArray -> photo.fileBytes.toMultipartBodyPart("photo", photo.filename)
+                        is ByInputStream -> photo.asMultipartBodyPart("photo")
+                        else -> throw NotImplementedError() // KT-31622
+                    },
+                    if (caption != null) convertString(caption) else null,
+                    if (parseMode != null) convertString(parseMode.modeName) else null,
+                    if (disableNotification != null) convertString(disableNotification.toString()) else null,
+                    if (protectContent != null) convertString(protectContent.toString()) else null,
+                    if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
+                    if (messageThreadId != null) convertJson(messageThreadId.toString()) else null,
+                    if (replyParameters != null) convertJson(gson.toJson(replyParameters)) else null,
+                    if (businessConnectionId != null) convertString(businessConnectionId) else null,
+                    if (messageEffectId != null) convertString(messageEffectId) else null,
+                    if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
+                    if (showCaptionAboveMedia != null) convertString(showCaptionAboveMedia.toString()) else null,
+                )
 
-        is ByFileId, is ByUrl -> service.sendPhoto(
-            chatId,
-            when (photo) {
-                is ByFileId -> photo.fileId
-                is ByUrl -> photo.url
-                else -> throw NotImplementedError() // KT-31622
-            },
-            caption,
-            parseMode,
-            disableNotification,
-            protectContent,
-            replyMarkup,
-            if (replyParameters != null) gson.toJson(replyParameters) else null,
-            businessConnectionId,
-            messageEffectId,
-            allowPaidBroadcast,
-            showCaptionAboveMedia,
-        )
-    }
+            is ByFileId, is ByUrl ->
+                service.sendPhoto(
+                    chatId,
+                    when (photo) {
+                        is ByFileId -> photo.fileId
+                        is ByUrl -> photo.url
+                        else -> throw NotImplementedError() // KT-31622
+                    },
+                    caption,
+                    parseMode,
+                    disableNotification,
+                    protectContent,
+                    replyMarkup,
+                    if (replyParameters != null) gson.toJson(replyParameters) else null,
+                    businessConnectionId,
+                    messageEffectId,
+                    allowPaidBroadcast,
+                    showCaptionAboveMedia,
+                )
+        }
 
     fun sendAudio(
         chatId: ChatId,
@@ -362,48 +382,51 @@ internal class ApiClient(
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
         showCaptionAboveMedia: Boolean? = null,
-    ): Call<Response<Message>> = when (audio) {
-        is ByFile, is ByByteArray, is ByInputStream -> service.sendAudio(
-            chatId,
-            when (audio) {
-                is ByFile -> audio.file.toMultipartBodyPart("audio")
-                is ByByteArray -> audio.fileBytes.toMultipartBodyPart("audio", audio.filename)
-                is ByInputStream -> audio.asMultipartBodyPart("audio")
-                else -> throw NotImplementedError() // KT-31622
-            },
-            if (duration != null) convertString(duration.toString()) else null,
-            if (performer != null) convertString(performer) else null,
-            if (title != null) convertString(title) else null,
-            if (disableNotification != null) convertString(disableNotification.toString()) else null,
-            if (protectContent != null) convertString(protectContent.toString()) else null,
-            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
-            if (replyParameters != null) convertJson(gson.toJson(replyParameters)) else null,
-            if (businessConnectionId != null) convertString(businessConnectionId) else null,
-            if (messageEffectId != null) convertString(messageEffectId) else null,
-            if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
-            if (showCaptionAboveMedia != null) convertString(showCaptionAboveMedia.toString()) else null,
-        )
+    ): Call<Response<Message>> =
+        when (audio) {
+            is ByFile, is ByByteArray, is ByInputStream ->
+                service.sendAudio(
+                    chatId,
+                    when (audio) {
+                        is ByFile -> audio.file.toMultipartBodyPart("audio")
+                        is ByByteArray -> audio.fileBytes.toMultipartBodyPart("audio", audio.filename)
+                        is ByInputStream -> audio.asMultipartBodyPart("audio")
+                        else -> throw NotImplementedError() // KT-31622
+                    },
+                    if (duration != null) convertString(duration.toString()) else null,
+                    if (performer != null) convertString(performer) else null,
+                    if (title != null) convertString(title) else null,
+                    if (disableNotification != null) convertString(disableNotification.toString()) else null,
+                    if (protectContent != null) convertString(protectContent.toString()) else null,
+                    if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
+                    if (replyParameters != null) convertJson(gson.toJson(replyParameters)) else null,
+                    if (businessConnectionId != null) convertString(businessConnectionId) else null,
+                    if (messageEffectId != null) convertString(messageEffectId) else null,
+                    if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
+                    if (showCaptionAboveMedia != null) convertString(showCaptionAboveMedia.toString()) else null,
+                )
 
-        is ByFileId, is ByUrl -> service.sendAudio(
-            chatId,
-            when (audio) {
-                is ByFileId -> audio.fileId
-                is ByUrl -> audio.url
-                else -> throw NotImplementedError() // KT-31622
-            },
-            duration,
-            performer,
-            title,
-            disableNotification,
-            protectContent,
-            replyMarkup,
-            if (replyParameters != null) gson.toJson(replyParameters) else null,
-            businessConnectionId,
-            messageEffectId,
-            allowPaidBroadcast,
-            showCaptionAboveMedia,
-        )
-    }
+            is ByFileId, is ByUrl ->
+                service.sendAudio(
+                    chatId,
+                    when (audio) {
+                        is ByFileId -> audio.fileId
+                        is ByUrl -> audio.url
+                        else -> throw NotImplementedError() // KT-31622
+                    },
+                    duration,
+                    performer,
+                    title,
+                    disableNotification,
+                    protectContent,
+                    replyMarkup,
+                    if (replyParameters != null) gson.toJson(replyParameters) else null,
+                    businessConnectionId,
+                    messageEffectId,
+                    allowPaidBroadcast,
+                    showCaptionAboveMedia,
+                )
+        }
 
     fun sendDocument(
         chatId: ChatId,
@@ -420,48 +443,51 @@ internal class ApiClient(
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
         showCaptionAboveMedia: Boolean? = null,
-    ): Call<Response<Message>> = when (document) {
-        is ByFile, is ByByteArray, is ByInputStream -> service.sendDocument(
-            chatId,
-            when (document) {
-                is ByFile -> document.file.toMultipartBodyPart("document", mimeType)
-                is ByByteArray -> document.fileBytes.toMultipartBodyPart("document", document.filename, mimeType)
-                is ByInputStream -> document.asMultipartBodyPart("document")
-                else -> throw NotImplementedError() // KT-31622
-            },
-            if (caption != null) convertString(caption) else null,
-            if (parseMode != null) convertString(parseMode.modeName) else null,
-            if (disableContentTypeDetection != null) convertString(disableContentTypeDetection.toString()) else null,
-            if (disableNotification != null) convertString(disableNotification.toString()) else null,
-            if (protectContent != null) convertString(protectContent.toString()) else null,
-            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
-            if (replyParameters != null) convertJson(gson.toJson(replyParameters)) else null,
-            if (businessConnectionId != null) convertString(businessConnectionId) else null,
-            if (messageEffectId != null) convertString(messageEffectId) else null,
-            if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
-            if (showCaptionAboveMedia != null) convertString(showCaptionAboveMedia.toString()) else null,
-        )
+    ): Call<Response<Message>> =
+        when (document) {
+            is ByFile, is ByByteArray, is ByInputStream ->
+                service.sendDocument(
+                    chatId,
+                    when (document) {
+                        is ByFile -> document.file.toMultipartBodyPart("document", mimeType)
+                        is ByByteArray -> document.fileBytes.toMultipartBodyPart("document", document.filename, mimeType)
+                        is ByInputStream -> document.asMultipartBodyPart("document")
+                        else -> throw NotImplementedError() // KT-31622
+                    },
+                    if (caption != null) convertString(caption) else null,
+                    if (parseMode != null) convertString(parseMode.modeName) else null,
+                    if (disableContentTypeDetection != null) convertString(disableContentTypeDetection.toString()) else null,
+                    if (disableNotification != null) convertString(disableNotification.toString()) else null,
+                    if (protectContent != null) convertString(protectContent.toString()) else null,
+                    if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
+                    if (replyParameters != null) convertJson(gson.toJson(replyParameters)) else null,
+                    if (businessConnectionId != null) convertString(businessConnectionId) else null,
+                    if (messageEffectId != null) convertString(messageEffectId) else null,
+                    if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
+                    if (showCaptionAboveMedia != null) convertString(showCaptionAboveMedia.toString()) else null,
+                )
 
-        is ByFileId, is ByUrl -> service.sendDocument(
-            chatId,
-            when (document) {
-                is ByFileId -> document.fileId
-                is ByUrl -> document.url
-                else -> throw NotImplementedError() // KT-31622
-            },
-            caption,
-            parseMode,
-            disableContentTypeDetection,
-            disableNotification,
-            protectContent,
-            replyMarkup,
-            if (replyParameters != null) gson.toJson(replyParameters) else null,
-            businessConnectionId,
-            messageEffectId,
-            allowPaidBroadcast,
-            showCaptionAboveMedia,
-        )
-    }
+            is ByFileId, is ByUrl ->
+                service.sendDocument(
+                    chatId,
+                    when (document) {
+                        is ByFileId -> document.fileId
+                        is ByUrl -> document.url
+                        else -> throw NotImplementedError() // KT-31622
+                    },
+                    caption,
+                    parseMode,
+                    disableContentTypeDetection,
+                    disableNotification,
+                    protectContent,
+                    replyMarkup,
+                    if (replyParameters != null) gson.toJson(replyParameters) else null,
+                    businessConnectionId,
+                    messageEffectId,
+                    allowPaidBroadcast,
+                    showCaptionAboveMedia,
+                )
+        }
 
     fun sendVideo(
         chatId: ChatId,
@@ -479,52 +505,55 @@ internal class ApiClient(
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
         showCaptionAboveMedia: Boolean? = null,
-    ): Call<Response<Message>> = when (video) {
-        is ByFile, is ByByteArray, is ByInputStream -> service.sendVideo(
-            chatId,
-            when (video) {
-                is ByFile -> video.file.toMultipartBodyPart("video")
-                is ByByteArray -> video.fileBytes.toMultipartBodyPart("video", video.filename)
-                is ByInputStream -> video.asMultipartBodyPart("video")
-                else -> throw NotImplementedError() // KT-31622
-            },
-            if (duration != null) convertString(duration.toString()) else null,
-            if (width != null) convertString(width.toString()) else null,
-            if (height != null) convertString(height.toString()) else null,
-            if (caption != null) convertString(caption) else null,
-            if (parseMode != null) convertString(parseMode.modeName) else null,
-            if (disableNotification != null) convertString(disableNotification.toString()) else null,
-            if (protectContent != null) convertString(protectContent.toString()) else null,
-            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
-            if (replyParameters != null) convertJson(gson.toJson(replyParameters)) else null,
-            if (businessConnectionId != null) convertString(businessConnectionId) else null,
-            if (messageEffectId != null) convertString(messageEffectId) else null,
-            if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
-            if (showCaptionAboveMedia != null) convertString(showCaptionAboveMedia.toString()) else null,
-        )
+    ): Call<Response<Message>> =
+        when (video) {
+            is ByFile, is ByByteArray, is ByInputStream ->
+                service.sendVideo(
+                    chatId,
+                    when (video) {
+                        is ByFile -> video.file.toMultipartBodyPart("video")
+                        is ByByteArray -> video.fileBytes.toMultipartBodyPart("video", video.filename)
+                        is ByInputStream -> video.asMultipartBodyPart("video")
+                        else -> throw NotImplementedError() // KT-31622
+                    },
+                    if (duration != null) convertString(duration.toString()) else null,
+                    if (width != null) convertString(width.toString()) else null,
+                    if (height != null) convertString(height.toString()) else null,
+                    if (caption != null) convertString(caption) else null,
+                    if (parseMode != null) convertString(parseMode.modeName) else null,
+                    if (disableNotification != null) convertString(disableNotification.toString()) else null,
+                    if (protectContent != null) convertString(protectContent.toString()) else null,
+                    if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
+                    if (replyParameters != null) convertJson(gson.toJson(replyParameters)) else null,
+                    if (businessConnectionId != null) convertString(businessConnectionId) else null,
+                    if (messageEffectId != null) convertString(messageEffectId) else null,
+                    if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
+                    if (showCaptionAboveMedia != null) convertString(showCaptionAboveMedia.toString()) else null,
+                )
 
-        is ByFileId, is ByUrl -> service.sendVideo(
-            chatId,
-            when (video) {
-                is ByFileId -> video.fileId
-                is ByUrl -> video.url
-                else -> throw NotImplementedError() // KT-31622
-            },
-            duration,
-            width,
-            height,
-            caption,
-            parseMode,
-            disableNotification,
-            protectContent,
-            replyMarkup,
-            if (replyParameters != null) gson.toJson(replyParameters) else null,
-            businessConnectionId,
-            messageEffectId,
-            allowPaidBroadcast,
-            showCaptionAboveMedia,
-        )
-    }
+            is ByFileId, is ByUrl ->
+                service.sendVideo(
+                    chatId,
+                    when (video) {
+                        is ByFileId -> video.fileId
+                        is ByUrl -> video.url
+                        else -> throw NotImplementedError() // KT-31622
+                    },
+                    duration,
+                    width,
+                    height,
+                    caption,
+                    parseMode,
+                    disableNotification,
+                    protectContent,
+                    replyMarkup,
+                    if (replyParameters != null) gson.toJson(replyParameters) else null,
+                    businessConnectionId,
+                    messageEffectId,
+                    allowPaidBroadcast,
+                    showCaptionAboveMedia,
+                )
+        }
 
     fun sendGame(
         chatId: ChatId,
@@ -536,17 +565,19 @@ internal class ApiClient(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ): TelegramBotResult<Message> = service.sendGame(
-        chatId,
-        gameShortName,
-        disableNotification,
-        protectContent,
-        replyMarkup,
-        if (replyParameters != null) gson.toJson(replyParameters) else null,
-        businessConnectionId,
-        messageEffectId,
-        allowPaidBroadcast,
-    ).runApiOperation()
+    ): TelegramBotResult<Message> =
+        service
+            .sendGame(
+                chatId,
+                gameShortName,
+                disableNotification,
+                protectContent,
+                replyMarkup,
+                if (replyParameters != null) gson.toJson(replyParameters) else null,
+                businessConnectionId,
+                messageEffectId,
+                allowPaidBroadcast,
+            ).runApiOperation()
 
     @Deprecated("Use overloaded version instead")
     fun sendAnimation(
@@ -560,8 +591,8 @@ internal class ApiClient(
         disableNotification: Boolean?,
         protectContent: Boolean?,
         replyMarkup: ReplyMarkup?,
-    ): Call<Response<Message>> {
-        return service.sendAnimation(
+    ): Call<Response<Message>> =
+        service.sendAnimation(
             chatId,
             animation.toMultipartBodyPart("video"),
             if (duration != null) convertString(duration.toString()) else null,
@@ -573,7 +604,6 @@ internal class ApiClient(
             if (protectContent != null) convertString(protectContent.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
         )
-    }
 
     fun sendAnimation(
         chatId: ChatId,
@@ -591,52 +621,55 @@ internal class ApiClient(
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
         showCaptionAboveMedia: Boolean? = null,
-    ): Call<Response<Message>> = when (animation) {
-        is ByFile, is ByByteArray, is ByInputStream -> service.sendAnimation(
-            chatId,
-            when (animation) {
-                is ByFile -> animation.file.toMultipartBodyPart("video")
-                is ByByteArray -> animation.fileBytes.toMultipartBodyPart("video", animation.filename)
-                is ByInputStream -> animation.asMultipartBodyPart("video")
-                else -> throw NotImplementedError() // KT-31622
-            },
-            if (duration != null) convertString(duration.toString()) else null,
-            if (width != null) convertString(width.toString()) else null,
-            if (height != null) convertString(height.toString()) else null,
-            if (caption != null) convertString(caption) else null,
-            if (parseMode != null) convertString(parseMode.modeName) else null,
-            if (disableNotification != null) convertString(disableNotification.toString()) else null,
-            if (protectContent != null) convertString(protectContent.toString()) else null,
-            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
-            if (replyParameters != null) convertJson(gson.toJson(replyParameters)) else null,
-            if (businessConnectionId != null) convertString(businessConnectionId) else null,
-            if (messageEffectId != null) convertString(messageEffectId) else null,
-            if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
-            if (showCaptionAboveMedia != null) convertString(showCaptionAboveMedia.toString()) else null,
-        )
+    ): Call<Response<Message>> =
+        when (animation) {
+            is ByFile, is ByByteArray, is ByInputStream ->
+                service.sendAnimation(
+                    chatId,
+                    when (animation) {
+                        is ByFile -> animation.file.toMultipartBodyPart("video")
+                        is ByByteArray -> animation.fileBytes.toMultipartBodyPart("video", animation.filename)
+                        is ByInputStream -> animation.asMultipartBodyPart("video")
+                        else -> throw NotImplementedError() // KT-31622
+                    },
+                    if (duration != null) convertString(duration.toString()) else null,
+                    if (width != null) convertString(width.toString()) else null,
+                    if (height != null) convertString(height.toString()) else null,
+                    if (caption != null) convertString(caption) else null,
+                    if (parseMode != null) convertString(parseMode.modeName) else null,
+                    if (disableNotification != null) convertString(disableNotification.toString()) else null,
+                    if (protectContent != null) convertString(protectContent.toString()) else null,
+                    if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
+                    if (replyParameters != null) convertJson(gson.toJson(replyParameters)) else null,
+                    if (businessConnectionId != null) convertString(businessConnectionId) else null,
+                    if (messageEffectId != null) convertString(messageEffectId) else null,
+                    if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
+                    if (showCaptionAboveMedia != null) convertString(showCaptionAboveMedia.toString()) else null,
+                )
 
-        is ByFileId, is ByUrl -> service.sendAnimation(
-            chatId,
-            when (animation) {
-                is ByFileId -> animation.fileId
-                is ByUrl -> animation.url
-                else -> throw NotImplementedError() // KT-31622
-            },
-            duration,
-            width,
-            height,
-            caption,
-            parseMode,
-            disableNotification,
-            protectContent,
-            replyMarkup,
-            if (replyParameters != null) gson.toJson(replyParameters) else null,
-            businessConnectionId,
-            messageEffectId,
-            allowPaidBroadcast,
-            showCaptionAboveMedia,
-        )
-    }
+            is ByFileId, is ByUrl ->
+                service.sendAnimation(
+                    chatId,
+                    when (animation) {
+                        is ByFileId -> animation.fileId
+                        is ByUrl -> animation.url
+                        else -> throw NotImplementedError() // KT-31622
+                    },
+                    duration,
+                    width,
+                    height,
+                    caption,
+                    parseMode,
+                    disableNotification,
+                    protectContent,
+                    replyMarkup,
+                    if (replyParameters != null) gson.toJson(replyParameters) else null,
+                    businessConnectionId,
+                    messageEffectId,
+                    allowPaidBroadcast,
+                    showCaptionAboveMedia,
+                )
+        }
 
     fun sendVoice(
         chatId: ChatId,
@@ -653,50 +686,53 @@ internal class ApiClient(
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
         showCaptionAboveMedia: Boolean? = null,
-    ): Call<Response<Message>> = when (audio) {
-        is ByFile, is ByByteArray, is ByInputStream -> service.sendVoice(
-            chatId,
-            when (audio) {
-                is ByFile -> audio.file.toMultipartBodyPart("voice", AUDIO_OGG)
-                is ByByteArray -> audio.fileBytes.toMultipartBodyPart("voice", audio.filename, AUDIO_OGG)
-                is ByInputStream -> audio.asMultipartBodyPart("voice")
-                else -> throw NotImplementedError() // KT-31622
-            },
-            if (caption != null) convertString(caption) else null,
-            if (parseMode != null) convertString(parseMode.modeName) else null,
-            if (captionEntities != null) convertJson(gson.toJson(captionEntities)) else null,
-            if (duration != null) convertString(duration.toString()) else null,
-            if (disableNotification != null) convertString(disableNotification.toString()) else null,
-            if (protectContent != null) convertString(protectContent.toString()) else null,
-            if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
-            if (replyParameters != null) convertJson(gson.toJson(replyParameters)) else null,
-            if (businessConnectionId != null) convertString(businessConnectionId) else null,
-            if (messageEffectId != null) convertString(messageEffectId) else null,
-            if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
-            if (showCaptionAboveMedia != null) convertString(showCaptionAboveMedia.toString()) else null,
-        )
+    ): Call<Response<Message>> =
+        when (audio) {
+            is ByFile, is ByByteArray, is ByInputStream ->
+                service.sendVoice(
+                    chatId,
+                    when (audio) {
+                        is ByFile -> audio.file.toMultipartBodyPart("voice", AUDIO_OGG)
+                        is ByByteArray -> audio.fileBytes.toMultipartBodyPart("voice", audio.filename, AUDIO_OGG)
+                        is ByInputStream -> audio.asMultipartBodyPart("voice")
+                        else -> throw NotImplementedError() // KT-31622
+                    },
+                    if (caption != null) convertString(caption) else null,
+                    if (parseMode != null) convertString(parseMode.modeName) else null,
+                    if (captionEntities != null) convertJson(gson.toJson(captionEntities)) else null,
+                    if (duration != null) convertString(duration.toString()) else null,
+                    if (disableNotification != null) convertString(disableNotification.toString()) else null,
+                    if (protectContent != null) convertString(protectContent.toString()) else null,
+                    if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
+                    if (replyParameters != null) convertJson(gson.toJson(replyParameters)) else null,
+                    if (businessConnectionId != null) convertString(businessConnectionId) else null,
+                    if (messageEffectId != null) convertString(messageEffectId) else null,
+                    if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
+                    if (showCaptionAboveMedia != null) convertString(showCaptionAboveMedia.toString()) else null,
+                )
 
-        is ByFileId, is ByUrl -> service.sendVoice(
-            chatId,
-            when (audio) {
-                is ByFileId -> audio.fileId
-                is ByUrl -> audio.url
-                else -> throw NotImplementedError() // KT-31622
-            },
-            caption,
-            parseMode,
-            if (captionEntities != null) gson.toJson(captionEntities) else null,
-            duration,
-            disableNotification,
-            protectContent,
-            replyMarkup,
-            if (replyParameters != null) gson.toJson(replyParameters) else null,
-            businessConnectionId,
-            messageEffectId,
-            allowPaidBroadcast,
-            showCaptionAboveMedia,
-        )
-    }
+            is ByFileId, is ByUrl ->
+                service.sendVoice(
+                    chatId,
+                    when (audio) {
+                        is ByFileId -> audio.fileId
+                        is ByUrl -> audio.url
+                        else -> throw NotImplementedError() // KT-31622
+                    },
+                    caption,
+                    parseMode,
+                    if (captionEntities != null) gson.toJson(captionEntities) else null,
+                    duration,
+                    disableNotification,
+                    protectContent,
+                    replyMarkup,
+                    if (replyParameters != null) gson.toJson(replyParameters) else null,
+                    businessConnectionId,
+                    messageEffectId,
+                    allowPaidBroadcast,
+                    showCaptionAboveMedia,
+                )
+        }
 
     fun sendVideoNote(
         chatId: ChatId,
@@ -710,8 +746,8 @@ internal class ApiClient(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ): Call<Response<Message>> {
-        return service.sendVideoNote(
+    ): Call<Response<Message>> =
+        service.sendVideoNote(
             chatId,
             videoNote.file.toMultipartBodyPart("video_note"),
             if (duration != null) convertString(duration.toString()) else null,
@@ -724,7 +760,6 @@ internal class ApiClient(
             if (messageEffectId != null) convertString(messageEffectId) else null,
             if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
         )
-    }
 
     fun sendVideoNote(
         chatId: ChatId,
@@ -738,8 +773,8 @@ internal class ApiClient(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ): Call<Response<Message>> {
-        return service.sendVideoNote(
+    ): Call<Response<Message>> =
+        service.sendVideoNote(
             chatId,
             videoNoteId.fileId,
             duration,
@@ -752,7 +787,6 @@ internal class ApiClient(
             messageEffectId,
             allowPaidBroadcast,
         )
-    }
 
     fun sendMediaGroup(
         chatId: ChatId,
@@ -764,18 +798,20 @@ internal class ApiClient(
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
     ): TelegramBotResult<List<Message>> {
-        val sendMediaGroupMultipartBody = multipartBodyFactory.createForSendMediaGroup(
-            chatId,
-            mediaGroup,
-            disableNotification,
-            protectContent,
-        )
-        val extraParts = listOfNotNull(
-            replyParameters?.let { gson.toJson(it).toMultipartBodyPart("reply_parameters") },
-            businessConnectionId?.toMultipartBodyPart("business_connection_id"),
-            messageEffectId?.toMultipartBodyPart("message_effect_id"),
-            allowPaidBroadcast?.toMultipartBodyPart("allow_paid_broadcast"),
-        )
+        val sendMediaGroupMultipartBody =
+            multipartBodyFactory.createForSendMediaGroup(
+                chatId,
+                mediaGroup,
+                disableNotification,
+                protectContent,
+            )
+        val extraParts =
+            listOfNotNull(
+                replyParameters?.let { gson.toJson(it).toMultipartBodyPart("reply_parameters") },
+                businessConnectionId?.toMultipartBodyPart("business_connection_id"),
+                messageEffectId?.toMultipartBodyPart("message_effect_id"),
+                allowPaidBroadcast?.toMultipartBodyPart("allow_paid_broadcast"),
+            )
         return service.sendMediaGroup(sendMediaGroupMultipartBody + extraParts).runApiOperation()
     }
 
@@ -794,8 +830,8 @@ internal class ApiClient(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ): Call<Response<Message>> {
-        return service.sendLocation(
+    ): Call<Response<Message>> =
+        service.sendLocation(
             chatId,
             latitude,
             longitude,
@@ -811,7 +847,6 @@ internal class ApiClient(
             messageEffectId,
             allowPaidBroadcast,
         )
-    }
 
     fun editMessageLiveLocation(
         chatId: ChatId?,
@@ -824,8 +859,8 @@ internal class ApiClient(
         horizontalAccuracy: Float?,
         heading: Int?,
         businessConnectionId: String? = null,
-    ): Call<Response<Message>> {
-        return service.editMessageLiveLocation(
+    ): Call<Response<Message>> =
+        service.editMessageLiveLocation(
             chatId,
             messageId,
             inlineMessageId,
@@ -837,7 +872,6 @@ internal class ApiClient(
             heading,
             businessConnectionId,
         )
-    }
 
     fun stopMessageLiveLocation(
         chatId: ChatId?,
@@ -845,15 +879,14 @@ internal class ApiClient(
         inlineMessageId: String?,
         replyMarkup: ReplyMarkup?,
         businessConnectionId: String? = null,
-    ): Call<Response<Message>> {
-        return service.stopMessageLiveLocation(
+    ): Call<Response<Message>> =
+        service.stopMessageLiveLocation(
             chatId,
             messageId,
             inlineMessageId,
             replyMarkup,
             businessConnectionId,
         )
-    }
 
     fun sendVenue(
         chatId: ChatId,
@@ -872,8 +905,8 @@ internal class ApiClient(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ): Call<Response<Message>> {
-        return service.sendVenue(
+    ): Call<Response<Message>> =
+        service.sendVenue(
             chatId,
             latitude,
             longitude,
@@ -891,7 +924,6 @@ internal class ApiClient(
             messageEffectId,
             allowPaidBroadcast,
         )
-    }
 
     fun sendContact(
         chatId: ChatId,
@@ -905,8 +937,8 @@ internal class ApiClient(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ): Call<Response<Message>> {
-        return service.sendContact(
+    ): Call<Response<Message>> =
+        service.sendContact(
             chatId,
             phoneNumber,
             firstName,
@@ -919,7 +951,6 @@ internal class ApiClient(
             messageEffectId,
             allowPaidBroadcast,
         )
-    }
 
     fun sendPoll(
         chatId: ChatId,
@@ -941,64 +972,62 @@ internal class ApiClient(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ): TelegramBotResult<Message> = service.sendPoll(
-        chatId,
-        question,
-        gson.toJson(options),
-        isAnonymous,
-        type,
-        allowsMultipleAnswers,
-        correctOptionId,
-        explanation,
-        explanationParseMode,
-        openPeriod,
-        closeDate,
-        isClosed,
-        disableNotification,
-        protectContent,
-        replyMarkup,
-        if (replyParameters != null) gson.toJson(replyParameters) else null,
-        businessConnectionId,
-        messageEffectId,
-        allowPaidBroadcast,
-    ).runApiOperation()
+    ): TelegramBotResult<Message> =
+        service
+            .sendPoll(
+                chatId,
+                question,
+                gson.toJson(options),
+                isAnonymous,
+                type,
+                allowsMultipleAnswers,
+                correctOptionId,
+                explanation,
+                explanationParseMode,
+                openPeriod,
+                closeDate,
+                isClosed,
+                disableNotification,
+                protectContent,
+                replyMarkup,
+                if (replyParameters != null) gson.toJson(replyParameters) else null,
+                businessConnectionId,
+                messageEffectId,
+                allowPaidBroadcast,
+            ).runApiOperation()
 
     fun sendChatAction(
         chatId: ChatId,
         action: ChatAction,
         messageThreadId: Long? = null,
         businessConnectionId: String? = null,
-    ): TelegramBotResult<Boolean> {
-        return service.sendChatAction(chatId, action, messageThreadId, businessConnectionId).runApiOperation()
-    }
+    ): TelegramBotResult<Boolean> = service.sendChatAction(chatId, action, messageThreadId, businessConnectionId).runApiOperation()
 
     fun getUserProfilePhotos(
         userId: Long,
         offset: Long?,
         limit: Int?,
-    ): Call<Response<UserProfilePhotos>> {
-        return service.getUserProfilePhotos(userId, offset, limit)
-    }
+    ): Call<Response<UserProfilePhotos>> = service.getUserProfilePhotos(userId, offset, limit)
 
-    fun getFile(fileId: String): Call<Response<File>> {
-        return service.getFile(fileId)
-    }
+    fun getFile(fileId: String): Call<Response<File>> = service.getFile(fileId)
 
-    fun downloadFile(filePath: String): Call<ResponseBody> {
-        return service.downloadFile("${apiUrl}file/bot$token/$filePath")
-    }
+    fun downloadFile(filePath: String): Call<ResponseBody> = service.downloadFile("${apiUrl}file/bot$token/$filePath")
 
-    fun banChatMember(chatId: ChatId, userId: Long, untilDate: Long? = null): Call<Response<Boolean>> {
-        return service.banChatMember(chatId, userId, untilDate)
-    }
+    fun banChatMember(
+        chatId: ChatId,
+        userId: Long,
+        untilDate: Long? = null,
+    ): Call<Response<Boolean>> = service.banChatMember(chatId, userId, untilDate)
 
-    fun approveChatJoinRequest(chatId: ChatId, userId: Long): Call<Response<Boolean>> {
-        return service.approveChatJoinRequest(chatId, userId)
-    }
+    fun approveChatJoinRequest(
+        chatId: ChatId,
+        userId: Long,
+    ): Call<Response<Boolean>> = service.approveChatJoinRequest(chatId, userId)
 
-    fun declineChatJoinRequest(chatId: ChatId, userId: Long): Call<Response<Boolean>> {
-        return service.declineChatJoinRequest(chatId, userId)
-    }
+    fun declineChatJoinRequest(
+        chatId: ChatId,
+        userId: Long,
+    ): Call<Response<Boolean>> = service.declineChatJoinRequest(chatId, userId)
 
     fun createChatInviteLink(
         chatId: ChatId,
@@ -1006,15 +1035,14 @@ internal class ApiClient(
         expireDate: Int?,
         memberLimit: Int?,
         createsJoinRequest: Boolean?,
-    ): Call<Response<Boolean>> {
-        return service.createChatInviteLink(
+    ): Call<Response<Boolean>> =
+        service.createChatInviteLink(
             chatId,
             name,
             expireDate,
             memberLimit,
             createsJoinRequest,
         )
-    }
 
     fun editChatInviteLink(
         chatId: ChatId,
@@ -1023,8 +1051,8 @@ internal class ApiClient(
         expireDate: Int? = null,
         memberLimit: Int? = null,
         createsJoinRequest: Boolean? = null,
-    ): Call<Response<Boolean>> {
-        return service.editChatInviteLink(
+    ): Call<Response<Boolean>> =
+        service.editChatInviteLink(
             chatId,
             inviteLink,
             name,
@@ -1032,41 +1060,40 @@ internal class ApiClient(
             memberLimit,
             createsJoinRequest,
         )
-    }
 
     fun revokeChatInviteLink(
         chatId: ChatId,
         inviteLink: String,
-    ): Call<Response<Boolean>> {
-        return service.revokeChatInviteLink(
+    ): Call<Response<Boolean>> =
+        service.revokeChatInviteLink(
             chatId,
             inviteLink,
         )
-    }
 
     fun unbanChatMember(
         chatId: ChatId,
         userId: Long,
         onlyIfBanned: Boolean?,
-    ): TelegramBotResult<Boolean> = service.unbanChatMember(
-        chatId,
-        userId,
-        onlyIfBanned,
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> =
+        service
+            .unbanChatMember(
+                chatId,
+                userId,
+                onlyIfBanned,
+            ).runApiOperation()
 
     fun restrictChatMember(
         chatId: ChatId,
         userId: Long,
         chatPermissions: ChatPermissions,
         untilDate: Long? = null,
-    ): Call<Response<Boolean>> {
-        return service.restrictChatMember(
+    ): Call<Response<Boolean>> =
+        service.restrictChatMember(
             chatId,
             userId,
             gson.toJson(chatPermissions),
             untilDate,
         )
-    }
 
     fun promoteChatMember(
         chatId: ChatId,
@@ -1080,72 +1107,75 @@ internal class ApiClient(
         canRestrictMembers: Boolean?,
         canPinMessages: Boolean?,
         canPromoteMembers: Boolean?,
-    ): TelegramBotResult<Boolean> = service.promoteChatMember(
-        chatId,
-        userId,
-        isAnonymous,
-        canChangeInfo,
-        canPostMessages,
-        canEditMessages,
-        canDeleteMessages,
-        canInviteUsers,
-        canRestrictMembers,
-        canPinMessages,
-        canPromoteMembers,
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> =
+        service
+            .promoteChatMember(
+                chatId,
+                userId,
+                isAnonymous,
+                canChangeInfo,
+                canPostMessages,
+                canEditMessages,
+                canDeleteMessages,
+                canInviteUsers,
+                canRestrictMembers,
+                canPinMessages,
+                canPromoteMembers,
+            ).runApiOperation()
 
-    fun setChatPermissions(chatId: ChatId, permissions: ChatPermissions): Call<Response<Boolean>> {
-        return service.setChatPermissions(chatId, gson.toJson(permissions))
-    }
+    fun setChatPermissions(
+        chatId: ChatId,
+        permissions: ChatPermissions,
+    ): Call<Response<Boolean>> = service.setChatPermissions(chatId, gson.toJson(permissions))
 
-    fun exportChatInviteLink(chatId: ChatId): Call<Response<String>> {
-        return service.exportChatInviteLink(chatId)
-    }
+    fun exportChatInviteLink(chatId: ChatId): Call<Response<String>> = service.exportChatInviteLink(chatId)
 
     fun setChatPhoto(
         chatId: ChatId,
         photo: SystemFile,
-    ): Call<Response<Boolean>> {
-        return service.setChatPhoto(chatId, photo.toMultipartBodyPart("photo"))
-    }
+    ): Call<Response<Boolean>> = service.setChatPhoto(chatId, photo.toMultipartBodyPart("photo"))
 
-    fun deleteChatPhoto(chatId: ChatId): Call<Response<Boolean>> {
-        return service.deleteChatPhoto(chatId)
-    }
+    fun deleteChatPhoto(chatId: ChatId): Call<Response<Boolean>> = service.deleteChatPhoto(chatId)
 
-    fun setChatTitle(chatId: ChatId, title: String): Call<Response<Boolean>> {
-        return service.setChatTitle(chatId, title)
-    }
+    fun setChatTitle(
+        chatId: ChatId,
+        title: String,
+    ): Call<Response<Boolean>> = service.setChatTitle(chatId, title)
 
-    fun setChatDescription(chatId: ChatId, description: String): Call<Response<Boolean>> {
-        return service.setChatDescription(chatId, description)
-    }
+    fun setChatDescription(
+        chatId: ChatId,
+        description: String,
+    ): Call<Response<Boolean>> = service.setChatDescription(chatId, description)
 
     fun pinChatMessage(
         chatId: ChatId,
         messageId: Long,
         disableNotification: Boolean?,
-    ): TelegramBotResult<Boolean> {
-        return service.pinChatMessage(
-            chatId,
-            messageId,
-            disableNotification,
-        ).runApiOperation()
-    }
+    ): TelegramBotResult<Boolean> =
+        service
+            .pinChatMessage(
+                chatId,
+                messageId,
+                disableNotification,
+            ).runApiOperation()
 
     fun unpinChatMessage(
         chatId: ChatId,
         messageId: Long?,
-    ): TelegramBotResult<Boolean> = service.unpinChatMessage(
-        chatId,
-        messageId,
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> =
+        service
+            .unpinChatMessage(
+                chatId,
+                messageId,
+            ).runApiOperation()
 
     fun unpinAllChatMessages(
         chatId: ChatId,
-    ): TelegramBotResult<Boolean> = service.unpinAllChatMessages(
-        chatId,
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> =
+        service
+            .unpinAllChatMessages(
+                chatId,
+            ).runApiOperation()
 
     // --- Forum topics (Bot API 6.3 / 6.4) ---
 
@@ -1154,46 +1184,49 @@ internal class ApiClient(
         name: String,
         iconColor: Int? = null,
         iconCustomEmojiId: String? = null,
-    ): TelegramBotResult<com.github.kotlintelegrambot.entities.ForumTopic> =
-        service.createForumTopic(chatId, name, iconColor, iconCustomEmojiId).runApiOperation()
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.ForumTopic> = service.createForumTopic(chatId, name, iconColor, iconCustomEmojiId).runApiOperation()
 
     fun editForumTopic(
         chatId: ChatId,
         messageThreadId: Long,
         name: String? = null,
         iconCustomEmojiId: String? = null,
-    ): TelegramBotResult<Boolean> =
-        service.editForumTopic(chatId, messageThreadId, name, iconCustomEmojiId).runApiOperation()
+    ): TelegramBotResult<Boolean> = service.editForumTopic(chatId, messageThreadId, name, iconCustomEmojiId).runApiOperation()
 
-    fun closeForumTopic(chatId: ChatId, messageThreadId: Long): TelegramBotResult<Boolean> =
-        service.closeForumTopic(chatId, messageThreadId).runApiOperation()
+    fun closeForumTopic(
+        chatId: ChatId,
+        messageThreadId: Long,
+    ): TelegramBotResult<Boolean> = service.closeForumTopic(chatId, messageThreadId).runApiOperation()
 
-    fun reopenForumTopic(chatId: ChatId, messageThreadId: Long): TelegramBotResult<Boolean> =
-        service.reopenForumTopic(chatId, messageThreadId).runApiOperation()
+    fun reopenForumTopic(
+        chatId: ChatId,
+        messageThreadId: Long,
+    ): TelegramBotResult<Boolean> = service.reopenForumTopic(chatId, messageThreadId).runApiOperation()
 
-    fun deleteForumTopic(chatId: ChatId, messageThreadId: Long): TelegramBotResult<Boolean> =
-        service.deleteForumTopic(chatId, messageThreadId).runApiOperation()
+    fun deleteForumTopic(
+        chatId: ChatId,
+        messageThreadId: Long,
+    ): TelegramBotResult<Boolean> = service.deleteForumTopic(chatId, messageThreadId).runApiOperation()
 
-    fun unpinAllForumTopicMessages(chatId: ChatId, messageThreadId: Long): TelegramBotResult<Boolean> =
-        service.unpinAllForumTopicMessages(chatId, messageThreadId).runApiOperation()
+    fun unpinAllForumTopicMessages(
+        chatId: ChatId,
+        messageThreadId: Long,
+    ): TelegramBotResult<Boolean> = service.unpinAllForumTopicMessages(chatId, messageThreadId).runApiOperation()
 
-    fun getForumTopicIconStickers(): TelegramBotResult<List<com.github.kotlintelegrambot.entities.stickers.Sticker>> =
-        service.getForumTopicIconStickers().runApiOperation()
+    fun getForumTopicIconStickers(): TelegramBotResult<List<com.github.kotlintelegrambot.entities.stickers.Sticker>> = service.getForumTopicIconStickers().runApiOperation()
 
-    fun editGeneralForumTopic(chatId: ChatId, name: String): TelegramBotResult<Boolean> =
-        service.editGeneralForumTopic(chatId, name).runApiOperation()
+    fun editGeneralForumTopic(
+        chatId: ChatId,
+        name: String,
+    ): TelegramBotResult<Boolean> = service.editGeneralForumTopic(chatId, name).runApiOperation()
 
-    fun closeGeneralForumTopic(chatId: ChatId): TelegramBotResult<Boolean> =
-        service.closeGeneralForumTopic(chatId).runApiOperation()
+    fun closeGeneralForumTopic(chatId: ChatId): TelegramBotResult<Boolean> = service.closeGeneralForumTopic(chatId).runApiOperation()
 
-    fun reopenGeneralForumTopic(chatId: ChatId): TelegramBotResult<Boolean> =
-        service.reopenGeneralForumTopic(chatId).runApiOperation()
+    fun reopenGeneralForumTopic(chatId: ChatId): TelegramBotResult<Boolean> = service.reopenGeneralForumTopic(chatId).runApiOperation()
 
-    fun hideGeneralForumTopic(chatId: ChatId): TelegramBotResult<Boolean> =
-        service.hideGeneralForumTopic(chatId).runApiOperation()
+    fun hideGeneralForumTopic(chatId: ChatId): TelegramBotResult<Boolean> = service.hideGeneralForumTopic(chatId).runApiOperation()
 
-    fun unhideGeneralForumTopic(chatId: ChatId): TelegramBotResult<Boolean> =
-        service.unhideGeneralForumTopic(chatId).runApiOperation()
+    fun unhideGeneralForumTopic(chatId: ChatId): TelegramBotResult<Boolean> = service.unhideGeneralForumTopic(chatId).runApiOperation()
 
     // --- Batch forward/copy/delete (Bot API 7.0) ---
 
@@ -1205,14 +1238,15 @@ internal class ApiClient(
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
     ): TelegramBotResult<List<com.github.kotlintelegrambot.entities.MessageId>> =
-        service.forwardMessages(
-            chatId,
-            fromChatId,
-            gson.toJson(messageIds),
-            messageThreadId,
-            disableNotification,
-            protectContent,
-        ).runApiOperation()
+        service
+            .forwardMessages(
+                chatId,
+                fromChatId,
+                gson.toJson(messageIds),
+                messageThreadId,
+                disableNotification,
+                protectContent,
+            ).runApiOperation()
 
     fun copyMessages(
         chatId: ChatId,
@@ -1223,102 +1257,106 @@ internal class ApiClient(
         protectContent: Boolean? = null,
         removeCaption: Boolean? = null,
     ): TelegramBotResult<List<com.github.kotlintelegrambot.entities.MessageId>> =
-        service.copyMessages(
-            chatId,
-            fromChatId,
-            gson.toJson(messageIds),
-            messageThreadId,
-            disableNotification,
-            protectContent,
-            removeCaption,
-        ).runApiOperation()
+        service
+            .copyMessages(
+                chatId,
+                fromChatId,
+                gson.toJson(messageIds),
+                messageThreadId,
+                disableNotification,
+                protectContent,
+                removeCaption,
+            ).runApiOperation()
 
     fun deleteMessages(
         chatId: ChatId,
         messageIds: List<Long>,
-    ): TelegramBotResult<Boolean> = service.deleteMessages(
-        chatId,
-        gson.toJson(messageIds),
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> =
+        service
+            .deleteMessages(
+                chatId,
+                gson.toJson(messageIds),
+            ).runApiOperation()
 
     fun getUserChatBoosts(
         chatId: ChatId,
         userId: Long,
-    ): TelegramBotResult<com.github.kotlintelegrambot.entities.UserChatBoosts> =
-        service.getUserChatBoosts(chatId, userId).runApiOperation()
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.UserChatBoosts> = service.getUserChatBoosts(chatId, userId).runApiOperation()
 
     // --- Bot info methods (Bot API 6.6 - 6.7) ---
 
-    fun setMyDescription(description: String? = null, languageCode: String? = null): TelegramBotResult<Boolean> =
-        service.setMyDescription(description, languageCode).runApiOperation()
+    fun setMyDescription(
+        description: String? = null,
+        languageCode: String? = null,
+    ): TelegramBotResult<Boolean> = service.setMyDescription(description, languageCode).runApiOperation()
 
-    fun getMyDescription(languageCode: String? = null): TelegramBotResult<com.github.kotlintelegrambot.entities.BotDescription> =
-        service.getMyDescription(languageCode).runApiOperation()
+    fun getMyDescription(languageCode: String? = null): TelegramBotResult<com.github.kotlintelegrambot.entities.BotDescription> = service.getMyDescription(languageCode).runApiOperation()
 
-    fun setMyShortDescription(shortDescription: String? = null, languageCode: String? = null): TelegramBotResult<Boolean> =
-        service.setMyShortDescription(shortDescription, languageCode).runApiOperation()
+    fun setMyShortDescription(
+        shortDescription: String? = null,
+        languageCode: String? = null,
+    ): TelegramBotResult<Boolean> = service.setMyShortDescription(shortDescription, languageCode).runApiOperation()
 
-    fun getMyShortDescription(languageCode: String? = null): TelegramBotResult<com.github.kotlintelegrambot.entities.BotShortDescription> =
-        service.getMyShortDescription(languageCode).runApiOperation()
+    fun getMyShortDescription(languageCode: String? = null): TelegramBotResult<com.github.kotlintelegrambot.entities.BotShortDescription> = service.getMyShortDescription(languageCode).runApiOperation()
 
-    fun setMyName(name: String? = null, languageCode: String? = null): TelegramBotResult<Boolean> =
-        service.setMyName(name, languageCode).runApiOperation()
+    fun setMyName(
+        name: String? = null,
+        languageCode: String? = null,
+    ): TelegramBotResult<Boolean> = service.setMyName(name, languageCode).runApiOperation()
 
-    fun getMyName(languageCode: String? = null): TelegramBotResult<com.github.kotlintelegrambot.entities.BotName> =
-        service.getMyName(languageCode).runApiOperation()
+    fun getMyName(languageCode: String? = null): TelegramBotResult<com.github.kotlintelegrambot.entities.BotName> = service.getMyName(languageCode).runApiOperation()
 
     fun setChatMenuButton(
         chatId: ChatId? = null,
         menuButton: com.github.kotlintelegrambot.entities.MenuButton? = null,
-    ): TelegramBotResult<Boolean> = service.setChatMenuButton(
-        chatId,
-        if (menuButton != null) gson.toJson(menuButton) else null,
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> =
+        service
+            .setChatMenuButton(
+                chatId,
+                if (menuButton != null) gson.toJson(menuButton) else null,
+            ).runApiOperation()
 
-    fun getChatMenuButton(chatId: ChatId? = null): TelegramBotResult<com.github.kotlintelegrambot.entities.MenuButton> =
-        service.getChatMenuButton(chatId).runApiOperation()
+    fun getChatMenuButton(chatId: ChatId? = null): TelegramBotResult<com.github.kotlintelegrambot.entities.MenuButton> = service.getChatMenuButton(chatId).runApiOperation()
 
     fun setMyDefaultAdministratorRights(
         rights: com.github.kotlintelegrambot.entities.ChatAdministratorRights? = null,
         forChannels: Boolean? = null,
-    ): TelegramBotResult<Boolean> = service.setMyDefaultAdministratorRights(
-        if (rights != null) gson.toJson(rights) else null,
-        forChannels,
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> =
+        service
+            .setMyDefaultAdministratorRights(
+                if (rights != null) gson.toJson(rights) else null,
+                forChannels,
+            ).runApiOperation()
 
-    fun getMyDefaultAdministratorRights(forChannels: Boolean? = null):
-        TelegramBotResult<com.github.kotlintelegrambot.entities.ChatAdministratorRights> =
-        service.getMyDefaultAdministratorRights(forChannels).runApiOperation()
+    fun getMyDefaultAdministratorRights(forChannels: Boolean? = null): TelegramBotResult<com.github.kotlintelegrambot.entities.ChatAdministratorRights> = service.getMyDefaultAdministratorRights(forChannels).runApiOperation()
 
-    fun leaveChat(chatId: ChatId): TelegramBotResult<Boolean> {
-        return service.leaveChat(chatId).runApiOperation()
-    }
+    fun leaveChat(chatId: ChatId): TelegramBotResult<Boolean> = service.leaveChat(chatId).runApiOperation()
 
-    fun getChat(chatId: ChatId): TelegramBotResult<com.github.kotlintelegrambot.entities.ChatFullInfo> =
-        service.getChat(chatId).runApiOperation()
+    fun getChat(chatId: ChatId): TelegramBotResult<com.github.kotlintelegrambot.entities.ChatFullInfo> = service.getChat(chatId).runApiOperation()
 
-    fun getChatAdministrators(chatId: ChatId): TelegramBotResult<List<ChatMember>> =
-        service.getChatAdministrators(chatId).runApiOperation()
+    fun getChatAdministrators(chatId: ChatId): TelegramBotResult<List<ChatMember>> = service.getChatAdministrators(chatId).runApiOperation()
 
-    fun getChatMemberCount(chatId: ChatId): Call<Response<Int>> {
-        return service.getChatMemberCount(chatId)
-    }
+    fun getChatMemberCount(chatId: ChatId): Call<Response<Int>> = service.getChatMemberCount(chatId)
 
     fun getChatMember(
         chatId: ChatId,
         userId: Long,
-    ): TelegramBotResult<ChatMember> = service.getChatMember(
-        chatId,
-        userId,
-    ).runApiOperation()
+    ): TelegramBotResult<ChatMember> =
+        service
+            .getChatMember(
+                chatId,
+                userId,
+            ).runApiOperation()
 
     fun setChatStickerSet(
         chatId: ChatId,
         stickerSetName: String,
-    ): TelegramBotResult<Boolean> = service.setChatStickerSet(
-        chatId,
-        stickerSetName,
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> =
+        service
+            .setChatStickerSet(
+                chatId,
+                stickerSetName,
+            ).runApiOperation()
 
     fun deleteChatStickerSet(
         chatId: ChatId,
@@ -1330,21 +1368,19 @@ internal class ApiClient(
         showAlert: Boolean?,
         url: String?,
         cacheTime: Int?,
-    ): TelegramBotResult<Boolean> = service.answerCallbackQuery(
-        callbackQueryId,
-        text,
-        showAlert,
-        url,
-        cacheTime,
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> =
+        service
+            .answerCallbackQuery(
+                callbackQueryId,
+                text,
+                showAlert,
+                url,
+                cacheTime,
+            ).runApiOperation()
 
-    fun logOut(): Call<Response<Boolean>> {
-        return service.logOut()
-    }
+    fun logOut(): Call<Response<Boolean>> = service.logOut()
 
-    fun close(): Call<Response<Boolean>> {
-        return service.close()
-    }
+    fun close(): Call<Response<Boolean>> = service.close()
 
     /**
      * Updating messages
@@ -1359,8 +1395,8 @@ internal class ApiClient(
         replyMarkup: ReplyMarkup?,
         entities: List<MessageEntity>? = null,
         businessConnectionId: String? = null,
-    ): Call<Response<Message>> {
-        return service.editMessageText(
+    ): Call<Response<Message>> =
+        service.editMessageText(
             chatId,
             messageId,
             inlineMessageId,
@@ -1370,7 +1406,6 @@ internal class ApiClient(
             if (entities != null) gson.toJson(entities) else null,
             businessConnectionId,
         )
-    }
 
     fun editMessageCaption(
         chatId: ChatId?,
@@ -1382,8 +1417,8 @@ internal class ApiClient(
         captionEntities: List<MessageEntity>? = null,
         businessConnectionId: String? = null,
         showCaptionAboveMedia: Boolean? = null,
-    ): Call<Response<Message>> {
-        return service.editMessageCaption(
+    ): Call<Response<Message>> =
+        service.editMessageCaption(
             chatId,
             messageId,
             inlineMessageId,
@@ -1394,7 +1429,6 @@ internal class ApiClient(
             businessConnectionId,
             showCaptionAboveMedia,
         )
-    }
 
     fun editMessageMedia(
         chatId: ChatId?,
@@ -1404,8 +1438,8 @@ internal class ApiClient(
         replyMarkup: ReplyMarkup?,
         businessConnectionId: String? = null,
         showCaptionAboveMedia: Boolean? = null,
-    ): Call<Response<Message>> {
-        return service.editMessageMedia(
+    ): Call<Response<Message>> =
+        service.editMessageMedia(
             chatId,
             messageId,
             inlineMessageId,
@@ -1414,7 +1448,6 @@ internal class ApiClient(
             businessConnectionId,
             showCaptionAboveMedia,
         )
-    }
 
     fun editMessageReplyMarkup(
         chatId: ChatId?,
@@ -1422,33 +1455,36 @@ internal class ApiClient(
         inlineMessageId: String?,
         replyMarkup: ReplyMarkup?,
         businessConnectionId: String? = null,
-    ): Call<Response<Message>> {
-        return service.editMessageReplyMarkup(
+    ): Call<Response<Message>> =
+        service.editMessageReplyMarkup(
             chatId,
             messageId,
             inlineMessageId,
             replyMarkup,
             businessConnectionId,
         )
-    }
 
     fun stopPoll(
         chatId: ChatId,
         messageId: Long,
         replyMarkup: InlineKeyboardMarkup?,
-    ): TelegramBotResult<Poll> = service.stopPoll(
-        chatId,
-        messageId,
-        replyMarkup,
-    ).runApiOperation()
+    ): TelegramBotResult<Poll> =
+        service
+            .stopPoll(
+                chatId,
+                messageId,
+                replyMarkup,
+            ).runApiOperation()
 
     fun deleteMessage(
         chatId: ChatId,
         messageId: Long,
-    ): TelegramBotResult<Boolean> = service.deleteMessage(
-        chatId,
-        messageId,
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> =
+        service
+            .deleteMessage(
+                chatId,
+                messageId,
+            ).runApiOperation()
 
     fun sendInvoice(
         chatId: ChatId,
@@ -1481,68 +1517,76 @@ internal class ApiClient(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ): TelegramBotResult<Message> = service.sendInvoice(
-        chatId = chatId,
-        title = title,
-        description = description,
-        payload = payload,
-        providerToken = providerToken,
-        startParameter = startParameter,
-        currency = currency,
-        prices = LabeledPriceList(prices),
-        providerData = providerData,
-        photoHeight = photoHeight,
-        photoSize = photoSize,
-        photoUrl = photoUrl,
-        photoWidth = photoWidth,
-        needEmail = needEmail,
-        needName = needName,
-        needPhoneNumber = needPhoneNumber,
-        needShippingAddress = needShippingAddress,
-        sendPhoneNumberToProvider = sendPhoneNumberToProvider,
-        sendEmailToProvider = sendEmailToProvider,
-        isFlexible = isFlexible,
-        recurring = recurring,
-        maxTipAmount = maxTipAmount,
-        suggestedTipAmounts = suggestedTipAmounts,
-        disableNotification = disableNotification,
-        protectContent = protectContent,
-        replyMarkup = replyMarkup,
-        replyParameters = if (replyParameters != null) gson.toJson(replyParameters) else null,
-        businessConnectionId = businessConnectionId,
-        messageEffectId = messageEffectId,
-        allowPaidBroadcast = allowPaidBroadcast,
-    ).runApiOperation()
+    ): TelegramBotResult<Message> =
+        service
+            .sendInvoice(
+                chatId = chatId,
+                title = title,
+                description = description,
+                payload = payload,
+                providerToken = providerToken,
+                startParameter = startParameter,
+                currency = currency,
+                prices = LabeledPriceList(prices),
+                providerData = providerData,
+                photoHeight = photoHeight,
+                photoSize = photoSize,
+                photoUrl = photoUrl,
+                photoWidth = photoWidth,
+                needEmail = needEmail,
+                needName = needName,
+                needPhoneNumber = needPhoneNumber,
+                needShippingAddress = needShippingAddress,
+                sendPhoneNumberToProvider = sendPhoneNumberToProvider,
+                sendEmailToProvider = sendEmailToProvider,
+                isFlexible = isFlexible,
+                recurring = recurring,
+                maxTipAmount = maxTipAmount,
+                suggestedTipAmounts = suggestedTipAmounts,
+                disableNotification = disableNotification,
+                protectContent = protectContent,
+                replyMarkup = replyMarkup,
+                replyParameters = if (replyParameters != null) gson.toJson(replyParameters) else null,
+                businessConnectionId = businessConnectionId,
+                messageEffectId = messageEffectId,
+                allowPaidBroadcast = allowPaidBroadcast,
+            ).runApiOperation()
 
     fun answerShippingQuery(
         shippingQueryId: String,
         ok: Boolean,
         shippingOptions: List<ShippingOption>?,
         errorMessage: String?,
-    ): TelegramBotResult<Boolean> = service.answerShippingQuery(
-        shippingQueryId,
-        ok,
-        shippingOptions,
-        errorMessage,
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> =
+        service
+            .answerShippingQuery(
+                shippingQueryId,
+                ok,
+                shippingOptions,
+                errorMessage,
+            ).runApiOperation()
 
     fun answerPreCheckoutQuery(
         preCheckoutQueryId: String,
         ok: Boolean,
         errorMessage: String?,
-    ): TelegramBotResult<Boolean> = service.answerPreCheckoutQuery(
-        preCheckoutQueryId,
-        ok,
-        errorMessage,
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> =
+        service
+            .answerPreCheckoutQuery(
+                preCheckoutQueryId,
+                ok,
+                errorMessage,
+            ).runApiOperation()
 
     fun refundStarPayment(
         userId: Long,
         telegramPaymentChargeId: String,
-    ): TelegramBotResult<Boolean> = service.refundStarPayment(
-        userId,
-        telegramPaymentChargeId,
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> =
+        service
+            .refundStarPayment(
+                userId,
+                telegramPaymentChargeId,
+            ).runApiOperation()
 
     /***
      * Stickers
@@ -1558,8 +1602,8 @@ internal class ApiClient(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ): Call<Response<Message>> {
-        return service.sendSticker(
+    ): Call<Response<Message>> =
+        service.sendSticker(
             chatId,
             sticker.toMultipartBodyPart("photo"),
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
@@ -1570,7 +1614,6 @@ internal class ApiClient(
             if (messageEffectId != null) convertString(messageEffectId) else null,
             if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
         )
-    }
 
     fun sendSticker(
         chatId: ChatId,
@@ -1582,8 +1625,8 @@ internal class ApiClient(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ): Call<Response<Message>> {
-        return service.sendSticker(
+    ): Call<Response<Message>> =
+        service.sendSticker(
             chatId,
             sticker,
             disableNotification,
@@ -1594,23 +1637,19 @@ internal class ApiClient(
             messageEffectId,
             allowPaidBroadcast,
         )
-    }
 
     fun getStickerSet(
         name: String,
-    ): Call<Response<StickerSet>> {
-        return service.getStickerSet(name)
-    }
+    ): Call<Response<StickerSet>> = service.getStickerSet(name)
 
     fun uploadStickerFile(
         userId: Long,
         pngSticker: SystemFile,
-    ): Call<Response<File>> {
-        return service.uploadStickerFile(
+    ): Call<Response<File>> =
+        service.uploadStickerFile(
             convertString(userId.toString()),
             pngSticker.toMultipartBodyPart("photo"),
         )
-    }
 
     fun createNewStickerSet(
         userId: Long,
@@ -1620,8 +1659,8 @@ internal class ApiClient(
         emojis: String,
         containsMasks: Boolean?,
         maskPosition: MaskPosition?,
-    ): Call<Response<Boolean>> {
-        return service.createNewStickerSet(
+    ): Call<Response<Boolean>> =
+        service.createNewStickerSet(
             convertString(userId.toString()),
             convertString(name),
             convertString(title),
@@ -1630,7 +1669,6 @@ internal class ApiClient(
             if (containsMasks != null) convertString(containsMasks.toString()) else null,
             if (maskPosition != null) convertJson(maskPosition.toString()) else null,
         )
-    }
 
     fun createNewStickerSet(
         userId: Long,
@@ -1640,8 +1678,8 @@ internal class ApiClient(
         emojis: String,
         containsMasks: Boolean?,
         maskPosition: MaskPosition?,
-    ): Call<Response<Boolean>> {
-        return service.createNewStickerSet(
+    ): Call<Response<Boolean>> =
+        service.createNewStickerSet(
             userId,
             name,
             title,
@@ -1650,7 +1688,6 @@ internal class ApiClient(
             containsMasks,
             maskPosition,
         )
-    }
 
     fun addStickerToSet(
         userId: Long,
@@ -1658,15 +1695,14 @@ internal class ApiClient(
         pngSticker: SystemFile,
         emojis: String,
         maskPosition: MaskPosition?,
-    ): Call<Response<Boolean>> {
-        return service.addStickerToSet(
+    ): Call<Response<Boolean>> =
+        service.addStickerToSet(
             convertString(userId.toString()),
             convertString(name),
             pngSticker.toMultipartBodyPart("photo"),
             convertString(emojis),
             if (maskPosition != null) convertJson(maskPosition.toString()) else null,
         )
-    }
 
     fun addStickerToSet(
         userId: Long,
@@ -1674,33 +1710,30 @@ internal class ApiClient(
         pngSticker: String,
         emojis: String,
         maskPosition: MaskPosition?,
-    ): Call<Response<Boolean>> {
-        return service.addStickerToSet(
+    ): Call<Response<Boolean>> =
+        service.addStickerToSet(
             userId,
             name,
             pngSticker,
             emojis,
             maskPosition,
         )
-    }
 
     fun setStickerPositionInSet(
         sticker: String,
         position: Int,
-    ): Call<Response<Boolean>> {
-        return service.setStickerPositionInSet(
+    ): Call<Response<Boolean>> =
+        service.setStickerPositionInSet(
             sticker,
             position,
         )
-    }
 
     fun deleteStickerFromSet(
         sticker: String,
-    ): Call<Response<Boolean>> {
-        return service.deleteStickerFromSet(
+    ): Call<Response<Boolean>> =
+        service.deleteStickerFromSet(
             sticker,
         )
-    }
 
     fun answerInlineQuery(
         inlineQueryId: String,
@@ -1714,15 +1747,16 @@ internal class ApiClient(
         val inlineQueryResultsType = object : TypeToken<List<InlineQueryResult>>() {}.type
         val serializedInlineQueryResults = gson.toJson(inlineQueryResults, inlineQueryResultsType)
 
-        return service.answerInlineQuery(
-            inlineQueryId,
-            serializedInlineQueryResults,
-            cacheTime,
-            isPersonal,
-            nextOffset,
-            switchPmText,
-            switchPmParameter,
-        ).runApiOperation()
+        return service
+            .answerInlineQuery(
+                inlineQueryId,
+                serializedInlineQueryResults,
+                cacheTime,
+                isPersonal,
+                nextOffset,
+                switchPmText,
+                switchPmParameter,
+            ).runApiOperation()
     }
 
     fun answerWebAppQuery(
@@ -1732,19 +1766,22 @@ internal class ApiClient(
         val inlineQueryResultsType = object : TypeToken<InlineQueryResult>() {}.type
         val serializedInlineQueryResults = gson.toJson(inlineQueryResult, inlineQueryResultsType)
 
-        return service.answerWebAppQuery(
-            webAppQueryId,
-            serializedInlineQueryResults,
-        ).runApiOperation()
+        return service
+            .answerWebAppQuery(
+                webAppQueryId,
+                serializedInlineQueryResults,
+            ).runApiOperation()
     }
 
     fun getMyCommands(): TelegramBotResult<List<BotCommand>> = service.getMyCommands().runApiOperation()
 
     fun setMyCommands(
         commands: List<BotCommand>,
-    ): TelegramBotResult<Boolean> = service.setMyCommands(
-        gson.toJson(commands),
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> =
+        service
+            .setMyCommands(
+                gson.toJson(commands),
+            ).runApiOperation()
 
     fun sendDice(
         chatId: ChatId,
@@ -1756,41 +1793,45 @@ internal class ApiClient(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ): TelegramBotResult<Message> = service.sendDice(
-        chatId,
-        emoji,
-        disableNotification,
-        protectContent,
-        replyMarkup,
-        if (replyParameters != null) gson.toJson(replyParameters) else null,
-        businessConnectionId,
-        messageEffectId,
-        allowPaidBroadcast,
-    ).runApiOperation()
+    ): TelegramBotResult<Message> =
+        service
+            .sendDice(
+                chatId,
+                emoji,
+                disableNotification,
+                protectContent,
+                replyMarkup,
+                if (replyParameters != null) gson.toJson(replyParameters) else null,
+                businessConnectionId,
+                messageEffectId,
+                allowPaidBroadcast,
+            ).runApiOperation()
 
     fun setChatAdministratorCustomTitle(
         chatId: ChatId,
         userId: Long,
         customTitle: String,
-    ): TelegramBotResult<Boolean> = service.setChatAdministratorCustomTitle(
-        chatId,
-        userId,
-        customTitle,
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> =
+        service
+            .setChatAdministratorCustomTitle(
+                chatId,
+                userId,
+                customTitle,
+            ).runApiOperation()
 
     fun setMessageReaction(
         chatId: ChatId,
         messageId: Long,
         reaction: List<ReactionType>,
         isBig: Boolean,
-    ): TelegramBotResult<Boolean> {
-        return service.setMessageReaction(
-            chatId = chatId,
-            messageId = messageId,
-            reaction = gson.toJson(reaction),
-            isBig = isBig,
-        ).runApiOperation()
-    }
+    ): TelegramBotResult<Boolean> =
+        service
+            .setMessageReaction(
+                chatId = chatId,
+                messageId = messageId,
+                reaction = gson.toJson(reaction),
+                isBig = isBig,
+            ).runApiOperation()
 
     // --- Bot API 10.0 reaction deletion ---
 
@@ -1810,8 +1851,7 @@ internal class ApiClient(
     fun getStarTransactions(
         offset: Long? = null,
         limit: Int? = null,
-    ): TelegramBotResult<com.github.kotlintelegrambot.entities.payments.StarTransactions> =
-        service.getStarTransactions(offset, limit).runApiOperation()
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.payments.StarTransactions> = service.getStarTransactions(offset, limit).runApiOperation()
 
     fun sendPaidMedia(
         chatId: ChatId,
@@ -1827,26 +1867,27 @@ internal class ApiClient(
         replyParameters: com.github.kotlintelegrambot.entities.ReplyParameters? = null,
         businessConnectionId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ): TelegramBotResult<Message> = service.sendPaidMedia(
-        chatId,
-        starCount,
-        gson.toJson(media),
-        payload,
-        caption,
-        parseMode,
-        if (captionEntities != null) gson.toJson(captionEntities) else null,
-        showCaptionAboveMedia,
-        disableNotification,
-        protectContent,
-        if (replyParameters != null) gson.toJson(replyParameters) else null,
-        businessConnectionId,
-        allowPaidBroadcast,
-    ).runApiOperation()
+    ): TelegramBotResult<Message> =
+        service
+            .sendPaidMedia(
+                chatId,
+                starCount,
+                gson.toJson(media),
+                payload,
+                caption,
+                parseMode,
+                if (captionEntities != null) gson.toJson(captionEntities) else null,
+                showCaptionAboveMedia,
+                disableNotification,
+                protectContent,
+                if (replyParameters != null) gson.toJson(replyParameters) else null,
+                businessConnectionId,
+                allowPaidBroadcast,
+            ).runApiOperation()
 
     // --- Bot API 8.0 — Gifts ---
 
-    fun getAvailableGifts(): TelegramBotResult<com.github.kotlintelegrambot.entities.gifts.Gifts> =
-        service.getAvailableGifts().runApiOperation()
+    fun getAvailableGifts(): TelegramBotResult<com.github.kotlintelegrambot.entities.gifts.Gifts> = service.getAvailableGifts().runApiOperation()
 
     fun sendGift(
         giftId: String,
@@ -1856,15 +1897,17 @@ internal class ApiClient(
         text: String? = null,
         textParseMode: ParseMode? = null,
         textEntities: List<MessageEntity>? = null,
-    ): TelegramBotResult<Boolean> = service.sendGift(
-        userId,
-        chatId,
-        giftId,
-        payForUpgrade,
-        text,
-        textParseMode,
-        if (textEntities != null) gson.toJson(textEntities) else null,
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> =
+        service
+            .sendGift(
+                userId,
+                chatId,
+                giftId,
+                payForUpgrade,
+                text,
+                textParseMode,
+                if (textEntities != null) gson.toJson(textEntities) else null,
+            ).runApiOperation()
 
     fun giftPremiumSubscription(
         userId: Long,
@@ -1873,24 +1916,28 @@ internal class ApiClient(
         text: String? = null,
         textParseMode: ParseMode? = null,
         textEntities: List<MessageEntity>? = null,
-    ): TelegramBotResult<Boolean> = service.giftPremiumSubscription(
-        userId,
-        monthCount,
-        starCount,
-        text,
-        textParseMode,
-        if (textEntities != null) gson.toJson(textEntities) else null,
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> =
+        service
+            .giftPremiumSubscription(
+                userId,
+                monthCount,
+                starCount,
+                text,
+                textParseMode,
+                if (textEntities != null) gson.toJson(textEntities) else null,
+            ).runApiOperation()
 
     fun setUserEmojiStatus(
         userId: Long,
         emojiStatusCustomEmojiId: String? = null,
         emojiStatusExpirationDate: Long? = null,
-    ): TelegramBotResult<Boolean> = service.setUserEmojiStatus(
-        userId,
-        emojiStatusCustomEmojiId,
-        emojiStatusExpirationDate,
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> =
+        service
+            .setUserEmojiStatus(
+                userId,
+                emojiStatusCustomEmojiId,
+                emojiStatusExpirationDate,
+            ).runApiOperation()
 
     fun savePreparedInlineMessage(
         userId: Long,
@@ -1900,28 +1947,31 @@ internal class ApiClient(
         allowGroupChats: Boolean? = null,
         allowChannelChats: Boolean? = null,
     ): TelegramBotResult<com.github.kotlintelegrambot.entities.PreparedInlineMessage> =
-        service.savePreparedInlineMessage(
-            userId,
-            gson.toJson(result),
-            allowUserChats,
-            allowBotChats,
-            allowGroupChats,
-            allowChannelChats,
-        ).runApiOperation()
+        service
+            .savePreparedInlineMessage(
+                userId,
+                gson.toJson(result),
+                allowUserChats,
+                allowBotChats,
+                allowGroupChats,
+                allowChannelChats,
+            ).runApiOperation()
 
     // --- Bot API 8.2 — Verification ---
 
-    fun verifyUser(userId: Long, customDescription: String? = null): TelegramBotResult<Boolean> =
-        service.verifyUser(userId, customDescription).runApiOperation()
+    fun verifyUser(
+        userId: Long,
+        customDescription: String? = null,
+    ): TelegramBotResult<Boolean> = service.verifyUser(userId, customDescription).runApiOperation()
 
-    fun verifyChat(chatId: ChatId, customDescription: String? = null): TelegramBotResult<Boolean> =
-        service.verifyChat(chatId, customDescription).runApiOperation()
+    fun verifyChat(
+        chatId: ChatId,
+        customDescription: String? = null,
+    ): TelegramBotResult<Boolean> = service.verifyChat(chatId, customDescription).runApiOperation()
 
-    fun removeUserVerification(userId: Long): TelegramBotResult<Boolean> =
-        service.removeUserVerification(userId).runApiOperation()
+    fun removeUserVerification(userId: Long): TelegramBotResult<Boolean> = service.removeUserVerification(userId).runApiOperation()
 
-    fun removeChatVerification(chatId: ChatId): TelegramBotResult<Boolean> =
-        service.removeChatVerification(chatId).runApiOperation()
+    fun removeChatVerification(chatId: ChatId): TelegramBotResult<Boolean> = service.removeChatVerification(chatId).runApiOperation()
 
     // --- Bot API 9.0 — Business account management ---
 
@@ -1929,27 +1979,23 @@ internal class ApiClient(
         businessConnectionId: String,
         chatId: ChatId,
         messageId: Long,
-    ): TelegramBotResult<Boolean> =
-        service.readBusinessMessage(businessConnectionId, chatId, messageId).runApiOperation()
+    ): TelegramBotResult<Boolean> = service.readBusinessMessage(businessConnectionId, chatId, messageId).runApiOperation()
 
     fun deleteBusinessMessages(
         businessConnectionId: String,
         messageIds: List<Long>,
-    ): TelegramBotResult<Boolean> =
-        service.deleteBusinessMessages(businessConnectionId, gson.toJson(messageIds)).runApiOperation()
+    ): TelegramBotResult<Boolean> = service.deleteBusinessMessages(businessConnectionId, gson.toJson(messageIds)).runApiOperation()
 
     fun setBusinessAccountName(
         businessConnectionId: String,
         firstName: String,
         lastName: String? = null,
-    ): TelegramBotResult<Boolean> =
-        service.setBusinessAccountName(businessConnectionId, firstName, lastName).runApiOperation()
+    ): TelegramBotResult<Boolean> = service.setBusinessAccountName(businessConnectionId, firstName, lastName).runApiOperation()
 
     fun setBusinessAccountUsername(
         businessConnectionId: String,
         username: String? = null,
-    ): TelegramBotResult<Boolean> =
-        service.setBusinessAccountUsername(businessConnectionId, username).runApiOperation()
+    ): TelegramBotResult<Boolean> = service.setBusinessAccountUsername(businessConnectionId, username).runApiOperation()
 
     fun setBusinessAccountBio(
         businessConnectionId: String,
@@ -1960,35 +2006,33 @@ internal class ApiClient(
         businessConnectionId: String,
         photo: com.github.kotlintelegrambot.entities.InputProfilePhoto,
         isPublic: Boolean? = null,
-    ): TelegramBotResult<Boolean> =
-        service.setBusinessAccountProfilePhoto(businessConnectionId, gson.toJson(photo), isPublic).runApiOperation()
+    ): TelegramBotResult<Boolean> = service.setBusinessAccountProfilePhoto(businessConnectionId, gson.toJson(photo), isPublic).runApiOperation()
 
     fun removeBusinessAccountProfilePhoto(
         businessConnectionId: String,
         isPublic: Boolean? = null,
-    ): TelegramBotResult<Boolean> =
-        service.removeBusinessAccountProfilePhoto(businessConnectionId, isPublic).runApiOperation()
+    ): TelegramBotResult<Boolean> = service.removeBusinessAccountProfilePhoto(businessConnectionId, isPublic).runApiOperation()
 
     fun setBusinessAccountGiftSettings(
         businessConnectionId: String,
         showGiftButton: Boolean,
         acceptedGiftTypes: com.github.kotlintelegrambot.entities.gifts.AcceptedGiftTypes,
-    ): TelegramBotResult<Boolean> = service.setBusinessAccountGiftSettings(
-        businessConnectionId,
-        showGiftButton,
-        gson.toJson(acceptedGiftTypes),
-    ).runApiOperation()
+    ): TelegramBotResult<Boolean> =
+        service
+            .setBusinessAccountGiftSettings(
+                businessConnectionId,
+                showGiftButton,
+                gson.toJson(acceptedGiftTypes),
+            ).runApiOperation()
 
     fun getBusinessAccountStarBalance(
         businessConnectionId: String,
-    ): TelegramBotResult<com.github.kotlintelegrambot.entities.payments.StarAmount> =
-        service.getBusinessAccountStarBalance(businessConnectionId).runApiOperation()
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.payments.StarAmount> = service.getBusinessAccountStarBalance(businessConnectionId).runApiOperation()
 
     fun transferBusinessAccountStars(
         businessConnectionId: String,
         starCount: Int,
-    ): TelegramBotResult<Boolean> =
-        service.transferBusinessAccountStars(businessConnectionId, starCount).runApiOperation()
+    ): TelegramBotResult<Boolean> = service.transferBusinessAccountStars(businessConnectionId, starCount).runApiOperation()
 
     fun getBusinessAccountGifts(
         businessConnectionId: String,
@@ -2001,32 +2045,37 @@ internal class ApiClient(
         offset: String? = null,
         limit: Int? = null,
     ): TelegramBotResult<com.github.kotlintelegrambot.entities.gifts.OwnedGifts> =
-        service.getBusinessAccountGifts(
-            businessConnectionId, excludeUnsaved, excludeSaved, excludeUnlimited,
-            excludeLimited, excludeUnique, sortByPrice, offset, limit,
-        ).runApiOperation()
+        service
+            .getBusinessAccountGifts(
+                businessConnectionId,
+                excludeUnsaved,
+                excludeSaved,
+                excludeUnlimited,
+                excludeLimited,
+                excludeUnique,
+                sortByPrice,
+                offset,
+                limit,
+            ).runApiOperation()
 
     fun convertGiftToStars(
         businessConnectionId: String,
         ownedGiftId: String,
-    ): TelegramBotResult<Boolean> =
-        service.convertGiftToStars(businessConnectionId, ownedGiftId).runApiOperation()
+    ): TelegramBotResult<Boolean> = service.convertGiftToStars(businessConnectionId, ownedGiftId).runApiOperation()
 
     fun upgradeGift(
         businessConnectionId: String,
         ownedGiftId: String,
         keepOriginalDetails: Boolean? = null,
         starCount: Int? = null,
-    ): TelegramBotResult<Boolean> =
-        service.upgradeGift(businessConnectionId, ownedGiftId, keepOriginalDetails, starCount).runApiOperation()
+    ): TelegramBotResult<Boolean> = service.upgradeGift(businessConnectionId, ownedGiftId, keepOriginalDetails, starCount).runApiOperation()
 
     fun transferGift(
         businessConnectionId: String,
         ownedGiftId: String,
         newOwnerChatId: Long,
         starCount: Int? = null,
-    ): TelegramBotResult<Boolean> =
-        service.transferGift(businessConnectionId, ownedGiftId, newOwnerChatId, starCount).runApiOperation()
+    ): TelegramBotResult<Boolean> = service.transferGift(businessConnectionId, ownedGiftId, newOwnerChatId, starCount).runApiOperation()
 
     fun postStory(
         businessConnectionId: String,
@@ -2038,12 +2087,19 @@ internal class ApiClient(
         areas: List<com.github.kotlintelegrambot.entities.stories.StoryArea>? = null,
         postToChatPage: Boolean? = null,
         protectContent: Boolean? = null,
-    ): TelegramBotResult<com.github.kotlintelegrambot.entities.Story> = service.postStory(
-        businessConnectionId, gson.toJson(content), activePeriod, caption, parseMode,
-        if (captionEntities != null) gson.toJson(captionEntities) else null,
-        if (areas != null) gson.toJson(areas) else null,
-        postToChatPage, protectContent,
-    ).runApiOperation()
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.Story> =
+        service
+            .postStory(
+                businessConnectionId,
+                gson.toJson(content),
+                activePeriod,
+                caption,
+                parseMode,
+                if (captionEntities != null) gson.toJson(captionEntities) else null,
+                if (areas != null) gson.toJson(areas) else null,
+                postToChatPage,
+                protectContent,
+            ).runApiOperation()
 
     fun editStory(
         businessConnectionId: String,
@@ -2053,21 +2109,22 @@ internal class ApiClient(
         parseMode: ParseMode? = null,
         captionEntities: List<MessageEntity>? = null,
         areas: List<com.github.kotlintelegrambot.entities.stories.StoryArea>? = null,
-    ): TelegramBotResult<com.github.kotlintelegrambot.entities.Story> = service.editStory(
-        businessConnectionId,
-        storyId,
-        gson.toJson(content),
-        caption,
-        parseMode,
-        if (captionEntities != null) gson.toJson(captionEntities) else null,
-        if (areas != null) gson.toJson(areas) else null,
-    ).runApiOperation()
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.Story> =
+        service
+            .editStory(
+                businessConnectionId,
+                storyId,
+                gson.toJson(content),
+                caption,
+                parseMode,
+                if (captionEntities != null) gson.toJson(captionEntities) else null,
+                if (areas != null) gson.toJson(areas) else null,
+            ).runApiOperation()
 
     fun deleteStory(
         businessConnectionId: String,
         storyId: Int,
-    ): TelegramBotResult<Boolean> =
-        service.deleteStory(businessConnectionId, storyId).runApiOperation()
+    ): TelegramBotResult<Boolean> = service.deleteStory(businessConnectionId, storyId).runApiOperation()
 
     // --- Bot API 9.1 — Checklists ---
 
@@ -2080,16 +2137,18 @@ internal class ApiClient(
         messageEffectId: String? = null,
         replyParameters: com.github.kotlintelegrambot.entities.ReplyParameters? = null,
         replyMarkup: ReplyMarkup? = null,
-    ): TelegramBotResult<Message> = service.sendChecklist(
-        businessConnectionId,
-        chatId,
-        gson.toJson(checklist),
-        disableNotification,
-        protectContent,
-        messageEffectId,
-        if (replyParameters != null) gson.toJson(replyParameters) else null,
-        replyMarkup,
-    ).runApiOperation()
+    ): TelegramBotResult<Message> =
+        service
+            .sendChecklist(
+                businessConnectionId,
+                chatId,
+                gson.toJson(checklist),
+                disableNotification,
+                protectContent,
+                messageEffectId,
+                if (replyParameters != null) gson.toJson(replyParameters) else null,
+                replyMarkup,
+            ).runApiOperation()
 
     fun editMessageChecklist(
         businessConnectionId: String,
@@ -2097,16 +2156,17 @@ internal class ApiClient(
         messageId: Long,
         checklist: com.github.kotlintelegrambot.entities.checklists.InputChecklist,
         replyMarkup: ReplyMarkup? = null,
-    ): TelegramBotResult<Message> = service.editMessageChecklist(
-        businessConnectionId,
-        chatId,
-        messageId,
-        gson.toJson(checklist),
-        replyMarkup,
-    ).runApiOperation()
+    ): TelegramBotResult<Message> =
+        service
+            .editMessageChecklist(
+                businessConnectionId,
+                chatId,
+                messageId,
+                gson.toJson(checklist),
+                replyMarkup,
+            ).runApiOperation()
 
-    fun getMyStarBalance(): TelegramBotResult<com.github.kotlintelegrambot.entities.payments.StarAmount> =
-        service.getMyStarBalance().runApiOperation()
+    fun getMyStarBalance(): TelegramBotResult<com.github.kotlintelegrambot.entities.payments.StarAmount> = service.getMyStarBalance().runApiOperation()
 
     // --- Bot API 9.2 — Suggested posts ---
 
@@ -2130,19 +2190,21 @@ internal class ApiClient(
         parseMode: ParseMode? = null,
         entities: List<MessageEntity>? = null,
     ): TelegramBotResult<com.github.kotlintelegrambot.entities.guest.SentGuestMessage> =
-        service.answerGuestQuery(
-            guestQueryId,
-            text,
-            parseMode,
-            if (entities != null) gson.toJson(entities) else null,
-        ).runApiOperation()
+        service
+            .answerGuestQuery(
+                guestQueryId,
+                text,
+                parseMode,
+                if (entities != null) gson.toJson(entities) else null,
+            ).runApiOperation()
 
     private fun <T : Any> Call<Response<T>>.runApiOperation(): TelegramBotResult<T> {
-        val apiResponse = try {
-            apiRequestSender.send(this)
-        } catch (exception: Exception) {
-            return TelegramBotResult.Error.Unknown(exception)
-        }
+        val apiResponse =
+            try {
+                apiRequestSender.send(this)
+            } catch (exception: Exception) {
+                return TelegramBotResult.Error.Unknown(exception)
+            }
 
         return apiResponseMapper.mapToTelegramBotResult(apiResponse)
     }
@@ -2155,9 +2217,10 @@ internal class ApiClient(
      *
      * e.g. for a list composed by test1, test2 and test3, the result must be ["test1","test2", "test3"].
      */
-    private fun List<String>.serialize(): String = joinToString(
-        separator = ",",
-        prefix = "[",
-        postfix = "]",
-    ) { "\"$it\"" }
+    private fun List<String>.serialize(): String =
+        joinToString(
+            separator = ",",
+            prefix = "[",
+            postfix = "]",
+        ) { "\"$it\"" }
 }

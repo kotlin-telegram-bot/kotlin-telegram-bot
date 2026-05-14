@@ -69,7 +69,6 @@ class Bot private constructor(
     private val webhookConfig: WebhookConfig?,
     private val apiClient: ApiClient,
 ) {
-
     init {
         dispatcher.bot = this
     }
@@ -92,11 +91,12 @@ class Bot private constructor(
             val looper = CoroutineLooper(Dispatchers.IO)
             val apiClient = ApiClient(token, apiUrl, timeout, logLevel, proxy, gson, httpClientInterceptors = httpClientInterceptors)
             val updater = Updater(looper, updatesQueue, apiClient, timeout)
-            val dispatcher = Dispatcher(
-                updatesChannel = updatesQueue,
-                logLevel = logLevel,
-                coroutineDispatcher = coroutineDispatcher,
-            ).apply(dispatcherConfiguration)
+            val dispatcher =
+                Dispatcher(
+                    updatesChannel = updatesQueue,
+                    logLevel = logLevel,
+                    coroutineDispatcher = coroutineDispatcher,
+                ).apply(dispatcherConfiguration)
 
             return Bot(
                 updater,
@@ -135,19 +135,21 @@ class Bot private constructor(
         }
 
         return if (webhookConfig.createOnStart) {
-            val setWebhookResult = setWebhook(
-                webhookConfig.url,
-                webhookConfig.certificate,
-                webhookConfig.ipAddress,
-                webhookConfig.maxConnections,
-                webhookConfig.allowedUpdates,
-                webhookConfig.dropPendingUpdates,
-                webhookConfig.secretToken,
-            )
-            val webhookSet = setWebhookResult.bimap(
-                mapResponse = { true },
-                mapError = { false },
-            )
+            val setWebhookResult =
+                setWebhook(
+                    webhookConfig.url,
+                    webhookConfig.certificate,
+                    webhookConfig.ipAddress,
+                    webhookConfig.maxConnections,
+                    webhookConfig.allowedUpdates,
+                    webhookConfig.dropPendingUpdates,
+                    webhookConfig.secretToken,
+                )
+            val webhookSet =
+                setWebhookResult.bimap(
+                    mapResponse = { true },
+                    mapError = { false },
+                )
 
             if (webhookSet) {
                 dispatcher.startCheckingUpdates()
@@ -207,12 +209,13 @@ class Bot private constructor(
         limit: Int? = null,
         timeout: Int? = null,
         allowedUpdates: List<String>? = null,
-    ): TelegramBotResult<List<Update>> = apiClient.getUpdates(
-        offset = offset,
-        limit = limit,
-        timeout = timeout,
-        allowedUpdates = allowedUpdates,
-    )
+    ): TelegramBotResult<List<Update>> =
+        apiClient.getUpdates(
+            offset = offset,
+            limit = limit,
+            timeout = timeout,
+            allowedUpdates = allowedUpdates,
+        )
 
     fun setWebhook(
         url: String,
@@ -275,21 +278,22 @@ class Bot private constructor(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ): TelegramBotResult<Message> = apiClient.sendMessage(
-        chatId,
-        text,
-        parseMode,
-        disableNotification,
-        protectContent,
-        replyMarkup,
-        messageThreadId,
-        entities,
-        linkPreviewOptions,
-        replyParameters,
-        businessConnectionId,
-        messageEffectId,
-        allowPaidBroadcast,
-    )
+    ): TelegramBotResult<Message> =
+        apiClient.sendMessage(
+            chatId,
+            text,
+            parseMode,
+            disableNotification,
+            protectContent,
+            replyMarkup,
+            messageThreadId,
+            entities,
+            linkPreviewOptions,
+            replyParameters,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
+        )
 
     /**
      * Use this method to forward messages of any kind. Service messages can't be forwarded.
@@ -302,13 +306,14 @@ class Bot private constructor(
         messageId: Long,
         disableNotification: Boolean? = null,
         protectContent: Boolean? = null,
-    ): TelegramBotResult<Message> = apiClient.forwardMessage(
-        chatId,
-        fromChatId,
-        messageId,
-        disableNotification,
-        protectContent,
-    )
+    ): TelegramBotResult<Message> =
+        apiClient.forwardMessage(
+            chatId,
+            fromChatId,
+            messageId,
+            disableNotification,
+            protectContent,
+        )
 
     fun copyMessage(
         chatId: ChatId,
@@ -325,22 +330,23 @@ class Bot private constructor(
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
         showCaptionAboveMedia: Boolean? = null,
-    ) = apiClient.copyMessage(
-        chatId,
-        fromChatId,
-        messageId,
-        caption,
-        parseMode,
-        captionEntities,
-        disableNotification,
-        protectContent,
-        replyMarkup,
-        replyParameters,
-        businessConnectionId,
-        messageEffectId,
-        allowPaidBroadcast,
-        showCaptionAboveMedia,
-    ).call()
+    ) = apiClient
+        .copyMessage(
+            chatId,
+            fromChatId,
+            messageId,
+            caption,
+            parseMode,
+            captionEntities,
+            disableNotification,
+            protectContent,
+            replyMarkup,
+            replyParameters,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
+            showCaptionAboveMedia,
+        ).call()
 
     fun sendPhoto(
         chatId: ChatId,
@@ -356,21 +362,22 @@ class Bot private constructor(
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
         showCaptionAboveMedia: Boolean? = null,
-    ) = apiClient.sendPhoto(
-        chatId,
-        photo,
-        caption,
-        parseMode,
-        disableNotification,
-        protectContent,
-        replyMarkup,
-        messageThreadId,
-        replyParameters,
-        businessConnectionId,
-        messageEffectId,
-        allowPaidBroadcast,
-        showCaptionAboveMedia,
-    ).call()
+    ) = apiClient
+        .sendPhoto(
+            chatId,
+            photo,
+            caption,
+            parseMode,
+            disableNotification,
+            protectContent,
+            replyMarkup,
+            messageThreadId,
+            replyParameters,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
+            showCaptionAboveMedia,
+        ).call()
 
     fun sendPhoto(
         chatId: ChatId,
@@ -385,21 +392,22 @@ class Bot private constructor(
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
         showCaptionAboveMedia: Boolean? = null,
-    ) = apiClient.sendPhoto(
-        chatId,
-        photo,
-        caption,
-        parseMode,
-        disableNotification,
-        protectContent,
-        replyMarkup,
-        null,
-        replyParameters,
-        businessConnectionId,
-        messageEffectId,
-        allowPaidBroadcast,
-        showCaptionAboveMedia,
-    ).call()
+    ) = apiClient
+        .sendPhoto(
+            chatId,
+            photo,
+            caption,
+            parseMode,
+            disableNotification,
+            protectContent,
+            replyMarkup,
+            null,
+            replyParameters,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
+            showCaptionAboveMedia,
+        ).call()
 
     fun sendAudio(
         chatId: ChatId,
@@ -415,21 +423,22 @@ class Bot private constructor(
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
         showCaptionAboveMedia: Boolean? = null,
-    ) = apiClient.sendAudio(
-        chatId,
-        audio,
-        duration,
-        performer,
-        title,
-        disableNotification,
-        protectContent,
-        replyMarkup,
-        replyParameters,
-        businessConnectionId,
-        messageEffectId,
-        allowPaidBroadcast,
-        showCaptionAboveMedia,
-    ).call()
+    ) = apiClient
+        .sendAudio(
+            chatId,
+            audio,
+            duration,
+            performer,
+            title,
+            disableNotification,
+            protectContent,
+            replyMarkup,
+            replyParameters,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
+            showCaptionAboveMedia,
+        ).call()
 
     fun sendDocument(
         chatId: ChatId,
@@ -446,22 +455,23 @@ class Bot private constructor(
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
         showCaptionAboveMedia: Boolean? = null,
-    ) = apiClient.sendDocument(
-        chatId,
-        document,
-        caption,
-        parseMode,
-        disableContentTypeDetection,
-        disableNotification,
-        protectContent,
-        replyMarkup,
-        mimeType,
-        replyParameters,
-        businessConnectionId,
-        messageEffectId,
-        allowPaidBroadcast,
-        showCaptionAboveMedia,
-    ).call()
+    ) = apiClient
+        .sendDocument(
+            chatId,
+            document,
+            caption,
+            parseMode,
+            disableContentTypeDetection,
+            disableNotification,
+            protectContent,
+            replyMarkup,
+            mimeType,
+            replyParameters,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
+            showCaptionAboveMedia,
+        ).call()
 
     fun sendVideo(
         chatId: ChatId,
@@ -479,23 +489,24 @@ class Bot private constructor(
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
         showCaptionAboveMedia: Boolean? = null,
-    ) = apiClient.sendVideo(
-        chatId,
-        video,
-        duration,
-        width,
-        height,
-        caption,
-        parseMode,
-        disableNotification,
-        protectContent,
-        replyMarkup,
-        replyParameters,
-        businessConnectionId,
-        messageEffectId,
-        allowPaidBroadcast,
-        showCaptionAboveMedia,
-    ).call()
+    ) = apiClient
+        .sendVideo(
+            chatId,
+            video,
+            duration,
+            width,
+            height,
+            caption,
+            parseMode,
+            disableNotification,
+            protectContent,
+            replyMarkup,
+            replyParameters,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
+            showCaptionAboveMedia,
+        ).call()
 
     /**
      * Use this method to send a game. On success, the sent Message is returned..
@@ -520,17 +531,18 @@ class Bot private constructor(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ): TelegramBotResult<Message> = apiClient.sendGame(
-        chatId,
-        gameShortName,
-        disableNotification,
-        protectContent,
-        replyMarkup,
-        replyParameters,
-        businessConnectionId,
-        messageEffectId,
-        allowPaidBroadcast,
-    )
+    ): TelegramBotResult<Message> =
+        apiClient.sendGame(
+            chatId,
+            gameShortName,
+            disableNotification,
+            protectContent,
+            replyMarkup,
+            replyParameters,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
+        )
 
     fun sendAnimation(
         chatId: ChatId,
@@ -548,23 +560,24 @@ class Bot private constructor(
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
         showCaptionAboveMedia: Boolean? = null,
-    ) = apiClient.sendAnimation(
-        chatId,
-        animation,
-        duration,
-        width,
-        height,
-        caption,
-        parseMode,
-        disableNotification,
-        protectContent,
-        replyMarkup,
-        replyParameters,
-        businessConnectionId,
-        messageEffectId,
-        allowPaidBroadcast,
-        showCaptionAboveMedia,
-    ).call()
+    ) = apiClient
+        .sendAnimation(
+            chatId,
+            animation,
+            duration,
+            width,
+            height,
+            caption,
+            parseMode,
+            disableNotification,
+            protectContent,
+            replyMarkup,
+            replyParameters,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
+            showCaptionAboveMedia,
+        ).call()
 
     fun sendVoice(
         chatId: ChatId,
@@ -581,22 +594,23 @@ class Bot private constructor(
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
         showCaptionAboveMedia: Boolean? = null,
-    ) = apiClient.sendVoice(
-        chatId,
-        audio,
-        caption,
-        parseMode,
-        captionEntities,
-        duration,
-        disableNotification,
-        protectContent,
-        replyMarkup,
-        replyParameters,
-        businessConnectionId,
-        messageEffectId,
-        allowPaidBroadcast,
-        showCaptionAboveMedia,
-    ).call()
+    ) = apiClient
+        .sendVoice(
+            chatId,
+            audio,
+            caption,
+            parseMode,
+            captionEntities,
+            duration,
+            disableNotification,
+            protectContent,
+            replyMarkup,
+            replyParameters,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
+            showCaptionAboveMedia,
+        ).call()
 
     fun sendVideoNote(
         chatId: ChatId,
@@ -610,19 +624,20 @@ class Bot private constructor(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ) = apiClient.sendVideoNote(
-        chatId,
-        videoNote,
-        duration,
-        length,
-        disableNotification,
-        protectContent,
-        replyMarkup,
-        replyParameters,
-        businessConnectionId,
-        messageEffectId,
-        allowPaidBroadcast,
-    ).call()
+    ) = apiClient
+        .sendVideoNote(
+            chatId,
+            videoNote,
+            duration,
+            length,
+            disableNotification,
+            protectContent,
+            replyMarkup,
+            replyParameters,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
+        ).call()
 
     fun sendVideoNote(
         chatId: ChatId,
@@ -636,19 +651,20 @@ class Bot private constructor(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ) = apiClient.sendVideoNote(
-        chatId,
-        videoNoteId,
-        duration,
-        length,
-        disableNotification,
-        protectContent,
-        replyMarkup,
-        replyParameters,
-        businessConnectionId,
-        messageEffectId,
-        allowPaidBroadcast,
-    ).call()
+    ) = apiClient
+        .sendVideoNote(
+            chatId,
+            videoNoteId,
+            duration,
+            length,
+            disableNotification,
+            protectContent,
+            replyMarkup,
+            replyParameters,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
+        ).call()
 
     /**
      * Use this method to send a group of photos, videos, documents or audios as an album.
@@ -670,16 +686,17 @@ class Bot private constructor(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ): TelegramBotResult<List<Message>> = apiClient.sendMediaGroup(
-        chatId,
-        mediaGroup,
-        disableNotification,
-        protectContent,
-        replyParameters,
-        businessConnectionId,
-        messageEffectId,
-        allowPaidBroadcast,
-    )
+    ): TelegramBotResult<List<Message>> =
+        apiClient.sendMediaGroup(
+            chatId,
+            mediaGroup,
+            disableNotification,
+            protectContent,
+            replyParameters,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
+        )
 
     fun sendLocation(
         chatId: ChatId,
@@ -696,22 +713,23 @@ class Bot private constructor(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ) = apiClient.sendLocation(
-        chatId,
-        latitude,
-        longitude,
-        livePeriod,
-        disableNotification,
-        protectContent,
-        replyMarkup,
-        proximityAlertRadius,
-        horizontalAccuracy,
-        heading,
-        replyParameters,
-        businessConnectionId,
-        messageEffectId,
-        allowPaidBroadcast,
-    ).call()
+    ) = apiClient
+        .sendLocation(
+            chatId,
+            latitude,
+            longitude,
+            livePeriod,
+            disableNotification,
+            protectContent,
+            replyMarkup,
+            proximityAlertRadius,
+            horizontalAccuracy,
+            heading,
+            replyParameters,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
+        ).call()
 
     /**
      * Use this method to send a native poll.
@@ -767,27 +785,28 @@ class Bot private constructor(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ): TelegramBotResult<Message> = apiClient.sendPoll(
-        chatId,
-        question,
-        options,
-        isAnonymous,
-        type,
-        allowsMultipleAnswers,
-        correctOptionId,
-        explanation,
-        explanationParseMode,
-        openPeriod,
-        closeDate,
-        isClosed,
-        disableNotification,
-        protectContent,
-        replyMarkup,
-        replyParameters,
-        businessConnectionId,
-        messageEffectId,
-        allowPaidBroadcast,
-    )
+    ): TelegramBotResult<Message> =
+        apiClient.sendPoll(
+            chatId,
+            question,
+            options,
+            isAnonymous,
+            type,
+            allowsMultipleAnswers,
+            correctOptionId,
+            explanation,
+            explanationParseMode,
+            openPeriod,
+            closeDate,
+            isClosed,
+            disableNotification,
+            protectContent,
+            replyMarkup,
+            replyParameters,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
+        )
 
     fun editMessageLiveLocation(
         chatId: ChatId? = null,
@@ -800,18 +819,19 @@ class Bot private constructor(
         horizontalAccuracy: Float? = null,
         heading: Int? = null,
         businessConnectionId: String? = null,
-    ) = apiClient.editMessageLiveLocation(
-        chatId,
-        messageId,
-        inlineMessageId,
-        latitude,
-        longitude,
-        replyMarkup,
-        proximityAlertRadius,
-        horizontalAccuracy,
-        heading,
-        businessConnectionId,
-    ).call()
+    ) = apiClient
+        .editMessageLiveLocation(
+            chatId,
+            messageId,
+            inlineMessageId,
+            latitude,
+            longitude,
+            replyMarkup,
+            proximityAlertRadius,
+            horizontalAccuracy,
+            heading,
+            businessConnectionId,
+        ).call()
 
     fun stopMessageLiveLocation(
         chatId: ChatId? = null,
@@ -819,13 +839,14 @@ class Bot private constructor(
         inlineMessageId: String? = null,
         replyMarkup: ReplyMarkup? = null,
         businessConnectionId: String? = null,
-    ) = apiClient.stopMessageLiveLocation(
-        chatId,
-        messageId,
-        inlineMessageId,
-        replyMarkup,
-        businessConnectionId,
-    ).call()
+    ) = apiClient
+        .stopMessageLiveLocation(
+            chatId,
+            messageId,
+            inlineMessageId,
+            replyMarkup,
+            businessConnectionId,
+        ).call()
 
     fun sendVenue(
         chatId: ChatId,
@@ -844,24 +865,25 @@ class Bot private constructor(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ) = apiClient.sendVenue(
-        chatId,
-        latitude,
-        longitude,
-        title,
-        address,
-        foursquareId,
-        foursquareType,
-        googlePlaceId,
-        googlePlaceType,
-        disableNotification,
-        protectContent,
-        replyMarkup,
-        replyParameters,
-        businessConnectionId,
-        messageEffectId,
-        allowPaidBroadcast,
-    ).call()
+    ) = apiClient
+        .sendVenue(
+            chatId,
+            latitude,
+            longitude,
+            title,
+            address,
+            foursquareId,
+            foursquareType,
+            googlePlaceId,
+            googlePlaceType,
+            disableNotification,
+            protectContent,
+            replyMarkup,
+            replyParameters,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
+        ).call()
 
     fun sendContact(
         chatId: ChatId,
@@ -875,19 +897,20 @@ class Bot private constructor(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ) = apiClient.sendContact(
-        chatId,
-        phoneNumber,
-        firstName,
-        lastName,
-        disableNotification,
-        protectContent,
-        replyMarkup,
-        replyParameters,
-        businessConnectionId,
-        messageEffectId,
-        allowPaidBroadcast,
-    ).call()
+    ) = apiClient
+        .sendContact(
+            chatId,
+            phoneNumber,
+            firstName,
+            lastName,
+            disableNotification,
+            protectContent,
+            replyMarkup,
+            replyParameters,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
+        ).call()
 
     /**
      * Use this method when you need to tell the user that something is happening on the bot's side.
@@ -906,11 +929,13 @@ class Bot private constructor(
         action: ChatAction,
         messageThreadId: Long? = null,
         businessConnectionId: String? = null,
-    ): TelegramBotResult<Boolean> =
-        apiClient.sendChatAction(chatId, action, messageThreadId, businessConnectionId)
+    ): TelegramBotResult<Boolean> = apiClient.sendChatAction(chatId, action, messageThreadId, businessConnectionId)
 
-    fun getUserProfilePhotos(userId: Long, offset: Long? = null, limit: Int? = null) =
-        apiClient.getUserProfilePhotos(userId, offset, limit).call()
+    fun getUserProfilePhotos(
+        userId: Long,
+        offset: Long? = null,
+        limit: Int? = null,
+    ) = apiClient.getUserProfilePhotos(userId, offset, limit).call()
 
     fun getFile(fileId: String) = apiClient.getFile(fileId).call()
 
@@ -948,13 +973,14 @@ class Bot private constructor(
         expireDate: Int? = null,
         memberLimit: Int? = null,
         createsJoinRequest: Boolean? = null,
-    ) = apiClient.createChatInviteLink(
-        chatId,
-        name,
-        expireDate,
-        memberLimit,
-        createsJoinRequest,
-    ).call()
+    ) = apiClient
+        .createChatInviteLink(
+            chatId,
+            name,
+            expireDate,
+            memberLimit,
+            createsJoinRequest,
+        ).call()
 
     fun editChatInviteLink(
         chatId: ChatId,
@@ -963,14 +989,15 @@ class Bot private constructor(
         expireDate: Int? = null,
         memberLimit: Int? = null,
         createsJoinRequest: Boolean? = null,
-    ) = apiClient.editChatInviteLink(
-        chatId,
-        inviteLink,
-        name,
-        expireDate,
-        memberLimit,
-        createsJoinRequest,
-    ).call()
+    ) = apiClient
+        .editChatInviteLink(
+            chatId,
+            inviteLink,
+            name,
+            expireDate,
+            memberLimit,
+            createsJoinRequest,
+        ).call()
 
     fun revokeChatInviteLink(
         chatId: ChatId,
@@ -996,23 +1023,25 @@ class Bot private constructor(
         chatId: ChatId,
         userId: Long,
         onlyIfBanned: Boolean? = null,
-    ): TelegramBotResult<Boolean> = apiClient.unbanChatMember(
-        chatId,
-        userId,
-        onlyIfBanned,
-    )
+    ): TelegramBotResult<Boolean> =
+        apiClient.unbanChatMember(
+            chatId,
+            userId,
+            onlyIfBanned,
+        )
 
     fun restrictChatMember(
         chatId: ChatId,
         userId: Long,
         chatPermissions: ChatPermissions,
         untilDate: Long? = null, // unix time - https://en.wikipedia.org/wiki/Unix_time
-    ) = apiClient.restrictChatMember(
-        chatId,
-        userId,
-        chatPermissions,
-        untilDate,
-    ).call()
+    ) = apiClient
+        .restrictChatMember(
+            chatId,
+            userId,
+            chatPermissions,
+            untilDate,
+        ).call()
 
     /**
      * Use this method to promote or demote a user in a supergroup or a channel. The bot must be
@@ -1051,37 +1080,44 @@ class Bot private constructor(
         canRestrictMembers: Boolean? = null,
         canPinMessages: Boolean? = null,
         canPromoteMembers: Boolean? = null,
-    ): TelegramBotResult<Boolean> = apiClient.promoteChatMember(
-        chatId,
-        userId,
-        isAnonymous,
-        canChangeInfo,
-        canPostMessages,
-        canEditMessages,
-        canDeleteMessages,
-        canInviteUsers,
-        canRestrictMembers,
-        canPinMessages,
-        canPromoteMembers,
-    )
+    ): TelegramBotResult<Boolean> =
+        apiClient.promoteChatMember(
+            chatId,
+            userId,
+            isAnonymous,
+            canChangeInfo,
+            canPostMessages,
+            canEditMessages,
+            canDeleteMessages,
+            canInviteUsers,
+            canRestrictMembers,
+            canPinMessages,
+            canPromoteMembers,
+        )
 
-    fun setChatPermissions(chatId: ChatId, permissions: ChatPermissions) =
-        apiClient.setChatPermissions(chatId, permissions).call()
+    fun setChatPermissions(
+        chatId: ChatId,
+        permissions: ChatPermissions,
+    ) = apiClient.setChatPermissions(chatId, permissions).call()
 
     fun exportChatInviteLink(chatId: ChatId) = apiClient.exportChatInviteLink(chatId).call()
 
     fun setChatPhoto(
         chatId: ChatId,
         photo: SystemFile,
-    ) =
-        apiClient.setChatPhoto(chatId, photo).call()
+    ) = apiClient.setChatPhoto(chatId, photo).call()
 
     fun deleteChatPhoto(chatId: ChatId) = apiClient.deleteChatPhoto(chatId).call()
 
-    fun setChatTitle(chatId: ChatId, title: String) = apiClient.setChatTitle(chatId, title).call()
+    fun setChatTitle(
+        chatId: ChatId,
+        title: String,
+    ) = apiClient.setChatTitle(chatId, title).call()
 
-    fun setChatDescription(chatId: ChatId, description: String) =
-        apiClient.setChatDescription(chatId, description).call()
+    fun setChatDescription(
+        chatId: ChatId,
+        description: String,
+    ) = apiClient.setChatDescription(chatId, description).call()
 
     /**
      * Use this method to add a message to the list of pinned messages in a chat. IF the chat is
@@ -1149,8 +1185,7 @@ class Bot private constructor(
         name: String,
         iconColor: Int? = null,
         iconCustomEmojiId: String? = null,
-    ): TelegramBotResult<com.github.kotlintelegrambot.entities.ForumTopic> =
-        apiClient.createForumTopic(chatId, name, iconColor, iconCustomEmojiId)
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.ForumTopic> = apiClient.createForumTopic(chatId, name, iconColor, iconCustomEmojiId)
 
     /**
      * Use this method to edit name and icon of a topic in a forum supergroup chat. Returns True on success.
@@ -1160,48 +1195,52 @@ class Bot private constructor(
         messageThreadId: Long,
         name: String? = null,
         iconCustomEmojiId: String? = null,
-    ): TelegramBotResult<Boolean> =
-        apiClient.editForumTopic(chatId, messageThreadId, name, iconCustomEmojiId)
+    ): TelegramBotResult<Boolean> = apiClient.editForumTopic(chatId, messageThreadId, name, iconCustomEmojiId)
 
     /** Closes an open topic in a forum supergroup chat. Returns True on success. */
-    fun closeForumTopic(chatId: ChatId, messageThreadId: Long): TelegramBotResult<Boolean> =
-        apiClient.closeForumTopic(chatId, messageThreadId)
+    fun closeForumTopic(
+        chatId: ChatId,
+        messageThreadId: Long,
+    ): TelegramBotResult<Boolean> = apiClient.closeForumTopic(chatId, messageThreadId)
 
     /** Reopens a closed topic in a forum supergroup chat. Returns True on success. */
-    fun reopenForumTopic(chatId: ChatId, messageThreadId: Long): TelegramBotResult<Boolean> =
-        apiClient.reopenForumTopic(chatId, messageThreadId)
+    fun reopenForumTopic(
+        chatId: ChatId,
+        messageThreadId: Long,
+    ): TelegramBotResult<Boolean> = apiClient.reopenForumTopic(chatId, messageThreadId)
 
     /** Deletes a topic in a forum supergroup chat. Returns True on success. */
-    fun deleteForumTopic(chatId: ChatId, messageThreadId: Long): TelegramBotResult<Boolean> =
-        apiClient.deleteForumTopic(chatId, messageThreadId)
+    fun deleteForumTopic(
+        chatId: ChatId,
+        messageThreadId: Long,
+    ): TelegramBotResult<Boolean> = apiClient.deleteForumTopic(chatId, messageThreadId)
 
     /** Clears the list of pinned messages in a forum topic. Returns True on success. */
-    fun unpinAllForumTopicMessages(chatId: ChatId, messageThreadId: Long): TelegramBotResult<Boolean> =
-        apiClient.unpinAllForumTopicMessages(chatId, messageThreadId)
+    fun unpinAllForumTopicMessages(
+        chatId: ChatId,
+        messageThreadId: Long,
+    ): TelegramBotResult<Boolean> = apiClient.unpinAllForumTopicMessages(chatId, messageThreadId)
 
     /** Returns the custom emoji stickers that can be used as a forum topic icon by any user. */
-    fun getForumTopicIconStickers(): TelegramBotResult<List<com.github.kotlintelegrambot.entities.stickers.Sticker>> =
-        apiClient.getForumTopicIconStickers()
+    fun getForumTopicIconStickers(): TelegramBotResult<List<com.github.kotlintelegrambot.entities.stickers.Sticker>> = apiClient.getForumTopicIconStickers()
 
     /** Edits the name of the 'General' topic in a forum supergroup chat. Returns True on success. */
-    fun editGeneralForumTopic(chatId: ChatId, name: String): TelegramBotResult<Boolean> =
-        apiClient.editGeneralForumTopic(chatId, name)
+    fun editGeneralForumTopic(
+        chatId: ChatId,
+        name: String,
+    ): TelegramBotResult<Boolean> = apiClient.editGeneralForumTopic(chatId, name)
 
     /** Closes the 'General' topic in a forum supergroup chat. Returns True on success. */
-    fun closeGeneralForumTopic(chatId: ChatId): TelegramBotResult<Boolean> =
-        apiClient.closeGeneralForumTopic(chatId)
+    fun closeGeneralForumTopic(chatId: ChatId): TelegramBotResult<Boolean> = apiClient.closeGeneralForumTopic(chatId)
 
     /** Reopens the 'General' topic in a forum supergroup chat. Returns True on success. */
-    fun reopenGeneralForumTopic(chatId: ChatId): TelegramBotResult<Boolean> =
-        apiClient.reopenGeneralForumTopic(chatId)
+    fun reopenGeneralForumTopic(chatId: ChatId): TelegramBotResult<Boolean> = apiClient.reopenGeneralForumTopic(chatId)
 
     /** Hides the 'General' topic in a forum supergroup chat. Returns True on success. */
-    fun hideGeneralForumTopic(chatId: ChatId): TelegramBotResult<Boolean> =
-        apiClient.hideGeneralForumTopic(chatId)
+    fun hideGeneralForumTopic(chatId: ChatId): TelegramBotResult<Boolean> = apiClient.hideGeneralForumTopic(chatId)
 
     /** Unhides the 'General' topic in a forum supergroup chat. Returns True on success. */
-    fun unhideGeneralForumTopic(chatId: ChatId): TelegramBotResult<Boolean> =
-        apiClient.unhideGeneralForumTopic(chatId)
+    fun unhideGeneralForumTopic(chatId: ChatId): TelegramBotResult<Boolean> = apiClient.unhideGeneralForumTopic(chatId)
 
     // --- Batch forward/copy/delete (Bot API 7.0) ---
 
@@ -1255,41 +1294,45 @@ class Bot private constructor(
      * Deletes multiple messages simultaneously. If some of the specified messages can't be found,
      * they are skipped. Returns True on success.
      */
-    fun deleteMessages(chatId: ChatId, messageIds: List<Long>): TelegramBotResult<Boolean> =
-        apiClient.deleteMessages(chatId, messageIds)
+    fun deleteMessages(
+        chatId: ChatId,
+        messageIds: List<Long>,
+    ): TelegramBotResult<Boolean> = apiClient.deleteMessages(chatId, messageIds)
 
     /** Returns the list of boosts added to a chat by a user. */
     fun getUserChatBoosts(
         chatId: ChatId,
         userId: Long,
-    ): TelegramBotResult<com.github.kotlintelegrambot.entities.UserChatBoosts> =
-        apiClient.getUserChatBoosts(chatId, userId)
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.UserChatBoosts> = apiClient.getUserChatBoosts(chatId, userId)
 
     // --- Bot info methods (Bot API 6.6 - 6.7) ---
 
     /** Changes the bot's description, which is shown in the chat with the bot if the chat is empty. */
-    fun setMyDescription(description: String? = null, languageCode: String? = null): TelegramBotResult<Boolean> =
-        apiClient.setMyDescription(description, languageCode)
+    fun setMyDescription(
+        description: String? = null,
+        languageCode: String? = null,
+    ): TelegramBotResult<Boolean> = apiClient.setMyDescription(description, languageCode)
 
     /** Gets the current bot description for the given user language. */
-    fun getMyDescription(languageCode: String? = null): TelegramBotResult<com.github.kotlintelegrambot.entities.BotDescription> =
-        apiClient.getMyDescription(languageCode)
+    fun getMyDescription(languageCode: String? = null): TelegramBotResult<com.github.kotlintelegrambot.entities.BotDescription> = apiClient.getMyDescription(languageCode)
 
     /** Changes the bot's short description, which is shown on the bot's profile page. */
-    fun setMyShortDescription(shortDescription: String? = null, languageCode: String? = null): TelegramBotResult<Boolean> =
-        apiClient.setMyShortDescription(shortDescription, languageCode)
+    fun setMyShortDescription(
+        shortDescription: String? = null,
+        languageCode: String? = null,
+    ): TelegramBotResult<Boolean> = apiClient.setMyShortDescription(shortDescription, languageCode)
 
     /** Gets the current bot short description for the given user language. */
-    fun getMyShortDescription(languageCode: String? = null): TelegramBotResult<com.github.kotlintelegrambot.entities.BotShortDescription> =
-        apiClient.getMyShortDescription(languageCode)
+    fun getMyShortDescription(languageCode: String? = null): TelegramBotResult<com.github.kotlintelegrambot.entities.BotShortDescription> = apiClient.getMyShortDescription(languageCode)
 
     /** Changes the bot's name. */
-    fun setMyName(name: String? = null, languageCode: String? = null): TelegramBotResult<Boolean> =
-        apiClient.setMyName(name, languageCode)
+    fun setMyName(
+        name: String? = null,
+        languageCode: String? = null,
+    ): TelegramBotResult<Boolean> = apiClient.setMyName(name, languageCode)
 
     /** Gets the current bot name for the given user language. */
-    fun getMyName(languageCode: String? = null): TelegramBotResult<com.github.kotlintelegrambot.entities.BotName> =
-        apiClient.getMyName(languageCode)
+    fun getMyName(languageCode: String? = null): TelegramBotResult<com.github.kotlintelegrambot.entities.BotName> = apiClient.getMyName(languageCode)
 
     /** Changes the bot's menu button in a private chat, or the default menu button. */
     fun setChatMenuButton(
@@ -1298,8 +1341,7 @@ class Bot private constructor(
     ): TelegramBotResult<Boolean> = apiClient.setChatMenuButton(chatId, menuButton)
 
     /** Gets the current value of the bot's menu button in a private chat, or the default menu button. */
-    fun getChatMenuButton(chatId: ChatId? = null): TelegramBotResult<com.github.kotlintelegrambot.entities.MenuButton> =
-        apiClient.getChatMenuButton(chatId)
+    fun getChatMenuButton(chatId: ChatId? = null): TelegramBotResult<com.github.kotlintelegrambot.entities.MenuButton> = apiClient.getChatMenuButton(chatId)
 
     /** Changes the default administrator rights requested by the bot when it's added as an admin to groups or channels. */
     fun setMyDefaultAdministratorRights(
@@ -1308,9 +1350,7 @@ class Bot private constructor(
     ): TelegramBotResult<Boolean> = apiClient.setMyDefaultAdministratorRights(rights, forChannels)
 
     /** Gets the default administrator rights requested by the bot for groups (or channels). */
-    fun getMyDefaultAdministratorRights(forChannels: Boolean? = null):
-        TelegramBotResult<com.github.kotlintelegrambot.entities.ChatAdministratorRights> =
-        apiClient.getMyDefaultAdministratorRights(forChannels)
+    fun getMyDefaultAdministratorRights(forChannels: Boolean? = null): TelegramBotResult<com.github.kotlintelegrambot.entities.ChatAdministratorRights> = apiClient.getMyDefaultAdministratorRights(forChannels)
 
     /**
      * Use this method for your bot to leave a group, supergroup or channel.
@@ -1331,8 +1371,7 @@ class Bot private constructor(
      *
      * @return a Chat object on success.
      */
-    fun getChat(chatId: ChatId): TelegramBotResult<com.github.kotlintelegrambot.entities.ChatFullInfo> =
-        apiClient.getChat(chatId)
+    fun getChat(chatId: ChatId): TelegramBotResult<com.github.kotlintelegrambot.entities.ChatFullInfo> = apiClient.getChat(chatId)
 
     /**
      * Use this method to get a list of administrators in a chat. If the chat is a
@@ -1363,10 +1402,11 @@ class Bot private constructor(
     fun getChatMember(
         chatId: ChatId,
         userId: Long,
-    ): TelegramBotResult<ChatMember> = apiClient.getChatMember(
-        chatId,
-        userId,
-    )
+    ): TelegramBotResult<ChatMember> =
+        apiClient.getChatMember(
+            chatId,
+            userId,
+        )
 
     /**
      * Use this method to set a new group sticker set for a supergroup. The bot must be an
@@ -1383,10 +1423,11 @@ class Bot private constructor(
     fun setChatStickerSet(
         chatId: ChatId,
         stickerSetName: String,
-    ): TelegramBotResult<Boolean> = apiClient.setChatStickerSet(
-        chatId,
-        stickerSetName,
-    )
+    ): TelegramBotResult<Boolean> =
+        apiClient.setChatStickerSet(
+            chatId,
+            stickerSetName,
+        )
 
     /**
      * Use this method to delete a group sticker set from a supergroup. The bot must be an
@@ -1428,13 +1469,14 @@ class Bot private constructor(
         showAlert: Boolean? = null,
         url: String? = null,
         cacheTime: Int? = null,
-    ): TelegramBotResult<Boolean> = apiClient.answerCallbackQuery(
-        callbackQueryId,
-        text,
-        showAlert,
-        url,
-        cacheTime,
-    )
+    ): TelegramBotResult<Boolean> =
+        apiClient.answerCallbackQuery(
+            callbackQueryId,
+            text,
+            showAlert,
+            url,
+            cacheTime,
+        )
 
     /**
      * Use this method to log out from the cloud Bot API server before launching the bot locally. You must log out the bot
@@ -1470,16 +1512,17 @@ class Bot private constructor(
         replyMarkup: ReplyMarkup? = null,
         entities: List<MessageEntity>? = null,
         businessConnectionId: String? = null,
-    ) = apiClient.editMessageText(
-        chatId,
-        messageId,
-        inlineMessageId,
-        text,
-        parseMode,
-        replyMarkup,
-        entities,
-        businessConnectionId,
-    ).call()
+    ) = apiClient
+        .editMessageText(
+            chatId,
+            messageId,
+            inlineMessageId,
+            text,
+            parseMode,
+            replyMarkup,
+            entities,
+            businessConnectionId,
+        ).call()
 
     fun editMessageCaption(
         chatId: ChatId? = null,
@@ -1491,17 +1534,18 @@ class Bot private constructor(
         captionEntities: List<MessageEntity>? = null,
         businessConnectionId: String? = null,
         showCaptionAboveMedia: Boolean? = null,
-    ) = apiClient.editMessageCaption(
-        chatId,
-        messageId,
-        inlineMessageId,
-        caption,
-        parseMode,
-        replyMarkup,
-        captionEntities,
-        businessConnectionId,
-        showCaptionAboveMedia,
-    ).call()
+    ) = apiClient
+        .editMessageCaption(
+            chatId,
+            messageId,
+            inlineMessageId,
+            caption,
+            parseMode,
+            replyMarkup,
+            captionEntities,
+            businessConnectionId,
+            showCaptionAboveMedia,
+        ).call()
 
     fun editMessageMedia(
         chatId: ChatId? = null,
@@ -1511,15 +1555,16 @@ class Bot private constructor(
         replyMarkup: ReplyMarkup?,
         businessConnectionId: String? = null,
         showCaptionAboveMedia: Boolean? = null,
-    ) = apiClient.editMessageMedia(
-        chatId,
-        messageId,
-        inlineMessageId,
-        media,
-        replyMarkup,
-        businessConnectionId,
-        showCaptionAboveMedia,
-    ).call()
+    ) = apiClient
+        .editMessageMedia(
+            chatId,
+            messageId,
+            inlineMessageId,
+            media,
+            replyMarkup,
+            businessConnectionId,
+            showCaptionAboveMedia,
+        ).call()
 
     fun editMessageReplyMarkup(
         chatId: ChatId? = null,
@@ -1527,13 +1572,14 @@ class Bot private constructor(
         inlineMessageId: String? = null,
         replyMarkup: ReplyMarkup? = null,
         businessConnectionId: String? = null,
-    ) = apiClient.editMessageReplyMarkup(
-        chatId,
-        messageId,
-        inlineMessageId,
-        replyMarkup,
-        businessConnectionId,
-    ).call()
+    ) = apiClient
+        .editMessageReplyMarkup(
+            chatId,
+            messageId,
+            inlineMessageId,
+            replyMarkup,
+            businessConnectionId,
+        ).call()
 
     /**
      * Use this method to stop a poll which was sent by the bot.
@@ -1549,11 +1595,12 @@ class Bot private constructor(
         chatId: ChatId,
         messageId: Long,
         replyMarkup: InlineKeyboardMarkup? = null,
-    ): TelegramBotResult<Poll> = apiClient.stopPoll(
-        chatId,
-        messageId,
-        replyMarkup,
-    )
+    ): TelegramBotResult<Poll> =
+        apiClient.stopPoll(
+            chatId,
+            messageId,
+            replyMarkup,
+        )
 
     /**
      * Use this method to delete a message, including service messages, with the following limitations:
@@ -1574,10 +1621,11 @@ class Bot private constructor(
     fun deleteMessage(
         chatId: ChatId,
         messageId: Long,
-    ): TelegramBotResult<Boolean> = apiClient.deleteMessage(
-        chatId,
-        messageId,
-    )
+    ): TelegramBotResult<Boolean> =
+        apiClient.deleteMessage(
+            chatId,
+            messageId,
+        )
 
     /***
      * Stickers
@@ -1593,17 +1641,18 @@ class Bot private constructor(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ) = apiClient.sendSticker(
-        chatId,
-        sticker,
-        disableNotification,
-        protectContent,
-        replyMarkup,
-        replyParameters,
-        businessConnectionId,
-        messageEffectId,
-        allowPaidBroadcast,
-    ).call()
+    ) = apiClient
+        .sendSticker(
+            chatId,
+            sticker,
+            disableNotification,
+            protectContent,
+            replyMarkup,
+            replyParameters,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
+        ).call()
 
     fun sendSticker(
         chatId: ChatId,
@@ -1615,17 +1664,18 @@ class Bot private constructor(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ) = apiClient.sendSticker(
-        chatId,
-        sticker,
-        disableNotification,
-        protectContent,
-        replyMarkup,
-        replyParameters,
-        businessConnectionId,
-        messageEffectId,
-        allowPaidBroadcast,
-    ).call()
+    ) = apiClient
+        .sendSticker(
+            chatId,
+            sticker,
+            disableNotification,
+            protectContent,
+            replyMarkup,
+            replyParameters,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
+        ).call()
 
     fun getStickerSet(
         name: String,
@@ -1634,10 +1684,11 @@ class Bot private constructor(
     fun uploadStickerFile(
         userId: Long,
         pngSticker: SystemFile,
-    ) = apiClient.uploadStickerFile(
-        userId,
-        pngSticker,
-    ).call()
+    ) = apiClient
+        .uploadStickerFile(
+            userId,
+            pngSticker,
+        ).call()
 
     fun createNewStickerSet(
         userId: Long,
@@ -1647,15 +1698,16 @@ class Bot private constructor(
         emojis: String,
         containsMasks: Boolean? = null,
         maskPosition: MaskPosition?,
-    ) = apiClient.createNewStickerSet(
-        userId,
-        name,
-        title,
-        pngSticker,
-        emojis,
-        containsMasks,
-        maskPosition,
-    ).call()
+    ) = apiClient
+        .createNewStickerSet(
+            userId,
+            name,
+            title,
+            pngSticker,
+            emojis,
+            containsMasks,
+            maskPosition,
+        ).call()
 
     fun createNewStickerSet(
         userId: Long,
@@ -1665,15 +1717,16 @@ class Bot private constructor(
         emojis: String,
         containsMasks: Boolean? = null,
         maskPosition: MaskPosition?,
-    ) = apiClient.createNewStickerSet(
-        userId,
-        name,
-        title,
-        pngSticker,
-        emojis,
-        containsMasks,
-        maskPosition,
-    ).call()
+    ) = apiClient
+        .createNewStickerSet(
+            userId,
+            name,
+            title,
+            pngSticker,
+            emojis,
+            containsMasks,
+            maskPosition,
+        ).call()
 
     fun addStickerToSet(
         userId: Long,
@@ -1681,13 +1734,14 @@ class Bot private constructor(
         pngSticker: SystemFile,
         emojis: String,
         maskPosition: MaskPosition?,
-    ) = apiClient.addStickerToSet(
-        userId,
-        name,
-        pngSticker,
-        emojis,
-        maskPosition,
-    ).call()
+    ) = apiClient
+        .addStickerToSet(
+            userId,
+            name,
+            pngSticker,
+            emojis,
+            maskPosition,
+        ).call()
 
     fun addStickerToSet(
         userId: Long,
@@ -1695,27 +1749,30 @@ class Bot private constructor(
         pngSticker: String,
         emojis: String,
         maskPosition: MaskPosition?,
-    ) = apiClient.addStickerToSet(
-        userId,
-        name,
-        pngSticker,
-        emojis,
-        maskPosition,
-    ).call()
+    ) = apiClient
+        .addStickerToSet(
+            userId,
+            name,
+            pngSticker,
+            emojis,
+            maskPosition,
+        ).call()
 
     fun setStickerPositionInSet(
         sticker: String,
         position: Int,
-    ) = apiClient.setStickerPositionInSet(
-        sticker,
-        position,
-    ).call()
+    ) = apiClient
+        .setStickerPositionInSet(
+            sticker,
+            position,
+        ).call()
 
     fun deleteStickerFromSet(
         sticker: String,
-    ) = apiClient.deleteStickerFromSet(
-        sticker,
-    ).call()
+    ) = apiClient
+        .deleteStickerFromSet(
+            sticker,
+        ).call()
 
     /**
      * Use this method to send invoices.
@@ -1740,38 +1797,39 @@ class Bot private constructor(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ): TelegramBotResult<Message> = apiClient.sendInvoice(
-        chatId,
-        paymentInvoiceInfo.title,
-        paymentInvoiceInfo.description,
-        paymentInvoiceInfo.payload,
-        paymentInvoiceInfo.providerToken,
-        paymentInvoiceInfo.startParameter,
-        paymentInvoiceInfo.currency,
-        paymentInvoiceInfo.prices,
-        isFlexible = paymentInvoiceInfo.isFlexible,
-        recurring = paymentInvoiceInfo.recurring,
-        maxTipAmount = paymentInvoiceInfo.maxTipAmount,
-        suggestedTipAmounts = paymentInvoiceInfo.suggestedTipAmounts,
-        providerData = paymentInvoiceInfo.providerData,
-        needShippingAddress = paymentInvoiceInfo.invoiceUserDetail?.needShippingAddress,
-        needPhoneNumber = paymentInvoiceInfo.invoiceUserDetail?.needPhoneNumber,
-        needName = paymentInvoiceInfo.invoiceUserDetail?.needName,
-        needEmail = paymentInvoiceInfo.invoiceUserDetail?.needEmail,
-        sendPhoneNumberToProvider = paymentInvoiceInfo.invoiceUserDetail?.sendPhoneNumberToProvider,
-        sendEmailToProvider = paymentInvoiceInfo.invoiceUserDetail?.sendEmailToProvider,
-        photoWidth = paymentInvoiceInfo.invoicePhoto?.photoWidth,
-        photoUrl = paymentInvoiceInfo.invoicePhoto?.photoUrl,
-        photoSize = paymentInvoiceInfo.invoicePhoto?.photoSize,
-        photoHeight = paymentInvoiceInfo.invoicePhoto?.photoHeight,
-        disableNotification = disableNotification,
-        protectContent = protectContent,
-        replyMarkup = replyMarkup,
-        replyParameters = replyParameters,
-        businessConnectionId = businessConnectionId,
-        messageEffectId = messageEffectId,
-        allowPaidBroadcast = allowPaidBroadcast,
-    )
+    ): TelegramBotResult<Message> =
+        apiClient.sendInvoice(
+            chatId,
+            paymentInvoiceInfo.title,
+            paymentInvoiceInfo.description,
+            paymentInvoiceInfo.payload,
+            paymentInvoiceInfo.providerToken,
+            paymentInvoiceInfo.startParameter,
+            paymentInvoiceInfo.currency,
+            paymentInvoiceInfo.prices,
+            isFlexible = paymentInvoiceInfo.isFlexible,
+            recurring = paymentInvoiceInfo.recurring,
+            maxTipAmount = paymentInvoiceInfo.maxTipAmount,
+            suggestedTipAmounts = paymentInvoiceInfo.suggestedTipAmounts,
+            providerData = paymentInvoiceInfo.providerData,
+            needShippingAddress = paymentInvoiceInfo.invoiceUserDetail?.needShippingAddress,
+            needPhoneNumber = paymentInvoiceInfo.invoiceUserDetail?.needPhoneNumber,
+            needName = paymentInvoiceInfo.invoiceUserDetail?.needName,
+            needEmail = paymentInvoiceInfo.invoiceUserDetail?.needEmail,
+            sendPhoneNumberToProvider = paymentInvoiceInfo.invoiceUserDetail?.sendPhoneNumberToProvider,
+            sendEmailToProvider = paymentInvoiceInfo.invoiceUserDetail?.sendEmailToProvider,
+            photoWidth = paymentInvoiceInfo.invoicePhoto?.photoWidth,
+            photoUrl = paymentInvoiceInfo.invoicePhoto?.photoUrl,
+            photoSize = paymentInvoiceInfo.invoicePhoto?.photoSize,
+            photoHeight = paymentInvoiceInfo.invoicePhoto?.photoHeight,
+            disableNotification = disableNotification,
+            protectContent = protectContent,
+            replyMarkup = replyMarkup,
+            replyParameters = replyParameters,
+            businessConnectionId = businessConnectionId,
+            messageEffectId = messageEffectId,
+            allowPaidBroadcast = allowPaidBroadcast,
+        )
 
     /**
      * If you sent an invoice requesting a shipping address and the parameter is_flexible was
@@ -1793,12 +1851,13 @@ class Bot private constructor(
         ok: Boolean,
         shippingOptions: List<ShippingOption>? = null,
         errorMessage: String? = null,
-    ): TelegramBotResult<Boolean> = apiClient.answerShippingQuery(
-        shippingQueryId,
-        ok,
-        shippingOptions,
-        errorMessage,
-    )
+    ): TelegramBotResult<Boolean> =
+        apiClient.answerShippingQuery(
+            shippingQueryId,
+            ok,
+            shippingOptions,
+            errorMessage,
+        )
 
     /**
      * Once the user has confirmed their payment and shipping details, the Bot API sends the final
@@ -1821,11 +1880,12 @@ class Bot private constructor(
         preCheckoutQueryId: String,
         ok: Boolean,
         errorMessage: String? = null,
-    ): TelegramBotResult<Boolean> = apiClient.answerPreCheckoutQuery(
-        preCheckoutQueryId,
-        ok,
-        errorMessage,
-    )
+    ): TelegramBotResult<Boolean> =
+        apiClient.answerPreCheckoutQuery(
+            preCheckoutQueryId,
+            ok,
+            errorMessage,
+        )
 
     /**
      * Refunds a successful payment in Telegram Stars. Returns True on success.
@@ -1838,10 +1898,11 @@ class Bot private constructor(
     fun refundStarPayment(
         userId: Long,
         telegramPaymentChargeId: String,
-    ): TelegramBotResult<Boolean> = apiClient.refundStarPayment(
-        userId,
-        telegramPaymentChargeId,
-    )
+    ): TelegramBotResult<Boolean> =
+        apiClient.refundStarPayment(
+            userId,
+            telegramPaymentChargeId,
+        )
 
     /**
      * Use this method to send answers to an inline query. No more than 50 results per query are allowed.
@@ -1876,15 +1937,16 @@ class Bot private constructor(
         nextOffset: String? = null,
         switchPmText: String? = null,
         switchPmParameter: String? = null,
-    ): TelegramBotResult<Boolean> = answerInlineQuery(
-        inlineQueryId,
-        inlineQueryResults.toList(),
-        cacheTime,
-        isPersonal,
-        nextOffset,
-        switchPmText,
-        switchPmParameter,
-    )
+    ): TelegramBotResult<Boolean> =
+        answerInlineQuery(
+            inlineQueryId,
+            inlineQueryResults.toList(),
+            cacheTime,
+            isPersonal,
+            nextOffset,
+            switchPmText,
+            switchPmParameter,
+        )
 
     /**
      * Use this method to send answers to an inline query. No more than 50 results per query are allowed.
@@ -1919,15 +1981,16 @@ class Bot private constructor(
         nextOffset: String? = null,
         switchPmText: String? = null,
         switchPmParameter: String? = null,
-    ): TelegramBotResult<Boolean> = apiClient.answerInlineQuery(
-        inlineQueryId,
-        inlineQueryResults,
-        cacheTime,
-        isPersonal,
-        nextOffset,
-        switchPmText,
-        switchPmParameter,
-    )
+    ): TelegramBotResult<Boolean> =
+        apiClient.answerInlineQuery(
+            inlineQueryId,
+            inlineQueryResults,
+            cacheTime,
+            isPersonal,
+            nextOffset,
+            switchPmText,
+            switchPmParameter,
+        )
 
     /**
      * Use this method to set the result of an interaction with a Web App and send a corresponding
@@ -1939,10 +2002,11 @@ class Bot private constructor(
     fun answerWebAppQuery(
         webAppQueryId: String,
         inlineQueryResult: InlineQueryResult,
-    ): TelegramBotResult<SentWebAppMessage> = apiClient.answerWebAppQuery(
-        webAppQueryId,
-        inlineQueryResult,
-    )
+    ): TelegramBotResult<SentWebAppMessage> =
+        apiClient.answerWebAppQuery(
+            webAppQueryId,
+            inlineQueryResult,
+        )
 
     /**
      * Use this method to get the current list of the bot's commands.
@@ -1986,17 +2050,18 @@ class Bot private constructor(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ): TelegramBotResult<Message> = apiClient.sendDice(
-        chatId,
-        emoji,
-        protectContent,
-        disableNotification,
-        replyMarkup,
-        replyParameters,
-        businessConnectionId,
-        messageEffectId,
-        allowPaidBroadcast,
-    )
+    ): TelegramBotResult<Message> =
+        apiClient.sendDice(
+            chatId,
+            emoji,
+            protectContent,
+            disableNotification,
+            replyMarkup,
+            replyParameters,
+            businessConnectionId,
+            messageEffectId,
+            allowPaidBroadcast,
+        )
 
     /**
      * Use this method to set a custom title for an administrator in a supergroup promoted by the bot.
@@ -2011,33 +2076,40 @@ class Bot private constructor(
         chatId: ChatId,
         userId: Long,
         customTitle: String,
-    ): TelegramBotResult<Boolean> = apiClient.setChatAdministratorCustomTitle(
-        chatId,
-        userId,
-        customTitle,
-    )
+    ): TelegramBotResult<Boolean> =
+        apiClient.setChatAdministratorCustomTitle(
+            chatId,
+            userId,
+            customTitle,
+        )
 
     fun setMessageReaction(
         chatId: ChatId,
         messageId: Long,
         reaction: List<ReactionType>,
         isBig: Boolean = false,
-    ): TelegramBotResult<Boolean> = apiClient.setMessageReaction(
-        chatId = chatId,
-        messageId = messageId,
-        reaction = reaction,
-        isBig = isBig,
-    )
+    ): TelegramBotResult<Boolean> =
+        apiClient.setMessageReaction(
+            chatId = chatId,
+            messageId = messageId,
+            reaction = reaction,
+            isBig = isBig,
+        )
 
     // --- Bot API 10.0 reaction deletion ---
 
     /** Removes the bot's reaction (or another user's, if specified) from a specific message. */
-    fun deleteMessageReaction(chatId: ChatId, messageId: Long, userId: Long? = null): TelegramBotResult<Boolean> =
-        apiClient.deleteMessageReaction(chatId, messageId, userId)
+    fun deleteMessageReaction(
+        chatId: ChatId,
+        messageId: Long,
+        userId: Long? = null,
+    ): TelegramBotResult<Boolean> = apiClient.deleteMessageReaction(chatId, messageId, userId)
 
     /** Removes every reaction from a message. Requires `can_manage_chat`. */
-    fun deleteAllMessageReactions(chatId: ChatId, messageId: Long): TelegramBotResult<Boolean> =
-        apiClient.deleteAllMessageReactions(chatId, messageId)
+    fun deleteAllMessageReactions(
+        chatId: ChatId,
+        messageId: Long,
+    ): TelegramBotResult<Boolean> = apiClient.deleteAllMessageReactions(chatId, messageId)
 
     // --- Bot API 7.5 / 7.6 — Stars + paid media ---
 
@@ -2045,8 +2117,7 @@ class Bot private constructor(
     fun getStarTransactions(
         offset: Long? = null,
         limit: Int? = null,
-    ): TelegramBotResult<com.github.kotlintelegrambot.entities.payments.StarTransactions> =
-        apiClient.getStarTransactions(offset, limit)
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.payments.StarTransactions> = apiClient.getStarTransactions(offset, limit)
 
     /** Sends paid media to the chat (Bot API 7.6). */
     fun sendPaidMedia(
@@ -2063,17 +2134,27 @@ class Bot private constructor(
         replyParameters: ReplyParameters? = null,
         businessConnectionId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ): TelegramBotResult<Message> = apiClient.sendPaidMedia(
-        chatId, starCount, media, payload, caption, parseMode, captionEntities,
-        showCaptionAboveMedia, disableNotification, protectContent, replyParameters,
-        businessConnectionId, allowPaidBroadcast,
-    )
+    ): TelegramBotResult<Message> =
+        apiClient.sendPaidMedia(
+            chatId,
+            starCount,
+            media,
+            payload,
+            caption,
+            parseMode,
+            captionEntities,
+            showCaptionAboveMedia,
+            disableNotification,
+            protectContent,
+            replyParameters,
+            businessConnectionId,
+            allowPaidBroadcast,
+        )
 
     // --- Bot API 8.0 — Gifts ---
 
     /** Returns the list of gifts that can be sent by the bot to users and channel chats (Bot API 8.0). */
-    fun getAvailableGifts(): TelegramBotResult<com.github.kotlintelegrambot.entities.gifts.Gifts> =
-        apiClient.getAvailableGifts()
+    fun getAvailableGifts(): TelegramBotResult<com.github.kotlintelegrambot.entities.gifts.Gifts> = apiClient.getAvailableGifts()
 
     /** Sends a gift to the given user or channel chat. */
     fun sendGift(
@@ -2084,8 +2165,7 @@ class Bot private constructor(
         text: String? = null,
         textParseMode: ParseMode? = null,
         textEntities: List<MessageEntity>? = null,
-    ): TelegramBotResult<Boolean> =
-        apiClient.sendGift(giftId, userId, chatId, payForUpgrade, text, textParseMode, textEntities)
+    ): TelegramBotResult<Boolean> = apiClient.sendGift(giftId, userId, chatId, payForUpgrade, text, textParseMode, textEntities)
 
     /** Gifts a Telegram Premium subscription to the given user. */
     fun giftPremiumSubscription(
@@ -2095,25 +2175,27 @@ class Bot private constructor(
         text: String? = null,
         textParseMode: ParseMode? = null,
         textEntities: List<MessageEntity>? = null,
-    ): TelegramBotResult<Boolean> = apiClient.giftPremiumSubscription(
-        userId,
-        monthCount,
-        starCount,
-        text,
-        textParseMode,
-        textEntities,
-    )
+    ): TelegramBotResult<Boolean> =
+        apiClient.giftPremiumSubscription(
+            userId,
+            monthCount,
+            starCount,
+            text,
+            textParseMode,
+            textEntities,
+        )
 
     /** Changes the emoji status for a user previously authorised to use the bot. */
     fun setUserEmojiStatus(
         userId: Long,
         emojiStatusCustomEmojiId: String? = null,
         emojiStatusExpirationDate: Long? = null,
-    ): TelegramBotResult<Boolean> = apiClient.setUserEmojiStatus(
-        userId,
-        emojiStatusCustomEmojiId,
-        emojiStatusExpirationDate,
-    )
+    ): TelegramBotResult<Boolean> =
+        apiClient.setUserEmojiStatus(
+            userId,
+            emojiStatusCustomEmojiId,
+            emojiStatusExpirationDate,
+        )
 
     /** Stores a message that can be sent by a user of a Mini App. */
     fun savePreparedInlineMessage(
@@ -2136,20 +2218,22 @@ class Bot private constructor(
     // --- Bot API 8.2 — Verification ---
 
     /** Verifies a user on behalf of the organisation which is represented by the bot. */
-    fun verifyUser(userId: Long, customDescription: String? = null): TelegramBotResult<Boolean> =
-        apiClient.verifyUser(userId, customDescription)
+    fun verifyUser(
+        userId: Long,
+        customDescription: String? = null,
+    ): TelegramBotResult<Boolean> = apiClient.verifyUser(userId, customDescription)
 
     /** Verifies a chat on behalf of the organisation which is represented by the bot. */
-    fun verifyChat(chatId: ChatId, customDescription: String? = null): TelegramBotResult<Boolean> =
-        apiClient.verifyChat(chatId, customDescription)
+    fun verifyChat(
+        chatId: ChatId,
+        customDescription: String? = null,
+    ): TelegramBotResult<Boolean> = apiClient.verifyChat(chatId, customDescription)
 
     /** Removes verification from a user. */
-    fun removeUserVerification(userId: Long): TelegramBotResult<Boolean> =
-        apiClient.removeUserVerification(userId)
+    fun removeUserVerification(userId: Long): TelegramBotResult<Boolean> = apiClient.removeUserVerification(userId)
 
     /** Removes verification from a chat. */
-    fun removeChatVerification(chatId: ChatId): TelegramBotResult<Boolean> =
-        apiClient.removeChatVerification(chatId)
+    fun removeChatVerification(chatId: ChatId): TelegramBotResult<Boolean> = apiClient.removeChatVerification(chatId)
 
     // --- Bot API 9.0 — Business account management ---
 
@@ -2184,29 +2268,27 @@ class Bot private constructor(
         businessConnectionId: String,
         photo: com.github.kotlintelegrambot.entities.InputProfilePhoto,
         isPublic: Boolean? = null,
-    ): TelegramBotResult<Boolean> =
-        apiClient.setBusinessAccountProfilePhoto(businessConnectionId, photo, isPublic)
+    ): TelegramBotResult<Boolean> = apiClient.setBusinessAccountProfilePhoto(businessConnectionId, photo, isPublic)
 
     fun removeBusinessAccountProfilePhoto(
         businessConnectionId: String,
         isPublic: Boolean? = null,
-    ): TelegramBotResult<Boolean> =
-        apiClient.removeBusinessAccountProfilePhoto(businessConnectionId, isPublic)
+    ): TelegramBotResult<Boolean> = apiClient.removeBusinessAccountProfilePhoto(businessConnectionId, isPublic)
 
     fun setBusinessAccountGiftSettings(
         businessConnectionId: String,
         showGiftButton: Boolean,
         acceptedGiftTypes: com.github.kotlintelegrambot.entities.gifts.AcceptedGiftTypes,
-    ): TelegramBotResult<Boolean> = apiClient.setBusinessAccountGiftSettings(
-        businessConnectionId,
-        showGiftButton,
-        acceptedGiftTypes,
-    )
+    ): TelegramBotResult<Boolean> =
+        apiClient.setBusinessAccountGiftSettings(
+            businessConnectionId,
+            showGiftButton,
+            acceptedGiftTypes,
+        )
 
     fun getBusinessAccountStarBalance(
         businessConnectionId: String,
-    ): TelegramBotResult<com.github.kotlintelegrambot.entities.payments.StarAmount> =
-        apiClient.getBusinessAccountStarBalance(businessConnectionId)
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.payments.StarAmount> = apiClient.getBusinessAccountStarBalance(businessConnectionId)
 
     fun transferBusinessAccountStars(
         businessConnectionId: String,
@@ -2225,8 +2307,15 @@ class Bot private constructor(
         limit: Int? = null,
     ): TelegramBotResult<com.github.kotlintelegrambot.entities.gifts.OwnedGifts> =
         apiClient.getBusinessAccountGifts(
-            businessConnectionId, excludeUnsaved, excludeSaved, excludeUnlimited,
-            excludeLimited, excludeUnique, sortByPrice, offset, limit,
+            businessConnectionId,
+            excludeUnsaved,
+            excludeSaved,
+            excludeUnlimited,
+            excludeLimited,
+            excludeUnique,
+            sortByPrice,
+            offset,
+            limit,
         )
 
     fun convertGiftToStars(
@@ -2239,16 +2328,14 @@ class Bot private constructor(
         ownedGiftId: String,
         keepOriginalDetails: Boolean? = null,
         starCount: Int? = null,
-    ): TelegramBotResult<Boolean> =
-        apiClient.upgradeGift(businessConnectionId, ownedGiftId, keepOriginalDetails, starCount)
+    ): TelegramBotResult<Boolean> = apiClient.upgradeGift(businessConnectionId, ownedGiftId, keepOriginalDetails, starCount)
 
     fun transferGift(
         businessConnectionId: String,
         ownedGiftId: String,
         newOwnerChatId: Long,
         starCount: Int? = null,
-    ): TelegramBotResult<Boolean> =
-        apiClient.transferGift(businessConnectionId, ownedGiftId, newOwnerChatId, starCount)
+    ): TelegramBotResult<Boolean> = apiClient.transferGift(businessConnectionId, ownedGiftId, newOwnerChatId, starCount)
 
     fun postStory(
         businessConnectionId: String,
@@ -2260,10 +2347,18 @@ class Bot private constructor(
         areas: List<com.github.kotlintelegrambot.entities.stories.StoryArea>? = null,
         postToChatPage: Boolean? = null,
         protectContent: Boolean? = null,
-    ): TelegramBotResult<com.github.kotlintelegrambot.entities.Story> = apiClient.postStory(
-        businessConnectionId, content, activePeriod, caption, parseMode, captionEntities,
-        areas, postToChatPage, protectContent,
-    )
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.Story> =
+        apiClient.postStory(
+            businessConnectionId,
+            content,
+            activePeriod,
+            caption,
+            parseMode,
+            captionEntities,
+            areas,
+            postToChatPage,
+            protectContent,
+        )
 
     fun editStory(
         businessConnectionId: String,
@@ -2273,15 +2368,16 @@ class Bot private constructor(
         parseMode: ParseMode? = null,
         captionEntities: List<MessageEntity>? = null,
         areas: List<com.github.kotlintelegrambot.entities.stories.StoryArea>? = null,
-    ): TelegramBotResult<com.github.kotlintelegrambot.entities.Story> = apiClient.editStory(
-        businessConnectionId,
-        storyId,
-        content,
-        caption,
-        parseMode,
-        captionEntities,
-        areas,
-    )
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.Story> =
+        apiClient.editStory(
+            businessConnectionId,
+            storyId,
+            content,
+            caption,
+            parseMode,
+            captionEntities,
+            areas,
+        )
 
     fun deleteStory(
         businessConnectionId: String,
@@ -2300,16 +2396,17 @@ class Bot private constructor(
         messageEffectId: String? = null,
         replyParameters: ReplyParameters? = null,
         replyMarkup: ReplyMarkup? = null,
-    ): TelegramBotResult<Message> = apiClient.sendChecklist(
-        businessConnectionId,
-        chatId,
-        checklist,
-        disableNotification,
-        protectContent,
-        messageEffectId,
-        replyParameters,
-        replyMarkup,
-    )
+    ): TelegramBotResult<Message> =
+        apiClient.sendChecklist(
+            businessConnectionId,
+            chatId,
+            checklist,
+            disableNotification,
+            protectContent,
+            messageEffectId,
+            replyParameters,
+            replyMarkup,
+        )
 
     /** Edits a checklist on behalf of a connected business account. */
     fun editMessageChecklist(
@@ -2318,17 +2415,17 @@ class Bot private constructor(
         messageId: Long,
         checklist: com.github.kotlintelegrambot.entities.checklists.InputChecklist,
         replyMarkup: ReplyMarkup? = null,
-    ): TelegramBotResult<Message> = apiClient.editMessageChecklist(
-        businessConnectionId,
-        chatId,
-        messageId,
-        checklist,
-        replyMarkup,
-    )
+    ): TelegramBotResult<Message> =
+        apiClient.editMessageChecklist(
+            businessConnectionId,
+            chatId,
+            messageId,
+            checklist,
+            replyMarkup,
+        )
 
     /** Returns the current Telegram Star balance of the bot (Bot API 9.1). */
-    fun getMyStarBalance(): TelegramBotResult<com.github.kotlintelegrambot.entities.payments.StarAmount> =
-        apiClient.getMyStarBalance()
+    fun getMyStarBalance(): TelegramBotResult<com.github.kotlintelegrambot.entities.payments.StarAmount> = apiClient.getMyStarBalance()
 
     // --- Bot API 9.2 — Suggested posts ---
 
@@ -2351,6 +2448,5 @@ class Bot private constructor(
         text: String? = null,
         parseMode: ParseMode? = null,
         entities: List<MessageEntity>? = null,
-    ): TelegramBotResult<com.github.kotlintelegrambot.entities.guest.SentGuestMessage> =
-        apiClient.answerGuestQuery(guestQueryId, text, parseMode, entities)
+    ): TelegramBotResult<com.github.kotlintelegrambot.entities.guest.SentGuestMessage> = apiClient.answerGuestQuery(guestQueryId, text, parseMode, entities)
 }

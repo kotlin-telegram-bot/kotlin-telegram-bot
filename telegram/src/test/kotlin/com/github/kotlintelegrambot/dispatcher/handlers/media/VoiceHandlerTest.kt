@@ -13,7 +13,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class VoiceHandlerTest {
-
     private val handleVoiceMock = mockk<HandleVoice>(relaxed = true)
 
     private val sut = VoiceHandler(handleVoiceMock)
@@ -37,20 +36,22 @@ class VoiceHandlerTest {
     }
 
     @Test
-    fun `voice is properly dispatched to the handler function`() = runTest {
-        val botMock = mockk<Bot>()
-        val anyVoice = anyVoice()
-        val anyMessageWithVoice = anyMessage(voice = anyVoice)
-        val anyUpdateWithVoice = anyUpdate(message = anyMessageWithVoice)
+    fun `voice is properly dispatched to the handler function`() =
+        runTest {
+            val botMock = mockk<Bot>()
+            val anyVoice = anyVoice()
+            val anyMessageWithVoice = anyMessage(voice = anyVoice)
+            val anyUpdateWithVoice = anyUpdate(message = anyMessageWithVoice)
 
-        sut.handleUpdate(botMock, anyUpdateWithVoice)
+            sut.handleUpdate(botMock, anyUpdateWithVoice)
 
-        val expectedVoiceHandlerEnv = MediaHandlerEnvironment(
-            botMock,
-            anyUpdateWithVoice,
-            anyMessageWithVoice,
-            anyVoice,
-        )
-        coVerify { handleVoiceMock.invoke(expectedVoiceHandlerEnv) }
-    }
+            val expectedVoiceHandlerEnv =
+                MediaHandlerEnvironment(
+                    botMock,
+                    anyUpdateWithVoice,
+                    anyMessageWithVoice,
+                    anyVoice,
+                )
+            coVerify { handleVoiceMock.invoke(expectedVoiceHandlerEnv) }
+        }
 }

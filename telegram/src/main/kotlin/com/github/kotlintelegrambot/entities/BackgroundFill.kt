@@ -8,7 +8,6 @@ import com.google.gson.annotations.SerializedName
  * See https://core.telegram.org/bots/api#backgroundfill
  */
 sealed class BackgroundFill {
-
     /** Discriminator value sent on the wire as the `type` field. */
     abstract val type: String
 

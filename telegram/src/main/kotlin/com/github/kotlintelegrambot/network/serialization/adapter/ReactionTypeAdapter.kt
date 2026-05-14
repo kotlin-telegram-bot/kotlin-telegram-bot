@@ -12,16 +12,16 @@ import java.lang.reflect.Type
 internal class ReactionTypeAdapter :
     JsonSerializer<ReactionType>,
     JsonDeserializer<ReactionType> {
-
     override fun serialize(
         src: ReactionType,
         typeOfSrc: Type,
         context: JsonSerializationContext,
-    ): JsonElement = when (src) {
-        is ReactionType.Custom -> context.serialize(src, ReactionType.Custom::class.java)
-        is ReactionType.Emoji -> context.serialize(src, ReactionType.Emoji::class.java)
-        is ReactionType.Paid -> context.serialize(src, ReactionType.Paid::class.java)
-    }
+    ): JsonElement =
+        when (src) {
+            is ReactionType.Custom -> context.serialize(src, ReactionType.Custom::class.java)
+            is ReactionType.Emoji -> context.serialize(src, ReactionType.Emoji::class.java)
+            is ReactionType.Paid -> context.serialize(src, ReactionType.Paid::class.java)
+        }
 
     override fun deserialize(
         json: JsonElement,

@@ -11,7 +11,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class PreCheckoutQueryHandlerTest {
-
     private val handlePreCheckoutQueryMock = mockk<HandlePreCheckoutQuery>(relaxed = true)
 
     private val sut = PreCheckoutQueryHandler(handlePreCheckoutQueryMock)
@@ -35,18 +34,20 @@ class PreCheckoutQueryHandlerTest {
     }
 
     @Test
-    fun `pre checkout query is properly dispatched to the handler function`() = runTest {
-        val botMock = mockk<Bot>()
-        val anyPreCheckoutQuery = anyPreCheckoutQuery()
-        val anyUpdateWithPreCheckoutQuery = anyUpdate(preCheckoutQuery = anyPreCheckoutQuery)
+    fun `pre checkout query is properly dispatched to the handler function`() =
+        runTest {
+            val botMock = mockk<Bot>()
+            val anyPreCheckoutQuery = anyPreCheckoutQuery()
+            val anyUpdateWithPreCheckoutQuery = anyUpdate(preCheckoutQuery = anyPreCheckoutQuery)
 
-        sut.handleUpdate(botMock, anyUpdateWithPreCheckoutQuery)
+            sut.handleUpdate(botMock, anyUpdateWithPreCheckoutQuery)
 
-        val expectedPreCheckoutQueryHandlerEnv = PreCheckoutQueryHandlerEnvironment(
-            botMock,
-            anyUpdateWithPreCheckoutQuery,
-            anyPreCheckoutQuery,
-        )
-        coVerify { handlePreCheckoutQueryMock.invoke(expectedPreCheckoutQueryHandlerEnv) }
-    }
+            val expectedPreCheckoutQueryHandlerEnv =
+                PreCheckoutQueryHandlerEnvironment(
+                    botMock,
+                    anyUpdateWithPreCheckoutQuery,
+                    anyPreCheckoutQuery,
+                )
+            coVerify { handlePreCheckoutQueryMock.invoke(expectedPreCheckoutQueryHandlerEnv) }
+        }
 }

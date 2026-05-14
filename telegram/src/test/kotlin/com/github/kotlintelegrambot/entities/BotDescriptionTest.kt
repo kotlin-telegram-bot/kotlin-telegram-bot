@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class BotDescriptionTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
@@ -13,7 +12,8 @@ class BotDescriptionTest {
         assertThat(gson.fromJson("""{"description":"A bot"}""", BotDescription::class.java).description)
             .isEqualTo("A bot")
         assertThat(
-            gson.fromJson("""{"short_description":"Short"}""", BotShortDescription::class.java)
+            gson
+                .fromJson("""{"short_description":"Short"}""", BotShortDescription::class.java)
                 .shortDescription,
         ).isEqualTo("Short")
         assertThat(gson.fromJson("""{"name":"My Bot"}""", BotName::class.java).name)

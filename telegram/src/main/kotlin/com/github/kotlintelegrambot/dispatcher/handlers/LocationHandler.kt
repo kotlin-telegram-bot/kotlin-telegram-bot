@@ -15,21 +15,22 @@ data class LocationHandlerEnvironment(
 class LocationHandler(
     private val handleLocation: HandleLocation,
 ) : Handler {
+    override fun checkUpdate(update: Update): Boolean = update.message?.location != null
 
-    override fun checkUpdate(update: Update): Boolean {
-        return update.message?.location != null
-    }
-
-    override suspend fun handleUpdate(bot: Bot, update: Update) {
+    override suspend fun handleUpdate(
+        bot: Bot,
+        update: Update,
+    ) {
         checkNotNull(update.message)
         checkNotNull(update.message.location)
 
-        val locationHandlerEnv = LocationHandlerEnvironment(
-            bot,
-            update,
-            update.message,
-            update.message.location,
-        )
+        val locationHandlerEnv =
+            LocationHandlerEnvironment(
+                bot,
+                update,
+                update.message,
+                update.message.location,
+            )
         handleLocation(locationHandlerEnv)
     }
 }

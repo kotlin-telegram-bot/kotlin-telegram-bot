@@ -8,13 +8,12 @@ import com.github.kotlintelegrambot.entities.stickers.Sticker
 class StickerHandler(
     handleSticker: HandleSticker,
 ) : MediaHandler<Sticker>(
-    handleSticker,
-    StickerHandlerFunctions::mapMessageToSticker,
-    StickerHandlerFunctions::isUpdateSticker,
-)
+        handleSticker,
+        StickerHandlerFunctions::mapMessageToSticker,
+        StickerHandlerFunctions::isUpdateSticker,
+    )
 
 private object StickerHandlerFunctions {
-
     fun mapMessageToSticker(message: Message): Sticker {
         val sticker = message.sticker
         checkNotNull(sticker)

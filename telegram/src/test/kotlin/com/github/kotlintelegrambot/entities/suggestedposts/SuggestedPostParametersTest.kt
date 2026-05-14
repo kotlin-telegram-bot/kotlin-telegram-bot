@@ -5,14 +5,14 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class SuggestedPostParametersTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
     fun `deserializes SuggestedPostParameters with all fields`() {
-        val json = """
+        val json =
+            """
             {"price":{"currency":"XTR","amount":100},"send_date":1700000000}
-        """.trimIndent()
+            """.trimIndent()
 
         val params = gson.fromJson(json, SuggestedPostParameters::class.java)
 

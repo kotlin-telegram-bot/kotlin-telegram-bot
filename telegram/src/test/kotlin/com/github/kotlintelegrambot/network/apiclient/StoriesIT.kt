@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test
  * Wire-format coverage for Bot API 9.0 story methods.
  */
 class StoriesIT : ApiClientIT() {
-
     @Test
     fun `postStory posts business_connection_id, serialized content and active_period`() {
         mockWebServer.enqueue(

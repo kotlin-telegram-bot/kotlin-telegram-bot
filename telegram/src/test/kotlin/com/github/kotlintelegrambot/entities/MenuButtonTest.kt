@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class MenuButtonTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
@@ -40,10 +39,11 @@ class MenuButtonTest {
     @Test
     fun `MenuButton adapter dispatches by 'type' discriminator`() {
         val commands = gson.fromJson("""{"type":"commands"}""", MenuButton::class.java)
-        val webApp = gson.fromJson(
-            """{"type":"web_app","text":"Launch","web_app":{"url":"https://example.com/app"}}""",
-            MenuButton::class.java,
-        )
+        val webApp =
+            gson.fromJson(
+                """{"type":"web_app","text":"Launch","web_app":{"url":"https://example.com/app"}}""",
+                MenuButton::class.java,
+            )
         val default = gson.fromJson("""{"type":"default"}""", MenuButton::class.java)
 
         assertThat(commands).isInstanceOf(MenuButton.Commands::class.java)
@@ -54,10 +54,13 @@ class MenuButtonTest {
 
     @Test
     fun `serializes MenuButtonWebApp using snake_case fields`() {
-        val button = MenuButton.WebApp(
-            text = "Open",
-            webApp = com.github.kotlintelegrambot.entities.keyboard.WebAppInfo("https://example.com/app"),
-        )
+        val button =
+            MenuButton.WebApp(
+                text = "Open",
+                webApp =
+                    com.github.kotlintelegrambot.entities.keyboard
+                        .WebAppInfo("https://example.com/app"),
+            )
 
         val json = gson.toJson(button)
 

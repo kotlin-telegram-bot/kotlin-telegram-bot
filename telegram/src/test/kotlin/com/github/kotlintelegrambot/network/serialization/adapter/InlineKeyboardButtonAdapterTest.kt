@@ -8,18 +8,20 @@ import junit.framework.TestCase.assertEquals
 import org.junit.jupiter.api.Test
 
 class InlineKeyboardButtonAdapterTest {
-
-    private val sut = GsonBuilder().registerTypeAdapter(
-        InlineKeyboardButton::class.java,
-        InlineKeyboardButtonAdapter(),
-    ).create()
+    private val sut =
+        GsonBuilder()
+            .registerTypeAdapter(
+                InlineKeyboardButton::class.java,
+                InlineKeyboardButtonAdapter(),
+            ).create()
 
     @Test
     fun `serialize and deserialize inline keyboard url button`() {
-        val urlButton = InlineKeyboardButton.Url(
-            text = ANY_TEXT,
-            url = ANY_URL,
-        )
+        val urlButton =
+            InlineKeyboardButton.Url(
+                text = ANY_TEXT,
+                url = ANY_URL,
+            )
         val urlButtonJson = """{"text":"$ANY_TEXT","url":"$ANY_URL"}"""
 
         val actualUrlButton = sut.fromJson(urlButtonJson, InlineKeyboardButton::class.java)
@@ -31,16 +33,18 @@ class InlineKeyboardButtonAdapterTest {
 
     @Test
     fun `serialize and deserialize inline keyboard callback data button`() {
-        val callbackDataButton = InlineKeyboardButton.CallbackData(
-            text = ANY_TEXT,
-            callbackData = ANY_CALLBACK_DATA,
-        )
+        val callbackDataButton =
+            InlineKeyboardButton.CallbackData(
+                text = ANY_TEXT,
+                callbackData = ANY_CALLBACK_DATA,
+            )
         val callbackDataButtonJson = """{"text":"$ANY_TEXT","callback_data":"$ANY_CALLBACK_DATA"}"""
 
-        val actualCallbackDataButton = sut.fromJson(
-            callbackDataButtonJson,
-            InlineKeyboardButton::class.java,
-        )
+        val actualCallbackDataButton =
+            sut.fromJson(
+                callbackDataButtonJson,
+                InlineKeyboardButton::class.java,
+            )
         val actualCallbackDataButtonJson = sut.toJson(callbackDataButton)
 
         assertEquals(callbackDataButton, actualCallbackDataButton)
@@ -49,17 +53,19 @@ class InlineKeyboardButtonAdapterTest {
 
     @Test
     fun `serialize and deserialize inline keyboard switch inline query button`() {
-        val switchInlineQueryButton = InlineKeyboardButton.SwitchInlineQuery(
-            text = ANY_TEXT,
-            switchInlineQuery = ANY_SWITCH_INLINE_QUERY,
-        )
+        val switchInlineQueryButton =
+            InlineKeyboardButton.SwitchInlineQuery(
+                text = ANY_TEXT,
+                switchInlineQuery = ANY_SWITCH_INLINE_QUERY,
+            )
         val switchInlineQueryButtonJson =
             """{"text":"$ANY_TEXT","switch_inline_query":"$ANY_SWITCH_INLINE_QUERY"}"""
 
-        val actualSwitchInlineQueryButton = sut.fromJson(
-            switchInlineQueryButtonJson,
-            InlineKeyboardButton::class.java,
-        )
+        val actualSwitchInlineQueryButton =
+            sut.fromJson(
+                switchInlineQueryButtonJson,
+                InlineKeyboardButton::class.java,
+            )
         val actualSwitchInlineQueryButtonJson = sut.toJson(switchInlineQueryButton)
 
         assertEquals(switchInlineQueryButton, actualSwitchInlineQueryButton)
@@ -68,20 +74,23 @@ class InlineKeyboardButtonAdapterTest {
 
     @Test
     fun `serialize and deserialize inline keyboard switch inline query current chat button`() {
-        val switchInlineQueryCurrentChatButton = InlineKeyboardButton.SwitchInlineQueryCurrentChat(
-            text = ANY_TEXT,
-            switchInlineQueryCurrentChat = ANY_SWITCH_INLINE_QUERY,
-        )
+        val switchInlineQueryCurrentChatButton =
+            InlineKeyboardButton.SwitchInlineQueryCurrentChat(
+                text = ANY_TEXT,
+                switchInlineQueryCurrentChat = ANY_SWITCH_INLINE_QUERY,
+            )
         val switchInlineQueryCurrentChatButtonJson =
             """{"text":"$ANY_TEXT","switch_inline_query_current_chat":"$ANY_SWITCH_INLINE_QUERY"}"""
 
-        val actualSwitchInlineQueryCurrentChatButton = sut.fromJson(
-            switchInlineQueryCurrentChatButtonJson,
-            InlineKeyboardButton::class.java,
-        )
-        val actualSwitchInlineQueryCurrentChatJsonButton = sut.toJson(
-            switchInlineQueryCurrentChatButton,
-        )
+        val actualSwitchInlineQueryCurrentChatButton =
+            sut.fromJson(
+                switchInlineQueryCurrentChatButtonJson,
+                InlineKeyboardButton::class.java,
+            )
+        val actualSwitchInlineQueryCurrentChatJsonButton =
+            sut.toJson(
+                switchInlineQueryCurrentChatButton,
+            )
 
         assertEquals(switchInlineQueryCurrentChatButton, actualSwitchInlineQueryCurrentChatButton)
         assertEquals(switchInlineQueryCurrentChatButtonJson, actualSwitchInlineQueryCurrentChatJsonButton)
@@ -101,20 +110,23 @@ class InlineKeyboardButtonAdapterTest {
 
     @Test
     fun `serialize and deserialize inline keyboard web app button`() {
-        val webAppButton = InlineKeyboardButton.WebApp(
-            text = ANY_TEXT,
-            webApp = WebAppInfo(ANY_URL),
-        )
+        val webAppButton =
+            InlineKeyboardButton.WebApp(
+                text = ANY_TEXT,
+                webApp = WebAppInfo(ANY_URL),
+            )
         val webAppButtonJson =
             """{"text":"$ANY_TEXT","web_app":{"url":"$ANY_URL"}}"""
 
-        val actualWebAppButton = sut.fromJson(
-            webAppButtonJson,
-            InlineKeyboardButton::class.java,
-        )
-        val actualWebAppButtonJson = sut.toJson(
-            webAppButton,
-        )
+        val actualWebAppButton =
+            sut.fromJson(
+                webAppButtonJson,
+                InlineKeyboardButton::class.java,
+            )
+        val actualWebAppButtonJson =
+            sut.toJson(
+                webAppButton,
+            )
 
         assertEquals(webAppButton, actualWebAppButton)
         assertEquals(webAppButtonJson, actualWebAppButtonJson)
@@ -122,20 +134,23 @@ class InlineKeyboardButtonAdapterTest {
 
     @Test
     fun `serialize and deserialize inline keyboard login url button`() {
-        val loginUrlButton = InlineKeyboardButton.LoginUrlButtonType(
-            text = ANY_TEXT,
-            loginUrl = LoginUrl(ANY_URL, ANY_TEXT, ANY_BOT_USERNAME, true),
-        )
+        val loginUrlButton =
+            InlineKeyboardButton.LoginUrlButtonType(
+                text = ANY_TEXT,
+                loginUrl = LoginUrl(ANY_URL, ANY_TEXT, ANY_BOT_USERNAME, true),
+            )
         val loginUrlButtonJson =
             """{"text":"$ANY_TEXT","login_url":{"url":"$ANY_URL","forward_text":"$ANY_TEXT","bot_username":"$ANY_BOT_USERNAME","request_write_access":true}}"""
 
-        val actualLoginUrlButton = sut.fromJson(
-            loginUrlButtonJson,
-            InlineKeyboardButton::class.java,
-        )
-        val actualWebAppButtonJson = sut.toJson(
-            loginUrlButton,
-        )
+        val actualLoginUrlButton =
+            sut.fromJson(
+                loginUrlButtonJson,
+                InlineKeyboardButton::class.java,
+            )
+        val actualWebAppButtonJson =
+            sut.toJson(
+                loginUrlButton,
+            )
 
         assertEquals(loginUrlButton, actualLoginUrlButton)
         assertEquals(loginUrlButtonJson, actualWebAppButtonJson)

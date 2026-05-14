@@ -9,7 +9,6 @@ import java.lang.Exception
  * It will be either a success [Success] or an error [Error]
  */
 sealed class TelegramBotResult<out T : Any> {
-
     /**
      * Returns True if this a [Success] and False otherwise. Added for flexibility, but the use
      * of [fold] is recommended instead.
@@ -27,19 +26,26 @@ sealed class TelegramBotResult<out T : Any> {
     /**
      * Represents a Telegram Bot Api successful response.
      */
-    data class Success<out T : Any>(val value: T) : TelegramBotResult<T>()
+    data class Success<out T : Any>(
+        val value: T,
+    ) : TelegramBotResult<T>()
 
     sealed class Error : TelegramBotResult<Nothing>() {
-
         /**
          * Represents an HTTP error.
          */
-        data class HttpError(val httpCode: Int, val description: String?) : Error()
+        data class HttpError(
+            val httpCode: Int,
+            val description: String?,
+        ) : Error()
 
         /**
          * Represents a Telegram Bot Api error response.
          */
-        data class TelegramApi(val errorCode: Int, val description: String) : Error()
+        data class TelegramApi(
+            val errorCode: Int,
+            val description: String,
+        ) : Error()
 
         /**
          * Represents a response error that can't be mapped to a Telegram Bot Api error response.
@@ -53,7 +59,9 @@ sealed class TelegramBotResult<out T : Any> {
         /**
          * Wraps any exception thrown while executing and processing an api call.
          */
-        data class Unknown(val exception: Exception) : Error()
+        data class Unknown(
+            val exception: Exception,
+        ) : Error()
     }
 
     /**
@@ -74,10 +82,14 @@ sealed class TelegramBotResult<out T : Any> {
      *
      * @return the result of applying the correspondent function.
      */
-    inline fun <R> fold(ifSuccess: (T) -> R, ifError: (Error) -> R): R = when (this) {
-        is Success -> ifSuccess(value)
-        is Error -> ifError(this)
-    }
+    inline fun <R> fold(
+        ifSuccess: (T) -> R,
+        ifError: (Error) -> R,
+    ): R =
+        when (this) {
+            is Success -> ifSuccess(value)
+            is Error -> ifError(this)
+        }
 
     /**
      * Runs the [successSideEffect] lambda function if the [TelegramBotResult] contains a successful data payload.

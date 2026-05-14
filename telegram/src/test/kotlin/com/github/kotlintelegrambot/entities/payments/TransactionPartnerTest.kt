@@ -5,18 +5,18 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class TransactionPartnerTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
     fun `deserializes TransactionPartnerUser by 'user' discriminator`() {
-        val json = """
+        val json =
+            """
             {"type":"user",
              "user":{"id":42,"is_bot":false,"first_name":"Alice"},
              "invoice_payload":"sku-7",
              "subscription_period":2592000,
              "paid_media_payload":"hidden"}
-        """.trimIndent()
+            """.trimIndent()
 
         val partner = gson.fromJson(json, TransactionPartner::class.java)
 
@@ -30,10 +30,11 @@ class TransactionPartnerTest {
 
     @Test
     fun `deserializes TransactionPartnerFragment with withdrawal state`() {
-        val json = """
+        val json =
+            """
             {"type":"fragment",
              "withdrawal_state":{"type":"succeeded","date":1700000000,"url":"https://fragment.com/tx/1"}}
-        """.trimIndent()
+            """.trimIndent()
 
         val partner = gson.fromJson(json, TransactionPartner::class.java)
 
@@ -66,11 +67,12 @@ class TransactionPartnerTest {
 
     @Test
     fun `deserializes TransactionPartnerAffiliateProgram`() {
-        val json = """
+        val json =
+            """
             {"type":"affiliate_program",
              "sponsor_user":{"id":7,"is_bot":true,"first_name":"Sponsor"},
              "commission_per_mille":150}
-        """.trimIndent()
+            """.trimIndent()
 
         val partner = gson.fromJson(json, TransactionPartner::class.java)
 

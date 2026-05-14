@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class ChatSharedTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
@@ -23,7 +22,8 @@ class ChatSharedTest {
 
     @Test
     fun `deserializes ChatShared with title username and photo (7_2 shape)`() {
-        val json = """
+        val json =
+            """
             {
               "request_id": 5,
               "chat_id": -100987,
@@ -34,7 +34,7 @@ class ChatSharedTest {
                 {"file_id":"b","file_unique_id":"ub","width":640,"height":640}
               ]
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val parsed = gson.fromJson(json, ChatShared::class.java)
 

@@ -1,7 +1,6 @@
 package com.github.kotlintelegrambot.types
 
 abstract class ConsumableObject {
-
     var consumed: Boolean = false
         private set
 

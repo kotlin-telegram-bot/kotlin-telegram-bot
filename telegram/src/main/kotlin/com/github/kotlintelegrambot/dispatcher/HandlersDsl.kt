@@ -65,23 +65,38 @@ fun Dispatcher.message(handleMessage: HandleMessage) {
     addHandler(MessageHandler(All, handleMessage))
 }
 
-fun Dispatcher.message(filter: Filter, handleMessage: HandleMessage) {
+fun Dispatcher.message(
+    filter: Filter,
+    handleMessage: HandleMessage,
+) {
     addHandler(MessageHandler(filter, handleMessage))
 }
 
-fun Dispatcher.command(command: String, handleCommand: HandleCommand) {
+fun Dispatcher.command(
+    command: String,
+    handleCommand: HandleCommand,
+) {
     addHandler(CommandHandler(command, handleCommand))
 }
 
-fun Dispatcher.text(text: String? = null, handleText: HandleText) {
+fun Dispatcher.text(
+    text: String? = null,
+    handleText: HandleText,
+) {
     addHandler(TextHandler(text, handleText))
 }
 
-fun Dispatcher.textEdit(text: String? = null, handleText: HandleText) {
+fun Dispatcher.textEdit(
+    text: String? = null,
+    handleText: HandleText,
+) {
     addHandler(TextEditHandler(text, handleText))
 }
 
-fun Dispatcher.callbackQuery(data: String? = null, handleCallbackQuery: HandleCallbackQuery) {
+fun Dispatcher.callbackQuery(
+    data: String? = null,
+    handleCallbackQuery: HandleCallbackQuery,
+) {
     addHandler(CallbackQueryHandler(callbackData = data, handleCallbackQuery = handleCallbackQuery))
 }
 
@@ -189,9 +204,7 @@ fun Dispatcher.dice(body: HandleDice) {
     addHandler(DiceHandler(body))
 }
 
-infix fun Handler.requires(predicate: (Update) -> Boolean): Handler {
-    return ExtendedHandler(this, predicate)
-}
+infix fun Handler.requires(predicate: (Update) -> Boolean): Handler = ExtendedHandler(this, predicate)
 
 fun Dispatcher.myChatMember(handleMyChatMember: HandleMyChatMember) {
     addHandler(MyChatMemberHandler(handleMyChatMember = handleMyChatMember))

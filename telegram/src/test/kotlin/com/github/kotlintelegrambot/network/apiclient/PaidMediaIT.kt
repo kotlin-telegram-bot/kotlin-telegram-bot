@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test
  * Wire-format coverage for `sendPaidMedia` (Bot API 7.6).
  */
 class PaidMediaIT : ApiClientIT() {
-
     @Test
     fun `sendPaidMedia posts chat_id, star_count and serialized media`() {
         mockWebServer.enqueue(

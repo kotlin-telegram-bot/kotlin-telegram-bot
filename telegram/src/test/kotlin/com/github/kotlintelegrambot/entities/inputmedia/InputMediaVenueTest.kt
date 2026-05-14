@@ -5,16 +5,16 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class InputMediaVenueTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
     fun `deserializes InputMediaVenue with all fields`() {
-        val json = """
+        val json =
+            """
             {"type":"venue","latitude":41.39,"longitude":2.16,"title":"Sagrada","address":"Carrer",
              "foursquare_id":"fid","foursquare_type":"ft",
              "google_place_id":"gpid","google_place_type":"gpt"}
-        """.trimIndent()
+            """.trimIndent()
 
         val venue = gson.fromJson(json, InputMediaVenue::class.java)
 
@@ -29,9 +29,10 @@ class InputMediaVenueTest {
 
     @Test
     fun `deserializes minimal InputMediaVenue`() {
-        val json = """
+        val json =
+            """
             {"type":"venue","latitude":0.0,"longitude":0.0,"title":"T","address":"A"}
-        """.trimIndent()
+            """.trimIndent()
 
         val venue = gson.fromJson(json, InputMediaVenue::class.java)
 

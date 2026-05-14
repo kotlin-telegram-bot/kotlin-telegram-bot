@@ -11,7 +11,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class ChannelHandlerTest {
-
     private val handleChannelPostMock = mockk<HandleChannelPost>(relaxed = true)
 
     private val sut = ChannelHandler(handleChannelPostMock)
@@ -44,36 +43,40 @@ class ChannelHandlerTest {
     }
 
     @Test
-    fun `channel post is properly dispatched to the handler function`() = runTest {
-        val botMock = mockk<Bot>()
-        val anyChannelPost = anyMessage()
-        val anyUpdateWithChannelPost = anyUpdate(channelPost = anyChannelPost)
+    fun `channel post is properly dispatched to the handler function`() =
+        runTest {
+            val botMock = mockk<Bot>()
+            val anyChannelPost = anyMessage()
+            val anyUpdateWithChannelPost = anyUpdate(channelPost = anyChannelPost)
 
-        sut.handleUpdate(botMock, anyUpdateWithChannelPost)
+            sut.handleUpdate(botMock, anyUpdateWithChannelPost)
 
-        val expectedChannelHandlerEnv = ChannelHandlerEnvironment(
-            botMock,
-            anyUpdateWithChannelPost,
-            anyChannelPost,
-            isEdition = false,
-        )
-        coVerify { handleChannelPostMock.invoke(expectedChannelHandlerEnv) }
-    }
+            val expectedChannelHandlerEnv =
+                ChannelHandlerEnvironment(
+                    botMock,
+                    anyUpdateWithChannelPost,
+                    anyChannelPost,
+                    isEdition = false,
+                )
+            coVerify { handleChannelPostMock.invoke(expectedChannelHandlerEnv) }
+        }
 
     @Test
-    fun `edited channel post is properly dispatched to the handler function`() = runTest {
-        val botMock = mockk<Bot>()
-        val anyEditedChannelPost = anyMessage()
-        val anyUpdateWithEditedChannelPost = anyUpdate(editedChannelPost = anyEditedChannelPost)
+    fun `edited channel post is properly dispatched to the handler function`() =
+        runTest {
+            val botMock = mockk<Bot>()
+            val anyEditedChannelPost = anyMessage()
+            val anyUpdateWithEditedChannelPost = anyUpdate(editedChannelPost = anyEditedChannelPost)
 
-        sut.handleUpdate(botMock, anyUpdateWithEditedChannelPost)
+            sut.handleUpdate(botMock, anyUpdateWithEditedChannelPost)
 
-        val expectedChannelHandlerEnv = ChannelHandlerEnvironment(
-            botMock,
-            anyUpdateWithEditedChannelPost,
-            anyEditedChannelPost,
-            isEdition = true,
-        )
-        coVerify { handleChannelPostMock.invoke(expectedChannelHandlerEnv) }
-    }
+            val expectedChannelHandlerEnv =
+                ChannelHandlerEnvironment(
+                    botMock,
+                    anyUpdateWithEditedChannelPost,
+                    anyEditedChannelPost,
+                    isEdition = true,
+                )
+            coVerify { handleChannelPostMock.invoke(expectedChannelHandlerEnv) }
+        }
 }

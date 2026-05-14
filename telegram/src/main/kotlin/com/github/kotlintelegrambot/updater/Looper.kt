@@ -10,6 +10,7 @@ import kotlinx.coroutines.yield
 
 internal interface Looper {
     fun loop(loopBody: suspend () -> Unit)
+
     fun quit()
 }
 
@@ -19,9 +20,11 @@ internal interface Looper {
  * loop is interrupted or in the next iteration after the [quit] method is called. Uncaught exceptions
  * thrown by the loop body terminate the loop but are not propagated to the caller's coroutine scope.
  */
-internal class CoroutineLooper(coroutineDispatcher: CoroutineDispatcher) : Looper {
-
-    private val exceptionHandler = CoroutineExceptionHandler { _, _ -> /* swallow: the loop stops anyway */ }
+internal class CoroutineLooper(
+    coroutineDispatcher: CoroutineDispatcher,
+) : Looper {
+    // Swallow uncaught exceptions: the loop terminates anyway.
+    private val exceptionHandler = CoroutineExceptionHandler { _, _ -> }
     private val scope: CoroutineScope = CoroutineScope(coroutineDispatcher + SupervisorJob() + exceptionHandler)
 
     @Volatile private var job: Job? = null

@@ -13,18 +13,20 @@ data class NewChatJoinRequestHandlerEnvironment(
 class NewChatJoinRequestHandler(
     private val handleNewChatJoinRequest: HandleNewChatJoinRequest,
 ) : Handler {
-    override fun checkUpdate(update: Update): Boolean {
-        return update.chatJoinRequest != null
-    }
+    override fun checkUpdate(update: Update): Boolean = update.chatJoinRequest != null
 
-    override suspend fun handleUpdate(bot: Bot, update: Update) {
+    override suspend fun handleUpdate(
+        bot: Bot,
+        update: Update,
+    ) {
         checkNotNull(update.chatJoinRequest)
 
-        val newChatJoinRequestHandlerEnv = NewChatJoinRequestHandlerEnvironment(
-            bot,
-            update,
-            update.chatJoinRequest,
-        )
+        val newChatJoinRequestHandlerEnv =
+            NewChatJoinRequestHandlerEnvironment(
+                bot,
+                update,
+                update.chatJoinRequest,
+            )
         handleNewChatJoinRequest(newChatJoinRequestHandlerEnv)
     }
 }

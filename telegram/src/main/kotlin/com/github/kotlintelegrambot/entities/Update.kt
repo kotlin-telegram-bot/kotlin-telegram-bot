@@ -36,7 +36,8 @@ data class Update constructor(
     @Name("edited_business_message") val editedBusinessMessage: Message? = null,
     @Name("deleted_business_messages") val deletedBusinessMessages: BusinessMessagesDeleted? = null,
     @Name("purchased_paid_media") val purchasedPaidMedia: PaidMediaPurchased? = null,
-) : DispatchableObject, ConsumableObject()
+) : ConsumableObject(),
+    DispatchableObject
 
 /**
  * Generate list of key-value from start payload.

@@ -6,7 +6,9 @@ import com.google.gson.annotations.SerializedName
 /**
  * Contains information about a Web App.
  */
-data class WebAppInfo(val url: String)
+data class WebAppInfo(
+    val url: String,
+)
 
 /**
  * Contains information about a Login Url.
@@ -74,7 +76,9 @@ sealed class InlineKeyboardButton {
      * To send a pay button.
      * NOTE: this type of button must always be the first button in the first row.
      */
-    data class Pay(override val text: String) : InlineKeyboardButton() {
+    data class Pay(
+        override val text: String,
+    ) : InlineKeyboardButton() {
         val pay = true
     }
 

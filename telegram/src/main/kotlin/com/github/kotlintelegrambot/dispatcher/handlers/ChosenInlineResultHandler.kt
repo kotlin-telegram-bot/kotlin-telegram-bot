@@ -13,19 +13,20 @@ data class ChosenInlineResultHandlerEnvironment(
 class ChosenInlineResultHandler(
     private val handleChosenInlineResult: HandleChosenInlineResult,
 ) : Handler {
+    override fun checkUpdate(update: Update): Boolean = update.chosenInlineResult != null
 
-    override fun checkUpdate(update: Update): Boolean {
-        return update.chosenInlineResult != null
-    }
-
-    override suspend fun handleUpdate(bot: Bot, update: Update) {
+    override suspend fun handleUpdate(
+        bot: Bot,
+        update: Update,
+    ) {
         checkNotNull(update.chosenInlineResult)
 
-        val contactHandlerEnv = ChosenInlineResultHandlerEnvironment(
-            bot,
-            update,
-            update.chosenInlineResult,
-        )
+        val contactHandlerEnv =
+            ChosenInlineResultHandlerEnvironment(
+                bot,
+                update,
+                update.chosenInlineResult,
+            )
         handleChosenInlineResult(contactHandlerEnv)
     }
 }

@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
 class ConsumableObjectTest {
-
     @Test
     fun `test that consumbale object cannot be consumed twice`() {
         val consumableObject = object : ConsumableObject() {}

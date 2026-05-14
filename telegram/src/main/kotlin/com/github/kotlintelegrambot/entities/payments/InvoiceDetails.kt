@@ -31,7 +31,6 @@ class InvoicePhotoDetail private constructor(
     val photoWidth: Int? = null,
     val photoHeight: Int? = null,
 ) {
-
     /**
      * @property [photoUrl] URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service. People like it better when they see what they are paying for.
      * @property [photoSize] Photo size.

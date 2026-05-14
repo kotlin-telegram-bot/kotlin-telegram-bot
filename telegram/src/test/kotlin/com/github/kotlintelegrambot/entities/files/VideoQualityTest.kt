@@ -5,15 +5,15 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class VideoQualityTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
     fun `deserializes VideoQuality with all fields`() {
-        val json = """
+        val json =
+            """
             {"file_id":"vq1","file_unique_id":"u1","width":1920,"height":1080,
              "bitrate":4500000,"mime_type":"video/mp4","file_size":52428800}
-        """.trimIndent()
+            """.trimIndent()
 
         val quality = gson.fromJson(json, VideoQuality::class.java)
 
@@ -28,9 +28,10 @@ class VideoQualityTest {
 
     @Test
     fun `deserializes minimal VideoQuality`() {
-        val json = """
+        val json =
+            """
             {"file_id":"vq2","file_unique_id":"u2","width":640,"height":360,"bitrate":900000}
-        """.trimIndent()
+            """.trimIndent()
 
         val quality = gson.fromJson(json, VideoQuality::class.java)
 

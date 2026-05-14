@@ -11,7 +11,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class CommandHandlerTest {
-
     private val handlerFunctionMock = mockk<suspend CommandHandlerEnvironment.() -> Unit>(relaxed = true)
 
     private val sut = CommandHandler(ANY_COMMAND_NAME, handlerFunctionMock)
@@ -27,9 +26,10 @@ class CommandHandlerTest {
 
     @Test
     fun `checkUpdate returns true for the given command with arguments`() {
-        val anyCommandWithArguments = anyUpdate(
-            message = anyMessage(text = "/$ANY_COMMAND_NAME a b"),
-        )
+        val anyCommandWithArguments =
+            anyUpdate(
+                message = anyMessage(text = "/$ANY_COMMAND_NAME a b"),
+            )
 
         val checkUpdateResult = sut.checkUpdate(anyCommandWithArguments)
 
@@ -55,16 +55,17 @@ class CommandHandlerTest {
     }
 
     @Test
-    fun `command update is properly dispatched to the handler function`() = runTest {
-        val botMock = mockk<Bot>()
-        val commandMessage = anyMessage(text = "/$ANY_COMMAND_NAME $ANY_ARG")
-        val anyUpdate = anyUpdate(message = commandMessage)
+    fun `command update is properly dispatched to the handler function`() =
+        runTest {
+            val botMock = mockk<Bot>()
+            val commandMessage = anyMessage(text = "/$ANY_COMMAND_NAME $ANY_ARG")
+            val anyUpdate = anyUpdate(message = commandMessage)
 
-        sut.handleUpdate(botMock, anyUpdate)
+            sut.handleUpdate(botMock, anyUpdate)
 
-        val expectedArgs = CommandHandlerEnvironment(botMock, anyUpdate, commandMessage, listOf(ANY_ARG))
-        coVerify { handlerFunctionMock.invoke(expectedArgs) }
-    }
+            val expectedArgs = CommandHandlerEnvironment(botMock, anyUpdate, commandMessage, listOf(ANY_ARG))
+            coVerify { handlerFunctionMock.invoke(expectedArgs) }
+        }
 
     private companion object {
         const val ANY_COMMAND_NAME = "test"

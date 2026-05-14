@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test
 
 @Suppress("DEPRECATION")
 class KeyboardButtonRequestTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
@@ -22,7 +21,8 @@ class KeyboardButtonRequestTest {
 
     @Test
     fun `deserializes KeyboardButtonRequestUsers with all optional fields`() {
-        val json = """
+        val json =
+            """
             {
               "request_id": 7,
               "user_is_bot": false,
@@ -32,7 +32,7 @@ class KeyboardButtonRequestTest {
               "request_username": true,
               "request_photo": false
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val parsed = gson.fromJson(json, KeyboardButtonRequestUsers::class.java)
 
@@ -59,7 +59,8 @@ class KeyboardButtonRequestTest {
 
     @Test
     fun `deserializes KeyboardButtonRequestChat`() {
-        val json = """
+        val json =
+            """
             {
               "request_id": 9,
               "chat_is_channel": true,
@@ -71,7 +72,7 @@ class KeyboardButtonRequestTest {
               "request_username": false,
               "request_photo": true
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val parsed = gson.fromJson(json, KeyboardButtonRequestChat::class.java)
 

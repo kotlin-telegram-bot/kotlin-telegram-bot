@@ -5,12 +5,12 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class StarTransactionTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
     fun `deserializes StarTransaction with source partner`() {
-        val json = """
+        val json =
+            """
             {"id":"tx-1",
              "amount":100,
              "nanostar_amount":500000000,
@@ -18,7 +18,7 @@ class StarTransactionTest {
              "source":{"type":"user",
                        "user":{"id":42,"is_bot":false,"first_name":"Alice"},
                        "invoice_payload":"sku-7"}}
-        """.trimIndent()
+            """.trimIndent()
 
         val tx = gson.fromJson(json, StarTransaction::class.java)
 
@@ -32,12 +32,13 @@ class StarTransactionTest {
 
     @Test
     fun `deserializes StarTransaction with receiver partner`() {
-        val json = """
+        val json =
+            """
             {"id":"tx-2",
              "amount":50,
              "date":1700000001,
              "receiver":{"type":"fragment"}}
-        """.trimIndent()
+            """.trimIndent()
 
         val tx = gson.fromJson(json, StarTransaction::class.java)
 

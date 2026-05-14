@@ -12,7 +12,6 @@ import com.google.gson.annotations.SerializedName
 data class InlineKeyboardMarkup internal constructor(
     @SerializedName("inline_keyboard") val inlineKeyboard: List<List<InlineKeyboardButton>>,
 ) : ReplyMarkup {
-
     init {
         validatePriorityButtonsForType<InlineKeyboardButton.Pay>()
         validatePriorityButtonsForType<InlineKeyboardButton.CallbackGameButtonType>()
@@ -37,9 +36,13 @@ data class InlineKeyboardMarkup internal constructor(
         private val GSON = GsonFactory.createForApiClient()
 
         fun createSingleButton(button: InlineKeyboardButton) = InlineKeyboardMarkup(listOf(listOf(button)))
+
         fun createSingleRowKeyboard(buttons: List<InlineKeyboardButton>) = InlineKeyboardMarkup(listOf(buttons))
+
         fun createSingleRowKeyboard(vararg button: InlineKeyboardButton) = InlineKeyboardMarkup(listOf(button.toList()))
+
         fun create(buttons: List<List<InlineKeyboardButton>>) = InlineKeyboardMarkup(buttons)
+
         fun create(vararg buttonsRow: List<InlineKeyboardButton>) = InlineKeyboardMarkup(buttonsRow.toList())
     }
 

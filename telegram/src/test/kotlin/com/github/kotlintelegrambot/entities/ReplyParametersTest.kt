@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class ReplyParametersTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
@@ -19,10 +18,11 @@ class ReplyParametersTest {
 
     @Test
     fun `serializes chat_id from cross-chat replies`() {
-        val replyParameters = ReplyParameters(
-            messageId = 42L,
-            chatId = ChatId.fromId(123456L),
-        )
+        val replyParameters =
+            ReplyParameters(
+                messageId = 42L,
+                chatId = ChatId.fromId(123456L),
+            )
 
         val json = gson.toJson(replyParameters)
 
@@ -32,12 +32,13 @@ class ReplyParametersTest {
 
     @Test
     fun `serializes quote-related fields with correct snake_case keys`() {
-        val replyParameters = ReplyParameters(
-            messageId = 42L,
-            quote = "the quoted part",
-            quoteParseMode = ParseMode.MARKDOWN_V2,
-            quotePosition = 7,
-        )
+        val replyParameters =
+            ReplyParameters(
+                messageId = 42L,
+                quote = "the quoted part",
+                quoteParseMode = ParseMode.MARKDOWN_V2,
+                quotePosition = 7,
+            )
 
         val json = gson.toJson(replyParameters)
 
@@ -48,10 +49,11 @@ class ReplyParametersTest {
 
     @Test
     fun `serializes allow_sending_without_reply`() {
-        val replyParameters = ReplyParameters(
-            messageId = 42L,
-            allowSendingWithoutReply = true,
-        )
+        val replyParameters =
+            ReplyParameters(
+                messageId = 42L,
+                allowSendingWithoutReply = true,
+            )
 
         val json = gson.toJson(replyParameters)
 
@@ -60,11 +62,12 @@ class ReplyParametersTest {
 
     @Test
     fun `serializes future-version fields (checklist_task_id, poll_option_id)`() {
-        val replyParameters = ReplyParameters(
-            messageId = 42L,
-            checklistTaskId = 3,
-            pollOptionId = "opt-1",
-        )
+        val replyParameters =
+            ReplyParameters(
+                messageId = 42L,
+                checklistTaskId = 3,
+                pollOptionId = "opt-1",
+            )
 
         val json = gson.toJson(replyParameters)
 

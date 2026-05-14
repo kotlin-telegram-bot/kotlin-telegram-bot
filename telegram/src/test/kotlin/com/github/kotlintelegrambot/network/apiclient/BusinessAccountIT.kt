@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test
  * of a connected business account).
  */
 class BusinessAccountIT : ApiClientIT() {
-
     @Test
     fun `readBusinessMessage posts business_connection_id, chat_id and message_id`() {
         mockWebServer.enqueue(MockResponse().setResponseCode(200).setBody("""{"ok":true,"result":true}"""))
@@ -119,12 +118,13 @@ class BusinessAccountIT : ApiClientIT() {
         sut.setBusinessAccountGiftSettings(
             businessConnectionId = "conn-abc",
             showGiftButton = true,
-            acceptedGiftTypes = AcceptedGiftTypes(
-                unlimitedGifts = true,
-                limitedGifts = true,
-                uniqueGifts = false,
-                premiumSubscription = false,
-            ),
+            acceptedGiftTypes =
+                AcceptedGiftTypes(
+                    unlimitedGifts = true,
+                    limitedGifts = true,
+                    uniqueGifts = false,
+                    premiumSubscription = false,
+                ),
         )
 
         val request = mockWebServer.takeRequest()

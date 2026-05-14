@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class LogOutIT : ApiClientIT() {
-
     @Test
     fun `logOut response is correctly returned`() {
         givenAnyLogOutResponse()
@@ -16,15 +15,17 @@ class LogOutIT : ApiClientIT() {
     }
 
     private fun givenAnyLogOutResponse() {
-        val logOutResponse = """
+        val logOutResponse =
+            """
             {
                 "ok": true,
                 "result": true
             }
-        """.trimIndent()
-        val mockedResponse = MockResponse()
-            .setResponseCode(200)
-            .setBody(logOutResponse)
+            """.trimIndent()
+        val mockedResponse =
+            MockResponse()
+                .setResponseCode(200)
+                .setBody(logOutResponse)
         mockWebServer.enqueue(mockedResponse)
     }
 }

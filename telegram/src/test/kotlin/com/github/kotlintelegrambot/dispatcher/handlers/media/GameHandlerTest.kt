@@ -13,7 +13,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class GameHandlerTest {
-
     private val handleGameMock = mockk<HandleGame>(relaxed = true)
 
     private val sut = GameHandler(handleGameMock)
@@ -37,20 +36,22 @@ class GameHandlerTest {
     }
 
     @Test
-    fun `game is properly dispatched to the handler function`() = runTest {
-        val botMock = mockk<Bot>()
-        val anyGame = anyGame()
-        val anyMessageWithGame = anyMessage(game = anyGame)
-        val anyUpdateWithGame = anyUpdate(message = anyMessageWithGame)
+    fun `game is properly dispatched to the handler function`() =
+        runTest {
+            val botMock = mockk<Bot>()
+            val anyGame = anyGame()
+            val anyMessageWithGame = anyMessage(game = anyGame)
+            val anyUpdateWithGame = anyUpdate(message = anyMessageWithGame)
 
-        sut.handleUpdate(botMock, anyUpdateWithGame)
+            sut.handleUpdate(botMock, anyUpdateWithGame)
 
-        val expectedGameHandlerEnv = MediaHandlerEnvironment(
-            botMock,
-            anyUpdateWithGame,
-            anyMessageWithGame,
-            anyGame,
-        )
-        coVerify { handleGameMock.invoke(expectedGameHandlerEnv) }
-    }
+            val expectedGameHandlerEnv =
+                MediaHandlerEnvironment(
+                    botMock,
+                    anyUpdateWithGame,
+                    anyMessageWithGame,
+                    anyGame,
+                )
+            coVerify { handleGameMock.invoke(expectedGameHandlerEnv) }
+        }
 }

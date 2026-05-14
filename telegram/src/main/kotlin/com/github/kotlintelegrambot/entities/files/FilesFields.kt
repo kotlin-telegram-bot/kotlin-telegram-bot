@@ -1,5 +1,6 @@
 package com.github.kotlintelegrambot.entities.files
 
+@Suppress("ktlint:standard:property-naming")
 internal object FilesFields {
     const val fileId = "file_id"
     const val fileUniqueId = "file_unique_id"

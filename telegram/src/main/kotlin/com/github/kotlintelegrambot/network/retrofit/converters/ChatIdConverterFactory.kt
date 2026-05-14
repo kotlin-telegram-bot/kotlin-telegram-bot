@@ -10,7 +10,11 @@ import retrofit2.Retrofit
 import java.lang.reflect.Type
 
 internal class ChatIdConverterFactory : Converter.Factory() {
-    override fun stringConverter(type: Type, annotations: Array<Annotation>, retrofit: Retrofit): Converter<ChatId, String>? {
+    override fun stringConverter(
+        type: Type,
+        annotations: Array<Annotation>,
+        retrofit: Retrofit,
+    ): Converter<ChatId, String>? {
         if (type !== ChatId::class.java) {
             return null
         }
@@ -30,9 +34,10 @@ internal class ChatIdConverterFactory : Converter.Factory() {
     }
 
     companion object {
-        fun chatIdToString(chatId: ChatId) = when (chatId) {
-            is Id -> chatId.id.toString()
-            is ChannelUsername -> chatId.username
-        }
+        fun chatIdToString(chatId: ChatId) =
+            when (chatId) {
+                is Id -> chatId.id.toString()
+                is ChannelUsername -> chatId.username
+            }
     }
 }

@@ -6,17 +6,17 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class InputChecklistTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
     fun `deserializes InputChecklist with all fields`() {
-        val json = """
+        val json =
+            """
             {"title":"Shopping","parse_mode":"HTML",
              "title_entities":[{"type":"italic","offset":0,"length":8}],
              "tasks":[{"id":1,"text":"Milk"},{"id":2,"text":"Eggs"}],
              "others_can_add_tasks":true,"others_can_mark_tasks_as_done":true}
-        """.trimIndent()
+            """.trimIndent()
 
         val input = gson.fromJson(json, InputChecklist::class.java)
 

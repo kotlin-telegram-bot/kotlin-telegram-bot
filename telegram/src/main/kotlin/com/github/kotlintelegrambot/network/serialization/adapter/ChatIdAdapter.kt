@@ -13,7 +13,11 @@ import java.lang.reflect.Type
  * objects like `ReplyParameters` or `InputMessageContent`.
  */
 internal class ChatIdAdapter : JsonSerializer<ChatId> {
-    override fun serialize(src: ChatId, typeOfSrc: Type, context: JsonSerializationContext): JsonElement =
+    override fun serialize(
+        src: ChatId,
+        typeOfSrc: Type,
+        context: JsonSerializationContext,
+    ): JsonElement =
         when (src) {
             is ChatId.Id -> JsonPrimitive(src.id)
             is ChatId.ChannelUsername -> JsonPrimitive(src.username)

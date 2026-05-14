@@ -6,27 +6,28 @@ import okhttp3.mockwebserver.MockResponse
 import org.junit.jupiter.api.Test
 
 class GetMeIT : ApiClientIT() {
-
     @Test
     fun `getMe response is correctly returned`() {
         givenAnyGetMeResponse()
 
         val getMeResult = sut.getMe()
 
-        val expectedUser = User(
-            id = 482352699,
-            isBot = true,
-            firstName = "Rick",
-            username = "pickleman",
-            canJoinGroups = true,
-            canReadAllGroupMessages = false,
-            supportsInlineQueries = false,
-        )
+        val expectedUser =
+            User(
+                id = 482352699,
+                isBot = true,
+                firstName = "Rick",
+                username = "pickleman",
+                canJoinGroups = true,
+                canReadAllGroupMessages = false,
+                supportsInlineQueries = false,
+            )
         assertEquals(expectedUser, getMeResult.getOrNull())
     }
 
     private fun givenAnyGetMeResponse() {
-        val getMeResponse = """
+        val getMeResponse =
+            """
             {
                 "ok": true,
                 "result": {
@@ -39,10 +40,11 @@ class GetMeIT : ApiClientIT() {
                     "supports_inline_queries": false
                 }
             }
-        """.trimIndent()
-        val mockedResponse = MockResponse()
-            .setResponseCode(200)
-            .setBody(getMeResponse)
+            """.trimIndent()
+        val mockedResponse =
+            MockResponse()
+                .setResponseCode(200)
+                .setBody(getMeResponse)
         mockWebServer.enqueue(mockedResponse)
     }
 }

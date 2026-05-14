@@ -12,8 +12,9 @@ import com.github.kotlintelegrambot.network.retrofit.converters.ChatIdConverterF
 import com.google.gson.Gson
 import okhttp3.MultipartBody
 
-internal class MultipartBodyFactory(private val gson: Gson) {
-
+internal class MultipartBodyFactory(
+    private val gson: Gson,
+) {
     fun createForSendMediaGroup(
         chatId: ChatId,
         mediaGroup: MediaGroup,
@@ -39,34 +40,39 @@ internal class MultipartBodyFactory(private val gson: Gson) {
         return listOfNotNull(chatIdPart, mediaGroupPart, disableNotificationPart, protectContentPart) + filesParts
     }
 
-    private fun MediaGroup.takeAsMultipart(): List<MultipartBody.Part> = medias.flatMap { groupableMedia ->
-        when {
-            groupableMedia is InputMediaDocument ->
-                telegramFileToMultipart(groupableMedia.media, MediaTypeConstants.DOCUMENT)
+    private fun MediaGroup.takeAsMultipart(): List<MultipartBody.Part> =
+        medias.flatMap { groupableMedia ->
+            when {
+                groupableMedia is InputMediaDocument ->
+                    telegramFileToMultipart(groupableMedia.media, MediaTypeConstants.DOCUMENT)
 
-            groupableMedia is InputMediaPhoto ->
-                telegramFileToMultipart(groupableMedia.media, MediaTypeConstants.IMAGE)
+                groupableMedia is InputMediaPhoto ->
+                    telegramFileToMultipart(groupableMedia.media, MediaTypeConstants.IMAGE)
 
-            groupableMedia is InputMediaVideo && groupableMedia.thumb != null ->
-                telegramFileToMultipart(groupableMedia.media, MediaTypeConstants.VIDEO) +
-                    telegramFileToMultipart(groupableMedia.thumb, MediaTypeConstants.IMAGE)
+                groupableMedia is InputMediaVideo && groupableMedia.thumb != null ->
+                    telegramFileToMultipart(groupableMedia.media, MediaTypeConstants.VIDEO) +
+                        telegramFileToMultipart(groupableMedia.thumb, MediaTypeConstants.IMAGE)
 
-            groupableMedia is InputMediaVideo ->
-                telegramFileToMultipart(groupableMedia.media, MediaTypeConstants.VIDEO)
+                groupableMedia is InputMediaVideo ->
+                    telegramFileToMultipart(groupableMedia.media, MediaTypeConstants.VIDEO)
 
-            else -> emptyList()
-        }
-    }
-
-    private fun telegramFileToMultipart(tFile: TelegramFile, mediaType: String): List<MultipartBody.Part> = when (tFile) {
-        is TelegramFile.ByFile -> listOf(tFile.file.toMultipartBodyPart(mediaType = mediaType))
-        is TelegramFile.ByByteArray -> {
-            if (tFile.filename == null) {
-                throw IllegalArgumentException("For ByByteArray files inside media group, unique filename should be set")
-            } else {
-                listOf(tFile.fileBytes.toMultipartBodyPart(tFile.filename, tFile.filename, mediaType))
+                else -> emptyList()
             }
         }
-        else -> emptyList()
-    }
+
+    private fun telegramFileToMultipart(
+        tFile: TelegramFile,
+        mediaType: String,
+    ): List<MultipartBody.Part> =
+        when (tFile) {
+            is TelegramFile.ByFile -> listOf(tFile.file.toMultipartBodyPart(mediaType = mediaType))
+            is TelegramFile.ByByteArray -> {
+                if (tFile.filename == null) {
+                    throw IllegalArgumentException("For ByByteArray files inside media group, unique filename should be set")
+                } else {
+                    listOf(tFile.fileBytes.toMultipartBodyPart(tFile.filename, tFile.filename, mediaType))
+                }
+            }
+            else -> emptyList()
+        }
 }

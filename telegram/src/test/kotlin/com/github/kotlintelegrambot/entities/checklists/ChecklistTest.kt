@@ -5,12 +5,12 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class ChecklistTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
     fun `deserializes Checklist with all fields`() {
-        val json = """
+        val json =
+            """
             {
               "title":"Groceries",
               "title_entities":[{"type":"bold","offset":0,"length":9}],
@@ -22,7 +22,7 @@ class ChecklistTest {
               "others_can_add_tasks":true,
               "others_can_mark_tasks_as_done":false
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val checklist = gson.fromJson(json, Checklist::class.java)
 
@@ -50,9 +50,10 @@ class ChecklistTest {
 
     @Test
     fun `deserializes ChecklistTask with completed_by_chat`() {
-        val json = """
+        val json =
+            """
             {"id":7,"text":"Done","completed_by_chat":{"id":-100,"type":"supergroup"}}
-        """.trimIndent()
+            """.trimIndent()
 
         val task = gson.fromJson(json, ChecklistTask::class.java)
 

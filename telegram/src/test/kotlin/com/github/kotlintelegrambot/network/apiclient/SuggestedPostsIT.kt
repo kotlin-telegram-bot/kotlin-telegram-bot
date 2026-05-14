@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test
  * Wire-format coverage for Bot API 9.2 suggested-post moderation methods.
  */
 class SuggestedPostsIT : ApiClientIT() {
-
     @Test
     fun `approveSuggestedPost posts chat_id, message_id and send_date`() {
         mockWebServer.enqueue(MockResponse().setResponseCode(200).setBody("""{"ok":true,"result":true}"""))

@@ -5,12 +5,12 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class MessageReactionUpdatedTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
     fun `deserializes MessageReactionUpdated from JSON`() {
-        val json = """
+        val json =
+            """
             {
               "chat":{"id":-100,"type":"supergroup"},
               "message_id":42,
@@ -19,7 +19,7 @@ class MessageReactionUpdatedTest {
               "old_reaction":[],
               "new_reaction":[]
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val update = gson.fromJson(json, MessageReactionUpdated::class.java)
 
@@ -34,7 +34,8 @@ class MessageReactionUpdatedTest {
 
     @Test
     fun `deserializes MessageReactionUpdated with actor_chat`() {
-        val json = """
+        val json =
+            """
             {
               "chat":{"id":-1,"type":"channel"},
               "message_id":1,
@@ -43,7 +44,7 @@ class MessageReactionUpdatedTest {
               "old_reaction":[],
               "new_reaction":[]
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val update = gson.fromJson(json, MessageReactionUpdated::class.java)
 

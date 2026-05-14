@@ -7,7 +7,6 @@ import io.mockk.verify
 import org.junit.jupiter.api.Test
 
 class ErrorHandlerTest {
-
     private val handleErrorMock = mockk<HandleError>(relaxed = true)
 
     private val sut = ErrorHandler(handleErrorMock)

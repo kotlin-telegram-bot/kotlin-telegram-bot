@@ -11,11 +11,16 @@ import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 
 internal class TelegramFileAdapter : JsonSerializer<TelegramFile> {
-    override fun serialize(src: TelegramFile, typeOfSrc: Type, context: JsonSerializationContext): JsonElement = when (src) {
-        is ByFileId -> context.serialize(src.fileId, String::class.java)
-        is ByUrl -> context.serialize(src.url, String::class.java)
-        is ByFile -> context.serialize("attach://${src.file.name}")
-        is ByByteArray -> context.serialize("attach://${src.filename!!}")
-        is TelegramFile.ByInputStream -> context.serialize("attach://${src.filename!!}")
-    }
+    override fun serialize(
+        src: TelegramFile,
+        typeOfSrc: Type,
+        context: JsonSerializationContext,
+    ): JsonElement =
+        when (src) {
+            is ByFileId -> context.serialize(src.fileId, String::class.java)
+            is ByUrl -> context.serialize(src.url, String::class.java)
+            is ByFile -> context.serialize("attach://${src.file.name}")
+            is ByByteArray -> context.serialize("attach://${src.filename!!}")
+            is TelegramFile.ByInputStream -> context.serialize("attach://${src.filename!!}")
+        }
 }

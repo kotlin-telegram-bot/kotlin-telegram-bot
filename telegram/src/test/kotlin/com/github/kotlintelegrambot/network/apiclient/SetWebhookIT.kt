@@ -9,7 +9,6 @@ import okhttp3.mockwebserver.MockResponse
 import org.junit.jupiter.api.Test
 
 class SetWebhookIT : ApiClientIT() {
-
     @Test
     internal fun `setWebhook without certificate`() {
         givenAnyMockedResponse()
@@ -92,15 +91,16 @@ class SetWebhookIT : ApiClientIT() {
     }
 
     private fun givenAnyMockedResponse() {
-        val mockedResponse = MockResponse()
-            .setResponseCode(200)
-            .setBody(
-                """{
+        val mockedResponse =
+            MockResponse()
+                .setResponseCode(200)
+                .setBody(
+                    """{
                 |"ok": true,
                 |"result": true
                 |}
-                """.trimMargin(),
-            )
+                    """.trimMargin(),
+                )
         mockWebServer.enqueue(mockedResponse)
     }
 
@@ -117,48 +117,54 @@ class SetWebhookIT : ApiClientIT() {
     }
 
     private fun whenWebhookIsSetWithCertificateAsFile() {
-        sut.setWebhook(
-            url = ANY_WEBHOOK_URL,
-            certificate = TelegramFile.ByFile(getFileFromResources<SetWebhookIT>("certificate.pem")),
-        ).execute()
+        sut
+            .setWebhook(
+                url = ANY_WEBHOOK_URL,
+                certificate = TelegramFile.ByFile(getFileFromResources<SetWebhookIT>("certificate.pem")),
+            ).execute()
     }
 
     private fun whenWebhookIsSetWithCertificateAsFileAndWithIpAddress() {
-        sut.setWebhook(
-            url = ANY_WEBHOOK_URL,
-            certificate = TelegramFile.ByFile(getFileFromResources<SetWebhookIT>("certificate.pem")),
-            ipAddress = ANY_IP_ADDRESS,
-        ).execute()
+        sut
+            .setWebhook(
+                url = ANY_WEBHOOK_URL,
+                certificate = TelegramFile.ByFile(getFileFromResources<SetWebhookIT>("certificate.pem")),
+                ipAddress = ANY_IP_ADDRESS,
+            ).execute()
     }
 
     private fun whenWebhookIsSetWithCertificateAsFileId() {
-        sut.setWebhook(
-            url = ANY_WEBHOOK_URL,
-            certificate = TelegramFile.ByFileId(ANY_FILE_ID),
-        ).execute()
+        sut
+            .setWebhook(
+                url = ANY_WEBHOOK_URL,
+                certificate = TelegramFile.ByFileId(ANY_FILE_ID),
+            ).execute()
     }
 
     private fun whenWebhookIsSetWithCertificateAsFileIdAndWithIpAddress() {
-        sut.setWebhook(
-            url = ANY_WEBHOOK_URL,
-            certificate = TelegramFile.ByFileId(ANY_FILE_ID),
-            ipAddress = ANY_IP_ADDRESS,
-        ).execute()
+        sut
+            .setWebhook(
+                url = ANY_WEBHOOK_URL,
+                certificate = TelegramFile.ByFileId(ANY_FILE_ID),
+                ipAddress = ANY_IP_ADDRESS,
+            ).execute()
     }
 
     private fun whenWebhookIsSetWithCertificateAsFileUrl() {
-        sut.setWebhook(
-            url = ANY_WEBHOOK_URL,
-            certificate = TelegramFile.ByUrl(ANY_FILE_URL),
-        ).execute()
+        sut
+            .setWebhook(
+                url = ANY_WEBHOOK_URL,
+                certificate = TelegramFile.ByUrl(ANY_FILE_URL),
+            ).execute()
     }
 
     private fun whenWebhookIsSetWithCertificateAsFileUrlAndWithIpAddress() {
-        sut.setWebhook(
-            url = ANY_WEBHOOK_URL,
-            certificate = TelegramFile.ByUrl(ANY_FILE_URL),
-            ipAddress = ANY_IP_ADDRESS,
-        ).execute()
+        sut
+            .setWebhook(
+                url = ANY_WEBHOOK_URL,
+                certificate = TelegramFile.ByUrl(ANY_FILE_URL),
+                ipAddress = ANY_IP_ADDRESS,
+            ).execute()
     }
 
     private fun thenSetWebhookRequestWithoutCertificateIsCorrect() {
@@ -183,10 +189,12 @@ class SetWebhookIT : ApiClientIT() {
         val request = mockWebServer.takeRequest()
         val multipartBoundary = request.multipartBoundary
         val requestBody = request.body.readUtf8().trimIndent()
-        val expectedRequestBody = String.format(
-            getFileAsStringFromResources<SetWebhookIT>("setWebhookMultipartWithCertificateRequestBody.txt"),
-            multipartBoundary,
-        ).trimIndent()
+        val expectedRequestBody =
+            String
+                .format(
+                    getFileAsStringFromResources<SetWebhookIT>("setWebhookMultipartWithCertificateRequestBody.txt"),
+                    multipartBoundary,
+                ).trimIndent()
         assertEquals(expectedRequestBody, requestBody)
     }
 
@@ -194,11 +202,13 @@ class SetWebhookIT : ApiClientIT() {
         val request = mockWebServer.takeRequest()
         val multipartBoundary = request.multipartBoundary
         val requestBody = request.body.readUtf8().trimIndent()
-        val expectedRequestBody = String.format(
-            getFileAsStringFromResources<SetWebhookIT>("setWebhookMultipartWithCertificateAndWithIpAddressRequestBody.txt"),
-            multipartBoundary,
-            ANY_IP_ADDRESS,
-        ).trimIndent()
+        val expectedRequestBody =
+            String
+                .format(
+                    getFileAsStringFromResources<SetWebhookIT>("setWebhookMultipartWithCertificateAndWithIpAddressRequestBody.txt"),
+                    multipartBoundary,
+                    ANY_IP_ADDRESS,
+                ).trimIndent()
         assertEquals(expectedRequestBody, requestBody)
     }
 

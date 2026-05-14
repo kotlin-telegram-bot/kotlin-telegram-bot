@@ -11,15 +11,22 @@ import retrofit2.Call
 import retrofit2.Response
 import java.io.InputStream
 
-fun <T> Call<T>.call(): Pair<Response<T?>?, Exception?> = try {
-    Pair(execute(), null)
-} catch (exception: Exception) {
-    Pair(null, exception)
-}
+fun <T> Call<T>.call(): Pair<Response<T?>?, Exception?> =
+    try {
+        Pair(execute(), null)
+    } catch (exception: Exception) {
+        Pair(null, exception)
+    }
 
-class ResponseError(val errorBody: ResponseBody?, val exception: Exception?)
+class ResponseError(
+    val errorBody: ResponseBody?,
+    val exception: Exception?,
+)
 
-fun <T> Pair<Response<T?>?, Exception?>.fold(response: (T?) -> Unit = {}, error: (ResponseError) -> Unit = {}) {
+fun <T> Pair<Response<T?>?, Exception?>.fold(
+    response: (T?) -> Unit = {},
+    error: (ResponseError) -> Unit = {},
+) {
     if (first?.isSuccessful == true && first?.body() != null) {
         response(first!!.body()!!)
     } else {
@@ -27,7 +34,10 @@ fun <T> Pair<Response<T?>?, Exception?>.fold(response: (T?) -> Unit = {}, error:
     }
 }
 
-fun <T, R> Pair<Response<T?>?, Exception?>.bimap(mapResponse: (T?) -> R, mapError: (ResponseError) -> R): R =
+fun <T, R> Pair<Response<T?>?, Exception?>.bimap(
+    mapResponse: (T?) -> R,
+    mapError: (ResponseError) -> R,
+): R =
     if (first?.isSuccessful == true && first?.body() != null) {
         val response = first!!.body()!!
         mapResponse(response)
@@ -38,16 +48,17 @@ fun <T, R> Pair<Response<T?>?, Exception?>.bimap(mapResponse: (T?) -> R, mapErro
 fun InputStream.toRequestBody(
     contentType: MediaType?,
     contentLength: Long = -1,
-): RequestBody = object : RequestBody() {
-    override fun contentType(): MediaType? = contentType
+): RequestBody =
+    object : RequestBody() {
+        override fun contentType(): MediaType? = contentType
 
-    override fun contentLength(): Long = contentLength
+        override fun contentLength(): Long = contentLength
 
-    override fun writeTo(sink: BufferedSink) {
-        this@toRequestBody.use {
-            sink.writeAll(it.source())
+        override fun writeTo(sink: BufferedSink) {
+            this@toRequestBody.use {
+                sink.writeAll(it.source())
+            }
         }
     }
-}
 
 fun TelegramFile.ByInputStream.asMultipartBodyPart(partName: String) = MultipartBody.Part.createFormData(partName, filename ?: partName, stream.toRequestBody(contentType, contentLength))

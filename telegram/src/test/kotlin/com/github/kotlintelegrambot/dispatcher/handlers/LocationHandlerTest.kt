@@ -12,7 +12,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class LocationHandlerTest {
-
     private val handleLocationMock = mockk<HandleLocation>(relaxed = true)
 
     private val sut = LocationHandler(handleLocationMock)
@@ -36,20 +35,22 @@ class LocationHandlerTest {
     }
 
     @Test
-    fun `location is properly dispatched to the handler function`() = runTest {
-        val botMock = mockk<Bot>()
-        val anyLocation = anyLocation()
-        val anyMessageWithLocation = anyMessage(location = anyLocation)
-        val anyUpdateWithLocation = anyUpdate(message = anyMessageWithLocation)
+    fun `location is properly dispatched to the handler function`() =
+        runTest {
+            val botMock = mockk<Bot>()
+            val anyLocation = anyLocation()
+            val anyMessageWithLocation = anyMessage(location = anyLocation)
+            val anyUpdateWithLocation = anyUpdate(message = anyMessageWithLocation)
 
-        sut.handleUpdate(botMock, anyUpdateWithLocation)
+            sut.handleUpdate(botMock, anyUpdateWithLocation)
 
-        val expectedLocationHandlerEnv = LocationHandlerEnvironment(
-            botMock,
-            anyUpdateWithLocation,
-            anyMessageWithLocation,
-            anyLocation,
-        )
-        coVerify { handleLocationMock.invoke(expectedLocationHandlerEnv) }
-    }
+            val expectedLocationHandlerEnv =
+                LocationHandlerEnvironment(
+                    botMock,
+                    anyUpdateWithLocation,
+                    anyMessageWithLocation,
+                    anyLocation,
+                )
+            coVerify { handleLocationMock.invoke(expectedLocationHandlerEnv) }
+        }
 }

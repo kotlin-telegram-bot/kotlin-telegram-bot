@@ -8,13 +8,12 @@ import com.github.kotlintelegrambot.entities.files.Document
 class DocumentHandler(
     handleDocument: HandleDocument,
 ) : MediaHandler<Document>(
-    handleDocument,
-    DocumentHandlerFunctions::mapMessageToDocument,
-    DocumentHandlerFunctions::isUpdateDocument,
-)
+        handleDocument,
+        DocumentHandlerFunctions::mapMessageToDocument,
+        DocumentHandlerFunctions::isUpdateDocument,
+    )
 
 private object DocumentHandlerFunctions {
-
     fun mapMessageToDocument(message: Message): Document {
         val document = message.document
         checkNotNull(document)

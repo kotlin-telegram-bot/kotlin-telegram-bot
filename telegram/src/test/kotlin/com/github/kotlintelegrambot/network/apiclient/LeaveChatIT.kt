@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 class LeaveChatIT : ApiClientIT() {
-
     @Test
     fun `leave chat request`() {
         givenASuccessfulResponse()
@@ -32,15 +31,17 @@ class LeaveChatIT : ApiClientIT() {
     }
 
     private fun givenASuccessfulResponse() {
-        val response = """
+        val response =
+            """
             {
                 "ok": true,
                 "result": true
             }
-        """.trimIndent()
-        val mockedResponse = MockResponse()
-            .setResponseCode(200)
-            .setBody(response)
+            """.trimIndent()
+        val mockedResponse =
+            MockResponse()
+                .setResponseCode(200)
+                .setBody(response)
         mockWebServer.enqueue(mockedResponse)
     }
 }

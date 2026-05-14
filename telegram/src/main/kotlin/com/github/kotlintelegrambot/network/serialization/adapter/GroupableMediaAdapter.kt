@@ -14,7 +14,11 @@ import java.lang.reflect.Type
 internal class GroupableMediaAdapter(
     private val inputMediaAdapter: InputMediaAdapter,
 ) : JsonSerializer<GroupableMedia> {
-    override fun serialize(src: GroupableMedia?, typeOfSrc: Type, context: JsonSerializationContext): JsonElement =
+    override fun serialize(
+        src: GroupableMedia?,
+        typeOfSrc: Type,
+        context: JsonSerializationContext,
+    ): JsonElement =
         when (src) {
             is InputMediaVideo,
             is InputMediaPhoto,

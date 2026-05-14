@@ -13,7 +13,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class AudioHandlerTest {
-
     private val handleAudioMock = mockk<HandleAudio>(relaxed = true)
 
     private val sut = AudioHandler(handleAudioMock)
@@ -37,20 +36,22 @@ class AudioHandlerTest {
     }
 
     @Test
-    fun `audio is properly dispatched to the handler function`() = runTest {
-        val botMock = mockk<Bot>()
-        val anyAudio = anyAudio()
-        val anyMessageWithAudio = anyMessage(audio = anyAudio)
-        val anyUpdateWithAudio = anyUpdate(message = anyMessageWithAudio)
+    fun `audio is properly dispatched to the handler function`() =
+        runTest {
+            val botMock = mockk<Bot>()
+            val anyAudio = anyAudio()
+            val anyMessageWithAudio = anyMessage(audio = anyAudio)
+            val anyUpdateWithAudio = anyUpdate(message = anyMessageWithAudio)
 
-        sut.handleUpdate(botMock, anyUpdateWithAudio)
+            sut.handleUpdate(botMock, anyUpdateWithAudio)
 
-        val expectedAudioHandlerEnv = MediaHandlerEnvironment(
-            botMock,
-            anyUpdateWithAudio,
-            anyMessageWithAudio,
-            anyAudio,
-        )
-        coVerify { handleAudioMock.invoke(expectedAudioHandlerEnv) }
-    }
+            val expectedAudioHandlerEnv =
+                MediaHandlerEnvironment(
+                    botMock,
+                    anyUpdateWithAudio,
+                    anyMessageWithAudio,
+                    anyAudio,
+                )
+            coVerify { handleAudioMock.invoke(expectedAudioHandlerEnv) }
+        }
 }

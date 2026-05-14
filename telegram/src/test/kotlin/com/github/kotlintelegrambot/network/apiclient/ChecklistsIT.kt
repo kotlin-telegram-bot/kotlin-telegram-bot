@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test
  * Wire-format coverage for Bot API 9.1 checklist methods.
  */
 class ChecklistsIT : ApiClientIT() {
-
     @Test
     fun `sendChecklist posts business_connection_id, chat_id and serialized checklist`() {
         mockWebServer.enqueue(
@@ -24,10 +23,11 @@ class ChecklistsIT : ApiClientIT() {
         sut.sendChecklist(
             businessConnectionId = "conn-abc",
             chatId = ChatId.fromId(11L),
-            checklist = InputChecklist(
-                title = "Groceries",
-                tasks = listOf(InputChecklistTask(id = 1, text = "Eggs")),
-            ),
+            checklist =
+                InputChecklist(
+                    title = "Groceries",
+                    tasks = listOf(InputChecklistTask(id = 1, text = "Eggs")),
+                ),
         )
 
         val request = mockWebServer.takeRequest()
@@ -50,10 +50,11 @@ class ChecklistsIT : ApiClientIT() {
             businessConnectionId = "conn-abc",
             chatId = ChatId.fromId(11L),
             messageId = 7L,
-            checklist = InputChecklist(
-                title = "T",
-                tasks = listOf(InputChecklistTask(id = 1, text = "x")),
-            ),
+            checklist =
+                InputChecklist(
+                    title = "T",
+                    tasks = listOf(InputChecklistTask(id = 1, text = "x")),
+                ),
         )
 
         val request = mockWebServer.takeRequest()

@@ -11,7 +11,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class InlineQueryHandlerTest {
-
     private val handleInlineQueryMock = mockk<HandleInlineQuery>(relaxed = true)
 
     private val sut = InlineQueryHandler(handleInlineQueryMock)
@@ -35,18 +34,20 @@ class InlineQueryHandlerTest {
     }
 
     @Test
-    fun `inline query is properly dispatched to the handler function`() = runTest {
-        val botMock = mockk<Bot>()
-        val anyInlineQuery = anyInlineQuery()
-        val anyUpdateWithInlineQuery = anyUpdate(inlineQuery = anyInlineQuery)
+    fun `inline query is properly dispatched to the handler function`() =
+        runTest {
+            val botMock = mockk<Bot>()
+            val anyInlineQuery = anyInlineQuery()
+            val anyUpdateWithInlineQuery = anyUpdate(inlineQuery = anyInlineQuery)
 
-        sut.handleUpdate(botMock, anyUpdateWithInlineQuery)
+            sut.handleUpdate(botMock, anyUpdateWithInlineQuery)
 
-        val expectedInlineQueryHandlerEnv = InlineQueryHandlerEnvironment(
-            botMock,
-            anyUpdateWithInlineQuery,
-            anyInlineQuery,
-        )
-        coVerify { handleInlineQueryMock.invoke(expectedInlineQueryHandlerEnv) }
-    }
+            val expectedInlineQueryHandlerEnv =
+                InlineQueryHandlerEnvironment(
+                    botMock,
+                    anyUpdateWithInlineQuery,
+                    anyInlineQuery,
+                )
+            coVerify { handleInlineQueryMock.invoke(expectedInlineQueryHandlerEnv) }
+        }
 }

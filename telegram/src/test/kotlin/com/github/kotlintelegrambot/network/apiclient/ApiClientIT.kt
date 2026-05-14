@@ -8,7 +8,6 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 
 abstract class ApiClientIT {
-
     protected val mockWebServer = MockWebServer()
 
     internal lateinit var sut: ApiClient
@@ -17,12 +16,13 @@ abstract class ApiClientIT {
     fun setUp() {
         mockWebServer.start()
         val webServerUrl = mockWebServer.url("")
-        sut = ApiClient(
-            token = "",
-            apiUrl = webServerUrl.toString(),
-            logLevel = LogLevel.None,
-            gson = GsonFactory.createForApiClient(),
-        )
+        sut =
+            ApiClient(
+                token = "",
+                apiUrl = webServerUrl.toString(),
+                logLevel = LogLevel.None,
+                gson = GsonFactory.createForApiClient(),
+            )
     }
 
     @AfterEach

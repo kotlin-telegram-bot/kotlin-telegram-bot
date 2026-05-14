@@ -8,14 +8,18 @@ import okhttp3.mockwebserver.MockResponse
 import org.junit.jupiter.api.Test
 
 class DeleteMessageIT : ApiClientIT() {
-
     @Test
     fun `deleteMessage with chat id sends correct request`() {
         givenDeleteMessageSuccessfulResponse()
 
         sut.deleteMessage(ChatId.fromId(ANY_CHAT_ID), ANY_MESSAGE_ID)
 
-        val requestBody = mockWebServer.takeRequest().body.readUtf8().decode()
+        val requestBody =
+            mockWebServer
+                .takeRequest()
+                .body
+                .readUtf8()
+                .decode()
         val expectedRequestBody = "chat_id=$ANY_CHAT_ID&message_id=$ANY_MESSAGE_ID"
         assertEquals(expectedRequestBody, requestBody)
     }
@@ -26,7 +30,12 @@ class DeleteMessageIT : ApiClientIT() {
 
         sut.deleteMessage(ChatId.fromChannelUsername(ANY_CHANNEL_USERNAME), ANY_MESSAGE_ID)
 
-        val requestBody = mockWebServer.takeRequest().body.readUtf8().decode()
+        val requestBody =
+            mockWebServer
+                .takeRequest()
+                .body
+                .readUtf8()
+                .decode()
         val expectedRequestBody = "chat_id=$ANY_CHANNEL_USERNAME&message_id=$ANY_MESSAGE_ID"
         assertEquals(expectedRequestBody, requestBody)
     }
@@ -41,15 +50,17 @@ class DeleteMessageIT : ApiClientIT() {
     }
 
     private fun givenDeleteMessageSuccessfulResponse() {
-        val deleteMessageResponse = """
+        val deleteMessageResponse =
+            """
             {
                 "ok": true,
                 "result": true
             }
-        """.trimIndent()
-        val mockedResponse = MockResponse()
-            .setResponseCode(200)
-            .setBody(deleteMessageResponse)
+            """.trimIndent()
+        val mockedResponse =
+            MockResponse()
+                .setResponseCode(200)
+                .setBody(deleteMessageResponse)
         mockWebServer.enqueue(mockedResponse)
     }
 

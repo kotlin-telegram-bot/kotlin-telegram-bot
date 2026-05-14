@@ -10,7 +10,6 @@ import okhttp3.mockwebserver.MockResponse
 import org.junit.jupiter.api.Test
 
 class GetChatAdministratorsIT : ApiClientIT() {
-
     @Test
     fun `request is properly sent`() {
         givenASuccessfulGetChatMembersResponse()
@@ -26,46 +25,52 @@ class GetChatAdministratorsIT : ApiClientIT() {
     fun `successful response is returned correctly`() {
         givenASuccessfulGetChatMembersResponse()
 
-        val getChatAdministratorsResult = sut.getChatAdministrators(
-            chatId = ChatId.fromId(ANY_CHAT_ID),
-        ).getOrNull()
+        val getChatAdministratorsResult =
+            sut
+                .getChatAdministrators(
+                    chatId = ChatId.fromId(ANY_CHAT_ID),
+                ).getOrNull()
 
-        val expectedChatAdministrators = listOf(
-            ChatMember(
-                user = User(
-                    id = 482352639,
-                    isBot = true,
-                    firstName = "test",
-                    username = "testBot",
+        val expectedChatAdministrators =
+            listOf(
+                ChatMember(
+                    user =
+                        User(
+                            id = 482352639,
+                            isBot = true,
+                            firstName = "test",
+                            username = "testBot",
+                        ),
+                    status = "administrator",
+                    canBeEdited = false,
+                    canChangeInfo = true,
+                    canDeleteMessages = true,
+                    canInviteUsers = true,
+                    canRestrictMembers = true,
+                    canPinMessages = true,
+                    canPromoteMembers = true,
+                    isAnonymous = false,
                 ),
-                status = "administrator",
-                canBeEdited = false,
-                canChangeInfo = true,
-                canDeleteMessages = true,
-                canInviteUsers = true,
-                canRestrictMembers = true,
-                canPinMessages = true,
-                canPromoteMembers = true,
-                isAnonymous = false,
-            ),
-            ChatMember(
-                user = User(
-                    id = 187395279,
-                    isBot = false,
-                    firstName = "Tyrion",
-                    lastName = "Lannister",
-                    username = "dwarfing",
-                    languageCode = "en",
+                ChatMember(
+                    user =
+                        User(
+                            id = 187395279,
+                            isBot = false,
+                            firstName = "Tyrion",
+                            lastName = "Lannister",
+                            username = "dwarfing",
+                            languageCode = "en",
+                        ),
+                    status = "creator",
+                    isAnonymous = false,
                 ),
-                status = "creator",
-                isAnonymous = false,
-            ),
-        )
+            )
         assertEquals(expectedChatAdministrators, getChatAdministratorsResult)
     }
 
     private fun givenASuccessfulGetChatMembersResponse() {
-        val getChaMembersResponseBody = """
+        val getChaMembersResponseBody =
+            """
             {
                 "ok": true,
                 "result": [
@@ -100,7 +105,7 @@ class GetChatAdministratorsIT : ApiClientIT() {
                     }
                 ]
             }
-        """.trimIndent()
+            """.trimIndent()
         mockWebServer.enqueue(
             MockResponse()
                 .setResponseCode(200)

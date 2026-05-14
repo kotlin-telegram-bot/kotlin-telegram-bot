@@ -5,12 +5,12 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class GiftsTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
     fun `deserializes Gifts list`() {
-        val json = """
+        val json =
+            """
             {
               "gifts":[
                 {
@@ -20,7 +20,7 @@ class GiftsTest {
                 }
               ]
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val gifts = gson.fromJson(json, Gifts::class.java)
 

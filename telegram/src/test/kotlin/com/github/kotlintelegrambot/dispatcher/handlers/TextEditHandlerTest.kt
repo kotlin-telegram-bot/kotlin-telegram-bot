@@ -11,7 +11,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class TextEditHandlerTest {
-
     private val handleTextMock = mockk<HandleText>(relaxed = true)
 
     @Test
@@ -75,22 +74,24 @@ class TextEditHandlerTest {
     }
 
     @Test
-    fun `text is properly dispatched to the handler function`() = runTest {
-        val botMock = mockk<Bot>()
-        val anyMessageWithText = anyMessage(text = ANY_TEXT)
-        val anyUpdate = anyUpdate(editedMessage = anyMessageWithText)
-        val sut = TextEditHandler(text = ANY_TEXT, handleText = handleTextMock)
+    fun `text is properly dispatched to the handler function`() =
+        runTest {
+            val botMock = mockk<Bot>()
+            val anyMessageWithText = anyMessage(text = ANY_TEXT)
+            val anyUpdate = anyUpdate(editedMessage = anyMessageWithText)
+            val sut = TextEditHandler(text = ANY_TEXT, handleText = handleTextMock)
 
-        sut.handleUpdate(botMock, anyUpdate)
+            sut.handleUpdate(botMock, anyUpdate)
 
-        val expectedTextHandlerEnvironment = TextHandlerEnvironment(
-            botMock,
-            anyUpdate,
-            anyMessageWithText,
-            ANY_TEXT,
-        )
-        coVerify { handleTextMock.invoke(expectedTextHandlerEnvironment) }
-    }
+            val expectedTextHandlerEnvironment =
+                TextHandlerEnvironment(
+                    botMock,
+                    anyUpdate,
+                    anyMessageWithText,
+                    ANY_TEXT,
+                )
+            coVerify { handleTextMock.invoke(expectedTextHandlerEnvironment) }
+        }
 
     private companion object {
         const val ANY_TEXT = "Valar Morghulis"

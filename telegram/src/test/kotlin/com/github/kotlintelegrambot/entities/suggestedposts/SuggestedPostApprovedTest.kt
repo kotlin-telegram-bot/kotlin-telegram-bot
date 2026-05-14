@@ -5,14 +5,14 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class SuggestedPostApprovedTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
     fun `deserializes SuggestedPostApproved`() {
-        val json = """
+        val json =
+            """
             {"price":{"currency":"XTR","amount":50},"send_date":1700000000}
-        """.trimIndent()
+            """.trimIndent()
 
         val approved = gson.fromJson(json, SuggestedPostApproved::class.java)
 

@@ -8,13 +8,12 @@ import com.github.kotlintelegrambot.entities.files.VideoNote
 class VideoNoteHandler(
     handleVideoNote: HandleVideoNote,
 ) : MediaHandler<VideoNote>(
-    handleVideoNote,
-    VideoNoteHandlerFunctions::mapMessageToVideoNote,
-    VideoNoteHandlerFunctions::isUpdateVideoNote,
-)
+        handleVideoNote,
+        VideoNoteHandlerFunctions::mapMessageToVideoNote,
+        VideoNoteHandlerFunctions::isUpdateVideoNote,
+    )
 
 private object VideoNoteHandlerFunctions {
-
     fun mapMessageToVideoNote(message: Message): VideoNote {
         val videoNote = message.videoNote
         checkNotNull(videoNote)

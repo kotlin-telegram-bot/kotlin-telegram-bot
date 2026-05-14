@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class LinkPreviewOptionsTest {
-
     private val gson = GsonFactory.createForApiClient()
 
     @Test
@@ -19,13 +18,14 @@ class LinkPreviewOptionsTest {
 
     @Test
     fun `serializes every field with snake_case keys`() {
-        val options = LinkPreviewOptions(
-            isDisabled = false,
-            url = "https://example.com",
-            preferSmallMedia = true,
-            preferLargeMedia = false,
-            showAboveText = true,
-        )
+        val options =
+            LinkPreviewOptions(
+                isDisabled = false,
+                url = "https://example.com",
+                preferSmallMedia = true,
+                preferLargeMedia = false,
+                showAboveText = true,
+            )
 
         val json = gson.toJson(options)
 

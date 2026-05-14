@@ -78,16 +78,18 @@ sealed class LogLevel {
     internal fun shouldLogErrors(): Boolean = this is All || this is Error
 }
 
-internal fun LogLevel.toOkHttpLogLevel(): HttpLoggingInterceptor.Level = when (this) {
-    None -> HttpLoggingInterceptor.Level.NONE
-    is All -> networkLogLevel.toOkHttpLogLevel()
-    is Network -> toOkHttpLogLevel()
-    Error -> HttpLoggingInterceptor.Level.NONE
-}
+internal fun LogLevel.toOkHttpLogLevel(): HttpLoggingInterceptor.Level =
+    when (this) {
+        None -> HttpLoggingInterceptor.Level.NONE
+        is All -> networkLogLevel.toOkHttpLogLevel()
+        is Network -> toOkHttpLogLevel()
+        Error -> HttpLoggingInterceptor.Level.NONE
+    }
 
-private fun Network.toOkHttpLogLevel(): HttpLoggingInterceptor.Level = when (this) {
-    Network.None -> HttpLoggingInterceptor.Level.NONE
-    Basic -> HttpLoggingInterceptor.Level.BASIC
-    Headers -> HttpLoggingInterceptor.Level.HEADERS
-    Body -> HttpLoggingInterceptor.Level.BODY
-}
+private fun Network.toOkHttpLogLevel(): HttpLoggingInterceptor.Level =
+    when (this) {
+        Network.None -> HttpLoggingInterceptor.Level.NONE
+        Basic -> HttpLoggingInterceptor.Level.BASIC
+        Headers -> HttpLoggingInterceptor.Level.HEADERS
+        Body -> HttpLoggingInterceptor.Level.BODY
+    }

@@ -46,20 +46,21 @@ fun anyUpdate(
     pollAnswer: PollAnswer? = null,
     myChatMember: ChatMemberUpdated? = null,
     chatMember: ChatMemberUpdated? = null,
-): Update = Update(
-    updateId = updateId,
-    message = message,
-    editedMessage = editedMessage,
-    channelPost = channelPost,
-    editedChannelPost = editedChannelPost,
-    callbackQuery = callbackQuery,
-    preCheckoutQuery = preCheckoutQuery,
-    shippingQuery = shippingQuery,
-    inlineQuery = inlineQuery,
-    pollAnswer = pollAnswer,
-    myChatMember = myChatMember,
-    chatMember = chatMember,
-)
+): Update =
+    Update(
+        updateId = updateId,
+        message = message,
+        editedMessage = editedMessage,
+        channelPost = channelPost,
+        editedChannelPost = editedChannelPost,
+        callbackQuery = callbackQuery,
+        preCheckoutQuery = preCheckoutQuery,
+        shippingQuery = shippingQuery,
+        inlineQuery = inlineQuery,
+        pollAnswer = pollAnswer,
+        myChatMember = myChatMember,
+        chatMember = chatMember,
+    )
 
 private const val ANY_MESSAGE_ID = 32142353L
 private const val ANY_DATE = 12412421L
@@ -104,47 +105,48 @@ fun anyMessage(
     dice: Dice? = null,
     animation: Animation? = null,
     replyMarkup: InlineKeyboardMarkup? = null,
-): Message = Message(
-    messageId = messageId,
-    from = from,
-    date = date,
-    chat = chat,
-    forwardFrom = forwardFrom,
-    forwardFromChat = forwardFromChat,
-    forwardDate = forwardDate,
-    replyToMessage = replyToMessage,
-    editDate = editDate,
-    text = text,
-    entities = entities,
-    captionEntities = captionEntities,
-    audio = audio,
-    document = document,
-    game = game,
-    photo = photo,
-    sticker = sticker,
-    video = video,
-    voice = voice,
-    videoNote = videoNote,
-    caption = caption,
-    contact = contact,
-    location = location,
-    venue = venue,
-    newChatMembers = newChatMembers,
-    leftChatMember = leftChatMember,
-    newChatTitle = newChatTitle,
-    newChatPhoto = newChatPhoto,
-    deleteChatPhoto = deleteChatPhoto,
-    groupChatCreated = groupChatCreated,
-    supergroupChatCreated = supergroupChatCreated,
-    channelChatCreated = channelChatCreated,
-    migrateToChatId = migrateToChatId,
-    migrateFromChatId = migrateFromChatId,
-    invoice = invoice,
-    successfulPayment = successfulPayment,
-    dice = dice,
-    animation = animation,
-    replyMarkup = replyMarkup,
-)
+): Message =
+    Message(
+        messageId = messageId,
+        from = from,
+        date = date,
+        chat = chat,
+        forwardFrom = forwardFrom,
+        forwardFromChat = forwardFromChat,
+        forwardDate = forwardDate,
+        replyToMessage = replyToMessage,
+        editDate = editDate,
+        text = text,
+        entities = entities,
+        captionEntities = captionEntities,
+        audio = audio,
+        document = document,
+        game = game,
+        photo = photo,
+        sticker = sticker,
+        video = video,
+        voice = voice,
+        videoNote = videoNote,
+        caption = caption,
+        contact = contact,
+        location = location,
+        venue = venue,
+        newChatMembers = newChatMembers,
+        leftChatMember = leftChatMember,
+        newChatTitle = newChatTitle,
+        newChatPhoto = newChatPhoto,
+        deleteChatPhoto = deleteChatPhoto,
+        groupChatCreated = groupChatCreated,
+        supergroupChatCreated = supergroupChatCreated,
+        channelChatCreated = channelChatCreated,
+        migrateToChatId = migrateToChatId,
+        migrateFromChatId = migrateFromChatId,
+        invoice = invoice,
+        successfulPayment = successfulPayment,
+        dice = dice,
+        animation = animation,
+        replyMarkup = replyMarkup,
+    )
 
 private const val ANY_CHAT_ID = 243423535L
 private const val ANY_CHAT_TYPE = "private"
@@ -156,14 +158,15 @@ fun anyChat(
     username: String? = null,
     firstName: String? = null,
     lastName: String? = null,
-): Chat = Chat(
-    id = id,
-    type = type,
-    title = title,
-    username = username,
-    firstName = firstName,
-    lastName = lastName,
-)
+): Chat =
+    Chat(
+        id = id,
+        type = type,
+        title = title,
+        username = username,
+        firstName = firstName,
+        lastName = lastName,
+    )
 
 private const val ANY_FILE_ID = "fileId:353432q213412sd"
 private const val ANY_FILE_UNIQUE_ID = "fileUniqueId:3513523frj2"
@@ -178,16 +181,17 @@ fun anyAudio(
     mimeType: String? = null,
     fileSize: Int? = null,
     fileName: String? = null,
-): Audio = Audio(
-    fileId = fileId,
-    fileUniqueId = fileUniqueId,
-    duration = duration,
-    performer = performer,
-    title = title,
-    mimeType = mimeType,
-    fileSize = fileSize,
-    fileName = fileName,
-)
+): Audio =
+    Audio(
+        fileId = fileId,
+        fileUniqueId = fileUniqueId,
+        duration = duration,
+        performer = performer,
+        title = title,
+        mimeType = mimeType,
+        fileSize = fileSize,
+        fileName = fileName,
+    )
 
 private const val ANY_WIDTH = 23452345
 private const val ANY_HEIGHT = 674654
@@ -198,13 +202,14 @@ fun anyPhotoSize(
     width: Int = ANY_WIDTH,
     height: Int = ANY_HEIGHT,
     fileSize: Int? = null,
-): PhotoSize = PhotoSize(
-    fileId = fileId,
-    fileUniqueId = fileUniqueId,
-    width = width,
-    height = height,
-    fileSize = fileSize,
-)
+): PhotoSize =
+    PhotoSize(
+        fileId = fileId,
+        fileUniqueId = fileUniqueId,
+        width = width,
+        height = height,
+        fileSize = fileSize,
+    )
 
 fun anySticker(
     fileId: String = ANY_FILE_ID,
@@ -215,16 +220,17 @@ fun anySticker(
     thumb: PhotoSize? = null,
     emoji: String? = null,
     fileSize: Int? = null,
-): Sticker = Sticker(
-    fileId = fileId,
-    fileUniqueId = fileUniqueId,
-    width = width,
-    height = height,
-    isAnimated = isAnimated,
-    thumb = thumb,
-    emoji = emoji,
-    fileSize = fileSize,
-)
+): Sticker =
+    Sticker(
+        fileId = fileId,
+        fileUniqueId = fileUniqueId,
+        width = width,
+        height = height,
+        isAnimated = isAnimated,
+        thumb = thumb,
+        emoji = emoji,
+        fileSize = fileSize,
+    )
 
 fun anyVideo(
     fileId: String = ANY_FILE_ID,
@@ -236,17 +242,18 @@ fun anyVideo(
     fileSize: Int? = null,
     duration: Int = ANY_DURATION,
     fileName: String? = null,
-): Video = Video(
-    fileId = fileId,
-    fileUniqueId = fileUniqueId,
-    width = width,
-    height = height,
-    thumb = thumb,
-    mimeType = mimeType,
-    fileSize = fileSize,
-    duration = duration,
-    fileName = fileName,
-)
+): Video =
+    Video(
+        fileId = fileId,
+        fileUniqueId = fileUniqueId,
+        width = width,
+        height = height,
+        thumb = thumb,
+        mimeType = mimeType,
+        fileSize = fileSize,
+        duration = duration,
+        fileName = fileName,
+    )
 
 private const val ANY_LENGTH = 234234
 
@@ -257,14 +264,15 @@ fun anyVideoNote(
     fileSize: Int? = null,
     duration: Int = ANY_DURATION,
     length: Int = ANY_LENGTH,
-): VideoNote = VideoNote(
-    fileId = fileId,
-    fileUniqueId = fileUniqueId,
-    thumb = thumb,
-    fileSize = fileSize,
-    duration = duration,
-    length = length,
-)
+): VideoNote =
+    VideoNote(
+        fileId = fileId,
+        fileUniqueId = fileUniqueId,
+        thumb = thumb,
+        fileSize = fileSize,
+        duration = duration,
+        length = length,
+    )
 
 private const val ANY_LONGITUDE = 3.2235423F
 private const val ANY_LATITUDE = 32.1242F
@@ -274,11 +282,12 @@ fun anyLocation(
     longitude: Float = ANY_LONGITUDE,
     latitude: Float = ANY_LATITUDE,
     livePeriod: Int? = ANY_LIVE_PERIOD,
-): Location = Location(
-    longitude = longitude,
-    latitude = latitude,
-    livePeriod = livePeriod,
-)
+): Location =
+    Location(
+        longitude = longitude,
+        latitude = latitude,
+        livePeriod = livePeriod,
+    )
 
 private const val ANY_PHONE_NUMBER = "+346878344312"
 private const val ANY_FIRST_NAME = "rukeitor"
@@ -288,12 +297,13 @@ fun anyContact(
     firstName: String = ANY_FIRST_NAME,
     lastName: String? = null,
     userId: Long? = null,
-): Contact = Contact(
-    phoneNumber = phoneNumber,
-    firstName = firstName,
-    lastName = lastName,
-    userId = userId,
-)
+): Contact =
+    Contact(
+        phoneNumber = phoneNumber,
+        firstName = firstName,
+        lastName = lastName,
+        userId = userId,
+    )
 
 private const val ANY_TITLE = "invoiceando"
 private const val ANY_DESCRIPTION = "describiendo"
@@ -307,13 +317,14 @@ fun anyInvoice(
     startParameter: String = ANY_START_PARAMETER,
     currency: String = ANY_CURRENCY,
     totalAmount: Int = ANY_TOTAL_AMOUNT,
-): Invoice = Invoice(
-    title = title,
-    description = description,
-    startParameter = startParameter,
-    currency = currency,
-    totalAmount = totalAmount,
-)
+): Invoice =
+    Invoice(
+        title = title,
+        description = description,
+        startParameter = startParameter,
+        currency = currency,
+        totalAmount = totalAmount,
+    )
 
 private const val ANY_USER_ID = 325235L
 private const val IS_BOT = true
@@ -325,14 +336,15 @@ fun anyUser(
     lastName: String? = null,
     username: String? = null,
     languageCode: String? = null,
-): User = User(
-    id = userId,
-    isBot = isBot,
-    firstName = firstName,
-    lastName = lastName,
-    username = username,
-    languageCode = languageCode,
-)
+): User =
+    User(
+        id = userId,
+        isBot = isBot,
+        firstName = firstName,
+        lastName = lastName,
+        username = username,
+        languageCode = languageCode,
+    )
 
 fun anyCallbackQuery(
     id: String = "anyId",
@@ -341,14 +353,15 @@ fun anyCallbackQuery(
     inlineMessageId: String? = null,
     data: String = "anyData",
     chatInstance: String = "1",
-): CallbackQuery = CallbackQuery(
-    id = id,
-    from = from,
-    message = message,
-    inlineMessageId = inlineMessageId,
-    data = data,
-    chatInstance = chatInstance,
-)
+): CallbackQuery =
+    CallbackQuery(
+        id = id,
+        from = from,
+        message = message,
+        inlineMessageId = inlineMessageId,
+        data = data,
+        chatInstance = chatInstance,
+    )
 
 fun anyInlineQuery(
     id: String = "anyId",
@@ -356,31 +369,34 @@ fun anyInlineQuery(
     location: Location? = null,
     query: String = "anyQuery",
     offset: String = "anyOffset",
-): InlineQuery = InlineQuery(
-    id = id,
-    from = from,
-    location = location,
-    query = query,
-    offset = offset,
-)
+): InlineQuery =
+    InlineQuery(
+        id = id,
+        from = from,
+        location = location,
+        query = query,
+        offset = offset,
+    )
 
 fun anyPollAnswer(
     pollId: String = "anyPollId",
     user: User = anyUser(),
     optionIds: List<Int> = emptyList(),
-): PollAnswer = PollAnswer(
-    pollId = pollId,
-    user = user,
-    optionIds = optionIds,
-)
+): PollAnswer =
+    PollAnswer(
+        pollId = pollId,
+        user = user,
+        optionIds = optionIds,
+    )
 
 fun anyDice(
     diceEmoji: DiceEmoji = DiceEmoji.Dartboard,
     value: Int = 5,
-): Dice = Dice(
-    emoji = diceEmoji,
-    value = value,
-)
+): Dice =
+    Dice(
+        emoji = diceEmoji,
+        value = value,
+    )
 
 fun anyAnimation(
     fileId: String = "anyFileId",
@@ -392,17 +408,18 @@ fun anyAnimation(
     fileName: String? = null,
     mimeType: String? = null,
     fileSize: Long? = null,
-): Animation = Animation(
-    fileId = fileId,
-    fileUniqueId = fileUniqueId,
-    width = width,
-    height = height,
-    duration = duration,
-    thumb = thumb,
-    fileName = fileName,
-    mimeType = mimeType,
-    fileSize = fileSize,
-)
+): Animation =
+    Animation(
+        fileId = fileId,
+        fileUniqueId = fileUniqueId,
+        width = width,
+        height = height,
+        duration = duration,
+        thumb = thumb,
+        fileName = fileName,
+        mimeType = mimeType,
+        fileSize = fileSize,
+    )
 
 fun anyDocument(
     fileId: String = "anyFileId",
@@ -411,14 +428,15 @@ fun anyDocument(
     fileName: String? = null,
     mimeType: String? = null,
     fileSize: Int? = null,
-): Document = Document(
-    fileId = fileId,
-    fileUniqueId = fileUniqueId,
-    thumb = thumb,
-    fileName = fileName,
-    mimeType = mimeType,
-    fileSize = fileSize,
-)
+): Document =
+    Document(
+        fileId = fileId,
+        fileUniqueId = fileUniqueId,
+        thumb = thumb,
+        fileName = fileName,
+        mimeType = mimeType,
+        fileSize = fileSize,
+    )
 
 fun anyGame(
     title: String = "anyTitle",
@@ -427,14 +445,15 @@ fun anyGame(
     text: String? = null,
     textEntities: List<MessageEntity>? = null,
     animation: Animation? = null,
-): Game = Game(
-    title = title,
-    description = description,
-    photo = photos,
-    text = text,
-    textEntities = textEntities,
-    animation = animation,
-)
+): Game =
+    Game(
+        title = title,
+        description = description,
+        photo = photos,
+        text = text,
+        textEntities = textEntities,
+        animation = animation,
+    )
 
 fun anyVoice(
     fileId: String = "anyFileId",
@@ -442,13 +461,14 @@ fun anyVoice(
     duration: Int = 14124,
     mimeType: String? = null,
     fileSize: Int? = null,
-): Voice = Voice(
-    fileId = fileId,
-    fileUniqueId = fileUniqueId,
-    duration = duration,
-    mimeType = mimeType,
-    fileSize = fileSize,
-)
+): Voice =
+    Voice(
+        fileId = fileId,
+        fileUniqueId = fileUniqueId,
+        duration = duration,
+        mimeType = mimeType,
+        fileSize = fileSize,
+    )
 
 fun anyPreCheckoutQuery(
     id: String = "anyId",
@@ -458,15 +478,16 @@ fun anyPreCheckoutQuery(
     invoicePayload: String = "anyInvoicePayload",
     shippingOptionId: String? = null,
     orderInfo: OrderInfo? = null,
-): PreCheckoutQuery = PreCheckoutQuery(
-    id = id,
-    from = from,
-    currency = currency,
-    totalAmount = totalAmount,
-    invoicePayload = invoicePayload,
-    shippingOptionId = shippingOptionId,
-    orderInfo = orderInfo,
-)
+): PreCheckoutQuery =
+    PreCheckoutQuery(
+        id = id,
+        from = from,
+        currency = currency,
+        totalAmount = totalAmount,
+        invoicePayload = invoicePayload,
+        shippingOptionId = shippingOptionId,
+        orderInfo = orderInfo,
+    )
 
 fun anyChatMember(
     user: User = anyUser(),
@@ -489,28 +510,29 @@ fun anyChatMember(
     canSendPolls: Boolean? = null,
     canSendOtherMessages: Boolean? = null,
     canAddWebPagePreviews: Boolean? = null,
-): ChatMember = ChatMember(
-    user = user,
-    status = status,
-    customTitle = customTitle,
-    isAnonymous = isAnonymous,
-    untilDate = forceReply,
-    canBeEdited = canBeEdited,
-    canPostMessages = canPostMessages,
-    canEditMessages = canEditMessages,
-    canDeleteMessages = canDeleteMessages,
-    canRestrictMembers = canRestrictMembers,
-    canPromoteMembers = canPromoteMembers,
-    canChangeInfo = canChangeInfo,
-    canInviteUsers = canInviteUsers,
-    canPinMessages = canPinMessages,
-    isMember = isMember,
-    canSendMessages = canSendMessages,
-    canSendMediaMessages = canSendMediaMessages,
-    canSendPolls = canSendPolls,
-    canSendOtherMessages = canSendOtherMessages,
-    canAddWebPagePreviews = canAddWebPagePreviews,
-)
+): ChatMember =
+    ChatMember(
+        user = user,
+        status = status,
+        customTitle = customTitle,
+        isAnonymous = isAnonymous,
+        untilDate = forceReply,
+        canBeEdited = canBeEdited,
+        canPostMessages = canPostMessages,
+        canEditMessages = canEditMessages,
+        canDeleteMessages = canDeleteMessages,
+        canRestrictMembers = canRestrictMembers,
+        canPromoteMembers = canPromoteMembers,
+        canChangeInfo = canChangeInfo,
+        canInviteUsers = canInviteUsers,
+        canPinMessages = canPinMessages,
+        isMember = isMember,
+        canSendMessages = canSendMessages,
+        canSendMediaMessages = canSendMediaMessages,
+        canSendPolls = canSendPolls,
+        canSendOtherMessages = canSendOtherMessages,
+        canAddWebPagePreviews = canAddWebPagePreviews,
+    )
 
 fun anyMyChatMember(
     chat: Chat = anyChat(),
@@ -519,11 +541,12 @@ fun anyMyChatMember(
     oldChatMember: ChatMember = anyChatMember(),
     newChatMember: ChatMember = anyChatMember(),
     inviteLink: ChatInviteLink? = null,
-): ChatMemberUpdated = ChatMemberUpdated(
-    chat = chat,
-    from = from,
-    date = date,
-    oldChatMember = oldChatMember,
-    newChatMember = newChatMember,
-    inviteLink = inviteLink,
-)
+): ChatMemberUpdated =
+    ChatMemberUpdated(
+        chat = chat,
+        from = from,
+        date = date,
+        oldChatMember = oldChatMember,
+        newChatMember = newChatMember,
+        inviteLink = inviteLink,
+    )

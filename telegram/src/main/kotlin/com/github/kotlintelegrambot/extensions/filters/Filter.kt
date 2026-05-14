@@ -4,23 +4,27 @@ import com.github.kotlintelegrambot.entities.Message
 
 interface Filter {
     fun checkFor(message: Message): Boolean = message.predicate()
+
     fun Message.predicate(): Boolean
 
-    infix fun and(otherFilter: Filter): Filter = object : Filter {
-        override fun Message.predicate(): Boolean =
-            this@Filter.checkFor(this) && otherFilter.checkFor(this)
-    }
+    infix fun and(otherFilter: Filter): Filter =
+        object : Filter {
+            override fun Message.predicate(): Boolean = this@Filter.checkFor(this) && otherFilter.checkFor(this)
+        }
 
-    infix fun or(otherFilter: Filter): Filter = object : Filter {
-        override fun Message.predicate(): Boolean =
-            this@Filter.checkFor(this) || otherFilter.checkFor(this)
-    }
+    infix fun or(otherFilter: Filter): Filter =
+        object : Filter {
+            override fun Message.predicate(): Boolean = this@Filter.checkFor(this) || otherFilter.checkFor(this)
+        }
 
-    operator fun not(): Filter = object : Filter {
-        override fun Message.predicate(): Boolean = !this@Filter.checkFor(this)
-    }
+    operator fun not(): Filter =
+        object : Filter {
+            override fun Message.predicate(): Boolean = !this@Filter.checkFor(this)
+        }
 
-    class Custom(private val customPredicate: Message.() -> Boolean) : Filter {
+    class Custom(
+        private val customPredicate: Message.() -> Boolean,
+    ) : Filter {
         override fun Message.predicate(): Boolean = customPredicate()
     }
 
@@ -76,17 +80,20 @@ interface Filter {
         override fun Message.predicate(): Boolean = invoice != null
     }
 
-    class Chat(private val chatId: Long) : Filter {
+    class Chat(
+        private val chatId: Long,
+    ) : Filter {
         override fun Message.predicate(): Boolean = chat.id == chatId
     }
 
-    class User(private val userId: Long) : Filter {
+    class User(
+        private val userId: Long,
+    ) : Filter {
         override fun Message.predicate(): Boolean = from?.id == userId
     }
 
     object Group : Filter {
-        override fun Message.predicate(): Boolean =
-            chat.type == "group" || chat.type == "supergroup"
+        override fun Message.predicate(): Boolean = chat.type == "group" || chat.type == "supergroup"
     }
 
     object Private : Filter {

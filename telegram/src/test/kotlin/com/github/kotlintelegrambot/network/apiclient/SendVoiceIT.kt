@@ -23,28 +23,30 @@ class SendVoiceIT : ApiClientIT() {
     fun `sendVoice with audioId`() {
         givenAnySendVoiceResponse()
 
-        val sendVoice = sut.sendVoice(
-            ChatId.fromId(ANY_CHAT_ID),
-            TelegramFile.ByFileId(ANY_VOICE_FILE_ID),
-            caption = CAPTION,
-            parseMode = MARKDOWN_V2,
-            captionEntities = CAPTION_ENTITIES,
-            duration = DURATION,
-            disableNotification = false,
-            protectContent = false,
-            replyMarkup = REPLY_MARKUP,
-        )
+        val sendVoice =
+            sut.sendVoice(
+                ChatId.fromId(ANY_CHAT_ID),
+                TelegramFile.ByFileId(ANY_VOICE_FILE_ID),
+                caption = CAPTION,
+                parseMode = MARKDOWN_V2,
+                captionEntities = CAPTION_ENTITIES,
+                duration = DURATION,
+                disableNotification = false,
+                protectContent = false,
+                replyMarkup = REPLY_MARKUP,
+            )
         sendVoice.execute()
 
-        val expectedRequestBody = "chat_id=$ANY_CHAT_ID" +
-            "&voice=$ANY_VOICE_FILE_ID" +
-            "&caption=$CAPTION" +
-            "&parse_mode=${MARKDOWN_V2.modeName}" +
-            "&caption_entities=${gson.toJson(CAPTION_ENTITIES)}" +
-            "&duration=$DURATION" +
-            "&disable_notification=false" +
-            "&protect_content=false" +
-            "&reply_markup=${gson.toJson(REPLY_MARKUP)}"
+        val expectedRequestBody =
+            "chat_id=$ANY_CHAT_ID" +
+                "&voice=$ANY_VOICE_FILE_ID" +
+                "&caption=$CAPTION" +
+                "&parse_mode=${MARKDOWN_V2.modeName}" +
+                "&caption_entities=${gson.toJson(CAPTION_ENTITIES)}" +
+                "&duration=$DURATION" +
+                "&disable_notification=false" +
+                "&protect_content=false" +
+                "&reply_markup=${gson.toJson(REPLY_MARKUP)}"
         val request = mockWebServer.takeRequest()
         assertEquals(expectedRequestBody, request.body.readUtf8().decode())
     }
@@ -53,28 +55,30 @@ class SendVoiceIT : ApiClientIT() {
     fun `sendVoice with audio from file`() {
         givenAnySendVoiceResponse()
 
-        val sendVoice = sut.sendVoice(
-            ChatId.fromId(ANY_CHAT_ID),
-            TelegramFile.ByFile(getFileFromResources<SendVoiceIT>(VOICE_FILENAME)),
-            caption = CAPTION,
-            parseMode = MARKDOWN_V2,
-            captionEntities = CAPTION_ENTITIES,
-            duration = DURATION,
-            disableNotification = false,
-            protectContent = false,
-            replyMarkup = REPLY_MARKUP,
-        )
+        val sendVoice =
+            sut.sendVoice(
+                ChatId.fromId(ANY_CHAT_ID),
+                TelegramFile.ByFile(getFileFromResources<SendVoiceIT>(VOICE_FILENAME)),
+                caption = CAPTION,
+                parseMode = MARKDOWN_V2,
+                captionEntities = CAPTION_ENTITIES,
+                duration = DURATION,
+                disableNotification = false,
+                protectContent = false,
+                replyMarkup = REPLY_MARKUP,
+            )
         sendVoice.execute()
 
         val request = mockWebServer.takeRequest()
         val multipartBoundary = request.multipartBoundary
         val requestBody = request.body.readUtf8().trimIndent()
-        val expectedRequestBody = String.format(
-            getFileAsStringFromResources<SendVoiceIT>("sendVoiceBody.txt"),
-            multipartBoundary,
-            String(getFileFromResources<SendVoiceIT>(VOICE_FILENAME).readBytes()),
-            VOICE_FILENAME,
-        )
+        val expectedRequestBody =
+            String.format(
+                getFileAsStringFromResources<SendVoiceIT>("sendVoiceBody.txt"),
+                multipartBoundary,
+                String(getFileFromResources<SendVoiceIT>(VOICE_FILENAME).readBytes()),
+                VOICE_FILENAME,
+            )
         assertEquals(expectedRequestBody.normalizeLineEndings(), requestBody.normalizeLineEndings())
     }
 
@@ -82,36 +86,39 @@ class SendVoiceIT : ApiClientIT() {
     fun `sendVoice with audio from ByteArray`() {
         givenAnySendVoiceResponse()
 
-        val sendVoice = sut.sendVoice(
-            ChatId.fromId(ANY_CHAT_ID),
-            TelegramFile.ByByteArray(getFileFromResources<SendVoiceIT>("short.ogg").readBytes()),
-            caption = CAPTION,
-            parseMode = MARKDOWN_V2,
-            captionEntities = CAPTION_ENTITIES,
-            duration = DURATION,
-            disableNotification = false,
-            protectContent = false,
-            replyMarkup = REPLY_MARKUP,
-        )
+        val sendVoice =
+            sut.sendVoice(
+                ChatId.fromId(ANY_CHAT_ID),
+                TelegramFile.ByByteArray(getFileFromResources<SendVoiceIT>("short.ogg").readBytes()),
+                caption = CAPTION,
+                parseMode = MARKDOWN_V2,
+                captionEntities = CAPTION_ENTITIES,
+                duration = DURATION,
+                disableNotification = false,
+                protectContent = false,
+                replyMarkup = REPLY_MARKUP,
+            )
         sendVoice.execute()
 
         val request = mockWebServer.takeRequest()
         val multipartBoundary = request.multipartBoundary
         val requestBody = request.body.readUtf8().trimIndent()
-        val expectedRequestBody = String.format(
-            getFileAsStringFromResources<SendVoiceIT>("sendVoiceBody.txt"),
-            multipartBoundary,
-            String(getFileFromResources<SendVoiceIT>("short.ogg").readBytes()),
-            "voice",
-        )
+        val expectedRequestBody =
+            String.format(
+                getFileAsStringFromResources<SendVoiceIT>("sendVoiceBody.txt"),
+                multipartBoundary,
+                String(getFileFromResources<SendVoiceIT>("short.ogg").readBytes()),
+                "voice",
+            )
         assertEquals(expectedRequestBody.normalizeLineEndings(), requestBody.normalizeLineEndings())
     }
 
     private fun givenAnySendVoiceResponse() {
-        val mockedResponse = MockResponse()
-            .setResponseCode(200)
-            .setBody(
-                """
+        val mockedResponse =
+            MockResponse()
+                .setResponseCode(200)
+                .setBody(
+                    """
                     {
                       "ok": true,
                       "result": {
@@ -147,8 +154,8 @@ class SendVoiceIT : ApiClientIT() {
                         ]
                       }
                     }
-                """.trimIndent(),
-            )
+                    """.trimIndent(),
+                )
         mockWebServer.enqueue(mockedResponse)
     }
 
@@ -160,14 +167,15 @@ class SendVoiceIT : ApiClientIT() {
         const val CAPTION = "You have been rickrolled"
         const val DURATION = 18
         val CAPTION_ENTITIES = listOf(MessageEntity(ITALIC, 0, 3))
-        val REPLY_MARKUP = InlineKeyboardMarkup.create(
-            listOf(
-                InlineKeyboardButton.CallbackData(
-                    text = "Show alert",
-                    callbackData = "showAlert",
+        val REPLY_MARKUP =
+            InlineKeyboardMarkup.create(
+                listOf(
+                    InlineKeyboardButton.CallbackData(
+                        text = "Show alert",
+                        callbackData = "showAlert",
+                    ),
                 ),
-            ),
-        )
+            )
         const val VOICE_FILENAME = "short.ogg"
     }
 }

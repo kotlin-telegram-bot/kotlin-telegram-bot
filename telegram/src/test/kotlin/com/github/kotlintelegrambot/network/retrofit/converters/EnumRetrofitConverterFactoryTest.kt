@@ -10,7 +10,6 @@ import retrofit2.Retrofit
 import java.lang.IllegalStateException
 
 class EnumRetrofitConverterFactoryTest {
-
     enum class RegularEnumAnnotated {
         @SerializedName("enumA")
         ENUM_A,
@@ -23,7 +22,6 @@ class EnumRetrofitConverterFactoryTest {
     data class TestClass(
         val testAttr: Int,
     ) {
-
         enum class InnerEnum {
             @SerializedName("enumA")
             ENUM_A,
@@ -51,10 +49,11 @@ class EnumRetrofitConverterFactoryTest {
 
     @Test
     fun `regular enum with values not annotated with @SerializedName throws an error`() {
-        val error = assertThrows<IllegalStateException> {
-            val stringConverter = sut.stringConverter(RegularEnum::class.java, emptyArray(), retrofitMock)
-            stringConverter?.convert(RegularEnum.ENUM_A)
-        }
+        val error =
+            assertThrows<IllegalStateException> {
+                val stringConverter = sut.stringConverter(RegularEnum::class.java, emptyArray(), retrofitMock)
+                stringConverter?.convert(RegularEnum.ENUM_A)
+            }
 
         val expectedErrorMessage = "cannot serialize ${RegularEnum::class.java} enum properly, please make sure it's annotated with @SerializedName"
         assertEquals(expectedErrorMessage, error.message)

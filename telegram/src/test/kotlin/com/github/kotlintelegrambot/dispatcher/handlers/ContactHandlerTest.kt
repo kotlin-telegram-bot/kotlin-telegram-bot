@@ -12,7 +12,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class ContactHandlerTest {
-
     private val handleContactMock = mockk<HandleContact>(relaxed = true)
 
     private val sut = ContactHandler(handleContactMock)
@@ -36,20 +35,22 @@ class ContactHandlerTest {
     }
 
     @Test
-    fun `contact is properly dispatched to the handler function`() = runTest {
-        val botMock = mockk<Bot>()
-        val anyContact = anyContact()
-        val anyMessageWithContact = anyMessage(contact = anyContact)
-        val anyUpdateWithContact = anyUpdate(message = anyMessageWithContact)
+    fun `contact is properly dispatched to the handler function`() =
+        runTest {
+            val botMock = mockk<Bot>()
+            val anyContact = anyContact()
+            val anyMessageWithContact = anyMessage(contact = anyContact)
+            val anyUpdateWithContact = anyUpdate(message = anyMessageWithContact)
 
-        sut.handleUpdate(botMock, anyUpdateWithContact)
+            sut.handleUpdate(botMock, anyUpdateWithContact)
 
-        val expectedCommandHandlerEnv = ContactHandlerEnvironment(
-            botMock,
-            anyUpdateWithContact,
-            anyMessageWithContact,
-            anyContact,
-        )
-        coVerify { handleContactMock.invoke(expectedCommandHandlerEnv) }
-    }
+            val expectedCommandHandlerEnv =
+                ContactHandlerEnvironment(
+                    botMock,
+                    anyUpdateWithContact,
+                    anyMessageWithContact,
+                    anyContact,
+                )
+            coVerify { handleContactMock.invoke(expectedCommandHandlerEnv) }
+        }
 }

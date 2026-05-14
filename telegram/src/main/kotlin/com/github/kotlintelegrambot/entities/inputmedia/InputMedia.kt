@@ -20,7 +20,9 @@ sealed class InputMedia {
  */
 interface GroupableMedia
 
-class MediaGroup private constructor(val medias: Array<out GroupableMedia>) {
+class MediaGroup private constructor(
+    val medias: Array<out GroupableMedia>,
+) {
     init {
         if (!(2..10).contains(medias.size)) {
             throw IllegalArgumentException("media groups must include 2-10 items")
@@ -40,7 +42,8 @@ data class InputMediaPhoto(
     @SerializedName(InputMediaFields.MEDIA) override val media: TelegramFile,
     @SerializedName(InputMediaFields.CAPTION) override val caption: String? = null,
     @SerializedName(InputMediaFields.PARSE_MODE) override val parseMode: String? = null,
-) : InputMedia(), GroupableMedia {
+) : InputMedia(),
+    GroupableMedia {
     @SerializedName(InputMediaFields.TYPE)
     override val type: String = InputMediaTypes.PHOTO
 }
@@ -58,7 +61,8 @@ data class InputMediaVideo(
     @SerializedName(InputMediaFields.HEIGHT) val height: Int? = null,
     @SerializedName(InputMediaFields.DURATION) val duration: Int? = null,
     @SerializedName(InputMediaFields.SUPPORTS_STREAMING) val supportsStreaming: Boolean? = null,
-) : InputMedia(), GroupableMedia {
+) : InputMedia(),
+    GroupableMedia {
     @SerializedName(InputMediaFields.TYPE)
     override val type: String = InputMediaTypes.VIDEO
 }
@@ -92,7 +96,8 @@ data class InputMediaAudio(
     @SerializedName(InputMediaFields.DURATION) val duration: Int? = null,
     @SerializedName(InputMediaFields.PERFORMER) val performer: String? = null,
     @SerializedName(InputMediaFields.TITLE) val title: String? = null,
-) : InputMedia(), GroupableMedia {
+) : InputMedia(),
+    GroupableMedia {
     @SerializedName(InputMediaFields.TYPE)
     override val type: String = InputMediaTypes.AUDIO
 }
@@ -107,7 +112,8 @@ data class InputMediaDocument(
     @SerializedName(InputMediaFields.PARSE_MODE) override val parseMode: String? = null,
     @SerializedName(InputMediaFields.THUMB) val thumb: TelegramFile.ByFile? = null,
     @SerializedName(InputMediaFields.DISABLE_CONTENT_TYPE_DETECTION) val disableContentTypeDetection: Boolean? = null,
-) : InputMedia(), GroupableMedia {
+) : InputMedia(),
+    GroupableMedia {
     @SerializedName(InputMediaFields.TYPE)
     override val type: String = InputMediaTypes.DOCUMENT
 }

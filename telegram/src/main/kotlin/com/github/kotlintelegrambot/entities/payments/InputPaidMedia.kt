@@ -11,7 +11,6 @@ import com.google.gson.annotations.SerializedName
  * See https://core.telegram.org/bots/api#inputpaidmedia
  */
 sealed class InputPaidMedia {
-
     /** Discriminator value sent on the wire as the `type` field. */
     abstract val type: String
 

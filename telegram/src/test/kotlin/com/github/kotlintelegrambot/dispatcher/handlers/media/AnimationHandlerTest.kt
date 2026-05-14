@@ -13,7 +13,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class AnimationHandlerTest {
-
     private val handleAnimationMock = mockk<HandleAnimation>(relaxed = true)
 
     private val sut = AnimationHandler(handleAnimationMock)
@@ -37,20 +36,22 @@ class AnimationHandlerTest {
     }
 
     @Test
-    fun `animation is properly dispatched to the handler function`() = runTest {
-        val botMock = mockk<Bot>()
-        val anyAnimation = anyAnimation()
-        val anyMessageWithAnimation = anyMessage(animation = anyAnimation)
-        val anyUpdateWithAnimation = anyUpdate(message = anyMessageWithAnimation)
+    fun `animation is properly dispatched to the handler function`() =
+        runTest {
+            val botMock = mockk<Bot>()
+            val anyAnimation = anyAnimation()
+            val anyMessageWithAnimation = anyMessage(animation = anyAnimation)
+            val anyUpdateWithAnimation = anyUpdate(message = anyMessageWithAnimation)
 
-        sut.handleUpdate(botMock, anyUpdateWithAnimation)
+            sut.handleUpdate(botMock, anyUpdateWithAnimation)
 
-        val expectedAnimationHandlerEnv = MediaHandlerEnvironment(
-            botMock,
-            anyUpdateWithAnimation,
-            anyMessageWithAnimation,
-            anyAnimation,
-        )
-        coVerify { handleAnimationMock.invoke(expectedAnimationHandlerEnv) }
-    }
+            val expectedAnimationHandlerEnv =
+                MediaHandlerEnvironment(
+                    botMock,
+                    anyUpdateWithAnimation,
+                    anyMessageWithAnimation,
+                    anyAnimation,
+                )
+            coVerify { handleAnimationMock.invoke(expectedAnimationHandlerEnv) }
+        }
 }

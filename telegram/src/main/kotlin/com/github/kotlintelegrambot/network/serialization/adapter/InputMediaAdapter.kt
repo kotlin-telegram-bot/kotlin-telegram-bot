@@ -13,14 +13,19 @@ import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 
 internal class InputMediaAdapter : JsonSerializer<InputMedia> {
-    override fun serialize(src: InputMedia, typeOfSrc: Type, context: JsonSerializationContext): JsonElement {
-        val jsonElement = when (src) {
-            is InputMediaPhoto -> context.serialize(src, InputMediaPhoto::class.java)
-            is InputMediaVideo -> context.serialize(src, InputMediaVideo::class.java)
-            is InputMediaAnimation -> context.serialize(src, InputMediaAnimation::class.java)
-            is InputMediaAudio -> context.serialize(src, InputMediaAudio::class.java)
-            is InputMediaDocument -> context.serialize(src, InputMediaDocument::class.java)
-        }
+    override fun serialize(
+        src: InputMedia,
+        typeOfSrc: Type,
+        context: JsonSerializationContext,
+    ): JsonElement {
+        val jsonElement =
+            when (src) {
+                is InputMediaPhoto -> context.serialize(src, InputMediaPhoto::class.java)
+                is InputMediaVideo -> context.serialize(src, InputMediaVideo::class.java)
+                is InputMediaAnimation -> context.serialize(src, InputMediaAnimation::class.java)
+                is InputMediaAudio -> context.serialize(src, InputMediaAudio::class.java)
+                is InputMediaDocument -> context.serialize(src, InputMediaDocument::class.java)
+            }
         val jsonObject = jsonElement.asJsonObject
         jsonObject.addProperty(InputMediaFields.TYPE, src.type)
         return jsonObject

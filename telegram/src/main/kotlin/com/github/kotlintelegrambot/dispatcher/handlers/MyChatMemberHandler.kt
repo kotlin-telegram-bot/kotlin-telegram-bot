@@ -14,7 +14,11 @@ class MyChatMemberHandler(
     private val handleMyChatMember: HandleMyChatMember,
 ) : Handler {
     override fun checkUpdate(update: Update): Boolean = update.myChatMember != null
-    override suspend fun handleUpdate(bot: Bot, update: Update) {
+
+    override suspend fun handleUpdate(
+        bot: Bot,
+        update: Update,
+    ) {
         checkNotNull(update.myChatMember)
         handleMyChatMember(MyChatMemberHandlerEnvironment(bot, update, update.myChatMember))
     }
