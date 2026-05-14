@@ -93,4 +93,12 @@ sealed class InlineKeyboardButton {
         override val text: String,
         @SerializedName("login_url") val loginUrl: LoginUrl,
     ) : InlineKeyboardButton()
+
+    /**
+     * To copy a string to the user's clipboard when the button is pressed (Bot API 7.11).
+     */
+    data class CopyText(
+        override val text: String,
+        @SerializedName("copy_text") val copyText: CopyTextButton,
+    ) : InlineKeyboardButton()
 }

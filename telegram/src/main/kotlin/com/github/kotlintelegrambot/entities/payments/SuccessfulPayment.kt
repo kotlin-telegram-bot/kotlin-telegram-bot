@@ -10,4 +10,7 @@ data class SuccessfulPayment(
     @Name("order_info") val orderInfo: OrderInfo? = null,
     @Name("telegram_payment_charge_id") val telegramPaymentChargeId: String,
     @Name("provider_payment_charge_id") val providerPaymentChargeId: String,
+    @Name("subscription_expiration_date") val subscriptionExpirationDate: Long? = null,
+    @Name("is_recurring") val isRecurring: Boolean? = null,
+    @Name("is_first_recurring") val isFirstRecurring: Boolean? = null,
 )
