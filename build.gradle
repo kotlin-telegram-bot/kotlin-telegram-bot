@@ -12,7 +12,7 @@ allprojects {
     apply from: "$rootDir/ktlint.gradle"
 
     group 'com.github.kotlintelegrambot'
-    version '0.3.4'
+    version '10.0.0'
 
     repositories {
         mavenCentral()
