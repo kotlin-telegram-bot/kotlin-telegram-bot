@@ -92,6 +92,7 @@ The current line (`10.x`) is up to date with Bot API 10.0 and includes the break
 - [Webhooks](docs/webhooks.md) — `webhook { }` DSL, `secretToken`, manual `processUpdate`.
 - [Error handling](docs/errorHandling.md) — `TelegramBotResult` and `telegramError { }`.
 - [Logging](docs/logging.md).
+- [Proxy](docs/proxy.md) — HTTP proxy and username/password authentication.
 - [File uploads](docs/fileUploads.md) — `TelegramFile.ByFile` / `ByByteArray` / `ByInputStream` / `ByUrl` / `ByFileId`.
 
 **Chat and messages**

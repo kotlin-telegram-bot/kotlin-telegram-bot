@@ -253,6 +253,7 @@ public final class com/github/kotlintelegrambot/Bot$Builder {
 	public final fun getCoroutineDispatcher ()Lkotlinx/coroutines/CoroutineDispatcher;
 	public final fun getHttpClientInterceptors ()Ljava/util/List;
 	public final fun getLogLevel ()Lcom/github/kotlintelegrambot/logging/LogLevel;
+	public final fun getOkHttpClientConfigurator ()Lkotlin/jvm/functions/Function1;
 	public final fun getProxy ()Ljava/net/Proxy;
 	public final fun getTimeout ()I
 	public final fun getToken ()Ljava/lang/String;
@@ -261,6 +262,7 @@ public final class com/github/kotlintelegrambot/Bot$Builder {
 	public final fun setCoroutineDispatcher (Lkotlinx/coroutines/CoroutineDispatcher;)V
 	public final fun setHttpClientInterceptors (Ljava/util/List;)V
 	public final fun setLogLevel (Lcom/github/kotlintelegrambot/logging/LogLevel;)V
+	public final fun setOkHttpClientConfigurator (Lkotlin/jvm/functions/Function1;)V
 	public final fun setProxy (Ljava/net/Proxy;)V
 	public final fun setTimeout (I)V
 	public final fun setToken (Ljava/lang/String;)V

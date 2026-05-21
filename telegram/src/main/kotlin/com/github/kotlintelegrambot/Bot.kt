@@ -43,6 +43,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.channels.Channel
 import okhttp3.Interceptor
+import okhttp3.OkHttpClient
 import java.net.Proxy
 import java.util.concurrent.Executors
 import java.io.File as SystemFile
@@ -84,12 +85,23 @@ class Bot private constructor(
         var proxy: Proxy = Proxy.NO_PROXY
         var coroutineDispatcher: CoroutineDispatcher = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
         var httpClientInterceptors: List<Interceptor> = emptyList()
+        var okHttpClientConfigurator: OkHttpClient.Builder.() -> Unit = { }
         internal var dispatcherConfiguration: Dispatcher.() -> Unit = { }
 
         fun build(): Bot {
             val updatesQueue = Channel<DispatchableObject>()
             val looper = CoroutineLooper(Dispatchers.IO)
-            val apiClient = ApiClient(token, apiUrl, timeout, logLevel, proxy, gson, httpClientInterceptors = httpClientInterceptors)
+            val apiClient =
+                ApiClient(
+                    token,
+                    apiUrl,
+                    timeout,
+                    logLevel,
+                    proxy,
+                    gson,
+                    httpClientInterceptors = httpClientInterceptors,
+                    okHttpClientConfigurator = okHttpClientConfigurator,
+                )
             val updater = Updater(looper, updatesQueue, apiClient, timeout)
             val dispatcher =
                 Dispatcher(

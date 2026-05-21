@@ -81,6 +81,7 @@ internal class ApiClient(
     private val apiRequestSender: ApiRequestSender = ApiRequestSender(),
     private val apiResponseMapper: ApiResponseMapper = ApiResponseMapper(),
     private val httpClientInterceptors: List<Interceptor> = emptyList(),
+    private val okHttpClientConfigurator: OkHttpClient.Builder.() -> Unit = { },
 ) {
     private val service: ApiService
 
@@ -98,6 +99,7 @@ internal class ApiClient(
                 .also { builder -> httpClientInterceptors.forEach { builder.addInterceptor(it) } }
                 .retryOnConnectionFailure(true)
                 .proxy(proxy)
+                .apply(okHttpClientConfigurator)
                 .build()
 
         val retrofit =
