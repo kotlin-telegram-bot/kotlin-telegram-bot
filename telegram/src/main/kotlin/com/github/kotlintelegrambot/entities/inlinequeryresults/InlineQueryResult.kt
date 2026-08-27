@@ -1,6 +1,7 @@
 package com.github.kotlintelegrambot.entities.inlinequeryresults
 
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
+import com.github.kotlintelegrambot.entities.MessageEntity
 import com.github.kotlintelegrambot.entities.ParseMode
 import com.google.gson.annotations.SerializedName
 
@@ -73,6 +74,7 @@ sealed class InlineQueryResult(
         val description: String? = null,
         val caption: String? = null,
         @SerializedName("parse_mode") val parseMode: ParseMode? = null,
+        @SerializedName("caption_entities") val captionEntities: List<MessageEntity>? = null,
         @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
         @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null,
     ) : InlineQueryResult(QueryResultTypes.PHOTO)
@@ -88,6 +90,7 @@ sealed class InlineQueryResult(
         val title: String? = null,
         val caption: String? = null,
         @SerializedName("parse_mode") val parseMode: ParseMode? = null,
+        @SerializedName("caption_entities") val captionEntities: List<MessageEntity>? = null,
         @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
         @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null,
     ) : InlineQueryResult(QueryResultTypes.GIF)
@@ -103,6 +106,7 @@ sealed class InlineQueryResult(
         val title: String? = null,
         val caption: String? = null,
         @SerializedName("parse_mode") val parseMode: ParseMode? = null,
+        @SerializedName("caption_entities") val captionEntities: List<MessageEntity>? = null,
         @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
         @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null,
     ) : InlineQueryResult(QueryResultTypes.MPEG4_GIF)
@@ -115,6 +119,7 @@ sealed class InlineQueryResult(
         val title: String,
         val caption: String? = null,
         @SerializedName("parse_mode") val parseMode: ParseMode? = null,
+        @SerializedName("caption_entities") val captionEntities: List<MessageEntity>? = null,
         @SerializedName("video_width") val videoWidth: Int? = null,
         @SerializedName("video_height") val videoHeight: Int? = null,
         @SerializedName("video_duration") val videoDuration: Int? = null,
@@ -129,6 +134,7 @@ sealed class InlineQueryResult(
         val title: String,
         val caption: String? = null,
         @SerializedName("parse_mode") val parseMode: ParseMode? = null,
+        @SerializedName("caption_entities") val captionEntities: List<MessageEntity>? = null,
         val performer: String? = null,
         @SerializedName("audio_duration") val audioDuration: Int? = null,
         @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
@@ -141,6 +147,7 @@ sealed class InlineQueryResult(
         val title: String,
         val caption: String? = null,
         @SerializedName("parse_mode") val parseMode: ParseMode? = null,
+        @SerializedName("caption_entities") val captionEntities: List<MessageEntity>? = null,
         @SerializedName("voice_duration") val voiceDuration: Int? = null,
         @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
         @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null,
@@ -151,6 +158,7 @@ sealed class InlineQueryResult(
         val title: String,
         val caption: String? = null,
         @SerializedName("parse_mode") val parseMode: ParseMode? = null,
+        @SerializedName("caption_entities") val captionEntities: List<MessageEntity>? = null,
         @SerializedName("document_url") val documentUrl: String,
         @SerializedName("mime_type") val mimeType: MimeType,
         val description: String? = null,
@@ -218,6 +226,7 @@ sealed class InlineQueryResult(
         @SerializedName("audio_file_id") val audioFileId: String,
         val caption: String? = null,
         @SerializedName("parse_mode") val parseMode: ParseMode? = null,
+        @SerializedName("caption_entities") val captionEntities: List<MessageEntity>? = null,
         @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
         @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null,
     ) : InlineQueryResult(QueryResultTypes.AUDIO)
@@ -229,6 +238,7 @@ sealed class InlineQueryResult(
         val description: String? = null,
         val caption: String? = null,
         @SerializedName("parse_mode") val parseMode: ParseMode? = null,
+        @SerializedName("caption_entities") val captionEntities: List<MessageEntity>? = null,
         @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
         @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null,
     ) : InlineQueryResult(QueryResultTypes.DOCUMENT)
@@ -239,6 +249,7 @@ sealed class InlineQueryResult(
         val title: String? = null,
         val caption: String? = null,
         @SerializedName("parse_mode") val parseMode: ParseMode? = null,
+        @SerializedName("caption_entities") val captionEntities: List<MessageEntity>? = null,
         @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
         @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null,
     ) : InlineQueryResult(QueryResultTypes.GIF)
@@ -249,6 +260,7 @@ sealed class InlineQueryResult(
         val title: String? = null,
         val caption: String? = null,
         @SerializedName("parse_mode") val parseMode: ParseMode? = null,
+        @SerializedName("caption_entities") val captionEntities: List<MessageEntity>? = null,
         @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
         @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null,
     ) : InlineQueryResult(QueryResultTypes.MPEG4_GIF)
@@ -260,6 +272,7 @@ sealed class InlineQueryResult(
         val description: String? = null,
         val caption: String? = null,
         @SerializedName("parse_mode") val parseMode: ParseMode? = null,
+        @SerializedName("caption_entities") val captionEntities: List<MessageEntity>? = null,
         @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
         @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null,
     ) : InlineQueryResult(QueryResultTypes.PHOTO)
@@ -278,6 +291,7 @@ sealed class InlineQueryResult(
         val description: String? = null,
         val caption: String? = null,
         @SerializedName("parse_mode") val parseMode: ParseMode? = null,
+        @SerializedName("caption_entities") val captionEntities: List<MessageEntity>? = null,
         @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
         @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null,
     ) : InlineQueryResult(QueryResultTypes.VIDEO)
@@ -288,6 +302,7 @@ sealed class InlineQueryResult(
         val title: String,
         val caption: String? = null,
         @SerializedName("parse_mode") val parseMode: ParseMode? = null,
+        @SerializedName("caption_entities") val captionEntities: List<MessageEntity>? = null,
         @SerializedName("reply_markup") override val replyMarkup: InlineKeyboardMarkup? = null,
         @SerializedName("input_message_content") val inputMessageContent: InputMessageContent? = null,
     ) : InlineQueryResult(QueryResultTypes.VOICE)

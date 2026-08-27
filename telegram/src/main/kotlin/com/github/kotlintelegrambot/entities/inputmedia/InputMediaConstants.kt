@@ -13,6 +13,7 @@ object InputMediaFields {
     const val MEDIA = "media"
     const val CAPTION = "caption"
     const val PARSE_MODE = "parse_mode"
+    const val CAPTION_ENTITIES = "caption_entities"
     const val THUMB = "thumb"
     const val WIDTH = "width"
     const val HEIGHT = "height"
