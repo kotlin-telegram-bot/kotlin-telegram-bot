@@ -3,6 +3,7 @@ package com.github.kotlintelegrambot.network
 import com.github.kotlintelegrambot.entities.BotCommand
 import com.github.kotlintelegrambot.entities.ChatAction
 import com.github.kotlintelegrambot.entities.ChatId
+import com.github.kotlintelegrambot.entities.ChatInviteLink
 import com.github.kotlintelegrambot.entities.ChatMember
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.MessageId
@@ -594,7 +595,7 @@ internal interface ApiService {
         @Field("expire_date") expireDate: Int?,
         @Field("member_limit") memberLimit: Int?,
         @Field("creates_join_request") createsJoinRequest: Boolean?,
-    ): Call<Response<Boolean>>
+    ): Call<Response<ChatInviteLink>>
 
     @FormUrlEncoded
     @POST("editChatInviteLink")
@@ -605,14 +606,14 @@ internal interface ApiService {
         @Field("expire_date") expireDate: Int?,
         @Field("member_limit") memberLimit: Int?,
         @Field("creates_join_request") createsJoinRequest: Boolean?,
-    ): Call<Response<Boolean>>
+    ): Call<Response<ChatInviteLink>>
 
     @FormUrlEncoded
     @POST("revokeChatInviteLink")
     fun revokeChatInviteLink(
         @Field(ApiConstants.CHAT_ID) chatId: ChatId,
         @Field("invite_link") inviteLink: String?,
-    ): Call<Response<Boolean>>
+    ): Call<Response<ChatInviteLink>>
 
     @FormUrlEncoded
     @POST("unbanChatMember")

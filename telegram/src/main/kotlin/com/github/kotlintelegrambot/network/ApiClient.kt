@@ -3,6 +3,7 @@ package com.github.kotlintelegrambot.network
 import com.github.kotlintelegrambot.entities.BotCommand
 import com.github.kotlintelegrambot.entities.ChatAction
 import com.github.kotlintelegrambot.entities.ChatId
+import com.github.kotlintelegrambot.entities.ChatInviteLink
 import com.github.kotlintelegrambot.entities.ChatMember
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
@@ -1035,7 +1036,7 @@ internal class ApiClient(
         expireDate: Int?,
         memberLimit: Int?,
         createsJoinRequest: Boolean?,
-    ): Call<Response<Boolean>> =
+    ): Call<Response<ChatInviteLink>> =
         service.createChatInviteLink(
             chatId,
             name,
@@ -1051,7 +1052,7 @@ internal class ApiClient(
         expireDate: Int? = null,
         memberLimit: Int? = null,
         createsJoinRequest: Boolean? = null,
-    ): Call<Response<Boolean>> =
+    ): Call<Response<ChatInviteLink>> =
         service.editChatInviteLink(
             chatId,
             inviteLink,
@@ -1064,7 +1065,7 @@ internal class ApiClient(
     fun revokeChatInviteLink(
         chatId: ChatId,
         inviteLink: String,
-    ): Call<Response<Boolean>> =
+    ): Call<Response<ChatInviteLink>> =
         service.revokeChatInviteLink(
             chatId,
             inviteLink,
