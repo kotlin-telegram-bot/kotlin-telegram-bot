@@ -7,6 +7,7 @@ data class CallbackQuery(
     val from: User,
     val message: Message? = null,
     @SerializedName("inline_message_id") val inlineMessageId: String? = null,
-    val data: String,
+    val data: String? = null,
     @SerializedName("chat_instance") val chatInstance: String,
+    @SerializedName("game_short_name") val gameShortName: String? = null,
 )

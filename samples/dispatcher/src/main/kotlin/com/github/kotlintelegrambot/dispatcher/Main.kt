@@ -143,7 +143,8 @@ fun main() {
 
                 callbackQuery("testButton") {
                     val chatId = callbackQuery.message?.chat?.id ?: return@callbackQuery
-                    bot.sendMessage(ChatId.fromId(chatId), callbackQuery.data)
+                    val data = callbackQuery.data ?: return@callbackQuery
+                    bot.sendMessage(ChatId.fromId(chatId), data)
                 }
 
                 callbackQuery(
@@ -152,7 +153,8 @@ fun main() {
                     callbackAnswerShowAlert = true,
                 ) {
                     val chatId = callbackQuery.message?.chat?.id ?: return@callbackQuery
-                    bot.sendMessage(ChatId.fromId(chatId), callbackQuery.data)
+                    val data = callbackQuery.data ?: return@callbackQuery
+                    bot.sendMessage(ChatId.fromId(chatId), data)
                 }
 
                 text("ping") {

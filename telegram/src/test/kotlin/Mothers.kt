@@ -351,8 +351,9 @@ fun anyCallbackQuery(
     from: User = anyUser(),
     message: Message? = null,
     inlineMessageId: String? = null,
-    data: String = "anyData",
+    data: String? = "anyData",
     chatInstance: String = "1",
+    gameShortName: String? = null,
 ): CallbackQuery =
     CallbackQuery(
         id = id,
@@ -361,6 +362,7 @@ fun anyCallbackQuery(
         inlineMessageId = inlineMessageId,
         data = data,
         chatInstance = chatInstance,
+        gameShortName = gameShortName,
     )
 
 fun anyInlineQuery(

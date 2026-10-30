@@ -19,11 +19,10 @@ class CallbackQueryHandler(
     private val handleCallbackQuery: HandleCallbackQuery,
 ) : Handler {
     override fun checkUpdate(update: Update): Boolean {
-        val data = update.callbackQuery?.data
+        val query = update.callbackQuery ?: return false
         return when {
-            data == null -> false
             callbackData == null -> true
-            else -> data.contains(callbackData, ignoreCase = true)
+            else -> query.data?.contains(callbackData, ignoreCase = true) == true
         }
     }
 
