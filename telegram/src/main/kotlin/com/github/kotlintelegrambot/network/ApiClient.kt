@@ -223,7 +223,7 @@ internal class ApiClient(
 
     fun deleteWebhook(
         dropPendingUpdates: Boolean? = null,
-    ): Call<Response<Boolean>> = service.deleteWebhook(dropPendingUpdates)
+    ): TelegramBotResult<Boolean> = service.deleteWebhook(dropPendingUpdates).runApiOperation()
 
     fun getWebhookInfo(): TelegramBotResult<WebhookInfo> = service.getWebhookInfo().runApiOperation()
 

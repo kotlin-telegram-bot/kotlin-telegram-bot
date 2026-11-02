@@ -173,12 +173,7 @@ class Bot private constructor(
 
         dispatcher.stopCheckingUpdates()
 
-        val deleteWebhookResult = deleteWebhook().call()
-
-        return deleteWebhookResult.bimap(
-            mapResponse = { true },
-            mapError = { false },
-        )
+        return deleteWebhook().isSuccess
     }
 
     /**
@@ -230,7 +225,7 @@ class Bot private constructor(
 
     fun deleteWebhook(
         dropPendingUpdates: Boolean? = null,
-    ) = apiClient.deleteWebhook(dropPendingUpdates)
+    ): TelegramBotResult<Boolean> = apiClient.deleteWebhook(dropPendingUpdates)
 
     fun getWebhookInfo() = apiClient.getWebhookInfo()
 
