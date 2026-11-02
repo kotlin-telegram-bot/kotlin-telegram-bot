@@ -5,12 +5,14 @@ buildscript {
 }
 
 plugins {
+    id 'java-library'
+    id 'maven-publish'
     alias libs.plugins.kotlinx.binaryCompatibilityValidator
     alias libs.plugins.kotlin.jvm
 }
 
 group 'com.github.kotlintelegrambot'
-version '6.2.0'
+version '6.2.3'
 
 repositories {
     mavenCentral()
@@ -18,7 +20,7 @@ repositories {
 
 dependencies {
     // Networking
-    implementation libs.bundles.retrofit
+    api libs.bundles.retrofit
 
     implementation libs.okhttp3.logging.interceptor
 
@@ -59,4 +61,13 @@ java {
 
 test {
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+        }
+    }
 }

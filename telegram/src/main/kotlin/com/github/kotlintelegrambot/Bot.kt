@@ -17,6 +17,7 @@ import com.github.kotlintelegrambot.entities.SentWebAppMessage
 import com.github.kotlintelegrambot.entities.TelegramFile
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.User
+import com.github.kotlintelegrambot.entities.botcommandscope.BotCommandScope
 import com.github.kotlintelegrambot.entities.dice.DiceEmoji
 import com.github.kotlintelegrambot.entities.inlinequeryresults.InlineQueryResult
 import com.github.kotlintelegrambot.entities.inputmedia.InputMedia
@@ -172,12 +173,7 @@ class Bot private constructor(
 
         dispatcher.stopCheckingUpdates()
 
-        val deleteWebhookResult = deleteWebhook()
-
-        return deleteWebhookResult.bimap(
-            mapResponse = { true },
-            mapError = { false },
-        )
+        return deleteWebhook().isSuccess
     }
 
     /**
@@ -229,9 +225,9 @@ class Bot private constructor(
 
     fun deleteWebhook(
         dropPendingUpdates: Boolean? = null,
-    ) = apiClient.deleteWebhook(dropPendingUpdates).call()
+    ): TelegramBotResult<Boolean> = apiClient.deleteWebhook(dropPendingUpdates)
 
-    fun getWebhookInfo() = apiClient.getWebhookInfo().call()
+    fun getWebhookInfo() = apiClient.getWebhookInfo()
 
     suspend fun processUpdate(update: Update) {
         updatesChannel.send(update)
@@ -346,7 +342,7 @@ class Bot private constructor(
             messageEffectId,
             allowPaidBroadcast,
             showCaptionAboveMedia,
-        ).call()
+        )
 
     fun sendPhoto(
         chatId: ChatId,
@@ -377,7 +373,7 @@ class Bot private constructor(
             messageEffectId,
             allowPaidBroadcast,
             showCaptionAboveMedia,
-        ).call()
+        )
 
     fun sendPhoto(
         chatId: ChatId,
@@ -407,7 +403,7 @@ class Bot private constructor(
             messageEffectId,
             allowPaidBroadcast,
             showCaptionAboveMedia,
-        ).call()
+        )
 
     fun sendAudio(
         chatId: ChatId,
@@ -438,7 +434,7 @@ class Bot private constructor(
             messageEffectId,
             allowPaidBroadcast,
             showCaptionAboveMedia,
-        ).call()
+        )
 
     fun sendDocument(
         chatId: ChatId,
@@ -471,7 +467,7 @@ class Bot private constructor(
             messageEffectId,
             allowPaidBroadcast,
             showCaptionAboveMedia,
-        ).call()
+        )
 
     fun sendVideo(
         chatId: ChatId,
@@ -506,7 +502,7 @@ class Bot private constructor(
             messageEffectId,
             allowPaidBroadcast,
             showCaptionAboveMedia,
-        ).call()
+        )
 
     /**
      * Use this method to send a game. On success, the sent Message is returned..
@@ -577,7 +573,7 @@ class Bot private constructor(
             messageEffectId,
             allowPaidBroadcast,
             showCaptionAboveMedia,
-        ).call()
+        )
 
     fun sendVoice(
         chatId: ChatId,
@@ -610,7 +606,7 @@ class Bot private constructor(
             messageEffectId,
             allowPaidBroadcast,
             showCaptionAboveMedia,
-        ).call()
+        )
 
     fun sendVideoNote(
         chatId: ChatId,
@@ -637,7 +633,7 @@ class Bot private constructor(
             businessConnectionId,
             messageEffectId,
             allowPaidBroadcast,
-        ).call()
+        )
 
     fun sendVideoNote(
         chatId: ChatId,
@@ -664,7 +660,7 @@ class Bot private constructor(
             businessConnectionId,
             messageEffectId,
             allowPaidBroadcast,
-        ).call()
+        )
 
     /**
      * Use this method to send a group of photos, videos, documents or audios as an album.
@@ -729,7 +725,7 @@ class Bot private constructor(
             businessConnectionId,
             messageEffectId,
             allowPaidBroadcast,
-        ).call()
+        )
 
     /**
      * Use this method to send a native poll.
@@ -831,7 +827,7 @@ class Bot private constructor(
             horizontalAccuracy,
             heading,
             businessConnectionId,
-        ).call()
+        )
 
     fun stopMessageLiveLocation(
         chatId: ChatId? = null,
@@ -846,7 +842,7 @@ class Bot private constructor(
             inlineMessageId,
             replyMarkup,
             businessConnectionId,
-        ).call()
+        )
 
     fun sendVenue(
         chatId: ChatId,
@@ -883,7 +879,7 @@ class Bot private constructor(
             businessConnectionId,
             messageEffectId,
             allowPaidBroadcast,
-        ).call()
+        )
 
     fun sendContact(
         chatId: ChatId,
@@ -910,7 +906,7 @@ class Bot private constructor(
             businessConnectionId,
             messageEffectId,
             allowPaidBroadcast,
-        ).call()
+        )
 
     /**
      * Use this method when you need to tell the user that something is happening on the bot's side.
@@ -935,7 +931,7 @@ class Bot private constructor(
         userId: Long,
         offset: Long? = null,
         limit: Int? = null,
-    ) = apiClient.getUserProfilePhotos(userId, offset, limit).call()
+    ) = apiClient.getUserProfilePhotos(userId, offset, limit)
 
     fun getFile(fileId: String) = apiClient.getFile(fileId).call()
 
@@ -955,17 +951,17 @@ class Bot private constructor(
         chatId: ChatId,
         userId: Long,
         untilDate: Long? = null, // unix time - https://en.wikipedia.org/wiki/Unix_time
-    ) = apiClient.banChatMember(chatId, userId, untilDate).call()
+    ) = apiClient.banChatMember(chatId, userId, untilDate)
 
     fun approveChatJoinRequest(
         chatId: ChatId,
         userId: Long,
-    ) = apiClient.approveChatJoinRequest(chatId, userId).call()
+    ) = apiClient.approveChatJoinRequest(chatId, userId)
 
     fun declineChatJoinRequest(
         chatId: ChatId,
         userId: Long,
-    ) = apiClient.declineChatJoinRequest(chatId, userId).call()
+    ) = apiClient.declineChatJoinRequest(chatId, userId)
 
     fun createChatInviteLink(
         chatId: ChatId,
@@ -980,7 +976,7 @@ class Bot private constructor(
             expireDate,
             memberLimit,
             createsJoinRequest,
-        ).call()
+        )
 
     fun editChatInviteLink(
         chatId: ChatId,
@@ -997,12 +993,12 @@ class Bot private constructor(
             expireDate,
             memberLimit,
             createsJoinRequest,
-        ).call()
+        )
 
     fun revokeChatInviteLink(
         chatId: ChatId,
         inviteLink: String,
-    ) = apiClient.revokeChatInviteLink(chatId, inviteLink).call()
+    ) = apiClient.revokeChatInviteLink(chatId, inviteLink)
 
     /**
      * Use this method to unban a previously kicked user in a supergroup or channel. The user will
@@ -1041,7 +1037,7 @@ class Bot private constructor(
             userId,
             chatPermissions,
             untilDate,
-        ).call()
+        )
 
     /**
      * Use this method to promote or demote a user in a supergroup or a channel. The bot must be
@@ -1098,26 +1094,26 @@ class Bot private constructor(
     fun setChatPermissions(
         chatId: ChatId,
         permissions: ChatPermissions,
-    ) = apiClient.setChatPermissions(chatId, permissions).call()
+    ) = apiClient.setChatPermissions(chatId, permissions)
 
-    fun exportChatInviteLink(chatId: ChatId) = apiClient.exportChatInviteLink(chatId).call()
+    fun exportChatInviteLink(chatId: ChatId) = apiClient.exportChatInviteLink(chatId)
 
     fun setChatPhoto(
         chatId: ChatId,
         photo: SystemFile,
-    ) = apiClient.setChatPhoto(chatId, photo).call()
+    ) = apiClient.setChatPhoto(chatId, photo)
 
-    fun deleteChatPhoto(chatId: ChatId) = apiClient.deleteChatPhoto(chatId).call()
+    fun deleteChatPhoto(chatId: ChatId) = apiClient.deleteChatPhoto(chatId)
 
     fun setChatTitle(
         chatId: ChatId,
         title: String,
-    ) = apiClient.setChatTitle(chatId, title).call()
+    ) = apiClient.setChatTitle(chatId, title)
 
     fun setChatDescription(
         chatId: ChatId,
         description: String,
-    ) = apiClient.setChatDescription(chatId, description).call()
+    ) = apiClient.setChatDescription(chatId, description)
 
     /**
      * Use this method to add a message to the list of pinned messages in a chat. IF the chat is
@@ -1388,7 +1384,7 @@ class Bot private constructor(
         chatId: ChatId,
     ): TelegramBotResult<List<ChatMember>> = apiClient.getChatAdministrators(chatId)
 
-    fun getChatMemberCount(chatId: ChatId) = apiClient.getChatMemberCount(chatId).call()
+    fun getChatMemberCount(chatId: ChatId) = apiClient.getChatMemberCount(chatId)
 
     /**
      * Use this method to get information about a member of a chat.
@@ -1487,7 +1483,7 @@ class Bot private constructor(
      * @return True on success
      */
 
-    fun logOut() = apiClient.logOut().call()
+    fun logOut() = apiClient.logOut()
 
     /**
      * Use this method to close the bot instance before moving it from one local server to another. You need to delete the webhook
@@ -1497,7 +1493,7 @@ class Bot private constructor(
      * @return True on success
      * */
 
-    fun close() = apiClient.close().call()
+    fun close() = apiClient.close()
 
     /**
      * Updating messages
@@ -1522,7 +1518,7 @@ class Bot private constructor(
             replyMarkup,
             entities,
             businessConnectionId,
-        ).call()
+        )
 
     fun editMessageCaption(
         chatId: ChatId? = null,
@@ -1545,7 +1541,7 @@ class Bot private constructor(
             captionEntities,
             businessConnectionId,
             showCaptionAboveMedia,
-        ).call()
+        )
 
     fun editMessageMedia(
         chatId: ChatId? = null,
@@ -1564,7 +1560,7 @@ class Bot private constructor(
             replyMarkup,
             businessConnectionId,
             showCaptionAboveMedia,
-        ).call()
+        )
 
     fun editMessageReplyMarkup(
         chatId: ChatId? = null,
@@ -1579,7 +1575,7 @@ class Bot private constructor(
             inlineMessageId,
             replyMarkup,
             businessConnectionId,
-        ).call()
+        )
 
     /**
      * Use this method to stop a poll which was sent by the bot.
@@ -1652,7 +1648,7 @@ class Bot private constructor(
             businessConnectionId,
             messageEffectId,
             allowPaidBroadcast,
-        ).call()
+        )
 
     fun sendSticker(
         chatId: ChatId,
@@ -1675,11 +1671,11 @@ class Bot private constructor(
             businessConnectionId,
             messageEffectId,
             allowPaidBroadcast,
-        ).call()
+        )
 
     fun getStickerSet(
         name: String,
-    ) = apiClient.getStickerSet(name).call()
+    ) = apiClient.getStickerSet(name)
 
     fun uploadStickerFile(
         userId: Long,
@@ -1688,7 +1684,7 @@ class Bot private constructor(
         .uploadStickerFile(
             userId,
             pngSticker,
-        ).call()
+        )
 
     fun createNewStickerSet(
         userId: Long,
@@ -1707,7 +1703,7 @@ class Bot private constructor(
             emojis,
             containsMasks,
             maskPosition,
-        ).call()
+        )
 
     fun createNewStickerSet(
         userId: Long,
@@ -1726,7 +1722,7 @@ class Bot private constructor(
             emojis,
             containsMasks,
             maskPosition,
-        ).call()
+        )
 
     fun addStickerToSet(
         userId: Long,
@@ -1741,7 +1737,7 @@ class Bot private constructor(
             pngSticker,
             emojis,
             maskPosition,
-        ).call()
+        )
 
     fun addStickerToSet(
         userId: Long,
@@ -1756,7 +1752,7 @@ class Bot private constructor(
             pngSticker,
             emojis,
             maskPosition,
-        ).call()
+        )
 
     fun setStickerPositionInSet(
         sticker: String,
@@ -1765,14 +1761,14 @@ class Bot private constructor(
         .setStickerPositionInSet(
             sticker,
             position,
-        ).call()
+        )
 
     fun deleteStickerFromSet(
         sticker: String,
     ) = apiClient
         .deleteStickerFromSet(
             sticker,
-        ).call()
+        )
 
     /**
      * Use this method to send invoices.
@@ -2018,14 +2014,24 @@ class Bot private constructor(
     /**
      * Use this method to change the list of the bot's commands.
      *
-     * @param commands A JSON-serialized list of bot commands to be set as the list of the bot's
-     * commands. At most 100 commands can be specified.
+     * @param commands A list of bot commands to be set as the list of the bot's commands.
+     * At most 100 commands can be specified.
+     * @param scope Describes the scope of users for which the commands are relevant.
+     * Defaults to [BotCommandScope.Default].
+     * @param languageCode A two-letter ISO 639-1 language code. If empty, commands will be applied
+     * to all users from the given scope, for whose language there are no dedicated commands.
      *
      * @return True on success.
      */
     fun setMyCommands(
         commands: List<BotCommand>,
-    ): TelegramBotResult<Boolean> = apiClient.setMyCommands(commands)
+        scope: BotCommandScope? = null,
+        languageCode: String? = null
+    ): TelegramBotResult<Boolean> = apiClient.setMyCommands(
+        commands = commands,
+        scope = scope,
+        languageCode = languageCode
+    )
 
     /**
      * Use this method to send a dice, which will have a random value from 1 to 6.

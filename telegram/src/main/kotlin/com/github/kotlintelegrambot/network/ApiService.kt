@@ -13,6 +13,7 @@ import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.User
 import com.github.kotlintelegrambot.entities.UserProfilePhotos
 import com.github.kotlintelegrambot.entities.WebhookInfo
+import com.github.kotlintelegrambot.entities.botcommandscope.BotCommandScope
 import com.github.kotlintelegrambot.entities.dice.DiceEmoji
 import com.github.kotlintelegrambot.entities.dice.DiceFields
 import com.github.kotlintelegrambot.entities.files.File
@@ -1208,6 +1209,8 @@ internal interface ApiService {
     @POST("setMyCommands")
     fun setMyCommands(
         @Field("commands") commands: String,
+        @Field("scope") scope: String? = null,
+        @Field("language_code") languageCode: String? = null
     ): Call<Response<Boolean>>
 
     @FormUrlEncoded
