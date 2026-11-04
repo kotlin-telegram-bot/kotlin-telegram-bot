@@ -62,6 +62,7 @@ There are several samples:
 * A more complex sample with commands, filter, reply markup keyboard and more
 * A sample getting updates through Telegram's webhook using a Netty server
 * An example bot sending polls and listening to poll answers
+* A [natural-language reminder bot](samples/reminders) with English/Russian parsing and confirmation before scheduling
 
 ## Download
 + Add the JitPack repository to your root build.gradle file:
