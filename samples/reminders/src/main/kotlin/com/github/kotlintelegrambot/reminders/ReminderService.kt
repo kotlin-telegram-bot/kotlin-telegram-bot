@@ -182,7 +182,7 @@ class ReminderService(
             )
         val embeddedZone =
             Regex(
-                "(?i)(?<![\\p{L}\\d])\\d{1,2}(?::\\d{2}){0,2}\\s*(?:[ap]\\.?m\\.?)?\\s+" +
+                "(?i)(?<![\\p{L}\\d])\\d{1,2}(?::\\d{2}){0,2}\\s*(?:[ap]\\.?m\\.?)?(?:\\s+|\\s*[\\[(]\\s*)" +
                     "(?:(?:UTC|GMT)(?:[+-]\\d{1,2}(?::?\\d{2})?)?|EST|EDT|CST|CDT|MST|MDT|PST|PDT|CET|CEST|BST|IST|JST|AEST|AEDT|" +
                     "[a-z_]+/[a-z_]+(?:/[a-z_]+)?)(?![\\p{L}\\d])",
             )

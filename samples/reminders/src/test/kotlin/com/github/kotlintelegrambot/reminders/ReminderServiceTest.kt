@@ -223,6 +223,33 @@ class ReminderServiceTest {
         assertTrue(scheduler.tasks.isEmpty())
     }
 
+    @ParameterizedTest
+    @ValueSource(
+        strings = [
+            "Call Alice tomorrow at 7pm (UTC)",
+            "Call Alice tomorrow at 7pm(EST)",
+            "Call Alice tomorrow at 19:00 [Europe/Berlin]",
+            "Call Alice tomorrow at 19:00[UTC+02:00]",
+            "Call Alice tomorrow at 7pm (America/New_York)",
+            "Call Alice tomorrow at 7pm[UTC]",
+        ],
+    )
+    fun `wrapped timezones never produce a confirmable draft`(text: String) {
+        service.draft(1, "Call Bob tomorrow at 8pm")
+
+        assertEquals(ReplyKind.UNSUPPORTED, service.draft(1, text).kind)
+        assertEquals(ReplyKind.NO_DRAFT, service.confirm(1).kind)
+        assertTrue(scheduler.tasks.isEmpty())
+    }
+
+    @Test
+    fun `ordinary parenthesized title text remains allowed`() {
+        val reply = service.draft(1, "Call Alice tomorrow at 7pm (office)")
+
+        assertEquals(ReplyKind.PREVIEW, reply.kind)
+        assertEquals(Instant.parse("2026-11-02T19:00:00Z"), reply.reminder!!.at)
+    }
+
     @Test
     fun `a frequency word in the title is not automatically a recurrence`() {
         val reply = service.draft(1, "Read daily report tomorrow at 7pm")
